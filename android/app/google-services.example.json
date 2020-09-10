@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "728075114129",
+    "firebase_url": "https://csc-mobile-dev.firebaseio.com",
+    "project_id": "csc-mobile-dev",
+    "storage_bucket": "csc-mobile-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "CHANGE_ME",
+        "android_client_info": {
+          "package_name": "org.instedd.ilabsea.community_scorecard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "CHANGE_ME",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "CHANGE_ME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "CHANGE_ME",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

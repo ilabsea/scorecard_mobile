@@ -1,4 +1,4 @@
-package com.cscmobile;
+package org.instedd.ilabsea.community_scorecard;
 
 import com.facebook.react.ReactActivity;
 

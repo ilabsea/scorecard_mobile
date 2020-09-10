@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.cscmobile">
+  package="org.instedd.ilabsea.community_scorecard">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

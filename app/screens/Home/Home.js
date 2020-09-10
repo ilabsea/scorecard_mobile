@@ -1,12 +1,22 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 
 const Home = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1 }}>
       <Text>
-        Try editing me! 🎉
+        Try editing me!!! 🎉
       </Text>
+
+      <Button
+        title="Add To Basket"
+        style={{backgroundColor: 'red'}}
+        onPress={() =>
+          analytics().logEvent('basket', {'test': 'me'})
+        }
+      />
+
     </View>
   );
 }

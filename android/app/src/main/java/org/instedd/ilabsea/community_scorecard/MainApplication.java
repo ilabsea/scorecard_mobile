@@ -1,4 +1,4 @@
-package com.cscmobile;
+package org.instedd.ilabsea.community_scorecard;
 
 import android.app.Application;
 import android.content.Context;
