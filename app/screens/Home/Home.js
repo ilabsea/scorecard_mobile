@@ -16,7 +16,6 @@ const Home = () => {
           analytics().logEvent('basket', {'test': 'me'})
         }
       />
-
     </View>
   );
 }
