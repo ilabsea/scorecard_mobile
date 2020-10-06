@@ -21,6 +21,4 @@ if (nextSchemaIndex !== -1) {
   }
 }
 
-Realm.open(schemas[schemas.length-1]);
-
 export default new Realm(schemas[schemas.length-1]);
