@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { LocalizationContext } from '../../components/Translations';
-import AsyncStorage from '@react-native-community/async-storage'; // 1
+import SoundPlayer from 'react-native-sound-player'
 
 import {
   ScrollView,
@@ -13,20 +13,25 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 const Home: () => React$Node = ({ navigation }) => {
-  const { translations } = useContext(LocalizationContext); // 1
+  const { translations, appLanguage } = useContext(LocalizationContext); // 1
 
-  useEffect(() => {
-
-  });
+  const pressMe = () => {
+    try {
+      SoundPlayer.playSoundFile(`${appLanguage}_hello`, 'mp3')
+    } catch (e) {
+      console.log(`cannot play the sound file`, e)
+    }
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Button onPress={() => navigation.navigate('Setting')} title='setting'/>
       <Line name="Translation example" value={translations.hello} />
+
+      <Button onPress={() => pressMe()} title='Play'/>
     </ScrollView>
   );
 };
-
 
 const Line = (props) => (
   <View style={styles.block}>

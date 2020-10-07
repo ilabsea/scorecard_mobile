@@ -19,7 +19,7 @@ const App: () => React$Node = () => {
 
   useEffect(() => {
     AsyncStorage.getItem('appLanguage').then((language) => {
-      translations.setLanguage(language);
+      translations.setLanguage(language || appLanguage);
       setLoading(false);
 
       SplashScreen.hide();
