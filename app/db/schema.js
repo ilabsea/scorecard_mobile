@@ -2,9 +2,10 @@
 
 import Realm from 'realm';
 // import UserSchema from './user';
+import LanguageSchema from './models/language';
 
 const schema0 = [
-  // UserSchema,
+  LanguageSchema,
 ];
 
 const schemas = [

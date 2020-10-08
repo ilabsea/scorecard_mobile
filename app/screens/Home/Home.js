@@ -17,7 +17,7 @@ const Home: () => React$Node = ({ navigation }) => {
 
   const pressMe = () => {
     try {
-      SoundPlayer.playSoundFile(`${appLanguage}_hello`, 'mp3')
+      SoundPlayer.playSoundFile(`${appLanguage}_hello`, 'mp3');
     } catch (e) {
       console.log(`cannot play the sound file`, e)
     }

@@ -12,7 +12,7 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <LocalizationProvider>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Setting">
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Setting" component={SettingScreen} />
         </Stack.Navigator>
