@@ -1,23 +1,35 @@
 import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
-import AppNavigator from './app/navigators/app_navigator';
+import React, { useEffect, useContext, useState } from 'react';
 import * as Sentry from '@sentry/react-native';
-import { SafeAreaView } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import AsyncStorage from '@react-native-community/async-storage'; // 1
+
+import {StyleSheet, View, Text} from 'react-native';
+
+import AppNavigator from './app/navigators/app_navigator';
+import { LocalizationContext } from './app/components/Translations';
 
 Sentry.init({
   dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
 });
 
 const App: () => React$Node = () => {
+  const { translations, initializeAppLanguage, appLanguage } = useContext(LocalizationContext); // 1
+  const [ loading, setLoading ] = useState(true);
+
   useEffect(() => {
-    SplashScreen.hide();
+    AsyncStorage.getItem('appLanguage').then((language) => {
+      translations.setLanguage(language || appLanguage);
+      setLoading(false);
+
+      SplashScreen.hide();
+    });
   });
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <AppNavigator />
-    </SafeAreaView>
+    <View style={{flex: 1}}>
+      { !loading && <AppNavigator /> }
+    </View>
   );
 };
 

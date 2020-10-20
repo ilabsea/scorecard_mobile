@@ -2,9 +2,10 @@
 
 import Realm from 'realm';
 // import UserSchema from './user';
+import LanguageSchema from './models/language';
 
 const schema0 = [
-  // UserSchema,
+  LanguageSchema,
 ];
 
 const schemas = [
@@ -20,7 +21,5 @@ if (nextSchemaIndex !== -1) {
     migratedRealm.close();
   }
 }
-
-Realm.open(schemas[schemas.length-1]);
 
 export default new Realm(schemas[schemas.length-1]);
