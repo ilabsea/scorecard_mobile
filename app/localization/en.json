@@ -1,3 +1,24 @@
 {
-  "hello": "HelloEn"
+  "hello": "HelloEn",
+  "scorecardApp": "Scorecard App",
+  "newScorecard": "New Scorecard",
+  "savedScorecard": "Saved Scorecard",
+  "setting": "Setting",
+  "backendUrl": "Backend URL",
+  "email": "Email",
+  "password": "Password",
+  "language": "Language",
+  "enterBackendUrl": "Enter backend URL",
+  "enterEmail": "Enter email",
+  "enterPassword": "Enter password",
+  "selectLanguage": "Select language",
+  "searchForLanguage": "Search for language",
+  "backendUrlRequireMsg": "Backend URL is required",
+  "emailRequireMsg": "Email is required",
+  "passwordRequireMsg": "Password is required",
+  "invalidEmailOrPasswordMsg": "Invalid email or password!",
+  "accountIsUnprocessable": "Your account is unprocessable!",
+  "authenticationFailed": "Authentication failed!",
+  "lowInternetConnectionMsg": "Low internet connection, please try again",
+  "save": "Save"
 }

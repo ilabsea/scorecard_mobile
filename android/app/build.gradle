@@ -1,6 +1,11 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services' // <- Add this line for google firebase
 
+project.ext.vectoricons = [
+        iconFontNames: ['MaterialIcons.ttf', 'Feather.ttf']
+]
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 import com.android.build.OutputFile
 
 /**

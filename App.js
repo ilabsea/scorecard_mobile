@@ -3,15 +3,20 @@ import React, { useEffect, useContext, useState } from 'react';
 import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
+import {Provider} from 'react-redux';
 
 import {StyleSheet, View, Text} from 'react-native';
 
 import AppNavigator from './app/navigators/app_navigator';
 import { LocalizationContext } from './app/components/Translations';
 
+import configureStore from './app/store/configureStore';
+
 Sentry.init({
   dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
 });
+
+const store = configureStore();
 
 const App: () => React$Node = () => {
   const { translations, initializeAppLanguage, appLanguage } = useContext(LocalizationContext); // 1
@@ -27,9 +32,11 @@ const App: () => React$Node = () => {
   });
 
   return (
-    <View style={{flex: 1}}>
-      { !loading && <AppNavigator /> }
-    </View>
+    <Provider store={store}>
+      <View style={{flex: 1}}>
+        { !loading && <AppNavigator /> }
+      </View>
+    </Provider>
   );
 };
 

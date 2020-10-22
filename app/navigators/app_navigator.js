@@ -1,20 +1,42 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import React, {useContext} from 'react';
+import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/Home';
 import SettingScreen from '../screens/Setting/Setting';
-import {LocalizationProvider} from '../components/Translations';
+import {LocalizationProvider, LocalizationContext} from '../components/Translations';
+import AppIcon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator();
 
 function AppNavigator() {
+  const { translations, appLanguage } = useContext(LocalizationContext);
+
   return (
     <NavigationContainer>
       <LocalizationProvider>
-        <Stack.Navigator initialRouteName="Setting">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Setting" component={SettingScreen} />
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({navigation}) => ({
+              title: `${translations['scorecardApp']}`,
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Setting')}
+                  style={{marginRight: 16}}>
+                  <AppIcon style={{fontSize: 25}} name="settings" />
+                </TouchableOpacity>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="Setting"
+            component={SettingScreen}
+            options={{
+              title: `${translations['setting']}`
+            }}
+          />
         </Stack.Navigator>
       </LocalizationProvider>
     </NavigationContainer>
