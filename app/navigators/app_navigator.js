@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/Home';
 import SettingScreen from '../screens/Setting/Setting';
+import NewScorecardScreen from '../screens/NewScorecard/NewScorecard';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -34,7 +35,15 @@ function AppNavigator() {
             name="Setting"
             component={SettingScreen}
             options={{
-              title: `${translations['setting']}`
+              title: `${translations['setting']}`,
+            }}
+          />
+          <Stack.Screen
+            name="NewScorecard"
+            component={NewScorecardScreen}
+            options={{
+              title: `${translations['newScorecard']}`,
+              headerTitleAlign: 'center',
             }}
           />
         </Stack.Navigator>

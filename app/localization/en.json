@@ -20,5 +20,11 @@
   "accountIsUnprocessable": "Your account is unprocessable!",
   "authenticationFailed": "Authentication failed!",
   "lowInternetConnectionMsg": "Low internet connection, please try again",
-  "save": "Save"
+  "save": "Save",
+  "enterScorecardCode": "Enter scorecard code (6 digits)",
+  "join": "Join",
+  "scorecardCodeRequireMsg": "Scorecard code is required",
+  "scorecardCodeDigitMsg": "Scorecard code must be 6 digits",
+  "scorecardCodeNumberOnlyMsg": "Scorecard code must be number",
+  "scorecardIsNotExist": "This scorecard is not exist"
 }

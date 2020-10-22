@@ -16,7 +16,10 @@ class Home extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <ActionButton title='newScorecard' />
+        <ActionButton
+          onPress={() => this.props.navigation.navigate('NewScorecard')}
+          title='newScorecard'
+        />
         <ActionButton
           title='savedScorecard'
           containerStyle={{marginTop: 26}}

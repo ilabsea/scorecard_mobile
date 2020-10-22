@@ -5,10 +5,13 @@ const qs = require('qs');
 
 class BaseApi {
   static request = async (options) => {
+    const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
+    const apiUrl = endpointUrl + options.url;
+
     try {
       const response = await axios({
         method: options.method,
-        url: options.url,
+        url: apiUrl,
         data: options.data || undefined,
         params: options.params || undefined,
         responseType: options.responseType || 'json',
@@ -35,7 +38,7 @@ class BaseApi {
       Accept: 'applcation/json',
       'Content-Type': 'application/json',
       Authorization: authorization,
-    }
+    };
   }
 }
 

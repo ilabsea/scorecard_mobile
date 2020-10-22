@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 1,
   },
   buttonLabel: {
     color: 'white',

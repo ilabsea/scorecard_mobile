@@ -15,6 +15,7 @@ import Loading from 'react-native-whc-loading';
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
+import CustomStyle from '../../themes/customStyle';
 
 import {connect} from 'react-redux';
 import {authenticateAction} from '../../actions/sessionAction';
@@ -91,7 +92,7 @@ class Setting extends Component {
           value={backendUrl}
           placeholder={translations['enterBackendUrl']}
           clearButtonMode="while-editing"
-          style={styles.textInputContainer}
+          style={CustomStyle.textInputContainer}
           onChangeText={(text) => this.setState({backendUrl: text})}
         />
         {this.renderFieldErrorMsg(backendUrlErrorMsg)}
@@ -101,7 +102,7 @@ class Setting extends Component {
           value={email}
           placeholder={translations['enterEmail']}
           clearButtonMode="while-editing"
-          style={styles.textInputContainer}
+          style={CustomStyle.textInputContainer}
           onChangeText={(text) => this.setState({email: text})}
         />
         {this.renderFieldErrorMsg(emailErrorMsg)}
@@ -111,8 +112,9 @@ class Setting extends Component {
           value={password}
           placeholder={translations['enterPassword']}
           clearButtonMode="while-editing"
-          style={styles.textInputContainer}
+          style={CustomStyle.textInputContainer}
           onChangeText={(text) => this.setState({password: text})}
+          secureTextEntry={true}
         />
         {this.renderFieldErrorMsg(passwordErrorMsg)}
       </View>
@@ -188,29 +190,25 @@ class Setting extends Component {
     return true;
   }
 
-  save = async () => {
+  save = () => {
     if (!this.isValidForm())
       return;
 
     const _this = this;
     let hasConnection = false;
     const {backendUrl, email, password} = this.state;
-    const authObj = {
-      backendUrl: backendUrl,
-      email: email,
-      password: password,
-    };
-    AsyncStorage.setItem('AUTHENTICATION_ITEMS', authObj);
+    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
 
     this.refs.loading.show();
     this.setState({isLoading: true});
 
-    this.props.authenticateAction(backendUrl, email, password, async (isSuccess, response) => {
+    this.props.authenticateAction(email, password, async (isSuccess, response) => {
       hasconnection = true;
       if (isSuccess) {
         this.refs.loading.show(false);
         this.setState({isLoading: false});
         AsyncStorage.setItem('AUTH_TOKEN', response['authentication_token']);
+        this.props.navigation.goBack();
       }
       else {
         this.refs.loading.show(false);
@@ -292,17 +290,10 @@ const styles = StyleSheet.create({
   inputLabel: {
     marginBottom: 10,
   },
-  textInputContainer: {
-    borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 16,
-    marginBottom: 6,
-    backgroundColor: 'white',
-  },
   dropDownPickerStyle: {
     backgroundColor: 'white',
     zIndex: 5000,
-    elevation: 1,
+    elevation: 2,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
     borderBottomLeftRadius: 6,
@@ -318,8 +309,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    authenticateAction: (backendUrl, email, password, callback) =>
-      dispatch(authenticateAction(backendUrl, email, password, callback)),
+    authenticateAction: (email, password, callback) =>
+      dispatch(authenticateAction(email, password, callback)),
   };
 }
 

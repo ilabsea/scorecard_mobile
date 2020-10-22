@@ -20,5 +20,11 @@
   "accountIsUnprocessable": "គណនី​របស់​អ្នក​មិន​អាច​ដំណើរ​ការ​បាន​ទេ​",
   "authenticationFailed": "ការ​ផ្ទៀង​ផ្ទាត់​បាន​បរាជ័យ​!",
   "lowInternetConnectionMsg": "សេវា​អ៊ីនធឺណិត​ខ្សោយ​ សូម​ព្យាយាម​ម្តង​ទៀត​",
-  "save": "រក្សា​ទុក​"
+  "save": "រក្សា​ទុក​",
+  "enterScorecardCode": "សូម​បញ្ចូល​លេខ​កូដ​របស់​ប័ណ្ណ​ពិន្ទុ​ (6 ខ្ទង់​)",
+  "join": "ចូល​",
+  "scorecardCodeRequireMsg": "ត្រូវ​ការ​លេខ​កូដ​របស់​ប័ណ្ណ​ពិន្ទុ​",
+  "scorecardCodeDigitMsg": "លេខ​កូដ​របស់​ប័ណ្ណ​ពិន្ទុ​ត្រូវ​តែ​មាន​6ខ្ទង់​",
+  "scorecardCodeNumberOnlyMsg": "លេខ​កូដ​របស់ប័ណ្ណ​ពិន្ទុ​ត្រូវ​តែ​ជា​លេខ​",
+  "scorecardIsNotExist": "មិន​មាន​ប័ណ្ណ​ពិន្ទុ​នេះ​ទេ​"
 }
