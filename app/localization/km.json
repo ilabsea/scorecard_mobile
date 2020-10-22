@@ -1,3 +1,24 @@
 {
-  "hello": "សួរស្ដី"
+  "hello": "សួរស្ដី",
+  "scorecardApp": "Scorecard App",
+  "newScorecard": "ប័ណ្ណពិន្ទុថ្មី",
+  "savedScorecard": "ប័ណ្ណពិន្ទុដែលបានរក្សាទុក",
+  "setting": "ការកំណត់",
+  "backendUrl": "Backend URL",
+  "email": "អ៊ីមែល​​",
+  "password": "ពាក្យ​សម្ងាត់​",
+  "language": "ភាសា​",
+  "enterBackendUrl": "សូម​បញ្ចូល​ backend URL",
+  "enterEmail": "សូម​បញ្ចូលអ៊ីមែល​​",
+  "enterPassword": "សូម​បញ្ចូល​ពាក្យ​សម្ងាត់​",
+  "selectLanguage": "ជ្រើស​រើស​ភាសា​",
+  "searchForLanguage": "ស្វែង​រក​ភាសា​",
+  "backendUrlRequireMsg": "ត្រូវ​ការ​ Backend URL",
+  "emailRequireMsg": "ត្រូវ​ការអ៊ីមែល​",
+  "passwordRequireMsg": "ត្រូវ​ការ​ពាក្យ​សម្ងាត់​",
+  "invalidEmailOrPasswordMsg": "អ៊ីមែល​ ឬពាក្យ​សម្ងាត់​មិន​ត្រឹម​ត្រូវ​",
+  "accountIsUnprocessable": "គណនី​របស់​អ្នក​មិន​អាច​ដំណើរ​ការ​បាន​ទេ​",
+  "authenticationFailed": "ការ​ផ្ទៀង​ផ្ទាត់​បាន​បរាជ័យ​!",
+  "lowInternetConnectionMsg": "សេវា​អ៊ីនធឺណិត​ខ្សោយ​ សូម​ព្យាយាម​ម្តង​ទៀត​",
+  "save": "រក្សា​ទុក​"
 }
