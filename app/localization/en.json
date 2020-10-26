@@ -26,5 +26,15 @@
   "scorecardCodeRequireMsg": "Scorecard code is required",
   "scorecardCodeDigitMsg": "Scorecard code must be 6 digits",
   "scorecardCodeNumberOnlyMsg": "Scorecard code must be number",
-  "scorecardIsNotExist": "This scorecard is not exist"
+  "scorecardIsNotExist": "This scorecard is not exist",
+  "scorecardDetail": "Scorecard Detail",
+  "downloadAndSave": "Download & Save",
+  "start": "Start",
+  "year": "Year",
+  "unitType": "Unit type",
+  "scorecardType": "Scorecard type",
+  "province": "Province",
+  "district": "District",
+  "commune": "Commune",
+  "implementor": "Implementor"
 }

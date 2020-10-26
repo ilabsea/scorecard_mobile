@@ -3,9 +3,15 @@
 import Realm from 'realm';
 // import UserSchema from './user';
 import LanguageSchema from './models/language';
+import IndicatorSchema from './models/indicator';
+import CafSchema from './models/caf';
+import LanguageIndicator from './models/languageIndicator';
 
 const schema0 = [
   LanguageSchema,
+  IndicatorSchema,
+  CafSchema,
+  LanguageIndicator,
 ];
 
 const schemas = [

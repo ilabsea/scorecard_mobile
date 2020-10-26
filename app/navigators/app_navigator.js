@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/Home';
 import SettingScreen from '../screens/Setting/Setting';
 import NewScorecardScreen from '../screens/NewScorecard/NewScorecard';
+import ScorecardDetailScreen from '../screens/ScorecardDetail/ScorecardDetail';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -35,7 +36,7 @@ function AppNavigator() {
             name="Setting"
             component={SettingScreen}
             options={{
-              title: `${translations['setting']}`,
+              headerTitle: `${translations['setting']}`,
             }}
           />
           <Stack.Screen
@@ -43,6 +44,14 @@ function AppNavigator() {
             component={NewScorecardScreen}
             options={{
               title: `${translations['newScorecard']}`,
+              headerTitleAlign: 'center',
+            }}
+          />
+          <Stack.Screen
+            name="ScorecardDetail"
+            component={ScorecardDetailScreen}
+            options={{
+              title: `${translations['scorecardDetail']}`,
               headerTitleAlign: 'center',
             }}
           />

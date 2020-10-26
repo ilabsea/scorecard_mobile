@@ -90,6 +90,7 @@ class NewScorecard extends Component {
         }
         else {
           AsyncStorage.setItem('SCORECARD_DETAIL', JSON.stringify(response));
+          this.props.navigation.navigate('ScorecardDetail');
         }
       }
       else {

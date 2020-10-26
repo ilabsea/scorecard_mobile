@@ -26,5 +26,15 @@
   "scorecardCodeRequireMsg": "ត្រូវ​ការ​លេខ​កូដ​របស់​ប័ណ្ណ​ពិន្ទុ​",
   "scorecardCodeDigitMsg": "លេខ​កូដ​របស់​ប័ណ្ណ​ពិន្ទុ​ត្រូវ​តែ​មាន​6ខ្ទង់​",
   "scorecardCodeNumberOnlyMsg": "លេខ​កូដ​របស់ប័ណ្ណ​ពិន្ទុ​ត្រូវ​តែ​ជា​លេខ​",
-  "scorecardIsNotExist": "មិន​មាន​ប័ណ្ណ​ពិន្ទុ​នេះ​ទេ​"
+  "scorecardIsNotExist": "មិន​មាន​ប័ណ្ណ​ពិន្ទុ​នេះ​ទេ​",
+  "scorecardDetail": "ព័ត៌​មាន​លម្អិត​របស់​ប័ណ្ណ​ពិន្ទុ​",
+  "downloadAndSave": "ទាញ​យក ​និង​រក្សា​ទុក​",
+  "start": "ចាប់​ផ្ដើម​",
+  "year": "ឆ្នាំ​",
+  "unitType": "Unit type",
+  "scorecardType": "ប្រភេទ​ប័ណ្ណ​ពិន្ទុ​",
+  "province": "ខេត្ត​",
+  "district": "ស្រុក​ / ខណ្ឌ​",
+  "commune": "ឃុំ​ / សង្កាត់​",
+  "implementor": "អ្នក​អនុវត្ត​"
 }
