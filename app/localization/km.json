@@ -36,5 +36,13 @@
   "province": "ខេត្ត​",
   "district": "ស្រុក​ / ខណ្ឌ​",
   "commune": "ឃុំ​ / សង្កាត់​",
-  "implementor": "អ្នក​អនុវត្ត​"
+  "implementor": "អ្នក​អនុវត្ត​",
+  "getStarted": "ចាប់​ផ្ដើម​",
+  "scorecardPreference": "Scorecard Preference",
+  "pleaseFillInformationBelow": "សូម​បញ្ចូល​ព័ត៌មាន​ខាង​ក្រោម​",
+  "date": "ថ្ងៃ​ខែ​",
+  "textDisplayIn": "អក្សរ​បង្ហាញ​ជា​ភាសា​",
+  "audioPlayIn": "សម្លេង​លេង​ជា​ភាសា​",
+  "choose": "ជ្រើស​រើស​",
+  "next": "បន្ទាប់"
 }

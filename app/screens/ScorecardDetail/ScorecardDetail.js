@@ -319,6 +319,7 @@ class ScorecardDetail extends Component {
 
   startScorecard = () => {
     console.log('is fully downloaded = ', this.isFullyDownloaded());
+    this.props.navigation.navigate('ScorecardPreference');
   }
 
   isFullyDownloaded = () => {

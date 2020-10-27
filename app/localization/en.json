@@ -36,5 +36,13 @@
   "province": "Province",
   "district": "District",
   "commune": "Commune",
-  "implementor": "Implementor"
+  "implementor": "Implementor",
+  "getStarted": "Get Started",
+  "scorecardPreference": "Scorecard Preference",
+  "pleaseFillInformationBelow": "Please fill information below",
+  "date": "Date",
+  "textDisplayIn": "Text Display In",
+  "audioPlayIn": "Audio Play In",
+  "choose": "Choose",
+  "next": "Next"
 }

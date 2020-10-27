@@ -6,8 +6,12 @@ import HomeScreen from '../screens/Home/Home';
 import SettingScreen from '../screens/Setting/Setting';
 import NewScorecardScreen from '../screens/NewScorecard/NewScorecard';
 import ScorecardDetailScreen from '../screens/ScorecardDetail/ScorecardDetail';
+import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardPreference';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
+import ScorecardPreference from '../screens/ScorecardPreference/ScorecardPreference';
+
+import Color from '../themes/color';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +21,14 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <LocalizationProvider>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: Color.headerColor,
+            },
+            headerTintColor: 'white',
+          }}>
           <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -53,6 +64,13 @@ function AppNavigator() {
             options={{
               title: `${translations['scorecardDetail']}`,
               headerTitleAlign: 'center',
+            }}
+          />
+          <Stack.Screen
+            name="ScorecardPreference"
+            component={ScorecardPreferenceScreen}
+            options={{
+              title: `${translations['getStarted']}`,
             }}
           />
         </Stack.Navigator>
