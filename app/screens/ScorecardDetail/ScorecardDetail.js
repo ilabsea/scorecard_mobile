@@ -354,7 +354,7 @@ class ScorecardDetail extends Component {
   };
 
   renderStartButton = () => {
-    if (this.isFullyDownloaded() && this.state.detail != '') {
+    // if (this.isFullyDownloaded() && this.state.detail != '') {
       return (
         <ActionButton
           onPress={() => this.startScorecard()}
@@ -363,7 +363,7 @@ class ScorecardDetail extends Component {
           isDisabled={false}
         />
       );
-    }
+    // }
   };
 
   render() {

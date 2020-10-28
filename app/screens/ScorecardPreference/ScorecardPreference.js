@@ -1,65 +1,104 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Button, Subheading} from 'react-native-paper';
-import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loading from 'react-native-whc-loading';
 
 import {LocalizationContext} from '../../components/Translations';
-
+import SelectPicker from '../../components/SelectPicker';
+import MessageLabel from '../../components/MessageLabel';
 import Color from '../../themes/color';
+import {getPickerFormatFromObject, getPickerDefaultValue} from '../../services/dropdown_picker_service';
+import {checkConnection} from '../../services/api_connectivity_service';
+
+import {connect} from 'react-redux';
+import {loadProgramLanguageAction} from '../../actions/programLanguageAction';
 
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
-      languages: [
-        {label: 'Khmer', value: 'km'},
-        {label: 'English', value: 'en'},
-      ],
+      detail: '',
+      languages: [],
       textLanguage: '',
       audioLanguage: '',
       date: Moment().format('DD/MM/YYYY'),
+      message: '',
+      messageType: '',
     };
   }
 
-  dropDownArrowRight = () => {
-    const {translations} = this.context;
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{color: Color.clickableColor, textTransform: 'uppercase'}}>
-          {translations['choose']}
-        </Text>
-        <MaterialIcon
-          size={25}
-          name="keyboard-arrow-down"
-          style={{marginTop: -2}}
-        />
-      </View>
-    );
-  };
+  async componentDidMount() {
+    const scorecard = await AsyncStorage.getItem('SCORECARD_DETAIL');
+    this.setState({detail: JSON.parse(scorecard)});
+    this.loadProgramLanguage();
+  }
 
-  changeLanugage = (item, type) => {
-    if (type === 'text') {
-      console.log('Change text language == ', item.value);
-      this.setState({textLanguage: item.value});
-    }
-    else
-      this.setState({audioLanguage: item.value});
-  };
+  loadProgramLanguage = () => {
+    this.refs.loading.show();
+    AsyncStorage.setItem('IS_CONNECTED', 'false');
+    const programId = this.state.detail['program_id'];
+    this.props.loadProgramLanguageAction(programId, async (isSuccess, response) => {
+      AsyncStorage.setItem('IS_CONNECTED', 'true');
+      if (isSuccess) {
+        const result = await response;
+        const newFormatLanguages = getPickerFormatFromObject(result);
+        const defaultLanguage = this.getDefaultValue(newFormatLanguages, '');
+        this.setState({
+          languages: newFormatLanguages,
+          textLanguage: defaultLanguage,
+          audioLanguage: defaultLanguage,
+        });
+        this.refs.loading.show(false);
+      }
+      else {
+        this.setState({
+          messageType: 'error',
+          message: 'failedToGetLanguage',
+        });
+        this.refs.loading.show(false);
+      }
+    });
 
-  getPickerDefaultValue = (value) => {
-    if (value != '' && value != undefined)
-      return value.toString();
+    checkConnection((type, message) => {
+      this.setState({
+        messageType: type,
+        message: message,
+      });
+      this.refs.loading.show(false);
+    });
+  }
 
-    return null;
-  };
+  getDefaultValue = (items, value) => {
+    const defaultValue = getPickerDefaultValue(value);
+    if (defaultValue != null)
+      return defaultValue;
+
+    return items[0].value;
+  }
+
+  changeTextLanguage = (item) => {
+    this.setState({textLanguage: item.value})
+  }
+
+  changeAudioLanguage = (item) => {
+    this.setState({audioLanguage: item.value});
+  }
+
+  saveSelectedData = () => {
+    const {date, textLanguage, audioLanguage} = this.state;
+    AsyncStorage.setItem('SELECTED_DATE', date);
+    AsyncStorage.setItem('SELECTED_TEXT_LANGUAGE', textLanguage);
+    AsyncStorage.setItem('SELECTED_AUDIO_LANGUAGE', audioLanguage);
+  }
 
   renderForm = () => {
     const {translations} = this.context;
-    const {languages, textLanguage, audioLanguage} = this.state;
+    const {languages, textLanguage, audioLanguage, messageType, message} = this.state;
     return (
       <View style={{marginTop: 10}}>
         <View style={styles.dropDownContainer}>
@@ -98,67 +137,44 @@ class ScorecardPreference extends Component {
           />
         </View>
 
-        <View style={styles.dropDownContainer}>
-          <Text style={[styles.inputLabel, {zIndex: 6001}]}>
-            {translations['textDisplayIn']}
-          </Text>
-          <DropDownPicker
-            items={languages}
-            defaultValue={
-              languages.length > 1
-                ? this.getPickerDefaultValue(textLanguage)
-                : null
-            }
-            placeholder={translations['selectLanguage']}
-            searchablePlaceholder={translations['searchForLanguage']}
-            zIndex={6000}
-            searchable={true}
-            containerStyle={styles.dropDownContainerStyle}
-            style={styles.dropDownPickerStyle}
-            itemStyle={{justifyContent: 'flex-start'}}
-            dropDownMaxHeight={200}
-            dropDownStyle={{
-              backgroundColor: 'white',
-              opacity: 100,
-              zIndex: 6000,
-            }}
-            customArrowDown={() => this.dropDownArrowRight()}
-            onChangeItem={(item) => this.changeLanugage(item, 'text')}
-          />
-        </View>
+        <SelectPicker
+          items={languages}
+          selectedItem={textLanguage}
+          label="textDisplayIn"
+          placeholder="selectLanguage"
+          searchablePlaceholder="searchForLanguage"
+          zIndex={6000}
+          customLabelStyle={{zIndex: 6001}}
+          showCustomArrow={true}
+          onChangeItem={this.changeTextLanguage}
+        />
 
-        <View style={styles.dropDownContainer}>
-          <Text style={[styles.inputLabel, {zIndex: 5001}]}>
-            {translations['audioPlayIn']}
-          </Text>
-          <DropDownPicker
-            items={languages}
-            defaultValue={
-              languages.length > 1
-                ? this.getPickerDefaultValue(audioLanguage)
-                : null
-            }
-            placeholder={translations['selectLanguage']}
-            searchablePlaceholder={translations['searchForLanguage']}
-            zIndex={5000}
-            searchable={true}
-            containerStyle={styles.dropDownContainerStyle}
-            style={styles.dropDownPickerStyle}
-            itemStyle={{justifyContent: 'flex-start'}}
-            dropDownMaxHeight={200}
-            dropDownStyle={{backgroundColor: 'white', opacity: 100}}
-            customArrowDown={() => this.dropDownArrowRight()}
-            onChangeItem={(item) => this.changeLanugage(item, 'audio')}
-          />
-        </View>
+        <SelectPicker
+          items={languages}
+          selectedItem={audioLanguage}
+          label="audioPlayIn"
+          placeholder="selectLanguage"
+          searchablePlaceholder="searchForLanguage"
+          zIndex={5000}
+          customLabelStyle={{zIndex: 5001}}
+          showCustomArrow={true}
+          onChangeItem={this.changeAudioLanguage}
+        />
+
+        <MessageLabel
+          message={message}
+          type={messageType}
+          customStyle={{marginTop: 120}}
+        />
 
         <Button
+          onPress={() => this.saveSelectedData()}
           mode="contained"
           uppercase={true}
           contentStyle={{height: 50}}
           color={Color.primaryColor}
           labelStyle={{fontSize: 18}}
-          style={{marginTop: 150}}
+          style={{marginTop: 20}}
         >
           {translations['next']}
         </Button>
@@ -171,6 +187,14 @@ class ScorecardPreference extends Component {
 
     return (
       <View style={styles.container}>
+        <Loading
+          ref="loading"
+          backgroundColor="#ffffffF2"
+          borderRadius={5}
+          size={70}
+          imageSize={40}
+          indicatorColor={Color.primaryColor}
+        />
         <Text style={styles.headline}>
           {translations['scorecardPreference']}
         </Text>
@@ -223,4 +247,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScorecardPreference;
+function mapStateToProps(state) {
+  return {
+    isLoading: state.loadProgramLanguageReducer.isLoading,
+    languages: state.loadProgramLanguageReducer.languages,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadProgramLanguageAction: (programId, callback) =>
+      dispatch(loadProgramLanguageAction(programId, callback)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ScorecardPreference);

@@ -44,5 +44,6 @@
   "textDisplayIn": "Text Display In",
   "audioPlayIn": "Audio Play In",
   "choose": "Choose",
-  "next": "Next"
+  "next": "Next",
+  "failedToGetLanguage": "Failed to get language"
 }
