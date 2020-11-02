@@ -345,8 +345,8 @@ class ScorecardDetail extends Component {
       return (
         <ActionButton
           onPress={() => this.downloadScorecard()}
-          title="downloadAndSave"
-          containerStyle={{width: '100%', marginTop: 20}}
+          label="downloadAndSave"
+          customButtonStyle={{marginTop: 20}}
           isDisabled={this.isDisableDownload()}
         />
       );
@@ -358,8 +358,8 @@ class ScorecardDetail extends Component {
       return (
         <ActionButton
           onPress={() => this.startScorecard()}
-          title="start"
-          containerStyle={{width: '100%', marginTop: 20}}
+          label="start"
+          customButtonStyle={{marginTop: 20}}
           isDisabled={false}
         />
       );

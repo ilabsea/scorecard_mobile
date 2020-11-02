@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Button, Subheading} from 'react-native-paper';
+import {Subheading} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
@@ -10,6 +10,7 @@ import Loading from 'react-native-whc-loading';
 import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
+import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import {checkConnection} from '../../services/api_connectivity_service';
 import {selectedTextLocale, selectedAudioLocale} from '../../constants/locale_constant';
@@ -117,7 +118,7 @@ class ScorecardPreference extends Component {
             style={{width: '100%'}}
             customStyles={{
               dateInput: {
-                height: 50,
+                height: 60,
                 paddingLeft: 60,
                 borderColor: Color.inputBorderLineColor,
                 borderWidth: 2,
@@ -149,6 +150,7 @@ class ScorecardPreference extends Component {
           customLabelStyle={{zIndex: 6001}}
           showCustomArrow={true}
           onChangeItem={this.changeTextLocale}
+          customDropDownContainerStyle={{marginTop: 30}}
         />
 
         <SelectPicker
@@ -169,17 +171,11 @@ class ScorecardPreference extends Component {
           customStyle={{marginTop: 120}}
         />
 
-        <Button
+        <ActionButton
+          label="next"
           onPress={() => this.saveSelectedData()}
-          mode="contained"
-          uppercase={true}
-          contentStyle={{height: 50}}
-          color={Color.primaryColor}
-          labelStyle={{fontSize: 18}}
-          style={{marginTop: 20}}
-        >
-          {translations['next']}
-        </Button>
+          customButtonStyle={{marginTop: 40}}
+        />
       </View>
     );
   };

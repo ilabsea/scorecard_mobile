@@ -92,7 +92,7 @@ class NewScorecard extends Component {
       <MessageLabel
         message={errorMsg}
         type={messageType}
-        customStyle={{marginTop: 120}}
+        customStyle={{marginTop: 10}}
       />
     );
   };
@@ -126,8 +126,8 @@ class NewScorecard extends Component {
 
           <ActionButton
             onPress={() => this.joinScorecard()}
-            title="join"
-            containerStyle={{marginTop: 16, width: '100%'}}
+            label="join"
+            customButtonStyle={{marginTop: 16}}
             isDisabled={this.state.isLoading}
           />
         </View>

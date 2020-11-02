@@ -59,12 +59,13 @@ class SelectPicker extends Component {
       placeholder,
       searchablePlaceholder,
       customLabelStyle,
+      customDropDownContainerStyle,
       zIndex,
       onChangeItem,
     } = this.props;
 
     return (
-      <View style={styles.dropDownContainer}>
+      <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
         <Text style={[styles.inputLabel, customLabelStyle]}>
           {translations[label]}
         </Text>

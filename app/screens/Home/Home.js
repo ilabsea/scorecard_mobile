@@ -18,11 +18,11 @@ class Home extends Component {
       <ScrollView contentContainerStyle={styles.container}>
         <ActionButton
           onPress={() => this.props.navigation.navigate('NewScorecard')}
-          title='newScorecard'
+          label='newScorecard'
         />
         <ActionButton
-          title='savedScorecard'
-          containerStyle={{marginTop: 26}}
+          label='savedScorecard'
+          customButtonStyle={{marginTop: 26}}
         />
       </ScrollView>
     );

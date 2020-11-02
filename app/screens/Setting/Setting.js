@@ -250,9 +250,8 @@ class Setting extends Component {
           {this.renderChooseLanugage()}
           {this.renderErrorMsg()}
           <ActionButton
-            title='save'
+            label='save'
             onPress={() => this.save()}
-            containerStyle={{alignSelf: 'center', marginTop: 16, width: '100%'}}
             isDisabled={this.state.isLoading}
           />
         </View>
