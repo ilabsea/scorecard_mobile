@@ -15,12 +15,14 @@
   "searchForLanguage": "Search for language",
   "backendUrlRequireMsg": "Backend URL is required",
   "emailRequireMsg": "Email is required",
+  "emailIsInvalidMsg": "Email is invalid", 
   "passwordRequireMsg": "Password is required",
   "invalidEmailOrPasswordMsg": "Invalid email or password!",
   "accountIsUnprocessable": "Your account is unprocessable!",
   "authenticationFailed": "Authentication failed!",
   "lowInternetConnectionMsg": "Low internet connection, please try again",
   "save": "Save",
+  "scorecardCode": "Scorecard code",
   "enterScorecardCode": "Enter scorecard code (6 digits)",
   "join": "Join",
   "scorecardCodeRequireMsg": "Scorecard code is required",
@@ -45,5 +47,7 @@
   "audioPlayIn": "Audio Play In",
   "choose": "Choose",
   "next": "Next",
-  "failedToGetLanguage": "Failed to get language"
+  "failedToGetLanguage": "Failed to get language",
+  "scorecardCodeMustBeNumber": "Scorecard code must be number",
+  "scorecardCodeHasIncorrectDigit": "Scorecard code has incorrect digit"
 }

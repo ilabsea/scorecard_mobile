@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
@@ -10,35 +9,26 @@ import {
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
-
-import CustomStyle from '../../themes/customStyle';
+import TextFieldInput from '../../components/TextFieldInput';
+import MessageLabel from '../../components/MessageLabel';
 import Color from '../../themes/color';
+import validationService from '../../services/validation_service';
+import {checkConnection} from '../../services/api_connectivity_service';
 
 import {connect} from 'react-redux';
 import {getScorecardDetailAction} from '../../actions/scorecardAction';
 
 class NewScorecard extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
       code: '',
       codeMsg: '',
+      errorMsg: '',
+      messageType: '',
       isLoading: false,
     };
-  }
-
-  renderCodeMsg = () => {
-    const {translations} = this.context;
-    const {codeMsg} = this.state;
-
-    return (
-      <Text style={styles.errorLabel}>
-        {translations[codeMsg]}
-      </Text>
-    );
   }
 
   isValid = () => {
@@ -46,71 +36,69 @@ class NewScorecard extends Component {
       codeMsg: '',
       errorMsg: '',
     });
-
     const {code} = this.state;
-    let isError = false;
-    let isnum = /^\d+$/.test(code);
+    const codeValidationMsg = validationService('scorecardCode', code);
 
-    if (code === '' || code === null || code === undefined) {
-      isError = true;
-      this.setState({codeMsg: 'scorecardCodeRequireMsg'});
-    }
-    else if (!isnum) {
-      isError = true;
-      this.setState({codeMsg: 'scorecardCodeNumberOnlyMsg'});
-    }
-    else if (code.length < 6 || code.length > 6) {
-      isError = true;
-      this.setState({codeMsg: 'scorecardCodeDigitMsg'});
-    }
-
-    if (isError)
-      return false;
+    this.setState({codeMsg: codeValidationMsg || ''});
+    if (codeValidationMsg != null) return false;
 
     return true;
-  }
+  };
 
   joinScorecard = async () => {
     if (!this.isValid())
       return;
 
-    const _this = this;
-    let hasConnection = false;
     const {code} = this.state;
     this.setState({isLoading: true});
     this.refs.loading.show();
+    AsyncStorage.setItem('IS_CONNECTED', 'false');
 
     this.props.getScorecardDetailAction(code, async (isSuccess, response) => {
-      hasConnection = true;
+      AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (isSuccess) {
         this.setState({isLoading: false});
         this.refs.loading.show(false);
         if (response === null) {
           this.setState({codeMsg: 'scorecardIsNotExist'});
-        }
-        else {
+        } else {
           AsyncStorage.setItem('SCORECARD_DETAIL', JSON.stringify(response));
           this.props.navigation.navigate('ScorecardDetail');
         }
-      }
-      else {
+      } else {
         this.setState({isLoading: false});
         this.refs.loading.show(false);
       }
     });
 
-    setTimeout(function () {
-      _this.refs.loading.show(false);
-      _this.setState({isLoading: false});
-      if (!hasConnection) {
-        _this.setState({codeMsg: 'lowInternetConnectionMsg'});
-      }
-    }, 5000);
-  }
+    checkConnection((type, message) => {
+      this.setState({
+        messageType: type,
+        errorMsg: message,
+        isLoading: false,
+      });
+      this.refs.loading.show(false);
+    });
+  };
+
+  onChangeText = (type, value) => {
+    this.setState({code: value});
+  };
+
+  renderErrorMsg = () => {
+    const {errorMsg, messageType} = this.state;
+
+    return (
+      <MessageLabel
+        message={errorMsg}
+        type={messageType}
+        customStyle={{marginTop: 120}}
+      />
+    );
+  };
 
   render() {
-    const {translations} = this.context;
-    const {code} = this.state;
+    const {code, codeMsg} = this.state;
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -124,15 +112,18 @@ class NewScorecard extends Component {
             indicatorColor={Color.primaryColor}
           />
 
-          <TextInput
+          <TextFieldInput
             value={code}
-            placeholder={translations['enterScorecardCode']}
-            clearButtonMode="while-editing"
-            keyboardType="number-pad"
-            style={CustomStyle.textInputContainer}
-            onChangeText={(text) => this.setState({code: text})}
+            label="scorecardCode"
+            placeholder="enterScorecardCode"
+            fieldName="scorecardCode"
+            onChangeText={this.onChangeText}
+            message={codeMsg}
+            isSecureEntry={false}
           />
-          {this.renderCodeMsg()}
+
+          {this.renderErrorMsg()}
+
           <ActionButton
             onPress={() => this.joinScorecard()}
             title="join"
@@ -148,7 +139,6 @@ class NewScorecard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
   },

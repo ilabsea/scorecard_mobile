@@ -84,6 +84,7 @@ class SelectPicker extends Component {
             opacity: 100,
             zIndex: 6000,
           }}
+          labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
           onChangeItem={(item) => onChangeItem(item)}
         />
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   dropDownContainerStyle: {
-    height: 50,
+    height: 60,
     marginTop: 10,
   },
   dropDownPickerStyle: {
