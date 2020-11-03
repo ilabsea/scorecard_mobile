@@ -1,5 +1,6 @@
 import {call, put} from 'redux-saga/effects';
 import CafApi from '../api/CafApi';
+import sagaErrorHandler from '../services/saga_error_handler_service';
 
 function* loadCafList(action) {
   const {localNgoId, callback} = action.payload;
@@ -9,13 +10,7 @@ function* loadCafList(action) {
     callback(true, response.data);
     yield put({type: 'LOAD_CAF_SUCCESS', response: response.data});
   } catch (error) {
-    if (error.response != null && error.response != undefined) {
-      let err = error.response.data;
-      if (err == null) err = error.response;
-
-      callback(false, err);
-      yield put({type: 'LOAD_CAF_FAILED', err});
-    }
+    yield sagaErrorHandler(error, 'LOAD_CAF_FAILED');
   }
 }
 

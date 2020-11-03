@@ -1,5 +1,3 @@
-const { init } = require("@sentry/react-native");
-
 const initState = {
   isLoading: false,
   error: null,

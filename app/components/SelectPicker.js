@@ -6,8 +6,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../themes/color';
 import {LocalizationContext} from './Translations';
 
-import {getPickerDefaultValue} from '../services/dropdown_picker_service';
-
 class SelectPicker extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -15,9 +13,11 @@ class SelectPicker extends Component {
   }
 
   getDefaultValue = (items, value) => {
-    const defaultValue = getPickerDefaultValue(value);
-    if (defaultValue != null)
-      return defaultValue;
+    if (items.length === 0)
+      return null;
+
+    if (value != '' && value != undefined)
+      return value.toString();
 
     return items[0].value;
   }
@@ -70,7 +70,7 @@ class SelectPicker extends Component {
         </Text>
         <DropDownPicker
           items={items}
-          defaultValue={ items.length > 1 ? this.getDefaultValue(items, selectedItem) : null }
+          defaultValue={this.getDefaultValue(items, selectedItem)}
           placeholder={translations[placeholder]}
           searchablePlaceholder={translations[searchablePlaceholder]}
           zIndex={zIndex}

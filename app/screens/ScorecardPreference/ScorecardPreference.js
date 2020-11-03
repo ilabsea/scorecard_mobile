@@ -11,8 +11,9 @@ import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
 import Color from '../../themes/color';
-import {getPickerFormatFromObject, getPickerDefaultValue} from '../../services/dropdown_picker_service';
+import {getLocaleOptions} from '../../services/locale_service';
 import {checkConnection} from '../../services/api_connectivity_service';
+import {selectedTextLocale, selectedAudioLocale} from '../../constants/locale_constant';
 
 import {connect} from 'react-redux';
 import {loadProgramLanguageAction} from '../../actions/programLanguageAction';
@@ -24,8 +25,8 @@ class ScorecardPreference extends Component {
     this.state = {
       detail: '',
       languages: [],
-      textLanguage: '',
-      audioLanguage: '',
+      textLocale: '',
+      audioLocale: '',
       date: Moment().format('DD/MM/YYYY'),
       message: '',
       messageType: '',
@@ -38,7 +39,7 @@ class ScorecardPreference extends Component {
     this.loadProgramLanguage();
   }
 
-  loadProgramLanguage = () => {
+  loadProgramLanguage = async () => {
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
     const programId = this.state.detail['program_id'];
@@ -46,12 +47,11 @@ class ScorecardPreference extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (isSuccess) {
         const result = await response;
-        const newFormatLanguages = getPickerFormatFromObject(result);
-        const defaultLanguage = this.getDefaultValue(newFormatLanguages, '');
+        const languagesPickerFormat = getLocaleOptions(result);
         this.setState({
-          languages: newFormatLanguages,
-          textLanguage: defaultLanguage,
-          audioLanguage: defaultLanguage,
+          languages: languagesPickerFormat,
+          textLocale: await this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
+          audioLocale: await this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
         });
         this.refs.loading.show(false);
       }
@@ -73,32 +73,35 @@ class ScorecardPreference extends Component {
     });
   }
 
-  getDefaultValue = (items, value) => {
-    const defaultValue = getPickerDefaultValue(value);
-    if (defaultValue != null)
-      return defaultValue;
+  getDefaultLocaleValue = async (languages, type) => {
+    let defaultValue = languages[0].value;
+    if (type === 'text')
+      defaultValue = await AsyncStorage.getItem(selectedTextLocale);
+    else
+      defaultValue = await AsyncStorage.getItem(selectedAudioLocale);
 
-    return items[0].value;
+    return defaultValue;
   }
 
-  changeTextLanguage = (item) => {
-    this.setState({textLanguage: item.value})
+  changeTextLocale = (item) => {
+    this.setState({textLocale: item.value})
   }
 
-  changeAudioLanguage = (item) => {
-    this.setState({audioLanguage: item.value});
+  changeAudioLocale = (item) => {
+    this.setState({audioLocale: item.value});
   }
 
   saveSelectedData = () => {
-    const {date, textLanguage, audioLanguage} = this.state;
+    const {date, textLocale, audioLocale} = this.state;
     AsyncStorage.setItem('SELECTED_DATE', date);
-    AsyncStorage.setItem('SELECTED_TEXT_LANGUAGE', textLanguage);
-    AsyncStorage.setItem('SELECTED_AUDIO_LANGUAGE', audioLanguage);
+    AsyncStorage.setItem(selectedTextLocale, textLocale);
+    AsyncStorage.setItem(selectedAudioLocale, audioLocale);
   }
 
   renderForm = () => {
     const {translations} = this.context;
-    const {languages, textLanguage, audioLanguage, messageType, message} = this.state;
+    const {languages, textLocale, audioLocale, messageType, message} = this.state;
+
     return (
       <View style={{marginTop: 10}}>
         <View style={styles.dropDownContainer}>
@@ -139,26 +142,26 @@ class ScorecardPreference extends Component {
 
         <SelectPicker
           items={languages}
-          selectedItem={textLanguage}
+          selectedItem={textLocale}
           label="textDisplayIn"
           placeholder="selectLanguage"
           searchablePlaceholder="searchForLanguage"
           zIndex={6000}
           customLabelStyle={{zIndex: 6001}}
           showCustomArrow={true}
-          onChangeItem={this.changeTextLanguage}
+          onChangeItem={this.changeTextLocale}
         />
 
         <SelectPicker
           items={languages}
-          selectedItem={audioLanguage}
+          selectedItem={audioLocale}
           label="audioPlayIn"
           placeholder="selectLanguage"
           searchablePlaceholder="searchForLanguage"
           zIndex={5000}
           customLabelStyle={{zIndex: 5001}}
           showCustomArrow={true}
-          onChangeItem={this.changeAudioLanguage}
+          onChangeItem={this.changeAudioLocale}
         />
 
         <MessageLabel

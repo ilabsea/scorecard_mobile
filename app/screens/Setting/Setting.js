@@ -1,4 +1,4 @@
-import React, {Component, useContext, useState, useEffect} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -18,6 +18,7 @@ import SelectPicker from '../../components/SelectPicker';
 import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_connectivity_service';
+import {getLocaleChoices} from '../../services/locale_service';
 
 import {connect} from 'react-redux';
 import {authenticateAction} from '../../actions/sessionAction';
@@ -45,9 +46,8 @@ class Setting extends Component {
   componentDidMount = () => {
     const {appLanguage} = this.context;
     const langs = this.getData();
-
     this.setState({
-      languages: this.getPickerFormat(langs),
+      languages: getLocaleChoices(langs),
       language: appLanguage,
     });
   }
@@ -58,21 +58,6 @@ class Setting extends Component {
     let data = translations.getAvailableLanguages();
     return data;
   };
-
-  getPickerFormat = (items) => {
-    let data = [];
-    items.map((item) => {
-      let itemObj = {value: item};
-      if (item === 'km')
-        itemObj['label'] = 'ខ្មែរ';
-      else if (item === 'en')
-        itemObj['label'] = 'English';
-
-      data.push(itemObj);
-    });
-
-    return data;
-  }
 
   onChangeText = (type, value) => {
     if (type === 'backendUrl')

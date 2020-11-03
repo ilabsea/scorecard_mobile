@@ -1,5 +1,6 @@
 import {call, put} from 'redux-saga/effects';
 import ScorecardApi from '../api/ScorecardApi';
+import sagaErrorHandler from '../services/saga_error_handler_service';
 
 function* getScorecardDetail(action) {
   const {code, callback} = action.payload;
@@ -10,13 +11,7 @@ function* getScorecardDetail(action) {
     callback(true, responseData);
     yield put({type: 'GET_SCORECARD_DETAIL_SUCCESS', response: responseData});
   } catch (error) {
-    if (error.response != null && error.response != undefined) {
-      let err = error.response.data;
-      if (err == null) err = error.response;
-
-      callback(false, err);
-      yield put({type: 'GET_SCORECARD_DETAIL_FAILED', err});
-    }
+    yield sagaErrorHandler(error, 'GET_SCORECARD_DETAIL_FAILED');
   }
 };
 

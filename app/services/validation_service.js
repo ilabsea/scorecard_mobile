@@ -1,4 +1,4 @@
-import validationConstraint from '../constants/validation_constraint';
+import validationConstant from '../constants/validation_constant';
 import validation from 'validate.js';
 
 const validationService = (fieldName, value) => {
@@ -7,7 +7,7 @@ const validationService = (fieldName, value) => {
     formValue[fieldName] = value;
 
   let formField = {};
-  formField[fieldName] = validationConstraint[fieldName];
+  formField[fieldName] = validationConstant[fieldName];
 
   const result = validation(formValue, formField);
   if (result) {

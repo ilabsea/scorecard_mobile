@@ -1,4 +1,4 @@
-const validationConstraint = {
+const validationConstant = {
   backendUrl: {
     presence: {
       message: '^backendUrlRequireMsg',
@@ -28,4 +28,4 @@ const validationConstraint = {
   },
 };
 
-export default validationConstraint;
+export default validationConstant;
