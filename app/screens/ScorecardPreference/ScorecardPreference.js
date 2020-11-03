@@ -11,7 +11,6 @@ import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
 import Color from '../../themes/color';
-import {getLocaleOptions} from '../../services/locale_service';
 import {checkConnection} from '../../services/api_connectivity_service';
 import {selectedTextLocale, selectedAudioLocale} from '../../constants/locale_constant';
 
@@ -46,8 +45,8 @@ class ScorecardPreference extends Component {
     this.props.loadProgramLanguageAction(programId, async (isSuccess, response) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (isSuccess) {
-        const result = await response;
-        const languagesPickerFormat = getLocaleOptions(result);
+        const locales = await response;
+        const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
         this.setState({
           languages: languagesPickerFormat,
           textLocale: await this.getDefaultLocaleValue(languagesPickerFormat, 'text'),

@@ -18,7 +18,7 @@ import SelectPicker from '../../components/SelectPicker';
 import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_connectivity_service';
-import {getLocaleChoices} from '../../services/locale_service';
+import {localeDictionary} from '../../constants/locale_constant';
 
 import {connect} from 'react-redux';
 import {authenticateAction} from '../../actions/sessionAction';
@@ -32,8 +32,8 @@ class Setting extends Component {
       backendUrl: '',
       email: '',
       password: '',
-      languages: [],
-      language: 'km',
+      locales: [],
+      locale: 'km',
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
@@ -45,18 +45,16 @@ class Setting extends Component {
 
   componentDidMount = () => {
     const {appLanguage} = this.context;
-    const langs = this.getData();
     this.setState({
-      languages: getLocaleChoices(langs),
-      language: appLanguage,
+      locales: this.getLocales(),
+      locale: appLanguage,
     });
   }
 
-  getData = () => {
+  getLocales = () => {
     const {translations} = this.context;
-
-    let data = translations.getAvailableLanguages();
-    return data;
+    let locales = translations.getAvailableLanguages();
+    return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
   };
 
   onChangeText = (type, value) => {
@@ -122,26 +120,26 @@ class Setting extends Component {
     return null;
   };
 
-  changeLanugage = (item) => {
+  changeLocale = (locale) => {
     const {setAppLanguage} = this.context;
-    this.setState({language: item.value});
-    setAppLanguage(item.value);
+    this.setState({locale: locale.value});
+    setAppLanguage(locale.value);
   } 
 
   renderChooseLanugage = () => {
-    const {languages, language} = this.state;
+    const {locales, locale} = this.state;
 
     return (
       <SelectPicker
-        items={languages}
-        selectedItem={language}
+        items={locales}
+        selectedItem={locale}
         label="language"
         placeholder="selectLanguage"
         searchablePlaceholder="searchForLanguage"
         zIndex={6000}
         customLabelStyle={{zIndex: 6001}}
         showCustomArrow={false}
-        onChangeItem={this.changeLanugage}
+        onChangeItem={this.changeLocale}
       />
     );
   };
