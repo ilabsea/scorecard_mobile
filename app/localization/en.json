@@ -50,5 +50,6 @@
   "next": "Next",
   "failedToGetLanguage": "Failed to get language",
   "scorecardCodeMustBeNumber": "Scorecard code must be number",
-  "scorecardCodeHasIncorrectDigit": "Scorecard code has incorrect digit"
+  "scorecardCodeHasIncorrectDigit": "Scorecard code has incorrect digit",
+  "facilitatorList": "Facilitator list"
 }

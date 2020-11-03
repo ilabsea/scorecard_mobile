@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Subheading} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
@@ -11,6 +10,7 @@ import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
 import ActionButton from '../../components/ActionButton';
+import HeaderTitle from '../../components/HeaderTitle';
 import Color from '../../themes/color';
 import {checkConnection} from '../../services/api_connectivity_service';
 import {selectedTextLocale, selectedAudioLocale} from '../../constants/locale_constant';
@@ -97,6 +97,7 @@ class ScorecardPreference extends Component {
     AsyncStorage.setItem('SELECTED_DATE', date);
     AsyncStorage.setItem(selectedTextLocale, textLocale);
     AsyncStorage.setItem(selectedAudioLocale, audioLocale);
+    this.props.navigation.navigate('Facilitator');
   }
 
   renderForm = () => {
@@ -194,12 +195,10 @@ class ScorecardPreference extends Component {
           imageSize={40}
           indicatorColor={Color.primaryColor}
         />
-        <Text style={styles.headline}>
-          {translations['scorecardPreference']}
-        </Text>
-        <Subheading style={{color: 'gray'}}>
-          {translations['pleaseFillInformationBelow']}
-        </Subheading>
+        <HeaderTitle
+          headline="scorecardPreference"
+          subheading="pleaseFillInformationBelow"
+        />
         {this.renderForm()}
       </View>
     );
@@ -212,11 +211,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 16,
     paddingVertical: 20,
-  },
-  headline: {
-    color: Color.primaryColor,
-    fontSize: 25,
-    fontWeight: '700',
   },
   inputLabel: {
     backgroundColor: 'white',
