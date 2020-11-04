@@ -1,9 +1,5 @@
-const loadIndicatorListAction = (categoryId, callback) => ({
-  type: 'LOAD_INDICATOR',
-  payload: {
-    categoryId: categoryId,
-    callback: callback,
-  },
-});
+import {loadAction} from './baseAction';
+
+const loadIndicatorListAction = (categoryId, callback) => (loadAction('LOAD_INDICATOR', categoryId, callback));
 
 export {loadIndicatorListAction};

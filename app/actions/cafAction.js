@@ -1,9 +1,5 @@
-const loadCafListAction = (localNgoId, callback) => ({
-  type: 'LOAD_CAF',
-  payload: {
-    localNgoId: localNgoId,
-    callback: callback,
-  },
-});
+import {loadAction} from './baseAction';
+
+const loadCafListAction = (localNgoId, callback) => (loadAction('LOAD_CAF', localNgoId, callback));
 
 export {loadCafListAction};

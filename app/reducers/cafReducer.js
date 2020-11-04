@@ -1,30 +1,7 @@
-const initState = {
-  isLoading: false,
-  error: null,
-  cafs: [],
-};
+import {reducerStates, initState} from '../services/reducer_service';
 
 const loadCafListReducer = (state = initState, action) => {
-  switch (action.type) {
-    case 'LOAD_CAF':
-      return {
-        isLoading: true,
-        error: null,
-      };
-    case 'LOAD_CAF_SUCCESS':
-      return {
-        isLoading: false,
-        error: null,
-        cafs: action.response,
-      };
-    case 'LOAD_CAF_FAILED':
-      return {
-        isLoading: false,
-        error: action.error,
-      };
-    default:
-      return state;
-  }
+  return reducerStates('LOAD_CAF_SUCCESS', 'LOAD_CAF_FAILED', action);
 };
 
 export {loadCafListReducer};

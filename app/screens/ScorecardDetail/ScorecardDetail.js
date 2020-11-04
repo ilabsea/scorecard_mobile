@@ -169,7 +169,7 @@ class ScorecardDetail extends Component {
         const result = await response;
         this.saveIndicators(result);
         this.saveLanguageIndicator(result);
-        this.downloadAudio(result);
+        // this.downloadAudio(result);
       }
       else {
         this.setState({isStopDownloadIndicator: true});

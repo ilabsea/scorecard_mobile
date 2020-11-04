@@ -1,9 +1,5 @@
-const loadProgramLanguageAction = (programId, callback) => ({
-  type: 'LOAD_PROGRAM_LANGUAGE',
-  payload: {
-    programId: programId,
-    callback: callback,
-  },
-});
+import {loadAction} from './baseAction';
+
+const loadProgramLanguageAction = (programId, callback) => (loadAction('LOAD_PROGRAM_LANGUAGE', programId, callback));
 
 export {loadProgramLanguageAction};

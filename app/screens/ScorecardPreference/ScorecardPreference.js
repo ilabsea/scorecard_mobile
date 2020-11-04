@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     isLoading: state.loadProgramLanguageReducer.isLoading,
-    languages: state.loadProgramLanguageReducer.languages,
+    languages: state.loadProgramLanguageReducer.result,
   };
 }
 

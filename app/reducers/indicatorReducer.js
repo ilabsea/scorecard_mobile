@@ -1,30 +1,7 @@
-const initState = {
-  isLoading: false,
-  error: null,
-  indicators: [],
-};
+import {reducerStates, initState} from '../services/reducer_service';
 
 const loadIndicatorListReducer = (state = initState, action) => {
-  switch(action.type) {
-    case 'LOAD_INDICATOR':
-      return {
-        isLoading: true,
-        error: null,
-      };
-    case 'LOAD_INDICATOR_SUCCESS':
-      return {
-        isLoading: false,
-        error: null,
-        indicators: action.response,
-      };
-    case 'LOAD_INDICATOR_FAILED':
-      return {
-        isLoading: false,
-        error: action.error,
-      };
-    default:
-      return state;
-  }
-}
+  return reducerStates('LOAD_INDICATOR_SUCCESS', 'LOAD_INDICATOR_FAILED', action);
+};
 
 export {loadIndicatorListReducer};

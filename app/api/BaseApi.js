@@ -4,6 +4,21 @@ import axios from 'axios';
 const qs = require('qs');
 
 class BaseApi {
+  constructor(reponsibleModel, parentModel) {
+    this.responsibleModel = reponsibleModel;
+    this.parentModel = parentModel;
+  }
+
+  load = (id) => {
+    const options = {
+      url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.parentModel,
+      method: 'GET',
+    };
+
+    return BaseApi.request(options);
+  }
+
+
   static request = async (options) => {
     const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
     const apiUrl = endpointUrl + options.url;
