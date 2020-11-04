@@ -142,6 +142,7 @@ class Setting extends Component {
         customLabelStyle={{zIndex: 6001}}
         showCustomArrow={false}
         onChangeItem={this.changeLocale}
+        mustHasDefaultValue={true}
       />
     );
   };

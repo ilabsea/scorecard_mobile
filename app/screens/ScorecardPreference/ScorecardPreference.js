@@ -153,6 +153,7 @@ class ScorecardPreference extends Component {
           showCustomArrow={true}
           onChangeItem={this.changeTextLocale}
           customDropDownContainerStyle={{marginTop: 30}}
+          mustHasDefaultValue={true}
         />
 
         <SelectPicker
@@ -165,6 +166,7 @@ class ScorecardPreference extends Component {
           customLabelStyle={{zIndex: 5001}}
           showCustomArrow={true}
           onChangeItem={this.changeAudioLocale}
+          mustHasDefaultValue={true}
         />
 
         <MessageLabel

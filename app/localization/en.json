@@ -51,5 +51,10 @@
   "failedToGetLanguage": "Failed to get language",
   "scorecardCodeMustBeNumber": "Scorecard code must be number",
   "scorecardCodeHasIncorrectDigit": "Scorecard code has incorrect digit",
-  "facilitatorList": "Facilitator list"
+  "facilitatorList": "Facilitator list",
+  "facilitatorLead": "Facilitator lead",
+  "selectFacilitator": "Select facilitator",
+  "searchForFacilitator": "Search for faciliator",
+  "facilitator": "Facilitator",
+  "otherFacilitators": "Other faciliators"
 }

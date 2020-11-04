@@ -19,7 +19,10 @@ class SelectPicker extends Component {
     if (value != '' && value != undefined)
       return value.toString();
 
-    return items[0].value;
+    if (this.props.mustHasDefaultValue)
+      return items[0].value;
+
+    return null;
   }
 
   dropDownArrowRight = () => {
@@ -61,6 +64,7 @@ class SelectPicker extends Component {
       customDropDownContainerStyle,
       zIndex,
       onChangeItem,
+      index,
     } = this.props;
 
     return (
@@ -82,11 +86,11 @@ class SelectPicker extends Component {
           dropDownStyle={{
             backgroundColor: 'white',
             opacity: 100,
-            zIndex: 6000,
+            zIndex: {zIndex},
           }}
           labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
-          onChangeItem={(item) => onChangeItem(item)}
+          onChangeItem={(item) => onChangeItem(item, index)}
         />
       </View>
     );
