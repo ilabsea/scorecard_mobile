@@ -11,7 +11,7 @@ import uuidv4 from '../utils/uuidv4';
 const badgeSize = 24;
 const inActiveColor = '#8affffff';
 
-export default class StepProgress extends Component {
+export default class ProgressStep extends Component {
   _renderNumber(title, index) {
     let isDone = this.props.progressIndex >= index;
     let iconStyle = isDone ? [styles.numberIcon, styles.doneIcon] : styles.numberIcon;

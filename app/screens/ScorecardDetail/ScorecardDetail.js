@@ -4,20 +4,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   Container,
-  Header,
-  Title,
-  Icon,
-  Left,
-  Right,
-  Body,
-  Content,
-  StyleProvider
+  Content
 } from "native-base";
 
-import getTheme from '../../themes/components';
-import material from '../../themes/variables/material';
-import { HeaderBackButton } from '@react-navigation/stack';
-import StepProgress from '../../components/StepProgress';
+import BigHeader from '../../components/BigHeader';
 
 import realm from '../../db/schema';
 
@@ -386,46 +376,31 @@ class ScorecardDetail extends Component {
 
   _renderHeader() {
     return (
-      <Header span>
-        <View style={{flexDirection: 'row', marginTop: 16}}>
-          <Left>
-            <HeaderBackButton tintColor={"#fff"} onPress={() => this.props.navigation.goBack()}/>
-          </Left>
-
-          <Body>
-            <Title>Welcome to</Title>
-          </Body>
-        </View>
-
-        <View style={{width: '100%'}}>
-          <View style={{margin: 16}}>
-            <Text style={{fontSize: 28, fontWeight: 'bold', color: '#fff'}}>Scorecard App</Text>
-          </View>
-        </View>
-      </Header>
+      <BigHeader
+        title={'Welcome To'}
+        bigTitle={'Scorecard App'}
+        onBackPress={() => this.props.navigation.goBack()}/>
     )
   }
 
   render() {
     return (
-      <StyleProvider style={getTheme(material)}>
-        <Container>
-          { this._renderHeader() }
+      <Container>
+        { this._renderHeader() }
 
-          <Content style={styles.container}>
-            {this.renderScorecardDetail()}
+        <Content style={styles.container}>
+          {this.renderScorecardDetail()}
 
-            <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
-              {this.state.loadingMessage}
-            </Text>
+          <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
+            {this.state.loadingMessage}
+          </Text>
 
-            {this.renderDownloadButton()}
-            {this.renderStartButton()}
+          {this.renderDownloadButton()}
+          {this.renderStartButton()}
 
-          </Content>
+        </Content>
 
-        </Container>
-      </StyleProvider>
+      </Container>
     )
   }
 }

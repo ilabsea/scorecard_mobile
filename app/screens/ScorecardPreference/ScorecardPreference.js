@@ -18,6 +18,8 @@ import {selectedTextLocale, selectedAudioLocale} from '../../constants/locale_co
 import {connect} from 'react-redux';
 import {loadProgramLanguageAction} from '../../actions/programLanguageAction';
 
+import ProgressHeader from '../../components/ProgressHeader';
+
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -188,20 +190,26 @@ class ScorecardPreference extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={styles.container}>
-        <Loading
-          ref="loading"
-          backgroundColor="#ffffffF2"
-          borderRadius={5}
-          size={70}
-          imageSize={40}
-          indicatorColor={Color.primaryColor}
-        />
-        <HeaderTitle
-          headline="scorecardPreference"
-          subheading="pleaseFillInformationBelow"
-        />
-        {this.renderForm()}
+      <View>
+        <ProgressHeader
+          title={translations['getStarted']}
+          onBackPress={() => this.props.navigation.goBack()}
+          progressIndex={0}/>
+        <View style={styles.container}>
+          <Loading
+            ref="loading"
+            backgroundColor="#ffffffF2"
+            borderRadius={5}
+            size={70}
+            imageSize={40}
+            indicatorColor={Color.primaryColor}
+          />
+          <HeaderTitle
+            headline="scorecardPreference"
+            subheading="pleaseFillInformationBelow"
+          />
+          {this.renderForm()}
+        </View>
       </View>
     );
   }
