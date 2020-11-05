@@ -14,15 +14,17 @@ class Home extends Component {
   }
 
   render() {
+    const {translations} = this.context;
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <ActionButton
           onPress={() => this.props.navigation.navigate('NewScorecard')}
-          title='newScorecard'
+          label={translations['newScorecard']}
         />
         <ActionButton
-          title='savedScorecard'
-          containerStyle={{marginTop: 26}}
+          label={translations['savedScorecard']}
+          customButtonStyle={{marginTop: 26}}
         />
       </ScrollView>
     );

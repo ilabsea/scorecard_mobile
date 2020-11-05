@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-
-import {LocalizationContext} from './Translations';
 import Color from '../themes/color';
 
 class MessageLabel extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
   }
@@ -18,13 +15,12 @@ class MessageLabel extends Component {
   }
 
   render() {
-    const {translations} = this.context;
     const {message, customStyle} = this.props;
 
     if (message != '') {
       return (
         <Text style={[styles.messageLabel, this.labelColor(), customStyle]}>
-          {translations[message]}
+          {message}
         </Text>
       );
     }

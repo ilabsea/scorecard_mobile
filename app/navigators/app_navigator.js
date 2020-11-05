@@ -7,9 +7,9 @@ import SettingScreen from '../screens/Setting/Setting';
 import NewScorecardScreen from '../screens/NewScorecard/NewScorecard';
 import ScorecardDetailScreen from '../screens/ScorecardDetail/ScorecardDetail';
 import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardPreference';
+import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
-import ScorecardPreference from '../screens/ScorecardPreference/ScorecardPreference';
 
 import Color from '../themes/color';
 
@@ -69,6 +69,13 @@ function AppNavigator() {
           <Stack.Screen
             name="ScorecardPreference"
             component={ScorecardPreferenceScreen}
+            options={{
+              title: `${translations['getStarted']}`,
+            }}
+          />
+          <Stack.Screen
+            name="Facilitator"
+            component={FacilitatorScreen}
             options={{
               title: `${translations['getStarted']}`,
             }}

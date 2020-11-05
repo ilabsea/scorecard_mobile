@@ -43,11 +43,21 @@
   "scorecardPreference": "Scorecard Preference",
   "pleaseFillInformationBelow": "Please fill information below",
   "date": "Date",
+  "selectDate": "Select date",
   "textDisplayIn": "Text Display In",
   "audioPlayIn": "Audio Play In",
   "choose": "Choose",
   "next": "Next",
   "failedToGetLanguage": "Failed to get language",
   "scorecardCodeMustBeNumber": "Scorecard code must be number",
-  "scorecardCodeHasIncorrectDigit": "Scorecard code has incorrect digit"
+  "scorecardCodeHasIncorrectDigit": "Scorecard code has incorrect digit",
+  "facilitatorList": "Facilitator list",
+  "facilitatorLead": "Facilitator lead",
+  "selectFacilitator": "Select facilitator",
+  "searchForFacilitator": "Search for faciliator",
+  "facilitator": "Facilitator",
+  "otherFacilitators": "Other faciliators",
+  "facilitatorCannotDuplicate": "Selected facilitator can not be duplicate",
+  "facilitatorLeadRequireMsg": "Facilitator lead is required",
+  "otherFacilitatorRequireMsg": "Other facilitator is required"
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, InteractionManager} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -19,7 +19,10 @@ class SelectPicker extends Component {
     if (value != '' && value != undefined)
       return value.toString();
 
-    return items[0].value;
+    if (this.props.mustHasDefaultValue)
+      return items[0].value;
+
+    return null;
   }
 
   dropDownArrowRight = () => {
@@ -51,42 +54,48 @@ class SelectPicker extends Component {
     }
   };
 
+  dropDownZindex = (zIndex) => {
+    return {zIndex: zIndex};
+  }
+
   render() {
-    const {translations} = this.context;
     const {label,
       items,
       selectedItem,
       placeholder,
       searchablePlaceholder,
       customLabelStyle,
+      customDropDownContainerStyle,
       zIndex,
       onChangeItem,
+      itemIndex,
     } = this.props;
 
+    const indexLabel = itemIndex != undefined ? itemIndex + 1 : '';
+
     return (
-      <View style={styles.dropDownContainer}>
+      <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
         <Text style={[styles.inputLabel, customLabelStyle]}>
-          {translations[label]}
+          {label} {indexLabel}
         </Text>
         <DropDownPicker
           items={items}
           defaultValue={this.getDefaultValue(items, selectedItem)}
-          placeholder={translations[placeholder]}
-          searchablePlaceholder={translations[searchablePlaceholder]}
+          placeholder={placeholder}
+          searchablePlaceholder={searchablePlaceholder}
           zIndex={zIndex}
           searchable={true}
           containerStyle={styles.dropDownContainerStyle}
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
           dropDownMaxHeight={200}
-          dropDownStyle={{
+          dropDownStyle={[{
             backgroundColor: 'white',
             opacity: 100,
-            zIndex: 6000,
-          }}
+          }, this.dropDownZindex(zIndex)]}
           labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
-          onChangeItem={(item) => onChangeItem(item)}
+          onChangeItem={(item) => onChangeItem(item, itemIndex)}
         />
       </View>
     );

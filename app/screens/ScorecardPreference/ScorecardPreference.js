@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Button, Subheading} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
@@ -10,6 +9,8 @@ import Loading from 'react-native-whc-loading';
 import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
+import ActionButton from '../../components/ActionButton';
+import HeaderTitle from '../../components/HeaderTitle';
 import Color from '../../themes/color';
 import {checkConnection} from '../../services/api_connectivity_service';
 import {selectedTextLocale, selectedAudioLocale} from '../../constants/locale_constant';
@@ -39,6 +40,7 @@ class ScorecardPreference extends Component {
   }
 
   loadProgramLanguage = async () => {
+    const {translations} = this.context;
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
     const programId = this.state.detail['program_id'];
@@ -57,7 +59,7 @@ class ScorecardPreference extends Component {
       else {
         this.setState({
           messageType: 'error',
-          message: 'failedToGetLanguage',
+          message: translations['failedToGetLanguage'],
         });
         this.refs.loading.show(false);
       }
@@ -66,7 +68,7 @@ class ScorecardPreference extends Component {
     checkConnection((type, message) => {
       this.setState({
         messageType: type,
-        message: message,
+        message: translations[message],
       });
       this.refs.loading.show(false);
     });
@@ -95,6 +97,7 @@ class ScorecardPreference extends Component {
     AsyncStorage.setItem('SELECTED_DATE', date);
     AsyncStorage.setItem(selectedTextLocale, textLocale);
     AsyncStorage.setItem(selectedAudioLocale, audioLocale);
+    this.props.navigation.navigate('Facilitator');
   }
 
   renderForm = () => {
@@ -111,13 +114,13 @@ class ScorecardPreference extends Component {
             style={{width: 200}}
             date={this.state.date}
             mode="date"
-            placeholder="select date"
+            placeholder={translations["selectDate"]}
             format="DD/MM/YYYY"
             minDate={Moment().format('DD/MM/YYYY')}
             style={{width: '100%'}}
             customStyles={{
               dateInput: {
-                height: 50,
+                height: 60,
                 paddingLeft: 60,
                 borderColor: Color.inputBorderLineColor,
                 borderWidth: 2,
@@ -142,25 +145,28 @@ class ScorecardPreference extends Component {
         <SelectPicker
           items={languages}
           selectedItem={textLocale}
-          label="textDisplayIn"
-          placeholder="selectLanguage"
-          searchablePlaceholder="searchForLanguage"
+          label={translations["textDisplayIn"]}
+          placeholder={translations["selectLanguage"]}
+          searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={6000}
           customLabelStyle={{zIndex: 6001}}
           showCustomArrow={true}
           onChangeItem={this.changeTextLocale}
+          customDropDownContainerStyle={{marginTop: 30}}
+          mustHasDefaultValue={true}
         />
 
         <SelectPicker
           items={languages}
           selectedItem={audioLocale}
-          label="audioPlayIn"
-          placeholder="selectLanguage"
-          searchablePlaceholder="searchForLanguage"
+          label={translations["audioPlayIn"]}
+          placeholder={translations["selectLanguage"]}
+          searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={5000}
           customLabelStyle={{zIndex: 5001}}
           showCustomArrow={true}
           onChangeItem={this.changeAudioLocale}
+          mustHasDefaultValue={true}
         />
 
         <MessageLabel
@@ -169,17 +175,11 @@ class ScorecardPreference extends Component {
           customStyle={{marginTop: 120}}
         />
 
-        <Button
+        <ActionButton
+          label={translations["next"]}
           onPress={() => this.saveSelectedData()}
-          mode="contained"
-          uppercase={true}
-          contentStyle={{height: 50}}
-          color={Color.primaryColor}
-          labelStyle={{fontSize: 18}}
-          style={{marginTop: 20}}
-        >
-          {translations['next']}
-        </Button>
+          customButtonStyle={{marginTop: 40}}
+        />
       </View>
     );
   };
@@ -197,12 +197,10 @@ class ScorecardPreference extends Component {
           imageSize={40}
           indicatorColor={Color.primaryColor}
         />
-        <Text style={styles.headline}>
-          {translations['scorecardPreference']}
-        </Text>
-        <Subheading style={{color: 'gray'}}>
-          {translations['pleaseFillInformationBelow']}
-        </Subheading>
+        <HeaderTitle
+          headline="scorecardPreference"
+          subheading="pleaseFillInformationBelow"
+        />
         {this.renderForm()}
       </View>
     );
@@ -215,11 +213,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 16,
     paddingVertical: 20,
-  },
-  headline: {
-    color: Color.primaryColor,
-    fontSize: 25,
-    fontWeight: '700',
   },
   inputLabel: {
     backgroundColor: 'white',

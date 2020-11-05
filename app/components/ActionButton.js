@@ -1,45 +1,56 @@
 import React, {Component} from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import {LocalizationContext} from '../components/Translations';
+import { StyleSheet } from 'react-native';
+import {Button} from 'react-native-paper';
 
 import Color from '../themes/color';
 
 class ActionButton extends Component {
-  static contextType = LocalizationContext;
+  backgroundColor = () => {
+    const {isDisabled, customBackgroundColor} = this.props;
 
-  disableBackground = () => {
-    if (this.props.isDisabled)
+    if (isDisabled)
       return {backgroundColor: 'gray'};
+    else if (customBackgroundColor != undefined)
+      return {backgroundColor: customBackgroundColor};
+
+    return {backgroundColor: Color.primaryColor};
   }
 
   render() {
-    const {translations} = this.context;
+    const {onPress, label, isDisabled, customButtonStyle} = this.props;
 
     return (
-      <TouchableOpacity
-        onPress={() => this.props.onPress()}
-        style={[styles.buttonContainer, this.props.containerStyle, this.disableBackground()]}
-        disabled={this.props.isDisabled}
+      <Button
+        onPress={() => onPress()}
+        mode="contained"
+        uppercase={true}
+        contentStyle={[styles.contentStyle]}
+        labelStyle={styles.labelStyle}
+        style={[
+          styles.buttonStyle,
+          customButtonStyle,
+          this.backgroundColor(),
+        ]}
+        disabled={isDisabled}
       >
-        <Text style={[styles.buttonLabel, this.props.labelStyle]}>{translations[this.props.title]}</Text>
-      </TouchableOpacity>
-    )
+        {label}
+      </Button>
+    );
   }
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    backgroundColor: Color.primaryColor,
-    width: '80%',
-    padding: 16,
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
+  contentStyle: {
+    height: 55,
+    width: '100%',
   },
-  buttonLabel: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '700',
+  buttonStyle: {
+    width: '100%',
+    borderRadius: 8,
+    elevation: 0,
+  },
+  labelStyle: {
+    fontSize: 18,
   }
 });
 
