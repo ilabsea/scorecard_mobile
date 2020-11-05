@@ -76,7 +76,7 @@ class SelectPicker extends Component {
     return (
       <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
         <Text style={[styles.inputLabel, customLabelStyle]}>
-          {label}
+          {label} {indexLabel}
         </Text>
         <DropDownPicker
           items={items}

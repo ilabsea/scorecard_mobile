@@ -52,6 +52,7 @@ class Facilitator extends Component {
   }
 
   renderOtherFacilitators = () => {
+    const {translations} = this.context;
     const {facilitators, otherFacilitators} = this.state;
     let pickerzIndex = 8000;
 
@@ -62,9 +63,9 @@ class Facilitator extends Component {
         <SelectPicker
           items={facilitators}
           selectedItem={ otherFacilitators[index] != undefined ? otherFacilitators[index].value : null }
-          label="facilitator"
-          placeholder="selectFacilitator"
-          searchablePlaceholder="searchForFacilitator"
+          label={translations["facilitator"]}
+          placeholder={translations["selectFacilitator"]}
+          searchablePlaceholder={translations["searchForFacilitator"]}
           zIndex={pickerzIndex}
           customLabelStyle={customLabelStyle}
           showCustomArrow={true}
@@ -177,9 +178,10 @@ class Facilitator extends Component {
 
   renderNextButton = () => {
     if (!this.state.isError) {
+      const {translations} = this.context;
       return (
         <ActionButton
-          label="next"
+          label={translations["next"]}
           onPress={() => this.saveSelectedData()}
           customButtonStyle={{marginTop: 10}}
         />
@@ -201,9 +203,9 @@ class Facilitator extends Component {
         <SelectPicker
           items={facilitators}
           selectedItem={facilitatorLead != null ? facilitatorLead.value : null}
-          label="facilitatorLead"
-          placeholder="selectFacilitator"
-          searchablePlaceholder="searchForFacilitator"
+          label={translations["facilitatorLead"]}
+          placeholder={translations["selectFacilitator"]}
+          searchablePlaceholder={translations["searchForFacilitator"]}
           zIndex={8000}
           customLabelStyle={{zIndex: 8001}}
           showCustomArrow={true}
