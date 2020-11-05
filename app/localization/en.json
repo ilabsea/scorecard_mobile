@@ -56,5 +56,8 @@
   "selectFacilitator": "Select facilitator",
   "searchForFacilitator": "Search for faciliator",
   "facilitator": "Facilitator",
-  "otherFacilitators": "Other faciliators"
+  "otherFacilitators": "Other faciliators",
+  "facilitatorCannotDuplicate": "Selected facilitator can not be duplicate",
+  "facilitatorLeadRequireMsg": "Facilitator lead is required",
+  "otherFacilitatorRequireMsg": "Other facilitator is required"
 }

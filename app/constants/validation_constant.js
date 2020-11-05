@@ -26,6 +26,16 @@ const validationConstant = {
       is: 6,
     },
   },
+  facilitatorLead: {
+    presence: {
+      message: '^facilitatorLeadRequireMsg',
+    },
+  },
+  otherFacilitator: {
+    presence: {
+      message: '^otherFacilitatorRequireMsg',
+    }
+  },
 };
 
 export default validationConstant;

@@ -5,13 +5,15 @@ import Realm from 'realm';
 import LanguageSchema from './models/language';
 import IndicatorSchema from './models/indicator';
 import CafSchema from './models/caf';
-import LanguageIndicator from './models/languageIndicator';
+import LanguageIndicatorSchema from './models/languageIndicator';
+import FacilitatorSchema from './models/facilitator';
 
 const schema0 = [
   LanguageSchema,
   IndicatorSchema,
   CafSchema,
-  LanguageIndicator,
+  LanguageIndicatorSchema,
+  FacilitatorSchema,
 ];
 
 const schemas = [

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, InteractionManager} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -54,6 +54,10 @@ class SelectPicker extends Component {
     }
   };
 
+  dropDownZindex = (zIndex) => {
+    return {zIndex: zIndex};
+  }
+
   render() {
     const {label,
       items,
@@ -64,8 +68,10 @@ class SelectPicker extends Component {
       customDropDownContainerStyle,
       zIndex,
       onChangeItem,
-      index,
+      itemIndex,
     } = this.props;
+
+    const indexLabel = itemIndex != undefined ? itemIndex + 1 : '';
 
     return (
       <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
@@ -83,14 +89,13 @@ class SelectPicker extends Component {
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
           dropDownMaxHeight={200}
-          dropDownStyle={{
+          dropDownStyle={[{
             backgroundColor: 'white',
             opacity: 100,
-            zIndex: {zIndex},
-          }}
+          }, this.dropDownZindex(zIndex)]}
           labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
-          onChangeItem={(item) => onChangeItem(item, index)}
+          onChangeItem={(item) => onChangeItem(item, itemIndex)}
         />
       </View>
     );

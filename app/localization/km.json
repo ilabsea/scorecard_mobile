@@ -56,5 +56,8 @@
   "selectFacilitator": "ជ្រើស​រើស​អ្នក​សម្រប​សម្រួល​",
   "searchForFacilitator": "ស្វែង​រក​អ្នក​សម្រប​សម្រួល​",
   "facilitator": "អ្នក​សម្រប​សម្រួល",
-  "otherFacilitators": "អ្នក​សម្រប​សម្រួល​ផ្សេងៗ"
+  "otherFacilitators": "អ្នក​សម្រប​សម្រួល​ផ្សេងៗ",
+  "facilitatorCannotDuplicate": "មិន​អាច​ជ្រើស​រើស​អ្នក​សម្រប​សម្រួល​ស្ទួន​",
+  "facilitatorLeadRequirMsg": "ត្រូវ​ការ​អ្នក​ដឹក​នាំ​សម្រប​សម្រួល​",
+  "otherFacilitatorRequireMsg": "ត្រូវ​ការ​អ្នក​សម្រប​សម្រួល​ផ្សេងៗ​"
 }
