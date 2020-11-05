@@ -23,7 +23,7 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="Test"
+          initialRouteName="Home"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,
@@ -69,10 +69,13 @@ function AppNavigator() {
           <Stack.Screen
             name="ScorecardDetail"
             component={ScorecardDetailScreen}
-            options={{
-              title: `${translations['scorecardDetail']}`,
-              headerTitleAlign: 'center',
-            }}
+            options={({navigation}) => ({
+              header: ()=> null
+            })}
+            // options={{
+            //   title: `${translations['scorecardDetail']}`,
+            //   headerTitleAlign: 'center',
+            // }}
           />
           <Stack.Screen
             name="ScorecardPreference"

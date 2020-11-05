@@ -9,7 +9,6 @@ import {
   Container,
   Header,
   Title,
-  Button,
   Icon,
   Left,
   Right,
@@ -27,12 +26,11 @@ export default class Test extends React.Component {
   render() {
     return (
       <StyleProvider style={getTheme(material)}>
-
         <Container>
           <Header span>
-            <View style={{flexDirection: 'row', marginTop: 20}}>
-              <Left style={{backgroundColor: ''}}>
-                <HeaderBackButton tintColor={"#fff"} style={{}}/>
+            <View style={{flexDirection: 'row', marginTop: 16}}>
+              <Left>
+                <HeaderBackButton tintColor={"#fff"}/>
               </Left>
 
               <Body>
@@ -41,7 +39,7 @@ export default class Test extends React.Component {
             </View>
 
             <View style={{width: '100%'}}>
-              <View style={{width: '70%', marginLeft: 16, marginRight: 16, marginTop: 16, alignItems: 'center', alignSelf: 'center'}}>
+              <View style={{width: '70%', marginTop: 16, alignSelf: 'center'}}>
                 <StepProgress progressIndex={1}/>
               </View>
             </View>
@@ -52,7 +50,3 @@ export default class Test extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-
-});
