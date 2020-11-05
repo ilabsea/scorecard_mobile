@@ -169,7 +169,7 @@ class ScorecardDetail extends Component {
         const result = await response;
         this.saveIndicators(result);
         this.saveLanguageIndicator(result);
-        // this.downloadAudio(result);
+        this.downloadAudio(result);
       }
       else {
         this.setState({isStopDownloadIndicator: true});
@@ -318,7 +318,6 @@ class ScorecardDetail extends Component {
   };
 
   startScorecard = () => {
-    console.log('is fully downloaded = ', this.isFullyDownloaded());
     this.props.navigation.navigate('ScorecardPreference');
   }
 
@@ -341,11 +340,12 @@ class ScorecardDetail extends Component {
   }
 
   renderDownloadButton = () => {
+    const {translations} = this.context;
     if (!this.isFullyDownloaded() && this.state.detail != '') {
       return (
         <ActionButton
           onPress={() => this.downloadScorecard()}
-          label="downloadAndSave"
+          label={translations["downloadAndSave"]}
           customButtonStyle={{marginTop: 20}}
           isDisabled={this.isDisableDownload()}
         />
@@ -354,16 +354,17 @@ class ScorecardDetail extends Component {
   };
 
   renderStartButton = () => {
-    // if (this.isFullyDownloaded() && this.state.detail != '') {
+    const {translations} = this.context;
+    if (this.isFullyDownloaded() && this.state.detail != '') {
       return (
         <ActionButton
           onPress={() => this.startScorecard()}
-          label="start"
+          label={translations["start"]}
           customButtonStyle={{marginTop: 20}}
           isDisabled={false}
         />
       );
-    // }
+    }
   };
 
   render() {

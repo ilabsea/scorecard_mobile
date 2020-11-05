@@ -9,6 +9,7 @@ import {
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import TextFieldInput from '../../components/TextFieldInput';
 import MessageLabel from '../../components/MessageLabel';
@@ -20,6 +21,7 @@ import {connect} from 'react-redux';
 import {getScorecardDetailAction} from '../../actions/scorecardAction';
 
 class NewScorecard extends Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -46,8 +48,7 @@ class NewScorecard extends Component {
   };
 
   joinScorecard = async () => {
-    if (!this.isValid())
-      return;
+    if (!this.isValid()) return;
 
     const {code} = this.state;
     this.setState({isLoading: true});
@@ -98,6 +99,7 @@ class NewScorecard extends Component {
   };
 
   render() {
+    const {translations} = this.context;
     const {code, codeMsg} = this.state;
 
     return (
@@ -114,11 +116,11 @@ class NewScorecard extends Component {
 
           <TextFieldInput
             value={code}
-            label="scorecardCode"
-            placeholder="enterScorecardCode"
+            label={translations["scorecardCode"]}
+            placeholder={translations["enterScorecardCode"]}
             fieldName="scorecardCode"
             onChangeText={this.onChangeText}
-            message={codeMsg}
+            message={translations[codeMsg]}
             isSecureEntry={false}
           />
 
@@ -126,7 +128,7 @@ class NewScorecard extends Component {
 
           <ActionButton
             onPress={() => this.joinScorecard()}
-            label="join"
+            label={translations["join"]}
             customButtonStyle={{marginTop: 16}}
             isDisabled={this.state.isLoading}
           />

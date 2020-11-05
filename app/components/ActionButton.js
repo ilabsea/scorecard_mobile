@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {Button} from 'react-native-paper';
-import {LocalizationContext} from '../components/Translations';
 
 import Color from '../themes/color';
 
 class ActionButton extends Component {
-  static contextType = LocalizationContext;
-
   backgroundColor = () => {
     const {isDisabled, customBackgroundColor} = this.props;
 
@@ -20,7 +17,6 @@ class ActionButton extends Component {
   }
 
   render() {
-    const {translations} = this.context;
     const {onPress, label, isDisabled, customButtonStyle} = this.props;
 
     return (
@@ -37,7 +33,7 @@ class ActionButton extends Component {
         ]}
         disabled={isDisabled}
       >
-        {translations[label]}
+        {label}
       </Button>
     );
   }

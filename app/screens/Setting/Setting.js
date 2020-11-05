@@ -76,37 +76,38 @@ class Setting extends Component {
   }
 
   renderInputForm = () => {
+    const {translations} = this.context;
     const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
 
     return (
       <View>
         <TextFieldInput
           value={backendUrl}
-          label="backendUrl"
-          placeholder="enterBackendUrl"
+          label={translations["backendUrl"]}
+          placeholder={translations["enterBackendUrl"]}
           fieldName="backendUrl"
           onChangeText={this.onChangeText}
-          message={backendUrlErrorMsg}
+          message={translations[backendUrlErrorMsg]}
           isSecureEntry={false}
         />
 
         <TextFieldInput
           value={email}
-          label="email"
-          placeholder="enterEmail"
+          label={translations["email"]}
+          placeholder={translations["enterEmail"]}
           fieldName="email"
           onChangeText={this.onChangeText}
-          message={emailErrorMsg}
+          message={translations[emailErrorMsg]}
           isSecureEntry={false}
         />
 
         <TextFieldInput
           value={password}
-          label="password"
-          placeholder="enterPassword"
+          label={translations["password"]}
+          placeholder={translations["enterPassword"]}
           fieldName="password"
           onChangeText={this.onChangeText}
-          message={passwordErrorMsg}
+          message={translations[passwordErrorMsg]}
           isSecureEntry={true}
         />
       </View>
@@ -127,15 +128,16 @@ class Setting extends Component {
   } 
 
   renderChooseLanugage = () => {
+    const {translations} = this.context;
     const {locales, locale} = this.state;
 
     return (
       <SelectPicker
         items={locales}
         selectedItem={locale}
-        label="language"
-        placeholder="selectLanguage"
-        searchablePlaceholder="searchForLanguage"
+        label={translations["language"]}
+        placeholder={translations["selectLanguage"]}
+        searchablePlaceholder={translations["searchForLanguage"]}
         zIndex={6000}
         customLabelStyle={{zIndex: 6001}}
         showCustomArrow={false}
@@ -198,7 +200,7 @@ class Setting extends Component {
     checkConnection((type, message) => {
       this.setState({
         messageType: type,
-        errorMsg: message,
+        errorMsg: translations[message],
         isLoading: false,
       });
       this.refs.loading.show(false);
@@ -235,6 +237,8 @@ class Setting extends Component {
   }
 
   render() {
+    const {translations} = this.context;
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={[styles.container]}>
@@ -250,7 +254,7 @@ class Setting extends Component {
           {this.renderChooseLanugage()}
           {this.renderErrorMsg()}
           <ActionButton
-            label='save'
+            label={translations['save']}
             onPress={() => this.save()}
             isDisabled={this.state.isLoading}
           />

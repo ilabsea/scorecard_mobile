@@ -52,7 +52,6 @@ class SelectPicker extends Component {
   };
 
   render() {
-    const {translations} = this.context;
     const {label,
       items,
       selectedItem,
@@ -67,13 +66,13 @@ class SelectPicker extends Component {
     return (
       <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
         <Text style={[styles.inputLabel, customLabelStyle]}>
-          {translations[label]}
+          {label}
         </Text>
         <DropDownPicker
           items={items}
           defaultValue={this.getDefaultValue(items, selectedItem)}
-          placeholder={translations[placeholder]}
-          searchablePlaceholder={translations[searchablePlaceholder]}
+          placeholder={placeholder}
+          searchablePlaceholder={searchablePlaceholder}
           zIndex={zIndex}
           searchable={true}
           containerStyle={styles.dropDownContainerStyle}

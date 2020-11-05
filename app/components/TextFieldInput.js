@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import {LocalizationContext} from '../components/Translations';
 import Color from '../themes/color';
 import validationService from '../services/validation_service';
+import {LocalizationContext} from '../components/Translations';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;
@@ -26,33 +26,39 @@ class TextFieldInput extends Component {
   };
 
   validateInput = () => {
+    const {translations} = this.context;
     this.setState({validationMsg: ''});
     const {fieldName, value, renderName} = this.props;
     const validationMsg = validationService(fieldName, value, renderName);
     this.setState({
-      validationMsg: validationMsg,
+      validationMsg: translations[validationMsg],
     });
-  }
+  };
 
   getValidationMsg = () => {
     const {message} = this.props;
     const {validationMsg} = this.state;
 
-    if (message != '')
-      return message;
+    if (message != '' && message != null) return message;
 
     return validationMsg;
-  }
+  };
 
   render() {
-    const {translations} = this.context;
-    const {value, label, placeholder, fieldName, onChangeText, isSecureEntry} = this.props;
+    const {
+      value,
+      label,
+      placeholder,
+      fieldName,
+      onChangeText,
+      isSecureEntry,
+    } = this.props;
 
     return (
       <View>
         <TextInput
-          label={translations[label]}
-          placeholder={translations[placeholder]}
+          label={label}
+          placeholder={placeholder}
           mode="outlined"
           // left={this.renderIcon()}
           clearButtonMode="while-editing"
@@ -63,7 +69,7 @@ class TextFieldInput extends Component {
           onBlur={() => this.validateInput()}
         />
 
-        <Text style={styles.messageLabel}>{translations[this.getValidationMsg()]}</Text>
+        <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>
       </View>
     );
   }

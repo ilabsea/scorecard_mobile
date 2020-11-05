@@ -40,6 +40,7 @@ class ScorecardPreference extends Component {
   }
 
   loadProgramLanguage = async () => {
+    const {translations} = this.context;
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
     const programId = this.state.detail['program_id'];
@@ -58,7 +59,7 @@ class ScorecardPreference extends Component {
       else {
         this.setState({
           messageType: 'error',
-          message: 'failedToGetLanguage',
+          message: translations['failedToGetLanguage'],
         });
         this.refs.loading.show(false);
       }
@@ -67,7 +68,7 @@ class ScorecardPreference extends Component {
     checkConnection((type, message) => {
       this.setState({
         messageType: type,
-        message: message,
+        message: translations[message],
       });
       this.refs.loading.show(false);
     });
@@ -112,7 +113,7 @@ class ScorecardPreference extends Component {
             style={{width: 200}}
             date={this.state.date}
             mode="date"
-            placeholder="select date"
+            placeholder={translations["selectDate"]}
             format="DD/MM/YYYY"
             minDate={Moment().format('DD/MM/YYYY')}
             style={{width: '100%'}}
@@ -143,9 +144,9 @@ class ScorecardPreference extends Component {
         <SelectPicker
           items={languages}
           selectedItem={textLocale}
-          label="textDisplayIn"
-          placeholder="selectLanguage"
-          searchablePlaceholder="searchForLanguage"
+          label={translations["textDisplayIn"]}
+          placeholder={translations["selectLanguage"]}
+          searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={6000}
           customLabelStyle={{zIndex: 6001}}
           showCustomArrow={true}
@@ -156,9 +157,9 @@ class ScorecardPreference extends Component {
         <SelectPicker
           items={languages}
           selectedItem={audioLocale}
-          label="audioPlayIn"
-          placeholder="selectLanguage"
-          searchablePlaceholder="searchForLanguage"
+          label={translations["audioPlayIn"]}
+          placeholder={translations["selectLanguage"]}
+          searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={5000}
           customLabelStyle={{zIndex: 5001}}
           showCustomArrow={true}
@@ -172,7 +173,7 @@ class ScorecardPreference extends Component {
         />
 
         <ActionButton
-          label="next"
+          label={translations["next"]}
           onPress={() => this.saveSelectedData()}
           customButtonStyle={{marginTop: 40}}
         />
