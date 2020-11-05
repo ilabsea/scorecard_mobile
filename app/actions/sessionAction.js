@@ -1,7 +1,6 @@
-const authenticateAction = (backendUrl, username, password, callback) => ({
+const authenticateAction = (username, password, callback) => ({
   type: 'AUTHENTICATE',
   payload: {
-    backendUrl: backendUrl,
     username: username,
     password: password,
     callback: callback,

@@ -1,9 +1,9 @@
 import BaseApi from './BaseApi';
 
 const SessionApi = {
-  authenticate: (backendUrl, username, password) => {
+  authenticate: (username, password) => {
     const options = {
-      url: backendUrl,
+      url: '/api/v1/sign_in',
       method: 'POST',
       params: {
         user: {

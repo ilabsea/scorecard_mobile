@@ -1,20 +1,24 @@
-import React, {Component, useContext, useState, useEffect} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
-  Text,
   StatusBar,
-  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loading from 'react-native-whc-loading';
 
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
+import MessageLabel from '../../components/MessageLabel';
+import TextFieldInput from '../../components/TextFieldInput';
+import SelectPicker from '../../components/SelectPicker';
+
 import Color from '../../themes/color';
+import validationService from '../../services/validation_service';
+import {checkConnection} from '../../services/api_connectivity_service';
+import {localeDictionary} from '../../constants/locale_constant';
 
 import {connect} from 'react-redux';
 import {authenticateAction} from '../../actions/sessionAction';
@@ -28,93 +32,83 @@ class Setting extends Component {
       backendUrl: '',
       email: '',
       password: '',
-      languages: [],
-      language: 'km',
+      locales: [],
+      locale: 'km',
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
       errorMsg: '',
+      messageType: '',
       isLoading: false,
     };
   }
 
   componentDidMount = () => {
     const {appLanguage} = this.context;
-    const langs = this.getData();
-
     this.setState({
-      languages: this.getPickerFormat(langs),
-      language: appLanguage,
+      locales: this.getLocales(),
+      locale: appLanguage,
     });
   }
 
-  getData = () => {
+  getLocales = () => {
     const {translations} = this.context;
-
-    let data = translations.getAvailableLanguages();
-    return data;
+    let locales = translations.getAvailableLanguages();
+    return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
   };
 
-  getPickerFormat = (items) => {
-    let data = [];
-    items.map((item) => {
-      let itemObj = {value: item};
-      if (item === 'km')
-        itemObj['label'] = 'ខ្មែរ';
-      else if (item === 'en')
-        itemObj['label'] = 'English';
-
-      data.push(itemObj);
-    });
-
-    return data;
-  }
-
-  renderFieldErrorMsg = (message) => {
-    const {translations} = this.context;
-
-    return (
-      <Text style={{color: Color.errorColor, marginBottom: 10}}>
-        {translations[message]}
-      </Text>
-    )
+  onChangeText = (type, value) => {
+    if (type === 'backendUrl')
+      this.setState({
+        backendUrl: value,
+        backendUrlErrorMsg: '',
+      });
+    else if (type === 'email')
+      this.setState({
+        email: value,
+        emailErrorMsg: '',
+      });
+    else  if (type === 'password')
+      this.setState({
+        password: value,
+        passwordErrorMsg: '',
+      });
   }
 
   renderInputForm = () => {
-    const {translations} = this.context;
     const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
 
     return (
       <View>
-        <Text style={styles.inputLabel}>{translations['backendUrl']}</Text>
-        <TextInput
+        <TextFieldInput
           value={backendUrl}
-          placeholder={translations['enterBackendUrl']}
-          clearButtonMode="while-editing"
-          style={styles.textInputContainer}
-          onChangeText={(text) => this.setState({backendUrl: text})}
+          label="backendUrl"
+          placeholder="enterBackendUrl"
+          fieldName="backendUrl"
+          onChangeText={this.onChangeText}
+          message={backendUrlErrorMsg}
+          isSecureEntry={false}
         />
-        {this.renderFieldErrorMsg(backendUrlErrorMsg)}
 
-        <Text style={styles.inputLabel}>{translations['email']}</Text>
-        <TextInput
+        <TextFieldInput
           value={email}
-          placeholder={translations['enterEmail']}
-          clearButtonMode="while-editing"
-          style={styles.textInputContainer}
-          onChangeText={(text) => this.setState({email: text})}
+          label="email"
+          placeholder="enterEmail"
+          fieldName="email"
+          onChangeText={this.onChangeText}
+          message={emailErrorMsg}
+          isSecureEntry={false}
         />
-        {this.renderFieldErrorMsg(emailErrorMsg)}
 
-        <Text style={styles.inputLabel}>{translations['password']}</Text>
-        <TextInput
+        <TextFieldInput
           value={password}
-          placeholder={translations['enterPassword']}
-          clearButtonMode="while-editing"
-          style={styles.textInputContainer}
-          onChangeText={(text) => this.setState({password: text})}
+          label="password"
+          placeholder="enterPassword"
+          fieldName="password"
+          onChangeText={this.onChangeText}
+          message={passwordErrorMsg}
+          isSecureEntry={true}
         />
-        {this.renderFieldErrorMsg(passwordErrorMsg)}
       </View>
     );
   };
@@ -126,42 +120,32 @@ class Setting extends Component {
     return null;
   };
 
-  changeLanugage = (item) => {
+  changeLocale = (locale) => {
     const {setAppLanguage} = this.context;
-    this.setState({language: item.value});
-    setAppLanguage(item.value);
+    this.setState({locale: locale.value});
+    setAppLanguage(locale.value);
   } 
 
   renderChooseLanugage = () => {
-    const {languages, language} = this.state;
-    const {translations} = this.context;
+    const {locales, locale} = this.state;
 
     return (
-      <View>
-        <Text>{translations['language']}</Text>
-        <DropDownPicker
-          items={languages}
-          defaultValue={
-            languages.length > 1 ? this.getPickerDefaultValue(language) : null
-          }
-          placeholder={translations['selectLanguage']}
-          searchablePlaceholder={translations['searchForLanguage']}
-          zIndex={6000}
-          searchable={true}
-          containerStyle={{height: 50, marginTop: 10}}
-          style={styles.dropDownPickerStyle}
-          itemStyle={{justifyContent: 'flex-start'}}
-          dropDownMaxHeight={200}
-          dropDownStyle={{backgroundColor: 'white', opacity: 100}}
-          onChangeItem={(item) => this.changeLanugage(item)}
-        />
-      </View>
+      <SelectPicker
+        items={locales}
+        selectedItem={locale}
+        label="language"
+        placeholder="selectLanguage"
+        searchablePlaceholder="searchForLanguage"
+        zIndex={6000}
+        customLabelStyle={{zIndex: 6001}}
+        showCustomArrow={false}
+        onChangeItem={this.changeLocale}
+      />
     );
   };
 
   isValidForm = () => {
     const {backendUrl, email, password} = this.state;
-    let isError = false;
     this.setState({
       errorMsg: '',
       backendUrlErrorMsg: '',
@@ -169,48 +153,40 @@ class Setting extends Component {
       passwordErrorMsg: '',
     });
 
-    if (backendUrl === '' || backendUrl === null || backendUrl === undefined) {
-      isError = true;
-      this.setState({backendUrlErrorMsg: 'backendUrlRequireMsg'});
-    }
-    if (email === '' || email === null || email === undefined) {
-      isError = true;
-      this.setState({emailErrorMsg: 'emailRequireMsg'});
-    }
-    if (password === '' || password === null || password === undefined) {
-      isError = true;
-      this.setState({passwordErrorMsg: 'passwordRequireMsg'});
-    }
+    const backendUrlValidationMsg = validationService('backendUrl', backendUrl);
+    const emailValidationMsg = validationService('email', email);
+    const passwordValidationMsg = validationService('password', password);
 
-    if (isError)
+    this.setState({
+      backendUrlErrorMsg: backendUrlValidationMsg || '',
+      emailErrorMsg: emailValidationMsg || '',
+      passwordErrorMsg: passwordValidationMsg || '',
+    });
+
+    if (backendUrlValidationMsg != null || emailValidationMsg != null || passwordValidationMsg != null)
       return false;
 
     return true;
   }
 
-  save = async () => {
+  save = () => {
     if (!this.isValidForm())
       return;
 
-    const _this = this;
-    let hasConnection = false;
     const {backendUrl, email, password} = this.state;
-    const authObj = {
-      backendUrl: backendUrl,
-      email: email,
-      password: password,
-    };
-    AsyncStorage.setItem('AUTHENTICATION_ITEMS', authObj);
+    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
+    AsyncStorage.setItem('IS_CONNECTED', 'false');
 
     this.refs.loading.show();
     this.setState({isLoading: true});
 
-    this.props.authenticateAction(backendUrl, email, password, async (isSuccess, response) => {
-      hasconnection = true;
+    this.props.authenticateAction(email, password, async (isSuccess, response) => {
+      AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (isSuccess) {
         this.refs.loading.show(false);
         this.setState({isLoading: false});
         AsyncStorage.setItem('AUTH_TOKEN', response['authentication_token']);
+        this.props.navigation.goBack();
       }
       else {
         this.refs.loading.show(false);
@@ -219,13 +195,14 @@ class Setting extends Component {
       }
     });
 
-    setTimeout(function() {
-      _this.refs.loading.show(false);
-      _this.setState({isLoading: false});
-      if (!hasConnection) {
-        _this.setState({errorMsg: 'lowInternetConnectionMsg'});
-      }
-    }, 20000);
+    checkConnection((type, message) => {
+      this.setState({
+        messageType: type,
+        errorMsg: message,
+        isLoading: false,
+      });
+      this.refs.loading.show(false);
+    });
   }
 
   handleAuthenticateError = (response) => {
@@ -246,13 +223,14 @@ class Setting extends Component {
   }
 
   renderErrorMsg = () => {
-    const {translations} = this.context;
-    const {errorMsg} = this.state;
+    const {errorMsg, messageType} = this.state;
 
     return (
-      <Text style={{color: Color.errorColor, marginTop: 30, textAlign: 'center'}}>
-        {translations[errorMsg]}
-      </Text>
+      <MessageLabel
+        message={errorMsg}
+        type={messageType}
+        customStyle={{marginTop: 120}}
+      />
     );
   }
 
@@ -285,24 +263,18 @@ class Setting extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    paddingTop: StatusBar.currentHeight || 0,
     paddingHorizontal: 16,
   },
   inputLabel: {
     marginBottom: 10,
   },
-  textInputContainer: {
-    borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 16,
-    marginBottom: 6,
-    backgroundColor: 'white',
-  },
   dropDownPickerStyle: {
     backgroundColor: 'white',
     zIndex: 5000,
-    elevation: 1,
+    elevation: 2,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
     borderBottomLeftRadius: 6,
@@ -318,8 +290,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    authenticateAction: (backendUrl, email, password, callback) =>
-      dispatch(authenticateAction(backendUrl, email, password, callback)),
+    authenticateAction: (email, password, callback) =>
+      dispatch(authenticateAction(email, password, callback)),
   };
 }
 
