@@ -10,6 +10,7 @@ import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardP
 import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
+import TestScreen from '../screens/Test';
 
 import Color from '../themes/color';
 
@@ -22,13 +23,20 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="Test"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,
             },
             headerTintColor: 'white',
           }}>
+          <Stack.Screen
+            name="Test"
+            component={TestScreen}
+            options={({navigation}) => ({
+              header: ()=> null
+            })}
+          />
           <Stack.Screen
             name="Home"
             component={HomeScreen}
