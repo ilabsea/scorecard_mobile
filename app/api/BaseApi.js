@@ -4,14 +4,14 @@ import axios from 'axios';
 const qs = require('qs');
 
 class BaseApi {
-  constructor(reponsibleModel, parentModel) {
-    this.responsibleModel = reponsibleModel;
-    this.parentModel = parentModel;
+  constructor(responsibleModel, subModel) {
+    this.responsibleModel = responsibleModel;
+    this.subModel = subModel;
   }
 
   load = (id) => {
     const options = {
-      url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.parentModel,
+      url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel,
       method: 'GET',
     };
 
