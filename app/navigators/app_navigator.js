@@ -16,6 +16,7 @@ import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardShowScreen from '../screens/ScorecardShow/ScorecardShow';
 
 // Util and components
+import ParticipateInformationScreen from '../screens/ParticipateInformation/ParticipateInformation';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 
 
@@ -104,6 +105,13 @@ function AppNavigator() {
           <Stack.Screen
             name="Facilitator"
             component={FacilitatorScreen}
+            options={{
+              title: `${translations['getStarted']}`,
+            }}
+          />
+          <Stack.Screen
+            name="ParticipateInformation"
+            component={ParticipateInformationScreen}
             options={{
               title: `${translations['getStarted']}`,
             }}

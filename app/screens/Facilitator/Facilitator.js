@@ -130,6 +130,7 @@ class Facilitator extends Component {
     otherFacilitators.map((facilitator) => {
       this.saveFacilitatorToLocalStorage(facilitator, 'other');
     });
+    this.props.navigation.navigate('ParticipateInformation');
   }
 
   loadSavedFacilitators = () => {

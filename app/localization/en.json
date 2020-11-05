@@ -66,4 +66,18 @@
   "resume": "RESUME",
   "submit": "SUBMIT",
   "resumeDownload": "RESUME DOWNLOAD",
+  "participateInformation": "Participate Information",
+  "allParticipate": "All Participate",
+  "enterNumberOfParticipate": "Enter number of participate",
+  "allParticipateRequireMsg": "Number of participate is required",
+  "female": "Female",
+  "enterNumberOfFemale": "Enter number of female",
+  "disability": "Disability",
+  "enterNumberOfDisability": "Enter number of disability",
+  "ethnicMinority": "Ethnic Minority",
+  "enterNumberOfMinority": "Enter number of ethnic minority",
+  "poor": "Poor",
+  "enterNumberOfPoor": "Enter number of poor",
+  "youth": "Youth",
+  "enterNumberOfYouth": "Enter number of youth"
 }

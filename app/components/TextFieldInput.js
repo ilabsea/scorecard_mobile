@@ -52,6 +52,7 @@ class TextFieldInput extends Component {
       fieldName,
       onChangeText,
       isSecureEntry,
+      keyboardType,
     } = this.props;
 
     return (
@@ -67,6 +68,7 @@ class TextFieldInput extends Component {
           onChangeText={(text) => onChangeText(fieldName, text)}
           style={{backgroundColor: 'white', width: '100%'}}
           onBlur={() => this.validateInput()}
+          keyboardType={keyboardType || 'default'}
         />
 
         <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>
