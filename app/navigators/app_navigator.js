@@ -1,15 +1,22 @@
 import React, {useContext} from 'react';
+
 import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AppIcon from 'react-native-vector-icons/MaterialIcons';
+
+// Screens
 import HomeScreen from '../screens/Home/Home';
 import SettingScreen from '../screens/Setting/Setting';
 import NewScorecardScreen from '../screens/NewScorecard/NewScorecard';
 import ScorecardDetailScreen from '../screens/ScorecardDetail/ScorecardDetail';
 import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardPreference';
 import FacilitatorScreen from '../screens/Facilitator/Facilitator';
+import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
+
+// Util and components
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
-import AppIcon from 'react-native-vector-icons/MaterialIcons';
+
 
 import Color from '../themes/color';
 
@@ -42,6 +49,13 @@ function AppNavigator() {
                 </TouchableOpacity>
               ),
             })}
+          />
+          <Stack.Screen
+            name="ScorecardList"
+            component={ScorecardListScreen}
+            options={{
+              headerTitle: `${translations['scorecardList']}`,
+            }}
           />
           <Stack.Screen
             name="Setting"

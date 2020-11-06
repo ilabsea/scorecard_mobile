@@ -5,7 +5,7 @@ const IndicatorSchema = {
   properties: {
     id: 'int',
     name: 'string',
-    category_id: 'int',
+    facility_id: 'int',
     uuid: 'string'
   },
 };

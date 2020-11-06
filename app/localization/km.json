@@ -15,7 +15,7 @@
   "searchForLanguage": "ស្វែង​រក​ភាសា​",
   "backendUrlRequireMsg": "ត្រូវ​ការ​ Backend URL",
   "emailRequireMsg": "ត្រូវ​ការអ៊ីមែល​",
-  "emailIsInvalidMsg": "អ៊ីមែល​មិន​ត្រឹម​ត្រូវ​", 
+  "emailIsInvalidMsg": "អ៊ីមែល​មិន​ត្រឹម​ត្រូវ​",
   "passwordRequireMsg": "ត្រូវ​ការ​ពាក្យ​សម្ងាត់​",
   "invalidEmailOrPasswordMsg": "អ៊ីមែល​ ឬពាក្យ​សម្ងាត់​មិន​ត្រឹម​ត្រូវ​",
   "accountIsUnprocessable": "គណនី​របស់​អ្នក​មិន​អាច​ដំណើរ​ការ​បាន​ទេ​",
@@ -59,5 +59,7 @@
   "otherFacilitators": "អ្នក​សម្រប​សម្រួល​ផ្សេងៗ",
   "facilitatorCannotDuplicate": "មិន​អាច​ជ្រើស​រើស​អ្នក​សម្រប​សម្រួល​ស្ទួន​",
   "facilitatorLeadRequirMsg": "ត្រូវ​ការ​អ្នក​ដឹក​នាំ​សម្រប​សម្រួល​",
-  "otherFacilitatorRequireMsg": "ត្រូវ​ការ​អ្នក​សម្រប​សម្រួល​ផ្សេងៗ​"
+  "otherFacilitatorRequireMsg": "ត្រូវ​ការ​អ្នក​សម្រប​សម្រួល​ផ្សេងៗ​",
+  "scorecardList": "Scorecard Activity List",
+  "noData": "Nothing available to display"
 }
