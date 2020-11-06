@@ -44,31 +44,42 @@ class TextFieldInput extends Component {
     return validationMsg;
   };
 
+  getLabel = () => {
+    const {label, isRequire} = this.props;
+    if (isRequire)
+      return label + ' *';
+    
+    return label;
+  }
+
   render() {
     const {
       value,
-      label,
       placeholder,
       fieldName,
       onChangeText,
       isSecureEntry,
       keyboardType,
+      maxLength,
+      borderColor,
     } = this.props;
 
     return (
       <View>
         <TextInput
-          label={label}
+          label={this.getLabel()}
           placeholder={placeholder}
           mode="outlined"
           // left={this.renderIcon()}
           clearButtonMode="while-editing"
           secureTextEntry={isSecureEntry}
-          value={value}
+          value={value.toString()}
           onChangeText={(text) => onChangeText(fieldName, text)}
           style={{backgroundColor: 'white', width: '100%'}}
           onBlur={() => this.validateInput()}
           keyboardType={keyboardType || 'default'}
+          maxLength={maxLength || null}
+          theme={{colors: {primary: borderColor || 'blue'}}}
         />
 
         <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>

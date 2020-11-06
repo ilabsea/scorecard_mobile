@@ -74,10 +74,12 @@
   "enterNumberOfFemale": "Enter number of female",
   "disability": "Disability",
   "enterNumberOfDisability": "Enter number of disability",
-  "ethnicMinority": "Ethnic Minority",
+  "minority": "Ethnic Minority",
   "enterNumberOfMinority": "Enter number of ethnic minority",
   "poor": "Poor",
   "enterNumberOfPoor": "Enter number of poor",
   "youth": "Youth",
-  "enterNumberOfYouth": "Enter number of youth"
+  "enterNumberOfYouth": "Enter number of youth",
+  "mustNotBeGreaterThanTotalParticipate": "must not be greater than all participate",
+  "mustNotBeLessThanOtherParticipateType": "must not be less than other participate type"
 }

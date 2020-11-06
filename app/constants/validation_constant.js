@@ -40,7 +40,6 @@ const validationConstant = {
     presence: {
       message: '^allParticipateRequireMsg',
     },
-    numericality: true,
   },
 };
 
