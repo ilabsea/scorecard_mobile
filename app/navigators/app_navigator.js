@@ -61,17 +61,23 @@ function AppNavigator() {
           <Stack.Screen
             name="ScorecardDetail"
             component={ScorecardDetailScreen}
-            options={{
-              title: `${translations['scorecardDetail']}`,
-              headerTitleAlign: 'center',
-            }}
+            options={({navigation}) => ({
+              header: ()=> null
+            })}
+            // options={{
+            //   title: `${translations['scorecardDetail']}`,
+            //   headerTitleAlign: 'center',
+            // }}
           />
           <Stack.Screen
             name="ScorecardPreference"
             component={ScorecardPreferenceScreen}
-            options={{
-              title: `${translations['getStarted']}`,
-            }}
+            options={({navigation}) => ({
+              header: ()=> null
+            })}
+            // options={{
+            //   title: `${translations['getStarted']}`,
+            // }}
           />
           <Stack.Screen
             name="Facilitator"

@@ -5,6 +5,10 @@ import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 import {Provider} from 'react-redux';
 
+import { StyleProvider } from "native-base";
+import getTheme from './app/themes/components';
+import material from './app/themes/variables/material';
+
 import {StyleSheet, View, Text} from 'react-native';
 
 import AppNavigator from './app/navigators/app_navigator';
@@ -33,9 +37,11 @@ const App: () => React$Node = () => {
 
   return (
     <Provider store={store}>
-      <View style={{flex: 1}}>
-        { !loading && <AppNavigator /> }
-      </View>
+      <StyleProvider style={getTheme(material)}>
+        <View style={{flex: 1}}>
+          { !loading && <AppNavigator /> }
+        </View>
+      </StyleProvider>
     </Provider>
   );
 };

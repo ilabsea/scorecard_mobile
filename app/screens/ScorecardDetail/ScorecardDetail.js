@@ -2,6 +2,13 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import {
+  Container,
+  Content
+} from "native-base";
+
+import BigHeader from '../../components/BigHeader';
+
 import realm from '../../db/schema';
 
 import ActionButton from '../../components/ActionButton';
@@ -367,17 +374,34 @@ class ScorecardDetail extends Component {
     }
   };
 
+  _renderHeader() {
+    return (
+      <BigHeader
+        title={'Welcome To'}
+        bigTitle={'Scorecard App'}
+        onBackPress={() => this.props.navigation.goBack()}/>
+    )
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderScorecardDetail()}
-        <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
-          {this.state.loadingMessage}
-        </Text>
-        {this.renderDownloadButton()}
-        {this.renderStartButton()}
-      </View>
-    );
+      <Container>
+        { this._renderHeader() }
+
+        <Content style={styles.container}>
+          {this.renderScorecardDetail()}
+
+          <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
+            {this.state.loadingMessage}
+          </Text>
+
+          {this.renderDownloadButton()}
+          {this.renderStartButton()}
+
+        </Content>
+
+      </Container>
+    )
   }
 }
 
