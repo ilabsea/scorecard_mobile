@@ -23,6 +23,7 @@ class Home extends Component {
           label={translations['newScorecard']}
         />
         <ActionButton
+          onPress={() => this.props.navigation.navigate('ScorecardList')}
           label={translations['savedScorecard']}
           customButtonStyle={{marginTop: 26}}
         />

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
+import realm from '../../db/schema';
 
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
@@ -47,6 +48,33 @@ class NewScorecard extends Component {
     return true;
   };
 
+  _buildData(response) {
+    return ({
+      uuid: response.uuid,
+      unit_type: response.unit_type_name,
+      facility_id: response.facility_id,
+      facility: response.facility_name,
+      scorecard_type: response.scorecard_type_name,
+      name: response.name,
+      description: response.description,
+      year: response.year,
+      local_ngo_name: response.local_ngo_name,
+      local_ngo_id: response.local_ngo_id,
+      province: response.province,
+      district: response.district,
+      commune: response.commune,
+    })
+  }
+
+  saveScorecard = async (response) => {
+    AsyncStorage.setItem('SCORECARD_DETAIL', JSON.stringify(response));
+    let self = this;
+
+    realm.write(() => {
+      realm.create('Scorecard', self._buildData(response));
+    });
+  }
+
   joinScorecard = async () => {
     if (!this.isValid()) return;
 
@@ -60,12 +88,14 @@ class NewScorecard extends Component {
       if (isSuccess) {
         this.setState({isLoading: false});
         this.refs.loading.show(false);
+
         if (response === null) {
           this.setState({codeMsg: 'scorecardIsNotExist'});
         } else {
-          AsyncStorage.setItem('SCORECARD_DETAIL', JSON.stringify(response));
+          this.saveScorecard(response);
           this.props.navigation.navigate('ScorecardDetail');
         }
+
       } else {
         this.setState({isLoading: false});
         this.refs.loading.show(false);

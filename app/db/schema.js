@@ -7,8 +7,10 @@ import IndicatorSchema from './models/indicator';
 import CafSchema from './models/caf';
 import LanguageIndicatorSchema from './models/languageIndicator';
 import FacilitatorSchema from './models/facilitator';
+import ScorecardSchema from './models/scorecard';
 
 const schema0 = [
+  ScorecardSchema,
   LanguageSchema,
   IndicatorSchema,
   CafSchema,
