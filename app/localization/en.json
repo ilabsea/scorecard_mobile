@@ -61,5 +61,6 @@
   "facilitatorLeadRequireMsg": "Facilitator lead is required",
   "otherFacilitatorRequireMsg": "Other facilitator is required",
   "scorecardList": "Scorecard Activity List",
-  "noData": "Nothing available to display"
+  "noData": "Nothing available to display",
+  "viewDetail": "VIEW DETAIL"
 }
