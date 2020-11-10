@@ -164,13 +164,13 @@ class ScorecardDetail extends Component {
 
   downloadIndicator = () => {
     const {detail} = this.state;
-    const categoryId = detail['category_id'];
+    const facilityId = detail['facility_id'];
     this.setState({
       loadingMessage: 'Downloading indicator.....',
       isStopDownloadIndicator: false,
     });
 
-    this.props.loadIndicatorListAction(categoryId, async (isSuccess, response) => {
+    this.props.loadIndicatorListAction(facilityId, async (isSuccess, response) => {
       if (isSuccess) {
         this.setState({isStopDownloadIndicator: true});
         const result = await response;
@@ -193,11 +193,12 @@ class ScorecardDetail extends Component {
       const indicatorObj = {
         id: indicator.id,
         name: indicator.name,
-        category_id: indicator.categorizable.id,
+        facility_id: indicator.categorizable.id,
         uuid: uuid,
       };
       this.saveDataToLocalStorage('Indicator', indicatorObj);
     });
+    this.setState({isIndicatorDownloaded: true});
   }
 
   saveLanguageIndicator = (indicators) => {
@@ -210,6 +211,7 @@ class ScorecardDetail extends Component {
         });
       }
     });
+    this.setState({isIndicatorDownloaded: true});
   }
 
   storeLanguageIndicator = (languagesIndicator) => {
@@ -433,7 +435,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadIndicatorListAction: (categoryId, callback) => dispatch(loadIndicatorListAction(categoryId, callback)),
+    loadIndicatorListAction: (facilityId, callback) => dispatch(loadIndicatorListAction(facilityId, callback)),
     loadCafListAction: (localNgoId, callback) => dispatch(loadCafListAction(localNgoId, callback)),
   }
 }
