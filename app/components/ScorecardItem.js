@@ -18,11 +18,11 @@ export default class ScorecardItem extends Component {
   renderStatusIcon(scorecard) {
     let isCompleted  = scorecard.status == 'complete';
     let wrapperStyle = isCompleted ? {} : { backgroundColor: Color.headerColor };
-    let iconName     = isCompleted ? 'check' : 'spinner';
+    let iconName     = isCompleted ? 'check' : 'file-alt';
 
     return (
       <View style={[styles.statusIconWrapper, wrapperStyle]}>
-        <Icon name={iconName} type="FontAwesome" style={{fontSize: 60, color: '#fff'}} />
+        <Icon name={iconName} type="FontAwesome5" style={{fontSize: 50, color: '#fff'}} />
       </View>
     )
   }
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: '#3a3a3a',
-    marginBottom: 6
+    marginBottom: 6,
   },
   subTextWrapper: {
     flexDirection: 'row',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   statusIconWrapper: {
     width: 160,
-    backgroundColor: '#003b5c',
+    backgroundColor: '#787878',
     alignItems: 'center',
     justifyContent: 'center'
   },

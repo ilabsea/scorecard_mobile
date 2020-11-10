@@ -29,7 +29,7 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="ScorecardList"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,
