@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
-import TextFieldInput from '../../components/TextFieldInput';
+import OtherParticipateInput from '../../components/ParticipateInformation/OtherParticipateInput';
+import AllParticipateInput from '../../components/ParticipateInformation/AllParticipateInput';
 import ActionButton from '../../components/ActionButton';
 
 class ParticipateInformation extends Component {
@@ -78,88 +79,8 @@ class ParticipateInformation extends Component {
     return parseInt(value) || 0;
   }
 
-  onChangeText = (type, value) => {
-    const {
-      allParticipate,
-      female,
-      disability,
-      minority,
-      poor,
-      youth,
-      participateValidation,
-    } = this.state;
-
-    let formValidation = participateValidation;
-    let numOfAllParticipate = this.getIntegerOf(allParticipate);
-    const otherParticipate = {
-      female: this.getIntegerOf(female),
-      disability: this.getIntegerOf(disability),
-      minority: this.getIntegerOf(minority),
-      poor: this.getIntegerOf(poor),
-      youth: this.getIntegerOf(youth),
-    };
-
-    let participate = {};
-    participate[type] = value;
+  updateParticipateValue = (participate) => {
     this.setState(participate);
-
-    if (type === 'allParticipate') {
-      numOfAllParticipate = this.getIntegerOf(value);
-      const participateTypes = Object.keys(otherParticipate);
-      for (let i = 0; i < participateTypes.length; i++) {
-        if (numOfAllParticipate < otherParticipate[participateTypes[i]]) {
-          formValidation[type] = false;
-          this.setState({
-            participateValidation: formValidation,
-            isError: true,
-          });
-          return;
-        }
-        else {
-          formValidation[participateTypes[i]] = true;
-          this.setState({participateValidation: formValidation});
-        }
-      }
-      this.setState({participateValidation: formValidation});
-    }
-
-    if (numOfAllParticipate < value) {
-      formValidation[type] = false;
-      this.setState({
-        isError: true,
-        participateValidation: formValidation,
-      });
-    }
-    else {
-      formValidation['allParticipate'] = true;
-      formValidation[type] = true;
-      this.setState({
-        isError: parseInt(allParticipate) == 0 ? true : false,
-        participateValidation: formValidation,
-      });
-    }
-  };
-
-  getBorderColor = (type) => {
-    const {participateValidation} = this.state;
-    if (!participateValidation[type])
-      return 'red';
-
-    return '';
-  }
-
-  getInvalidMessage = (type) => {
-    const {translations} = this.context;
-    const {participateValidation} = this.state;
-    let message = '';
-    if (!participateValidation[type]) {
-      let messageDetail = translations['mustNotBeGreaterThanTotalParticipate'];
-      if (type === 'allParticipate')
-        messageDetail = translations['mustNotBeLessThanOtherParticipateType'];
-
-      message = translations[type] + ' ' + messageDetail;
-    }
-    return message;
   }
 
   renderFormInput = () => {
@@ -171,82 +92,71 @@ class ParticipateInformation extends Component {
       minority,
       poor,
       youth,
+      participateValidation,
     } = this.state;
+
+    const otherParticipate = {
+      female,
+      disability,
+      minority,
+      poor,
+      youth,
+    };
 
     return (
       <View style={{marginTop: 30}}>
-        <TextFieldInput
+        <AllParticipateInput
           value={allParticipate}
           label={translations['allParticipate']}
           placeholder={translations['enterNumberOfParticipate']}
-          fieldName="allParticipate"
-          onChangeText={this.onChangeText}
-          isSecureEntry={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          borderColor={this.getBorderColor('allParticipate')}
-          message={this.getInvalidMessage('allParticipate')}
-          isRequire={true}
+          updateStateValue={this.updateParticipateValue}
+          otherParticipate={otherParticipate}
+          participateValidation={participateValidation}
         />
-        <TextFieldInput
+        <OtherParticipateInput
           value={female}
           label={translations['female']}
           placeholder={translations['enterNumberOfFemale']}
           fieldName="female"
-          onChangeText={this.onChangeText}
-          isSecureEntry={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          borderColor={this.getBorderColor('female')}
-          message={this.getInvalidMessage('female')}
+          updateStateValue={this.updateParticipateValue}
+          allParticipate={allParticipate}
+          participateValidation={participateValidation}
         />
-        <TextFieldInput
+        <OtherParticipateInput
           value={disability}
           label={translations['disability']}
           placeholder={translations['enterNumberOfDisability']}
           fieldName="disability"
-          onChangeText={this.onChangeText}
-          isSecureEntry={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          borderColor={this.getBorderColor('disability')}
-          message={this.getInvalidMessage('disability')}
+          updateStateValue={this.updateParticipateValue}
+          allParticipate={allParticipate}
+          participateValidation={participateValidation}
         />
-        <TextFieldInput
+        <OtherParticipateInput
           value={minority}
           label={translations['minority']}
           placeholder={translations['enterNumberOfMinority']}
           fieldName="minority"
-          onChangeText={this.onChangeText}
-          isSecureEntry={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          borderColor={this.getBorderColor('minority')}
-          message={this.getInvalidMessage('minority')}
+          updateStateValue={this.updateParticipateValue}
+          allParticipate={allParticipate}
+          participateValidation={participateValidation}
         />
-        <TextFieldInput
+        <OtherParticipateInput
           value={poor}
           label={translations['poor']}
           placeholder={translations['enterNumberOfPoor']}
           fieldName="poor"
-          onChangeText={this.onChangeText}
-          isSecureEntry={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          borderColor={this.getBorderColor('poor')}
-          message={this.getInvalidMessage('poor')}
+          updateStateValue={this.updateParticipateValue}
+          allParticipate={allParticipate}
+          participateValidation={participateValidation}
         />
-        <TextFieldInput
+        <OtherParticipateInput
           value={youth}
           label={translations['youth']}
           placeholder={translations['enterNumberOfYouth']}
           fieldName="youth"
-          onChangeText={this.onChangeText}
-          isSecureEntry={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          borderColor={this.getBorderColor('youth')}
-          message={this.getInvalidMessage('youth')}
+          updateStateValue={this.updateParticipateValue}
+          allParticipate={allParticipate}
+          participateValidation={participateValidation}
         />
       </View>
     );
