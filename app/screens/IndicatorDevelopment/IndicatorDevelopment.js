@@ -17,6 +17,7 @@ import Tip from '../../components/Tip';
 import ProposedCriteriaList from '../../components/ProposedCriteriaList';
 import SelectedCriteriaList from '../../components/SelectedCriteriaList';
 
+
 export default class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
 
