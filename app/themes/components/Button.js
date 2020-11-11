@@ -187,7 +187,8 @@ export default (variables /*: * */ = variable) => {
       ".bordered": {
         ...primaryCommon
       },
-      backgroundColor: variables.btnPrimaryBg
+      backgroundColor: variables.btnPrimaryBg,
+      borderRadius: 8,
     },
 
     ".success": {
