@@ -253,7 +253,7 @@ class ParticipateInformation extends Component {
   };
 
   renderSaveButton = () => {
-    if (!this.state.isError) {
+    // if (!this.state.isError) {
       const {translations} = this.context;
       return (
         <ActionButton
@@ -263,7 +263,7 @@ class ParticipateInformation extends Component {
           customButtonStyle={{marginTop: 20}}
         />
       );
-    }
+    // }
   }
 
   render() {
