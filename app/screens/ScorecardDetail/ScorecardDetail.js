@@ -9,16 +9,14 @@ import {
 
 import BigHeader from '../../components/BigHeader';
 
-import realm from '../../db/schema';
-
 import ActionButton from '../../components/ActionButton';
 import {LocalizationContext} from '../../components/Translations';
 
 import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
 import {loadCafListAction} from '../../actions/cafAction';
-
-import {downloadFileFromUrl, readAllFiles, readFile} from '../../services/local_storage_service';
+import {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded} from '../../services/ScorecardDetail/local_storage_data_checker_service';
+import {saveIndicator, saveLanguageIndicator, saveCaf, saveAudio} from '../../services/ScorecardDetail/save_data_service';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -39,9 +37,25 @@ class ScorecardDetail extends Component {
   async componentDidMount() {
     const scorecard = await AsyncStorage.getItem('SCORECARD_DETAIL');
     this.setState({detail: JSON.parse(scorecard)});
-    this.checkIndicatorData();
-    this.checkCafData()
-    this.checkDownloadAudioFile();
+    this.checkSavedIndicator();
+    this.checkSavedCaf();
+  }
+
+  checkSavedIndicator = () => {
+    this.fetchIndicatorFromApi(async (response) => {
+      const indicators = await response;
+      this.setState({isIndicatorDownloaded: await isIndicatorDownloaded(indicators)});
+      CheckAllAudioDownloaded(indicators, async (isAllDownloaded) => {
+        this.setState({isAllAudioDownloaded: isAllDownloaded});
+      });
+    }, null);
+  }
+
+  checkSavedCaf = () => {
+    this.fetchCafFromApi(async (response) => {
+      const cafs = await response;
+      this.setState({isCafDownloaded: await isCafDownloaded(cafs)});
+    }, null);
   }
 
   renderScorecardDetail = () => {
@@ -82,239 +96,71 @@ class ScorecardDetail extends Component {
     );
   };
 
-  checkIndicatorData = () => {
-    const {detail} = this.state;
-    const uuid = detail.uuid;
-    const indicatorData = realm.objects('Indicator').filtered('uuid = "' + uuid +'"');
-    let indicator = JSON.stringify(indicatorData);
-    indicator = JSON.parse(indicator);
-
-    if (indicator.length === 0)
-      this.setState({isIndicatorDownloaded: false});
-    else
-      this.setState({isIndicatorDownloaded: true});
-  }
-
-  checkCafData = () => {
-    const {detail} = this.state;
-    const uuid = detail.uuid;
-    const cafData = realm.objects('Caf').filtered('uuid = "' + uuid + '"');
-    let caf = JSON.stringify(cafData);
-    caf = JSON.parse(caf);
-
-    if (caf.length === 0)
-      this.setState({isCafDownloaded: false});
-    else
-      this.setState({isCafDownloaded: true});
-  }
-
-  checkDownloadAudioFile = () => {
-    const {detail} = this.state;
-    const uuid = detail.uuid;
-    const langIndicatorData = realm.objects('LanguageIndicator').filtered('uuid = "' + uuid + '"');
-    let langIndicators = JSON.stringify(langIndicatorData);
-    langIndicators = JSON.parse(langIndicators);
-    let audioFilesName = [];
-
-    for (let i=0; i<langIndicators.length; i++) {
-      const langIndicator = langIndicators[i];
-      if (langIndicator.audio === undefined || langIndicator.audio === null || langIndicator.audio === '')
-        continue;
-
-      let audioUrl = langIndicator.audio.split('/');
-      const fileName = audioUrl[audioUrl.length - 1];
-      audioFilesName.push(fileName);
-    }
-
-    readAllFiles(async (isSuccess, response) => {
-      if (isSuccess) {
-        const result = await response;
-        this.compareDownloadedFile(result, audioFilesName);
-      }
-    });
-  }
-
-  compareDownloadedFile = (downloadedFiles, filesName) => {
-    const fileCount = filesName.length;
-    let downloadedFileCount = 0;
-
-    for (let i=0; i<filesName.length; i++) {
-      for (let j=0; j<downloadedFiles.length; j++) {
-        if (filesName[i] === downloadedFiles[j].name) {
-          downloadedFileCount++;
-          break;
-        }
-      }
-    }
-
-    if (fileCount === downloadedFileCount)
-      this.setState({isAllAudioDownloaded: true});
-    else
-      this.setState({isAllAudioDownloaded: false});
-  }
-
-  clearDataFromLocalStorage = (schema) => {
-    const {detail} = this.state;
-    const uuid = detail.uuid.toString();
-    realm.write(() => {
-      const data = realm.objects(schema).filtered('uuid = "' + uuid +'"');
-      realm.delete(data);
-    });
-  }
-
   downloadIndicator = () => {
-    const {detail} = this.state;
-    const facilityId = detail['facility_id'];
     this.setState({
       loadingMessage: 'Downloading indicator.....',
       isStopDownloadIndicator: false,
     });
 
-    this.props.loadIndicatorListAction(facilityId, async (isSuccess, response) => {
-      if (isSuccess) {
-        this.setState({isStopDownloadIndicator: true});
-        const result = await response;
-        this.saveIndicators(result);
-        this.saveLanguageIndicator(result);
-        this.downloadAudio(result);
-      }
-      else {
-        this.setState({isStopDownloadIndicator: true});
-        console.log('Load indicator failed = ', response);
-      }
+    this.fetchIndicatorFromApi(async (response) => {
+      this.setState({
+        isStopDownloadIndicator: true,
+        isStopDownloadAudio: false,
+        loadingMessage: '',
+      });
+      const indicators = await response;
+      saveIndicator(indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
+      saveLanguageIndicator(indicators);
+      saveAudio(indicators, async (isAllAudioDownloaded) => {
+        this.setState({isAllAudioDownloaded});
+      });
+    }, (response) => {
+      this.setState({isStopDownloadIndicator: true});
     });
   }
 
-  saveIndicators = (indicators) => {
+  fetchIndicatorFromApi = (successCallback, failedCallback) => {
     const {detail} = this.state;
-    const uuid = detail.uuid;
-    this.clearDataFromLocalStorage('Indicator');
-    indicators.map(indicator => {
-      const indicatorObj = {
-        id: indicator.id,
-        name: indicator.name,
-        facility_id: indicator.categorizable.id,
-        uuid: uuid,
-      };
-      this.saveDataToLocalStorage('Indicator', indicatorObj);
-    });
-    this.setState({isIndicatorDownloaded: true});
-  }
-
-  saveLanguageIndicator = (indicators) => {
-    this.clearDataFromLocalStorage('LanguageIndicator');
-    indicators.map(indicator => {
-      const languagesIndicators = indicator['languages_indicators'];
-      if (languagesIndicators.length > 0) {
-        languagesIndicators.map((languagesIndicator) => {
-          this.storeLanguageIndicator(languagesIndicator);
-        });
-      }
-    });
-    this.setState({isIndicatorDownloaded: true});
-  }
-
-  storeLanguageIndicator = (languagesIndicator) => {
-    const {detail} = this.state;
-    const uuid = detail.uuid;
-    const languagesIndicatorObj = {
-      id: languagesIndicator.id,
-      content: languagesIndicator.content,
-      audio: languagesIndicator.audio != null ? languagesIndicator.audio : '',
-      language_code: languagesIndicator['language_code'],
-      uuid: uuid,
-    };
-    this.saveDataToLocalStorage('LanguageIndicator', languagesIndicatorObj);
-  }
-
-  downloadAudio = (indicators) => {
-    this.setState({loadingMessage: 'Downloading audio.....'});
-    indicators.map((indicator) => {
-      const languagesIndicators = indicator['languages_indicators'];
-
-      if (languagesIndicators.length > 0) {
-        languagesIndicators.map((languagesIndicator) => {
-          if (languagesIndicator.audio != undefined || languagesIndicator.audio != null) {
-            const audioUrl = languagesIndicator.audio;
-            this.checkAndDownload(audioUrl);
-          }
-        });
-      }
-    });
-  }
-
-  checkAndDownload = (audioUrl) => {
-    let audioPath = audioUrl.split('/');
-    const fileName = audioPath[audioPath.length - 1];
-    this.setState({isStopDownloadAudio: false});
-
-    readFile(fileName, async (isSuccess, response) => {
-      if (response === 'file not found') {
-        // File not found then start to download file
-        https: downloadFileFromUrl(audioUrl, async (isSuccess, response) => {
-          if (isSuccess) {
-            this.setState({
-              loadingMessage: '',
-              isStopDownloadAudio: true,
-            });
-            this.checkDownloadAudioFile();
-          } else {
-            console.log('download failed = ', response);
-            this.setState({isStopDownloadAudio: true});
-          }
-        });
-      }
-      else {
-        // File is already exist
-        this.setState({
-          isStopDownloadAudio: true,
-          loadingMessage: '',
-        });
-      }
+    const facilityId = detail['facility_id'];
+    this.props.loadIndicatorListAction(facilityId, (isSuccess, response) => {
+      if (isSuccess)
+        successCallback(response);
+      else
+        failedCallback(response);
     });
   }
 
   downloadCaf = () => {
-    const {detail} = this.state;
-    const localNgoId = detail['local_ngo_id'];
     this.setState({
       loadingMessage: 'Downloading caf.....',
       isStopDownloadCaf: false,
     });
 
-    this.props.loadCafListAction(localNgoId, async (isSuccess, response) => {
-      if (isSuccess) {
-        const result = await response;
-        this.setState({isStopDownloadAudio: true});
-        this.clearDataFromLocalStorage('Caf');
-        result.map(item => {
-          this.saveCaf(item);
-        })
-      }
-      else {
-        console.log('load caf failed = ', response);
-        this.setState({isStopDownloadAudio: true});
-      }
+    this.fetchCafFromApi(async (response) => {
+      const cafs = await response;
+      saveCaf(cafs, async (isCafDownloaded) => {this.setState({isCafDownloaded})});
+      this.setState({
+        loadingMessage: '',
+        isStopDownloadAudio: true,
+        isStopDownloadCaf: true
+      });
+    }, (response) => {
+      console.log('load caf failed = ', response);
+      this.setState({
+        isStopDownloadAudio: true,
+        isStopDownloadCaf: true,
+      });
     });
   }
 
-  saveCaf = (data) => {
+  fetchCafFromApi = (successCallback, failedCallback) => {
     const {detail} = this.state;
-    const uuid = detail.uuid;
-    const cafObj = {
-      id: data.id,
-      name: data.name,
-      local_ngo_id: data['local_ngo_id'],
-      uuid: uuid,
-    };
-    this.saveDataToLocalStorage('Caf', cafObj);
-  }
-
-  saveDataToLocalStorage = (schema, data) => {
-    const _this = this;
-    realm.write(() => {
-      realm.create(schema, data);
-      _this.setState({loadingMessage: 'Finish downloading'})
+    const localNgoId = detail['local_ngo_id'];
+    this.props.loadCafListAction(localNgoId, (isSuccess, response) => {
+      if (isSuccess)
+        successCallback(response);
+      else
+        failedCallback(response);
     });
   }
 
@@ -332,7 +178,6 @@ class ScorecardDetail extends Component {
 
   isFullyDownloaded = () => {
     const {isIndicatorDownloaded, isCafDownloaded, isAllAudioDownloaded} = this.state;
-
     if (isIndicatorDownloaded && isCafDownloaded && isAllAudioDownloaded)
       return true;
 
