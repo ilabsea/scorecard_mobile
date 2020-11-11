@@ -13,6 +13,7 @@ import ScorecardDetailScreen from '../screens/ScorecardDetail/ScorecardDetail';
 import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardPreference';
 import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
+import ScorecardShowScreen from '../screens/ScorecardShow/ScorecardShow';
 
 // Util and components
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
@@ -56,6 +57,13 @@ function AppNavigator() {
             options={{
               headerTitle: `${translations['scorecardList']}`,
             }}
+          />
+          <Stack.Screen
+            name="ScorecardShow"
+            component={ScorecardShowScreen}
+            options={({route, navigation}) => ({
+              title: route.params.title
+            })}
           />
           <Stack.Screen
             name="Setting"
