@@ -3,69 +3,26 @@ import {
   View,
   StyleSheet,
   Text,
-  TouchableOpacity,
 } from 'react-native';
 
-import { Icon } from 'native-base';
-import Color from '../themes/color';
-import CustomStyle from '../themes/customStyle';
-
 import { LocalizationContext } from '../components/Translations';
+import Color from '../themes/color';
 import uuidv4 from '../utils/uuidv4';
+import MilestoneCard from './MilestoneCard';
 
 const badgeSize = 40;
 
 export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
 
-  _renderCard(title, index) {
-    const { translations } = this.context
-    let isDone = this.props.progressIndex >= index;
-    let cardStyle = isDone ? {} : { backgroundColor: Color.disableCardColor };
-    let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
-
-    if (index == this.props.progressIndex) {
-      titleStyle = { color: '#000', fontWeight: 'bold'};
-    }
-
+  _renderMilestoneCard(title, index) {
     return (
-      <TouchableOpacity
+      <MilestoneCard
         key={uuidv4()}
-        onPress={ () => !!this.props.onPress && this.props.onPress()}
-        style={[CustomStyle.card, styles.card, cardStyle]}>
-
-        <Text style={[styles.title, titleStyle]}>{title}</Text>
-
-        { index < this.props.progressIndex &&
-          <View style={styles.viewDetail}>
-            <Text>{translations['viewDetail']}</Text>
-            <Icon name='chevron-forward-outline' style={{fontSize: 24}} />
-          </View>
-        }
-
-        { index == this.props.progressIndex &&
-          <View style={styles.btnResume}>
-            <Text style={{color: '#fff', fontSize: 16}}>{translations['resume']}</Text>
-          </View>
-        }
-
-      </TouchableOpacity>
-    );
-  }
-
-  _renderItem(title, index) {
-    let isDone = this.props.progressIndex >= index;
-    let badgeIconStyle = isDone ? { backgroundColor: Color.headerColor } : {};
-    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{index + 1}</Text>
-
-    return (
-      <View style={styles.itemWrapper} key={uuidv4()}>
-        <View style={[styles.badgeIcon, badgeIconStyle]}>
-          { badgeIcon }
-        </View>
-
-        { this._renderCard(title, index) }
-      </View>
+        title={title}
+        index={index}
+        progressIndex={this.props.progressIndex}
+      />
     )
   }
 
@@ -92,7 +49,7 @@ export default class VerticalProgressStep extends Component {
     let steps = this._getData();
 
     for(let i=0; i<steps.length; i++) {
-      doms.push(this._renderItem(steps[i], i));
+      doms.push(this._renderMilestoneCard(steps[i], i));
 
       if (i < steps.length-1) {
         doms.push(this._renderLine(i))
@@ -123,45 +80,5 @@ const styles = StyleSheet.create({
     marginLeft: badgeSize/2,
     marginTop: -10,
     marginBottom: -10
-  },
-  title: {
-    flex: 1,
-    color: '#808080',
-    fontSize: 20,
-    lineHeight: 24
-  },
-  itemWrapper: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    position: 'relative',
-  },
-  badgeIcon: {
-    backgroundColor: '#003b5c',
-    width: badgeSize,
-    height: badgeSize,
-    borderRadius: badgeSize / 2,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  viewDetail: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  btnResume: {
-    backgroundColor: Color.headerColor,
-    height: 48,
-    width: 167,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  card: {
-    marginLeft: 10,
-    height: 80,
-    alignItems: 'center',
-    flex: 1,
-    padding: 20,
-    flexDirection: 'row'
   }
 });
