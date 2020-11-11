@@ -14,11 +14,11 @@ import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardP
 import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardShowScreen from '../screens/ScorecardShow/ScorecardShow';
+import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
 
 // Util and components
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
-
 
 import Color from '../themes/color';
 
@@ -31,7 +31,7 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="IndicatorDevelopment"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,
@@ -64,6 +64,13 @@ function AppNavigator() {
             component={ScorecardShowScreen}
             options={({route, navigation}) => ({
               title: route.params.title,
+            })}
+          />
+          <Stack.Screen
+            name="IndicatorDevelopment"
+            component={IndicatorDevelopmentScreen}
+            options={({navigation}) => ({
+              header: ()=> null
             })}
           />
           <Stack.Screen

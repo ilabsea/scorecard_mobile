@@ -4,33 +4,28 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { Icon } from 'native-base';
 
+import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';
+import Color from '../themes/color';
 
 const badgeSize = 24;
-const inActiveColor = '#8affffff';
 
 export default class ProgressStep extends Component {
   _renderNumber(title, index) {
     let isDone = this.props.progressIndex >= index;
-    let iconStyle = isDone ? [styles.numberIcon, styles.doneIcon] : styles.numberIcon;
+    let iconStyle = isDone ? {backgroundColor: '#fff'} : {};
     let titleStyle = isDone ? { color: '#fff' } : {};
+    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#e4761e'}} /> : <Text style={{color: '#fff'}}>{index + 1}</Text>
 
     if (index == this.props.progressIndex) {
       titleStyle['fontWeight'] = "bold";
     }
 
     return (
-      <View style={styles.numberWrapper} key={uuidv4()}>
-        <View style={iconStyle}>
-          { isDone &&
-            <Icon name='checkmark' style={{fontSize: 24, color: '#e4761e'}} />
-          }
-
-          { !isDone &&
-            <Text style={{color: '#fff'}}>{index + 1}</Text>
-          }
+      <View style={[styles.itemWrapper]} key={uuidv4()}>
+        <View style={[styles.badgeIcon, iconStyle]}>
+          { badgeIcon }
         </View>
 
         <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -86,19 +81,20 @@ const styles = StyleSheet.create({
     marginBottom: 18
   },
   line: {
-    flex: 1,
     height: 2,
-    backgroundColor: inActiveColor,
-    margin: 5
+    backgroundColor: Color.horizontalLineColor,
+    width: 124,
+    marginLeft: -62,
+    marginRight: -62,
+    marginTop: badgeSize/2,
+    alignSelf: 'flex-start'
   },
-  numberWrapper: {
+  itemWrapper: {
     alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 10,
-    marginRight: 10,
-    position: 'relative',
+    justifyContent: 'flex-start',
+    height: '100%',
   },
-  numberIcon: {
+  badgeIcon: {
     backgroundColor: 'gray',
     width: badgeSize,
     height: badgeSize,
@@ -107,15 +103,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
+    paddingTop: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
     fontSize: 16,
-    position: 'absolute',
-    width: 100,
-    top: (badgeSize + 4),
-    left: -44,
+    width: 168,
     textAlign: 'center',
-    color: inActiveColor,
+    color: Color.horizontalLineColor,
   },
-  doneIcon: {
-    backgroundColor: '#fff',
-  }
 });

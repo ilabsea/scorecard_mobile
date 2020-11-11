@@ -81,5 +81,6 @@
   "youth": "យុវជន​",
   "enterNumberOfYouth": "សូម​បញ្ចូល​ចំនួន​យុវជន​",
   "mustNotBeGreaterThanTotalParticipant": "មិនអាច​មានចំនួន​ច្រើន​ជាង​ចំនួន​អ្នក​ចូល​រួម​សរុប​ទាំង​អស់​ឡើយ​",
-  "mustNotBeLessThanOtherParticipantType": "មិន​អាច​មាន​ចំនួន​តិច​ជាង​ចំនួន​អ្នក​ចូល​រួម​នៃ​ប្រភេទ​ផ្សេងៗ​ឡើយ​"
+  "mustNotBeLessThanOtherParticipantType": "មិន​អាច​មាន​ចំនួន​តិច​ជាង​ចំនួន​អ្នក​ចូល​រួម​នៃ​ប្រភេទ​ផ្សេងៗ​ឡើយ​",
+  "viewTip": "VIEW TIPS",
 }
