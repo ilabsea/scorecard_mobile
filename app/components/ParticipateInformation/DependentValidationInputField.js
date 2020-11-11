@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Color from '../../themes/color';
-import validationService from '../../services/validation_service';
 import {LocalizationContext} from '../Translations';
 
-class OtherParticipateInput extends Component {
+class DependentValidationInputField extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -18,14 +17,6 @@ class OtherParticipateInput extends Component {
   componentDidMount() {
     this.setState({participateValidation: this.props.participateValidation});
   }
-
-  validateInput = () => {
-    this.setState({validationMsg: ''});
-    const {translations} = this.context;
-    const {fieldName, value, renderName} = this.props;
-    const validationMsg = validationService(fieldName, value, renderName);
-    this.setState({validationMsg: translations[validationMsg]});
-  };
 
   getValidationMsg = () => {
     const {translations} = this.context;
@@ -45,23 +36,22 @@ class OtherParticipateInput extends Component {
   };
 
   onChangeText = (value) => {
-    const {fieldName, allParticipate, updateStateValue} = this.props;
+    const {fieldName, independentParticipate, updateStateValue} = this.props;
     let formValidation = this.state.participateValidation;
-    let numOfAllParticipate = this.getIntegerOf(allParticipate);
-    const newParticipate = {};
-    newParticipate[fieldName] = value;
-    updateStateValue(newParticipate);
+    let numOfIndependentParticipate = this.getIntegerOf(independentParticipate);
+    const dependentParticipate = {};
+    dependentParticipate[fieldName] = value;
+    updateStateValue(dependentParticipate);
 
-    if (numOfAllParticipate < this.getIntegerOf(value)) {
+    if (numOfIndependentParticipate < this.getIntegerOf(value)) {
       formValidation[fieldName] = false;
-      this.setState({participateValidation: formValidation});
       updateStateValue({isError: true});
     }
-    else {
+    else if (numOfIndependentParticipate >= this.getIntegerOf(value)) {
       formValidation[fieldName] = true;
-      this.setState({participateValidation: formValidation});
-      updateStateValue({isError: parseInt(allParticipate) == 0 ? true : false});
+      updateStateValue({isError: numOfIndependentParticipate == 0 ? true : false});
     }
+    this.setState({participateValidation: formValidation});
   };
 
   getBorderColor = () => {
@@ -84,7 +74,6 @@ class OtherParticipateInput extends Component {
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
           style={{backgroundColor: 'white', width: '100%'}}
-          onBlur={() => this.validateInput()}
           keyboardType="number-pad"
           maxLength={2}
           theme={{colors: {primary: this.getBorderColor() || 'blue'}}}
@@ -102,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OtherParticipateInput;
+export default DependentValidationInputField;

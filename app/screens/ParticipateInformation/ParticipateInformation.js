@@ -5,8 +5,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
-import OtherParticipateInput from '../../components/ParticipateInformation/OtherParticipateInput';
-import AllParticipateInput from '../../components/ParticipateInformation/AllParticipateInput';
+import DependentValidationInputField from '../../components/ParticipateInformation/DependentValidationInputField';
+import IndependentValidationInputField from '../../components/ParticipateInformation/IndependentValidationInputField';
 import ActionButton from '../../components/ActionButton';
 
 class ParticipateInformation extends Component {
@@ -79,8 +79,8 @@ class ParticipateInformation extends Component {
     return parseInt(value) || 0;
   }
 
-  updateParticipateValue = (participate) => {
-    this.setState(participate);
+  updateParticipateState = (states) => {
+    this.setState(states);
   }
 
   renderFormInput = () => {
@@ -95,7 +95,7 @@ class ParticipateInformation extends Component {
       participateValidation,
     } = this.state;
 
-    const otherParticipate = {
+    const dependentParticipate = {
       female,
       disability,
       minority,
@@ -105,57 +105,57 @@ class ParticipateInformation extends Component {
 
     return (
       <View style={{marginTop: 30}}>
-        <AllParticipateInput
+        <IndependentValidationInputField
           value={allParticipate}
           label={translations['allParticipate']}
           placeholder={translations['enterNumberOfParticipate']}
-          updateStateValue={this.updateParticipateValue}
-          otherParticipate={otherParticipate}
+          updateStateValue={this.updateParticipateState}
           participateValidation={participateValidation}
+          dependentParticipate={dependentParticipate}
         />
-        <OtherParticipateInput
+        <DependentValidationInputField
           value={female}
           label={translations['female']}
           placeholder={translations['enterNumberOfFemale']}
           fieldName="female"
-          updateStateValue={this.updateParticipateValue}
-          allParticipate={allParticipate}
+          updateStateValue={this.updateParticipateState}
+          independentParticipate={allParticipate}
           participateValidation={participateValidation}
         />
-        <OtherParticipateInput
+        <DependentValidationInputField
           value={disability}
           label={translations['disability']}
           placeholder={translations['enterNumberOfDisability']}
           fieldName="disability"
-          updateStateValue={this.updateParticipateValue}
-          allParticipate={allParticipate}
+          updateStateValue={this.updateParticipateState}
+          independentParticipate={allParticipate}
           participateValidation={participateValidation}
         />
-        <OtherParticipateInput
+        <DependentValidationInputField
           value={minority}
           label={translations['minority']}
           placeholder={translations['enterNumberOfMinority']}
           fieldName="minority"
-          updateStateValue={this.updateParticipateValue}
-          allParticipate={allParticipate}
+          updateStateValue={this.updateParticipateState}
+          independentParticipate={allParticipate}
           participateValidation={participateValidation}
         />
-        <OtherParticipateInput
+        <DependentValidationInputField
           value={poor}
           label={translations['poor']}
           placeholder={translations['enterNumberOfPoor']}
           fieldName="poor"
-          updateStateValue={this.updateParticipateValue}
-          allParticipate={allParticipate}
+          updateStateValue={this.updateParticipateState}
+          independentParticipate={allParticipate}
           participateValidation={participateValidation}
         />
-        <OtherParticipateInput
+        <DependentValidationInputField
           value={youth}
           label={translations['youth']}
           placeholder={translations['enterNumberOfYouth']}
           fieldName="youth"
-          updateStateValue={this.updateParticipateValue}
-          allParticipate={allParticipate}
+          updateStateValue={this.updateParticipateState}
+          independentParticipate={allParticipate}
           participateValidation={participateValidation}
         />
       </View>
@@ -166,12 +166,13 @@ class ParticipateInformation extends Component {
     if (!this.state.isError) {
       const {translations} = this.context;
       return (
-        <ActionButton
-          label={translations['next']}
-          onPress={() => this.save()}
-          isDisabled={this.state.isLoading}
-          customButtonStyle={{marginTop: 20}}
-        />
+        <View style={styles.buttonContainer}>
+          <ActionButton
+            label={translations['next']}
+            onPress={() => this.save()}
+            isDisabled={this.state.isLoading}
+          />
+        </View>
       );
     }
   }
@@ -179,7 +180,7 @@ class ParticipateInformation extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <HeaderTitle
             headline="facilitatorList"
             subheading="pleaseFillInformationBelow"
@@ -194,10 +195,15 @@ class ParticipateInformation extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: 'white',
     padding: 16,
-  }
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingBottom: 20,
+  },
 });
 
 export default ParticipateInformation;
