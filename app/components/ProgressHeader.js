@@ -41,8 +41,10 @@ export default class BigHeader extends React.Component {
         </View>
 
         <View style={{width: '100%'}}>
-          <View style={{width: '70%', marginTop: 16, alignSelf: 'center'}}>
-            <ProgressStep progressIndex={this.props.progressIndex || 0}/>
+          <View style={{marginTop: 16, alignSelf: 'center'}}>
+            <ProgressStep
+              steps={!!this.props.steps && this.props.steps}
+              progressIndex={this.props.progressIndex || 0}/>
           </View>
         </View>
       </Header>

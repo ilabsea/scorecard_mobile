@@ -81,5 +81,6 @@
   "youth": "Youth",
   "enterNumberOfYouth": "Enter number of youth",
   "mustNotBeGreaterThanTotalParticipant": "must not be greater than all participant",
-  "mustNotBeLessThanOtherParticipantType": "must not be less than other participant type"
+  "mustNotBeLessThanOtherParticipantType": "must not be less than other participant type",
+  "viewTip": "VIEW TIPS"
 }
