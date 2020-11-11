@@ -62,5 +62,8 @@
   "otherFacilitatorRequireMsg": "ត្រូវ​ការ​អ្នក​សម្រប​សម្រួល​ផ្សេងៗ​",
   "scorecardList": "Scorecard Activity List",
   "noData": "Nothing available to display",
-  "viewDetail": "VIEW DETAIL"
+  "viewDetail": "VIEW DETAIL",
+  "resume": "បន្ត",
+  "submit": "SUBMIT",
+  "resumeDownload": "RESUME DOWNLOAD",
 }

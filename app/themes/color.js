@@ -7,6 +7,9 @@ const Color = {
   inputBorderLineColor: '#7a7a7a',
   borderColor: '#ccc',
   subText: '#aaa',
+  verticalLineColor: '#cdcccc',
+  disableCardColor: '#cdcccc',
+  disabledBtnBg: '#6e6e6e',
 };
 
 export default Color;

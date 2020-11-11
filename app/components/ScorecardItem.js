@@ -29,12 +29,12 @@ export default class ScorecardItem extends Component {
 
   render() {
     let scorecard = this.props.scorecard || {};
-    const { translations } = this.context
+    const { translations } = this.context;
 
     return (
       <TouchableOpacity
         key={uuidV4()}
-        onPress={ () => console.log('go to detail') }
+        onPress={ () => this.props.onPress() }
         style={[styles.listItem, styles.card]}>
 
         { this.renderStatusIcon(scorecard) }

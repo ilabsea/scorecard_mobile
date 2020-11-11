@@ -9,12 +9,23 @@ import {
 import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardItem from '../../components/ScorecardItem';
+import uuidv4 from '../../utils/uuidv4';
 
 export default class ScorecardList extends Component {
   static contextType = LocalizationContext;
 
   renderList(scorecards) {
-    return (scorecards.map(scorecard => <ScorecardItem scorecard={scorecard}/>));
+    return (scorecards.map(scorecard => (
+        <ScorecardItem
+          key={uuidv4()}
+          onPress={() => this.onPress(scorecard)}
+          scorecard={scorecard}/>
+      )
+    ));
+  }
+
+  onPress(scorecard) {
+    this.props.navigation.navigate('ScorecardShow', {uuid: scorecard.uuid, title: scorecard.name});
   }
 
   _renderNoData() {
