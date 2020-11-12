@@ -66,10 +66,10 @@
   "resume": "RESUME",
   "submit": "SUBMIT",
   "resumeDownload": "RESUME DOWNLOAD",
-  "participateInformation": "Participate Information",
-  "allParticipate": "All Participate",
-  "enterNumberOfParticipate": "Enter number of participate",
-  "allParticipateRequireMsg": "Number of participate is required",
+  "participantInformation": "Participant Information",
+  "allParticipant": "All Participant",
+  "enterNumberOfParticipant": "Enter number of participant",
+  "allParticipantRequireMsg": "Number of participant is required",
   "female": "Female",
   "enterNumberOfFemale": "Enter number of female",
   "disability": "Disability",
@@ -80,6 +80,6 @@
   "enterNumberOfPoor": "Enter number of poor",
   "youth": "Youth",
   "enterNumberOfYouth": "Enter number of youth",
-  "mustNotBeGreaterThanTotalParticipate": "must not be greater than all participate",
-  "mustNotBeLessThanOtherParticipateType": "must not be less than other participate type"
+  "mustNotBeGreaterThanTotalParticipant": "must not be greater than all participant",
+  "mustNotBeLessThanOtherParticipantType": "must not be less than other participant type"
 }

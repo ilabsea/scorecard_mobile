@@ -1,9 +1,9 @@
 'use strict';
 
-const ParticipateSchema = {
-  name: 'Participate',
+const ParticipantSchema = {
+  name: 'Participant',
   properties: {
-    allParticipate: 'int',
+    participant: 'int',
     female: 'int',
     disability: 'int',
     minority: 'int',
@@ -13,4 +13,4 @@ const ParticipateSchema = {
   }
 }
 
-export default ParticipateSchema;
+export default ParticipantSchema;

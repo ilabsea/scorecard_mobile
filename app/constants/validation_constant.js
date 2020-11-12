@@ -36,7 +36,7 @@ const validationConstant = {
       message: '^otherFacilitatorRequireMsg',
     },
   },
-  allParticipate: {
+  participant: {
     presence: {
       message: '^allParticipateRequireMsg',
     },

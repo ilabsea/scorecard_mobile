@@ -66,10 +66,10 @@
   "resume": "បន្ត",
   "submit": "SUBMIT",
   "resumeDownload": "RESUME DOWNLOAD",
-  "participateInformation": "ព័ត៌មាន​អ្នកចូលរួម",
-  "allParticipate": "អ្នក​ចូល​រួម​សរុប​",
-  "enterNumberOfParticipate": "សូមបញ្ចូលចំនួន​អ្នក​ចូលរួម​",
-  "allParticipateRequireMsg": "ត្រូវ​ការ​ចំនួន​អ្នកចូល​រួម​",
+  "participantInformation": "ព័ត៌មាន​អ្នកចូលរួម",
+  "allParticipant": "អ្នក​ចូល​រួម​សរុប​",
+  "enterNumberOfParticipant": "សូមបញ្ចូលចំនួន​អ្នក​ចូលរួម​",
+  "allParticipantRequireMsg": "ត្រូវ​ការ​ចំនួន​អ្នកចូល​រួម​",
   "female": "ស្រី​",
   "enterNumberOfFemale": "សូម​បញ្ចូល​ចំនួន​អ្នក​ចូល​រួម​ស្រី​",
   "disability": "ជន​ពិការ​",
@@ -80,6 +80,6 @@
   "enterNumberOfPoor": "សូមបញ្ចូល​ចំនួន​ជន​ក្រីក្រ​",
   "youth": "យុវជន​",
   "enterNumberOfYouth": "សូម​បញ្ចូល​ចំនួន​យុវជន​",
-  "mustNotBeGreaterThanTotalParticipate": "មិនអាច​មានចំនួន​ច្រើន​ជាង​ចំនួន​អ្នក​ចូល​រួម​សរុប​ទាំង​អស់​ឡើយ​",
-  "mustNotBeLessThanOtherParticipateType": "មិន​អាច​មាន​ចំនួន​តិច​ជាង​ចំនួន​អ្នក​ចូល​រួម​នៃ​ប្រភេទ​ផ្សេងៗ​ឡើយ​"
+  "mustNotBeGreaterThanTotalParticipant": "មិនអាច​មានចំនួន​ច្រើន​ជាង​ចំនួន​អ្នក​ចូល​រួម​សរុប​ទាំង​អស់​ឡើយ​",
+  "mustNotBeLessThanOtherParticipantType": "មិន​អាច​មាន​ចំនួន​តិច​ជាង​ចំនួន​អ្នក​ចូល​រួម​នៃ​ប្រភេទ​ផ្សេងៗ​ឡើយ​"
 }
