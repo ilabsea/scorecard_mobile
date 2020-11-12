@@ -12,6 +12,8 @@ const Color = {
   disableCardColor: '#cdcccc',
   disabledBtnBg: '#6e6e6e',
   tipBgColor: '#efb71c',
+  btnRemoveBgColor: '#e63636',
+  listItemBorderColor: '#c1c1c1',
 };
 
 export default Color;
