@@ -51,7 +51,7 @@ export default class IndicatorDevelopment extends Component {
     return (
       <View style={{flex: 1}}>
         <Text style={styles.h1}>Indicator Development Sections</Text>
-        <Text style={{styles.h2}}>Choose selected indicator below</Text>
+        <Text style={styles.h2}>Choose selected indicator below</Text>
 
         <View style={styles.listWrapper}>
           <ProposedCriteriaList />
@@ -62,6 +62,7 @@ export default class IndicatorDevelopment extends Component {
         </View>
 
         <ActionButton
+          onPress={() => console.log('hello')}
           customBackgroundColor={Color.headerColor}
           label={'Next'}/>
       </View>
