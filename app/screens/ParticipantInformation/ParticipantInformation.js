@@ -22,11 +22,6 @@ class ParticipantInformation extends Component {
     this.state = {
       uuid: '',
       participant: 0,
-      female: 0,
-      disability: 0,
-      minority: 0,
-      poor: 0,
-      youth: 0,
       isError: true,
     };
   }
@@ -39,30 +34,20 @@ class ParticipantInformation extends Component {
   save = () => {
     if (this.state.isError)
       return;
-
-    const {
-      participant,
-      female,
-      disability,
-      minority,
-      poor,
-      youth,
-      uuid,
-    } = this.state;
     
-    const allParticipant = {
-      participant: this.getIntegerOf(participant),
-      female: this.getIntegerOf(female),
-      disability: this.getIntegerOf(disability),
-      minority: this.getIntegerOf(minority),
-      poor: this.getIntegerOf(poor),
-      youth: this.getIntegerOf(youth),
-      uuid: uuid,
+    const attrs = {
+      participant: this.getIntegerOf(this.participantRef.current.state.participant),
+      female: this.getIntegerOf(this.femaleRef.current.state.participant),
+      disability: this.getIntegerOf(this.disabilityRef.current.state.participant),
+      minority: this.getIntegerOf(this.minorityRef.current.state.participant),
+      poor: this.getIntegerOf(this.poorRef.current.state.participant),
+      youth: this.getIntegerOf(this.youthRef.current.state.participant),
+      uuid: this.state.uuid,
     };
 
     this.clearParticipantFromLocalStorage();
     realm.write(() => {
-      realm.create('Participant', allParticipant);
+      realm.create('Participant', attrs);
     });
   }
 
@@ -77,10 +62,6 @@ class ParticipantInformation extends Component {
     return parseInt(value) || 0;
   }
 
-  updateParticipantState = (states) => {
-    this.setState(states);
-    this.validateForm();
-  }
   validateForm = () => {
     const otherParticipantRefs = [
       this.participantRef,
@@ -101,87 +82,75 @@ class ParticipantInformation extends Component {
     this.setState({isError});
   }
 
-  onParticipantChange = (participant) => {
-    this.setState({participant}, () => {
-      const {female, disability, minority, poor, youth} = this.state;
-      const otherParticipants = [
-        {control: this.femaleRef, value: female},
-        {control: this.disabilityRef, value: disability},
-        {control: this.minorityRef, value: minority},
-        {control: this.poorRef, value: poor},
-        {control: this.youthRef, value: youth},
-      ];
-
-      otherParticipants.map((otherParticipant) => {
-        otherParticipant.control.current.onChangeText(otherParticipant.value);
-      });
+  onParticipantChange = () => {
+    this.setState({
+      isError: !this.participantRef.current.state.isValid,
+      participant: this.participantRef.current.state.participant,
+    }, () => {
+      if(!this.participantRef.current.state.inValid) {
+        const otherParticipantRefs = [
+          this.femaleRef,
+          this.disabilityRef,
+          this.minorityRef,
+          this.poorRef,
+          this.youthRef,
+        ];
+        otherParticipantRefs.map((otherParticipantRef) => {
+          otherParticipantRef.current.onChangeText(otherParticipantRef.current.state.participant);
+        });
+      }
     });
   }
 
   renderFormInput = () => {
     const {translations} = this.context;
-    const {
-      participant,
-      female,
-      disability,
-      minority,
-      poor,
-      youth,
-    } = this.state;
-
     return (
       <View style={{marginTop: 30}}>
         <IndependentValidationInputField
           ref={this.participantRef}
-          value={participant}
           label={translations['allParticipant']}
           placeholder={translations['enterNumberOfParticipant']}
           onParticipantChange={this.onParticipantChange}
         />
         <DependentValidationInputField
           ref={this.femaleRef}
-          value={female}
           label={translations['female']}
           placeholder={translations['enterNumberOfFemale']}
           fieldName="female"
-          dependentParticipant={participant}
-          updateStateValue={this.updateParticipantState}
+          dependentParticipant={this.state.participant}
+          validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.disabilityRef}
-          value={disability}
           label={translations['disability']}
           placeholder={translations['enterNumberOfDisability']}
           fieldName="disability"
-          updateStateValue={this.updateParticipantState}
-          dependentParticipant={participant}
+          dependentParticipant={this.state.participant}
+          validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.minorityRef}
-          value={minority}
           label={translations['minority']}
           placeholder={translations['enterNumberOfMinority']}
           fieldName="minority"
-          updateStateValue={this.updateParticipantState}
-          dependentParticipant={participant}
+          dependentParticipant={this.state.participant}
+          validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.poorRef}
-          value={poor}
           label={translations['poor']}
           placeholder={translations['enterNumberOfPoor']}
           fieldName="poor"
-          updateStateValue={this.updateParticipantState}
-          dependentParticipant={participant}
+          dependentParticipant={this.state.participant}
+          validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.youthRef}
-          value={youth}
           label={translations['youth']}
           placeholder={translations['enterNumberOfYouth']}
           fieldName="youth"
-          updateStateValue={this.updateParticipantState}
-          dependentParticipant={participant}
+          dependentParticipant={this.state.participant}
+          validateForm={this.validateForm}
         />
       </View>
     );

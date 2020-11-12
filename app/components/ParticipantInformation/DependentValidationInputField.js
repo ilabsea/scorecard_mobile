@@ -9,6 +9,7 @@ class DependentValidationInputField extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      participant: 0,
       isValid: true,
     };
   }
@@ -27,27 +28,21 @@ class DependentValidationInputField extends Component {
   };
 
   onChangeText = (participant) => {
-    const {dependentParticipant, fieldName, updateStateValue} = this.props;
-    let isValid = true;
-    if (this.getIntegerOf(dependentParticipant) < this.getIntegerOf(participant))
-      isValid = false;
-
-    this.setState({isValid}, () => {
-      const parentState = {};
-      parentState[fieldName] = participant;
-      updateStateValue(parentState);
+    const {dependentParticipant} = this.props;
+    this.setState({
+      participant: participant,
+      isValid: this.getIntegerOf(dependentParticipant) >= this.getIntegerOf(participant),
+    }, () => {
+      this.props.validateForm();
     });
   };
 
   getBorderColor = () => {
-    if (!this.state.isValid)
-      return 'red';
-
-    return '';
+    return !this.state.isValid ? 'red' : '';
   };
 
   render() {
-    const {value, label, placeholder} = this.props;
+    const {label, placeholder} = this.props;
     return (
       <View>
         <TextInput
@@ -55,7 +50,7 @@ class DependentValidationInputField extends Component {
           placeholder={placeholder}
           mode="outlined"
           clearButtonMode="while-editing"
-          value={value.toString()}
+          value={this.state.participant.toString()}
           onChangeText={(text) => this.onChangeText(text)}
           style={{backgroundColor: 'white', width: '100%'}}
           keyboardType="number-pad"

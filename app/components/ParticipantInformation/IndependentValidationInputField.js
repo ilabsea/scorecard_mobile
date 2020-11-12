@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Color from '../../themes/color';
-import validationService from '../../services/validation_service';
+import {validatePresent} from '../../services/validation_service';
 import {LocalizationContext} from '../Translations';
 
 class IndependentValidtionInputField extends Component {
@@ -10,28 +10,27 @@ class IndependentValidtionInputField extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      participant: 0,
       validationMsg: '',
       isValid: true,
     };
   }
 
-  getValidation = (participant) => {
-    const {translations} = this.context;
-    const validationMsg = validationService('participant', participant);
-    return {
-      message: validationMsg != null ? translations['allParticipantRequireMsg'] : '',
-      isValid: validationMsg != null ? false : true,
-    };
-  }
-
   onChangeText = (participant) => {
-    const validation = this.getValidation(participant);
-    this.setState({
-      validationMsg: validation.message,
-      isValid: validation.isValid,
-    }, () => {
-      this.props.onParticipantChange(participant);
-    });
+    const {translations} = this.context;
+    const isPresent = validatePresent('participant', participant);
+    const validationMsg = !isPresent ? translations['allParticipantRequireMsg'] : '';
+
+    this.setState(
+      {
+        participant: participant,
+        validationMsg: validationMsg,
+        isValid: isPresent,
+      },
+      () => {
+        this.props.onParticipantChange();
+      },
+    );
   };
 
   getBorderColor = () => {
@@ -39,7 +38,7 @@ class IndependentValidtionInputField extends Component {
   };
 
   render() {
-    const {value, label, placeholder} = this.props;
+    const {label, placeholder} = this.props;
     const inputLabel = label + ' *';
     return (
       <View>
@@ -48,7 +47,7 @@ class IndependentValidtionInputField extends Component {
           placeholder={placeholder}
           mode="outlined"
           clearButtonMode="while-editing"
-          value={value.toString()}
+          value={this.state.participant.toString()}
           onChangeText={(text) => this.onChangeText(text)}
           style={{backgroundColor: 'white', width: '100%'}}
           keyboardType="number-pad"
