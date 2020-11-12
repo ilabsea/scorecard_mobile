@@ -1,15 +1,12 @@
 import validationConstant from '../constants/validation_constant';
 import validation from 'validate.js';
 
+const validatePresent = (fieldName, value) => {
+  return validationMsg(fieldName, value) == undefined ? true : false;
+}
+
 const validationService = (fieldName, value) => {
-  let formValue = {};
-  if (value != '')
-    formValue[fieldName] = value;
-
-  let formField = {};
-  formField[fieldName] = validationConstant[fieldName];
-
-  const result = validation(formValue, formField);
+  const result = validationMsg(fieldName, value);
   if (result) {
     const message = getCustomMessage(fieldName, result)
     return message;
@@ -17,6 +14,19 @@ const validationService = (fieldName, value) => {
 
   return null;
 }
+
+const validationMsg = (fieldName, value) => {
+  let formValue = {};
+
+  if (value == '') return undefined;
+
+  formValue[fieldName] = value;
+
+  let formField = {};
+  formField[fieldName] = validationConstant[fieldName];
+
+  return validation(formValue, formField);
+};
 
 const getCustomMessage = (fieldName, result) => {
   let message = result[fieldName][0];
@@ -30,3 +40,4 @@ const getCustomMessage = (fieldName, result) => {
 };;
 
 export default validationService;
+export {validatePresent};

@@ -79,6 +79,7 @@ class Facilitator extends Component {
   }
 
   checkSelectedFacilitator = () => {
+    const {translations} = this.context;
     const {facilitatorLead, otherFacilitators} = this.state;
     let facilitators = otherFacilitators.filter((facilitator) => {return facilitator != ''});
 
@@ -91,7 +92,7 @@ class Facilitator extends Component {
     if (!isDuplicate && facilitatorLead != null && facilitators.length == 4)
       this.setErrorStatus('', '', false, false);
     else if (isDuplicate)
-      this.setErrorStatus('facilitatorCannotDuplicate', 'error', true, true);
+      this.setErrorStatus(translations['facilitatorCannotDuplicate'], 'error', true, true);
   }
 
   setErrorStatus = (message, type, isDuplicate, isError) => {
@@ -130,6 +131,7 @@ class Facilitator extends Component {
     otherFacilitators.map((facilitator) => {
       this.saveFacilitatorToLocalStorage(facilitator, 'other');
     });
+    this.props.navigation.navigate('ParticipantInformation');
   }
 
   loadSavedFacilitators = () => {

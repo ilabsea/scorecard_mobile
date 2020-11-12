@@ -152,6 +152,7 @@ class NewScorecard extends Component {
             onChangeText={this.onChangeText}
             message={translations[codeMsg]}
             isSecureEntry={false}
+            maxLength={6}
           />
 
           {this.renderErrorMsg()}
