@@ -199,6 +199,7 @@ class Setting extends Component {
     });
 
     checkConnection((type, message) => {
+      const {translations} = this.context;
       this.setState({
         messageType: type,
         errorMsg: translations[message],
