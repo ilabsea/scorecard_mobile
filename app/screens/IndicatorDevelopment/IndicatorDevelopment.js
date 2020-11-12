@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import {
   View,
-  ScrollView,
-  TouchableOpacity,
   StyleSheet,
-  Text
+  Text,
 } from 'react-native';
 
-import realm from '../../db/schema';
-import { LocalizationContext } from '../../components/Translations';
-import VerticalProgressStep from '../../components/VerticalProgressStep';
-import Color from '../../themes/color';
 import { Icon } from 'native-base';
+
+import { LocalizationContext } from '../../components/Translations';
+import realm from '../../db/schema';
 import ProgressHeader from '../../components/ProgressHeader';
+import ActionButton from '../../components/ActionButton';
+import Color from '../../themes/color';
 import Tip from '../../components/Tip';
+
+import ProposedCriteriaList from '../../components/ProposedCriteriaList';
+import SelectedCriteriaList from '../../components/SelectedCriteriaList';
 
 export default class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -43,25 +45,63 @@ export default class IndicatorDevelopment extends Component {
     )
   }
 
-  render() {
-    // const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
-    // const scorecard = realm.objects('Scorecard')[0];
+  _renderContent() {
     const {translations} = this.context;
 
     return (
-      <View>
+      <View style={{flex: 1}}>
+        <Text style={styles.h1}>Indicator Development Sections</Text>
+        <Text style={{styles.h2}}>Choose selected indicator below</Text>
+
+        <View style={styles.listWrapper}>
+          <ProposedCriteriaList />
+
+          <View style={{width: 20}}></View>
+
+          <SelectedCriteriaList />
+        </View>
+
+        <ActionButton
+          customBackgroundColor={Color.headerColor}
+          label={'Next'}/>
+      </View>
+    )
+  }
+
+  render() {
+    // const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
+    // const scorecard = realm.objects('Scorecard')[0];
+
+    return (
+      <View style={{height: '100%'}}>
         { this._renderHeader() }
 
-        <ScrollView contentContainerStyle={{ padding: 20 }}>
+        <View style={styles.container}>
           <Tip />
 
-
-        </ScrollView>
+          { this._renderContent() }
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    padding: 20,
+    flex: 1
+  },
+  h1: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  h2: {
+    fontSize: 18,
+    marginBottom: 20
+  },
+  listWrapper: {
+    flexDirection: 'row',
+    flex: 1,
+    marginBottom: 20
+  }
 })
