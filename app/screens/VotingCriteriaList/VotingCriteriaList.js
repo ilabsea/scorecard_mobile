@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
-  Text,
+  FlatList
 } from 'react-native';
 
-import { Icon } from 'native-base';
+import { Icon, Button, Text } from 'native-base';
 
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
@@ -13,19 +13,18 @@ import ProgressHeader from '../../components/ProgressHeader';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
+import uuidv4 from '../../utils/uuidv4';
 
-import ProposedCriteriaList from '../../components/ProposedCriteriaList';
-import SelectedCriteriaList from '../../components/SelectedCriteriaList';
+import VotingCriteriaListItem from '../../components/VotingCriteriaListItem';
 
-
-export default class IndicatorDevelopment extends Component {
+export default class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
 
     this.state = {
-      scorecard: {}
+      // scorecard: realm.objects('Scorecard')[0]
     };
   }
 
@@ -38,10 +37,22 @@ export default class IndicatorDevelopment extends Component {
 
     return (
       <ProgressHeader
-        title={this.state.scorecard.name}
+        title={"this.state.scorecard.name"}
         onBackPress={() => this.props.navigation.goBack()}
         steps={steps}
-        progressIndex={0}/>
+        progressIndex={1}/>
+    )
+  }
+
+  _renderList() {
+    let data = [1,2,3];
+
+    return (
+      <FlatList
+        data={data}
+        renderItem={item => <VotingCriteriaListItem criteria={item.item}/>}
+        keyExtractor={item => uuidv4()}
+      />
     )
   }
 
@@ -50,21 +61,22 @@ export default class IndicatorDevelopment extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <Text style={styles.h1}>Indicator Development Sections</Text>
-        <Text style={styles.h2}>Choose selected indicator below</Text>
+        <View style={{flexDirection: 'row', marginVertical: 20}}>
+          <Text style={[styles.h1, {flex: 1}]}>Top 5 Indicator</Text>
 
-        <View style={styles.listWrapper}>
-          <ProposedCriteriaList />
+          <Button iconLeft style={{backgroundColor: Color.headerColor}}>
+            <Icon name='plus' type="FontAwesome" />
+            <Text>NEW VOTE</Text>
+          </Button>
 
-          <View style={{width: 20}}></View>
-
-          <SelectedCriteriaList />
         </View>
+
+        { this._renderList() }
 
         <ActionButton
           onPress={() => console.log('hello')}
           customBackgroundColor={Color.headerColor}
-          label={'Next'}/>
+          label={'NEXT STEP'}/>
       </View>
     )
   }
@@ -91,10 +103,7 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold'
-  },
-  h2: {
-    fontSize: 18,
+    fontWeight: 'bold',
     marginBottom: 20
   },
   listWrapper: {

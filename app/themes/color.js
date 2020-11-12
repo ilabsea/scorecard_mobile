@@ -14,6 +14,7 @@ const Color = {
   tipBgColor: '#efb71c',
   btnRemoveBgColor: '#e63636',
   listItemBorderColor: '#c1c1c1',
+  cardListItemAvataBg: '#d0cdcd',
 };
 
 export default Color;
