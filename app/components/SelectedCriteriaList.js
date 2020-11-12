@@ -7,38 +7,46 @@ import {
   FlatList
 } from 'react-native';
 
-import realm from '../db/schema';
 import { LocalizationContext } from './Translations';
-import Color from '../themes/color';
 import { Icon } from 'native-base';
+
+import realm from '../db/schema';
+import Color from '../themes/color';
 import customStyle from '../themes/customStyle';
 import uuidv4 from '../utils/uuidv4';
 
+import { connect } from 'react-redux';
+import { removeAll } from '../actions/selectedCriteriaAction';
+import { resetProposed } from '../actions/proposedCriteriaAction';
+
 import SelectedCriteriaListItem from './SelectedCriteriaListItem';
 
-export default class IndicatorDevelopment extends Component {
+class SelectedCriteriaList extends Component {
   static contextType = LocalizationContext;
 
-  _renderList() {
-    let data = [];
-    for(let i=0; i<2; i++) {
-      data.push(i+1);
-    }
+  _handleRemoveAll() {
+    this.props.resetProposed();
+    this.props.removeAll();
+  }
 
+  _renderList() {
     return (
       <View style={[customStyle.card, {flex: 1}]}>
         <View style={styles.header}>
-          <Text style={styles.title}>Selected (2)</Text>
+          <Text style={styles.title}>Selected ({this.props.selectedCriterias.length})</Text>
 
-          <TouchableOpacity style={styles.btnRemoveAll}>
+          <TouchableOpacity
+            onPress={() => this._handleRemoveAll()}
+            style={styles.btnRemoveAll}>
+
             <Icon name='remove-circle' style={styles.removeIcon} />
             <Text style={styles.textRemove}>Remove All</Text>
           </TouchableOpacity>
         </View>
 
         <FlatList
-          data={data}
-          renderItem={item => <SelectedCriteriaListItem title={item.item}/>}
+          data={this.props.selectedCriterias}
+          renderItem={item => <SelectedCriteriaListItem criteria={item.item}/>}
           keyExtractor={item => uuidv4()}
         />
       </View>
@@ -46,11 +54,27 @@ export default class IndicatorDevelopment extends Component {
   }
 
   render() {
-    return (
-      this._renderList()
-    )
+    return (this._renderList());
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    selectedCriterias: state.selectedCriterias,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    removeAll: () => dispatch(removeAll()),
+    resetProposed: () => dispatch(resetProposed())
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SelectedCriteriaList);
 
 const styles = StyleSheet.create({
   header: {
