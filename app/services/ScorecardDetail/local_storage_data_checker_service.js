@@ -9,18 +9,12 @@ const _getuuid = async () => {
 }
 
 const isIndicatorDownloaded = async (apiIndicators) => {
-  const uuid = await _getuuid();
-  const indicatorData = realm.objects('Indicator').filtered('uuid = "' + uuid + '"');
-  let indicators = JSON.stringify(indicatorData);
-  indicators = JSON.parse(indicators);
+  const indicators = await _getDataFromLocalStorage('Indicator');
   return indicators.length === apiIndicators.length ? true : false;
 };
 
 const isCafDownloaded = async (apiCafs) => {
-  const uuid = await _getuuid();
-  const cafData = realm.objects('Caf').filtered('uuid = "' + uuid + '"');
-  let cafs = JSON.stringify(cafData);
-  cafs = JSON.parse(cafs);
+  const cafs = await _getDataFromLocalStorage('Caf');
   return cafs.length === apiCafs.length ? true : false;
 };
 
@@ -68,6 +62,13 @@ const _isAudioDownloaded = (downloadedFiles, audioFilesName) => {
   }
 
   return fileCount === downloadedFileCount ? true : false;
+}
+
+const _getDataFromLocalStorage = async (schema) => {
+  const uuid = await _getuuid();
+  const realmData = realm.objects(schema).filtered('uuid = "' + uuid + '"');
+  let data = JSON.stringify(realmData);
+  return JSON.parse(data);
 }
 
 export {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded};
