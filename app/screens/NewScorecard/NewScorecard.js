@@ -155,6 +155,7 @@ class NewScorecard extends Component {
             message={translations[codeMsg]}
             isSecureEntry={false}
             maxLength={6}
+            keyboardType="number-pad"
           />
 
           {this.renderErrorMsg()}

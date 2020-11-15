@@ -13,17 +13,14 @@ class SelectPicker extends Component {
   }
 
   getDefaultValue = (items, value) => {
-    if (items.length === 0)
-      return null;
+    if (items.length === 0) return null;
 
-    if (value != '' && value != undefined)
-      return value.toString();
+    if (value != '' && value != undefined) return value.toString();
 
-    if (this.props.mustHasDefaultValue)
-      return items[0].value;
+    if (this.props.mustHasDefaultValue) return items[0].value;
 
     return null;
-  }
+  };
 
   dropDownArrowRight = () => {
     const {translations} = this.context;
@@ -32,7 +29,8 @@ class SelectPicker extends Component {
     if (showCustomArrow) {
       return (
         <View style={{flexDirection: 'row'}}>
-          <Text style={{color: Color.clickableColor, textTransform: 'uppercase'}}>
+          <Text
+            style={{color: Color.clickableColor, textTransform: 'uppercase'}}>
             {translations['choose']}
           </Text>
           <MaterialIcon
@@ -42,8 +40,7 @@ class SelectPicker extends Component {
           />
         </View>
       );
-    }
-    else {
+    } else {
       return (
         <MaterialIcon
           size={25}
@@ -56,10 +53,18 @@ class SelectPicker extends Component {
 
   dropDownZindex = (zIndex) => {
     return {zIndex: zIndex};
-  }
+  };
+
+  getLabel = () => {
+    const {label, isRequire, itemIndex} = this.props;
+    const indexLabel = itemIndex != undefined ? itemIndex : '';
+    if (isRequire) return label + ' ' + indexLabel + ' *';
+
+    return label + ' ' + indexLabel;
+  };
 
   render() {
-    const {label,
+    const {
       items,
       selectedItem,
       placeholder,
@@ -68,15 +73,12 @@ class SelectPicker extends Component {
       customDropDownContainerStyle,
       zIndex,
       onChangeItem,
-      itemIndex,
     } = this.props;
-
-    const indexLabel = itemIndex != undefined ? itemIndex + 1 : '';
 
     return (
       <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
         <Text style={[styles.inputLabel, customLabelStyle]}>
-          {label} {indexLabel}
+          {this.getLabel()}
         </Text>
         <DropDownPicker
           items={items}
@@ -88,14 +90,11 @@ class SelectPicker extends Component {
           containerStyle={styles.dropDownContainerStyle}
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
-          dropDownMaxHeight={200}
-          dropDownStyle={[{
-            backgroundColor: 'white',
-            opacity: 100,
-          }, this.dropDownZindex(zIndex)]}
+          dropDownMaxHeight={250}
+          dropDownStyle={[{backgroundColor: 'white', opacity: 100}, this.dropDownZindex(zIndex)]}
           labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
-          onChangeItem={(item) => onChangeItem(item, itemIndex)}
+          onChangeItem={(item) => onChangeItem(item)}
         />
       </View>
     );

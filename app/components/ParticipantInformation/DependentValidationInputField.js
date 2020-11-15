@@ -43,6 +43,7 @@ class DependentValidationInputField extends Component {
 
   render() {
     const {label, placeholder} = this.props;
+
     return (
       <View>
         <TextInput

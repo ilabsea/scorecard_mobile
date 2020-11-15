@@ -63,7 +63,7 @@ function AppNavigator() {
             name="ScorecardShow"
             component={ScorecardShowScreen}
             options={({route, navigation}) => ({
-              title: route.params.title
+              title: route.params.title,
             })}
           />
           <Stack.Screen
@@ -85,7 +85,7 @@ function AppNavigator() {
             name="ScorecardDetail"
             component={ScorecardDetailScreen}
             options={({navigation}) => ({
-              header: ()=> null
+              header: () => null,
             })}
             // options={{
             //   title: `${translations['scorecardDetail']}`,
@@ -96,7 +96,7 @@ function AppNavigator() {
             name="ScorecardPreference"
             component={ScorecardPreferenceScreen}
             options={({navigation}) => ({
-              header: ()=> null
+              header: () => null,
             })}
             // options={{
             //   title: `${translations['getStarted']}`,
@@ -105,9 +105,9 @@ function AppNavigator() {
           <Stack.Screen
             name="Facilitator"
             component={FacilitatorScreen}
-            options={{
-              title: `${translations['getStarted']}`,
-            }}
+            options={({navigation}) => ({
+              header: () => null,
+            })}
           />
           <Stack.Screen
             name="ParticipantInformation"
