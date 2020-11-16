@@ -121,4 +121,7 @@
   "cancel": "បោះបង់",
   "inputText": "បញ្ចូលមាតិកា",
   "finish": "បញ្ចប់",
+  "addNewScorecardVoting": "បង្កើតការបោះឆ្នោតថ្មី",
+  "insertAge": "សូមបញ្ចូលអាយុ",
+  "insertGender": "សូមបញ្ចូលភេទ",
 }

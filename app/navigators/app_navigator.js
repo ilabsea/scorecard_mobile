@@ -38,7 +38,7 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="VotingCriteriaForm"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,

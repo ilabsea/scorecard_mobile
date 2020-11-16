@@ -89,7 +89,7 @@ export default class VotingCriteriaListItem extends Component {
 
     return (
       <View style={cardListItemStyle.viewDetail}>
-        <Text>{translations['viewDetail']}</Text>
+        <Text>{translations.viewDetail}</Text>
         <Icon name='chevron-forward-outline' style={{fontSize: 24}} />
       </View>
     )

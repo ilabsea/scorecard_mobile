@@ -10,14 +10,14 @@ import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
-import ProgressHeader from '../../components/ProgressHeader';
+import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 import uuidv4 from '../../utils/uuidv4';
 
 import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
-import { getAll } from '../../actions/votingCriteriaAction';
+import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -26,28 +26,21 @@ class VotingCriteriaList extends Component {
     super(props);
 
     this.state = {
-      scorecard: { uuid: '931107' },
-      // scorecard: realm.objects('Scorecard')[0]
+      scorecard: realm.objects('Scorecard').filtered(`uuid='${props.route.params.scorecard_uuid}'`)[0],
+      votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${931107}'`)))
     };
   }
 
   componentDidMount() {
-    this.props.getAll(this.state.scorecard.uuid);
+    this.props.setVotingCriterias(this.state.votingCriterias);
   }
 
   _renderHeader() {
-    const steps = [
-      "Indicator Development Sections",
-      "Scorecard Voting",
-      "Scorecard Result"
-    ];
-
     return (
-      <ProgressHeader
-        title={"this.state.scorecard.name"}
-        onBackPress={() => this.props.navigation.goBack()}
-        steps={steps}
-        progressIndex={1}/>
+      <HorizontalProgressHeader
+        title={this.state.scorecard.name}
+        navigation={this.props.navigation}
+        progressIndex={3}/>
     )
   }
 
@@ -69,19 +62,29 @@ class VotingCriteriaList extends Component {
     navigation.navigate(routName, {scorecard_uuid: this.state.scorecard.uuid})
   }
 
+  _goNext() {
+    realm.write(() => {
+      if (this.state.scorecard.status < 5) {
+        this.state.scorecard.status = '5';
+      }
+    });
+
+    this.goTo('ScorecardResult');
+  }
+
   _renderContent() {
     const { translations } = this.context;
 
     return (
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row', marginVertical: 20}}>
-          <Text style={[styles.h1, {flex: 1}]}>Top 5 Indicator</Text>
+          <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
 
           <Button
             onPress={() => this.goTo('VotingCriteriaForm')}
             iconLeft style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
-            <Text>NEW VOTE</Text>
+            <Text>{translations.newVote}</Text>
           </Button>
 
         </View>
@@ -89,9 +92,9 @@ class VotingCriteriaList extends Component {
         { this._renderList() }
 
         <ActionButton
-          onPress={() => this.goTo('ScorecardResult')}
+          onPress={() => this._goNext()}
           customBackgroundColor={Color.headerColor}
-          label={'NEXT STEP'}/>
+          label={translations.next}/>
       </View>
     )
   }
@@ -120,6 +123,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAll: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+    setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
   };
 }
 

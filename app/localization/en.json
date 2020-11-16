@@ -121,4 +121,7 @@
   "cancel": "Cancel",
   "inputText": "Input Text",
   "finish": "FINISH",
+  "addNewScorecardVoting": "Add New Scorecard Voting",
+  "insertAge": "Please insert age",
+  "insertGender": "Please insert gender",
 }
