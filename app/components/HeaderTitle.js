@@ -4,7 +4,6 @@ import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 import {LocalizationContext} from '../components/Translations';
 import Color from '../themes/color';
-
 class HeaderTitle extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
