@@ -58,8 +58,11 @@ class ScorecardDetail extends Component {
   checkSavedCaf = () => {
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
-      this.setState({isCafDownloaded: await isCafDownloaded(cafs)});
-    }, (response) => {});
+      this.setState({
+        isCafDownloaded: await isCafDownloaded(cafs),
+        isFinishChecking: true,
+      });
+    }, (response) => {this.setState({isFinishChecking: true})});
   }
 
   renderScorecardDetail = () => {

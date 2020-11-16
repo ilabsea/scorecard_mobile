@@ -10,8 +10,8 @@ class DisplayScorecardInfo extends Component {
     const {scorecardDetail} = this.props;
     const renderFields = [
       {label: 'year', fieldName: 'year'},
-      {label: 'unitType', fieldName: 'unit_type_name'},
-      {label: 'scorecardType', fieldName: 'scorecard_type_name'},
+      {label: 'unitType', fieldName: 'unit_type'},
+      {label: 'scorecardType', fieldName: 'scorecard_type'},
       {label: 'province', fieldName: 'province'},
       {label: 'district', fieldName: 'district'},
       {label: 'commune', fieldName: 'commune'},

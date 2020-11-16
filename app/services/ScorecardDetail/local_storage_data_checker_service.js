@@ -3,9 +3,7 @@ import realm from '../../db/schema';
 import {readAllFiles} from '../local_storage_service';
 
 const _getuuid = async () => {
-  let scorecard = await AsyncStorage.getItem('SCORECARD_DETAIL');
-  scorecard = JSON.parse(scorecard);
-  return scorecard.uuid;
+  return await AsyncStorage.getItem('SELECTED_SCORECARD_UUID');
 }
 
 const isIndicatorDownloaded = async (apiIndicators) => {
