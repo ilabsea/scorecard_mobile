@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {Button} from 'native-base';
 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
 import DependentValidationInputField from '../../components/ParticipantInformation/DependentValidationInputField';
 import IndependentValidationInputField from '../../components/ParticipantInformation/IndependentValidationInputField';
-import ActionButton from '../../components/ActionButton';
-
 class ParticipantInformation extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -20,15 +18,9 @@ class ParticipantInformation extends Component {
     this.poorRef = React.createRef();
     this.youthRef = React.createRef();
     this.state = {
-      uuid: '',
       participant: 0,
       isError: true,
     };
-  }
-
-  async componentDidMount() {
-    const scorecard = JSON.parse(await AsyncStorage.getItem('SCORECARD_DETAIL'));
-    this.setState({uuid: scorecard.uuid});
   }
 
   save = () => {
@@ -42,18 +34,20 @@ class ParticipantInformation extends Component {
       minority: this.getIntegerOf(this.minorityRef.current.state.participant),
       poor: this.getIntegerOf(this.poorRef.current.state.participant),
       youth: this.getIntegerOf(this.youthRef.current.state.participant),
-      uuid: this.state.uuid,
+      uuid: this.props.route.params.uuid,
     };
 
     this.clearParticipantFromLocalStorage();
     realm.write(() => {
-      realm.create('Participant', attrs);
+      realm.create('ParticipantInformation', attrs);
     });
+
+    this.props.navigation.navigate('RaisingProposed',  {uuid: this.props.route.params.uuid});
   }
 
   clearParticipantFromLocalStorage = () => {
     realm.write(() => {
-      const participant = realm.objects('Participant').filtered('uuid = "' + this.state.uuid + '"');
+      const participant = realm.objects('ParticipantInformation').filtered('uuid = "' + this.props.route.params.uuid + '"');
       realm.delete(participant);
     });
   }
@@ -161,11 +155,13 @@ class ParticipantInformation extends Component {
       const {translations} = this.context;
       return (
         <View style={styles.buttonContainer}>
-          <ActionButton
-            label={translations['next']}
+          <Button full primary
             onPress={() => this.save()}
-            isDisabled={this.state.isLoading}
-          />
+            style={{marginTop: 10, elevation: 0}}>
+            <Text style={styles.buttonLabelStyle}>
+              {translations['next']}
+            </Text>
+          </Button>
         </View>
       );
     }
@@ -176,7 +172,7 @@ class ParticipantInformation extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.container}>
           <HeaderTitle
-            headline="facilitatorList"
+            headline="participantInformation"
             subheading="pleaseFillInformationBelow"
           />
           {this.renderFormInput()}
@@ -197,6 +193,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingBottom: 20,
+  },
+  buttonLabelStyle: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
 

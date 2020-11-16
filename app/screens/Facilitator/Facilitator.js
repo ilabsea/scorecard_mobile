@@ -91,7 +91,7 @@ class Facilitator extends Component {
 
       this.saveFacilitatorToLocalStorage(selectedFacilitators[i], i);
     }
-    this.props.navigation.navigate('ParticipantInformation');
+    this.props.navigation.navigate('ParticipantInformation', {uuid: this.props.route.params.uuid});
   };
 
   loadSavedFacilitators = () => {
