@@ -83,4 +83,9 @@
   "mustNotBeGreaterThanTotalParticipant": "មិនអាច​មានចំនួន​ច្រើន​ជាង​ចំនួន​អ្នក​ចូល​រួម​សរុប​ទាំង​អស់​ឡើយ​",
   "mustNotBeLessThanOtherParticipantType": "មិន​អាច​មាន​ចំនួន​តិច​ជាង​ចំនួន​អ្នក​ចូល​រួម​នៃ​ប្រភេទ​ផ្សេងៗ​ឡើយ​",
   "viewTip": "VIEW TIPS",
+  "addNewScorecardVoting": "បង្កើតការបោះឆ្នោតថ្មី",
+  "age": "អាយុ",
+  "gender": "ភេទ",
+  "insertAge": "សូមបញ្ចូលអាយុ",
+  "insertGender": "សូមបញ្ចូលភេទ",
 }

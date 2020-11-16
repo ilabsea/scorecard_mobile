@@ -15,7 +15,7 @@ import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 import uuidv4 from '../../utils/uuidv4';
 
-import VotingCriteriaListItem from '../../components/VotingCriteriaListItem';
+import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
 
 export default class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;

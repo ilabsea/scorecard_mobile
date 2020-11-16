@@ -15,6 +15,7 @@ import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardShowScreen from '../screens/ScorecardShow/ScorecardShow';
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
+import VotingCriteriaFormScreen from '../screens/VotingCriteriaForm/VotingCriteriaForm';
 import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriteriaList';
 
 // Util and components
@@ -32,7 +33,7 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="VotingCriteriaForm"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,
@@ -80,6 +81,13 @@ function AppNavigator() {
             options={({navigation}) => ({
               header: ()=> null
             })}
+          />
+          <Stack.Screen
+            name="VotingCriteriaForm"
+            component={VotingCriteriaFormScreen}
+            options={{
+              headerTitle: "Scorecard Voting",
+            }}
           />
           <Stack.Screen
             name="Setting"

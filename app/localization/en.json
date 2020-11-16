@@ -82,5 +82,10 @@
   "enterNumberOfYouth": "Enter number of youth",
   "mustNotBeGreaterThanTotalParticipant": "must not be greater than all participant",
   "mustNotBeLessThanOtherParticipantType": "must not be less than other participant type",
-  "viewTip": "VIEW TIPS"
+  "viewTip": "VIEW TIPS",
+  "addNewScorecardVoting": "Add New Scorecard Voting",
+  "age": "Age",
+  "gender": "Gender",
+  "insertAge": "Please insert age",
+  "insertGender": "Please insert gender",
 }

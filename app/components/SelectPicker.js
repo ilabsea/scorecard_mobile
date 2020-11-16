@@ -69,6 +69,7 @@ class SelectPicker extends Component {
       selectedItem,
       placeholder,
       searchablePlaceholder,
+      searchable,
       customLabelStyle,
       customDropDownContainerStyle,
       zIndex,
@@ -87,7 +88,7 @@ class SelectPicker extends Component {
           placeholder={placeholder}
           searchablePlaceholder={searchablePlaceholder}
           zIndex={zIndex}
-          searchable={true}
+          searchable={searchable}
           containerStyle={[styles.dropDownContainerStyle, customContainerStyle]}
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
@@ -101,6 +102,19 @@ class SelectPicker extends Component {
     );
   }
 }
+
+SelectPicker.defaultProps = {
+  items: [],
+  selectedItem: '',
+  placeholder: '',
+  searchablePlaceholder: '',
+  searchable: true,
+  customLabelStyle: {},
+  customDropDownContainerStyle: {},
+  zIndex: 1,
+  onChangeItem: () => {},
+  itemIndex: 0,
+};
 
 const styles = StyleSheet.create({
   inputLabel: {
