@@ -7,6 +7,7 @@ import {
   Content
 } from "native-base";
 
+import realm from '../../db/schema';
 import BigHeader from '../../components/BigHeader';
 
 import ActionButton from '../../components/ActionButton';
@@ -35,7 +36,7 @@ class ScorecardDetail extends Component {
   }
 
   async componentDidMount() {
-    const scorecard = await AsyncStorage.getItem('SCORECARD_DETAIL');
+    const scorecard = await JSON.stringify(realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0]);
     this.setState({detail: JSON.parse(scorecard)});
     this.checkSavedIndicator();
     this.checkSavedCaf();
@@ -48,14 +49,14 @@ class ScorecardDetail extends Component {
       CheckAllAudioDownloaded(indicators, async (isAllDownloaded) => {
         this.setState({isAllAudioDownloaded: isAllDownloaded});
       });
-    }, null);
+    }, (response) => {});
   }
 
   checkSavedCaf = () => {
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
       this.setState({isCafDownloaded: await isCafDownloaded(cafs)});
-    }, null);
+    }, (response) => {});
   }
 
   renderScorecardDetail = () => {
@@ -145,7 +146,6 @@ class ScorecardDetail extends Component {
         isStopDownloadCaf: true
       });
     }, (response) => {
-      console.log('load caf failed = ', response);
       this.setState({
         isStopDownloadAudio: true,
         isStopDownloadCaf: true,
