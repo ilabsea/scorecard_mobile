@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Image
 } from 'react-native';
 
 import { LocalizationContext } from '../components/Translations';
@@ -13,6 +14,7 @@ import Color from '../themes/color';
 import customStyle from '../themes/customStyle';
 import cardListItemStyle from '../themes/cardListItemStyle';
 import uuidv4 from '../utils/uuidv4';
+import Images from '../utils/images';
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
@@ -26,12 +28,8 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderIcon(icon, size) {
-    let iconWrapperStyle = { backgroundColor: icon.color, borderRadius: size/2, width: size, height: size };
-
     return (
-      <View style={iconWrapperStyle}>
-        <Icon name={icon.name} type="FontAwesome5" style={{fontSize: size}}/>
-      </View>
+      <Image source={Images[icon.image]} style={{width: size, height: size}} />
     )
   }
 
@@ -47,11 +45,11 @@ export default class VotingCriteriaListItem extends Component {
 
   _iconData() {
     return ([
-      { name: 'frown', color: '#e8354d', count: '1', median: 'Very Bad' },
-      { name: 'frown', color: '#fc7e1e', count: '2', median: 'Bad' },
-      { name: 'meh', color: '#ffce2b', count: '3', median: 'Acceptable' },
-      { name: 'smile', color: '#acd91a', count: '4', median: 'Good' },
-      { name: 'laugh', color: '#4ecc58', count: '5', median: 'Very Good' },
+      { image: 'very_bad', count: '1', median: 'Very Bad' },
+      { image: 'bad', count: '2', median: 'Bad' },
+      { image: 'acceptable', count: '3', median: 'Acceptable' },
+      { image: 'good', count: '4', median: 'Good' },
+      { image: 'very_good', count: '5', median: 'Very Good' },
     ]);
   }
 
