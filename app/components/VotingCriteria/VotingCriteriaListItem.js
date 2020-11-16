@@ -8,13 +8,13 @@ import {
   Image
 } from 'react-native';
 
-import { LocalizationContext } from '../components/Translations';
+import { LocalizationContext } from '../../components/Translations';
 import { Icon } from 'native-base';
-import Color from '../themes/color';
-import customStyle from '../themes/customStyle';
-import cardListItemStyle from '../themes/cardListItemStyle';
-import uuidv4 from '../utils/uuidv4';
-import Images from '../utils/images';
+import Color from '../../themes/color';
+import customStyle from '../../themes/customStyle';
+import cardListItemStyle from '../../themes/cardListItemStyle';
+import uuidv4 from '../../utils/uuidv4';
+import Images from '../../utils/images';
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;

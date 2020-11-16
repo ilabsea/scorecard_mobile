@@ -114,5 +114,8 @@
   "enterIndicatorName": "Enter indicator name",
   "issueNote": "Issue Note",
   "writeIssueOrRecordVoice": "Write issue or record the voice",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "addNewScorecardVoting": "បង្កើតការបោះឆ្នោតថ្មី",
+  "insertAge": "សូមបញ្ចូលអាយុ",
+  "insertGender": "សូមបញ្ចូលភេទ",
 }
