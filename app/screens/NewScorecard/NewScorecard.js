@@ -25,6 +25,7 @@ class NewScorecard extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    this.uuid = '';
     this.state = {
       code: '',
       codeMsg: '',
@@ -67,7 +68,7 @@ class NewScorecard extends Component {
   }
 
   saveScorecard = async (response) => {
-    AsyncStorage.setItem('SCORECARD_DETAIL', JSON.stringify(response));
+    this.uuid = response.uuid;
     let self = this;
 
     realm.write(() => {
@@ -93,7 +94,7 @@ class NewScorecard extends Component {
           this.setState({codeMsg: 'scorecardIsNotExist'});
         } else {
           this.saveScorecard(response);
-          this.props.navigation.navigate('ScorecardDetail');
+          this.props.navigation.navigate('ScorecardDetail', {uuid: this.uuid});
         }
 
       } else {

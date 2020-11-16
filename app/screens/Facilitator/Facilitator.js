@@ -28,7 +28,6 @@ class Facilitator extends Component {
   }
 
   async componentDidMount() {
-    const scorecard = JSON.parse(await AsyncStorage.getItem('SCORECARD_DETAIL'));
     let cafs = JSON.stringify(realm.objects('Caf').filtered('uuid = "' + scorecard.uuid + '"'));
     cafs = JSON.parse(cafs);
     this.setState({
