@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import {Subheading} from 'react-native-paper';
 import {Button} from 'native-base';
 
@@ -11,7 +10,6 @@ import HeaderTitle from '../../components/HeaderTitle';
 import SelectPicker from '../../components/SelectPicker';
 
 import ProgressHeader from '../../components/ProgressHeader';
-
 class Facilitator extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -20,18 +18,14 @@ class Facilitator extends Component {
     this.state = {
       facilitators: [],
       selectedFacilitators: Array.from({length: this.numberOfFacilitator}, () => null),
-      uuid: '',
       isError: true,
     };
   }
 
   async componentDidMount() {
-    let cafs = JSON.stringify(realm.objects('Caf').filtered('uuid = "' + scorecard.uuid + '"'));
+    let cafs = JSON.stringify(realm.objects('Caf').filtered('uuid = "' + this.props.route.params.uuid + '"'));
     cafs = JSON.parse(cafs);
-    this.setState({
-      facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false})), 
-      uuid: scorecard.uuid,
-    });
+    this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
     this.loadSavedFacilitators();
   }
 
@@ -101,7 +95,7 @@ class Facilitator extends Component {
   };
 
   loadSavedFacilitators = () => {
-    const facilitators = realm.objects('Facilitator').filtered('uuid = "' + this.state.uuid + '"');
+    const facilitators = realm.objects('Facilitator').filtered('uuid = "' + this.props.route.params.uuid + '"');
     let savedFacilitators = JSON.stringify(facilitators);
     savedFacilitators = JSON.parse(savedFacilitators);
 
@@ -125,7 +119,7 @@ class Facilitator extends Component {
       id: parseInt(caf.value),
       name: caf.label,
       position: index === 0 ? 'lead' : 'other',
-      uuid: this.state.uuid,
+      uuid: this.props.route.params.uuid,
     };
     realm.write(() => {
       realm.create('Facilitator', facilitator);
@@ -134,7 +128,7 @@ class Facilitator extends Component {
 
   clearFacilitatorFromLocalStorage = () => {
     realm.write(() => {
-      const facilitators = realm.objects('Facilitator').filtered('uuid = "' + this.state.uuid + '"');
+      const facilitators = realm.objects('Facilitator').filtered('uuid = "' + this.props.route.params.uuid + '"');
       realm.delete(facilitators);
     });
   };
@@ -186,7 +180,8 @@ class Facilitator extends Component {
             placeholder={translations['selectFacilitator']}
             searchablePlaceholder={translations['searchForFacilitator']}
             zIndex={8000}
-            customLabelStyle={{zIndex: 8001}}
+            customContainerStyle={{marginTop: 0}}
+            customLabelStyle={{zIndex: 8001, marginTop: -10}}
             showCustomArrow={true}
             onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
             itemIndex={1}
@@ -213,6 +208,7 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginTop: 40,
     textTransform: 'uppercase',
+    marginBottom: -10,
   },
   buttonContainer: {
     flex: 1,

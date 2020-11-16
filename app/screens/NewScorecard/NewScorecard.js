@@ -64,6 +64,7 @@ class NewScorecard extends Component {
       province: response.province,
       district: response.district,
       commune: response.commune,
+      program_id: response.program_id,
     })
   }
 

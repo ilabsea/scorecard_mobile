@@ -73,6 +73,7 @@ class SelectPicker extends Component {
       customDropDownContainerStyle,
       zIndex,
       onChangeItem,
+      customContainerStyle,
     } = this.props;
 
     return (
@@ -87,7 +88,7 @@ class SelectPicker extends Component {
           searchablePlaceholder={searchablePlaceholder}
           zIndex={zIndex}
           searchable={true}
-          containerStyle={styles.dropDownContainerStyle}
+          containerStyle={[styles.dropDownContainerStyle, customContainerStyle]}
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
           dropDownMaxHeight={250}
