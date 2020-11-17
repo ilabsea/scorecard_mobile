@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   StyleSheet,
@@ -13,9 +13,11 @@ import styles from '../themes/listItemStyle';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToSelected } from '../actions/selectedCriteriaAction';
 import { removeFromProposed } from '../actions/proposedCriteriaAction';
+import { LocalizationContext } from './Translations';
 
 const ProposedCriteriaListItem = (props) => {
   const dispatch = useDispatch();
+  const { translations } = useContext(LocalizationContext); // 1
 
   const handleAddToSelectedCriteria = (criteria) => {
     dispatch(addToSelected(criteria));
@@ -43,7 +45,7 @@ const ProposedCriteriaListItem = (props) => {
         <Text style={{flex: 1}}>1 Note</Text>
 
         <View style={styles.viewDetail}>
-          <Text>VIEW DETAIL</Text>
+          <Text>{translations.viewDetail}</Text>
           <Icon name='chevron-forward-outline' style={{fontSize: 16}} />
         </View>
       </View>

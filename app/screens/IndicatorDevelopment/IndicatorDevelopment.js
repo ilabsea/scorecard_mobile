@@ -24,7 +24,8 @@ export default class IndicatorDevelopment extends Component {
     super(props);
 
     this.state = {
-      scorecard: realm.objects('Scorecard')[0]
+      // scorecard: realm.objects('Scorecard')[0]
+      scorecard: {}
     };
   }
 
