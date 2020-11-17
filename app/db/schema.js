@@ -11,6 +11,10 @@ import ScorecardSchema from './models/scorecard';
 import ParticipantInformationSchema from './models/participantInformation';
 import ParticipantSchema from './models/participant';
 
+import VotingCriteriaSchema from './models/votingCriteria';
+import RatingSchema from './models/rating';
+import VotingPersonSchema from './models/votingPerson';
+
 const schema0 = [
   ScorecardSchema,
   LanguageSchema,
@@ -20,6 +24,11 @@ const schema0 = [
   FacilitatorSchema,
   ParticipantInformationSchema,
   ParticipantSchema,
+
+  // ===VotingCriteria===
+  VotingCriteriaSchema,
+  VotingPersonSchema,
+  RatingSchema,
 ];
 
 const schemas = [
