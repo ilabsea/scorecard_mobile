@@ -6,6 +6,7 @@ import Moment from 'moment';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loading from 'react-native-whc-loading';
 
+import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
@@ -36,7 +37,7 @@ class ScorecardPreference extends Component {
   }
 
   async componentDidMount() {
-    const scorecard = await AsyncStorage.getItem('SCORECARD_DETAIL');
+    const scorecard = await JSON.stringify(realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0]);
     this.setState({detail: JSON.parse(scorecard)});
     this.loadProgramLanguage();
   }
@@ -99,7 +100,7 @@ class ScorecardPreference extends Component {
     AsyncStorage.setItem('SELECTED_DATE', date);
     AsyncStorage.setItem(selectedTextLocale, textLocale);
     AsyncStorage.setItem(selectedAudioLocale, audioLocale);
-    this.props.navigation.navigate('Facilitator');
+    this.props.navigation.navigate('Facilitator', {uuid: this.props.route.params.uuid});
   }
 
   renderForm = () => {

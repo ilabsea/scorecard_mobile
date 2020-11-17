@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   Container,
@@ -146,7 +145,7 @@ class ScorecardDetail extends Component {
   };
 
   startScorecard = () => {
-    this.props.navigation.navigate('ScorecardPreference');
+    this.props.navigation.navigate('ScorecardPreference', {uuid: this.props.route.params.uuid});
   }
 
   isFullyDownloaded = () => {

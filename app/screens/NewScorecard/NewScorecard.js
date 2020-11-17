@@ -64,6 +64,7 @@ class NewScorecard extends Component {
       province: response.province,
       district: response.district,
       commune: response.commune,
+      program_id: response.program_id,
     })
   }
 
@@ -155,6 +156,7 @@ class NewScorecard extends Component {
             message={translations[codeMsg]}
             isSecureEntry={false}
             maxLength={6}
+            keyboardType="number-pad"
           />
 
           {this.renderErrorMsg()}

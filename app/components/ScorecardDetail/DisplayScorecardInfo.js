@@ -4,7 +4,6 @@ import {LocalizationContext} from '../../components/Translations';
 
 class DisplayScorecardInfo extends Component {
   static contextType = LocalizationContext;
-
   render() {
     const {translations} = this.context;
     const {scorecardDetail} = this.props;
@@ -20,7 +19,6 @@ class DisplayScorecardInfo extends Component {
 
     return renderFields.map((renderField, index) => {
       const value = scorecardDetail[renderField.fieldName] != undefined ? scorecardDetail[renderField.fieldName].toString() : ''
-
       return (
         <TextInput
           label={translations[renderField.label]}

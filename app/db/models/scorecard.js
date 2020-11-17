@@ -26,6 +26,7 @@ const ScorecardSchema = {
     province: 'string',
     district: 'string',
     commune: 'string',
+    program_id: 'int',
   }
 }
 
