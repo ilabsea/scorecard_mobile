@@ -4,14 +4,16 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   Container,
-  Content
+  Content,
+  Button,
+  Icon,
 } from "native-base";
 
 import realm from '../../db/schema';
 import BigHeader from '../../components/BigHeader';
 
-import ActionButton from '../../components/ActionButton';
 import {LocalizationContext} from '../../components/Translations';
+import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
 
 import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
@@ -32,6 +34,7 @@ class ScorecardDetail extends Component {
       isStopDownloadIndicator: true,
       isStopDownloadCaf: true,
       isStopDownloadAudio: true,
+      isFinishChecking: false,
     };
   }
 
@@ -55,46 +58,16 @@ class ScorecardDetail extends Component {
   checkSavedCaf = () => {
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
-      this.setState({isCafDownloaded: await isCafDownloaded(cafs)});
-    }, (response) => {});
+      this.setState({
+        isCafDownloaded: await isCafDownloaded(cafs),
+        isFinishChecking: true,
+      });
+    }, (response) => {this.setState({isFinishChecking: true})});
   }
 
   renderScorecardDetail = () => {
-    const {translations} = this.context;
     const {detail} = this.state;
-
-    return (
-      <View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['year']}:</Text>
-          <Text style={styles.textValue}>{detail['year']}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['unitType']}:</Text>
-          <Text style={styles.textValue}>{detail['unit_type_name']}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['scorecardType']}:</Text>
-          <Text style={styles.textValue}>{detail['scorecard_type_name']}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['province']}:</Text>
-          <Text style={styles.textValue}>{detail['province']}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['district']}:</Text>
-          <Text style={styles.textValue}>{detail['district']}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['commune']}:</Text>
-          <Text style={styles.textValue}>{detail['commune']}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.textLabel}>{translations['implementor']}:</Text>
-          <Text style={styles.textValue}>{detail['local_ngo_name']}</Text>
-        </View>
-      </View>
-    );
+    return (<DisplayScorecardInfo scorecardDetail={detail}/>);
   };
 
   downloadIndicator = () => {
@@ -195,28 +168,33 @@ class ScorecardDetail extends Component {
 
   renderDownloadButton = () => {
     const {translations} = this.context;
-    if (!this.isFullyDownloaded() && this.state.detail != '') {
+    if (!this.isFullyDownloaded() && this.state.isFinishChecking) {
       return (
-        <ActionButton
+        <Button full bordered iconRight primary
           onPress={() => this.downloadScorecard()}
-          label={translations["downloadAndSave"]}
-          customButtonStyle={{marginTop: 20}}
-          isDisabled={this.isDisableDownload()}
-        />
+          disabled={this.isDisableDownload()}
+        >
+          <Text style={[styles.buttonLabelStyle, {color: '#E2762D'}]}>
+            {translations["downloadAndSave"]}
+          </Text>
+          <Icon name="download" style={{right: 0, position: 'absolute'}} />
+        </Button>
       );
     }
   };
 
   renderStartButton = () => {
     const {translations} = this.context;
-    if (this.isFullyDownloaded() && this.state.detail != '') {
+    if (this.isFullyDownloaded() && this.state.isFinishChecking) {
       return (
-        <ActionButton
+        <Button full primary
           onPress={() => this.startScorecard()}
-          label={translations["start"]}
-          customButtonStyle={{marginTop: 20}}
-          isDisabled={false}
-        />
+          style={{marginTop: 20}}
+        >
+          <Text style={[styles.buttonLabelStyle, {color: 'white'}]}>
+            {translations['start']}
+          </Text>
+        </Button>
       );
     }
   };
@@ -235,15 +213,17 @@ class ScorecardDetail extends Component {
       <Container>
         { this._renderHeader() }
 
-        <Content style={styles.container}>
+        <Content contentContainerStyle={{ flexGrow: 1 }} style={styles.container}>
           {this.renderScorecardDetail()}
 
           <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
             {this.state.loadingMessage}
           </Text>
 
-          {this.renderDownloadButton()}
-          {this.renderStartButton()}
+          <View style={styles.buttonContainer}>
+            {this.renderDownloadButton()}
+            {this.renderStartButton()}
+          </View>
 
         </Content>
 
@@ -254,22 +234,22 @@ class ScorecardDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
   },
   itemContainer: {
     flexDirection: 'row',
     marginBottom: 10,
   },
-  textLabel: {
-    fontSize: 20,
-    marginRight: 10,
-    color: '#424242',
+  buttonContainer: {
+    paddingVertical: 10,
+    paddingBottom: 25,
+    flex: 1,
+    justifyContent: 'flex-end',
   },
-  textValue: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
+  buttonLabelStyle: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+  }
 });
 
 function mapStateToProps(state) {

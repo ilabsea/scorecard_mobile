@@ -69,6 +69,7 @@ class NewScorecard extends Component {
 
   saveScorecard = async (response) => {
     this.uuid = response.uuid;
+    AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
     let self = this;
 
     realm.write(() => {
