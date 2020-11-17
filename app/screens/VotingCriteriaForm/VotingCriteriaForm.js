@@ -31,6 +31,10 @@ export default class VotingCriteriaForm extends Component {
     };
   }
 
+  componentDidMount() {
+    // realm.objects('Scorecard')
+  }
+
   _renderPicker(option) {
     return (
       <View style={{width: "100%"}}>

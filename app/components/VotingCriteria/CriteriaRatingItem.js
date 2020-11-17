@@ -3,13 +3,15 @@ import {
   View,
   StyleSheet,
   Image,
-  Text
+  Text,
+  TouchableOpacity
 } from 'react-native';
 
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
 import Images from '../../utils/images';
+import uuidv4 from '../../utils/uuidv4';
 
 const iconSize = 80;
 const iconWrapperSize = 98;
@@ -28,13 +30,17 @@ export default class CriteriaRatingItem extends Component {
     let activeIconStyle = icon.image == 'good' ? { borderColor: Color.headerColor } : {};
 
     return (
-      <View style={{flex: 1, alignItems: 'center'}}>
+      <TouchableOpacity
+        key={uuidv4()}
+        onPress={() => console.log(0)}
+        style={{flex: 1, alignItems: 'center', marginHorizontal: 10}}>
+
         <View style={[styles.iconWrapper, activeIconStyle]}>
           <Image source={Images[icon.image]} style={{width: iconSize, height: iconSize}} />
         </View>
 
         <Text style={{fontSize: 16, color: '#22354c'}}>{icon.label}</Text>
-      </View>
+      </TouchableOpacity>
     )
   }
 
