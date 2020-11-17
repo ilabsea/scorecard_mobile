@@ -15,7 +15,7 @@ class DisplayScorecardInfo extends Component {
       {label: 'province', fieldName: 'province'},
       {label: 'district', fieldName: 'district'},
       {label: 'commune', fieldName: 'commune'},
-      {label: 'implementor', fieldName: 'local_ngo_name'},
+      {label: 'implementer', fieldName: 'local_ngo_name'},
     ];
 
     return renderFields.map((renderField, index) => {
