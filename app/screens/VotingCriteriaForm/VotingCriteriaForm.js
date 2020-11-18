@@ -14,10 +14,6 @@ import uuidv4 from '../../utils/uuidv4';
 
 import ActionButton from '../../components/ActionButton';
 import HeaderTitle from '../../components/HeaderTitle';
-import { Subheading } from 'react-native-paper';
-
-import IndependentValidationInputField from '../../components/ParticipantInformation/IndependentValidationInputField';
-import SelectPicker from '../../components/SelectPicker';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
 
 export default class VotingCriteriaForm extends Component {
@@ -27,91 +23,52 @@ export default class VotingCriteriaForm extends Component {
     super(props);
 
     this.state = {
-
+      criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria'))),
+      isValid: false,
     };
   }
 
   componentDidMount() {
-    // realm.objects('Scorecard')
+    // let votingCriterias = [
+    //   { uuid: '1', scorecard_uuid: '931107', tag: 'timing' },
+    //   { uuid: '2', scorecard_uuid: '931107', tag: 'behaviour' },
+    //   { uuid: '3', scorecard_uuid: '931107', tag: 'pricing' },
+    //   { uuid: '4', scorecard_uuid: '931107', tag: 'equipment' },
+    //   { uuid: '5', scorecard_uuid: '931107', tag: 'hygiene' },
+    // ]
+
+    // realm.write(() => {
+    //   for(let i=0; i<votingCriterias.length; i++) {
+    //     realm.create('VotingCriteria', votingCriterias[i], 'modified');
+    //   }
+    // });
   }
 
-  _renderPicker(option) {
-    return (
-      <View style={{width: "100%"}}>
-        <SelectPicker
-          items={option.items}
-          selectedItem={option.selectedItem}
-          label={option.label}
-          searchable={false}
-          zIndex={6000}
-          customLabelStyle={{zIndex: 6001}}
-          showCustomArrow={true}
-          onChangeItem={ () => {} }
-          customDropDownContainerStyle={{marginBottom: 20}}
-        />
-      </View>
-    );
+  onClickRatingIcon(criteria, rating) {
+    criteria.ratingScore = rating.score;
+
+    this._checkValidForm();
   }
 
-  _renderGenderInput() {
-    const {translations} = this.context;
-    let items=[
-        {label: 'Female', value: 'female'},
-        {label: 'Male', value: 'male'},
-        {label: 'Other', value: 'other'},
-    ];
+  _checkValidForm() {
+    let isValid = Object.values(this.state.criterias).every(criteria => !!criteria.ratingScore);
 
-    let option = {
-      items: items,
-      selectedItem: items[0].value,
-      label: translations['gender'],
-      stateName: 'gender'
+    if(isValid) {
+      this.setState({isValid: true});
     }
-
-    return (this._renderPicker(option))
-  }
-
-  _renderDisabilityInput() {
-    const {translations} = this.context;
-
-    let items=[
-      { label: 'No', value: 'no' },
-      { label: 'Yes', value: 'yes' },
-    ];
-
-    let option = {
-      items: items,
-      selectedItem: items[0].value,
-      label: translations['disability'],
-      stateName: 'disability'
-    }
-
-    return (this._renderPicker(option))
-  }
-
-  _renderForm() {
-    const {translations} = this.context;
-
-    return (
-      <View style={{marginTop: 24}}>
-        <IndependentValidationInputField
-          ref={this.participantRef}
-          label={translations['age']}
-          onParticipantChange={() => {}}
-          wrapperStyle={{}}
-        />
-
-        { this._renderGenderInput() }
-        { this._renderDisabilityInput() }
-      </View>
-    )
   }
 
   _renderCriteriaRatingList() {
-    let data = ['A', 'B', 'C', "D", "E"];
-
     return (
-      data.map(criteria => <CriteriaRatingItem key={uuidv4()} criteria={criteria}/>)
+      this.state.criterias.map(criteria => {
+        return (
+          <CriteriaRatingItem
+            key={criteria.uuid}
+            criteria={criteria}
+            onPress={ (rating) => this.onClickRatingIcon(criteria, rating) }
+          />
+        )
+      })
     )
   }
 
@@ -120,22 +77,45 @@ export default class VotingCriteriaForm extends Component {
       <ScrollView style={styles.container}>
         <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
 
-        { this._renderForm() }
-
-        <Subheading style={styles.subheading}>{ "Choose Criter" } </Subheading>
-
         { this._renderCriteriaRatingList() }
       </ScrollView>
     )
+  }
+
+  _buildRatingData(criteria) {
+    return {
+      uuid: uuidv4(),
+      scorecard_uuid: criteria.scorecard_uuid,
+      voting_criteria_uuid: criteria.uuid,
+      voting_person_uuid: '',
+      score: criteria.ratingScore
+    }
+  }
+
+  _submit() {
+    let self = this;
+    let criterias = this.state.criterias;
+
+    // realm.write(() => {
+    //   for(let i=0; i<criterias.length; i++) {
+    //     realm.create('Rating', self._buildRatingData(criterias[i]));
+    //   }
+    // });
+
+    this.props.navigation.goBack();
+
+    // let ratings = realm.objects('Rating').filtered(`scorecard_uuid='${criterias[0].scorecard_uuid}'`);
+    // console.log("==========Ratings", JSON.stringify(ratings))
   }
 
   _renderFooter() {
     return (
       <View style={{padding: 20}}>
         <ActionButton
-          onPress={() => console.log('hello')}
+          onPress={() => this._submit() }
           customBackgroundColor={Color.headerColor}
-          label={'SAVE & ADD NEW'}/>
+          isDisabled={!this.state.isValid}
+          label={'SAVE'}/>
       </View>
     )
   }
@@ -154,9 +134,5 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1
-  },
-  subheading: {
-    marginTop: 40,
-    textTransform: 'uppercase',
   }
 })

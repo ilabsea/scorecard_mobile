@@ -22,7 +22,7 @@ export default class VotingCriteriaListItem extends Component {
   _renderAvata(scorecard) {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
-        <Text style={{fontSize: 60}}>A</Text>
+        <Text style={[styles.capitalize, {fontSize: 60}]}>{this.props.criteria.tag[0]}</Text>
       </View>
     )
   }
@@ -78,7 +78,7 @@ export default class VotingCriteriaListItem extends Component {
     return (
       <View style={{flexDirection: 'row', flex: 1}}>
         <View style={{flex: 1}}>
-          <Text style={cardListItemStyle.h2}>Criteria A</Text>
+          <Text style={[cardListItemStyle.h2, styles.capitalize]}>{this.props.criteria.tag}</Text>
 
           { this._renderRatingIcons() }
         </View>
@@ -143,5 +143,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     marginTop: 4
+  },
+  capitalize: {
+    textTransform: 'capitalize'
   }
 })
