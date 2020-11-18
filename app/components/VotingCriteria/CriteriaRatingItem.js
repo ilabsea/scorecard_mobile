@@ -23,46 +23,53 @@ export default class CriteriaRatingItem extends Component {
     super(props);
 
     this.state = {
+      currentScore: 0
     };
   }
 
-  _renderRatingIcon(icon) {
-    let activeIconStyle = icon.image == 'good' ? { borderColor: Color.headerColor } : {};
+  _onClickIcon(rating) {
+    this.setState({currentScore: rating.score});
+    !!this.props.onPress && this.props.onPress(rating);
+  }
+
+  _renderRatingIcon(rating) {
+    let activeIconStyle = rating.score == this.state.currentScore ? { borderColor: Color.headerColor } : {};
 
     return (
       <TouchableOpacity
         key={uuidv4()}
-        onPress={() => console.log(0)}
+        onPress={() => this._onClickIcon(rating) }
         style={{flex: 1, alignItems: 'center', marginHorizontal: 10}}>
 
         <View style={[styles.iconWrapper, activeIconStyle]}>
-          <Image source={Images[icon.image]} style={{width: iconSize, height: iconSize}} />
+          <Image source={Images[rating.image]} style={{width: iconSize, height: iconSize}} />
         </View>
 
-        <Text style={{fontSize: 16, color: '#22354c'}}>{icon.label}</Text>
+        <Text style={{fontSize: 16, color: '#22354c'}}>{rating.label}</Text>
       </TouchableOpacity>
     )
   }
 
-  _iconData() {
+  _ratingData() {
     return ([
-      { image: 'very_bad', label: 'Very Bad' },
-      { image: 'bad', label: 'Bad' },
-      { image: 'acceptable', label: 'Acceptable' },
-      { image: 'good', label: 'Good' },
-      { image: 'very_good', label: 'Very Good' },
+      { score: 1, image: 'very_bad', label: 'Very Bad' },
+      { score: 2, image: 'bad', label: 'Bad' },
+      { score: 3, image: 'acceptable', label: 'Acceptable' },
+      { score: 4, image: 'good', label: 'Good' },
+      { score: 5, image: 'very_good', label: 'Very Good' },
     ]);
   }
 
   _renderRatingIcons() {
-    let icons = this._iconData();
+    let ratings = this._ratingData();
+    // console.log("--------------criteria", this.props.criteria);
 
     return (
       <View style={{marginTop: 30}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Criter A</Text>
+        <Text style={{fontSize: 18, fontWeight: 'bold', textTransform: 'capitalize'}}>{this.props.criteria.tag}</Text>
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
-          { icons.map(icon => this._renderRatingIcon(icon)) }
+          { ratings.map(rating => this._renderRatingIcon(rating)) }
         </View>
       </View>
     )

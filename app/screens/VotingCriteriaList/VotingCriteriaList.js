@@ -24,6 +24,8 @@ export default class VotingCriteriaList extends Component {
     super(props);
 
     this.state = {
+      scorecard: { uuid: '931107' },
+      criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='931107'`))),
       // scorecard: realm.objects('Scorecard')[0]
     };
   }
@@ -45,7 +47,7 @@ export default class VotingCriteriaList extends Component {
   }
 
   _renderList() {
-    let data = [1,2,3];
+    let data = this.state.criterias;
 
     return (
       <FlatList
@@ -64,7 +66,9 @@ export default class VotingCriteriaList extends Component {
         <View style={{flexDirection: 'row', marginVertical: 20}}>
           <Text style={[styles.h1, {flex: 1}]}>Top 5 Indicator</Text>
 
-          <Button iconLeft style={{backgroundColor: Color.headerColor}}>
+          <Button
+            onPress={() => this.props.navigation.navigate('VotingCriteriaForm', {scorecard_uuid: this.state.scorecard.uuid})}
+            iconLeft style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
             <Text>NEW VOTE</Text>
           </Button>

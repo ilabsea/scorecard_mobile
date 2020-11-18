@@ -10,6 +10,7 @@ const VotingCriteriaSchema = {
     scorecard_uuid: 'string',
     indicatorable_id: 'string?',
     indicatorable_type: 'string?',
+    tag: 'string?',
     median: 'string?',
     strength: 'string?',
     weakness: 'string?',
