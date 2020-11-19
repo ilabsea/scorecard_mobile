@@ -10,6 +10,7 @@ class TextFieldInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isValid: true,
       validationMsg: '',
     };
   }
@@ -23,16 +24,6 @@ class TextFieldInput extends Component {
         style={{width: 100}}
       />
     );
-  };
-
-  validateInput = () => {
-    const {translations} = this.context;
-    this.setState({validationMsg: ''});
-    const {fieldName, value} = this.props;
-    const validationMsg = validationService(fieldName, value === '' ? undefined : value);
-    this.setState({
-      validationMsg: translations[validationMsg],
-    });
   };
 
   getValidationMsg = () => {
@@ -52,12 +43,22 @@ class TextFieldInput extends Component {
     return label;
   }
 
+  onChangeText = (value) => {
+    const {translations} = this.context;
+    this.setState({validationMsg: ''});
+    const validationMsg = validationService(this.props.fieldName, value === '' ? undefined : value);
+    this.setState({
+      validationMsg: translations[validationMsg],
+      isValid: validationMsg === null,
+    }, () => {
+      this.props.onChangeText(this.props.fieldName, value);
+    });
+  }
+
   render() {
     const {
       value,
       placeholder,
-      fieldName,
-      onChangeText,
       isSecureEntry,
       keyboardType,
       maxLength,
@@ -74,9 +75,8 @@ class TextFieldInput extends Component {
           clearButtonMode="while-editing"
           secureTextEntry={isSecureEntry}
           value={value.toString()}
-          onChangeText={(text) => onChangeText(fieldName, text)}
+          onChangeText={(text) => this.onChangeText(text)}
           style={{backgroundColor: 'white', width: '100%'}}
-          onBlur={() => this.validateInput()}
           keyboardType={keyboardType || 'default'}
           maxLength={maxLength || null}
           theme={{colors: {primary: borderColor || 'blue'}}}
