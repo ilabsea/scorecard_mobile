@@ -1,6 +1,6 @@
-// export const voting = (criteria) => {
-//   return {
-//     type: 'ADD_TO_SELECTED',
-//     payload: criteria
-//   }
-// }
+export const getAll = (scorecard_uuid) => {
+  return {
+    type: 'GET_ALL',
+    payload: scorecard_uuid
+  }
+}
