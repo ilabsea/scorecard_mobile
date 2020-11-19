@@ -25,8 +25,8 @@ export default class VotingCriteriaList extends Component {
 
     this.state = {
       scorecard: { uuid: '931107' },
-      criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='931107'`))),
       // scorecard: realm.objects('Scorecard')[0]
+      criterias: realm.objects('VotingCriteria').filtered(`scorecard_uuid='931107'`),
     };
   }
 

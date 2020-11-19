@@ -12,6 +12,7 @@ import realm from '../../db/schema';
 import Color from '../../themes/color';
 import Images from '../../utils/images';
 import uuidv4 from '../../utils/uuidv4';
+import ratings from '../../db/jsons/ratings';
 
 const iconSize = 80;
 const iconWrapperSize = 98;
@@ -28,12 +29,12 @@ export default class CriteriaRatingItem extends Component {
   }
 
   _onClickIcon(rating) {
-    this.setState({currentScore: rating.score});
+    this.setState({currentScore: rating.value});
     !!this.props.onPress && this.props.onPress(rating);
   }
 
   _renderRatingIcon(rating) {
-    let activeIconStyle = rating.score == this.state.currentScore ? { borderColor: Color.headerColor } : {};
+    let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
 
     return (
       <TouchableOpacity
@@ -61,9 +62,6 @@ export default class CriteriaRatingItem extends Component {
   }
 
   _renderRatingIcons() {
-    let ratings = this._ratingData();
-    // console.log("--------------criteria", this.props.criteria);
-
     return (
       <View style={{marginTop: 30}}>
         <Text style={{fontSize: 18, fontWeight: 'bold', textTransform: 'capitalize'}}>{this.props.criteria.tag}</Text>
