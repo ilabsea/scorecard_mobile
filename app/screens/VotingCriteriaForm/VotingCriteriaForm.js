@@ -3,47 +3,29 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Image,
-  Text
 } from 'react-native';
+import { connect } from 'react-redux';
+import { getAll } from '../../actions/votingCriteriaAction';
 
-import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
-import uuidv4 from '../../utils/uuidv4';
-import { Median } from '../../utils/math';
-import ratings from '../../db/jsons/ratings';
 
 import ActionButton from '../../components/ActionButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
 
-export default class VotingCriteriaForm extends Component {
-  static contextType = LocalizationContext;
+import { submitVoting } from '../../services/votingCriteriaService';
 
+class VotingCriteriaForm extends Component {
   constructor(props) {
     super(props);
+    let scorecard_uuid = '931107';
 
     this.state = {
-      criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria'))),
+      scorecard: { uuid: scorecard_uuid },
+      criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecard_uuid}'`))),
       isValid: false,
     };
-  }
-
-  componentDidMount() {
-    // let votingCriterias = [
-    //   { uuid: '1', scorecard_uuid: '931107', tag: 'timing' },
-    //   { uuid: '2', scorecard_uuid: '931107', tag: 'behaviour' },
-    //   { uuid: '3', scorecard_uuid: '931107', tag: 'pricing' },
-    //   { uuid: '4', scorecard_uuid: '931107', tag: 'equipment' },
-    //   { uuid: '5', scorecard_uuid: '931107', tag: 'hygiene' },
-    // ]
-
-    // realm.write(() => {
-    //   for(let i=0; i<votingCriterias.length; i++) {
-    //     realm.create('VotingCriteria', votingCriterias[i], 'modified');
-    //   }
-    // });
   }
 
   onClickRatingIcon(criteria, rating) {
@@ -84,50 +66,10 @@ export default class VotingCriteriaForm extends Component {
     )
   }
 
-  _buildRatingData(criteria) {
-    return {
-      uuid: uuidv4(),
-      scorecard_uuid: criteria.scorecard_uuid,
-      voting_criteria_uuid: criteria.uuid,
-      voting_person_uuid: '',
-      score: criteria.ratingScore
-    }
-  }
-
-  _getCountMethod(criteria) {
-    return ratings.filter(rating => rating.value == criteria.ratingScore)[0]['countMethodName'];
-  }
-
-  _getMedian(criteria) {
-    let arr = [];
-
-    for(let i=0; i<ratings.length; i++) {
-      for(let j=0; j<criteria[ratings[i].countMethodName]; j++) {
-        arr.push(ratings[i].value);
-      }
-    }
-
-    return ratings[Median(arr)];
-  }
-
-  _updateCriteria = (criteria) => {
-    let criteriaObj = realm.objects('VotingCriteria').filtered(`uuid='${criteria.uuid}'`)[0];
-    criteriaObj[this._getCountMethod(criteria)] += 1;
-    criteriaObj.median = this._getMedian(criteriaObj).value;
-  }
-
   _submit() {
-    let self = this;
-    let criterias = this.state.criterias;
+    submitVoting(this.state.criterias);
 
-    realm.write(() => {
-      for(let i=0; i<criterias.length; i++) {
-        realm.create('Rating', self._buildRatingData(criterias[i]));
-
-        self._updateCriteria(criterias[i]);
-      }
-    });
-
+    this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
     this.props.navigation.goBack();
   }
 
@@ -152,6 +94,21 @@ export default class VotingCriteriaForm extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    refreshVotingCriteriaState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VotingCriteriaForm);
 
 const styles = StyleSheet.create({
   container: {
