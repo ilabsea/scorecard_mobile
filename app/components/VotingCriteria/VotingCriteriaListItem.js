@@ -15,6 +15,8 @@ import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 import uuidv4 from '../../utils/uuidv4';
 import Images from '../../utils/images';
+import ratings from '../../db/jsons/ratings';
+import { Median } from '../../utils/math';
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
@@ -38,23 +40,13 @@ export default class VotingCriteriaListItem extends Component {
       <View key={uuidv4()} style={styles.ratingItem}>
         { this._renderIcon(icon, 28) }
 
-        <Text style={styles.ratingCount}>{icon.count}</Text>
+        <Text style={styles.ratingCount}>{this.props.criteria[icon.countMethodName]}</Text>
       </View>
     )
   }
 
-  _iconData() {
-    return ([
-      { image: 'very_bad', count: '1', median: 'Very Bad' },
-      { image: 'bad', count: '2', median: 'Bad' },
-      { image: 'acceptable', count: '3', median: 'Acceptable' },
-      { image: 'good', count: '4', median: 'Good' },
-      { image: 'very_good', count: '5', median: 'Very Good' },
-    ]);
-  }
-
   _renderRatingIcons() {
-    let icons = this._iconData();
+    let icons = ratings;
 
     return (
       <View style={{flexDirection: 'row'}}>
@@ -64,12 +56,16 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderMedian() {
-    let currentIcon = this._iconData()[4];
+    const {criteria} = this.props;
+
+    if (!criteria.median) { return (null) }
+
+    let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
 
     return (
       <View style={styles.medianWrapper}>
         { this._renderIcon(currentIcon, 60) }
-        <Text style={styles.medianText}>{currentIcon.median}</Text>
+        <Text style={styles.medianText}>{currentIcon.label}</Text>
       </View>
     )
   }

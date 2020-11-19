@@ -11,6 +11,8 @@ import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
+import { Median } from '../../utils/math';
+import ratings from '../../db/jsons/ratings';
 
 import ActionButton from '../../components/ActionButton';
 import HeaderTitle from '../../components/HeaderTitle';
@@ -45,7 +47,7 @@ export default class VotingCriteriaForm extends Component {
   }
 
   onClickRatingIcon(criteria, rating) {
-    criteria.ratingScore = rating.score;
+    criteria.ratingScore = rating.value;
 
     this._checkValidForm();
   }
@@ -92,20 +94,41 @@ export default class VotingCriteriaForm extends Component {
     }
   }
 
+  _getCountMethod(criteria) {
+    return ratings.filter(rating => rating.value == criteria.ratingScore)[0]['countMethodName'];
+  }
+
+  _getMedian(criteria) {
+    let arr = [];
+
+    for(let i=0; i<ratings.length; i++) {
+      for(let j=0; j<criteria[ratings[i].countMethodName]; j++) {
+        arr.push(ratings[i].value);
+      }
+    }
+
+    return ratings[Median(arr)];
+  }
+
+  _updateCriteria = (criteria) => {
+    let criteriaObj = realm.objects('VotingCriteria').filtered(`uuid='${criteria.uuid}'`)[0];
+    criteriaObj[this._getCountMethod(criteria)] += 1;
+    criteriaObj.median = this._getMedian(criteriaObj).value;
+  }
+
   _submit() {
     let self = this;
     let criterias = this.state.criterias;
 
-    // realm.write(() => {
-    //   for(let i=0; i<criterias.length; i++) {
-    //     realm.create('Rating', self._buildRatingData(criterias[i]));
-    //   }
-    // });
+    realm.write(() => {
+      for(let i=0; i<criterias.length; i++) {
+        realm.create('Rating', self._buildRatingData(criterias[i]));
+
+        self._updateCriteria(criterias[i]);
+      }
+    });
 
     this.props.navigation.goBack();
-
-    // let ratings = realm.objects('Rating').filtered(`scorecard_uuid='${criterias[0].scorecard_uuid}'`);
-    // console.log("==========Ratings", JSON.stringify(ratings))
   }
 
   _renderFooter() {
