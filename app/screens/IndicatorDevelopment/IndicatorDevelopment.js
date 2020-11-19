@@ -24,7 +24,6 @@ export default class IndicatorDevelopment extends Component {
     super(props);
 
     this.state = {
-      // scorecard: realm.objects('Scorecard')[0]
       scorecard: {}
     };
   }
@@ -71,9 +70,6 @@ export default class IndicatorDevelopment extends Component {
   }
 
   render() {
-    // const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
-    // const scorecard = realm.objects('Scorecard')[0];
-
     return (
       <View style={{height: '100%'}}>
         { this._renderHeader() }

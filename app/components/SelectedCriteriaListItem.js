@@ -15,7 +15,6 @@ import { removeFromSelected } from '../actions/selectedCriteriaAction';
 import { addToProposed } from '../actions/proposedCriteriaAction';
 
 const SelectedCriteriaListItem = (props) => {
-  // const selectedCriterias = useSelector(state => state.selectedCriterias);
   const dispatch = useDispatch();
 
   const handleRemoveFromSelectedCriteria = (criteria) => {
