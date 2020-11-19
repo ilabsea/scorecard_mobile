@@ -131,10 +131,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20
-  },
-  listWrapper: {
-    flexDirection: 'row',
-    flex: 1,
-    marginBottom: 20
   }
 })
