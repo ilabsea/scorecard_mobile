@@ -20,6 +20,8 @@ import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 
 import { Provider, DefaultTheme } from 'react-native-paper';
+
+import { Provider} from 'react-native-paper';
 import FormModal from '../../components/ScorecardResult/FormModal';
 
 class ScorecardResult extends Component {

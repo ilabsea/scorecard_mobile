@@ -55,8 +55,8 @@ const FormModal = (props) => {
 
         <View style={{flex: 1}}></View>
         <View style={styles.btnWrapper}>
-          <Button onPress={onDimiss}>{translations.cancel}</Button>
-          <Button mode="contained" labelStyle={{color: '#fff'}} onPress={submit}>{translations.save}</Button>
+          <Button labelStyle={{color: Color.headerColor}} onPress={onDimiss}>{translations.cancel}</Button>
+          <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff'}} onPress={submit}>{translations.save}</Button>
         </View>
       </Modal>
     </Portal>
