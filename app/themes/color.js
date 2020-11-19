@@ -7,9 +7,13 @@ const Color = {
   inputBorderLineColor: '#7a7a7a',
   borderColor: '#ccc',
   subText: '#aaa',
+  horizontalLineColor: '#f2c097',
   verticalLineColor: '#cdcccc',
   disableCardColor: '#cdcccc',
   disabledBtnBg: '#6e6e6e',
+  tipBgColor: '#efb71c',
+  btnRemoveBgColor: '#e63636',
+  listItemBorderColor: '#c1c1c1',
 };
 
 export default Color;
