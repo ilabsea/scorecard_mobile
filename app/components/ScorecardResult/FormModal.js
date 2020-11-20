@@ -55,8 +55,13 @@ const FormModal = (props) => {
 
         <View style={{flex: 1}}></View>
         <View style={styles.btnWrapper}>
+<<<<<<< HEAD
           <Button labelStyle={{color: Color.headerColor}} onPress={onDimiss}>{translations.cancel}</Button>
           <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff'}} onPress={submit}>{translations.save}</Button>
+=======
+          <Button onPress={onDimiss}>{translations.cancel}</Button>
+          <Button mode="contained" labelStyle={{color: '#fff'}} onPress={submit}>{translations.save}</Button>
+>>>>>>> ScorecardResult: enhance style and add some translation
         </View>
       </Modal>
     </Portal>
