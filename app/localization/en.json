@@ -119,4 +119,6 @@
   "insertAge": "Please insert age",
   "insertGender": "Please insert gender",
   "cancel": "Cancel",
+  "inputText": "Input Text",
+  "finish": "FINISH",
 }

@@ -17,9 +17,9 @@ import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 
 import { Table, TableWrapper, Row} from 'react-native-table-component';
-import ScorecardResultListItem from '../../components/ScorecardResult/ScorecardResultListItem';
+import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 
-import { Provider} from 'react-native-paper';
+import { Provider, DefaultTheme } from 'react-native-paper';
 import FormModal from '../../components/ScorecardResult/FormModal';
 
 class ScorecardResult extends Component {
@@ -31,6 +31,7 @@ class ScorecardResult extends Component {
     this.state = {
       scorecard: { uuid: '931107' },
       currentCriteria: {},
+      visible: false
     };
   }
 
@@ -63,7 +64,7 @@ class ScorecardResult extends Component {
         <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3, 3]}/>
         {
           tableRows.map((criteria, index) => (
-            <ScorecardResultListItem key={index} criteria={criteria} onPress={(fieldName) => this._handleShowModal(criteria, fieldName)}/>
+            <ScorecardResultTableRow key={index} criteria={criteria} onPress={(fieldName) => this._handleShowModal(criteria, fieldName)}/>
           ))
         }
       </Table>
@@ -78,8 +79,18 @@ class ScorecardResult extends Component {
   }
 
   render() {
+    const theme = {
+      ...DefaultTheme,
+      colors: {
+        ...DefaultTheme.colors,
+        primary: Color.headerColor,
+      },
+    };
+
+    const { translations } = this.context;
+
     return (
-      <Provider style={{height: '100%'}}>
+      <Provider style={{height: '100%'}} theme={theme}>
         { this._renderHeader() }
 
         <ScrollView style={{flex: 1}}>
@@ -98,7 +109,7 @@ class ScorecardResult extends Component {
           <ActionButton
             onPress={() => console.log('hello')}
             customBackgroundColor={Color.headerColor}
-            label={'FINISH'}/>
+            label={translations.finish}/>
 
           <FormModal
             visible={this.state.visible}

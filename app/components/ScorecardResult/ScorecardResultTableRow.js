@@ -15,8 +15,9 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
 
-const ScorecardResultListItem = (props) => {
+const ScorecardResultTableRow = (props) => {
   const { translations } = useContext(LocalizationContext); // 1
+  const { criteria } = props;
 
   const onPress = (fieldName) => {
     !!props.onPress && props.onPress(fieldName);
@@ -34,7 +35,7 @@ const ScorecardResultListItem = (props) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center'}}>
         <View style={{flex: 1}}>
-          <Text numberOfLines={4} style={styles.text}>{props.criteria[fieldName]}</Text>
+          <Text numberOfLines={4} style={styles.text}>{criteria[fieldName]}</Text>
         </View>
 
         <TouchableOpacity onPress={() => onPress(fieldName)} style={{width: 28, height: 28, backgroundColor: Color.headerColor, justifyContent: 'center', alignItems: 'center', borderRadius: 14, marginLeft: 10}}>
@@ -45,7 +46,7 @@ const ScorecardResultListItem = (props) => {
   }
 
   const renderCell = (fieldName) => {
-    if (!props.criteria[fieldName]) {
+    if (!criteria[fieldName]) {
       return btnAdd(fieldName);
     }
 
@@ -60,8 +61,8 @@ const ScorecardResultListItem = (props) => {
 
   return (
     <TableWrapper style={styles.row} borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>
-      { _renderTextCell(props.criteria.tag, 4) }
-      { _renderTextCell(ratings.filter(x => x.value == props.criteria.median)[0].label, 2) }
+      { _renderTextCell(criteria.tag, 4) }
+      { _renderTextCell(ratings.filter(x => x.value == criteria.median)[0].label, 2) }
       { editableFields.map((fieldName, index) => (
         <Cell key={index} data={renderCell(fieldName)} textStyle={styles.text} style={{flex: 3}}/>
       ))}
@@ -69,7 +70,7 @@ const ScorecardResultListItem = (props) => {
   )
 }
 
-export default ScorecardResultListItem;
+export default ScorecardResultTableRow;
 
 const styles = StyleSheet.create({
   container: {
@@ -81,8 +82,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20
   },
-  text: { margin: 6, fontSize: 18 },
-  row: { flexDirection: 'row', minHeight: 80, backgroundColor: '#fff'},
-  btn: { width: 80, height: 34, backgroundColor: '#cacaca',  borderRadius: 4, justifyContent: 'center', alignItems: 'center', marginLeft: 6 },
-  btnText: { textAlign: 'center', color: '#000', fontWeight: 'bold' }
+  text: {
+    margin: 6,
+    fontSize: 18
+  },
+  row: {
+    flexDirection: 'row',
+    minHeight: 80,
+    backgroundColor: '#fff'
+  },
+  btn: {
+    width: 80,
+    height: 34,
+    backgroundColor: '#cacaca',
+     borderRadius: 4,
+     justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 6
+  },
+  btnText: {
+    textAlign: 'center',
+    color: '#000',
+    fontWeight: 'bold'
+  }
 });
