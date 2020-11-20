@@ -29,7 +29,7 @@ class ScorecardResult extends Component {
     super(props);
 
     this.state = {
-      scorecard: { uuid: '931107' },
+      scorecard: { uuid: props.route.params.scorecard_uuid },
       currentCriteria: {},
       visible: false
     };
