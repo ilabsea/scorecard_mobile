@@ -11,29 +11,37 @@ class UserTable extends Component {
   }
 
   indicatorBadage = (indicator) => {
-    return (
-      <View style={styles.indicatorBadge}>
-        <Text style={styles.indicatorLabel}>{indicator}</Text>
-      </View>
-    );
+    if (indicator != null && indicator != '') {
+      return (
+        <View style={styles.indicatorBadge}>
+          <Text style={styles.indicatorLabel}>{indicator}</Text>
+        </View>
+      );
+    }
   }
 
-  editButton = () => {
+  editParticipant = (participantUUID) => {
+    this.props.navigation.navigate('CreateNewIndicator', {uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
+  }
+
+  editButton = (participantUUID, rowIndex) => {
     return (
-      <TouchableOpacity style={{flexDirection: 'row', alignSelf: 'center'}}>
+      <TouchableOpacity onPress={() => this.editParticipant(participantUUID)}
+        style={{flexDirection: 'row', alignSelf: 'center'}}
+        >
         <MaterialIcon name="edit" color="#e4761e" size={18}/>
         <Text style={{color: '#e4761e', textTransform: 'uppercase', fontWeight: '700', marginLeft: 4}}>Edit</Text>
       </TouchableOpacity>
     );
   }
 
-  getCellData = (cellData, cellIndex) => {
+  getCellData = (cellData, cellIndex, rowIndex) => {
     if (cellIndex === 3)
       return this.isDisabled(cellData);
     else if (cellIndex === 4)
       return this.indicatorBadage(cellData);
     else if (cellIndex === 6)
-      return this.editButton()
+      return this.editButton(cellData, rowIndex);
     else
       return cellData;
   }
@@ -56,11 +64,11 @@ class UserTable extends Component {
         <Table borderStyle={{borderWidth: 1, borderColor: '#c1c1c1'}}>
           <Row data={tableHead} style={styles.tableHead} textStyle={styles.headerText} />
           {
-            tableData.map((rowData, index) => (
-              <TableWrapper key={index} style={styles.tableWrapper}>
+            tableData.map((rowData, rowIndex) => (
+              <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex)} textStyle={styles.text} />
+                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex, rowIndex)} textStyle={styles.text} />
                   ))
                 }
               </TableWrapper>
@@ -86,10 +94,12 @@ const styles = StyleSheet.create({
     margin: 6,
     fontSize: 14,
     fontWeight: '700',
+    textAlign: 'center',
   },
   text: {
     margin: 6,
     marginVertical: 10,
+    textAlign: 'center',
   },
   tableWrapper: {
     flexDirection: 'row',

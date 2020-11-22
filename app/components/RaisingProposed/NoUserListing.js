@@ -18,7 +18,7 @@ class NoUserListing extends Component {
         <Text>{translations['thereIsNoScorecardVotingYet']}</Text>
         <Text>{translations['pleaseCreateTheVoteBelow']}</Text>
         <Button iconLeft primary style={styles.button}
-          onPress={() => this.props.openCreateNewCriteriaScreen()}>
+          onPress={() => this.props.openCreateNewIndicatorScreen()}>
           <Icon name="add" />
           <Text style={styles.buttonLabel}>{translations['addNewUser']}</Text>
         </Button>

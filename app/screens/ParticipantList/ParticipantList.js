@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard, FlatList, RefreshControl} from 'react-native';
+import {View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, RefreshControl} from 'react-native';
 import realm from '../../db/schema';
 
+import {LocalizationContext} from '../../components/Translations';
 import ParticipantListItem from '../../components/ParticipantList/ParticipantListItem';
+import ParticipantCountLabel from '../../components/ParticipantList/ParticipantCountLabel';
+import ActionButton from '../../components/ActionButton';
+import Color from '../../themes/color';
 
 class ParticipantList extends Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    this.totalParticipant = 0;
     this.state = {
       participants: [],
       isLoading: false,
@@ -59,6 +65,7 @@ class ParticipantList extends Component {
 
   renderParticipantList = () => {
     const numberOfParticipant = realm.objects('ParticipantInformation').filtered('uuid = "' + this.props.route.params.uuid + '"')[0].participant;
+    this.totalParticipant = numberOfParticipant;
     return (
       <FlatList
         data={Array(numberOfParticipant).fill({})}
@@ -79,12 +86,25 @@ class ParticipantList extends Component {
   }
 
   render() {
+    const {translations} = this.context;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 20}}>Participant list</Text>
           {this.renderListHeader()}
           {this.renderParticipantList()}
+          <View style={styles.buttonContainer}>
+            <ParticipantCountLabel
+              customContainerStyle={{paddingVertical: 10}}
+              totalParticipant={this.totalParticipant}
+              addedParticipant={this.state.participants.length}
+            />
+            <ActionButton
+              label={translations['next']}
+              customBackgroundColor={Color.primaryButtonColor}
+              onPress={() => this.props.navigation.navigate('RaisingProposed', {uuid: this.props.route.params.uuid})}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -104,6 +124,9 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontWeight: '700',
+  },
+  buttonContainer: {
+    paddingBottom: 22,
   },
 });
 

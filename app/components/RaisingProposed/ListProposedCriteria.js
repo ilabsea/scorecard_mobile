@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {LocalizationContext} from '../Translations';
-
 class ListProposedCriteria extends Component {
   static contextType = LocalizationContext;
   indicators = [

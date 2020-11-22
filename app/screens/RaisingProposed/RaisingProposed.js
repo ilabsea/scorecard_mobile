@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import NoUserListing from '../../components/RaisingProposed/NoUserListing';
@@ -10,14 +10,10 @@ class RaisingProposed extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    this.isVisible = false;
-    this.state = {
-      users: [],
-    };
   }
 
-  openCreateNewCriteriaScreen = () => {
-    this.props.navigation.navigate('CreateNewIndicator');
+  openCreateNewIndicatorScreen = () => {
+    this.props.navigation.navigate('CreateNewIndicator', {uuid: this.props.route.params.uuid});
   };
 
   render() {
@@ -29,14 +25,11 @@ class RaisingProposed extends Component {
           onBackPress={() => this.props.navigation.goBack()}
           progressIndex={3}
         />
-        <ScrollView contentContainerStyle={styles.container}>
-          { this.state.users.length === 0 &&
-            <NoUserListing openCreateNewCriteriaScreen={() => this.openCreateNewCriteriaScreen()}/>
-          }
-          { this.state.users.length > 0 &&
-            <UserListing openCreateNewCriteriaScreen={() => this.openCreateNewCriteriaScreen()}/>
-          }
-        </ScrollView>
+        <UserListing
+          uuid={this.props.route.params.uuid}
+          openCreateNewIndicatorScreen={() => this.openCreateNewIndicatorScreen()}
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }

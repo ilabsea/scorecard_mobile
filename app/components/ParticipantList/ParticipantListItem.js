@@ -12,7 +12,7 @@ class ParticipantListItem extends Component {
         </View>
       );
 
-    return <MaterialIcon name="help" size={45} color="gray" style={{marginTop: -4}} />;
+    return <MaterialIcon name="help" size={45} color="gray" style={{marginTop: -4, marginLeft: -4}} />;
   };
 
   renderGender = (participant) => {

@@ -81,7 +81,7 @@ function AppNavigator() {
             name="IndicatorDevelopment"
             component={IndicatorDevelopmentScreen}
             options={({navigation}) => ({
-              header: ()=> null
+              header: () => null,
             })}
           />
           <Stack.Screen
@@ -156,20 +156,6 @@ function AppNavigator() {
             }}
           />
           <Stack.Screen
-            name="RaisingProposed"
-            component={RaisingProposedScreen}
-            options={({navigation}) => ({
-              header: () => null,
-            })}
-          />
-          <Stack.Screen
-            name="CreateNewIndicator"
-            component={CreateNewIndicatorScreen}
-            options={{
-              title: `${translations['createNewIndicator']}`,
-            }}
-          />
-          <Stack.Screen
             name="ParticipantList"
             component={ParticipantListScreen}
             options={{
@@ -181,6 +167,20 @@ function AppNavigator() {
             component={AddNewParticipantScreen}
             options={{
               title: `${translations['getStarted']}`,
+            }}
+          />
+          <Stack.Screen
+            name="RaisingProposed"
+            component={RaisingProposedScreen}
+            options={({navigation}) => ({
+              header: () => null,
+            })}
+          />
+          <Stack.Screen
+            name="CreateNewIndicator"
+            component={CreateNewIndicatorScreen}
+            options={{
+              title: `${translations['createNewIndicator']}`,
             }}
           />
         </Stack.Navigator>
