@@ -15,6 +15,7 @@ import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardShowScreen from '../screens/ScorecardShow/ScorecardShow';
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
+import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriteriaList';
 
 // Util and components
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
@@ -69,6 +70,13 @@ function AppNavigator() {
           <Stack.Screen
             name="IndicatorDevelopment"
             component={IndicatorDevelopmentScreen}
+            options={({navigation}) => ({
+              header: ()=> null
+            })}
+          />
+          <Stack.Screen
+            name="VotingCriteriaList"
+            component={VotingCriteriaListScreen}
             options={({navigation}) => ({
               header: ()=> null
             })}
