@@ -50,7 +50,7 @@ export default class ScorecardShow extends Component {
         <View style={{flex: 1, padding: 16}}>
           <Text style={{fontSize: 24, color: "#000", fontWeight: 'bold', lineHeight: 40, marginBottom: 16}}>3 of 5 Step</Text>
 
-          <VerticalProgressStep progressIndex={2}/>
+          <VerticalProgressStep progressIndex={2} navigation={this.props.navigation}/>
 
           <View style={{flex: 1, justifyContent: 'flex-end'}}>
             { this._renderBtnDownload() }

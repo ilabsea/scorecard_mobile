@@ -38,7 +38,7 @@ export default class IndicatorDevelopment extends Component {
 
     return (
       <ProgressHeader
-        title={this.state.scorecard.name}
+        title={"this.state.scorecard.name"}
         onBackPress={() => this.props.navigation.goBack()}
         steps={steps}
         progressIndex={0}/>
@@ -62,7 +62,7 @@ export default class IndicatorDevelopment extends Component {
         </View>
 
         <ActionButton
-          onPress={() => console.log('hello')}
+          onPress={() => this.props.navigation.navigate('VotingCriteriaList')}
           customBackgroundColor={Color.headerColor}
           label={'Next'}/>
       </View>
