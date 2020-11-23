@@ -6,8 +6,8 @@ import {LocalizationContext} from '../Translations';
 
 class UserTable extends Component {
   static contextType = LocalizationContext;
-  isDisabled = (isDisabled) => {
-    return isDisabled ? 'Yes' : 'No';
+  isDisability = (isDisability) => {
+    return isDisability ? 'Yes' : isDisability !== '' ? 'No' : '';
   }
 
   indicatorBadage = (indicator) => {
@@ -24,7 +24,7 @@ class UserTable extends Component {
     this.props.navigation.navigate('CreateNewIndicator', {uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
   }
 
-  editButton = (participantUUID, rowIndex) => {
+  editButton = (participantUUID) => {
     return (
       <TouchableOpacity onPress={() => this.editParticipant(participantUUID)}
         style={{flexDirection: 'row', alignSelf: 'center'}}
@@ -35,13 +35,13 @@ class UserTable extends Component {
     );
   }
 
-  getCellData = (cellData, cellIndex, rowIndex) => {
+  getCellData = (cellData, cellIndex) => {
     if (cellIndex === 3)
-      return this.isDisabled(cellData);
+      return this.isDisability(cellData);
     else if (cellIndex === 4)
       return this.indicatorBadage(cellData);
     else if (cellIndex === 6)
-      return this.editButton(cellData, rowIndex);
+      return this.editButton(cellData);
     else
       return cellData;
   }
@@ -68,7 +68,7 @@ class UserTable extends Component {
               <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex, rowIndex)} textStyle={styles.text} />
+                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex)} textStyle={styles.text} />
                   ))
                 }
               </TableWrapper>

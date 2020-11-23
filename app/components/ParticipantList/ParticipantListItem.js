@@ -39,8 +39,7 @@ class ParticipantListItem extends Component {
 
   editParticipant = (index) => {
     const participantUUID = this.props.participant != undefined ? this.props.participant.uuid : null;
-    this.props.navigation.navigate('AddNewParticipant',
-      {uuid: this.props.uuid, index: index, participant_uuid: participantUUID});
+    this.props.navigation.navigate('AddNewParticipant', {uuid: this.props.uuid, index: index, participant_uuid: participantUUID});
   }
 
   render() {

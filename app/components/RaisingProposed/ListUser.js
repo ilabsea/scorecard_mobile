@@ -4,11 +4,12 @@ import {Button, Icon} from 'native-base';
 import {LocalizationContext} from '../Translations';
 import UserTable from './UserTable';
 import realm from '../../db/schema';
+import {connect} from 'react-redux';
 class ListUser extends Component {
   static contextType = LocalizationContext;
   getParticipant = () => {
     const numberOfParticipant = realm.objects('ParticipantInformation').filtered('uuid = "' + this.props.uuid + '"')[0].participant;
-    const savedParticipants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.uuid +'"').sorted('order', false);
+    const savedParticipants = this.props.participants;
     let participants = [];
     for (let i=0; i<savedParticipants.length; i++) {
       const gender = savedParticipants[i].gender === 'female' ? 'F' : savedParticipants[i].gender === 'male' ? 'M' : 'other';
@@ -75,4 +76,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListUser;
+function mapStateToProps(state) {
+  return {participants: state.participantReducer.participants};
+}
+
+export default connect(mapStateToProps, null)(ListUser);

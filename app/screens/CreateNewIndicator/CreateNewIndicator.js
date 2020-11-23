@@ -9,7 +9,8 @@ import OutlinedActionButton from '../../components/OutlinedActionButton';
 import IndicatorCriteriaSelection from '../../components/RaisingProposed/IndicatorCriteriaSelection';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import Color from '../../themes/color';
-
+import {saveParticipant} from '../../actions/participantAction';
+import {connect} from 'react-redux';
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -33,12 +34,14 @@ class CreateNewIndicator extends Component {
   }
 
   save = () => {
+    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
     const attrs = {
       uuid: this.props.route.params.participant_uuid,
       indicator_id: this.state.selectedIndicator.id,
       indicator_shortcut_name: this.state.selectedIndicator.symbol,
     };
     realm.write(() => {realm.create('Participant', attrs, 'modified');});
+    this.props.saveParticipant(participants);
     this.props.navigation.goBack();
   }
 
@@ -95,4 +98,12 @@ class CreateNewIndicator extends Component {
   }
 }
 
-export default CreateNewIndicator;
+function mapStateToProps(state) {
+  return {participants: state.participantReducer.participants};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {saveParticipant: (participants) => dispatch(saveParticipant(participants))};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator);

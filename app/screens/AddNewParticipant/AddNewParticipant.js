@@ -8,8 +8,9 @@ import SelectPicker from '../../components/SelectPicker';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
-import ParticipantSchema from '../../db/models/participant';
 
+import {saveParticipant} from '../../actions/participantAction';
+import {connect} from 'react-redux';
 class AddNewParticipant extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -169,9 +170,9 @@ class AddNewParticipant extends Component {
   }
 
   saveParticipant = () => {
-    const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"');
+    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth, isUpdate} = this.state;
-    const attrs = {
+    let attrs = {
       uuid: isUpdate ? this.props.route.params.participant_uuid : uuidv4(),
       age: parseInt(age),
       gender: selectedGender,
@@ -181,7 +182,7 @@ class AddNewParticipant extends Component {
       youth: this.getTrueFalseValue(isYouth),
       indicator_id: null,
       scorecard_uuid: this.props.route.params.uuid,
-      order: participants.length,
+      order: !isUpdate ? participants.length : this.props.route.params.index,
     };
     realm.write(() => {
       if (!isUpdate)
@@ -189,6 +190,7 @@ class AddNewParticipant extends Component {
       else
         realm.create('Participant', attrs, 'modified');
     });
+    this.props.saveParticipant(participants);
     this.props.navigation.goBack();
   }
 
@@ -224,4 +226,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddNewParticipant;
+function mapDispatchToProps(dispatch) {
+  return {saveParticipant: (participants) => dispatch(saveParticipant(participants))};
+}
+
+export default connect(null, mapDispatchToProps)(AddNewParticipant);

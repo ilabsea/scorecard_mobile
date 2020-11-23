@@ -7,6 +7,8 @@ import ParticipantListItem from '../../components/ParticipantList/ParticipantLis
 import ParticipantCountLabel from '../../components/ParticipantList/ParticipantCountLabel';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
+import {saveParticipant} from '../../actions/participantAction';
+import {connect} from 'react-redux';
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
@@ -14,7 +16,6 @@ class ParticipantList extends Component {
     super(props);
     this.totalParticipant = 0;
     this.state = {
-      participants: [],
       isLoading: false,
     }
   }
@@ -26,8 +27,8 @@ class ParticipantList extends Component {
   fetchParticipant = () => {
     this.setState({isLoading: true});
     const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
+    this.props.saveParticipant(participants);
     this.setState({
-      participants: participants != undefined ? participants : [],
       isLoading: false,
     });
   }
@@ -70,7 +71,7 @@ class ParticipantList extends Component {
       <FlatList
         data={Array(numberOfParticipant).fill({})}
         renderItem={({item, index}) =>
-          <ParticipantListItem index={index} participant={this.state.participants[index]}
+          <ParticipantListItem index={index} participant={this.props.participants[index]}
             navigation={this.props.navigation} uuid={this.props.route.params.uuid}
           />
         }
@@ -97,7 +98,7 @@ class ParticipantList extends Component {
             <ParticipantCountLabel
               customContainerStyle={{paddingVertical: 10}}
               totalParticipant={this.totalParticipant}
-              addedParticipant={this.state.participants.length}
+              addedParticipant={this.props.participants.length}
             />
             <ActionButton
               label={translations['next']}
@@ -130,4 +131,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParticipantList;
+function mapStateToProps(state) {
+  return {participants: state.participantReducer.participants};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {saveParticipant: (participants) => dispatch(saveParticipant(participants))};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ParticipantList);
