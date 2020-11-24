@@ -9,8 +9,8 @@ const ProposedCriteriaSchema = {
     indicatorable_id: 'string?',
     indicatorable_type: 'string?',
     tag: 'string?',
-    participant_uuid: 'string?'
-  }
-}
+    participant_uuid: 'string?',
+  },
+};
 
 export default ProposedCriteriaSchema;

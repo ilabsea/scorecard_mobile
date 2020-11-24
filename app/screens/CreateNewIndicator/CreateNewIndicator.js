@@ -10,6 +10,7 @@ import IndicatorCriteriaSelection from '../../components/RaisingProposed/Indicat
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import Color from '../../themes/color';
 import {saveParticipant} from '../../actions/participantAction';
+import uuidv4 from '../../utils/uuidv4';
 import {connect} from 'react-redux';
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
@@ -40,15 +41,29 @@ class CreateNewIndicator extends Component {
     this.setState({isModalVisible: false});
   }
 
+  saveNewIndicator = (customIndicator) => {
+    // console.log('custom indicator == ', customIndicator);
+    realm.write(() => {
+      if (!isUpdate)
+        realm.create('CustomIndicator', customIndicator);
+      else
+        realm.create('CustomIndicator', customIndicator, 'modified');
+    });
+    this.setState({isModalVisible: false});
+  }
+
   save = () => {
     let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
-    const attrs = {
-      uuid: this.props.route.params.participant_uuid,
-      indicator_ids: this.state.selectedIndicators.map(indicator => indicator.id),
-      indicator_shortcuts: this.state.selectedIndicators.map(indicator => indicator.shortcut),
-    };
-    realm.write(() => {realm.create('Participant', attrs, 'modified');});
-    this.props.saveParticipant(participants);
+    // const attrs = {
+    //   uuid: this.props.route.params.participant_uuid,
+    //   indicator_ids: this.state.selectedIndicators.map(indicator => indicator.id),
+    //   indicator_shortcuts: this.state.selectedIndicators.map(indicator => indicator.shortcut),
+    // };
+    // realm.write(() => {realm.create('Participant', attrs, 'modified');});
+    // this.props.saveParticipant(participants);
+
+    console.log('selected indicators == ', this.state.selectedIndicators)
+
     this.props.navigation.goBack();
   }
 
@@ -97,6 +112,9 @@ class CreateNewIndicator extends Component {
             <AddNewIndicatorModal
               isVisible={this.state.isModalVisible}
               closeModal={() => this.closeModal()}
+              saveNewIndicator={this.saveNewIndicator}
+              participantUUID={this.props.route.params.participant_uuid}
+              scorecardUUID={this.props.route.params.uuid}
             />
           </Portal>
         </View>

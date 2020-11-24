@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Modal} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import TextFieldInput from '../TextFieldInput';
 import ActionButton from '../ActionButton';
+import VoiceRecord from './VoiceRecord';
 import Color from '../../themes/color';
+import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../Translations';
 
 class AddNewIndicatorModal extends Component {
@@ -14,8 +15,8 @@ class AddNewIndicatorModal extends Component {
     super(props);
     this.state = {
       name: '',
-      issueNote: '',
-      issueVoice: null,
+      note: '',
+      audio: null,
     };
   }
 
@@ -23,21 +24,40 @@ class AddNewIndicatorModal extends Component {
     this.setState({name});
   }
 
-  onChangeIssueNote = (text) => {
-    this.setState({issueNote: text});
+  onChangeNote = (text) => {
+    this.setState({note: text});
   }
 
   isValid = () => {
-    return (this.state.name === '' || this.state.name === undefined) ? false : true;
+    if (this.state.name === '' || this.state.name === undefined) return false;
+
+    if (this.state.note != '' || this.state.audio != null) return true;
+
+    return false;
   }
 
   cancel = () => {
     this.setState({
       name: '',
-      issueNote: '',
-      issueVoice: null,
+      note: '',
+      audio: null,
     });
     this.props.closeModal();
+  }
+
+  save = () => {
+    const customIndicator = {
+      uuid: uuidv4(),
+      name: this.state.name,
+      note: this.state.note,
+      audio: this.state.audio,
+    };
+    console.log('save custom indicator === ', customIndicator);
+    this.props.saveNewIndicator(customIndicator);
+  }
+
+  finishRecord = (filename) => {
+    this.setState({audio: filename});
   }
 
   renderButton = () => {
@@ -53,7 +73,7 @@ class AddNewIndicatorModal extends Component {
         </TouchableOpacity>
 
         <ActionButton
-          onPress={() => this.props.closeModal()}
+          onPress={() => this.save()}
           label={translations['save']}
           customButtonStyle={{width: 100}}
           customBackgroundColor={Color.primaryButtonColor}
@@ -69,8 +89,7 @@ class AddNewIndicatorModal extends Component {
       <Modal
         visible={this.props.isVisible}
         onDismiss={() => this.props.closeModal()}
-        contentContainerStyle={styles.container}
-        >
+        contentContainerStyle={styles.container}>
         <Text style={styles.header}>{translations['addNewIndicator']}</Text>
         <TextFieldInput
           value={this.state.name}
@@ -80,23 +99,24 @@ class AddNewIndicatorModal extends Component {
           fieldName="indicatorName"
           onChangeText={this.onChangeText}
         />
-
-        <View style={{position: 'relative', marginBottom: 80}}>
+        <View style={{marginBottom: 20}}>
           <TextInput
             label={translations['issueNote']}
             placeholder={translations['writeIssueOrRecordVoice']}
             mode="outlined"
             clearButtonMode="while-editing"
-            value={this.state.issueNote}
-            onChangeText={(text) => this.onChangeIssueNote(text)}
+            value={this.state.note}
+            onChangeText={(text) => this.onChangeNote(text)}
             style={{backgroundColor: 'white', width: '100%'}}
             multiline={true}
             height={180}
           />
-          <TouchableOpacity style={styles.voiceRecordButton}>
-            <MaterialIcon name="mic" size={35} color="#ffffff" />
-          </TouchableOpacity>
         </View>
+        <VoiceRecord
+          participantUUID={this.props.participantUUID}
+          scorecardUUID={this.props.scorecardUUID}
+          finishRecord={this.finishRecord}
+        />
         {this.renderButton()}
       </Modal>
     );
@@ -114,21 +134,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 25,
   },
-  voiceRecordButton: {
-    backgroundColor: Color.primaryButtonColor,
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 16,
-    right: 16,
-    zIndex: 100,
-  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    marginTop: 126,
   },
   buttonCancel: {
     width: 100,
