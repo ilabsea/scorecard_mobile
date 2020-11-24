@@ -18,14 +18,21 @@ class CreateNewIndicator extends Component {
     this.indicatorSelectionRef = React.createRef();
     this.state = {
       isModalVisible: false,
-      selectedIndicator: null,
+      isValid: false,
+      selectedIndicators: [],
     };
+  }
+
+  componentDidMount() {
+    const selectedParticipant = realm.objects('Participant').filtered('uuid = "'+ this.props.route.params.participant_uuid +'"')[0];
+    this.setState({isValid: (selectedParticipant != undefined && selectedParticipant.indicator_ids.length > 0) ? true : false});
   }
 
   selectIndicator = () => {
     this.setState({
       isModalVisible: this.indicatorSelectionRef.current.state.isModalVisible,
-      selectedIndicator: this.indicatorSelectionRef.current.state.selectedIndicator
+      selectedIndicators: this.indicatorSelectionRef.current.state.selectedIndicators,
+      isValid: this.indicatorSelectionRef.current.state.selectedIndicators.length > 0 ? true : false,
     });
   };
 
@@ -37,8 +44,8 @@ class CreateNewIndicator extends Component {
     let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
     const attrs = {
       uuid: this.props.route.params.participant_uuid,
-      indicator_id: this.state.selectedIndicator.id,
-      indicator_shortcut_name: this.state.selectedIndicator.symbol,
+      indicator_ids: this.state.selectedIndicators.map(indicator => indicator.id),
+      indicator_shortcuts: this.state.selectedIndicators.map(indicator => indicator.shortcut),
     };
     realm.write(() => {realm.create('Participant', attrs, 'modified');});
     this.props.saveParticipant(participants);
@@ -47,7 +54,7 @@ class CreateNewIndicator extends Component {
 
   renderSaveButton = () => {
     const {translations} = this.context;
-    if (this.state.selectedIndicator != null) {
+    if (this.state.isValid) {
       return (
         <View style={{paddingBottom: 42, justifyContent: 'flex-end'}}>
           <ActionButton

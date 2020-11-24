@@ -10,13 +10,15 @@ class UserTable extends Component {
     return isDisability ? 'Yes' : isDisability !== '' ? 'No' : '';
   }
 
-  indicatorBadage = (indicator) => {
-    if (indicator != null && indicator != '') {
-      return (
-        <View style={styles.indicatorBadge}>
-          <Text style={styles.indicatorLabel}>{indicator}</Text>
-        </View>
-      );
+  indicatorBadge = (indicators) => {
+    if (indicators != null && indicators.length > 0) {
+      return indicators.map((indicator, index) => {
+        return (
+          <View key={index} style={styles.indicatorBadge}>
+            <Text style={styles.indicatorLabel}>{indicator}</Text>
+          </View>
+        );
+      });
     }
   }
 
@@ -39,7 +41,7 @@ class UserTable extends Component {
     if (cellIndex === 3)
       return this.isDisability(cellData);
     else if (cellIndex === 4)
-      return this.indicatorBadage(cellData);
+      return this.indicatorBadge(cellData);
     else if (cellIndex === 6)
       return this.editButton(cellData);
     else
@@ -106,18 +108,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   indicatorBadge: {
-    backgroundColor: '#787878',
+    paddingHorizontal: 2,
     paddingVertical: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 8,
-    borderRadius: 3,
   },
   indicatorLabel: {
     color: '#ffffff',
     fontSize: 14,
     fontWeight: '700',
-  }
+    backgroundColor: '#787878',
+    padding: 5,
+    borderRadius: 3,
+  },
 });
 
 export default UserTable;

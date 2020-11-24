@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   itemColumn: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   itemTitle: {
     fontWeight: '700',

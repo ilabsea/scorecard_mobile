@@ -9,7 +9,7 @@ class IndicatorCriteriaSelection extends Component {
     super(props);
     this.state = {
       indicators: [],
-      selectedIndicator: null,
+      selectedIndicators: [],
       isModalVisible: false,
     };
   }
@@ -22,17 +22,22 @@ class IndicatorCriteriaSelection extends Component {
     return indicator.isSelected ? {backgroundColor: Color.primaryButtonColor} : {};
   }
 
-  symbolColor = (indicator) => {
+  shortcutColor = (indicator) => {
     return indicator.isSelected ? {color: '#ffffff'} : {};
   }
 
   selectIndicator = (index) => {
-    const indicators = this.state.indicators;
-    indicators.map((indicator) => (indicator.isSelected = false));
-    indicators[index].isSelected = true;
+    let indicators = this.state.indicators;
+    let selectedIndicators = this.state.selectedIndicators;
+    if (indicators[index].isSelected)
+      selectedIndicators = selectedIndicators.filter((indicator) => indicator.id !== indicators[index].id);
+    else
+      selectedIndicators.push(indicators[index]);
+
+    indicators[index].isSelected = !indicators[index].isSelected;
     this.setState({
-      indicators: indicators,
-      selectedIndicator: indicators[index],
+      indicators,
+      selectedIndicators,
       isModalVisible: index === indicators.length - 1 ? true : false,
     }, () => {
       this.props.selectIndicator();
@@ -45,7 +50,7 @@ class IndicatorCriteriaSelection extends Component {
         onPress={() => this.selectIndicator(index)}>
         <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
           { index != this.state.indicators.length - 1 &&
-            <Text style={[styles.criteriaSymbol, this.symbolColor(indicator)]}>{indicator.symbol}</Text>
+            <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{indicator.shortcut}</Text>
           }
           { index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
         </View>
@@ -75,17 +80,28 @@ class IndicatorCriteriaSelection extends Component {
     let indicators = [];
     const savedIndicators = realm.objects('Indicator').filtered('uuid = "'+ this.props.uuid +'"');
     const selectedParticipant = realm.objects('Participant').filtered('uuid = "'+ this.props.participantUUID +'"')[0];
-
+    let selectedIndicators = [];
     savedIndicators.map((indicator) => {
-      const attr = {
+      let attrs = {
         id: indicator.id,
         label: indicator.name,
-        symbol: indicator.name.split(':')[0],
-        isSelected: (selectedParticipant != undefined && selectedParticipant.indicator_id === indicator.id) ? true : false,
+        shortcut: indicator.name.split(':')[0],
+        isSelected: false,
       };
-      indicators.push(attr);
+      if (selectedParticipant != undefined) {
+        const participantIndicators = selectedParticipant.indicator_ids;
+        for (let i=0; i<participantIndicators.length; i++) {
+          if (participantIndicators[i] === indicator.id) {
+            attrs['isSelected'] = true;
+            selectedIndicators.push(attrs);
+            break;
+          }
+        }
+      }
+      indicators.push(attrs);
     });
-    indicators.push({label: 'Other indicator', id: '', symbol: 'add', isSelectd: false})
+    indicators.push({label: 'Other indicator', id: '', shortcut: 'add', isSelectd: false})
+    this.setState({selectedIndicators}, () => {this.props.selectIndicator();});
     return indicators;
   }
 
@@ -121,7 +137,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 2,
     borderBottomLeftRadius: 2,
   },
-  criteriaSymbol: {
+  criteriaShortcut: {
     color: '#787878',
     fontSize: 30,
     fontWeight: 'bold',
