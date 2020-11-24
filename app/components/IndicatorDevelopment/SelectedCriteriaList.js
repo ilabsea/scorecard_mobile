@@ -7,29 +7,34 @@ import {
   FlatList
 } from 'react-native';
 
-import { LocalizationContext } from './Translations';
+import { LocalizationContext } from '../Translations';
 import { Icon } from 'native-base';
 
-import realm from '../db/schema';
-import Color from '../themes/color';
-import customStyle from '../themes/customStyle';
-import uuidv4 from '../utils/uuidv4';
+import Color from '../../themes/color';
+import customStyle from '../../themes/customStyle';
+import uuidv4 from '../../utils/uuidv4';
 
 import { connect } from 'react-redux';
-import { removeAll } from '../actions/selectedCriteriaAction';
-import { resetProposed } from '../actions/proposedCriteriaAction';
-
-import SelectedCriteriaListItem from './SelectedCriteriaListItem';
+import { removeFromSelected } from '../../actions/selectedCriteriaAction';
+import { addToProposed } from '../../actions/proposedCriteriaAction';
+import listStyles from '../../themes/listItemStyle';
+import CriteriaListItem from './CriteriaListItem';
 
 class SelectedCriteriaList extends Component {
   static contextType = LocalizationContext;
 
   _handleRemoveAll() {
-    this.props.resetProposed();
-    this.props.removeAll();
+    this.props._onPressRemoveAll();
+  }
+
+  _onPress(criteria) {
+    this.props.removeFromSelected(criteria);
+    this.props.addToProposed(criteria);
   }
 
   _renderList() {
+    const { translations } = this.context;
+
     return (
       <View style={[customStyle.card, {flex: 1}]}>
         <View style={styles.header}>
@@ -40,13 +45,20 @@ class SelectedCriteriaList extends Component {
             style={styles.btnRemoveAll}>
 
             <Icon name='remove-circle' style={styles.removeIcon} />
-            <Text style={styles.textRemove}>Remove All</Text>
+            <Text style={styles.textRemove}>{translations.removeAll}</Text>
           </TouchableOpacity>
         </View>
 
         <FlatList
           data={this.props.selectedCriterias}
-          renderItem={item => <SelectedCriteriaListItem criteria={item.item}/>}
+          renderItem={ item => (
+            <CriteriaListItem
+              criteria={item.item}
+              btnText={translations.remove}
+              onPress={() => this._onPress(item.item)}
+              btnStyle={listStyles.btnRemove}
+              showIcon={false}/>
+          )}
           keyExtractor={item => uuidv4()}
         />
       </View>
@@ -66,8 +78,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeAll: () => dispatch(removeAll()),
-    resetProposed: () => dispatch(resetProposed())
+    removeFromSelected: (criteria) => dispatch(removeFromSelected(criteria)),
+    addToProposed: (criteria) => dispatch(addToProposed(criteria))
   };
 }
 

@@ -14,7 +14,7 @@ export const submitVoting = (criterias) => {
   function _updateCriteria(criteria) {
     let criteriaObj = realm.objects('VotingCriteria').filtered(`uuid='${criteria.uuid}'`)[0];
     criteriaObj[_getCountMethod(criteria)] += 1;
-    criteriaObj.median = _getMedian(criteriaObj).value;
+    criteriaObj.median = _getEverageScore(criteriaObj);
   }
 
   function _buildRatingData(criteria) {
@@ -31,7 +31,7 @@ export const submitVoting = (criterias) => {
     return ratings.filter(rating => rating.value == criteria.ratingScore)[0]['countMethodName'];
   }
 
-  function _getMedian(criteria) {
+  function _getEverageScore(criteria) {
     let arr = [];
 
     for(let i=0; i<ratings.length; i++) {
@@ -40,6 +40,7 @@ export const submitVoting = (criterias) => {
       }
     }
 
-    return ratings[Median(arr)];
+    let score = Median(arr);
+    return score;
   }
 }

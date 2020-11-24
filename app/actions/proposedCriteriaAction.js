@@ -1,3 +1,10 @@
+export const setProposedCriterias = (proposedCriterias) => {
+  return {
+    type: 'SET_PROPOSED_CRITERIAS',
+    payload: proposedCriterias
+  }
+}
+
 export const addToProposed = (criteria) => {
   return {
     type: 'ADD_TO_PROPOSED',
@@ -11,10 +18,3 @@ export const removeFromProposed = (criteria) => {
     payload: criteria
   }
 }
-
-export const resetProposed = (criteria) => {
-  return {
-    type: 'RESET_PROPOSED'
-  }
-}
-

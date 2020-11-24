@@ -18,11 +18,11 @@ const ListItemStyle = StyleSheet.create({
     flexDirection: 'row',
     padding: 20
   },
-  btnAdd: {
+  btn: {
     height: 36,
     backgroundColor: Color.headerColor,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     minWidth: 87,
     borderRadius: 4,
     flexDirection: 'row',
@@ -42,14 +42,7 @@ const ListItemStyle = StyleSheet.create({
     alignItems: 'center'
   },
   btnRemove: {
-    height: 36,
     backgroundColor: Color.btnRemoveBgColor,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 87,
-    borderRadius: 4,
-    flexDirection: 'row',
-    paddingHorizontal: 4,
   }
 });
 

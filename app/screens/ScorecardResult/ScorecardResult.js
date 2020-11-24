@@ -6,6 +6,7 @@ import {
   Alert,
 } from 'react-native';
 
+import { StackActions } from '@react-navigation/native';
 import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
@@ -78,6 +79,10 @@ class ScorecardResult extends Component {
     });
   }
 
+  _finish() {
+    this.props.navigation.dispatch(StackActions.pop(4));
+  }
+
   render() {
     const theme = {
       ...DefaultTheme,
@@ -107,7 +112,7 @@ class ScorecardResult extends Component {
 
         <View style={{margin: 20}}>
           <ActionButton
-            onPress={() => console.log('hello')}
+            onPress={() => this._finish()}
             customBackgroundColor={Color.headerColor}
             label={translations.finish}/>
 

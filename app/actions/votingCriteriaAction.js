@@ -4,3 +4,10 @@ export const getAll = (scorecard_uuid) => {
     payload: scorecard_uuid
   }
 }
+
+export const setVotingCriterias = (criterias) => {
+  return {
+    type: 'SET_VOTING_CRITERIAS',
+    payload: criterias
+  }
+}

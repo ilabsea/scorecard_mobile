@@ -6,20 +6,26 @@ import {
   FlatList
 } from 'react-native';
 
-import realm from '../db/schema';
-import { LocalizationContext } from './Translations';
-import Color from '../themes/color';
-import customStyle from '../themes/customStyle';
-import uuidv4 from '../utils/uuidv4';
+import { LocalizationContext } from '../Translations';
+import Color from '../../themes/color';
+import customStyle from '../../themes/customStyle';
+import uuidv4 from '../../utils/uuidv4';
 
 import { connect } from 'react-redux';
-
-import ProposedCriteriaListItem from './ProposedCriteriaListItem';
+import CriteriaListItem from './CriteriaListItem';
+import { addToSelected } from '../../actions/selectedCriteriaAction';
+import { removeFromProposed } from '../../actions/proposedCriteriaAction';
 
 class ProposedCriteriaList extends Component {
   static contextType = LocalizationContext;
 
+  _onPress(criteria) {
+    this.props.addToSelected(criteria);
+    this.props.removeFromProposed(criteria);
+  }
+
   _renderList() {
+    const { translations } = this.context;
     let data= this.props.proposedCriterias;
 
     return (
@@ -28,7 +34,7 @@ class ProposedCriteriaList extends Component {
 
         <FlatList
           data={data}
-          renderItem={item => <ProposedCriteriaListItem criteria={item.item}/>}
+          renderItem={item => <CriteriaListItem criteria={item.item} btnText={translations.add} onPress={() => this._onPress(item.item)}/>}
           keyExtractor={item => uuidv4()}
         />
       </View>
@@ -47,7 +53,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    addToSelected: (criteria) => dispatch(addToSelected(criteria)),
+    removeFromProposed: (criteria) => dispatch(removeFromProposed(criteria))
+  };
 }
 
 export default connect(

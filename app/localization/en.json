@@ -127,4 +127,8 @@
   "cancel": "Cancel",
   "inputText": "Input Text",
   "finish": "FINISH",
+  "add": "Add",
+  "remove": "Remove",
+  "removeAll": "Remove All",
+  "close": "Close",
 }
