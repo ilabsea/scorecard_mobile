@@ -131,4 +131,9 @@
   "remove": "Remove",
   "removeAll": "Remove All",
   "close": "Close",
+  "scorecard_setup": "Scorecard setup",
+  "proposed_criteria": "Proposed criteria",
+  "indicator_development": "Indicator development",
+  "voting_criteria": "Voting criteria",
+  "scorecard_result": "Scorecard result",
 }

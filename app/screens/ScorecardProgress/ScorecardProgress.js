@@ -13,8 +13,15 @@ import VerticalProgressStep from '../../components/VerticalProgressStep';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 
-export default class ScorecardShow extends Component {
+export default class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scorecard: {uuid: '931107'}
+    };
+  }
 
   _renderBtnDownload() {
     const { translations } = this.context
@@ -50,7 +57,10 @@ export default class ScorecardShow extends Component {
         <View style={{flex: 1, padding: 16}}>
           <Text style={{fontSize: 24, color: "#000", fontWeight: 'bold', lineHeight: 40, marginBottom: 16}}>3 of 5 Step</Text>
 
-          <VerticalProgressStep progressIndex={2} navigation={this.props.navigation}/>
+          <VerticalProgressStep
+            progressIndex={3}
+            scorecardUuid={this.state.scorecard.uuid}
+            navigation={this.props.navigation}/>
 
           <View style={{flex: 1, justifyContent: 'flex-end'}}>
             { this._renderBtnDownload() }

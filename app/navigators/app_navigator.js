@@ -13,7 +13,7 @@ import ScorecardDetailScreen from '../screens/ScorecardDetail/ScorecardDetail';
 import ScorecardPreferenceScreen from '../screens/ScorecardPreference/ScorecardPreference';
 import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
-import ScorecardShowScreen from '../screens/ScorecardShow/ScorecardShow';
+import ScorecardProgressScreen from '../screens/ScorecardProgress/ScorecardProgress';
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
 import VotingCriteriaFormScreen from '../screens/VotingCriteriaForm/VotingCriteriaForm';
 import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriteriaList';
@@ -69,8 +69,8 @@ function AppNavigator() {
             }}
           />
           <Stack.Screen
-            name="ScorecardShow"
-            component={ScorecardShowScreen}
+            name="ScorecardProgress"
+            component={ScorecardProgressScreen}
             options={({route, navigation}) => ({
               title: route.params.title,
             })}

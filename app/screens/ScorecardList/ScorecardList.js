@@ -25,7 +25,7 @@ export default class ScorecardList extends Component {
   }
 
   onPress(scorecard) {
-    this.props.navigation.navigate('ScorecardShow', {uuid: scorecard.uuid, title: scorecard.name});
+    this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.name});
   }
 
   _renderNoData() {

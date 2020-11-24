@@ -18,7 +18,7 @@ export default class MilestoneCard extends Component {
 
   _renderCard() {
     const { translations } = this.context;
-    let index = this.props.index;
+    const { index, onPress } = this.props;
     let isDone = this._isDone();
     let cardStyle = isDone ? {} : { backgroundColor: Color.disableCardColor };
     let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
@@ -29,7 +29,7 @@ export default class MilestoneCard extends Component {
 
     return (
       <TouchableOpacity
-        onPress={ () => !!this.props.onPress && this.props.onPress()}
+        onPress={ () => isDone && onPress()}
         style={[CustomStyle.card, styles.card, cardStyle]}>
 
         <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
