@@ -11,14 +11,15 @@ import { LocalizationContext } from '../components/Translations';
 import { Icon } from 'native-base';
 import Color from '../themes/color';
 import uuidV4 from '../utils/uuidv4';
+import scorecardProgress from '../db/jsons/scorecardProgress';
+import realm from '../db/schema';
 
 export default class ScorecardItem extends Component {
   static contextType = LocalizationContext;
 
   renderStatusIcon(scorecard) {
-    let isCompleted  = scorecard.status == 'complete';
-    let wrapperStyle = isCompleted ? {} : { backgroundColor: Color.headerColor };
-    let iconName     = isCompleted ? 'check' : 'file-alt';
+    let wrapperStyle = scorecard.isCompleted ? {} : { backgroundColor: Color.headerColor };
+    let iconName     = scorecard.isCompleted ? 'check' : 'file-alt';
 
     return (
       <View style={[styles.statusIconWrapper, wrapperStyle]}>
@@ -28,8 +29,10 @@ export default class ScorecardItem extends Component {
   }
 
   render() {
-    let scorecard = this.props.scorecard || {};
     const { translations } = this.context;
+    let scorecard = this.props.scorecard || {};
+    let status = translations[scorecardProgress.filter(x => x.value == scorecard.status)[0].label];
+    let criteriasSize = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecard.uuid}' DISTINCT(tag)`).length;
 
     return (
       <TouchableOpacity
@@ -44,12 +47,12 @@ export default class ScorecardItem extends Component {
 
           <View style={styles.subTextWrapper}>
             <Icon name='people' style={styles.subTextIcon} />
-            <Text style={styles.subText}>Number of indicator: 20</Text>
+            <Text style={styles.subText}>Number of criteria: {criteriasSize}</Text>
           </View>
 
           <View style={styles.subTextWrapper}>
             <Icon name='document-text' style={styles.subTextIcon} />
-            <Text style={styles.subText}>Status: {scorecard.status}</Text>
+            <Text style={styles.subText}>Status: {status}</Text>
           </View>
 
           <View style={{flex: 1}}></View>
