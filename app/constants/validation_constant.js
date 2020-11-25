@@ -44,6 +44,19 @@ const validationConstant = {
       greaterThan: 0,
     },
   },
+  age: {
+    presence: {
+      message: '^ageRequireMsg',
+    },
+    numericality: {
+      greaterThan: 0,
+    },
+  },
+  indicatorName: {
+    presence: {
+      message: '^indicatorNameRequireMsg',
+    }
+  },
 };
 
 export default validationConstant;

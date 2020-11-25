@@ -35,6 +35,8 @@ const getCustomMessage = (fieldName, result) => {
     message = fieldName + 'MustBeNumber';
   else if (message.includes('is the wrong length'))
     message = fieldName + 'HasIncorrectDigit';
+  else if (message.includes('be greater than 0'))
+    message = fieldName + 'MustBePositive';
 
   return message;
 };;

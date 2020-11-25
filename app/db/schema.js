@@ -8,6 +8,7 @@ import CafSchema from './models/caf';
 import LanguageIndicatorSchema from './models/languageIndicator';
 import FacilitatorSchema from './models/facilitator';
 import ScorecardSchema from './models/scorecard';
+import ParticipantInformationSchema from './models/participantInformation';
 import ParticipantSchema from './models/participant';
 
 const schema0 = [
@@ -17,6 +18,7 @@ const schema0 = [
   CafSchema,
   LanguageIndicatorSchema,
   FacilitatorSchema,
+  ParticipantInformationSchema,
   ParticipantSchema,
 ];
 

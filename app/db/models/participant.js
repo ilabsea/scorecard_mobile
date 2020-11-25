@@ -2,15 +2,18 @@
 
 const ParticipantSchema = {
   name: 'Participant',
+  primaryKey: 'uuid',
   properties: {
-    participant: 'int',
-    female: 'int',
-    disability: 'int',
-    minority: 'int',
-    poor: 'int',
-    youth: 'int',
     uuid: 'string',
-  }
-}
+    age: 'int',
+    gender: 'string',
+    disability: 'bool',
+    minority: 'bool',
+    poor: 'bool',
+    youth: 'bool',
+    indicator_id: 'int',
+    scorecard_uuid: 'string',
+  },
+};
 
 export default ParticipantSchema;

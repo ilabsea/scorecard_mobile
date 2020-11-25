@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Subheading} from 'react-native-paper';
 
 import {LocalizationContext} from '../components/Translations';
 import Color from '../themes/color';
-
 class HeaderTitle extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -17,12 +15,8 @@ class HeaderTitle extends Component {
 
     return (
       <View>
-        <Text style={styles.headline}>
-          {translations[headline]}
-        </Text>
-        <Subheading style={{color: 'gray'}}>
-          {translations[subheading]}
-        </Subheading>
+        <Text style={styles.headline}>{translations[headline]}</Text>
+        <Text style={{fontSize: 18, color: '#2e2e2e'}}>{translations[subheading]}</Text>
       </View>
     );
   }
@@ -31,7 +25,7 @@ class HeaderTitle extends Component {
 const styles = StyleSheet.create({
   headline: {
     color: Color.primaryColor,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '700',
   },
 });

@@ -28,8 +28,8 @@ class TextFieldInput extends Component {
   validateInput = () => {
     const {translations} = this.context;
     this.setState({validationMsg: ''});
-    const {fieldName, value, renderName} = this.props;
-    const validationMsg = validationService(fieldName, value, renderName);
+    const {fieldName, value} = this.props;
+    const validationMsg = validationService(fieldName, value === '' ? undefined : value);
     this.setState({
       validationMsg: translations[validationMsg],
     });
