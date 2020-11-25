@@ -14,6 +14,7 @@ import { LocalizationContext } from '../Translations';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
+import HTML from "react-native-render-html";
 
 const ScorecardResultTableRow = (props) => {
   const { translations } = useContext(LocalizationContext); // 1
@@ -34,8 +35,8 @@ const ScorecardResultTableRow = (props) => {
   const renderEditText = (fieldName) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center'}}>
-        <View style={{flex: 1}}>
-          <Text numberOfLines={4} style={styles.text}>{criteria[fieldName]}</Text>
+        <View style={{flex: 1, maxHeight: 100}}>
+          <HTML html={criteria[fieldName]} />
         </View>
 
         <TouchableOpacity onPress={() => onPress(fieldName)} style={{width: 28, height: 28, backgroundColor: Color.headerColor, justifyContent: 'center', alignItems: 'center', borderRadius: 14, marginLeft: 10}}>
