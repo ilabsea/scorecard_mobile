@@ -10,6 +10,7 @@ import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 const badgeSize = 40;
 
@@ -24,7 +25,7 @@ export default class MilestoneCard extends Component {
     let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
 
     if (index == this.props.progressIndex) {
-      titleStyle = { color: '#000', fontWeight: 'bold'};
+      titleStyle = { color: '#000', fontFamily: FontFamily.title};
     }
 
     return (
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#808080',
     fontSize: 20,
-    lineHeight: 24
+    lineHeight: 34
   },
   itemWrapper: {
     alignItems: 'center',

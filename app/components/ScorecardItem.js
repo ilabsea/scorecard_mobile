@@ -31,7 +31,7 @@ export default class ScorecardItem extends Component {
   render() {
     const { translations } = this.context;
     let scorecard = this.props.scorecard || {};
-    let status = translations[scorecardProgress.filter(x => x.value == scorecard.status)[0].label];
+    let status = !!scorecard.status ? translations[scorecardProgress.filter(x => x.value == scorecard.status)[0].label] : '';
     let criteriasSize = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecard.uuid}' DISTINCT(tag)`).length;
 
     return (
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontFamily: 'Battambang-Bold',
     color: '#3a3a3a',
     marginBottom: 6,
   },
@@ -84,7 +85,8 @@ const styles = StyleSheet.create({
   },
   subText: {
     marginLeft: 8,
-    fontSize: 14
+    fontSize: 14,
+    fontFamily: 'Battambang-Regular',
   },
   subTextIcon: {
     fontSize: 24,

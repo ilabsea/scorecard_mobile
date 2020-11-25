@@ -33,7 +33,7 @@ export default class ScorecardList extends Component {
 
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{fontSize: 24}}>{translations['noData']}</Text>
+        <Text style={{fontSize: 24, fontFamily: 'Battambang-Bold'}}>{translations['noData']}</Text>
       </View>
     );
   }

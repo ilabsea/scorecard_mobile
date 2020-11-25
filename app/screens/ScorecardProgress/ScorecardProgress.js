@@ -67,7 +67,7 @@ export default class ScorecardProgress extends Component {
           <Text style={{fontSize: 24, color: "#000", fontWeight: 'bold', lineHeight: 40, marginBottom: 16}}>3 of 5 Step</Text>
 
           <VerticalProgressStep
-            progressIndex={this.state.scorecard.status}
+            progressIndex={this.state.scorecard.status || 3}
             scorecardUuid={this.state.scorecard.uuid}
             navigation={this.props.navigation}/>
 

@@ -79,11 +79,6 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1
   },
-  h1: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20
-  },
   text: {
     margin: 6,
     fontSize: 18
@@ -94,17 +89,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   btn: {
-    width: 80,
+    width: 90,
     height: 34,
     backgroundColor: '#cacaca',
      borderRadius: 4,
      justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 6
+    marginLeft: 6,
   },
   btnText: {
     textAlign: 'center',
-    color: '#000',
-    fontWeight: 'bold'
+    color: '#000'
   }
 });

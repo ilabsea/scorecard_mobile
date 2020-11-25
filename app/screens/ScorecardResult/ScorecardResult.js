@@ -22,6 +22,7 @@ import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardR
 
 import { Provider, DefaultTheme } from 'react-native-paper';
 import FormModal from '../../components/ScorecardResult/FormModal';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -146,8 +147,7 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20
+    fontFamily: FontFamily.title,
   },
   head: {
     minHeight: 64,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   text: {
     margin: 6,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     fontSize: 18
   },
 })

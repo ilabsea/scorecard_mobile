@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { LocalizationContext } from '../Translations';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import Color from '../../themes/color';
 import realm from '../../db/schema';
@@ -40,7 +41,7 @@ const FormModal = (props) => {
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onDimiss} contentContainerStyle={ styles.container }>
-        <Text style={{fontSize: 24, fontWeight: 'bold', marginBottom: 20}}>Update {criteria.currentFieldName}</Text>
+        <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20}}>Update {criteria.currentFieldName}</Text>
 
         <RichEditor
           ref={richText}
@@ -63,8 +64,8 @@ const FormModal = (props) => {
 
         <View style={{flex: 1}}></View>
         <View style={styles.btnWrapper}>
-          <Button labelStyle={{color: Color.headerColor}} onPress={onDimiss}>{translations.cancel}</Button>
-          <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff'}} onPress={submit}>{translations.save}</Button>
+          <Button labelStyle={{color: Color.headerColor, fontFamily: FontFamily.title}} onPress={onDimiss}>{translations.cancel}</Button>
+          <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff', fontFamily: FontFamily.title}} onPress={submit}>{translations.save}</Button>
         </View>
       </Modal>
     </Portal>

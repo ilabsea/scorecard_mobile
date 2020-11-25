@@ -19,6 +19,7 @@ import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { addToProposed } from '../../actions/proposedCriteriaAction';
 import listStyles from '../../themes/listItemStyle';
 import CriteriaListItem from './CriteriaListItem';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class SelectedCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -97,13 +98,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     padding: 20,
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     color: '#fff',
     flex: 1
   },
   textRemove: {
     color: '#fff',
-    fontWeight: 'bold'
+    fontFamily: FontFamily.title,
   },
   btnRemoveAll: {
     marginRight: 16,

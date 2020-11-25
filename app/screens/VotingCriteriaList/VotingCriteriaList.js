@@ -18,6 +18,7 @@ import uuidv4 from '../../utils/uuidv4';
 
 import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     marginBottom: 20
   }
 })
