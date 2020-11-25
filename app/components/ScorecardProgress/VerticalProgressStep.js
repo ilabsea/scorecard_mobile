@@ -5,11 +5,11 @@ import {
   Text,
 } from 'react-native';
 
-import { LocalizationContext } from '../components/Translations';
-import Color from '../themes/color';
-import uuidv4 from '../utils/uuidv4';
+import { LocalizationContext } from '../Translations';
+import Color from '../../themes/color';
+import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
-import scorecardProgress from '../db/jsons/scorecardProgress';
+import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 const badgeSize = 40;
 

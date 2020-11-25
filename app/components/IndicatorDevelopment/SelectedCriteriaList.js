@@ -38,7 +38,7 @@ class SelectedCriteriaList extends Component {
     return (
       <View style={[customStyle.card, {flex: 1}]}>
         <View style={styles.header}>
-          <Text style={styles.title}>Selected ({this.props.selectedCriterias.length})</Text>
+          <Text style={styles.title}>{translations.selectedList} ({this.props.selectedCriterias.length})</Text>
 
           <TouchableOpacity
             onPress={() => this._handleRemoveAll()}

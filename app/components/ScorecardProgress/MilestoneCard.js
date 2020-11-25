@@ -7,9 +7,9 @@ import {
 } from 'react-native';
 
 import { Icon } from 'native-base';
-import Color from '../themes/color';
-import CustomStyle from '../themes/customStyle';
-import { LocalizationContext } from '../components/Translations';
+import Color from '../../themes/color';
+import CustomStyle from '../../themes/customStyle';
+import { LocalizationContext } from '../Translations';
 
 const badgeSize = 40;
 
