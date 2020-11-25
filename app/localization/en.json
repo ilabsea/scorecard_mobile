@@ -141,4 +141,11 @@
   "proposedList": "Listed",
   "selectedList": "Selected",
   "choose_selected_criteria_below": "Choose selected criteria below",
+  "criteria": "Criteria",
+  "score": "Score",
+  "strength": "Strength",
+  "weakness": "Weakness",
+  "desiredChange": "Desired change",
+  "suggestedAction": "Suggested action",
+  "addText": "Add Text",
 }

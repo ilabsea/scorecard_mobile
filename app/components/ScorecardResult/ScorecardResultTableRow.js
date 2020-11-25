@@ -27,7 +27,7 @@ const ScorecardResultTableRow = (props) => {
   const btnAdd = (fieldName) => (
     <TouchableOpacity onPress={() => onPress(fieldName)}>
       <View style={styles.btn}>
-        <Text style={styles.btnText}>Add Text</Text>
+        <Text style={styles.btnText}>{ translations.addText }</Text>
       </View>
     </TouchableOpacity>
   );

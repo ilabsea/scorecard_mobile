@@ -50,7 +50,9 @@ class ScorecardResult extends Component {
   }
 
   _renderTable() {
-    const tableHead = ['Criteria', 'Score', 'Strength', 'Weakness', 'Improvement', 'Next Step'];
+    const { translations } = this.context;
+    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'desiredChange', 'suggestedAction'];
+    tableHead = tableHead.map(x => translations[x]);
     const tableRows = this.props.criterias;
 
     return (
@@ -96,7 +98,7 @@ class ScorecardResult extends Component {
             <Tip />
 
             <View style={{flexDirection: 'row', marginVertical: 20}}>
-              <Text style={styles.h1}>Scorecard Result</Text>
+              <Text style={styles.h1}>{ translations.scorecardResult }</Text>
             </View>
 
             { this._renderTable() }
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   head: {
-    height: 64,
+    minHeight: 64,
     backgroundColor: '#eee',
   },
   text: {
