@@ -22,6 +22,7 @@ export default class VerticalProgressStep extends Component {
         title={title}
         index={index}
         progressIndex={this.props.progressIndex}
+        onPress={() => this.props.navigation.navigate('IndicatorDevelopment')}
       />
     )
   }

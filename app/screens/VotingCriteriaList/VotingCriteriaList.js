@@ -63,8 +63,14 @@ class VotingCriteriaList extends Component {
     )
   }
 
+  goTo(routName) {
+    const { navigation } = this.props;
+
+    navigation.navigate(routName, {scorecard_uuid: this.state.scorecard.uuid})
+  }
+
   _renderContent() {
-    const {translations} = this.context;
+    const { translations } = this.context;
 
     return (
       <View style={{flex: 1}}>
@@ -72,7 +78,7 @@ class VotingCriteriaList extends Component {
           <Text style={[styles.h1, {flex: 1}]}>Top 5 Indicator</Text>
 
           <Button
-            onPress={() => this.props.navigation.navigate('VotingCriteriaForm', {scorecard_uuid: this.state.scorecard.uuid})}
+            onPress={() => this.goTo('VotingCriteriaForm')}
             iconLeft style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
             <Text>NEW VOTE</Text>
@@ -83,7 +89,7 @@ class VotingCriteriaList extends Component {
         { this._renderList() }
 
         <ActionButton
-          onPress={() => console.log('hello')}
+          onPress={() => this.goTo('ScorecardResult')}
           customBackgroundColor={Color.headerColor}
           label={'NEXT STEP'}/>
       </View>
@@ -130,11 +136,6 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20
-  },
-  listWrapper: {
-    flexDirection: 'row',
-    flex: 1,
     marginBottom: 20
   }
 })

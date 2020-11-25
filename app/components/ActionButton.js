@@ -25,7 +25,11 @@ class ActionButton extends Component {
         uppercase={true}
         contentStyle={[styles.contentStyle]}
         labelStyle={styles.labelStyle}
-        style={[styles.buttonStyle, customButtonStyle, this.backgroundColor()]}
+        style={[
+          styles.buttonStyle,
+          customButtonStyle,
+          this.backgroundColor()
+        ]}
         disabled={isDisabled}
       >
         {label}
@@ -46,6 +50,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 18,
+    color: '#fff'
   }
 });
 
