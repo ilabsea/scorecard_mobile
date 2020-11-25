@@ -55,7 +55,7 @@ class NewScorecard extends Component {
       unit_type: response.unit_type_name,
       facility_id: response.facility_id,
       facility: response.facility_name,
-      scorecard_type: response.scorecard_type_name,
+      scorecard_type: response.scorecard_type,
       name: response.name,
       description: response.description,
       year: response.year,
@@ -74,7 +74,7 @@ class NewScorecard extends Component {
     let self = this;
 
     realm.write(() => {
-      realm.create('Scorecard', self._buildData(response));
+      realm.create('Scorecard', self._buildData(response), 'modified');
     });
   }
 

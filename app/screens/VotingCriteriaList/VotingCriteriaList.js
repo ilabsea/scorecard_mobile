@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 
 import { Icon, Button, Text } from 'native-base';
+import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
@@ -15,17 +16,23 @@ import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 import uuidv4 from '../../utils/uuidv4';
 
-import VotingCriteriaListItem from '../../components/VotingCriteriaListItem';
+import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
+import { getAll } from '../../actions/votingCriteriaAction';
 
-export default class VotingCriteriaList extends Component {
+class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
 
     this.state = {
+      scorecard: { uuid: '931107' },
       // scorecard: realm.objects('Scorecard')[0]
     };
+  }
+
+  componentDidMount() {
+    this.props.getAll(this.state.scorecard.uuid);
   }
 
   _renderHeader() {
@@ -45,7 +52,7 @@ export default class VotingCriteriaList extends Component {
   }
 
   _renderList() {
-    let data = [1,2,3];
+    let data = this.props.votingCriterias;
 
     return (
       <FlatList
@@ -64,7 +71,9 @@ export default class VotingCriteriaList extends Component {
         <View style={{flexDirection: 'row', marginVertical: 20}}>
           <Text style={[styles.h1, {flex: 1}]}>Top 5 Indicator</Text>
 
-          <Button iconLeft style={{backgroundColor: Color.headerColor}}>
+          <Button
+            onPress={() => this.props.navigation.navigate('VotingCriteriaForm', {scorecard_uuid: this.state.scorecard.uuid})}
+            iconLeft style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
             <Text>NEW VOTE</Text>
           </Button>
@@ -95,6 +104,23 @@ export default class VotingCriteriaList extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    votingCriterias: state.votingCriterias,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getAll: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VotingCriteriaList);
 
 const styles = StyleSheet.create({
   container: {

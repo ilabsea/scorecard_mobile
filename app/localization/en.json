@@ -114,5 +114,8 @@
   "enterIndicatorName": "Enter indicator name",
   "issueNote": "Issue Note",
   "writeIssueOrRecordVoice": "Write issue or record the voice",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "addNewScorecardVoting": "Add New Scorecard Voting",
+  "insertAge": "Please insert age",
+  "insertGender": "Please insert gender",
 }

@@ -8,13 +8,15 @@ import {
   Image
 } from 'react-native';
 
-import { LocalizationContext } from '../components/Translations';
+import { LocalizationContext } from '../../components/Translations';
 import { Icon } from 'native-base';
-import Color from '../themes/color';
-import customStyle from '../themes/customStyle';
-import cardListItemStyle from '../themes/cardListItemStyle';
-import uuidv4 from '../utils/uuidv4';
-import Images from '../utils/images';
+import Color from '../../themes/color';
+import customStyle from '../../themes/customStyle';
+import cardListItemStyle from '../../themes/cardListItemStyle';
+import uuidv4 from '../../utils/uuidv4';
+import Images from '../../utils/images';
+import ratings from '../../db/jsons/ratings';
+import { Median } from '../../utils/math';
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
@@ -22,7 +24,7 @@ export default class VotingCriteriaListItem extends Component {
   _renderAvata(scorecard) {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
-        <Text style={{fontSize: 60}}>A</Text>
+        <Text style={[styles.capitalize, {fontSize: 60}]}>{this.props.criteria.tag[0]}</Text>
       </View>
     )
   }
@@ -38,23 +40,13 @@ export default class VotingCriteriaListItem extends Component {
       <View key={uuidv4()} style={styles.ratingItem}>
         { this._renderIcon(icon, 28) }
 
-        <Text style={styles.ratingCount}>{icon.count}</Text>
+        <Text style={styles.ratingCount}>{this.props.criteria[icon.countMethodName]}</Text>
       </View>
     )
   }
 
-  _iconData() {
-    return ([
-      { image: 'very_bad', count: '1', median: 'Very Bad' },
-      { image: 'bad', count: '2', median: 'Bad' },
-      { image: 'acceptable', count: '3', median: 'Acceptable' },
-      { image: 'good', count: '4', median: 'Good' },
-      { image: 'very_good', count: '5', median: 'Very Good' },
-    ]);
-  }
-
   _renderRatingIcons() {
-    let icons = this._iconData();
+    let icons = ratings;
 
     return (
       <View style={{flexDirection: 'row'}}>
@@ -64,12 +56,16 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderMedian() {
-    let currentIcon = this._iconData()[4];
+    const {criteria} = this.props;
+
+    if (!criteria.median) { return (null) }
+
+    let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
 
     return (
       <View style={styles.medianWrapper}>
         { this._renderIcon(currentIcon, 60) }
-        <Text style={styles.medianText}>{currentIcon.median}</Text>
+        <Text style={styles.medianText}>{currentIcon.label}</Text>
       </View>
     )
   }
@@ -78,7 +74,7 @@ export default class VotingCriteriaListItem extends Component {
     return (
       <View style={{flexDirection: 'row', flex: 1}}>
         <View style={{flex: 1}}>
-          <Text style={cardListItemStyle.h2}>Criteria A</Text>
+          <Text style={[cardListItemStyle.h2, styles.capitalize]}>{this.props.criteria.tag}</Text>
 
           { this._renderRatingIcons() }
         </View>
@@ -143,5 +139,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     marginTop: 4
+  },
+  capitalize: {
+    textTransform: 'capitalize'
   }
 })
