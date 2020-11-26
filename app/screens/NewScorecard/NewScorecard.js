@@ -68,7 +68,7 @@ class NewScorecard extends Component {
     })
   }
 
-  saveScorecard = async (response) => {
+  saveScorecard = (response) => {
     this.uuid = response.uuid;
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
     let self = this;
@@ -78,7 +78,7 @@ class NewScorecard extends Component {
     });
   }
 
-  joinScorecard = async () => {
+  joinScorecard = () => {
     if (!this.isValid()) return;
 
     const {code} = this.state;
@@ -86,7 +86,7 @@ class NewScorecard extends Component {
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
-    this.props.getScorecardDetailAction(code, async (isSuccess, response) => {
+    this.props.getScorecardDetailAction(code, (isSuccess, response) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (isSuccess) {
         this.setState({isLoading: false});

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import { environment } from '../../config/environment';
 import realm from '../../db/schema';
 import {downloadFileFromUrl, readFile} from '../../services/local_storage_service';
 
@@ -75,7 +76,7 @@ const saveAudio = (indicators, callback) => {
     if (languagesIndicators.length > 0) {
       languagesIndicators.map((languagesIndicator) => {
         if (languagesIndicator.audio != undefined || languagesIndicator.audio != null) {
-          const audioUrl = languagesIndicator.audio;
+          const audioUrl = `${environment.domain}${languagesIndicator.audio}`;
           _checkAndSave(audioUrl, callback);
         }
       });
