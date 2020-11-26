@@ -13,6 +13,7 @@ import Color from '../../themes/color';
 import Images from '../../utils/images';
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 const iconSize = 80;
 const iconWrapperSize = 98;
@@ -51,20 +52,10 @@ export default class CriteriaRatingItem extends Component {
     )
   }
 
-  _ratingData() {
-    return ([
-      { score: 1, image: 'very_bad', label: 'Very Bad' },
-      { score: 2, image: 'bad', label: 'Bad' },
-      { score: 3, image: 'acceptable', label: 'Acceptable' },
-      { score: 4, image: 'good', label: 'Good' },
-      { score: 5, image: 'very_good', label: 'Very Good' },
-    ]);
-  }
-
   _renderRatingIcons() {
     return (
       <View style={{marginTop: 30}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold', textTransform: 'capitalize'}}>{this.props.criteria.tag}</Text>
+        <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize'}}>{this.props.criteria.tag}</Text>
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
           { ratings.map(rating => this._renderRatingIcon(rating)) }

@@ -12,6 +12,7 @@ import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
+import { uploadToServer } from '../../services/scorecardService';
 
 export default class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
@@ -39,11 +40,21 @@ export default class ScorecardProgress extends Component {
     )
   }
 
+  submitToServer() {
+    if (!this.state.scorecard.isCompleted) { return; }
+
+    uploadToServer(this.state.scorecard.uuid);
+  }
+
   _renderBtnSubmit() {
     const { translations } = this.context
+    const btnStyle = this.state.scorecard.isCompleted ? { backgroundColor: Color.headerColor } : styles.btnDisabled;
 
     return (
-      <TouchableOpacity style={[styles.btn, styles.btnDisabled]}>
+      <TouchableOpacity
+        onPress={() => this.submitToServer() }
+        style={[styles.btn, btnStyle]}>
+
         <Text style={{color: '#fff', fontWeight: 'bold'}}>{translations['submit']}</Text>
       </TouchableOpacity>
     )
@@ -56,7 +67,7 @@ export default class ScorecardProgress extends Component {
           <Text style={{fontSize: 24, color: "#000", fontWeight: 'bold', lineHeight: 40, marginBottom: 16}}>3 of 5 Step</Text>
 
           <VerticalProgressStep
-            progressIndex={this.state.scorecard.status}
+            progressIndex={this.state.scorecard.status || 3}
             scorecardUuid={this.state.scorecard.uuid}
             navigation={this.props.navigation}/>
 

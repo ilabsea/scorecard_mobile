@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import CriteriaListItem from './CriteriaListItem';
 import { addToSelected } from '../../actions/selectedCriteriaAction';
 import { removeFromProposed } from '../../actions/proposedCriteriaAction';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ProposedCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     padding: 20,
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     borderBottomWidth: 1,
     borderColor: Color.listItemBorderColor
   }

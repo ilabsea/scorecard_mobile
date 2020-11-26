@@ -24,6 +24,7 @@ import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { submitCriterias } from '../../services/selectedCriteriaService';
 
 import { Provider, DefaultTheme } from 'react-native-paper';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontFamily: FontFamily.title,
   },
   h2: {
     fontSize: 18,

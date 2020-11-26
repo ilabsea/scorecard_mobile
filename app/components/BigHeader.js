@@ -14,6 +14,7 @@ import {
 } from "native-base";
 
 import { HeaderBackButton } from '@react-navigation/stack';
+import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 export default class BigHeader extends React.Component {
   _onPress() {
@@ -35,7 +36,7 @@ export default class BigHeader extends React.Component {
 
         <View style={{width: '100%'}}>
           <View style={{margin: 16}}>
-            <Text style={{fontSize: 28, fontWeight: 'bold', color: '#fff'}}>{this.props.bigTitle}</Text>
+            <Text style={{fontSize: 28, fontFamily: FontFamily.title, color: '#fff'}}>{this.props.bigTitle}</Text>
           </View>
         </View>
       </Header>

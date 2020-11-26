@@ -1,6 +1,12 @@
 'use strict';
 
-const ScorecardSchema = {
+class Scorecard {
+  get isCompleted() {
+    return this.status == '5';
+  }
+}
+
+Scorecard.schema = {
   name: 'Scorecard',
   primaryKey: 'uuid',
   properties: {
@@ -30,4 +36,4 @@ const ScorecardSchema = {
   }
 }
 
-export default ScorecardSchema;
+export default Scorecard;

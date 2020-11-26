@@ -8,6 +8,7 @@ import {
 import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
+import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 const badgeSize = 24;
 
@@ -19,7 +20,7 @@ export default class ProgressStep extends Component {
     let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#e4761e'}} /> : <Text style={{color: '#fff'}}>{index + 1}</Text>
 
     if (index == this.props.progressIndex) {
-      titleStyle['fontWeight'] = "bold";
+      titleStyle['fontFamily'] = FontFamily.title;
     }
 
     return (
@@ -83,9 +84,9 @@ const styles = StyleSheet.create({
   line: {
     height: 2,
     backgroundColor: Color.horizontalLineColor,
-    width: 124,
-    marginLeft: -62,
-    marginRight: -62,
+    width: 100,
+    marginLeft: -50,
+    marginRight: -50,
     marginTop: badgeSize/2,
     alignSelf: 'flex-start'
   },
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   badgeIcon: {
-    backgroundColor: 'gray',
+    backgroundColor: 'rgba(0, 0, 0, 0.27)',
     width: badgeSize,
     height: badgeSize,
     borderRadius: badgeSize / 2,

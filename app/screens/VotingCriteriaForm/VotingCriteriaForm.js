@@ -9,6 +9,7 @@ import { getAll } from '../../actions/votingCriteriaAction';
 
 import realm from '../../db/schema';
 import Color from '../../themes/color';
+import { LocalizationContext } from '../../components/Translations';
 
 import ActionButton from '../../components/ActionButton';
 import HeaderTitle from '../../components/HeaderTitle';
@@ -17,9 +18,11 @@ import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingIt
 import { submitVoting } from '../../services/votingCriteriaService';
 
 class VotingCriteriaForm extends Component {
+  static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
-    let scorecard_uuid = '931107';
+    let scorecard_uuid = props.route.params.scorecard_uuid;
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
@@ -74,13 +77,15 @@ class VotingCriteriaForm extends Component {
   }
 
   _renderFooter() {
+    const { translations } = this.context;
+
     return (
       <View style={{padding: 20}}>
         <ActionButton
           onPress={() => this._submit() }
           customBackgroundColor={Color.headerColor}
           isDisabled={!this.state.isValid}
-          label={'SAVE'}/>
+          label={translations.save}/>
       </View>
     )
   }

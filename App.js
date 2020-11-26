@@ -9,7 +9,7 @@ import { StyleProvider } from "native-base";
 import getTheme from './app/themes/components';
 import material from './app/themes/variables/material';
 
-import {StyleSheet, View, Text} from 'react-native';
+import { View } from 'react-native';
 
 import AppNavigator from './app/navigators/app_navigator';
 import { LocalizationContext } from './app/components/Translations';

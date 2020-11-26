@@ -22,6 +22,7 @@ import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardR
 
 import { Provider, DefaultTheme } from 'react-native-paper';
 import FormModal from '../../components/ScorecardResult/FormModal';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -50,7 +51,9 @@ class ScorecardResult extends Component {
   }
 
   _renderTable() {
-    const tableHead = ['Criteria', 'Score', 'Strength', 'Weakness', 'Improvement', 'Next Step'];
+    const { translations } = this.context;
+    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'desiredChange', 'suggestedAction'];
+    tableHead = tableHead.map(x => translations[x]);
     const tableRows = this.props.criterias;
 
     return (
@@ -96,7 +99,7 @@ class ScorecardResult extends Component {
             <Tip />
 
             <View style={{flexDirection: 'row', marginVertical: 20}}>
-              <Text style={styles.h1}>Scorecard Result</Text>
+              <Text style={styles.h1}>{ translations.scorecardResult }</Text>
             </View>
 
             { this._renderTable() }
@@ -144,17 +147,16 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20
+    fontFamily: FontFamily.title,
   },
   head: {
-    height: 64,
+    minHeight: 64,
     backgroundColor: '#eee',
   },
   text: {
     margin: 6,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     fontSize: 18
   },
 })

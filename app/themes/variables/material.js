@@ -3,6 +3,7 @@
 import color from "color";
 
 import { Platform, Dimensions, PixelRatio } from "react-native";
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -34,7 +35,7 @@ export default {
   badgePadding: 0,
 
   // Button
-  btnFontFamily: "Roboto",
+  btnFontFamily: FontFamily.body,
   btnDisabledBg: "#b5b5b5",
   buttonPadding: 6,
   get btnPrimaryBg() {
@@ -123,7 +124,7 @@ export default {
 
   // Font
   DefaultFontSize: 16,
-  fontFamily: "Roboto",
+  fontFamily: FontFamily.body,
   fontSizeBase: 15,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
@@ -251,7 +252,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: "Roboto",
+  titleFontfamily: FontFamily.body,
   titleFontSize: 19,
   subTitleFontSize: 14,
   subtitleColor: "#FFF",

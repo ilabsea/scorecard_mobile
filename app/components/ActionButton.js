@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
 import {Button} from 'react-native-paper';
+import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 import Color from '../themes/color';
 class ActionButton extends Component {
@@ -30,7 +31,7 @@ class ActionButton extends Component {
           customButtonStyle,
           this.backgroundColor()
         ]}
-        labelStyle={{color: '#fff'}}
+        labelStyle={{color: '#fff', fontFamily: FontFamily.title}}
         disabled={isDisabled}
       >
         {label}

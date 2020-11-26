@@ -9,6 +9,7 @@ import { Modal, Portal, Button } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalVisible } from '../../actions/criteriaModalAction';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import realm from '../../db/schema';
 
 const CriteriaModal = (props) => {
@@ -23,7 +24,6 @@ const CriteriaModal = (props) => {
 
   useEffect(() => {
     // @Todo: update criteria query from realm
-    // let criteria = realm()
     let criteria = { name: 'Custom Criteria Not', audio: '' };
     setCurrentCriteria(criteria);
   }, [props]);
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     marginBottom: 20,
     textTransform: 'capitalize'
   }

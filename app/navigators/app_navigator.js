@@ -28,6 +28,7 @@ import ParticipantInformationScreen from '../screens/ParticipantInformation/Part
 import {LocalizationProvider, LocalizationContext} from '../components/Translations';
 
 import Color from '../themes/color';
+import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 const Stack = createStackNavigator();
 
@@ -39,11 +40,12 @@ function AppNavigator() {
       <LocalizationProvider>
         <Stack.Navigator
           initialRouteName="Home"
-          // initialRouteName="VotingCriteriaForm"
-          // initialRouteName="ScorecardResult"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,
+            },
+            headerTitleStyle: {
+              fontFamily: FontFamily.title
             },
             headerTintColor: 'white',
           }}>
