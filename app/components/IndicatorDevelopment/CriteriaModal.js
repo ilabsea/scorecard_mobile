@@ -24,7 +24,6 @@ const CriteriaModal = (props) => {
 
   useEffect(() => {
     // @Todo: update criteria query from realm
-    // let criteria = realm()
     let criteria = { name: 'Custom Criteria Not', audio: '' };
     setCurrentCriteria(criteria);
   }, [props]);

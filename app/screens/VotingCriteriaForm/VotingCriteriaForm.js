@@ -22,7 +22,7 @@ class VotingCriteriaForm extends Component {
 
   constructor(props) {
     super(props);
-    let scorecard_uuid = '931107';
+    let scorecard_uuid = props.route.params.scorecard_uuid;
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },

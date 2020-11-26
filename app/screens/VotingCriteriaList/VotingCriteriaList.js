@@ -26,14 +26,16 @@ class VotingCriteriaList extends Component {
   constructor(props) {
     super(props);
 
+    let scorecard_uuid = props.route.params.scorecard_uuid;
+
     this.state = {
-      scorecard: realm.objects('Scorecard').filtered(`uuid='${props.route.params.scorecard_uuid}'`)[0],
-      votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${931107}'`)))
+      scorecard: realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0],
+      votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`)))
     };
   }
 
   componentDidMount() {
-    this.props.setVotingCriterias(this.state.votingCriterias);
+    this.props.setVotingCriterias(this.state.votingCriterias, { scorecard_uuid: this.state.scorecard.uuid });
   }
 
   _renderHeader() {
