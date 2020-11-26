@@ -11,9 +11,9 @@ import ScorecardSchema from './models/scorecard';
 import ParticipantInformationSchema from './models/participantInformation';
 import ParticipantSchema from './models/participant';
 
+import ProposedCriteriaSchema from './models/proposedCriteria';
 import VotingCriteriaSchema from './models/votingCriteria';
 import RatingSchema from './models/rating';
-import VotingPersonSchema from './models/votingPerson';
 
 const schema0 = [
   ScorecardSchema,
@@ -25,9 +25,11 @@ const schema0 = [
   ParticipantInformationSchema,
   ParticipantSchema,
 
+  // ===ProposedCriteria===
+  ProposedCriteriaSchema,
+
   // ===VotingCriteria===
   VotingCriteriaSchema,
-  VotingPersonSchema,
   RatingSchema,
 ];
 

@@ -1,17 +1,17 @@
-const data = [{tag: 'other'}];
+import realm from '../db/schema';
 
-for(let i=0; i<5; i++) {
-  data.push({tag: `criteria ${i+1}`});
+const sort = (arr) => {
+  return arr.sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 }
 
-const proposedCriteriaReducer = (state=data, action) => {
+const proposedCriteriaReducer = (state=[], action) => {
   switch(action.type) {
+    case 'SET_PROPOSED_CRITERIAS':
+      return sort(action.payload || []);
     case 'ADD_TO_PROPOSED':
-      return [...state, action.payload];
+      return sort([...state, action.payload]);
     case 'REMOVE_FROM_PROPOSED':
       return state.filter(critera => critera.tag != action.payload.tag);
-    case 'RESET_PROPOSED':
-      return data;
     default:
       return state;
   }

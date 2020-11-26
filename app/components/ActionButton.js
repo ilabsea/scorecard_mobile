@@ -30,6 +30,7 @@ class ActionButton extends Component {
           customButtonStyle,
           this.backgroundColor()
         ]}
+        labelStyle={{color: '#fff'}}
         disabled={isDisabled}
       >
         {label}

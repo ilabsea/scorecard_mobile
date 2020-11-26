@@ -10,7 +10,7 @@ const RatingSchema = {
     uuid: 'string',
     scorecard_uuid: 'string',
     voting_criteria_uuid: 'string',
-    voting_person_uuid: 'string',
+    participant_uuid: 'string?',
     score: 'int',
   }
 }
