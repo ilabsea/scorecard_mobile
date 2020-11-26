@@ -3,16 +3,16 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Alert,
 } from 'react-native';
 
 import { StackActions } from '@react-navigation/native';
 import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
+import realm from '../../db/schema';
 
 import { LocalizationContext } from '../../components/Translations';
-import ProgressHeader from '../../components/ProgressHeader';
+import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
@@ -30,7 +30,7 @@ class ScorecardResult extends Component {
     super(props);
 
     this.state = {
-      scorecard: { uuid: props.route.params.scorecard_uuid },
+      scorecard: realm.objects('Scorecard').filtered(`uuid == '${props.route.params.scorecard_uuid}'`)[0],
       currentCriteria: {},
       visible: false
     };
@@ -41,18 +41,11 @@ class ScorecardResult extends Component {
   }
 
   _renderHeader() {
-    const steps = [
-      "Indicator Development Sections",
-      "Scorecard Voting",
-      "Scorecard Result"
-    ];
-
     return (
-      <ProgressHeader
-        title={"this.state.scorecard.name"}
-        onBackPress={() => this.props.navigation.goBack()}
-        steps={steps}
-        progressIndex={2}/>
+      <HorizontalProgressHeader
+        title={this.state.scorecard.name}
+        navigation={this.props.navigation}
+        progressIndex={4}/>
     )
   }
 

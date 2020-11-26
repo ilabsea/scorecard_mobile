@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
-import ProgressHeader from '../../components/ProgressHeader';
+import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
@@ -32,7 +32,7 @@ class IndicatorDevelopment extends Component {
     super(props);
 
     this.state = {
-      scorecard: { uuid: '931107' }
+      scorecard: realm.objects('Scorecard').filtered(`uuid='${props.route.params.scorecard_uuid}'`)[0]
     };
   }
 
@@ -57,25 +57,23 @@ class IndicatorDevelopment extends Component {
   }
 
   _renderHeader() {
-    const steps = [
-      "Indicator Development Sections",
-      "Scorecard Voting",
-      "Scorecard Result"
-    ];
-
     return (
-      <ProgressHeader
-        title={"this.state.scorecard.name"}
-        onBackPress={() => this.props.navigation.goBack()}
-        steps={steps}
-        progressIndex={0}/>
+      <HorizontalProgressHeader
+        title={this.state.scorecard.name}
+        navigation={this.props.navigation}
+        progressIndex={2}/>
     )
   }
 
   _submit() {
     submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias);
+    realm.write(() => {
+      if (this.state.scorecard.status < 4) {
+        this.state.scorecard.status = '4';
+      }
+    });
 
-    this.props.navigation.navigate('VotingCriteriaList');
+    this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 
   _onPressRemoveAll() {
@@ -84,12 +82,12 @@ class IndicatorDevelopment extends Component {
   }
 
   _renderContent() {
-    const {translations} = this.context;
+    const { translations } = this.context;
 
     return (
       <View style={{flex: 1}}>
-        <Text style={styles.h1}>Indicator Development Sections</Text>
-        <Text style={styles.h2}>Choose selected indicator below</Text>
+        <Text style={styles.h1}>{ translations.proposedCriteria }</Text>
+        <Text style={styles.h2}>{ translations.choose_selected_criteria_below }</Text>
 
         <View style={styles.listWrapper}>
           <ProposedCriteriaList />
@@ -102,7 +100,7 @@ class IndicatorDevelopment extends Component {
         <ActionButton
           onPress={ () => this._submit() }
           customBackgroundColor={Color.headerColor}
-          label={'Next'}/>
+          label={translations.next}/>
       </View>
     )
   }

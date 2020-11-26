@@ -30,7 +30,7 @@ class ProposedCriteriaList extends Component {
 
     return (
       <View style={[customStyle.card, { flex: 1 }]}>
-        <Text style={styles.header}>Listed ({data.length})</Text>
+        <Text style={styles.header}>{translations.proposedList} ({data.length})</Text>
 
         <FlatList
           data={data}

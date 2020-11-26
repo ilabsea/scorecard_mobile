@@ -9,12 +9,19 @@ import {
 
 import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
-import VerticalProgressStep from '../../components/VerticalProgressStep';
+import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 
-export default class ScorecardShow extends Component {
+export default class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scorecard: realm.objects('Scorecard').filtered(`uuid == '${props.route.params.uuid}'`)[0]
+    };
+  }
 
   _renderBtnDownload() {
     const { translations } = this.context
@@ -43,14 +50,15 @@ export default class ScorecardShow extends Component {
   }
 
   render() {
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
-
     return (
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
         <View style={{flex: 1, padding: 16}}>
           <Text style={{fontSize: 24, color: "#000", fontWeight: 'bold', lineHeight: 40, marginBottom: 16}}>3 of 5 Step</Text>
 
-          <VerticalProgressStep progressIndex={2} navigation={this.props.navigation}/>
+          <VerticalProgressStep
+            progressIndex={this.state.scorecard.status}
+            scorecardUuid={this.state.scorecard.uuid}
+            navigation={this.props.navigation}/>
 
           <View style={{flex: 1, justifyContent: 'flex-end'}}>
             { this._renderBtnDownload() }
