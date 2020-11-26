@@ -13,6 +13,7 @@ import Color from '../themes/color';
 import uuidV4 from '../utils/uuidv4';
 import scorecardProgress from '../db/jsons/scorecardProgress';
 import realm from '../db/schema';
+import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 export default class ScorecardItem extends Component {
   static contextType = LocalizationContext;
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: 'Battambang-Bold',
+    fontFamily: FontFamily.title,
     color: '#3a3a3a',
     marginBottom: 6,
   },
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   subText: {
     marginLeft: 8,
     fontSize: 14,
-    fontFamily: 'Battambang-Regular',
+    fontFamily: FontFamily.body,
   },
   subTextIcon: {
     fontSize: 24,
