@@ -84,9 +84,9 @@ const styles = StyleSheet.create({
   line: {
     height: 2,
     backgroundColor: Color.horizontalLineColor,
-    width: 124,
-    marginLeft: -62,
-    marginRight: -62,
+    width: 100,
+    marginLeft: -50,
+    marginRight: -50,
     marginTop: badgeSize/2,
     alignSelf: 'flex-start'
   },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   badgeIcon: {
-    backgroundColor: 'gray',
+    backgroundColor: 'rgba(0, 0, 0, 0.27)',
     width: badgeSize,
     height: badgeSize,
     borderRadius: badgeSize / 2,

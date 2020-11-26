@@ -52,16 +52,6 @@ export default class CriteriaRatingItem extends Component {
     )
   }
 
-  _ratingData() {
-    return ([
-      { score: 1, image: 'very_bad', label: 'Very Bad' },
-      { score: 2, image: 'bad', label: 'Bad' },
-      { score: 3, image: 'acceptable', label: 'Acceptable' },
-      { score: 4, image: 'good', label: 'Good' },
-      { score: 5, image: 'very_good', label: 'Very Good' },
-    ]);
-  }
-
   _renderRatingIcons() {
     return (
       <View style={{marginTop: 30}}>
