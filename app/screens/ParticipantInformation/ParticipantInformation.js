@@ -42,7 +42,7 @@ class ParticipantInformation extends Component {
       realm.create('ParticipantInformation', attrs);
     });
 
-    this.props.navigation.navigate('RaisingProposed',  {uuid: this.props.route.params.uuid});
+    this.props.navigation.navigate('ParticipantList', {uuid: this.props.route.params.uuid});
   }
 
   clearParticipantFromLocalStorage = () => {

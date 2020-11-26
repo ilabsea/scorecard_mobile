@@ -20,6 +20,8 @@ import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriter
 import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
+import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
+import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticipant';
 
 // Util and components
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
@@ -161,6 +163,20 @@ function AppNavigator() {
             component={CreateNewIndicatorScreen}
             options={{
               title: `${translations['createNewIndicator']}`,
+            }}
+          />
+          <Stack.Screen
+            name="ParticipantList"
+            component={ParticipantListScreen}
+            options={{
+              title: `${translations['getStarted']}`,
+            }}
+          />
+          <Stack.Screen
+            name="AddNewParticipant"
+            component={AddNewParticipantScreen}
+            options={{
+              title: `${translations['getStarted']}`,
             }}
           />
         </Stack.Navigator>
