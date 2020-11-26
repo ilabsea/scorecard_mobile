@@ -30,9 +30,7 @@ class AddNewIndicatorModal extends Component {
 
   isValid = () => {
     if (this.state.name === '' || this.state.name === undefined) return false;
-
     if (this.state.note != '' || this.state.audio != null) return true;
-
     return false;
   }
 
@@ -51,9 +49,9 @@ class AddNewIndicatorModal extends Component {
       name: this.state.name,
       note: this.state.note,
       audio: this.state.audio,
+      scorecard_uuid: this.props.scorecardUUID,
     };
-    console.log('save custom indicator === ', customIndicator);
-    this.props.saveNewIndicator(customIndicator);
+    this.props.saveCustomIndicator(customIndicator);
   }
 
   finishRecord = (filename) => {
@@ -71,7 +69,6 @@ class AddNewIndicatorModal extends Component {
             {translations['cancel']}
           </Text>
         </TouchableOpacity>
-
         <ActionButton
           onPress={() => this.save()}
           label={translations['save']}

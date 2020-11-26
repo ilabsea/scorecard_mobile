@@ -10,6 +10,7 @@ class IndicatorCriteriaSelection extends Component {
     this.state = {
       indicators: [],
       selectedIndicators: [],
+      unselectedIndicators: [],
       isModalVisible: false,
     };
   }
@@ -29,19 +30,22 @@ class IndicatorCriteriaSelection extends Component {
   selectIndicator = (index) => {
     let indicators = this.state.indicators;
     let selectedIndicators = this.state.selectedIndicators;
-    if (indicators[index].isSelected)
-      selectedIndicators = selectedIndicators.filter((indicator) => indicator.id !== indicators[index].id);
-    else
+    let unselectedIndicators = this.state.unselectedIndicators;
+    if (indicators[index].isSelected) {
+      selectedIndicators = selectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
+      unselectedIndicators.push(indicators[index]);
+    }
+    else if (indicators[index].uuid != '') {
       selectedIndicators.push(indicators[index]);
-
+      unselectedIndicators = unselectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
+    }
     indicators[index].isSelected = !indicators[index].isSelected;
     this.setState({
       indicators,
       selectedIndicators,
+      unselectedIndicators,
       isModalVisible: index === indicators.length - 1 ? true : false,
-    }, () => {
-      this.props.selectIndicator();
-    });
+    }, () => {this.props.selectIndicator();});
   }
 
   indicatorCriteriaBox = (indicator, index) => {
@@ -49,14 +53,14 @@ class IndicatorCriteriaSelection extends Component {
       <TouchableOpacity style={styles.criteriaBox}
         onPress={() => this.selectIndicator(index)}>
         <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
-          { index != this.state.indicators.length - 1 &&
+          {index != this.state.indicators.length - 1 &&
             <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{indicator.shortcut}</Text>
           }
-          { index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
+          {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
         </View>
         <View style={styles.detailContainer}>
-          <View style={styles.labelContainer}>
-            <Text>{indicator.label.split(":").pop()}</Text>
+          <View style={styles.nameContainer}>
+            <Text>{indicator.name.split(":").pop()}</Text>
           </View>
           <Radio color={'#f0ad4e'} selectedColor={'#5cb85c'} selected={indicator.isSelected} />
         </View>
@@ -65,7 +69,7 @@ class IndicatorCriteriaSelection extends Component {
   }
 
   renderIndicatorItem = (indicator, index) => {
-    if (index === this.state.indicators.length - 1) {
+    if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
       return (
         <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
           {this.indicatorCriteriaBox(indicator, index)}
@@ -78,21 +82,24 @@ class IndicatorCriteriaSelection extends Component {
 
   getIndicator = () => {
     let indicators = [];
-    const savedIndicators = realm.objects('Indicator').filtered('uuid = "'+ this.props.uuid +'"');
-    const selectedParticipant = realm.objects('Participant').filtered('uuid = "'+ this.props.participantUUID +'"')[0];
+    let predefinedIndicators = JSON.parse(JSON.stringify(realm.objects('Indicator').filtered('uuid = "'+ this.props.uuid +'"')));
+    const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${this.props.uuid}'`)));
+    const savedIndicators = predefinedIndicators.concat(customIndicators);
+    const proposedCriterias = realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.uuid +'" AND participant_uuid = "'+ this.props.participantUUID +'"');
     let selectedIndicators = [];
     savedIndicators.map((indicator) => {
       let attrs = {
-        id: indicator.id,
-        label: indicator.name,
+        uuid: indicator.id || indicator.uuid,
+        name: indicator.name,
         shortcut: indicator.name.split(':')[0],
         isSelected: false,
+        type: indicator.id != undefined ? 'predefined' : 'custom',
       };
-      if (selectedParticipant != undefined) {
-        const participantIndicators = selectedParticipant.indicator_ids;
-        for (let i=0; i<participantIndicators.length; i++) {
-          if (participantIndicators[i] === indicator.id) {
-            attrs['isSelected'] = true;
+      if (proposedCriterias != undefined) {
+        for (let i=0; i<proposedCriterias.length; i++) {
+          const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
+          if (proposedCriterias[i].indicatorable_id === indicatorId) {
+            attrs.isSelected = true;
             selectedIndicators.push(attrs);
             break;
           }
@@ -100,7 +107,7 @@ class IndicatorCriteriaSelection extends Component {
       }
       indicators.push(attrs);
     });
-    indicators.push({label: 'Other indicator', id: '', shortcut: 'add', isSelectd: false})
+    indicators.push({name: 'Other indicator', uuid: '', shortcut: 'add', isSelected: false, type: 'custom'})
     this.setState({selectedIndicators}, () => {this.props.selectIndicator();});
     return indicators;
   }
@@ -149,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  labelContainer: {
+  nameContainer: {
     flex: 1,
     justifyContent: 'center',
   },

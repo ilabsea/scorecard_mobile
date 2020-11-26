@@ -21,18 +21,21 @@ class CreateNewIndicator extends Component {
       isModalVisible: false,
       isValid: false,
       selectedIndicators: [],
+      unselectedIndicators: [],
     };
   }
 
   componentDidMount() {
-    const selectedParticipant = realm.objects('Participant').filtered('uuid = "'+ this.props.route.params.participant_uuid +'"')[0];
-    this.setState({isValid: (selectedParticipant != undefined && selectedParticipant.indicator_ids.length > 0) ? true : false});
+    const proposedCriterias = realm.objects('ProposedCriteria')
+      .filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND participant_uuid = "' + this.props.route.params.participant_uuid + '"');
+    this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
   }
 
   selectIndicator = () => {
     this.setState({
       isModalVisible: this.indicatorSelectionRef.current.state.isModalVisible,
       selectedIndicators: this.indicatorSelectionRef.current.state.selectedIndicators,
+      unselectedIndicators: this.indicatorSelectionRef.current.state.unselectedIndicators,
       isValid: this.indicatorSelectionRef.current.state.selectedIndicators.length > 0 ? true : false,
     });
   };
@@ -41,30 +44,63 @@ class CreateNewIndicator extends Component {
     this.setState({isModalVisible: false});
   }
 
-  saveNewIndicator = (customIndicator) => {
-    // console.log('custom indicator == ', customIndicator);
-    realm.write(() => {
-      if (!isUpdate)
-        realm.create('CustomIndicator', customIndicator);
-      else
-        realm.create('CustomIndicator', customIndicator, 'modified');
+  saveCustomIndicator = (customIndicator) => {
+    let selectedIndicators = this.state.selectedIndicators;
+    selectedIndicators.push(customIndicator);
+    this.setState({selectedIndicators});
+    realm.write(() => { realm.create('CustomIndicator', customIndicator, 'modified'); });
+    this.setState({
+      isModalVisible: false,
+      isValid: true,
     });
-    this.setState({isModalVisible: false});
   }
 
   save = () => {
-    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
-    // const attrs = {
-    //   uuid: this.props.route.params.participant_uuid,
-    //   indicator_ids: this.state.selectedIndicators.map(indicator => indicator.id),
-    //   indicator_shortcuts: this.state.selectedIndicators.map(indicator => indicator.shortcut),
-    // };
-    // realm.write(() => {realm.create('Participant', attrs, 'modified');});
-    // this.props.saveParticipant(participants);
-
-    console.log('selected indicators == ', this.state.selectedIndicators)
-
+    let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false)));
+    this.handleDeleteUnselectedProposedCriteria();
+    this.state.selectedIndicators.map((indicator) => {
+      const attrs = {
+        uuid: this.getCriteriaUUID(indicator.uuid),
+        scorecard_uuid: this.props.route.params.uuid.toString(),
+        indicatorable_id: indicator.uuid.toString(),
+        indicatorable_type: indicator.type,
+        indicatorable_name: indicator.name,
+        participant_uuid: this.props.route.params.participant_uuid,
+      };
+      realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
+    });
+    this.props.saveParticipant(participants, this.props.route.params.uuid);
     this.props.navigation.goBack();
+  }
+
+  handleDeleteUnselectedProposedCriteria = () => {
+    const proposedCriterias = this.getProposedCriteria(this.props.route.params.participant_uuid);
+    let deleteCriterias = [];
+    proposedCriterias.map((criteria) => {
+      this.state.unselectedIndicators.map((indicator) => {
+        if (indicator.uuid == criteria.indicatorable_id)
+          deleteCriterias.push(criteria);
+      })
+    });
+    deleteCriterias.map((criteria) => {
+      const proposedCriteria = realm.objects('ProposedCriteria')
+        .filtered(`indicatorable_id = '${criteria.indicatorable_id}' AND participant_uuid = '${this.props.route.params.participant_uuid}'`);
+
+      realm.write(() => { realm.delete(proposedCriteria); });
+    });
+  }
+
+  getProposedCriteria = (participantUUID) => {
+    return JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND participant_uuid = "'+ participantUUID +'"')));
+  }
+
+  getCriteriaUUID = (indicatorUUID) => {
+    const proposedCriterias = this.getProposedCriteria(this.props.route.params.participant_uuid);
+    for (let i=0; i<proposedCriterias.length; i++) {
+      if (proposedCriterias[i].indicatorable_id === indicatorUUID.toString())
+        return proposedCriterias[i].uuid;
+    }
+    return uuidv4();
   }
 
   renderSaveButton = () => {
@@ -78,9 +114,7 @@ class CreateNewIndicator extends Component {
             customBackgroundColor={Color.primaryButtonColor}
             isDisabled={false}
           />
-          <OutlinedActionButton label={translations['save']} isDisabled={false}
-            onPress={() => this.save()}
-          />
+          <OutlinedActionButton label={translations['save']} isDisabled={false} onPress={() => this.save()}/>
         </View>
       );
     }
@@ -112,7 +146,7 @@ class CreateNewIndicator extends Component {
             <AddNewIndicatorModal
               isVisible={this.state.isModalVisible}
               closeModal={() => this.closeModal()}
-              saveNewIndicator={this.saveNewIndicator}
+              saveCustomIndicator={this.saveCustomIndicator}
               participantUUID={this.props.route.params.participant_uuid}
               scorecardUUID={this.props.route.params.uuid}
             />
@@ -128,7 +162,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {saveParticipant: (participants) => dispatch(saveParticipant(participants))};
+  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator);

@@ -1,6 +1,9 @@
-export const saveParticipant = (participants) => {
+export const saveParticipant = (participants, scorecardUUID) => {
   return {
     type: 'SAVE_PARTICIPANT',
-    payload: participants,
+    payload: {
+      participants,
+      scorecardUUID,
+    },
   };
 }

@@ -180,17 +180,17 @@ class AddNewParticipant extends Component {
       minority: this.getTrueFalseValue(isMinority),
       poor: this.getTrueFalseValue(isPoor),
       youth: this.getTrueFalseValue(isYouth),
-      indicator_id: null,
       scorecard_uuid: this.props.route.params.uuid,
       order: !isUpdate ? participants.length : this.props.route.params.index,
     };
+
     realm.write(() => {
       if (!isUpdate)
         realm.create('Participant', attrs);
       else
         realm.create('Participant', attrs, 'modified');
     });
-    this.props.saveParticipant(participants);
+    this.props.saveParticipant(participants, this.props.route.params.uuid);
     this.props.navigation.goBack();
   }
 
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
 });
 
 function mapDispatchToProps(dispatch) {
-  return {saveParticipant: (participants) => dispatch(saveParticipant(participants))};
+  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
 }
 
 export default connect(null, mapDispatchToProps)(AddNewParticipant);

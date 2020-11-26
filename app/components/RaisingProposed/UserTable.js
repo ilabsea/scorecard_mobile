@@ -10,12 +10,14 @@ class UserTable extends Component {
     return isDisability ? 'Yes' : isDisability !== '' ? 'No' : '';
   }
 
-  indicatorBadge = (indicators) => {
-    if (indicators != null && indicators.length > 0) {
-      return indicators.map((indicator, index) => {
+  indicatorBadge = (proposedCriterias) => {
+    if (proposedCriterias != null && proposedCriterias.length > 0) {
+      return proposedCriterias.map((proposedCriteria, index) => {
         return (
           <View key={index} style={styles.indicatorBadge}>
-            <Text style={styles.indicatorLabel}>{indicator}</Text>
+            <Text style={styles.indicatorLabel}>
+              {proposedCriteria.indicatorable_name.split(':')[0]}
+            </Text>
           </View>
         );
       });
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
   indicatorBadge: {
     paddingHorizontal: 2,
     paddingVertical: 2,
-    alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 4,
   },
   indicatorLabel: {
     color: '#ffffff',

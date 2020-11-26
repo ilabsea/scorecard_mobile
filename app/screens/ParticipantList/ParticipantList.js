@@ -27,7 +27,7 @@ class ParticipantList extends Component {
   fetchParticipant = () => {
     this.setState({isLoading: true});
     const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
-    this.props.saveParticipant(participants);
+    this.props.saveParticipant(participants, this.props.route.params.uuid);
     this.setState({
       isLoading: false,
     });
@@ -137,7 +137,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {saveParticipant: (participants) => dispatch(saveParticipant(participants))};
+  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ParticipantList);

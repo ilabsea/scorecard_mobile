@@ -13,13 +13,12 @@ class ListUser extends Component {
     let participants = [];
     for (let i=0; i<savedParticipants.length; i++) {
       const gender = savedParticipants[i].gender === 'female' ? 'F' : savedParticipants[i].gender === 'male' ? 'M' : 'other';
-      // const attr = [i+1, savedParticipants[i].age, gender, savedParticipants[i].disability, savedParticipants[i].indicator_shortcut_name, savedParticipants[i].note, savedParticipants[i].uuid];
       const attrs = [
         i + 1,
         savedParticipants[i].age,
         gender,
         savedParticipants[i].disability,
-        savedParticipants[i].indicator_shortcuts,
+        savedParticipants[i].proposed_criterias,
         savedParticipants[i].note,
         savedParticipants[i].uuid,
       ];
