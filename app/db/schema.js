@@ -11,7 +11,6 @@ import ScorecardSchema from './models/scorecard';
 import ParticipantInformationSchema from './models/participantInformation';
 import ParticipantSchema from './models/participant';
 import CustomIndicatorSchema from './models/customIndicator';
-import ProposedCriteriaSchema from './models/proposedCriteria';
 
 import ProposedCriteriaSchema from './models/proposedCriteria';
 import VotingCriteriaSchema from './models/votingCriteria';
@@ -34,7 +33,6 @@ const schema0 = [
   VotingCriteriaSchema,
   RatingSchema,
   CustomIndicatorSchema,
-  ProposedCriteriaSchema,
 ];
 
 const schemas = [

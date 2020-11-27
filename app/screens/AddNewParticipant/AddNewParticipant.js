@@ -71,7 +71,7 @@ class AddNewParticipant extends Component {
           value={age.toString()}
           isRequire={true}
           label={translations['age']}
-          isSearchable={false}
+          searchable={false}
           placeholder={translations['enterAge']}
           fieldName="age"
           onChangeText={this.onChangeValue}
@@ -83,7 +83,7 @@ class AddNewParticipant extends Component {
           items={gender}
           selectedItem={selectedGender}
           label={translations['gender']}
-          isSearchable={false}
+          searchable={false}
           zIndex={9000}
           customLabelStyle={{zIndex: 9001}}
           showCustomArrow={true}
@@ -97,7 +97,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isDisability}
           label={translations['disability']}
-          isSearchable={false}
+          searchable={false}
           zIndex={8000}
           customLabelStyle={{zIndex: 8001}}
           showCustomArrow={true}
@@ -110,7 +110,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isMinority}
           label="Minority"
-          isSearchable={false}
+          searchable={false}
           zIndex={7000}
           customLabelStyle={{zIndex: 7001}}
           showCustomArrow={true}
@@ -121,7 +121,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isPoor}
           label={translations['poor']}
-          isSearchable={false}
+          searchable={false}
           zIndex={6000}
           customLabelStyle={{zIndex: 6001}}
           showCustomArrow={true}
@@ -132,7 +132,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isYouth}
           label={translations['youth']}
-          isSearchable={false}
+          searchable={false}
           zIndex={5000}
           customLabelStyle={{zIndex: 5001}}
           showCustomArrow={true}

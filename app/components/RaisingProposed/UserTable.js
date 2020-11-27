@@ -1,53 +1,19 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {LocalizationContext} from '../Translations';
+import ParticipantCell from '../../services/RaisingProposed/participant_cell_service';
 
 class UserTable extends Component {
   static contextType = LocalizationContext;
-  isDisability = (isDisability) => {
-    return isDisability ? 'Yes' : isDisability !== '' ? 'No' : '';
-  }
-
-  indicatorBadge = (proposedCriterias) => {
-    if (proposedCriterias != null && proposedCriterias.length > 0) {
-      return proposedCriterias.map((proposedCriteria, index) => {
-        return (
-          <View key={index} style={styles.indicatorBadge}>
-            <Text style={styles.indicatorLabel}>
-              {proposedCriteria.indicatorable_name.split(':')[0]}
-            </Text>
-          </View>
-        );
-      });
-    }
-  }
-
   editParticipant = (participantUUID) => {
     this.props.navigation.navigate('CreateNewIndicator', {uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
   }
 
-  editButton = (participantUUID) => {
-    return (
-      <TouchableOpacity onPress={() => this.editParticipant(participantUUID)}
-        style={{flexDirection: 'row', alignSelf: 'center'}}
-        >
-        <MaterialIcon name="edit" color="#e4761e" size={18}/>
-        <Text style={{color: '#e4761e', textTransform: 'uppercase', fontWeight: '700', marginLeft: 4}}>Edit</Text>
-      </TouchableOpacity>
-    );
-  }
-
   getCellData = (cellData, cellIndex) => {
-    if (cellIndex === 3)
-      return this.isDisability(cellData);
-    else if (cellIndex === 4)
-      return this.indicatorBadge(cellData);
-    else if (cellIndex === 6)
-      return this.editButton(cellData);
-    else
-      return cellData;
+    const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'note', 'action'];
+    const participantCell = new ParticipantCell(tableHead[cellIndex], cellData, this.editParticipant);
+    return participantCell.cellItem[tableHead[cellIndex]];
   }
 
   render() {
@@ -108,20 +74,6 @@ const styles = StyleSheet.create({
   tableWrapper: {
     flexDirection: 'row',
     backgroundColor: '#ffffff',
-  },
-  indicatorBadge: {
-    paddingHorizontal: 2,
-    paddingVertical: 2,
-    justifyContent: 'center',
-    marginRight: 4,
-  },
-  indicatorLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '700',
-    backgroundColor: '#787878',
-    padding: 5,
-    borderRadius: 3,
   },
 });
 

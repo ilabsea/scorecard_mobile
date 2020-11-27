@@ -38,8 +38,8 @@ class ScorecardDetail extends Component {
   }
 
   componentDidMount() {
-    const scorecard = JSON.stringify(realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0]);
-    this.setState({detail: JSON.parse(scorecard)});
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
+    this.setState({detail: scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
   }

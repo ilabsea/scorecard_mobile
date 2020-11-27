@@ -58,7 +58,7 @@ function AppNavigator() {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Setting')}
                   style={{marginRight: 16}}>
-                  <AppIcon style={{fontSize: 25}} name="settings" />
+                  <AppIcon style={{fontSize: 25}} name="settings" color="white" />
                 </TouchableOpacity>
               ),
             })}
