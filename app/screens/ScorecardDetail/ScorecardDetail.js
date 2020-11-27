@@ -38,7 +38,7 @@ class ScorecardDetail extends Component {
   }
 
   componentDidMount() {
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
     this.setState({detail: scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
@@ -82,7 +82,6 @@ class ScorecardDetail extends Component {
         loadingMessage: '',
       });
       const indicators = await response;
-      console.log('indicators === ', JSON.stringify(indicators[0]))
       saveIndicator(indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
       saveLanguageIndicator(indicators);
       saveAudio(indicators, async (isAllAudioDownloaded) => {
@@ -146,7 +145,7 @@ class ScorecardDetail extends Component {
   };
 
   startScorecard = () => {
-    this.props.navigation.navigate('ScorecardPreference', {uuid: this.props.route.params.uuid});
+    this.props.navigation.navigate('ScorecardPreference', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 
   isFullyDownloaded = () => {

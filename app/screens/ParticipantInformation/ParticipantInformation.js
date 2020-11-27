@@ -35,22 +35,14 @@ class ParticipantInformation extends Component {
       minority: this.getIntegerOf(this.minorityRef.current.state.participant),
       poor: this.getIntegerOf(this.poorRef.current.state.participant),
       youth: this.getIntegerOf(this.youthRef.current.state.participant),
-      uuid: this.props.route.params.uuid,
+      scorecard_uuid: this.props.route.params.scorecard_uuid,
     };
 
-    this.clearParticipantFromLocalStorage();
     realm.write(() => {
-      realm.create('ParticipantInformation', attrs);
+      realm.create('ParticipantInformation', attrs, 'modified');
     });
 
-    this.props.navigation.navigate('ParticipantList', {uuid: this.props.route.params.uuid});
-  }
-
-  clearParticipantFromLocalStorage = () => {
-    realm.write(() => {
-      const participant = realm.objects('ParticipantInformation').filtered('uuid = "' + this.props.route.params.uuid + '"');
-      realm.delete(participant);
-    });
+    this.props.navigation.navigate('ParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 
   getIntegerOf = (value) => {

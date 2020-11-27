@@ -9,7 +9,7 @@ const ParticipantInformationSchema = {
     minority: 'int',
     poor: 'int',
     youth: 'int',
-    uuid: 'string',
+    scorecard_uuid: 'string',
   }
 }
 

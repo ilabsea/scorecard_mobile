@@ -27,7 +27,7 @@ class CreateNewIndicator extends Component {
 
   componentDidMount() {
     const proposedCriterias = realm.objects('ProposedCriteria')
-      .filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND participant_uuid = "' + this.props.route.params.participant_uuid + '"');
+      .filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "' + this.props.route.params.participant_uuid + '"');
     this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
   }
 
@@ -41,6 +41,8 @@ class CreateNewIndicator extends Component {
   };
 
   closeModal = () => {
+    const otherIndicatorIndex = this.indicatorSelectionRef.current.state.indicators.length - 1;
+    this.indicatorSelectionRef.current.state.indicators[otherIndicatorIndex].isSelected = false; 
     this.setState({isModalVisible: false});
   }
 
@@ -56,12 +58,12 @@ class CreateNewIndicator extends Component {
   }
 
   save = () => {
-    let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false)));
+    let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false)));
     this.handleDeleteUnselectedProposedCriteria();
     this.state.selectedIndicators.map((indicator) => {
       const attrs = {
         uuid: this.getCriteriaUUID(indicator.uuid),
-        scorecard_uuid: this.props.route.params.uuid.toString(),
+        scorecard_uuid: this.props.route.params.scorecard_uuid.toString(),
         indicatorable_id: indicator.uuid.toString(),
         indicatorable_type: indicator.type,
         indicatorable_name: indicator.name,
@@ -69,7 +71,7 @@ class CreateNewIndicator extends Component {
       };
       realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
     });
-    this.props.saveParticipant(participants, this.props.route.params.uuid);
+    this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
     this.props.navigation.goBack();
   }
 
@@ -91,7 +93,7 @@ class CreateNewIndicator extends Component {
   }
 
   getProposedCriteria = (participantUUID) => {
-    return JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND participant_uuid = "'+ participantUUID +'"')));
+    return JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "'+ participantUUID +'"')));
   }
 
   getCriteriaUUID = (indicatorUUID) => {
@@ -135,7 +137,7 @@ class CreateNewIndicator extends Component {
                 <IndicatorCriteriaSelection
                   ref={this.indicatorSelectionRef}
                   selectIndicator={this.selectIndicator}
-                  uuid={this.props.route.params.uuid}
+                  scorecardUUID={this.props.route.params.scorecard_uuid}
                   participantUUID={this.props.route.params.participant_uuid}
                 />
                 {this.renderSaveButton()}
@@ -148,7 +150,7 @@ class CreateNewIndicator extends Component {
               closeModal={() => this.closeModal()}
               saveCustomIndicator={this.saveCustomIndicator}
               participantUUID={this.props.route.params.participant_uuid}
-              scorecardUUID={this.props.route.params.uuid}
+              scorecardUUID={this.props.route.params.scorecard_uuid}
             />
           </Portal>
         </View>

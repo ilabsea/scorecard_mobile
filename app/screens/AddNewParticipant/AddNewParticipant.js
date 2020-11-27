@@ -38,7 +38,7 @@ class AddNewParticipant extends Component {
 
   componentDidMount() {
     if (this.props.route.params.participant_uuid != null) {
-      const participant = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND uuid ="'+ this.props.route.params.participant_uuid +'"')[0];
+      const participant = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND uuid ="'+ this.props.route.params.participant_uuid +'"')[0];
       this.setParticipantInfo(participant);
       this.setState({isUpdate: participant != undefined ? true : false});
     }
@@ -170,7 +170,7 @@ class AddNewParticipant extends Component {
   }
 
   saveParticipant = () => {
-    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
+    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false);
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth, isUpdate} = this.state;
     let attrs = {
       uuid: isUpdate ? this.props.route.params.participant_uuid : uuidv4(),
@@ -180,7 +180,7 @@ class AddNewParticipant extends Component {
       minority: this.getTrueFalseValue(isMinority),
       poor: this.getTrueFalseValue(isPoor),
       youth: this.getTrueFalseValue(isYouth),
-      scorecard_uuid: this.props.route.params.uuid,
+      scorecard_uuid: this.props.route.params.scorecard_uuid,
       order: !isUpdate ? participants.length : this.props.route.params.index,
     };
 
@@ -190,7 +190,7 @@ class AddNewParticipant extends Component {
       else
         realm.create('Participant', attrs, 'modified');
     });
-    this.props.saveParticipant(participants, this.props.route.params.uuid);
+    this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
     this.props.navigation.goBack();
   }
 

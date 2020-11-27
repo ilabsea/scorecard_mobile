@@ -36,10 +36,9 @@ class ScorecardPreference extends Component {
     };
   }
 
-  async componentDidMount() {
-    const scorecard = await JSON.stringify(realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0]);
-    this.setState({detail: JSON.parse(scorecard)});
-    this.loadProgramLanguage();
+  componentDidMount() {
+    const scorecard = realm.objects('Scorecard').filtered(`uuid = '${this.props.route.params.scorecard_uuid}'`)[0];
+    this.setState({detail: scorecard}, () => {this.loadProgramLanguage();});
   }
 
   loadProgramLanguage = async () => {
@@ -100,7 +99,7 @@ class ScorecardPreference extends Component {
     AsyncStorage.setItem('SELECTED_DATE', date);
     AsyncStorage.setItem(selectedTextLocale, textLocale);
     AsyncStorage.setItem(selectedAudioLocale, audioLocale);
-    this.props.navigation.navigate('Facilitator', {uuid: this.props.route.params.uuid});
+    this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 
   renderForm = () => {

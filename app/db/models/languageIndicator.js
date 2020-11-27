@@ -5,7 +5,8 @@ const LanguageIndicator = {
     content: 'string',
     audio: 'string',
     language_code: 'string',
-    uuid: 'string',
+    scorecard_uuid: 'string',
+    indicator_id: 'string',
   },
 };
 

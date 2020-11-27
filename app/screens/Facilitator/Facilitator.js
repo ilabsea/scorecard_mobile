@@ -23,7 +23,7 @@ class Facilitator extends Component {
   }
 
   async componentDidMount() {
-    let cafs = JSON.stringify(realm.objects('Caf').filtered('uuid = "' + this.props.route.params.uuid + '"'));
+    let cafs = JSON.stringify(realm.objects('Caf').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"'));
     cafs = JSON.parse(cafs);
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
     this.loadSavedFacilitators();
@@ -91,11 +91,11 @@ class Facilitator extends Component {
 
       this.saveFacilitatorToLocalStorage(selectedFacilitators[i], i);
     }
-    this.props.navigation.navigate('ParticipantInformation', {uuid: this.props.route.params.uuid});
+    this.props.navigation.navigate('ParticipantInformation', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   };
 
   loadSavedFacilitators = () => {
-    const facilitators = realm.objects('Facilitator').filtered('uuid = "' + this.props.route.params.uuid + '"');
+    const facilitators = realm.objects('Facilitator').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"');
     let savedFacilitators = JSON.stringify(facilitators);
     savedFacilitators = JSON.parse(savedFacilitators);
 
@@ -119,7 +119,7 @@ class Facilitator extends Component {
       id: parseInt(caf.value),
       name: caf.label,
       position: index === 0 ? 'lead' : 'other',
-      uuid: this.props.route.params.uuid,
+      scorecard_uuid: this.props.route.params.scorecard_uuid,
     };
     realm.write(() => {
       realm.create('Facilitator', facilitator);
@@ -128,7 +128,7 @@ class Facilitator extends Component {
 
   clearFacilitatorFromLocalStorage = () => {
     realm.write(() => {
-      const facilitators = realm.objects('Facilitator').filtered('uuid = "' + this.props.route.params.uuid + '"');
+      const facilitators = realm.objects('Facilitator').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"');
       realm.delete(facilitators);
     });
   };

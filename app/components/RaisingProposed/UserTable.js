@@ -7,7 +7,7 @@ import ParticipantCell from '../../services/RaisingProposed/participant_cell_ser
 class UserTable extends Component {
   static contextType = LocalizationContext;
   editParticipant = (participantUUID) => {
-    this.props.navigation.navigate('CreateNewIndicator', {uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
+    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
   }
 
   getCellData = (cellData, cellIndex) => {

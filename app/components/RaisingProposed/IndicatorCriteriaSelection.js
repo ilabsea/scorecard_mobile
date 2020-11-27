@@ -82,10 +82,10 @@ class IndicatorCriteriaSelection extends Component {
 
   getIndicator = () => {
     let indicators = [];
-    let predefinedIndicators = JSON.parse(JSON.stringify(realm.objects('Indicator').filtered('uuid = "'+ this.props.uuid +'"')));
-    const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${this.props.uuid}'`)));
+    let predefinedIndicators = JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`scorecard_uuid = '${this.props.scorecardUUID}'`)));
+    const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${this.props.scorecardUUID}'`)));
     const savedIndicators = predefinedIndicators.concat(customIndicators);
-    const proposedCriterias = realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.uuid +'" AND participant_uuid = "'+ this.props.participantUUID +'"');
+    const proposedCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${this.props.scorecardUUID}' AND participant_uuid = '${this.props.participantUUID}'`);
     let selectedIndicators = [];
     savedIndicators.map((indicator) => {
       let attrs = {

@@ -113,6 +113,7 @@ class AddNewIndicatorModal extends Component {
           participantUUID={this.props.participantUUID}
           scorecardUUID={this.props.scorecardUUID}
           finishRecord={this.finishRecord}
+          deleteAudio={() => this.setState({audio: null})}
         />
         {this.renderButton()}
       </Modal>

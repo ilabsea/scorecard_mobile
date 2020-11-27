@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 class ListUser extends Component {
   static contextType = LocalizationContext;
   getParticipant = () => {
-    const numberOfParticipant = realm.objects('ParticipantInformation').filtered('uuid = "' + this.props.uuid + '"')[0].participant;
+    const numberOfParticipant = realm.objects('ParticipantInformation').filtered('scorecard_uuid = "' + this.props.scorecardUUID + '"')[0].participant;
     const savedParticipants = this.props.participants;
     let participants = [];
     for (let i=0; i<savedParticipants.length; i++) {
@@ -20,7 +20,7 @@ class ListUser extends Component {
         savedParticipants[i].disability,
         savedParticipants[i].proposed_criterias,
         savedParticipants[i].note,
-        savedParticipants[i].uuid,
+        savedParticipants[i].uuid,        // participant uuid
       ];
       participants.push(attrs);
     }
@@ -36,7 +36,7 @@ class ListUser extends Component {
     const tableHead = ['No', 'Age', 'Gender', 'Disability', 'Indicator Type', 'Note', 'Action'];
     const tableData = this.getParticipant()
     return (
-      <UserTable tableHead={tableHead} tableData={tableData} scorecardUUID={this.props.uuid} navigation={this.props.navigation}/>
+      <UserTable tableHead={tableHead} tableData={tableData} scorecardUUID={this.props.scorecardUUID} navigation={this.props.navigation}/>
     );
   }
 
