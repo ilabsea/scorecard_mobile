@@ -23,7 +23,6 @@ import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { submitCriterias } from '../../services/selectedCriteriaService';
 
-import { Provider, DefaultTheme } from 'react-native-paper';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 class IndicatorDevelopment extends Component {
@@ -107,16 +106,10 @@ class IndicatorDevelopment extends Component {
   }
 
   render() {
-    const theme = {
-      ...DefaultTheme,
-      colors: {
-        ...DefaultTheme.colors,
-        primary: Color.headerColor,
-      },
-    };
+
 
     return (
-      <Provider style={{height: '100%'}} theme={theme}>
+      <View style={{height: '100%'}}>
         { this._renderHeader() }
 
         <View style={styles.container}>
@@ -126,7 +119,7 @@ class IndicatorDevelopment extends Component {
         </View>
 
         <CriteriaModal/>
-      </Provider>
+      </View>
     )
   }
 }

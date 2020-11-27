@@ -5,7 +5,7 @@ import {
   Text,
 } from 'react-native';
 
-import { Modal, Portal, Button, Provider} from 'react-native-paper';
+import { Modal, Portal, Button} from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { LocalizationContext } from '../Translations';
 import { getAll } from '../../actions/votingCriteriaAction';

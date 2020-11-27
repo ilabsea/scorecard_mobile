@@ -20,7 +20,6 @@ import Tip from '../../components/Tip';
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 
-import { Provider, DefaultTheme } from 'react-native-paper';
 import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
@@ -80,18 +79,10 @@ class ScorecardResult extends Component {
   }
 
   render() {
-    const theme = {
-      ...DefaultTheme,
-      colors: {
-        ...DefaultTheme.colors,
-        primary: Color.headerColor,
-      },
-    };
-
     const { translations } = this.context;
 
     return (
-      <Provider style={{height: '100%'}} theme={theme}>
+      <View style={{height: '100%'}}>
         { this._renderHeader() }
 
         <ScrollView style={{flex: 1}}>
@@ -118,7 +109,7 @@ class ScorecardResult extends Component {
             onDimiss={() => this.setState({visible: false})}
           />
         </View>
-      </Provider>
+      </View>
     )
   }
 }
