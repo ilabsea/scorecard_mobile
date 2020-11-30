@@ -38,8 +38,8 @@ class ScorecardDetail extends Component {
   }
 
   componentDidMount() {
-    const scorecard = JSON.stringify(realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0]);
-    this.setState({detail: JSON.parse(scorecard)});
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.uuid}'`)[0];
+    this.setState({detail: scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
   }
@@ -82,6 +82,7 @@ class ScorecardDetail extends Component {
         loadingMessage: '',
       });
       const indicators = await response;
+      console.log('indicators === ', JSON.stringify(indicators[0]))
       saveIndicator(indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
       saveLanguageIndicator(indicators);
       saveAudio(indicators, async (isAllAudioDownloaded) => {

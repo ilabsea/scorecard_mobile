@@ -11,9 +11,9 @@ const ParticipantSchema = {
     minority: 'bool',
     poor: 'bool',
     youth: 'bool',
-    indicator_id: 'int?',
     scorecard_uuid: 'string',
     order: 'int',
+    note: 'string?',
   },
 };
 

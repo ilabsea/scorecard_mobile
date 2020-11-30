@@ -12,11 +12,12 @@ class ParticipantListItem extends Component {
         </View>
       );
 
-    return <MaterialIcon name="help" size={45} color="gray" style={{marginTop: -4}} />;
+    return <MaterialIcon name="help" size={45} color="gray" style={{marginTop: -4, marginLeft: -4}} />;
   };
 
   renderGender = (participant) => {
-    if (participant === undefined || participant.gender === '')
+    if (participant === undefined) return <Text style={styles.emptyLabel}>---</Text>;
+    if (participant.gender === '')
       return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
     const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
@@ -25,13 +26,15 @@ class ParticipantListItem extends Component {
 
   getAge = (participant) => {
     if (participant === undefined || participant.age === '')
-      return 0;
+      return '---';
 
     return participant.age;
   }
 
   renderStatusIcon = (participant, fieldName) => {
-    if (participant === undefined || !participant[fieldName])
+    if (participant === undefined) return <Text style={styles.emptyLabel}>---</Text>;
+
+    if (!participant[fieldName])
       return <MaterialIcon name="cancel" size={25} color="#a52b2b" />;
 
     return <MaterialIcon name="check-circle" size={25} color="#4a76f3" />;
@@ -39,16 +42,15 @@ class ParticipantListItem extends Component {
 
   editParticipant = (index) => {
     const participantUUID = this.props.participant != undefined ? this.props.participant.uuid : null;
-    this.props.navigation.navigate('AddNewParticipant',
-      {uuid: this.props.uuid, index: index, participant_uuid: participantUUID});
+    this.props.navigation.navigate('AddNewParticipant', {uuid: this.props.uuid, index: index, participant_uuid: participantUUID});
   }
 
   render() {
     const {index, participant} = this.props;
     return (
-      <View>
+      <TouchableOpacity>
         <View style={{flexDirection: 'row', flex: 1, paddingTop: 20, paddingBottom: 5, borderWidth: 0}}>
-          <View style={{borderWidth: 0, flex: 0.5}}>
+          <View style={{borderWidth: 0, width: 60}}>
             {this.renderParticipantNumber(participant, index)}
           </View>
           <View style={styles.itemColumn}>
@@ -86,7 +88,7 @@ class ParticipantListItem extends Component {
           </TouchableOpacity>
         </View>
         <View style={{borderBottomWidth: 1, borderBottomColor: '#b9b9b9', flex: 1}} />
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -116,6 +118,10 @@ const styles = StyleSheet.create({
     padding: 0,
     textAlign: 'center',
   },
+  emptyLabel: {
+    fontSize: 18,
+    textAlign: 'center',
+  }
 });
 
 export default ParticipantListItem;

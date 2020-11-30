@@ -8,9 +8,10 @@ const ProposedCriteriaSchema = {
     scorecard_uuid: 'string',
     indicatorable_id: 'string?',
     indicatorable_type: 'string?',
+    indicatorable_name: 'string?',
     tag: 'string?',
-    participant_uuid: 'string?'
-  }
-}
+    participant_uuid: 'string?',
+  },
+};
 
 export default ProposedCriteriaSchema;

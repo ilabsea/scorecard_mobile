@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import {Button} from 'native-base';
 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
+import ActionButton from '../../components/ActionButton';
 import DependentValidationInputField from '../../components/ParticipantInformation/DependentValidationInputField';
 import IndependentValidationInputField from '../../components/ParticipantInformation/IndependentValidationInputField';
+import Color from '../../themes/color';
 class ParticipantInformation extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -155,13 +156,13 @@ class ParticipantInformation extends Component {
       const {translations} = this.context;
       return (
         <View style={styles.buttonContainer}>
-          <Button full primary
+          <ActionButton
             onPress={() => this.save()}
-            style={{marginTop: 10, elevation: 0}}>
-            <Text style={styles.buttonLabelStyle}>
-              {translations['next']}
-            </Text>
-          </Button>
+            label={translations['next']}
+            customButtonStyle={{marginBottom: 22}}
+            customBackgroundColor={Color.primaryButtonColor}
+            isDisabled={false}
+          />
         </View>
       );
     }
@@ -187,12 +188,11 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: 'white',
-    padding: 16,
+    padding: 20,
   },
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 20,
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

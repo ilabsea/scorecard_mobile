@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
 import TipBox from './TipBox';
 import ListProposedCriteria from './ListProposedCriteria';
@@ -24,10 +24,15 @@ class UserListing extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <TipBox/>
-        <ListProposedCriteria />
-        <ListUser openCreateNewCriteriaScreen={() => this.props.openCreateNewCriteriaScreen()}/>
-        {this.renderFinishButton()}
+        <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20}}>
+          <TipBox/>
+          <ListProposedCriteria />
+          <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
+            uuid={this.props.uuid}
+            navigation={this.props.navigation}
+          />
+          {this.renderFinishButton()}
+        </ScrollView>
       </View>
     );
   }
@@ -40,8 +45,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    paddingTop: 130,
     justifyContent: 'flex-end',
-    paddingBottom: 20,
+    paddingBottom: 22,
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

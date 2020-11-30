@@ -57,7 +57,7 @@ class SelectPicker extends Component {
 
   getLabel = () => {
     const {label, isRequire, itemIndex} = this.props;
-    const indexLabel = itemIndex != undefined ? itemIndex : '';
+    const indexLabel = itemIndex != 0 ? itemIndex : '';
     if (isRequire) return label + ' ' + indexLabel + ' *';
 
     return label + ' ' + indexLabel;

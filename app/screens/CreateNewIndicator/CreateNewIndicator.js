@@ -2,170 +2,119 @@ import React, {Component} from 'react';
 import {View, Text, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 import {Provider, Portal} from 'react-native-paper';
 
+import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
-import HeaderTitle from '../../components/HeaderTitle';
-import TextFieldInput from '../../components/TextFieldInput';
-import SelectPicker from '../../components/SelectPicker';
 import ActionButton from '../../components/ActionButton';
 import OutlinedActionButton from '../../components/OutlinedActionButton';
 import IndicatorCriteriaSelection from '../../components/RaisingProposed/IndicatorCriteriaSelection';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import Color from '../../themes/color';
-
+import {saveParticipant} from '../../actions/participantAction';
+import uuidv4 from '../../utils/uuidv4';
+import {connect} from 'react-redux';
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    this.indicatorSelectionRef = React.createRef();
     this.state = {
-      age: 0,
-      selectedGender: 'female',
-      isDisability: 'false',
-      isMinority: 'false',
-      isPoor: 'false',
-      isYouth: 'false',
       isModalVisible: false,
-      selectedIndicator: null,
-      gender: [
-        {label: 'Female', value: 'female'},
-        {label: 'Male', value: 'male'},
-        {label: 'Other', value: 'other'},
-      ],
-      choices: [
-        {label: 'No', value: 'false'},
-        {label: 'Yes', value: 'true'},
-      ],
-      indicators: [
-        {label: 'Indicator A', value: 10, symbol: 'A', isSelected: false},
-        {label: 'Indicator B', value: 10, symbol: 'B', isSelected: false},
-        {label: 'Indicator C', value: 10, symbol: 'C', isSelected: false},
-        {label: 'Indicator D', value: 10, symbol: 'D', isSelected: false},
-        {label: 'Indicator E', value: 10, symbol: 'E', isSelected: false},
-        {label: 'Indicator F', value: 10, symbol: 'F', isSelected: false},
-        {label: 'Other indicator', value: 0, symbol: 'add', isSelectd: false},
-      ],
+      isValid: false,
+      selectedIndicators: [],
+      unselectedIndicators: [],
     };
   }
 
-  onChangeValue = (fieldName, value) => {
-    const newState = {};
-    newState[fieldName] = value;
-    this.setState(newState);
-  };
+  componentDidMount() {
+    const proposedCriterias = realm.objects('ProposedCriteria')
+      .filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND participant_uuid = "' + this.props.route.params.participant_uuid + '"');
+    this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
+  }
 
-  onChangeGender = (gender) => {
-    this.setState({selectedGender: gender.value});
-  };
-
-  renderInputForm = () => {
-    const {translations} = this.context;
-    const {age, gender, selectedGender, choices, isDisability, isMinority, isPoor, isYouth} = this.state;
-    return (
-      <View style={{marginTop: 14}}>
-        <TextFieldInput
-          value={age.toString()}
-          isRequire={true}
-          label={translations['age']}
-          placeholder={translations['enterAge']}
-          fieldName="age"
-          renderName="Age"
-          onChangeText={this.onChangeValue}
-          isSecureEntry={false}
-          maxLength={2}
-          keyboardType="number-pad"
-        />
-        <SelectPicker
-          items={gender}
-          selectedItem={selectedGender}
-          label={translations['gender']}
-          isSearchable={false}
-          zIndex={9000}
-          customLabelStyle={{zIndex: 9001}}
-          showCustomArrow={true}
-          onChangeItem={(text) => this.onChangeValue('selectedGender', text.value)}
-          mustHasDefaultValue={false}
-          customDropDownContainerStyle={{marginTop: -10}}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isDisability}
-          label={translations['disability']}
-          isSearchable={false}
-          zIndex={8000}
-          customLabelStyle={{zIndex: 8001}}
-          showCustomArrow={true}
-          onChangeItem={(text) => this.onChangeValue('isDisability', text.value)}
-          mustHasDefaultValue={false}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isMinority}
-          label="Minority"
-          isSearchable={false}
-          zIndex={7000}
-          customLabelStyle={{zIndex: 7001}}
-          showCustomArrow={true}
-          onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
-          mustHasDefaultValue={false}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isPoor}
-          label={translations['poor']}
-          isSearchable={false}
-          zIndex={6000}
-          customLabelStyle={{zIndex: 6001}}
-          showCustomArrow={true}
-          onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
-          mustHasDefaultValue={false}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isYouth}
-          label={translations['youth']}
-          isSearchable={false}
-          zIndex={5000}
-          customLabelStyle={{zIndex: 5001}}
-          showCustomArrow={true}
-          onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
-          mustHasDefaultValue={false}
-        />
-      </View>
-    );
-  };
-
-  selectIndicator = (index) => {
-    const indicators = this.state.indicators;
-    indicators.map((indicator) => (indicator.isSelected = false));
-    indicators[index].isSelected = true;
+  selectIndicator = () => {
     this.setState({
-      indicators: indicators,
-      selectedIndicator: indicators[index],
+      isModalVisible: this.indicatorSelectionRef.current.state.isModalVisible,
+      selectedIndicators: this.indicatorSelectionRef.current.state.selectedIndicators,
+      unselectedIndicators: this.indicatorSelectionRef.current.state.unselectedIndicators,
+      isValid: this.indicatorSelectionRef.current.state.selectedIndicators.length > 0 ? true : false,
     });
-    if (index === this.state.indicators.length - 1)
-      this.setState({isModalVisible: true})
   };
 
   closeModal = () => {
     this.setState({isModalVisible: false});
   }
 
-  isValidForm = () => {
-    const {age, selectedIndicator} = this.state;
-    return (age === '' || age === 0 || selectedIndicator === null) ? false: true;
+  saveCustomIndicator = (customIndicator) => {
+    let selectedIndicators = this.state.selectedIndicators;
+    selectedIndicators.push(customIndicator);
+    this.setState({selectedIndicators});
+    realm.write(() => { realm.create('CustomIndicator', customIndicator, 'modified'); });
+    this.setState({
+      isModalVisible: false,
+      isValid: true,
+    });
+  }
+
+  save = () => {
+    let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false)));
+    this.handleDeleteUnselectedProposedCriteria();
+    this.state.selectedIndicators.map((indicator) => {
+      const attrs = {
+        uuid: this.getCriteriaUUID(indicator.uuid),
+        scorecard_uuid: this.props.route.params.uuid.toString(),
+        indicatorable_id: indicator.uuid.toString(),
+        indicatorable_type: indicator.type,
+        indicatorable_name: indicator.name,
+        participant_uuid: this.props.route.params.participant_uuid,
+      };
+      realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
+    });
+    this.props.saveParticipant(participants, this.props.route.params.uuid);
+    this.props.navigation.goBack();
+  }
+
+  handleDeleteUnselectedProposedCriteria = () => {
+    const proposedCriterias = this.getProposedCriteria(this.props.route.params.participant_uuid);
+    let deleteCriterias = [];
+    proposedCriterias.map((criteria) => {
+      this.state.unselectedIndicators.map((indicator) => {
+        if (indicator.uuid == criteria.indicatorable_id)
+          deleteCriterias.push(criteria);
+      })
+    });
+    deleteCriterias.map((criteria) => {
+      const proposedCriteria = realm.objects('ProposedCriteria')
+        .filtered(`indicatorable_id = '${criteria.indicatorable_id}' AND participant_uuid = '${this.props.route.params.participant_uuid}'`);
+
+      realm.write(() => { realm.delete(proposedCriteria); });
+    });
+  }
+
+  getProposedCriteria = (participantUUID) => {
+    return JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'" AND participant_uuid = "'+ participantUUID +'"')));
+  }
+
+  getCriteriaUUID = (indicatorUUID) => {
+    const proposedCriterias = this.getProposedCriteria(this.props.route.params.participant_uuid);
+    for (let i=0; i<proposedCriterias.length; i++) {
+      if (proposedCriterias[i].indicatorable_id === indicatorUUID.toString())
+        return proposedCriterias[i].uuid;
+    }
+    return uuidv4();
   }
 
   renderSaveButton = () => {
     const {translations} = this.context;
-    if (this.isValidForm()) {
+    if (this.state.isValid) {
       return (
-        <View style={{paddingBottom: 32, paddingTop: 60}}>
+        <View style={{paddingBottom: 42, justifyContent: 'flex-end'}}>
           <ActionButton
             label={translations['saveAndAddNew']}
             customButtonStyle={{marginBottom: 20}}
             customBackgroundColor={Color.primaryButtonColor}
             isDisabled={false}
           />
-          <OutlinedActionButton label={translations['save']} isDisabled={false} />
+          <OutlinedActionButton label={translations['save']} isDisabled={false} onPress={() => this.save()}/>
         </View>
       );
     }
@@ -177,16 +126,17 @@ class CreateNewIndicator extends Component {
       <Provider>
         <View style={{flex: 1, backgroundColor: '#ffffff'}}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView>
-              <View style={{paddingHorizontal: 14, paddingTop: 21, flex: 1}}>
-                <HeaderTitle headline="recordNewUser" subheading="pleaseFillInformationBelow"/>
-                {this.renderInputForm()}
+            <ScrollView contentContainerStyle={{flexGrow: 1}}>
+              <View style={{paddingHorizontal: 20, paddingTop: 21, flex: 1}}>
+                <Text style={{fontSize: 20, fontWeight: 'bold'}}>Create new indicator</Text>
                 <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
                   {translations['chooseIndicatorCategory']}
                 </Text>
                 <IndicatorCriteriaSelection
-                  indicators={this.state.indicators}
+                  ref={this.indicatorSelectionRef}
                   selectIndicator={this.selectIndicator}
+                  uuid={this.props.route.params.uuid}
+                  participantUUID={this.props.route.params.participant_uuid}
                 />
                 {this.renderSaveButton()}
               </View>
@@ -196,6 +146,9 @@ class CreateNewIndicator extends Component {
             <AddNewIndicatorModal
               isVisible={this.state.isModalVisible}
               closeModal={() => this.closeModal()}
+              saveCustomIndicator={this.saveCustomIndicator}
+              participantUUID={this.props.route.params.participant_uuid}
+              scorecardUUID={this.props.route.params.uuid}
             />
           </Portal>
         </View>
@@ -204,4 +157,12 @@ class CreateNewIndicator extends Component {
   }
 }
 
-export default CreateNewIndicator;
+function mapStateToProps(state) {
+  return {participants: state.participantReducer.participants};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator);

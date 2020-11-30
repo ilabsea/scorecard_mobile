@@ -8,8 +8,9 @@ import SelectPicker from '../../components/SelectPicker';
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
-import ParticipantSchema from '../../db/models/participant';
 
+import {saveParticipant} from '../../actions/participantAction';
+import {connect} from 'react-redux';
 class AddNewParticipant extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -70,7 +71,7 @@ class AddNewParticipant extends Component {
           value={age.toString()}
           isRequire={true}
           label={translations['age']}
-          isSearchable={false}
+          searchable={false}
           placeholder={translations['enterAge']}
           fieldName="age"
           onChangeText={this.onChangeValue}
@@ -82,7 +83,7 @@ class AddNewParticipant extends Component {
           items={gender}
           selectedItem={selectedGender}
           label={translations['gender']}
-          isSearchable={false}
+          searchable={false}
           zIndex={9000}
           customLabelStyle={{zIndex: 9001}}
           showCustomArrow={true}
@@ -96,7 +97,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isDisability}
           label={translations['disability']}
-          isSearchable={false}
+          searchable={false}
           zIndex={8000}
           customLabelStyle={{zIndex: 8001}}
           showCustomArrow={true}
@@ -109,7 +110,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isMinority}
           label="Minority"
-          isSearchable={false}
+          searchable={false}
           zIndex={7000}
           customLabelStyle={{zIndex: 7001}}
           showCustomArrow={true}
@@ -120,7 +121,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isPoor}
           label={translations['poor']}
-          isSearchable={false}
+          searchable={false}
           zIndex={6000}
           customLabelStyle={{zIndex: 6001}}
           showCustomArrow={true}
@@ -131,7 +132,7 @@ class AddNewParticipant extends Component {
           items={choices}
           selectedItem={isYouth}
           label={translations['youth']}
-          isSearchable={false}
+          searchable={false}
           zIndex={5000}
           customLabelStyle={{zIndex: 5001}}
           showCustomArrow={true}
@@ -169,9 +170,9 @@ class AddNewParticipant extends Component {
   }
 
   saveParticipant = () => {
-    const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"');
+    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth, isUpdate} = this.state;
-    const attrs = {
+    let attrs = {
       uuid: isUpdate ? this.props.route.params.participant_uuid : uuidv4(),
       age: parseInt(age),
       gender: selectedGender,
@@ -179,16 +180,17 @@ class AddNewParticipant extends Component {
       minority: this.getTrueFalseValue(isMinority),
       poor: this.getTrueFalseValue(isPoor),
       youth: this.getTrueFalseValue(isYouth),
-      indicator_id: null,
       scorecard_uuid: this.props.route.params.uuid,
-      order: participants.length,
+      order: !isUpdate ? participants.length : this.props.route.params.index,
     };
+
     realm.write(() => {
       if (!isUpdate)
         realm.create('Participant', attrs);
       else
         realm.create('Participant', attrs, 'modified');
     });
+    this.props.saveParticipant(participants, this.props.route.params.uuid);
     this.props.navigation.goBack();
   }
 
@@ -224,4 +226,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddNewParticipant;
+function mapDispatchToProps(dispatch) {
+  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
+}
+
+export default connect(null, mapDispatchToProps)(AddNewParticipant);
