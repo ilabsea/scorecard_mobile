@@ -10,7 +10,7 @@ const _getScorecardUUID = async () => {
 
 const _saveDataToLocalStorage = (schema, data) => {
   realm.write(() => {
-    realm.create(schema, data);
+    realm.create(schema, data, 'modified');
   });
 };
 
@@ -36,9 +36,8 @@ const saveIndicator = async (indicators, callback) => {
   callback(true);
 };
 
-const saveLanguageIndicator = async (indicators) => {
+const saveLanguageIndicator = async (indicators, localAudioFilePath) => {
   const scorecardUUID = await _getScorecardUUID();
-  _clearDataFromLocalStorage('LanguageIndicator', scorecardUUID);
   indicators.map(indicator => {
     const languagesIndicators = indicator['languages_indicators'];
     if (languagesIndicators.length > 0) {
@@ -50,6 +49,7 @@ const saveLanguageIndicator = async (indicators) => {
           language_code: languagesIndicator['language_code'],
           scorecard_uuid: scorecardUUID,
           indicator_id: indicator.id.toString(),
+          local_audio: localAudioFilePath,
         };
         _saveDataToLocalStorage('LanguageIndicator', languageIndicator);
       });
@@ -79,14 +79,14 @@ const saveAudio = (indicators, callback) => {
       languagesIndicators.map((languagesIndicator) => {
         if (languagesIndicator.audio != undefined || languagesIndicator.audio != null) {
           const audioUrl = `${environment.domain}${languagesIndicator.audio}`;
-          _checkAndSave(audioUrl, callback);
+          _checkAndSave(audioUrl, indicators, callback);
         }
       });
     }
   });
 }
 
-const _checkAndSave = (audioUrl, callback) => {
+const _checkAndSave = (audioUrl, indicators, callback) => {
   let audioPath = audioUrl.split('/');
   const fileName = audioPath[audioPath.length - 1];
 
@@ -94,9 +94,11 @@ const _checkAndSave = (audioUrl, callback) => {
   readFile(fileName, async (isSuccess, response) => {
     if (response === 'file not found') {
       // File not found then start to download file
-      https: downloadFileFromUrl(audioUrl, async (isSuccess, response) => {
-        if (isSuccess)
+      https: downloadFileFromUrl(audioUrl, async (isSuccess, response, localAudioFilePath) => {
+        if (isSuccess) {
+          saveLanguageIndicator(indicators, localAudioFilePath);
           callback(true);
+        }
         else {
           console.log('download failed = ', response);
           callback(false);

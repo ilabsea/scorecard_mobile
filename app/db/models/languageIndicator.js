@@ -1,5 +1,6 @@
 const LanguageIndicator = {
   name: 'LanguageIndicator',
+  primaryKey: 'id',
   properties: {
     id: 'int',
     content: 'string',
@@ -7,6 +8,7 @@ const LanguageIndicator = {
     language_code: 'string',
     scorecard_uuid: 'string',
     indicator_id: 'string',
+    local_audio: 'string?',
   },
 };
 

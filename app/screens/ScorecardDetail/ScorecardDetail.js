@@ -83,7 +83,7 @@ class ScorecardDetail extends Component {
       });
       const indicators = await response;
       saveIndicator(indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
-      saveLanguageIndicator(indicators);
+      saveLanguageIndicator(indicators, '');
       saveAudio(indicators, async (isAllAudioDownloaded) => {
         this.setState({isAllAudioDownloaded});
       });
