@@ -181,7 +181,7 @@ function AppNavigator() {
             name="CreateNewIndicator"
             component={CreateNewIndicatorScreen}
             options={{
-              title: `${translations['createNewIndicator']}`,
+              title: `${translations['createNewProposedCriteria']}`,
             }}
           />
         </Stack.Navigator>

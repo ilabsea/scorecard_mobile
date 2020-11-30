@@ -51,7 +51,7 @@ class ListUser extends Component {
           <Button iconLeft primary style={styles.button}
             onPress={() => this.props.openCreateNewIndicatorScreen()}>
             <Icon name="add"/>
-            <Text style={styles.buttonLabel}>{translations['addNewUser']}</Text>
+            <Text style={styles.buttonLabel}>{translations['proposeNewCriteria']}</Text>
           </Button>
         </View>
         {this.renderUserTable()}

@@ -156,38 +156,19 @@ class VoiceRecord extends Component {
   };
 
   renderRecordedVoice = () => {
+    const {translations} = this.context;
     return (
       <View style={styles.recordedVoiceContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            padding: 16,
-            borderRadius: 8,
-            backgroundColor: 'white',
-          }}>
+        <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: 'white'}}>
           <TouchableOpacity onPress={() => this.handlePlaying()}>
-            {!this.state.isPlaying && (
-              <MaterialIcon
-                name="play-circle-filled"
-                size={50}
-                color={Color.primaryButtonColor}
-              />
-            )}
-            {this.state.isPlaying && (
-              <MaterialIcon
-                name="pause-circle-filled"
-                size={50}
-                color={Color.primaryButtonColor}
-              />
-            )}
+            {!this.state.isPlaying && (<MaterialIcon name="play-circle-filled" size={50} color={Color.primaryButtonColor} />)}
+            {this.state.isPlaying && (<MaterialIcon name="pause-circle-filled" size={50} color={Color.primaryButtonColor} />)}
           </TouchableOpacity>
           <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
-            <Text>Play</Text>
+            <Text>{translations['play']}</Text>
             <Text>{this.getCurrentTime(this.state.playDuration)}</Text>
           </View>
-          <TouchableOpacity
-            onPress={() => this.delete()}
-            style={{alignSelf: 'center'}}>
+          <TouchableOpacity onPress={() => this.delete()} style={{alignSelf: 'center'}}>
             <MaterialIcon name="delete" size={30} color="red" />
           </TouchableOpacity>
         </View>
@@ -196,11 +177,12 @@ class VoiceRecord extends Component {
   };
 
   render() {
+    const {translations} = this.context;
     return (
       <View>
         <View style={{alignItems: 'center', marginBottom: 10}}>
           <Text style={{fontSize: 16, color: '#3a3a3a'}}>
-            Record issue note as voice
+            {translations['enterNewCriteriaAsVoice']}
           </Text>
         </View>
         {this.state.isRecordButtonVisible && this.renderRecordButton()}
