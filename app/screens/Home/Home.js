@@ -14,7 +14,8 @@ import {
 
 import { Icon } from 'native-base';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import BigButton from '../../components/BigButton';
+import BigButton from '../../components/Home/BigButton';
+import Brand from '../../components/Home/Brand';
 
 class Home extends Component {
   static contextType = LocalizationContext;
@@ -23,14 +24,9 @@ class Home extends Component {
     const {translations} = this.context;
 
     return (
-      <ImageBackground source={require('../../assets/images/bg.jpg')} style={styles.image}>
-        <View style={styles.container}>
-          <Image source={require('../../assets/images/care_logo.png')} style={{width: 120, height: 120}}/>
-
-          <View style={{marginBottom: 40, marginTop: 30}}>
-            <Text style={{fontFamily: FontFamily.title, fontSize: 32, color: '#fff'}}>សូមស្វាគមន៍មកកាន់</Text>
-            <Text style={{fontFamily: FontFamily.title, fontSize: 32, color: '#fff'}}>ប័ណ្ណដាក់ពន្ទុឌីជីថល</Text>
-          </View>
+      <ImageBackground source={require('../../assets/images/bg.jpg')} style={styles.imageBg}>
+        <View style={{alignItems: 'center'}}>
+          <Brand />
 
           <BigButton
             onPress={() => this.props.navigation.navigate('NewScorecard')}
@@ -43,7 +39,6 @@ class Home extends Component {
             label={ translations['savedScorecard'] }
             icon={'list-circle'}
           />
-
         </View>
       </ImageBackground>
     );
@@ -52,13 +47,8 @@ class Home extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    alignItems: 'center'
-  },
-  image: {
+  imageBg: {
     flex: 1,
-    width: '100%',
     resizeMode: "cover",
     justifyContent: "center"
   },
