@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
 import {LocalizationContext} from '../Translations';
-import ParticipantCell from '../../services/RaisingProposed/participant_cell_service';
+import {ParticipantCell} from '../../services/proposed_criteria_service';
 
 class UserTable extends Component {
   static contextType = LocalizationContext;

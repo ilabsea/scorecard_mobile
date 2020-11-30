@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParticipantCell;
+export {ParticipantCell};
