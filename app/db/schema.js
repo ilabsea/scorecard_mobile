@@ -7,7 +7,7 @@ import IndicatorSchema from './models/indicator';
 import CafSchema from './models/caf';
 import LanguageIndicatorSchema from './models/languageIndicator';
 import FacilitatorSchema from './models/facilitator';
-import ScorecardSchema from './models/scorecard';
+import Scorecard from './models/scorecard';
 import ParticipantInformationSchema from './models/participantInformation';
 import ParticipantSchema from './models/participant';
 import CustomIndicatorSchema from './models/customIndicator';
@@ -17,7 +17,7 @@ import VotingCriteriaSchema from './models/votingCriteria';
 import RatingSchema from './models/rating';
 
 const schema0 = [
-  ScorecardSchema,
+  Scorecard.schema,
   LanguageSchema,
   IndicatorSchema,
   CafSchema,

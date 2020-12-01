@@ -7,7 +7,7 @@ const CustomIndicatorSchema = {
     uuid: 'string',
     name: 'string',
     note: 'string?',
-    audio: 'string?',
+    audio: 'string?',              // store file path in local storage
     tag: 'string?',
     scorecard_uuid: 'string',
   },

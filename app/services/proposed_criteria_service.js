@@ -38,10 +38,12 @@ class ParticipantCell {
     if (this.cellName == 'indicator' && this.cellValue != null && this.cellValue.length > 0) {
       return this.cellValue.map((proposedCriteria, index) => {
         return (
-          <View key={index} style={styles.indicatorBadge}>
-            <Text style={styles.indicatorLabel}>
-              {proposedCriteria.indicatorable_name.split(':')[0]}
-            </Text>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <View key={index} style={styles.indicatorBadge}>
+              <Text style={styles.indicatorLabel}>
+                {proposedCriteria.indicatorable_name.split(':')[0]}
+              </Text>
+            </View>
           </View>
         );
       });
@@ -65,8 +67,7 @@ const styles = StyleSheet.create({
   indicatorBadge: {
     paddingHorizontal: 2,
     paddingVertical: 2,
-    justifyContent: 'center',
-    display: 'flex'
+    marginHorizontal: 2,
   },
   indicatorLabel: {
     color: '#ffffff',
@@ -83,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParticipantCell;
+export {ParticipantCell};

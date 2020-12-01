@@ -18,7 +18,7 @@ const downloadFileFromUrl = (url, callback) => {
   };
 
   RNFS.downloadFile(options).promise.then(res => {
-    callback(true, res)
+    callback(true, res, options.toFile);
   }).catch(err => {
     callback(false, err);
   });

@@ -152,6 +152,7 @@ class VoiceRecord extends Component {
       recordDuration: 0,
       playDuration: 0,
     });
+    this.props.deleteAudio();
   };
 
   renderRecordedVoice = () => {

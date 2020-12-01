@@ -39,7 +39,8 @@ function AppNavigator() {
     <NavigationContainer>
       <LocalizationProvider>
         <Stack.Navigator
-          initialRouteName="IndicatorDevelopment"
+          // initialRouteName="IndicatorDevelopment"
+          initialRouteName="Home"
           screenOptions={{
             headerStyle: {
               backgroundColor: Color.headerColor,

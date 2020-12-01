@@ -6,7 +6,7 @@ const CafSchema = {
     id: 'int',
     name: 'string',
     local_ngo_id: 'int',
-    uuid: 'string',
+    scorecard_uuid: 'string',
   },
 };
 

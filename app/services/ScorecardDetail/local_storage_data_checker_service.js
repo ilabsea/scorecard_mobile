@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../../db/schema';
 import {readAllFiles} from '../local_storage_service';
 
-const _getuuid = async () => {
+const _getScorecardUUID = async () => {
   return await AsyncStorage.getItem('SELECTED_SCORECARD_UUID');
 }
 
@@ -63,8 +63,8 @@ const _isAudioDownloaded = (downloadedFiles, audioFilesName) => {
 }
 
 const _getDataFromLocalStorage = async (schema) => {
-  const uuid = await _getuuid();
-  const realmData = realm.objects(schema).filtered('uuid = "' + uuid + '"');
+  const scorecardUUID = await _getScorecardUUID();
+  const realmData = realm.objects(schema).filtered('scorecard_uuid = "' + scorecardUUID + '"');
   let data = JSON.stringify(realmData);
   return JSON.parse(data);
 }

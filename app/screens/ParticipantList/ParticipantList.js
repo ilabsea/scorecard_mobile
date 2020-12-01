@@ -26,8 +26,8 @@ class ParticipantList extends Component {
 
   fetchParticipant = () => {
     this.setState({isLoading: true});
-    const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.uuid +'"').sorted('order', false);
-    this.props.saveParticipant(participants, this.props.route.params.uuid);
+    const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false);
+    this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
     this.setState({
       isLoading: false,
     });
@@ -65,14 +65,14 @@ class ParticipantList extends Component {
   }
 
   renderParticipantList = () => {
-    const numberOfParticipant = realm.objects('ParticipantInformation').filtered('uuid = "' + this.props.route.params.uuid + '"')[0].participant;
+    const numberOfParticipant = realm.objects('ParticipantInformation').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"')[0].participant;
     this.totalParticipant = numberOfParticipant;
     return (
       <FlatList
         data={Array(numberOfParticipant).fill({})}
         renderItem={({item, index}) =>
           <ParticipantListItem index={index} participant={this.props.participants[index]}
-            navigation={this.props.navigation} uuid={this.props.route.params.uuid}
+            navigation={this.props.navigation} scorecardUUID={this.props.route.params.scorecard_uuid}
           />
         }
         keyExtractor={(item, index) => index.toString()}
@@ -103,7 +103,7 @@ class ParticipantList extends Component {
             <ActionButton
               label={translations['next']}
               customBackgroundColor={Color.primaryButtonColor}
-              onPress={() => this.props.navigation.navigate('RaisingProposed', {uuid: this.props.route.params.uuid})}
+              onPress={() => this.props.navigation.navigate('RaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
             />
           </View>
         </View>

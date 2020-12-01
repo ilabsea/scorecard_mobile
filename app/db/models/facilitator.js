@@ -6,7 +6,7 @@ const FacilitatorSchema = {
     id: 'int',
     name: 'string',
     position: 'string',
-    uuid: 'string',
+    scorecard_uuid: 'string',
   },
 };
 

@@ -99,7 +99,7 @@ class NewScorecard extends Component {
           this.setState({codeMsg: 'scorecardIsNotExist'});
         } else {
           this.saveScorecard(response);
-          this.props.navigation.navigate('ScorecardDetail', {uuid: this.uuid});
+          this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
         }
 
       } else {

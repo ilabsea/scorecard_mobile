@@ -28,7 +28,7 @@ class UserListing extends Component {
           <TipBox/>
           <ListProposedCriteria />
           <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
-            uuid={this.props.uuid}
+            scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}
           />
           {this.renderFinishButton()}
