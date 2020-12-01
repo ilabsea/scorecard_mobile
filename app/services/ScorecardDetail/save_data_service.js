@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { environment } from '../../config/environment';
 import realm from '../../db/schema';
 import {downloadFileFromUrl, readFile} from '../../services/local_storage_service';
-import {environment} from '../../config/environment';
 
 const _getScorecardUUID = async () => {
   return await AsyncStorage.getItem('SELECTED_SCORECARD_UUID');
