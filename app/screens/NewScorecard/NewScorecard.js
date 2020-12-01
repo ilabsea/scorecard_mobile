@@ -53,6 +53,7 @@ class NewScorecard extends Component {
   };
 
   _buildData(response) {
+    console.log("response=========", response)
     return ({
       uuid: response.uuid,
       unit_type: response.unit_type_name,
