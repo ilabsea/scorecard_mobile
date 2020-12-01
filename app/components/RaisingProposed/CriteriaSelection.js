@@ -4,7 +4,9 @@ import {Radio} from 'native-base';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
-class IndicatorCriteriaSelection extends Component {
+import {LocalizationContext} from '../Translations';
+class CriteriaSelection extends Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -81,6 +83,7 @@ class IndicatorCriteriaSelection extends Component {
   }
 
   getIndicator = () => {
+    const {translations} = this.context;
     let indicators = [];
     let predefinedIndicators = JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`scorecard_uuid = '${this.props.scorecardUUID}'`)));
     const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${this.props.scorecardUUID}'`)));
@@ -107,7 +110,7 @@ class IndicatorCriteriaSelection extends Component {
       }
       indicators.push(attrs);
     });
-    indicators.push({name: 'Other indicator', uuid: '', shortcut: 'add', isSelected: false, type: 'custom'})
+    indicators.push({name: translations['addNewCriteria'], uuid: '', shortcut: 'add', isSelected: false, type: 'custom'})
     this.setState({selectedIndicators}, () => {this.props.selectIndicator();});
     return indicators;
   }
@@ -162,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IndicatorCriteriaSelection;
+export default CriteriaSelection;

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import NoUserListing from '../../components/RaisingProposed/NoUserListing';
 import UserListing from '../../components/RaisingProposed/UserListing';
 import ProgressHeader from '../../components/ProgressHeader';
 

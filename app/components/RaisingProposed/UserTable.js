@@ -11,8 +11,9 @@ class UserTable extends Component {
   }
 
   getCellData = (cellData, cellIndex) => {
+    const {translations} = this.context;
     const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'note', 'action'];
-    const participantCell = new ParticipantCell(tableHead[cellIndex], cellData, this.editParticipant);
+    const participantCell = new ParticipantCell(tableHead[cellIndex], cellData, this.editParticipant, translations['edit']);
     return participantCell.cellItem[tableHead[cellIndex]];
   }
 
@@ -24,7 +25,7 @@ class UserTable extends Component {
       translations['age'],
       translations['gender'],
       translations['disability'],
-      translations['indicatorType'],
+      translations['criteria'],
       translations['note'],
       translations['action'],
     ];

@@ -87,19 +87,19 @@ class AddNewIndicatorModal extends Component {
         visible={this.props.isVisible}
         onDismiss={() => this.props.closeModal()}
         contentContainerStyle={styles.container}>
-        <Text style={styles.header}>{translations['addNewIndicator']}</Text>
+        <Text style={styles.header}>{translations['addNewCriteria']}</Text>
         <TextFieldInput
           value={this.state.name}
           isRequire={true}
-          label={translations['indicatorName']}
-          placeholder={translations['enterIndicatorName']}
-          fieldName="indicatorName"
+          label={translations['criteriaName']}
+          placeholder={translations['enterCriteriaName']}
+          fieldName="criteriaName"
           onChangeText={this.onChangeText}
         />
         <View style={{marginBottom: 20}}>
           <TextInput
-            label={translations['issueNote']}
-            placeholder={translations['writeIssueOrRecordVoice']}
+            label={translations['enterNewCriteriaAsVoice']}
+            placeholder={translations['enterNewCriteriaAsVoice']}
             mode="outlined"
             clearButtonMode="while-editing"
             value={this.state.note}

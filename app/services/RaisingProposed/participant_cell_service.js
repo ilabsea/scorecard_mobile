@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+
 class ParticipantCell {
-  constructor(cellName, cellValue, buttonAction, actionLabel) {
+  constructor(cellName, cellValue, buttonAction) {
     this.cellValue = cellValue;
     this.cellName = cellName;
-    this.actionLabel = actionLabel;
     this.cellItem = {
       no: this.textCell(),
       age: this.textCell(),
@@ -29,53 +29,44 @@ class ParticipantCell {
   booleanCell = () => {
     return (
       <View style={styles.cellContainer}>
-        <Text>
-          {this.cellValue === '' ? '' : this.cellValue ? 'Yes' : 'No'}
-        </Text>
+        <Text>{this.cellValue === '' ? '' : this.cellValue ? 'Yes' : 'No'}</Text>
       </View>
     );
-  };
+  }
 
   indicatorCell = () => {
-    if (
-      this.cellName == 'indicator' &&
-      this.cellValue != null &&
-      this.cellValue.length > 0
-    ) {
+    if (this.cellName == 'indicator' && this.cellValue != null && this.cellValue.length > 0) {
       return this.cellValue.map((proposedCriteria, index) => {
         return (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View key={index} style={styles.indicatorBadge}>
-              <Text style={styles.indicatorLabel}>
-                {proposedCriteria.indicatorable_name.split(':')[0]}
-              </Text>
-            </View>
+          <View key={index} style={styles.indicatorBadge}>
+            <Text style={styles.indicatorLabel}>
+              {proposedCriteria.indicatorable_name.split(':')[0]}
+            </Text>
           </View>
         );
       });
     }
     return null;
-  };
+  }
 
   actionCell = () => {
     return (
-      <TouchableOpacity
-        style={{flexDirection: 'row', alignSelf: 'center'}}
-        onPress={() => this.buttonAction(this.cellValue)}>
-        <MaterialIcon name="edit" color="#e4761e" size={18} />
-        <Text style={{color: '#e4761e', textTransform: 'uppercase', fontWeight: '700', marginLeft: 4}}>
-          {this.actionLabel}
-        </Text>
+      <TouchableOpacity style={{flexDirection: 'row', alignSelf: 'center'}}
+        onPress={() => this.buttonAction(this.cellValue)}
+      >
+        <MaterialIcon name="edit" color="#e4761e" size={18}/>
+        <Text style={{color: '#e4761e', textTransform: 'uppercase', fontWeight: '700', marginLeft: 4}}>Edit</Text>
       </TouchableOpacity>
     );
-  };
+  }
 }
 
 const styles = StyleSheet.create({
   indicatorBadge: {
     paddingHorizontal: 2,
     paddingVertical: 2,
-    marginHorizontal: 2,
+    justifyContent: 'center',
+    display: 'flex'
   },
   indicatorLabel: {
     color: '#ffffff',
@@ -92,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {ParticipantCell};
+export default ParticipantCell;

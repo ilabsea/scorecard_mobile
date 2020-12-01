@@ -6,7 +6,7 @@ import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import OutlinedActionButton from '../../components/OutlinedActionButton';
-import IndicatorCriteriaSelection from '../../components/RaisingProposed/IndicatorCriteriaSelection';
+import CriteriaSelection from '../../components/RaisingProposed/CriteriaSelection';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import Color from '../../themes/color';
 import {saveParticipant} from '../../actions/participantAction';
@@ -116,7 +116,7 @@ class CreateNewIndicator extends Component {
             customBackgroundColor={Color.primaryButtonColor}
             isDisabled={false}
           />
-          <OutlinedActionButton label={translations['save']} isDisabled={false} onPress={() => this.save()}/>
+          <OutlinedActionButton label={translations['saveAndGoNext']} isDisabled={false} onPress={() => this.save()}/>
         </View>
       );
     }
@@ -129,12 +129,11 @@ class CreateNewIndicator extends Component {
         <View style={{flex: 1, backgroundColor: '#ffffff'}}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
-              <View style={{paddingHorizontal: 20, paddingTop: 21, flex: 1}}>
-                <Text style={{fontSize: 20, fontWeight: 'bold'}}>Create new indicator</Text>
+              <View style={{paddingHorizontal: 20, paddingTop: 28, flex: 1}}>
                 <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
-                  {translations['chooseIndicatorCategory']}
+                  {translations['chooseProposedCriteria']}
                 </Text>
-                <IndicatorCriteriaSelection
+                <CriteriaSelection
                   ref={this.indicatorSelectionRef}
                   selectIndicator={this.selectIndicator}
                   scorecardUUID={this.props.route.params.scorecard_uuid}

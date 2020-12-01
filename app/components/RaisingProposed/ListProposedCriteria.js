@@ -36,7 +36,7 @@ class ListProposedCriteria extends Component {
     return (
       <View style={{marginTop: 15}}>
         <View style={styles.headingContainer}>
-          <Text style={styles.headingTitle}>{translations['listIndicators']}</Text>
+          <Text style={styles.headingTitle}>{translations['listProposedCriteria']}</Text>
           <Text style={styles.viewAllLabel}>
             {translations['viewAll']}
           </Text>
