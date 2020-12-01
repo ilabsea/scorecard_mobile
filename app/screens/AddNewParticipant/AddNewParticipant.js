@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
@@ -146,7 +146,7 @@ class AddNewParticipant extends Component {
   isValidAge = () => {
     if (this.ageRef.current === null)
       return this.state.age != '' && this.state.age != 0;
-    
+
     return this.ageRef.current.state.isValid;
   }
 
@@ -197,16 +197,18 @@ class AddNewParticipant extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-            Recored New User
-          </Text>
-          <Text style={{fontSize: 18, color: '#2e2e2e'}}>
-            Please fill information below
-          </Text>
-          {this.renderForm()}
-          {this.renderSaveButton()}
-        </View>
+        <ScrollView>
+          <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+              Recored New User
+            </Text>
+            <Text style={{fontSize: 18, color: '#2e2e2e'}}>
+              Please fill information below
+            </Text>
+            {this.renderForm()}
+            {this.renderSaveButton()}
+          </View>
+          </ScrollView>
       </TouchableWithoutFeedback>
     );
   }
