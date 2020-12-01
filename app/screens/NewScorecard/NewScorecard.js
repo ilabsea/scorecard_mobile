@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  ImageBackground,
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -15,11 +16,13 @@ import ActionButton from '../../components/ActionButton';
 import TextFieldInput from '../../components/TextFieldInput';
 import MessageLabel from '../../components/MessageLabel';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_connectivity_service';
 
 import {connect} from 'react-redux';
 import {getScorecardDetailAction} from '../../actions/scorecardAction';
+import Brand from '../../components/Home/Brand';
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -137,50 +140,56 @@ class NewScorecard extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <Loading
-            ref="loading"
-            backgroundColor="#ffffffF2"
-            borderRadius={5}
-            size={70}
-            imageSize={40}
-            indicatorColor={Color.primaryColor}
-          />
+        <ImageBackground source={require('../../assets/images/bg.jpg')} style={styles.imageBg}>
+          <View style={{alignItems: 'center'}}>
+            <Loading
+              ref="loading"
+              backgroundColor="#ffffffF2"
+              borderRadius={5}
+              size={70}
+              imageSize={40}
+              indicatorColor={Color.primaryColor}
+            />
 
-          <TextFieldInput
-            value={code}
-            label={translations["scorecardCode"]}
-            placeholder={translations["enterScorecardCode"]}
-            fieldName="scorecardCode"
-            onChangeText={this.onChangeText}
-            message={translations[codeMsg]}
-            isSecureEntry={false}
-            maxLength={6}
-            keyboardType="number-pad"
-          />
+            <Brand/>
 
-          {this.renderErrorMsg()}
+            <View style={{width: 360}}>
+              <TextFieldInput
+                value={code}
+                label={translations["scorecardCode"]}
+                placeholder={translations["enterScorecardCode"]}
+                fieldName="scorecardCode"
+                onChangeText={this.onChangeText}
+                message={translations[codeMsg]}
+                isSecureEntry={false}
+                maxLength={6}
+                keyboardType="number-pad"
+              />
+              {this.renderErrorMsg()}
 
-          <ActionButton
-            onPress={() => this.joinScorecard()}
-            label={translations["join"]}
-            customButtonStyle={{marginTop: 16}}
-            isDisabled={this.state.isLoading}
-          />
-        </View>
+              <ActionButton
+                onPress={() => this.joinScorecard()}
+                label={translations["join"]}
+                customButtonStyle={{marginTop: 16}}
+                isDisabled={this.state.isLoading}
+              />
+            </View>
+
+          </View>
+        </ImageBackground>
       </TouchableWithoutFeedback>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-  },
   errorLabel: {
     color: Color.errorColor,
+  },
+  imageBg: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
   },
 });
 

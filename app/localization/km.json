@@ -1,8 +1,8 @@
 {
   "hello": "សួរស្ដី",
   "scorecardApp": "Scorecard App",
-  "newScorecard": "ប័ណ្ណពិន្ទុថ្មី",
-  "savedScorecard": "ប័ណ្ណពិន្ទុដែលបានរក្សាទុក",
+  "newScorecard": "បង្កើតប័ណ្ណដាក់ពិន្ទុថ្មី",
+  "savedScorecard": "ចូលមើលប័ណ្ណដាក់ពិន្ទុពីមុន",
   "setting": "ការកំណត់",
   "backendUrl": "Backend URL",
   "email": "អ៊ីមែល​​",
@@ -149,4 +149,6 @@
   "suggestedAction": "សកម្មភាពដែលស្នើឡើង (ដំណោះស្រាយ)",
   "addText": "ធ្វើការបញ្ចូល",
   "tipsDetails": "គន្លឹះ - ជំនួយក្នុងការសម្របសម្រួល",
+  "welcomeTo": "សូមស្វាគមន៍មកកាន់",
+  "scorecardApp": "ប័ណ្ណដាក់ពន្ទុឌីជីថល",
 }
