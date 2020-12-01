@@ -48,8 +48,8 @@ const saveLanguageIndicator = async (indicators, localAudioFilePath) => {
           language_code: languagesIndicator['language_code'],
           scorecard_uuid: scorecardUUID,
           indicator_id: indicator.id.toString(),
-          local_audio: localAudioFilePath,
         };
+
         _saveDataToLocalStorage('LanguageIndicator', languageIndicator);
       });
     }
@@ -78,14 +78,14 @@ const saveAudio = (indicators, callback) => {
       languagesIndicators.map((languagesIndicator) => {
         if (languagesIndicator.audio != undefined || languagesIndicator.audio != null) {
           const audioUrl = `${environment.domain}${languagesIndicator.audio}`;
-          _checkAndSave(audioUrl, indicators, callback);
+          _checkAndSave(audioUrl, indicator, callback);
         }
       });
     }
   });
 }
 
-const _checkAndSave = (audioUrl, indicators, callback) => {
+const _checkAndSave = (audioUrl, indicator, callback) => {
   let audioPath = audioUrl.split('/');
   const fileName = audioPath[audioPath.length - 1];
 
@@ -95,7 +95,7 @@ const _checkAndSave = (audioUrl, indicators, callback) => {
       // File not found then start to download file
       https: downloadFileFromUrl(audioUrl, async (isSuccess, response, localAudioFilePath) => {
         if (isSuccess) {
-          saveLanguageIndicator(indicators, localAudioFilePath);
+          _saveLocalAudioToLanguageIndicator(indicator, localAudioFilePath);
           callback(true);
         }
         else {
@@ -110,6 +110,15 @@ const _checkAndSave = (audioUrl, indicators, callback) => {
       callback(true);
     }
   });
+}
+
+const _saveLocalAudioToLanguageIndicator = (indicator, localAudioFilePath) => {
+  const languageIndicator = realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicator.id}'`)[0];
+  const attrs = {
+    id: languageIndicator.id,
+    local_audio: localAudioFilePath,
+  };
+  _saveDataToLocalStorage('LanguageIndicator', attrs);
 }
 
 export {saveIndicator, saveLanguageIndicator, saveCaf, saveAudio};

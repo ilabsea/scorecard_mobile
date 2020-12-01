@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {Radio} from 'native-base';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
 import {LocalizationContext} from '../Translations';
+import CriteriaAudioButton from './CriteriaAudioButton';
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    this.audioPlayer = null;
     this.state = {
       indicators: [],
       selectedIndicators: [],
       unselectedIndicators: [],
       isModalVisible: false,
+      playingIndicatorId: null,
     };
   }
 
@@ -50,23 +52,36 @@ class CriteriaSelection extends Component {
     }, () => {this.props.selectIndicator();});
   }
 
+  criteriaBoxBorder = (indicator) => {
+    return indicator.isSelected ? {borderColor: Color.primaryButtonColor, borderWidth: 2} : {};
+  }
+
+  updateAudioState = (indicatorId, audioPlayer) => {
+    this.setState({playingIndicatorId: this.state.playingIndicatorId != indicatorId ? indicatorId : null});
+    this.audioPlayer = audioPlayer;
+  }
+
   indicatorCriteriaBox = (indicator, index) => {
     return (
-      <TouchableOpacity style={styles.criteriaBox}
-        onPress={() => this.selectIndicator(index)}>
-        <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
-          {index != this.state.indicators.length - 1 &&
-            <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{indicator.shortcut}</Text>
-          }
-          {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
-        </View>
-        <View style={styles.detailContainer}>
-          <View style={styles.nameContainer}>
-            <Text>{indicator.name.split(":").pop()}</Text>
+      <View style={[styles.criteriaBoxContainer, this.criteriaBoxBorder(indicator)]}>
+        <TouchableOpacity style={styles.criteriaBox}
+          onPress={() => this.selectIndicator(index)}
+        >
+          <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
+            {index != this.state.indicators.length - 1 &&
+              <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{indicator.shortcut}</Text>
+            }
+            {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
           </View>
-          <Radio color={'#f0ad4e'} selectedColor={'#5cb85c'} selected={indicator.isSelected} />
-        </View>
-      </TouchableOpacity>
+          <View style={styles.detailContainer}>
+            <Text style={{textAlign: 'left'}}>{indicator.name.split(":").pop()}</Text>
+          </View>
+        </TouchableOpacity>
+        <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
+          playingIndicatorId={this.state.playingIndicatorId}
+          updateAudioState={this.updateAudioState}
+        />
+      </View>
     )
   }
 
@@ -128,7 +143,7 @@ class CriteriaSelection extends Component {
 }
 
 const styles = StyleSheet.create({
-  criteriaBox: {
+  criteriaBoxContainer: {
     backgroundColor: 'white',
     borderRadius: 2,
     flexDirection: 'row',
@@ -138,9 +153,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     height: 100,
   },
+  criteriaBox: {
+    flexDirection: 'row',
+    flex: 1,
+  },
   iconContainer: {
     width: 100,
-    height: 100,
     backgroundColor: '#d0cdcd',
     justifyContent: 'center',
     alignItems: 'center',
@@ -158,10 +176,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-  },
-  nameContainer: {
-    flex: 1,
-    justifyContent: 'center',
   },
 });
 

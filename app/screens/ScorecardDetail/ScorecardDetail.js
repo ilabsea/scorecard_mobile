@@ -82,9 +82,8 @@ class ScorecardDetail extends Component {
         loadingMessage: '',
       });
       const indicators = await response;
-      console.log('indicators === ', JSON.stringify(indicators[0]))
       saveIndicator(indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
-      saveLanguageIndicator(indicators, '');
+      saveLanguageIndicator(indicators);
       saveAudio(indicators, async (isAllAudioDownloaded) => {
         this.setState({isAllAudioDownloaded});
       });
