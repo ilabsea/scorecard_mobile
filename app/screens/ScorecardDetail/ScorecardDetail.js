@@ -36,12 +36,13 @@ class ScorecardDetail extends Component {
 
   componentDidMount() {
     const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
+    this.scorecard = scorecard;
     this.setState({detail: scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
   }
 
-  checkSavedIndicator = () => {
+  checkSavedIndicator = (scorecard) => {
     this.fetchIndicatorFromApi(async (response) => {
       const indicators = await response;
       this.setState({isIndicatorDownloaded: await isIndicatorDownloaded(indicators)});
@@ -90,9 +91,7 @@ class ScorecardDetail extends Component {
   }
 
   fetchIndicatorFromApi = (successCallback, failedCallback) => {
-    const {detail} = this.state;
-    const facilityId = detail['facility_id'];
-    this.props.loadIndicatorListAction(facilityId, (isSuccess, response) => {
+    this.props.loadIndicatorListAction(this.scorecard.facility_id, (isSuccess, response) => {
       if (isSuccess)
         successCallback(response);
       else
@@ -123,9 +122,7 @@ class ScorecardDetail extends Component {
   }
 
   fetchCafFromApi = (successCallback, failedCallback) => {
-    const {detail} = this.state;
-    const localNgoId = detail['local_ngo_id'];
-    this.props.loadCafListAction(localNgoId, (isSuccess, response) => {
+    this.props.loadCafListAction(this.scorecard.local_ngo_id, (isSuccess, response) => {
       if (isSuccess)
         successCallback(response);
       else
