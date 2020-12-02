@@ -29,6 +29,7 @@ const saveIndicator = async (indicators, callback) => {
       name: indicator.name,
       facility_id: indicator.categorizable.id,
       scorecard_uuid: scorecardUUID,
+      tag: indicator.tag_name
     };
     _saveDataToLocalStorage('Indicator', indicatorSet);
   });

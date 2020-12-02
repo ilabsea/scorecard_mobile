@@ -42,7 +42,7 @@ class CreateNewIndicator extends Component {
 
   closeModal = () => {
     const otherIndicatorIndex = this.indicatorSelectionRef.current.state.indicators.length - 1;
-    this.indicatorSelectionRef.current.state.indicators[otherIndicatorIndex].isSelected = false; 
+    this.indicatorSelectionRef.current.state.indicators[otherIndicatorIndex].isSelected = false;
     this.setState({isModalVisible: false});
   }
 
@@ -71,6 +71,7 @@ class CreateNewIndicator extends Component {
         indicatorable_type: indicator.type,
         indicatorable_name: indicator.name,
         participant_uuid: this.props.route.params.participant_uuid,
+        tag: indicator.tag
       };
       realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
     });

@@ -42,7 +42,7 @@ class ScorecardDetail extends Component {
     this.checkSavedCaf();
   }
 
-  checkSavedIndicator = (scorecard) => {
+  checkSavedIndicator = () => {
     this.fetchIndicatorFromApi(async (response) => {
       const indicators = await response;
       this.setState({isIndicatorDownloaded: await isIndicatorDownloaded(indicators)});
