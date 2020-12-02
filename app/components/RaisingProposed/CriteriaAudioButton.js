@@ -13,30 +13,17 @@ class CriteriaAudioButton extends Component {
   }
 
   hasAudio = () => {
-    const {indicator} = this.props;
-    if (indicator.type === 'predefined') {
-      const languageIndicator = realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicator.uuid}'`)[0];
-      if (languageIndicator != undefined) {
-        this.audioFile = languageIndicator.local_audio;
-        return languageIndicator.local_audio != '' ? true : false;
-      }
-      return false;
+    const languageIndicator = realm.objects('LanguageIndicator').filtered(`indicator_id == '${this.props.indicator.uuid}'`)[0];
+    if (languageIndicator != undefined) {
+      this.audioFile = languageIndicator.local_audio;
+      return (languageIndicator.local_audio === '' || languageIndicator.local_audio === null) ? false : true;
     }
-    else if (indicator.type === 'custom') {
-      const customIndicator = realm.objects('CustomIndicator').filtered(`uuid == '${indicator.uuid}'`)[0];
-      if (customIndicator != undefined) {
-        this.audioFile= customIndicator.audio;
-        return customIndicator.audio != null ? true : false;
-      }
-      return false;
-    }
+    return false;
   }
 
   renderAudioIcon = () => {
-    if (this.props.playingIndicatorId === this.props.indicator.uuid)
-      return <MaterialIcon name="pause" color="#ffffff" size={25} />
-
-    return <MaterialIcon name="play-arrow" color="#ffffff" size={25} />
+    let iconName = this.props.playingIndicatorId === this.props.indicator.uuid ? 'pause' : 'play-arrow';
+    return <MaterialIcon name={iconName} color="#ffffff" size={25} />;
   }
 
   handlePlayAudio = () => {

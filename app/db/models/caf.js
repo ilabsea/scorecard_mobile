@@ -2,6 +2,7 @@
 
 const CafSchema = {
   name: 'Caf',
+  primaryKey: 'id',
   properties: {
     id: 'int',
     name: 'string',

@@ -52,7 +52,7 @@ class CriteriaSelection extends Component {
     }, () => {this.props.selectIndicator();});
   }
 
-  criteriaBoxBorder = (indicator) => {
+  selectedCriteriaBoxStyle = (indicator) => {
     return indicator.isSelected ? {borderColor: Color.primaryButtonColor, borderWidth: 2} : {};
   }
 
@@ -63,7 +63,7 @@ class CriteriaSelection extends Component {
 
   indicatorCriteriaBox = (indicator, index) => {
     return (
-      <View style={[styles.criteriaBoxContainer, this.criteriaBoxBorder(indicator)]}>
+      <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.selectIndicator(index)}
         >

@@ -8,6 +8,8 @@ import VoiceRecord from './VoiceRecord';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../Translations';
+import {CUSTOM} from '../../utils/variable';
+import realm from '../../db/schema';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -51,7 +53,19 @@ class AddNewIndicatorModal extends Component {
       audio: this.state.audio,
       scorecard_uuid: this.props.scorecardUUID,
     };
-    this.props.saveCustomIndicator(customIndicator);
+
+    const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.scorecardUUID}'`)[0];
+    const customLanguageIndicator = {
+      id: uuidv4(),
+      content: this.state.note,
+      language_code: scorecardPreference.audio_language_code,
+      local_audio: this.state.audio,
+      scorecard_uuid: this.props.scorecardUUID,
+      indicator_id: customIndicator.uuid,
+      type: CUSTOM,
+    };
+
+    this.props.saveCustomIndicator(customIndicator, customLanguageIndicator);
   }
 
   finishRecord = (filename) => {
