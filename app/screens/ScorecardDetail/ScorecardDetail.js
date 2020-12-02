@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-
-import {
-  Container,
-  Content,
-  Button,
-  Icon,
-} from "native-base";
+import {Container, Content, Button, Icon} from "native-base";
 
 import realm from '../../db/schema';
 import BigHeader from '../../components/BigHeader';
@@ -18,7 +12,10 @@ import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
 import {loadCafListAction} from '../../actions/cafAction';
 import {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded} from '../../services/ScorecardDetail/local_storage_data_checker_service';
-import {saveIndicator, saveLanguageIndicator, saveCaf, saveAudio} from '../../services/ScorecardDetail/save_data_service';
+import {saveLanguageIndicator} from '../../services/language_indicator_service';
+import {saveIndicator} from '../../services/indicator_service';
+import {saveCaf} from '../../services/caf_service';
+import {saveAudio} from '../../services/audio_service';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -82,9 +79,8 @@ class ScorecardDetail extends Component {
         loadingMessage: '',
       });
       const indicators = await response;
-      console.log('indicators === ', JSON.stringify(indicators[0]))
-      saveIndicator(indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
-      saveLanguageIndicator(indicators, '');
+      saveIndicator(this.props.route.params.scorecard_uuid, indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
+      saveLanguageIndicator(this.props.route.params.scorecard_uuid, indicators);
       saveAudio(indicators, async (isAllAudioDownloaded) => {
         this.setState({isAllAudioDownloaded});
       });
@@ -112,7 +108,7 @@ class ScorecardDetail extends Component {
 
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
-      saveCaf(cafs, async (isCafDownloaded) => {this.setState({isCafDownloaded})});
+      saveCaf(this.props.route.params.scorecard_uuid, cafs, async (isCafDownloaded) => {this.setState({isCafDownloaded})});
       this.setState({
         loadingMessage: '',
         isStopDownloadAudio: true,

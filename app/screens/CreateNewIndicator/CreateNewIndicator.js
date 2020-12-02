@@ -46,11 +46,14 @@ class CreateNewIndicator extends Component {
     this.setState({isModalVisible: false});
   }
 
-  saveCustomIndicator = (customIndicator) => {
+  saveCustomIndicator = (customIndicator, customLanguageIndicator) => {
     let selectedIndicators = this.state.selectedIndicators;
     selectedIndicators.push(customIndicator);
     this.setState({selectedIndicators});
-    realm.write(() => { realm.create('CustomIndicator', customIndicator, 'modified'); });
+    realm.write(() => {
+      realm.create('CustomIndicator', customIndicator, 'modified');
+      realm.create('LanguageIndicator', customLanguageIndicator, 'modified');
+    });
     this.setState({
       isModalVisible: false,
       isValid: true,
