@@ -89,7 +89,7 @@
   "tips": "គន្លះ​ - ជំនួយក្នុងការសម្របសម្រួល",
   "raisingProposedTipsContent": "Before the indicator rasing started, the tips here are about to reamind CAF The key questions to better facilitate the process this will help CAF get better insights from participants.",
   "viewTips": "មើលបន្ថែម",
-  "listProposedCriteria": "តារាងលក្ខណៈវិនិច្ឆ័យ",
+  "listCriteria": "តារាងលក្ខណៈវិនិច្ឆ័យ",
   "viewAll": "មើលបន្ថែម",
   "listUser": "តារាងអ្នកចូលរួម",
   "no": "លេខ​រៀង​",
@@ -151,4 +151,5 @@
   "proposeNewCriteria": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី",
   "edit": "កែ​ប្រែ​",
   "play": "ចាក់​សម្លេង​",
+  "allCriteria": "លក្ខណៈវិនិច្ឆ័យទាំង​អស់​"
 }

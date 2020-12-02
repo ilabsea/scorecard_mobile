@@ -12,6 +12,7 @@ import Color from '../../themes/color';
 import {saveParticipant} from '../../actions/participantAction';
 import uuidv4 from '../../utils/uuidv4';
 import {connect} from 'react-redux';
+import {saveCriteria} from '../../actions/criteriaListAction';
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -75,6 +76,7 @@ class CreateNewIndicator extends Component {
       };
       realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
     });
+    this.props.saveCriteria(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
     this.props.navigation.goBack();
   }
@@ -167,7 +169,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
+  return {
+    saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID)),
+    saveCriteria: (scorecardUUID) => dispatch(saveCriteria(scorecardUUID)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator);

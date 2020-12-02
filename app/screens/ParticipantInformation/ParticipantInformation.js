@@ -37,7 +37,6 @@ class ParticipantInformation extends Component {
       youth: this.getIntegerOf(this.youthRef.current.state.participant),
       scorecard_uuid: this.props.route.params.scorecard_uuid,
     };
-
     realm.write(() => {
       realm.create('ParticipantInformation', attrs, 'modified');
     });

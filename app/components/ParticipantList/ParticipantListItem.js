@@ -21,7 +21,7 @@ class ParticipantListItem extends Component {
       return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
     const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
-    return <FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10}} />;
+    return <FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10}} color="black" />;
   };
 
   getAge = (participant) => {

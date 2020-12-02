@@ -89,7 +89,7 @@
   "tips": "Tips",
   "raisingProposedTipsContent": "Before the indicator rasing started, the tips here are about to reamind CAF The key questions to better facilitate the process this will help CAF get better insights from participants.",
   "viewTips": "View tips",
-  "listProposedCriteria": "List Proposed Criteria",
+  "listCriteria": "List Criteria",
   "viewAll": "View all",
   "listUser": "List User",
   "no": "No",
@@ -150,5 +150,6 @@
   "scorecardApp": "Scorecard App",
   "proposeNewCriteria": "Propose new criteria",
   "edit": "Edit",
-  "play": "Play"
+  "play": "Play",
+  "allCriteria": "All Criteria"
 }
