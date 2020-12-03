@@ -8,7 +8,7 @@ const saveIndicator =  (scorecardUUID, indicators, callback) => {
       name: indicator.name,
       facility_id: indicator.categorizable.id,
       scorecard_uuid: scorecardUUID,
-      tag: indicator.tag_name,
+      tag: indicator.tag_name
     };
     realm.write(() => { realm.create('Indicator', indicatorSet, 'modified'); });
   });
