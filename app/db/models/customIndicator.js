@@ -6,8 +6,8 @@ const CustomIndicatorSchema = {
   properties: {
     uuid: 'string',
     name: 'string',
-    note: 'string?',
-    audio: 'string?',              // store file path in local storage
+    content: 'string?',
+    local_audio: 'string?',              // store file path in local storage
     tag: 'string?',
     scorecard_uuid: 'string',
   },

@@ -26,7 +26,6 @@ const CriteriaListItem = (props) => {
       indicator.tag = props.criteria.tag;
     } else {
       indicator = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${props.criteria.indicatorable_id}'`)[0]));
-      indicator.local_audio = indicator.audio;
     }
 
     dispatch(setModalCriteria(indicator));

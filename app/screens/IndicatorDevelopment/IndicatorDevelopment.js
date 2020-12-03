@@ -106,8 +106,6 @@ class IndicatorDevelopment extends Component {
   }
 
   render() {
-
-
     return (
       <View style={{height: '100%'}}>
         { this._renderHeader() }
