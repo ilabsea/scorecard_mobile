@@ -7,7 +7,8 @@ const IndicatorSchema = {
     id: 'int',
     name: 'string',
     facility_id: 'int',
-    scorecard_uuid: 'string'
+    scorecard_uuid: 'string',
+    tag: 'string'
   },
 };
 

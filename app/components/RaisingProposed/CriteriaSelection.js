@@ -5,6 +5,7 @@ import Color from '../../themes/color';
 import realm from '../../db/schema';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
+
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -111,6 +112,7 @@ class CriteriaSelection extends Component {
         name: indicator.name,
         shortcut: indicator.name.split(':')[0],
         isSelected: false,
+        tag: indicator.tag,
         type: indicator.id != undefined ? 'predefined' : 'custom',
       };
       if (proposedCriterias != undefined) {

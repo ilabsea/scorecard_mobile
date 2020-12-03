@@ -17,6 +17,7 @@ class UserListing extends Component {
           onPress={() => this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID})}
           label={translations['finish']}
           customBackgroundColor={Color.primaryButtonColor}
+          onPress={() => this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID})}
         />
       </View>
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
@@ -199,21 +199,23 @@ class ScorecardPreference extends Component {
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}
           progressIndex={0}/>
-        <View style={styles.container}>
-          <Loading
-            ref="loading"
-            backgroundColor="#ffffffF2"
-            borderRadius={5}
-            size={70}
-            imageSize={40}
-            indicatorColor={Color.primaryColor}
-          />
-          <HeaderTitle
-            headline="scorecardPreference"
-            subheading="pleaseFillInformationBelow"
-          />
-          {this.renderForm()}
-        </View>
+        <ScrollView>
+          <View style={styles.container}>
+            <Loading
+              ref="loading"
+              backgroundColor="#ffffffF2"
+              borderRadius={5}
+              size={70}
+              imageSize={40}
+              indicatorColor={Color.primaryColor}
+            />
+            <HeaderTitle
+              headline="scorecardPreference"
+              subheading="pleaseFillInformationBelow"
+            />
+            {this.renderForm()}
+          </View>
+        </ScrollView>
       </View>
     );
   }

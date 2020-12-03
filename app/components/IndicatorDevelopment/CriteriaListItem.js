@@ -12,14 +12,25 @@ import styles from '../../themes/listItemStyle';
 import { LocalizationContext } from '../Translations';
 import { useDispatch } from 'react-redux';
 import { setModalCriteria, setModalVisible} from '../../actions/criteriaModalAction';
+import realm from '../../db/schema';
 
 const CriteriaListItem = (props) => {
-  const { translations } = useContext(LocalizationContext); // 1
+  const { translations, appLanguage } = useContext(LocalizationContext); // 1
   const dispatch = useDispatch();
 
   const showPopup = () => {
+    let indicator;
+
+    if ( props.criteria.indicatorable_type == 'predefined' ) {
+      indicator = JSON.parse(JSON.stringify(realm.objects('LanguageIndicator').filtered(`indicator_id='${props.criteria.indicatorable_id}' AND language_code='${appLanguage}'`)[0]));
+      indicator.tag = props.criteria.tag;
+    } else {
+      indicator = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${props.criteria.indicatorable_id}'`)[0]));
+      indicator.local_audio = indicator.audio;
+    }
+
+    dispatch(setModalCriteria(indicator));
     dispatch(setModalVisible(true));
-    dispatch(setModalCriteria(props.criteria));
   }
 
   return (
