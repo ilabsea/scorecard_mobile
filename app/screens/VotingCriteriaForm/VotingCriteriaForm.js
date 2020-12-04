@@ -90,12 +90,12 @@ class VotingCriteriaForm extends Component {
   }
 
   _submit() {
-    const { participant_uuid } = this.state;
+    const { participant } = this.state;
 
-    submitVoting(this.state.criterias, participant_uuid);
+    submitVoting(this.state.criterias, participant.uuid);
 
     realm.write(() => {
-      realm.create('Participant', {uuid: participant_uuid, voted: true}, 'modified');
+      realm.create('Participant', {uuid: participant.uuid, voted: true}, 'modified');
     });
 
     this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);

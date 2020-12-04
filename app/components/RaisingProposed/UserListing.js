@@ -7,8 +7,20 @@ import ListUser from './ListUser';
 import ActionButton from '../ActionButton';
 import {LocalizationContext} from '../../components/Translations';
 import Color from '../../themes/color';
+
+import realm from '../../db/schema';
+
 class UserListing extends Component {
   static contextType = LocalizationContext;
+
+  onPress = () => {
+    realm.write(() => {
+      realm.create('Scorecard', { uuid: this.props.scorecardUUID, status: '2' }, 'modified');
+    })
+
+    this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
+  }
+
   renderFinishButton = () => {
     const {translations} = this.context;
     return (
@@ -16,7 +28,7 @@ class UserListing extends Component {
         <ActionButton
           label={translations['finish']}
           customBackgroundColor={Color.primaryButtonColor}
-          onPress={() => this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID})}
+          onPress={() => this.onPress()}
         />
       </View>
     );

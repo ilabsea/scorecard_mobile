@@ -18,7 +18,7 @@ import VotingCriteriaSchema from './models/votingCriteria';
 import RatingSchema from './models/rating';
 
 const schema0 = [
-  Scorecard.schema,
+  Scorecard,
   LanguageSchema,
   IndicatorSchema,
   CafSchema,
