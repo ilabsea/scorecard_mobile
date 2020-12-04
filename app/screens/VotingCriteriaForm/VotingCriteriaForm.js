@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
@@ -14,6 +15,8 @@ import { LocalizationContext } from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
+import { Icon } from 'native-base';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { submitVoting } from '../../services/votingCriteriaService';
 
@@ -26,6 +29,7 @@ class VotingCriteriaForm extends Component {
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
+      participant: { uuid: props.route.params.participant_uuid },
       criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecard_uuid}'`))),
       isValid: false,
     };
@@ -59,18 +63,40 @@ class VotingCriteriaForm extends Component {
     )
   }
 
+  _renderParticipant() {
+    const { translations } = this.context;
+
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <View style={{backgroundColor: '#dfdfdf', marginTop: 10, padding: 10, borderRadius: 8}}>
+          <Text>{translations.participant_id}: </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name={'person'} style={{fontSize: 28, color: '#8e8e8c'}}/>
+            <Text style={{fontSize: 28, fontFamily: FontFamily.title, marginLeft: 10}}>ID: {this.state.participant.uuid}</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
   _renderContent() {
     return (
       <ScrollView style={styles.container}>
         <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
-
+        { this._renderParticipant() }
         { this._renderCriteriaRatingList() }
       </ScrollView>
     )
   }
 
   _submit() {
-    submitVoting(this.state.criterias);
+    const { participant_uuid } = this.state;
+
+    submitVoting(this.state.criterias, participant_uuid);
+
+    realm.write(() => {
+      realm.create('Participant', {uuid: participant_uuid, voted: true}, 'modified');
+    });
 
     this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
     this.props.navigation.goBack();

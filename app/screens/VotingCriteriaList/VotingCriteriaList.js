@@ -20,6 +20,8 @@ import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriter
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
+import ParticipantModal from '../../components/VotingCriteria/ParticipantModal';
+
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
 
@@ -30,7 +32,8 @@ class VotingCriteriaList extends Component {
 
     this.state = {
       scorecard: realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0],
-      votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`)))
+      votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`))),
+      visible: false
     };
   }
 
@@ -75,6 +78,12 @@ class VotingCriteriaList extends Component {
     this.goTo('ScorecardResult');
   }
 
+  _showModal() {
+    let participants = realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false`);
+
+    this.setState({visible: true, participants: participants});
+  }
+
   _renderContent() {
     const { translations } = this.context;
 
@@ -84,7 +93,7 @@ class VotingCriteriaList extends Component {
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
 
           <Button
-            onPress={() => this.goTo('VotingCriteriaForm')}
+            onPress={() => this._showModal()}
             iconLeft style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
             <Text>{translations.newVote}</Text>
@@ -98,6 +107,13 @@ class VotingCriteriaList extends Component {
           onPress={() => this._goNext()}
           customBackgroundColor={Color.headerColor}
           label={translations.next}/>
+
+        <ParticipantModal
+          participants={this.state.participants || []}
+          visible={this.state.visible}
+          scorecardUuid={this.state.scorecard.uuid}
+          navigation={this.props.navigation}
+          onDimiss={() => this.setState({visible: false})}/>
       </View>
     )
   }

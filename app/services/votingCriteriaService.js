@@ -3,10 +3,10 @@ import ratings from '../db/jsons/ratings';
 import uuidv4 from '../utils/uuidv4';
 import { Median } from '../utils/math';
 
-export const submitVoting = (criterias) => {
+export const submitVoting = (criterias, participant_uuid) => {
   realm.write(() => {
     for(let i=0; i<criterias.length; i++) {
-      realm.create('Rating', _buildRatingData(criterias[i]));
+      realm.create('Rating', _buildRatingData(criterias[i], participant_uuid));
       _updateCriteria(criterias[i]);
     }
   });
@@ -17,12 +17,12 @@ export const submitVoting = (criterias) => {
     criteriaObj.median = _getEverageScore(criteriaObj);
   }
 
-  function _buildRatingData(criteria) {
+  function _buildRatingData(criteria, participant_uuid) {
     return {
       uuid: uuidv4(),
       scorecard_uuid: criteria.scorecard_uuid,
       voting_criteria_uuid: criteria.uuid,
-      voting_person_uuid: '',
+      participant_uuid: participant_uuid,
       score: criteria.ratingScore
     }
   }
