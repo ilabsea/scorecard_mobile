@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
 import {LocalizationContext} from '../Translations';
 import {ParticipantCell} from '../../services/participant_service';
+import uuidv4 from '../../utils/uuidv4';
 
 class UserTable extends Component {
   static contextType = LocalizationContext;
@@ -31,7 +32,7 @@ class UserTable extends Component {
     ];
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} key={uuidv4()}>
         <Table borderStyle={{borderWidth: 1, borderColor: '#c1c1c1'}}>
           <Row data={tableHead} style={styles.tableHead} textStyle={styles.headerText} />
           {

@@ -26,7 +26,7 @@ Scorecard.schema = {
     number_of_ethnic_minority: 'int?',
     number_of_youth: 'int?',
     number_of_id_poor: 'int?',
-    status: 'string?',
+    status: { type: 'string', default: '1' },
     local_ngo_name: 'string',
     local_ngo_id: 'int',
     province: 'string',
