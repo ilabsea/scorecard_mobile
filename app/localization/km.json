@@ -101,8 +101,8 @@
   "finish": "បញ្ចប់",
   "recordNewUser": "Recored New User",
   "ageRequireMsg": "ត្រូវការអាយុ",
-  "ageMustBeNumber": "Age must be number",
-  "ageMustBePositive": "Age must be positive number",
+  "ageMustBeNumber": "អាយុត្រូវតែជាលេខ",
+  "ageMustBePositive": "អាយុត្រូវតែជាចំនួនវិជ្ជមាន",
   "createNewProposedCriteria": "ការបញ្ចូល​លក្ខណៈវិនិច្ឆ័យថ្មី​",
   "chooseProposedCriteria": "សូម​ជ្រើស​រើស​លក្ខណៈវិនិច្ឆ័យខាង​ក្រោម ឬបញ្ចូល​ថ្មី​",
   "saveAndAddNew": "រក្សា​ទុក​ហើយ​បង្កើត​ថ្មី​",
@@ -154,5 +154,7 @@
   "allCriteria": "លក្ខណៈវិនិច្ឆ័យទាំង​អស់​",
   "participant_id": "លេខសំគាល់អ្នកចូលរួម",
   "noData": "គ្មាន​ទិន្នន័យ",
-  "participantList": "បញ្ជីអ្នកចូលរួម"
+  "participantList": "បញ្ជីអ្នកចូលរួម",
+  "addNewParticipant": "បង្កើត​អ្នកចូលរួម",
+  "reachTotalParticipant": "គ្រប់ចំនួននាក់ចូលរួមទាំងអស់ហើយ"
 }

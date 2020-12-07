@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 import {Provider, Portal} from 'react-native-paper';
+import {Icon} from 'native-base';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
-import OutlinedActionButton from '../../components/OutlinedActionButton';
 import CriteriaSelection from '../../components/RaisingProposed/CriteriaSelection';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import Color from '../../themes/color';
@@ -61,6 +62,14 @@ class CreateNewIndicator extends Component {
     });
   }
 
+  updateRaisedParticipant = () => {
+    const participant = {
+      uuid: this.props.route.params.participant_uuid,
+      raised: true,
+    };
+    realm.write(() => {realm.create('Participant', participant, 'modified')});
+  }
+
   save = () => {
     let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false)));
     this.handleDeleteUnselectedProposedCriteria();
@@ -76,6 +85,7 @@ class CreateNewIndicator extends Component {
       };
       realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
     });
+    this.updateRaisedParticipant();
     this.props.saveCriteria(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
     this.props.navigation.goBack();
@@ -116,17 +126,27 @@ class CreateNewIndicator extends Component {
     if (this.state.isValid) {
       return (
         <View style={{paddingBottom: 42, justifyContent: 'flex-end'}}>
-          <ActionButton
-            label={translations['saveAndAddNew']}
-            customButtonStyle={{marginBottom: 20}}
-            customBackgroundColor={Color.primaryButtonColor}
-            isDisabled={false}
-          />
-          <OutlinedActionButton label={translations['saveAndGoNext']} isDisabled={false} onPress={() => this.save()}/>
+          <ActionButton label={translations['saveAndGoNext']} isDisabled={false} onPress={() => this.save()} customBackgroundColor={Color.primaryButtonColor}/>
         </View>
       );
     }
   };
+
+  _renderParticipant() {
+    const { translations } = this.context;
+    const participantNumber = realm.objects('Participant').filtered(`uuid == '${this.props.route.params.participant_uuid}'`)[0].order + 1;
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <View style={{backgroundColor: '#dfdfdf', marginTop: 10, padding: 10, borderRadius: 8}}>
+          <Text>{translations.participant_id}: </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name={'person'} style={{fontSize: 28, color: '#8e8e8c'}}/>
+            <Text style={{fontSize: 28, fontFamily: FontFamily.title, marginLeft: 10}}>ID: {participantNumber}</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
 
   render() {
     const {translations} = this.context;
@@ -136,6 +156,7 @@ class CreateNewIndicator extends Component {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
               <View style={{paddingHorizontal: 20, paddingTop: 28, flex: 1}}>
+                {this._renderParticipant()}
                 <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
                   {translations['chooseProposedCriteria']}
                 </Text>

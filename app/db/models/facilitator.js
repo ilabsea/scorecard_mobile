@@ -3,7 +3,7 @@
 const FacilitatorSchema = {
   name: 'Facilitator',
   properties: {
-    id: 'int',
+    id: 'int',              // id of CAF
     name: 'string',
     position: 'string',
     scorecard_uuid: 'string',

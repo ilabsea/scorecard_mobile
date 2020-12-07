@@ -10,30 +10,33 @@ class Criteria {
     return [...predefinedIndicators, ...customIndicators];
   }
 
-  _getVoteCount = (indicatorId) => {
+  _getRaisedCount = (indicatorId) => {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}' AND indicatorable_id == '${indicatorId}'`).length;
   }
 
-  _getTotalVoteCount = () => {
+  _getTotalRaisedCount = () => {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}'`).length;
   }
 
   getCriterias = () => {
     let indicators = this._getIndicators();
-    const summaryCriteria = [{id: '', name: 'All indicator', vote_count: this._getTotalVoteCount(), shortcut: 'view-agenda', scorecard_uuid: ''}];
+    const summaryCriteria = [{id: '', name: 'All indicator', raised_count: this._getTotalRaisedCount(), shortcut: 'view-agenda', scorecard_uuid: ''}];
     let criterias = [];
     indicators.map((indicator) => {
-      const attrs = {
-        id: indicator.id,
-        uuid: indicator.uuid,
-        name: indicator.name.split(':').pop(),
-        vote_count: this._getVoteCount(indicator.id || indicator.uuid),
-        shortcut: indicator.name.split(':')[0],
-        scorecard_uuid: indicator.scorecard_uuid,
-      };
-      criterias.push(attrs);
+      const raisedCount = this._getRaisedCount(indicator.id || indicator.uuid);
+      if (raisedCount > 0) {
+        const attrs = {
+          id: indicator.id,
+          uuid: indicator.uuid,
+          name: indicator.name.split(':').pop(),
+          raised_count: raisedCount,
+          shortcut: indicator.name.split(':')[0],
+          scorecard_uuid: indicator.scorecard_uuid,
+        };
+        criterias.push(attrs);
+      }
     });
-    criterias.sort((a, b) => (a.vote_count < b.vote_count));
+    criterias.sort((a, b) => (a.raised_count < b.raised_count));
     return [...summaryCriteria, ...criterias];
   }
 

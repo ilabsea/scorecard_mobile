@@ -13,13 +13,13 @@ class OutlinedActionButton extends Component {
   }
 
   render() {
-    const {onPress, label, isDisabled, customButtonStyle} = this.props;
+    const {onPress, label, isDisabled, customButtonStyle, customContentStyle} = this.props;
     return (
       <Button
         onPress={() => onPress()}
         mode="outlined"
         uppercase={true}
-        contentStyle={[styles.contentStyle]}
+        contentStyle={[styles.contentStyle, customContentStyle]}
         labelStyle={[styles.labelStyle, this.labelColor()]}
         style={[styles.buttonStyle, customButtonStyle, this.borderColor()]}
         disabled={isDisabled}>
