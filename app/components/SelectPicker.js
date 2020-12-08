@@ -37,6 +37,7 @@ class SelectPicker extends Component {
             size={25}
             name="keyboard-arrow-down"
             style={{marginTop: -2}}
+            color="black"
           />
         </View>
       );
@@ -46,6 +47,7 @@ class SelectPicker extends Component {
           size={25}
           name="keyboard-arrow-down"
           style={{marginTop: -2}}
+          color="black"
         />
       );
     }

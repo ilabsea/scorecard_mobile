@@ -2,6 +2,7 @@
 
 const ParticipantInformationSchema = {
   name: 'ParticipantInformation',
+  primaryKey: 'scorecard_uuid',
   properties: {
     participant: 'int',
     female: 'int',

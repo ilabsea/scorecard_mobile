@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
 import TipBox from './TipBox';
-import ListProposedCriteria from './ListProposedCriteria';
+import CriteriaList from './CriteriaList';
 import ListUser from './ListUser';
 import ActionButton from '../ActionButton';
 import {LocalizationContext} from '../../components/Translations';
@@ -28,7 +28,7 @@ class UserListing extends Component {
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20}}>
           <TipBox/>
-          <ListProposedCriteria />
+          <CriteriaList scorecardUUID={this.props.scorecardUUID} />
           <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
             scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}

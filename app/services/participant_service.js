@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import realm from '../db/schema';
+
 class ParticipantCell {
   constructor(cellName, cellValue, buttonAction, actionLabel) {
     this.cellValue = cellValue;
@@ -44,8 +46,8 @@ class ParticipantCell {
     ) {
       return this.cellValue.map((proposedCriteria, index) => {
         return (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View key={index} style={styles.indicatorBadge}>
+          <View key={index} style={{flex: 1, justifyContent: 'center'}}>
+            <View style={styles.indicatorBadge}>
               <Text style={styles.indicatorLabel}>
                 {proposedCriteria.indicatorable_name.split(':')[0]}
               </Text>
@@ -63,7 +65,13 @@ class ParticipantCell {
         style={{flexDirection: 'row', alignSelf: 'center'}}
         onPress={() => this.buttonAction(this.cellValue)}>
         <MaterialIcon name="edit" color="#e4761e" size={18} />
-        <Text style={{color: '#e4761e', textTransform: 'uppercase', fontWeight: '700', marginLeft: 4}}>
+        <Text
+          style={{
+            color: '#e4761e',
+            textTransform: 'uppercase',
+            fontWeight: '700',
+            marginLeft: 4,
+          }}>
           {this.actionLabel}
         </Text>
       </TouchableOpacity>

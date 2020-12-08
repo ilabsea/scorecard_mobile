@@ -197,7 +197,7 @@ class AddNewParticipant extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20}}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>
               Recored New User
@@ -208,7 +208,7 @@ class AddNewParticipant extends Component {
             {this.renderForm()}
             {this.renderSaveButton()}
           </View>
-          </ScrollView>
+        </ScrollView>
       </TouchableWithoutFeedback>
     );
   }

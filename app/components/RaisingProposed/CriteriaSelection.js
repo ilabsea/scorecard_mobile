@@ -24,6 +24,11 @@ class CriteriaSelection extends Component {
     this.setState({indicators: this.getIndicator()});
   }
 
+  componentWillUnmount() {
+    if (this.audioPlayer != null)
+      this.audioPlayer.stop();
+  }
+
   iconContainerBackground = (indicator) => {
     return indicator.isSelected ? {backgroundColor: Color.primaryButtonColor} : {};
   }

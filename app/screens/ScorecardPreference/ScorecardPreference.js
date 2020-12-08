@@ -53,8 +53,8 @@ class ScorecardPreference extends Component {
         const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
         this.setState({
           languages: languagesPickerFormat,
-          textLocale: await this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
-          audioLocale: await this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
+          textLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
+          audioLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
         });
         this.refs.loading.show(false);
       }
@@ -76,7 +76,7 @@ class ScorecardPreference extends Component {
     });
   }
 
-  getDefaultLocaleValue = async (languages, type) => {
+  getDefaultLocaleValue = (languages, type) => {
     let defaultValue = languages[0].value;
     const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
     if (scorecardPreference != undefined)

@@ -9,6 +9,7 @@ import proposedCriteriaReducer from './proposedCriteriaReducer';
 import votingCriteriaReducer from './votingCriteriaReducer';
 import criteriaModalReducer from './criteriaModalReducer';
 import participantReducer from './participantReducer';
+import criteriaListReducer from './criteriaListReducer';
 
 const allReducers = combineReducers({
   authenticateReducer,
@@ -21,6 +22,7 @@ const allReducers = combineReducers({
   votingCriterias: votingCriteriaReducer,
   criteriaModal: criteriaModalReducer,
   participantReducer,
+  criteriaListReducer,
 });
 
 const rootReducer = (state, action) => {
