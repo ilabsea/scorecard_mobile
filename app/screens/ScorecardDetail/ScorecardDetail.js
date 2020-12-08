@@ -11,7 +11,7 @@ import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorec
 import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
 import {loadCafListAction} from '../../actions/cafAction';
-import {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded} from '../../services/ScorecardDetail/local_storage_data_checker_service';
+import {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded} from '../../services/scorecard_detail_service';
 import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';

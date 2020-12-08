@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import realm from '../../db/schema';
-import {readAllFiles} from '../local_storage_service';
+import realm from '../db/schema';
+import {readAllFiles} from './local_file_system_service';
+import {getAudioFilename} from './audio_service';
 
 const _getScorecardUUID = async () => {
   return await AsyncStorage.getItem('SELECTED_SCORECARD_UUID');
@@ -36,8 +37,11 @@ const _getLangIndicatorAudios = (indicators) => {
   indicators.map(indicator => {
     const langIndicators = indicator['languages_indicators'];
     langIndicators.map((langIndicator) => {
-      if (langIndicator.audio != null && langIndicator.audio != '')
-        files.push(langIndicator.audio);
+      if (langIndicator.audio != null && langIndicator.audio != '') {
+        const filePath = langIndicator.audio.split("/");
+        const filename = filePath[filePath.length - 1];
+        files.push(getAudioFilename(langIndicator.id, langIndicator.language_code, filename))
+      }
     });
   });
 
@@ -47,18 +51,14 @@ const _getLangIndicatorAudios = (indicators) => {
 const _isAudioDownloaded = (downloadedFiles, audioFilesName) => {
   const fileCount = audioFilesName.length;
   let downloadedFileCount = 0;
-
   for (let i=0; i<audioFilesName.length; i++) {
-    const filePath = audioFilesName[i].split("/");
-    const fileName = filePath[filePath.length - 1];
     for (let j=0; j<downloadedFiles.length; j++) {
-      if (fileName === downloadedFiles[j].name) {
+      if (audioFilesName[i] === downloadedFiles[j].name) {
         downloadedFileCount++;
         break;
       }
     }
   }
-
   return fileCount === downloadedFileCount ? true : false;
 }
 

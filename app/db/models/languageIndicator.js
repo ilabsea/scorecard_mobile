@@ -14,3 +14,7 @@ const LanguageIndicator = {
 };
 
 export default LanguageIndicator;
+
+// filename of local_audio field will have format:
+//   langauge_indicator.id + '_' + language_indicator.language_code + "_" + language_indicator.audio_filename;
+//   Ex: 1_km_voice.mp3

@@ -95,8 +95,9 @@ class ScorecardPreference extends Component {
 
   saveSelectedData = () => {
     const {date, textLocale, audioLocale} = this.state;
+    const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
     const attrs = {
-      uuid: uuidv4(),
+      uuid: scorecardPreference != undefined ? scorecardPreference.uuid : uuidv4(),
       scorecard_uuid: this.props.route.params.scorecard_uuid,
       selected_date: date,
       text_language_code: textLocale,

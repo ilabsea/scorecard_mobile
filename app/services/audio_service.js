@@ -1,6 +1,6 @@
 import { environment } from '../config/environment';
 import realm from '../db/schema';
-import {downloadFileFromUrl, readFile} from '../services/local_storage_service';
+import {downloadFileFromUrl, readFile} from '../services/local_file_system_service';
 
 const saveAudio = (indicators, callback) => {
   indicators.map((indicator) => {
@@ -9,14 +9,14 @@ const saveAudio = (indicators, callback) => {
       languagesIndicators.map((languagesIndicator) => {
         if (languagesIndicator.audio != undefined || languagesIndicator.audio != null) {
           const audioUrl = `${environment.domain}${languagesIndicator.audio}`;
-          _checkAndSave(audioUrl, indicator, callback);
+          _checkAndSave(audioUrl, languagesIndicator, indicator, callback);
         }
       });
     }
   });
 }
 
-const _checkAndSave = (audioUrl, indicator, callback) => {
+const _checkAndSave = (audioUrl, languageIndicator, indicator, callback) => {
   let audioPath = audioUrl.split('/');
   const fileName = audioPath[audioPath.length - 1];
 
@@ -24,9 +24,9 @@ const _checkAndSave = (audioUrl, indicator, callback) => {
   readFile(fileName, async (isSuccess, response) => {
     if (response === 'file not found') {
       // File not found then start to download file
-      https: downloadFileFromUrl(audioUrl, async (isSuccess, response, localAudioFilePath) => {
+      https: downloadFileFromUrl(audioUrl, languageIndicator, async (isSuccess, response, localAudioFilePath) => {
         if (isSuccess) {
-          _saveLocalAudioToLanguageIndicator(indicator, localAudioFilePath);
+          _saveLocalAudioToLanguageIndicator(languageIndicator, localAudioFilePath);
           callback(true);
         }
         else {
@@ -43,10 +43,9 @@ const _checkAndSave = (audioUrl, indicator, callback) => {
   });
 }
 
-const _saveLocalAudioToLanguageIndicator = (indicator, localAudioFilePath) => {
-  const languageIndicator = realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicator.id}'`)[0];
+const _saveLocalAudioToLanguageIndicator = (languageIndicator, localAudioFilePath) => {
   const attrs = {
-    id: languageIndicator.id,
+    id: languageIndicator.id.toString(),
     local_audio: localAudioFilePath,
   };
   realm.write(() => {
@@ -54,4 +53,8 @@ const _saveLocalAudioToLanguageIndicator = (indicator, localAudioFilePath) => {
   });
 }
 
-export {saveAudio};
+const getAudioFilename = (indicatorId, languageCode, filename) => {
+  return `${indicatorId}_${languageCode}_${filename}`;
+}
+
+export {saveAudio, getAudioFilename};
