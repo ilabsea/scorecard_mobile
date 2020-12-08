@@ -10,6 +10,7 @@ const CustomIndicatorSchema = {
     local_audio: 'string?',              // store file path in local storage
     tag: 'string?',
     scorecard_uuid: 'string',
+    id_from_server: 'int?',
   },
 };
 
