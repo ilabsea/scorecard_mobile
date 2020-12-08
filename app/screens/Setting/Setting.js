@@ -182,7 +182,7 @@ class Setting extends Component {
         this.setState({isLoading: false});
 
         AsyncStorage.setItem('AUTH_TOKEN', response['authentication_token']);
-        AsyncStorage.setItem('SETTING', JSON.stringify({backendUrl: backendUrl, email: email, password: password, token: response['authentication_token']}));
+        AsyncStorage.setItem('SETTING', JSON.stringify({backendUrl: backendUrl, email: email, password: password}));
 
         this.props.navigation.goBack();
       }
