@@ -95,7 +95,7 @@ class SelectPicker extends Component {
           containerStyle={[styles.dropDownContainerStyle, customContainerStyle]}
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
-          dropDownMaxHeight={250}
+          dropDownMaxHeight={200}
           dropDownStyle={[{backgroundColor: 'white', opacity: 100}, this.dropDownZindex(zIndex)]}
           labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
