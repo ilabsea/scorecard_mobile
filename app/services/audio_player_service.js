@@ -1,21 +1,48 @@
-import {Player} from '@react-native-community/audio-toolkit';
+import Sound from 'react-native-sound';
+import {PLAYING, PAUSED} from '../utils/variable';
 class AudioPlayer {
-  // audioFile must contain file path + filename
   constructor(audioFile) {
     this.audioFile = audioFile;
-    this.player = new Player(audioFile)
+    this.playState = PLAYING;
+    this.playSeconds = 0;
+    this.duration = 0;
+    this.sound = new Sound(audioFile, '', (error) => {
+      if (error) {return console.log('failed to load the sound ', error);}
+      this.duration = Math.ceil(this.sound.getDuration());
+      this.play();
+    })
   }
 
-  playPause = () => {
-    this.player.playPause();
+  play = () => {
+    this.playState = PLAYING;
+    this.sound.play((success) => {
+      if (success) console.log('successfully finished playing');
+      else console.log('playback failed due to audio decoding errors');
+
+      this.playState = PAUSED;
+    });
   }
 
-  destroy = () => {
-    this.player.destroy();
+  pause = () => {
+    this.playState = PAUSED
+    this.sound.pause();
   }
 
-  stop = () => {
-    this.player.stop();
+  release = () => {
+    this.playSeconds = 0;
+    this.sound.release();
+  }
+
+  handlePlay = () => {
+    if (this.playState === PAUSED) {
+      this.play();
+      return;
+    }
+    this.pause();
+  }
+
+  getDuration = () => {
+    return this.duration;
   }
 }
 

@@ -1,15 +1,26 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
 import AudioPlayer from '../../services/audio_player_service';
+import {PLAYING, PAUSED} from '../../utils/variable';
 
 class CriteriaAudioButton extends Component {
   constructor(props) {
     super(props);
     this._audioPlayer = null;
     this.audioFile = null;
+    this.timeout = null;
+    this.state = {
+      iconName: 'play-arrow',
+    };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.playingIndicatorId != this.props.indicator.uuid) {
+      this.setState({iconName: 'play-arrow'});
+    }
   }
 
   hasAudio = () => {
@@ -21,21 +32,32 @@ class CriteriaAudioButton extends Component {
     return false;
   }
 
-  renderAudioIcon = () => {
-    let iconName = this.props.playingIndicatorId === this.props.indicator.uuid ? 'pause' : 'play-arrow';
-    return <MaterialIcon name={iconName} color="#ffffff" size={25} />;
+  watchAudioPlayerState = () => {
+    const _this = this;
+    this.timeout = setInterval(() => {
+      if (_this._audioPlayer === null || _this._audioPlayer.playState === PAUSED) {
+        this.setState({iconName: 'play-arrow'});
+        clearInterval(_this.timeout);
+      }
+      if (this.props.audioPlayer.audioFile != this.audioFile)
+        clearInterval(_this.timeout);
+    }, 1000);
   }
 
   handlePlayAudio = () => {
-    const {indicator} = this.props;
+    if (this.timeout) clearInterval(this.timeout);
     if (this.props.audioPlayer === null)
       this._audioPlayer = new AudioPlayer(this.audioFile);
-    else if (this.props.audioPlayer != null && this.props.audioPlayer.audioFile != this.audioFile) {
-      this.props.audioPlayer.stop()
+    else if (this.props.audioPlayer.audioFile != this.audioFile) {
+      this.props.audioPlayer.release();
       this._audioPlayer = new AudioPlayer(this.audioFile);
     }
-    this._audioPlayer.playPause();
-    this.props.updateAudioState(indicator.uuid, this._audioPlayer);
+    else if (this.props.audioPlayer.audioFile === this.audioFile)
+      this._audioPlayer.handlePlay();
+
+    this.setState({iconName: this._audioPlayer.playState === PLAYING ? 'pause' : 'play-arrow'});
+    if (this._audioPlayer.playState === PLAYING) this.watchAudioPlayerState()
+    this.props.updateAudioState(this.props.indicator.uuid, this._audioPlayer);
   }
 
   render() {
@@ -43,7 +65,7 @@ class CriteriaAudioButton extends Component {
       <View style={{justifyContent: 'center'}}>
         { this.hasAudio() &&
           <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioButton}>
-            {this.renderAudioIcon()}
+            <MaterialIcon name={this.state.iconName} color="#ffffff" size={25} />
           </TouchableOpacity>
         }
       </View>

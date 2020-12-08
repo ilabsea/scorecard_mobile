@@ -17,6 +17,7 @@ class CriteriaSelection extends Component {
       unselectedIndicators: [],
       isModalVisible: false,
       playingIndicatorId: null,
+      audioIcon: 'play-arrow'
     };
   }
 
@@ -26,7 +27,7 @@ class CriteriaSelection extends Component {
 
   componentWillUnmount() {
     if (this.audioPlayer != null)
-      this.audioPlayer.stop();
+      this.audioPlayer.release();
   }
 
   iconContainerBackground = (indicator) => {
@@ -63,11 +64,11 @@ class CriteriaSelection extends Component {
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
-    this.setState({playingIndicatorId: this.state.playingIndicatorId != indicatorId ? indicatorId : null});
+    this.setState({playingIndicatorId: indicatorId});
     this.audioPlayer = audioPlayer;
   }
 
-  indicatorCriteriaBox = (indicator, index) => {
+  indicatorCard = (indicator, index) => {
     return (
       <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
@@ -95,12 +96,12 @@ class CriteriaSelection extends Component {
     if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
       return (
         <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
-          {this.indicatorCriteriaBox(indicator, index)}
+          {this.indicatorCard(indicator, index)}
           <View style={{flex: 1, marginHorizontal: 10}} />
         </View>
       )
     }
-    return this.indicatorCriteriaBox(indicator, index);
+    return this.indicatorCard(indicator, index);
   }
 
   getIndicator = () => {

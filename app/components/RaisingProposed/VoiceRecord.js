@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, PermissionsAndroid} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {Player, Recorder} from '@react-native-community/audio-toolkit';
+import {Recorder} from '@react-native-community/audio-toolkit';
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
+import AudioPlayer from '../../services/audio_player_service';
+import {PLAYING, PAUSED} from '../../utils/variable';
 
 class VoiceRecord extends Component {
   static contextType = LocalizationContext;
@@ -13,14 +15,13 @@ class VoiceRecord extends Component {
     this.playInterval = null;
     this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}.mp4`;
     this.recorder = null;
-    this.player = null;
+    this.audioPlayer = null;
     this.state = {
       isRecordButtonVisible: true,
       isRecording: false,
       isPlaying: false,
-      isPause: false,
       recordDuration: 0,
-      playDuration: 0,
+      playSeconds: 0,
       hasPermission: false,
     };
   }
@@ -61,47 +62,42 @@ class VoiceRecord extends Component {
       this.setState({
         isRecording: false,
         isRecordButtonVisible: false,
-        playDuration: this.state.recordDuration,
+        playSeconds: this.state.recordDuration,
       });
       this.props.finishRecord(this.recorder.fsPath);
     });
-    this.player = new Player(this.filename);
   };
 
-  countDownPlayDuration = () => {
-    this.playInterval = setInterval(() => {
-      let duration = this.state.playDuration;
-      this.setState({playDuration: duration - 1});
-      if (duration === 1) clearInterval(this.playInterval);
+  countPlaySeconds = () => {
+    const _this = this;
+    _this.playInterval = setInterval(() => {
+      if (_this.audioPlayer != null) {
+        _this.audioPlayer.sound.getCurrentTime((seconds, isPlaying) => {
+          this.setState({playSeconds: Math.ceil(seconds)});
+          if (Math.ceil(seconds) === _this.state.recordDuration) {
+            clearInterval(_this.playInterval);
+            setTimeout(() => {
+              this.setState({isPlaying: false});
+            }, 500)
+          }
+        })
+      }
+      else clearInterval(_this.playInterval);
     }, 1000);
   };
 
   handlePlaying = () => {
-    if (this.state.isPlaying) return this.pauseVoice();
+    if (this.audioPlayer === null)
+      this.audioPlayer = new AudioPlayer(this.recorder.fsPath);
+    else
+      this.audioPlayer.handlePlay();
 
-    this.countDownPlayDuration();
-    return this.playVoice();
-  };
+    this.setState({isPlaying: this.audioPlayer.playState === PLAYING});
 
-  playVoice = () => {
-    this.player
-      .play(() => {this.setState({isPlaying: true, isPause: false})})
-      .on('ended', () => {
-        this.setState({
-          isPlaying: false,
-          isPause: false,
-          playDuration: this.state.recordDuration,
-        });
-        this.player = new Player(this.filename);
-        clearInterval(this.playInterval);
-      });
-  };
-
-  pauseVoice = () => {
-    this.player.pause(() => {
-      this.setState({isPlaying: false, isPause: true});
+    if (this.audioPlayer.playState === PLAYING)
+      this.countPlaySeconds();
+    else if (this.audioPlayer.playState === PAUSED && this.playInterval)
       clearInterval(this.playInterval);
-    });
   };
 
   getCurrentTime = (duration) => {
@@ -134,26 +130,26 @@ class VoiceRecord extends Component {
     );
   };
 
-  getPlayTime = () => {
-    if (!this.isPlaying) return this.getRecordTime();
-
-    let date = new Date(null);
-    return date.setSeconds(this.state.playDuration);
-  };
-
   delete = () => {
     this.recorder.destroy();
-    this.player.destroy();
+    if (this.audioPlayer != null)
+      this.audioPlayer.release();
+
+    this.audioPlayer = null;
     this.setState({
       isRecordButtonVisible: true,
       isRecording: false,
       isPlaying: false,
-      isPause: false,
       recordDuration: 0,
-      playDuration: 0,
+      playSeconds: 0,
     });
     this.props.deleteAudio();
   };
+
+  renderPlayIcon = () => {
+    let iconName = this.state.isPlaying ? 'pause-circle-filled' : 'play-circle-filled';
+    return (<MaterialIcon name={iconName} size={50} color={Color.primaryButtonColor} />)
+  }
 
   renderRecordedVoice = () => {
     const {translations} = this.context;
@@ -161,12 +157,11 @@ class VoiceRecord extends Component {
       <View style={styles.recordedVoiceContainer}>
         <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: 'white'}}>
           <TouchableOpacity onPress={() => this.handlePlaying()}>
-            {!this.state.isPlaying && (<MaterialIcon name="play-circle-filled" size={50} color={Color.primaryButtonColor} />)}
-            {this.state.isPlaying && (<MaterialIcon name="pause-circle-filled" size={50} color={Color.primaryButtonColor} />)}
+            {this.renderPlayIcon()}
           </TouchableOpacity>
           <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
             <Text>{translations['play']}</Text>
-            <Text>{this.getCurrentTime(this.state.playDuration)}</Text>
+            <Text>{this.getCurrentTime(this.state.playSeconds)}</Text>
           </View>
           <TouchableOpacity onPress={() => this.delete()} style={{alignSelf: 'center'}}>
             <MaterialIcon name="delete" size={30} color="red" />
