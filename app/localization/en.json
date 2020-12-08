@@ -151,5 +151,8 @@
   "proposeNewCriteria": "Propose new criteria",
   "edit": "Edit",
   "play": "Play",
-  "allCriteria": "All Criteria"
+  "allCriteria": "All Criteria",
+  "participant_id": "Participant ID",
+  "noData": "No data available",
+  "participantList": "Participant list",
 }

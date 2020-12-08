@@ -14,6 +14,7 @@ const ParticipantSchema = {
     scorecard_uuid: 'string',
     order: 'int',
     note: 'string?',
+    voted: { type: 'bool', default: false }
   },
 };
 
