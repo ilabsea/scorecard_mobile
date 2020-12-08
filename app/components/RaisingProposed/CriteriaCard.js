@@ -15,7 +15,7 @@ class CriteriaCard extends Component {
           <Text numberOfLines={1} style={styles.criteriaLabel}>{criteriaName}</Text>
           <View style={{flexDirection: 'row', marginTop: 12}}>
             <MaterialIcon name="person" size={18} color="#7f7f7f" />
-            <Text style={styles.criteriaValue}>{criteria.vote_count}</Text> 
+            <Text style={styles.criteriaValue}>{criteria.raised_count}</Text> 
           </View>
         </View>
       </View>
