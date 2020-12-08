@@ -49,9 +49,10 @@ class AddNewIndicatorModal extends Component {
     const customIndicator = {
       uuid: uuidv4(),
       name: this.state.name,
-      note: this.state.note,
-      audio: this.state.audio,
+      content: this.state.note,
+      local_audio: this.state.audio,
       scorecard_uuid: this.props.scorecardUUID,
+      tag: this.state.name
     };
 
     const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.scorecardUUID}'`)[0];
