@@ -43,12 +43,21 @@ class Setting extends Component {
     };
   }
 
-  componentDidMount = () => {
-    const {appLanguage} = this.context;
-    this.setState({
-      locales: this.getLocales(),
-      locale: appLanguage,
-    });
+  componentDidMount = async () => {
+    const { appLanguage } = this.context;
+    let setting = { locales: this.getLocales(), locale: appLanguage };
+
+    try {
+      const value = await AsyncStorage.getItem('SETTING');
+
+      if (value !== null) {
+        setting = Object.assign(setting, JSON.parse(value))
+      }
+
+      this.setState(setting);
+    } catch (error) {
+      this.setState(setting);
+    }
   }
 
   getLocales = () => {
@@ -57,22 +66,12 @@ class Setting extends Component {
     return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
   };
 
-  onChangeText = (type, value) => {
-    if (type === 'backendUrl')
-      this.setState({
-        backendUrl: value,
-        backendUrlErrorMsg: '',
-      });
-    else if (type === 'email')
-      this.setState({
-        email: value,
-        emailErrorMsg: '',
-      });
-    else  if (type === 'password')
-      this.setState({
-        password: value,
-        passwordErrorMsg: '',
-      });
+  onChangeText = (fieldName, value) => {
+    let state = {};
+    state[fieldName] = value;
+    state[`${fieldName}ErrorMsg`] = '';
+
+    this.setState(state);
   }
 
   renderInputForm = () => {
@@ -125,7 +124,7 @@ class Setting extends Component {
     const {setAppLanguage} = this.context;
     this.setState({locale: locale.value});
     setAppLanguage(locale.value);
-  } 
+  }
 
   renderChooseLanugage = () => {
     const {translations} = this.context;
@@ -172,23 +171,19 @@ class Setting extends Component {
     return true;
   }
 
-  save = () => {
-    if (!this.isValidForm())
-      return;
-
-    const {backendUrl, email, password} = this.state;
-    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
-    AsyncStorage.setItem('IS_CONNECTED', 'false');
-
-    this.refs.loading.show();
-    this.setState({isLoading: true});
+  authenticate() {
+    const { backendUrl, email, password } = this.state;
 
     this.props.authenticateAction(email, password, async (isSuccess, response) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
+
       if (isSuccess) {
         this.refs.loading.show(false);
         this.setState({isLoading: false});
+
         AsyncStorage.setItem('AUTH_TOKEN', response['authentication_token']);
+        AsyncStorage.setItem('SETTING', JSON.stringify({backendUrl: backendUrl, email: email, password: password}));
+
         this.props.navigation.goBack();
       }
       else {
@@ -197,14 +192,29 @@ class Setting extends Component {
         this.handleAuthenticateError(response);
       }
     });
+  }
+
+  save = async () => {
+    if (!this.isValidForm()) {
+      return;
+    }
+
+    AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
+    AsyncStorage.setItem('IS_CONNECTED', 'false');
+
+    this.refs.loading.show();
+    this.setState({isLoading: true});
+    this.authenticate();
 
     checkConnection((type, message) => {
-      const {translations} = this.context;
+      const { translations } = this.context;
+
       this.setState({
         messageType: type,
         errorMsg: translations[message],
         isLoading: false,
       });
+
       this.refs.loading.show(false);
     });
   }
