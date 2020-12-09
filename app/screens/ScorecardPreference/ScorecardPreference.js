@@ -10,7 +10,7 @@ import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
-import ActionButton from '../../components/ActionButton';
+import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import Color from '../../themes/color';
 import {checkConnection} from '../../services/api_connectivity_service';
@@ -181,12 +181,6 @@ class ScorecardPreference extends Component {
           type={messageType}
           customStyle={{marginTop: 120}}
         />
-
-        <ActionButton
-          label={translations["next"]}
-          onPress={() => this.saveSelectedData()}
-          customButtonStyle={{marginTop: 40}}
-        />
       </View>
     );
   };
@@ -200,21 +194,25 @@ class ScorecardPreference extends Component {
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}
           progressIndex={0}/>
-        <ScrollView>
-          <View style={styles.container}>
-            <Loading
-              ref="loading"
-              backgroundColor="#ffffffF2"
-              borderRadius={5}
-              size={70}
-              imageSize={40}
-              indicatorColor={Color.primaryColor}
+        <ScrollView contentContainerStyle={styles.container}>
+          <Loading
+            ref="loading"
+            backgroundColor="#ffffffF2"
+            borderRadius={5}
+            size={70}
+            imageSize={40}
+            indicatorColor={Color.primaryColor}
+          />
+          <HeaderTitle
+            headline="scorecardPreference"
+            subheading="pleaseFillInformationBelow"
+          />
+          {this.renderForm()}
+          <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 28}}>
+            <BottomButton
+              label={translations.next}
+              onPress={() => this.saveSelectedData()}
             />
-            <HeaderTitle
-              headline="scorecardPreference"
-              subheading="pleaseFillInformationBelow"
-            />
-            {this.renderForm()}
           </View>
         </ScrollView>
       </View>
@@ -224,10 +222,10 @@ class ScorecardPreference extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
+    padding: 20,
+    paddingBottom: 0,
   },
   inputLabel: {
     backgroundColor: 'white',
