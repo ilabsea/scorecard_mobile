@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { Divider} from 'react-native-paper';
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
@@ -36,11 +37,11 @@ export default class CriteriaRatingItem extends Component {
   }
 
   _renderRatingIcon(rating) {
-    const { appLanguage } = this.context;
+    const { translations, appLanguage } = this.context;
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
-
+    let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
     return (
-      <View style={[styles.ratingWrapper, activeIconStyle]} key={uuidv4()}>
+      <View style={[styles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
         <TouchableOpacity
           onPress={() => this._onClickIcon(rating) }
           style={{alignItems: 'center', marginBottom: 6}}>
@@ -49,10 +50,15 @@ export default class CriteriaRatingItem extends Component {
             <Image source={Images[rating.image]} style={{width: iconSize, height: iconSize}} />
           </View>
 
-          <Text style={{fontSize: 16, color: '#22354c'}}>{rating.label}</Text>
+          <Text style={{fontSize: 16, color: '#22354c'}}>{translations[rating.label]}</Text>
         </TouchableOpacity>
 
-        <PlaySound filePath={`${appLanguage}_${rating.audio}`} isLocal={true}/>
+        <PlaySound
+          containerStyle={{borderRadius: 2, width: 100, flexDirection: 'row'}}
+          filePath={`${appLanguage}_${rating.audio}`}
+          isLocal={true}>
+          <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
+        </PlaySound>
       </View>
     )
   }
@@ -74,7 +80,8 @@ export default class CriteriaRatingItem extends Component {
 
     return (
       <View style={{marginTop: 30}}>
-        <View style={{flexDirection: 'row'}}>
+        <Divider/>
+        <View style={{flexDirection: 'row', marginTop: 30}}>
           <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize', marginRight: 10}}>
             {this.props.criteria.tag}
           </Text>
@@ -109,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     borderWidth: 4,
-    borderColor: 'transparent',
+    borderColor: '#ebebeb',
     paddingBottom: 10,
     borderRadius: 10
   }

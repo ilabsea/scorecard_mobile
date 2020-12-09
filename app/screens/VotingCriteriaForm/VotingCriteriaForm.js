@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 
+
 import realm from '../../db/schema';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../../components/Translations';
@@ -72,7 +73,7 @@ class VotingCriteriaForm extends Component {
           <Text>{translations.participant_id}: </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Icon name={'person'} style={{fontSize: 28, color: '#8e8e8c'}}/>
-            <Text style={{fontSize: 28, fontFamily: FontFamily.title, marginLeft: 10}}>ID: {this.state.participant.uuid}</Text>
+            <Text style={{fontSize: 28, fontFamily: FontFamily.title, marginLeft: 10}}>ID: {this.state.participant.order}</Text>
           </View>
         </View>
       </View>
@@ -80,10 +81,15 @@ class VotingCriteriaForm extends Component {
   }
 
   _renderContent() {
+    const { translations } = this.context;
+
     return (
       <ScrollView style={styles.container}>
         <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
         { this._renderParticipant() }
+
+        <Text style={{marginTop: 30, marginBottom: -10, fontSize: 20}}>{translations.pleaseSelect}</Text>
+
         { this._renderCriteriaRatingList() }
       </ScrollView>
     )

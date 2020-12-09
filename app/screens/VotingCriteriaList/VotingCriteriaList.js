@@ -94,7 +94,8 @@ class VotingCriteriaList extends Component {
 
           <Button
             onPress={() => this._showModal()}
-            iconLeft style={{backgroundColor: Color.headerColor}}>
+            iconLeft
+            style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
             <Text>{translations.newVote}</Text>
           </Button>

@@ -41,7 +41,7 @@ const FormModal = (props) => {
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onDimiss} contentContainerStyle={ styles.container }>
-        <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20}}>Update {criteria.currentFieldName}</Text>
+        <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20}}>{translations.insert}{translations[criteria.currentFieldName]}</Text>
 
         <RichEditor
           ref={richText}
@@ -64,7 +64,7 @@ const FormModal = (props) => {
 
         <View style={{flex: 1}}></View>
         <View style={styles.btnWrapper}>
-          <Button labelStyle={{color: Color.headerColor, fontFamily: FontFamily.title}} onPress={onDimiss}>{translations.cancel}</Button>
+          <Button labelStyle={{fontFamily: FontFamily.title}} onPress={onDimiss}>{translations.cancel}</Button>
           <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff', fontFamily: FontFamily.title}} onPress={submit}>{translations.save}</Button>
         </View>
       </Modal>
