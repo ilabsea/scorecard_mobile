@@ -17,7 +17,7 @@ const participantReducer = (state=initState, action) => {
     case 'SAVE_PARTICIPANT':
       return {participants: getParticipants(action.payload.participants, action.payload.scorecardUUID)};
     default:
-      return initState;
+      return state;
   }
 };
 

@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import {getIndicatorName, getIndicatorShortcutName} from './indicator_service';
 class Criteria {
   constructor(scorecardUUID) {
     this.scorecardUUID = scorecardUUID;
@@ -28,9 +29,9 @@ class Criteria {
         const attrs = {
           id: indicator.id,
           uuid: indicator.uuid,
-          name: indicator.name.split(':').pop(),
+          name: getIndicatorName(indicator.name),
           raised_count: raisedCount,
-          shortcut: indicator.name.split(':')[0],
+          shortcut: getIndicatorShortcutName(indicator.name),
           scorecard_uuid: indicator.scorecard_uuid,
         };
         criterias.push(attrs);

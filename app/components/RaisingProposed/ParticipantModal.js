@@ -175,11 +175,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    paddingRight: 25,
+    paddingLeft: 15,
+    paddingRight: 20,
     alignSelf: 'center',
   },
   buttonLabel: {
-    paddingLeft: 10,
     color: Color.primaryButtonColor,
   },
   participantItem: {

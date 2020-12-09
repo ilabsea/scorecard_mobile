@@ -6,6 +6,7 @@ import realm from '../../db/schema';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+import {getIndicatorShortcutName} from '../../services/indicator_service';
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -123,7 +124,7 @@ class CriteriaSelection extends Component {
       let attrs = {
         uuid: indicator.id || indicator.uuid,
         name: indicator.name,
-        shortcut: indicator.name.split(':')[0],
+        shortcut: getIndicatorShortcutName(indicator.name),
         isSelected: false,
         tag: indicator.tag,
         type: indicator.id != undefined ? 'predefined' : 'custom',
