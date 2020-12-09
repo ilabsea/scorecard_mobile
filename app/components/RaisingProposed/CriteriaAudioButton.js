@@ -3,6 +3,7 @@ import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
+import {getLanguageIndicator} from '../../services/language_indicator_service';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
 
@@ -24,7 +25,7 @@ class CriteriaAudioButton extends Component {
   }
 
   hasAudio = () => {
-    const languageIndicator = realm.objects('LanguageIndicator').filtered(`indicator_id == '${this.props.indicator.uuid}'`)[0];
+    const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, this.props.indicator.uuid, 'audio');
     if (languageIndicator != undefined) {
       this.audioFile = languageIndicator.local_audio;
       return (languageIndicator.local_audio === '' || languageIndicator.local_audio === null) ? false : true;

@@ -5,6 +5,7 @@ import Color from '../../themes/color';
 import realm from '../../db/schema';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
+import {getLanguageIndicator} from '../../services/language_indicator_service';
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -68,6 +69,11 @@ class CriteriaSelection extends Component {
     this.audioPlayer = audioPlayer;
   }
 
+  getIndicatorName = (indicator) => {
+    const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, indicator.uuid, 'text');
+    return languageIndicator != undefined ? languageIndicator.content : indicator.name.split(":").pop();
+  }
+
   indicatorCard = (indicator, index) => {
     return (
       <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
@@ -81,12 +87,13 @@ class CriteriaSelection extends Component {
             {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
           </View>
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left'}}>{indicator.name.split(":").pop()}</Text>
+            <Text style={{textAlign: 'left'}}>{this.getIndicatorName(indicator)}</Text>
           </View>
         </TouchableOpacity>
         <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
           playingIndicatorId={this.state.playingIndicatorId}
           updateAudioState={this.updateAudioState}
+          scorecardUUID={this.props.scorecardUUID}
         />
       </View>
     )
