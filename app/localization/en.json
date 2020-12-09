@@ -167,4 +167,9 @@
   "listen": "Listen",
   "result": "Result",
   "insert": "Insert",
+  "pleaseCheckScorecardDetailBelow": "Please check scorecard detail below",
+  "male": "Male",
+  "otherGender": "Other",
+  "optionYes": "Yes",
+  "optionNo": "No"
 }

@@ -5,8 +5,8 @@ import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import ParticipantListItem from '../../components/ParticipantList/ParticipantListItem';
 import ParticipantCountLabel from '../../components/ParticipantList/ParticipantCountLabel';
-import ActionButton from '../../components/ActionButton';
-import Color from '../../themes/color';
+import BottomButton from '../../components/BottomButton';
+import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
@@ -34,31 +34,32 @@ class ParticipantList extends Component {
   }
 
   renderListHeader = () => {
+    const {translations} = this.context;
     return (
-      <View style={{flexDirection: 'row', paddingVertical: 16}}>
+      <View style={{flexDirection: 'row', paddingBottom: 16}}>
         <View style={{paddingRight: 20, justifyContent: 'center', width: 60}}>
-          <Text style={styles.itemTitle}>No.</Text>
+          <Text style={styles.itemTitle}>{translations.no}</Text>
         </View>
         <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>Gender</Text>
+          <Text style={styles.itemTitle}>{translations.gender}</Text>
         </View>
         <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>Age</Text>
+          <Text style={styles.itemTitle}>{translations.age}</Text>
         </View>
         <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>Disability</Text>
+          <Text style={styles.itemTitle}>{translations.disability}</Text>
         </View>
         <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>Minority</Text>
+          <Text style={styles.itemTitle}>{translations.minority}</Text>
         </View>
         <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>Poor</Text>
+          <Text style={styles.itemTitle}>{translations.poor}</Text>
         </View>
         <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>Youth</Text>
+          <Text style={styles.itemTitle}>{translations.youth}</Text>
         </View>
-        <View style={{width: 60, alignItems: 'center'}}>
-          <Text style={styles.itemTitle}>Action</Text>
+        <View style={{width: 60, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={styles.itemTitle}>{translations.action}</Text>
         </View>
       </View>
     );
@@ -90,19 +91,23 @@ class ParticipantList extends Component {
     const {translations} = this.context;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 20}}>Participant list</Text>
-          {this.renderListHeader()}
-          {this.renderParticipantList()}
-          <View style={styles.buttonContainer}>
+        <View style={{flex: 1}}>
+          <ProgressHeader
+            title={translations.getStarted}
+            onBackPress={() => this.props.navigation.goBack()}
+            progressIndex={2}
+          />
+          <View style={styles.container}>
+            <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 20}}>{translations.participantList}</Text>
+            {this.renderListHeader()}
+            {this.renderParticipantList()}
             <ParticipantCountLabel
               customContainerStyle={{paddingVertical: 10}}
               totalParticipant={this.totalParticipant}
               addedParticipant={this.props.participants.length}
             />
-            <ActionButton
-              label={translations['next']}
-              customBackgroundColor={Color.primaryButtonColor}
+            <BottomButton
+              label={translations.next}
               onPress={() => this.props.navigation.navigate('RaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
             />
           </View>
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     padding: 20,
-    paddingTop: 16,
+    paddingBottom: 28,
   },
   itemColumn: {
     flex: 1,
@@ -126,9 +131,6 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontWeight: '700',
-  },
-  buttonContainer: {
-    paddingBottom: 22,
   },
 });
 

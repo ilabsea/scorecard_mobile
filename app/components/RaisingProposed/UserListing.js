@@ -4,9 +4,8 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 import TipBox from './TipBox';
 import CriteriaList from './CriteriaList';
 import ListUser from './ListUser';
-import ActionButton from '../ActionButton';
+import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
-import Color from '../../themes/color';
 
 import realm from '../../db/schema';
 
@@ -25,9 +24,8 @@ class UserListing extends Component {
     const {translations} = this.context;
     return (
       <View style={styles.buttonContainer}>
-        <ActionButton
+        <BottomButton
           label={translations['finish']}
-          customBackgroundColor={Color.primaryButtonColor}
           onPress={() => this.onPress()}
         />
       </View>
@@ -37,7 +35,7 @@ class UserListing extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20}}>
+        <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
           <TipBox/>
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
           <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
@@ -58,9 +56,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    paddingTop: 130,
+    paddingTop: 110,
     justifyContent: 'flex-end',
-    paddingBottom: 22,
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

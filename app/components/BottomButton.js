@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, Icon, Text, View} from 'native-base';
+import CustomStyle from '../themes/customStyle';
 
 class BottomButton extends Component {
   render() {
     return (
-      <Button iconRight full primary onPress={() => this.props.onPress()} style={{elevation: 0, height: 50}}>
+      <Button iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton}>
         <View style={{width: 40}} />
         <Text style={styles.labelStyle}>{this.props.label}</Text>
         <Icon name="arrow-forward" />

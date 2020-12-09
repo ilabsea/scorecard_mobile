@@ -5,8 +5,8 @@ import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import TextFieldInput from '../../components/TextFieldInput';
 import SelectPicker from '../../components/SelectPicker';
-import ActionButton from '../../components/ActionButton';
-import Color from '../../themes/color';
+import BottomButton from '../../components/BottomButton';
+import HeaderTitle from '../../components/HeaderTitle';
 import uuidv4 from '../../utils/uuidv4';
 
 import {saveParticipant} from '../../actions/participantAction';
@@ -24,15 +24,6 @@ class AddNewParticipant extends Component {
       isMinority: 'false',
       isPoor: 'false',
       isYouth: 'false',
-      gender: [
-        {label: 'Female', value: 'female'},
-        {label: 'Male', value: 'male'},
-        {label: 'Other', value: 'other'},
-      ],
-      choices: [
-        {label: 'No', value: 'false'},
-        {label: 'Yes', value: 'true'},
-      ],
     };
   }
 
@@ -63,9 +54,18 @@ class AddNewParticipant extends Component {
 
   renderForm = () => {
     const {translations} = this.context;
-    const {age, gender, selectedGender, choices, isDisability, isMinority, isPoor, isYouth} = this.state;
+    const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
+    const gender = [
+      {label: translations.female, value: 'female'},
+      {label: translations.male, value: 'male'},
+      {label: translations.otherGender, value: 'other'},
+    ];
+    const choices = [
+      {label: translations.optionNo, value: 'false'},
+      {label: translations.optionYes, value: 'true'},
+    ];
     return (
-      <View style={{marginTop: 20}}>
+      <View style={{marginTop: 20, marginBottom: 60}}>
         <TextFieldInput
           ref={this.ageRef}
           value={age.toString()}
@@ -109,7 +109,7 @@ class AddNewParticipant extends Component {
         <SelectPicker
           items={choices}
           selectedItem={isMinority}
-          label="Minority"
+          label={translations['minority']}
           searchable={false}
           zIndex={7000}
           customLabelStyle={{zIndex: 7001}}
@@ -155,11 +155,7 @@ class AddNewParticipant extends Component {
     if (this.isValidAge()) {
       return (
         <View style={styles.buttonContainer}>
-          <ActionButton
-            onPress={() => this.saveParticipant()}
-            label={translations['save']}
-            customBackgroundColor={Color.primaryButtonColor}
-          />
+          <BottomButton onPress={() => this.saveParticipant()} label={translations['save']} />
         </View>
       );
     }
@@ -197,17 +193,13 @@ class AddNewParticipant extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20}}>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-              Recored New User
-            </Text>
-            <Text style={{fontSize: 18, color: '#2e2e2e'}}>
-              Please fill information below
-            </Text>
-            {this.renderForm()}
-            {this.renderSaveButton()}
-          </View>
+        <ScrollView contentContainerStyle={styles.container}>
+          <HeaderTitle
+            headline="participantInformation"
+            subheading="pleaseFillInformationBelow"
+          />
+          {this.renderForm()}
+          {this.renderSaveButton()}
         </ScrollView>
       </TouchableWithoutFeedback>
     );
@@ -216,15 +208,14 @@ class AddNewParticipant extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: 'white',
     padding: 20,
-    paddingTop: 16,
+    paddingBottom: 28,
   },
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 20,
   },
 });
 

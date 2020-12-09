@@ -24,15 +24,6 @@ class AddNewParticipantModal extends Component {
       isMinority: 'false',
       isPoor: 'false',
       isYouth: 'false',
-      gender: [
-        {label: 'Female', value: 'female'},
-        {label: 'Male', value: 'male'},
-        {label: 'Other', value: 'other'},
-      ],
-      choices: [
-        {label: 'No', value: 'false'},
-        {label: 'Yes', value: 'true'},
-      ],
     };
   }
 
@@ -55,7 +46,16 @@ class AddNewParticipantModal extends Component {
 
   renderForm = () => {
     const {translations} = this.context;
-    const {age, gender, selectedGender, choices, isDisability, isMinority, isPoor, isYouth} = this.state;
+    const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
+    const gender = [
+      {label: translations.female, value: 'female'},
+      {label: translations.male, value: 'male'},
+      {label: translations.otherGender, value: 'other'},
+    ];
+    const choices = [
+      {label: translations.optionNo, value: 'false'},
+      {label: translations.optionYes, value: 'true'},
+    ];
     return (
       <View style={{paddingBottom: 160, paddingTop: 5}}>
         <TextFieldInput

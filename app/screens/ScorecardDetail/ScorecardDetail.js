@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Container, Content, Button, Icon} from "native-base";
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {Container, Button, Icon} from "native-base";
 
 import realm from '../../db/schema';
 import BigHeader from '../../components/BigHeader';
 
 import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
+import BottomButton from '../../components/BottomButton';
 
 import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
@@ -16,6 +17,7 @@ import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';
 import {saveAudio} from '../../services/audio_service';
+import CustomStyle from '../../themes/customStyle';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -166,6 +168,7 @@ class ScorecardDetail extends Component {
         <Button full bordered iconRight primary
           onPress={() => this.downloadScorecard()}
           disabled={this.isDisableDownload()}
+          style={CustomStyle.bottomButton}
         >
           <Text style={[styles.buttonLabelStyle, {color: '#E2762D'}]}>
             {translations["downloadAndSave"]}
@@ -178,35 +181,27 @@ class ScorecardDetail extends Component {
 
   renderStartButton = () => {
     const {translations} = this.context;
-    if (this.isFullyDownloaded() && this.state.isFinishChecking) {
-      return (
-        <Button full primary
-          onPress={() => this.startScorecard()}
-          style={{marginTop: 20}}
-        >
-          <Text style={[styles.buttonLabelStyle, {color: 'white'}]}>
-            {translations['start']}
-          </Text>
-        </Button>
-      );
-    }
+    if (this.isFullyDownloaded() && this.state.isFinishChecking)
+      return (<BottomButton label={translations.start} onPress={() => this.startScorecard()} />);
   };
 
   _renderHeader() {
+    const {translations} = this.context;
     return (
       <BigHeader
-        title={'Welcome To'}
-        bigTitle={'Scorecard App'}
+        title={translations.welcomeTo}
+        bigTitle={translations.scorecardApp}
         onBackPress={() => this.props.navigation.goBack()}/>
     )
   }
 
   render() {
+    const {translations} = this.context;
     return (
       <Container>
-        { this._renderHeader() }
-
-        <Content contentContainerStyle={{ flexGrow: 1 }} style={styles.container}>
+        {this._renderHeader()}
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           {this.renderScorecardDetail()}
 
           <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
@@ -217,31 +212,30 @@ class ScorecardDetail extends Component {
             {this.renderDownloadButton()}
             {this.renderStartButton()}
           </View>
-
-        </Content>
-
+        </ScrollView>
       </Container>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    flexGrow: 1,
+    padding: 20,
+    paddingTop: 24,
+    paddingBottom: 28,
   },
   itemContainer: {
     flexDirection: 'row',
     marginBottom: 10,
   },
   buttonContainer: {
-    paddingVertical: 10,
-    paddingBottom: 25,
     flex: 1,
     justifyContent: 'flex-end',
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',
-    fontWeight: 'bold',
+    fontSize: 18,
   }
 });
 
