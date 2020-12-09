@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import realm from '../db/schema';
+import {getIndicatorShortcutName} from './indicator_service';
 
 class ParticipantCell {
   constructor(cellName, cellValue, buttonAction, actionLabel) {
@@ -49,7 +49,7 @@ class ParticipantCell {
           <View key={index} style={{flex: 1, justifyContent: 'center'}}>
             <View style={styles.indicatorBadge}>
               <Text style={styles.indicatorLabel}>
-                {proposedCriteria.indicatorable_name.split(':')[0]}
+                {getIndicatorShortcutName(proposedCriteria.indicatorable_name)}
               </Text>
             </View>
           </View>

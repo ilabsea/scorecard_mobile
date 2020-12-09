@@ -11,7 +11,7 @@ const criteriaListReducer = (state=initState, action) => {
     case 'SAVE_CRITERIA':
       return {criterias: getCriterias(action.payload.scorecardUUID)};
     default:
-      return initState;
+      return state;
   }
 };
 

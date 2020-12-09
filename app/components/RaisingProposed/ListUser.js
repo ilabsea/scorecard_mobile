@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     color: '#22354c',
   },
   button: {
-    paddingRight: 25,
+    paddingLeft: 15,
+    paddingRight: 20,
     alignSelf: 'center',
     height: 50,
   },
@@ -122,7 +123,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: 'white',
     fontSize: 18,
-    paddingLeft: 10,
   },
 });
 
