@@ -47,7 +47,10 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+
+    // Comment Flipper for sovling upload file problem
+    // https://github.com/facebook/react-native/issues/28551#issuecomment-610652110
+    // initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
   /**

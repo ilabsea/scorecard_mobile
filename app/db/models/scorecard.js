@@ -33,6 +33,7 @@ Scorecard.schema = {
     district: 'string',
     commune: 'string',
     program_id: 'int',
+    uploaded: { type: 'bool', default: false },
   }
 }
 

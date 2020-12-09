@@ -51,7 +51,6 @@ class BaseApi {
 
     return {
       Accept: 'applcation/json',
-      'Content-Type': 'application/json',
       Authorization: authorization,
     };
   }
