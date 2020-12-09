@@ -29,7 +29,7 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      backendUrl: '',
+      backendUrl: 'https://isaf-stg.ilabsea.org',
       email: '',
       password: '',
       locales: [],

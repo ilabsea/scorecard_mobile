@@ -59,7 +59,7 @@ const ScorecardResultTableRow = (props) => {
   );
 
   const editableFields = ['strength',  'weakness', 'desired_change', 'suggested_action'];
-  let median = !!criteria.median ? ratings.filter(x => x.value == criteria.median)[0].label : '';
+  let median = !!criteria.median ? translations[ratings.filter(x => x.value == criteria.median)[0].label] : '';
 
   return (
     <TableWrapper style={styles.row} borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center',
-    color: '#000'
+    color: '#000',
+    fontSize: 14,
   }
 });

@@ -50,13 +50,15 @@ export default class PlaySound extends Component {
   }
 
   render() {
+    const { children, containerStyle } = this.props;
     let iconName = this.state.playState == 'playing' ? 'pause' : 'volume-medium';
 
     return (
       <TouchableOpacity
-        onPress={() => this.playAudio()}
-        style={styles.btnAudio}>
+        onPress={() => this.playAudio() }
+        style={[styles.btnAudio, containerStyle]}>
 
+        { children }
         <Icon name={iconName} style={{ color: '#fff'}}/>
       </TouchableOpacity>
     )

@@ -51,7 +51,7 @@ class ScorecardResult extends Component {
 
   _renderTable() {
     const { translations } = this.context;
-    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'desiredChange', 'suggestedAction'];
+    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'desired_change', 'suggested_action'];
     tableHead = tableHead.map(x => translations[x]);
     const tableRows = this.props.criterias;
 
@@ -75,7 +75,7 @@ class ScorecardResult extends Component {
   }
 
   _finish() {
-    this.props.navigation.dispatch(StackActions.pop(4));
+    this.props.navigation.dispatch(StackActions.popToTop());
   }
 
   render() {

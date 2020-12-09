@@ -126,7 +126,7 @@ class CriteriaModal extends Component {
         <Modal visible={this.props.criteriaModal.visible} onDismiss={() => this.onDimiss() } contentContainerStyle={ styles.container }>
           <Text style={styles.header}>{this.props.criteriaModal.criteria.tag}</Text>
 
-          <Text>Issue Note</Text>
+          <Text>{translations.issueNote}</Text>
 
           <View style={styles.contentWrapper}>
             <View style={styles.content}>

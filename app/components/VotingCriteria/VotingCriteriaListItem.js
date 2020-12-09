@@ -56,16 +56,21 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderMedian() {
-    const {criteria} = this.props;
+    const { criteria } = this.props;
+    const { translations } = this.context;
 
     if (!criteria.median) { return (null) }
 
     let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
 
     return (
-      <View style={styles.medianWrapper}>
-        { this._renderIcon(currentIcon, 60) }
-        <Text style={styles.medianText}>{currentIcon.label}</Text>
+      <View style={styles.resultWrapper}>
+        <Text style={{fontSize: 18, marginRight: 20}}>{translations.result}:</Text>
+
+        <View style={styles.medianWrapper}>
+          { this._renderIcon(currentIcon, 60) }
+          <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
+        </View>
       </View>
     )
   }
@@ -133,12 +138,21 @@ const styles = StyleSheet.create({
   },
   medianWrapper: {
     alignItems: 'center',
-    marginRight: 16
+    marginRight: 16,
+  },
+  resultWrapper: {
+    borderLeftWidth: 1,
+    borderColor: Color.borderColor,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 20,
+    marginBottom: 10
   },
   medianText: {
     textAlign: 'center',
     fontSize: 16,
-    marginTop: 4
+    marginTop: 4,
+    color: Color.headerColor,
   },
   capitalize: {
     textTransform: 'capitalize'
