@@ -2,29 +2,35 @@ import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
 
-export const uploadToServer = async (scorecard_uuid) => {
+const scorecardService = (() => {
   const scorecardApi = new ScorecardApi();
   const customIndicatorApi = new CustomIndicatorApi();
-  const scorecard = realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0];
-  const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${scorecard_uuid}'`);
+  var scorecard, customIndicators, scorecard_uuid;
 
-  if (!scorecard || !scorecard.isCompleted) {
-    return;
+  return {
+    upload
   }
 
-  try {
-    uploadCustomIndicatorsWithAudio();
-  } catch (error) {
-    console.log(error);
+  function upload(uuid) {
+    scorecard_uuid = uuid;
+    scorecard = realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0];
+    customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${scorecard_uuid}'`);
+
+    if (!scorecard || !scorecard.isCompleted) {
+      return;
+    }
+
+    try {
+      let indicators = customIndicators.filter(x => !!x.id_from_server);
+
+      uploadCustomIndicator(0, indicators);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // ------Step1------
-  function uploadCustomIndicatorsWithAudio() {
-    let indicators = customIndicators.filter(x => !x.id_from_server);
-
-    uploadCustomIndicator(0, indicators);
-  }
-
+  // upload all custom criterias then upload scorecard with its dependcy
   function uploadCustomIndicator(index, customIndicators) {
     if (index == customIndicators.length) {
       uploadScorecard();
@@ -64,8 +70,9 @@ export const uploadToServer = async (scorecard_uuid) => {
       });
   }
 
+  // Praviate methods
   function ratingsAttr() {
-    let ratings = JSON.parse(JSON.stringify(realm.objects('Rating').filtered(`scorecard_uuid='${scorecard_uuid}'`)));
+    let ratings = getJSON('Rating');
     let columns = ['uuid', 'scorecard_uuid', 'participant_uuid', 'score'];
 
     return ratings.map(rating => {
@@ -88,7 +95,7 @@ export const uploadToServer = async (scorecard_uuid) => {
   }
 
   function votingCriteriasAttr() {
-    let votingCriterias = JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`)));
+    let votingCriterias = getJSON('VotingCriteria');
     let columns = ['scorecard_uuid', 'median', 'strength', 'weakness', 'desired_change', 'suggested_action'];
 
     return getCriteriaAttr(votingCriterias, columns);
@@ -111,7 +118,7 @@ export const uploadToServer = async (scorecard_uuid) => {
   }
 
   function proposedCriteriasAttr() {
-    let proposedCriterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`)));
+    let proposedCriterias = getJSON('ProposedCriteria');
     let columns = ['scorecard_uuid', 'participant_uuid'];
 
     return getCriteriaAttr(proposedCriterias, columns, true);
@@ -131,7 +138,7 @@ export const uploadToServer = async (scorecard_uuid) => {
   }
 
   function participantsAttr() {
-    let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered(`scorecard_uuid='${scorecard_uuid}'`)));
+    let participants = getJSON('Participant');
     let columns = ['uuid', 'age', 'gender', 'disability', 'minority', 'youth', 'scorecard_uuid'];
 
     return participants.map(participant => {
@@ -159,6 +166,10 @@ export const uploadToServer = async (scorecard_uuid) => {
     return data;
   }
 
+  function getJSON(realmModelName) {
+    return JSON.parse(JSON.stringify(realm.objects(realmModelName).filtered(`scorecard_uuid='${scorecard_uuid}'`)));
+  }
+
   function customIndicatorData(indicator) {
     let attrs = {
       uuid: indicator.uuid,
@@ -179,4 +190,6 @@ export const uploadToServer = async (scorecard_uuid) => {
 
     return data;
   }
-}
+})();
+
+export default scorecardService;

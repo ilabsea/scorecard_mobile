@@ -12,7 +12,7 @@ import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
-import { uploadToServer } from '../../services/scorecardService';
+import scorecardService from '../../services/scorecardService';
 
 export default class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
@@ -43,7 +43,7 @@ export default class ScorecardProgress extends Component {
   submitToServer() {
     if (!this.state.scorecard.isCompleted) { return; }
 
-    uploadToServer(this.state.scorecard.uuid);
+    scorecardService.upload(this.state.scorecard.uuid);
   }
 
   _renderBtnSubmit() {
