@@ -7,12 +7,12 @@ const _getScorecardUUID = async () => {
   return await AsyncStorage.getItem('SELECTED_SCORECARD_UUID');
 }
 
-const isIndicatorDownloaded = async (apiIndicators) => {
+const isAllIndicatorDownloaded = async (apiIndicators) => {
   const indicators = await _getDataFromLocalStorage('Indicator');
   return indicators.length === apiIndicators.length ? true : false;
 };
 
-const isCafDownloaded = async (apiCafs) => {
+const isAllCafDownloaded = async (apiCafs) => {
   const cafs = await _getDataFromLocalStorage('Caf');
   return cafs.length === apiCafs.length ? true : false;
 };
@@ -69,4 +69,8 @@ const _getDataFromLocalStorage = async (schema) => {
   return JSON.parse(data);
 }
 
-export {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded};
+const getDownloadPercentage = (amountOfData) => {
+  return 25 / (amountOfData * 100);
+}
+
+export {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, getDownloadPercentage};

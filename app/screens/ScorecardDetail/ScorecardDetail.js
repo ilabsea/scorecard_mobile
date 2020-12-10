@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Container, Button, Icon} from "native-base";
-
+import {ProgressBar} from 'react-native-paper';
+import Loading from 'react-native-whc-loading';
 import realm from '../../db/schema';
 import BigHeader from '../../components/BigHeader';
 
@@ -12,12 +13,13 @@ import BottomButton from '../../components/BottomButton';
 import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
 import {loadCafListAction} from '../../actions/cafAction';
-import {isIndicatorDownloaded, isCafDownloaded, CheckAllAudioDownloaded} from '../../services/scorecard_detail_service';
+import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded} from '../../services/scorecard_detail_service';
 import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';
 import {saveAudio} from '../../services/audio_service';
 import CustomStyle from '../../themes/customStyle';
+import Color from '../../themes/color';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -26,13 +28,15 @@ class ScorecardDetail extends Component {
     this.state = {
       detail: '',
       isIndicatorDownloaded: false,
+      isLanguageIndicatorDownloaded: false,
       isCafDownloaded: false,
       isAllAudioDownloaded: false,
-      loadingMessage: '',
       isStopDownloadIndicator: true,
       isStopDownloadCaf: true,
       isStopDownloadAudio: true,
       isFinishChecking: false,
+      downloadProgress: 0,
+      showDownloadProgress: false,
     };
   }
 
@@ -45,9 +49,14 @@ class ScorecardDetail extends Component {
   }
 
   checkSavedIndicator = () => {
+    this.refs.loading.show();
     this.fetchIndicatorFromApi(async (response) => {
       const indicators = await response;
-      this.setState({isIndicatorDownloaded: await isIndicatorDownloaded(indicators)});
+      const isIndicatorsDownloaded = await isAllIndicatorDownloaded(indicators)
+      this.setState({
+        isIndicatorDownloaded: isIndicatorsDownloaded,
+        isLanguageIndicatorDownloaded: isIndicatorsDownloaded,
+      });
       CheckAllAudioDownloaded(indicators, async (isAllDownloaded) => {
         this.setState({isAllAudioDownloaded: isAllDownloaded});
       });
@@ -58,10 +67,14 @@ class ScorecardDetail extends Component {
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
       this.setState({
-        isCafDownloaded: await isCafDownloaded(cafs),
+        isCafDownloaded: await isAllCafDownloaded(cafs),
         isFinishChecking: true,
       });
-    }, (response) => {this.setState({isFinishChecking: true})});
+      this.refs.loading.show(false);
+    }, (response) => {
+      this.setState({isFinishChecking: true})
+      this.refs.loading.show(false);
+    });
   }
 
   renderScorecardDetail = () => {
@@ -70,22 +83,24 @@ class ScorecardDetail extends Component {
   };
 
   downloadIndicator = () => {
-    this.setState({
-      loadingMessage: 'Downloading indicator.....',
-      isStopDownloadIndicator: false,
-    });
-
+    this.setState({isStopDownloadIndicator: false});
     this.fetchIndicatorFromApi(async (response) => {
       this.setState({
         isStopDownloadIndicator: true,
         isStopDownloadAudio: false,
-        loadingMessage: '',
       });
       const indicators = await response;
-      saveIndicator(this.props.route.params.scorecard_uuid, indicators, async (isIndicatorDownloaded) => {this.setState({isIndicatorDownloaded})});
-      saveLanguageIndicator(this.props.route.params.scorecard_uuid, indicators);
-      saveAudio(indicators, async (isAllAudioDownloaded) => {
-        this.setState({isAllAudioDownloaded});
+      saveIndicator(this.props.route.params.scorecard_uuid, indicators, this.updateDownloadProgress, async (isIndicatorDownloaded) => {
+        this.setState({isIndicatorDownloaded});
+      });
+      saveLanguageIndicator(this.props.route.params.scorecard_uuid, indicators, this.updateDownloadProgress, (isLanguageIndicatorDownloaded) => {
+        this.setState({isLanguageIndicatorDownloaded});
+      });
+      saveAudio(0, indicators, this.updateDownloadProgress, async (isAllAudioDownloaded) => {
+      // saveAudio(indicators, this.updateDownloadProgress, async (isAllAudioDownloaded) => {
+        this.setState({isAllAudioDownloaded}, () => {
+          console.log('IS all audio downloaded ====== ', this.state.isAllAudioDownloaded)
+        });
       });
     }, (response) => {
       this.setState({isStopDownloadIndicator: true});
@@ -102,18 +117,13 @@ class ScorecardDetail extends Component {
   }
 
   downloadCaf = () => {
-    this.setState({
-      loadingMessage: 'Downloading caf.....',
-      isStopDownloadCaf: false,
-    });
-
+    this.setState({isStopDownloadCaf: false});
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
-      saveCaf(this.props.route.params.scorecard_uuid, cafs, async (isCafDownloaded) => {this.setState({isCafDownloaded})});
+      saveCaf(this.props.route.params.scorecard_uuid, cafs, this.updateDownloadProgress, async (isCafDownloaded) => {this.setState({isCafDownloaded})});
       this.setState({
-        loadingMessage: '',
         isStopDownloadAudio: true,
-        isStopDownloadCaf: true
+        isStopDownloadCaf: true,
       });
     }, (response) => {
       this.setState({
@@ -134,6 +144,7 @@ class ScorecardDetail extends Component {
 
   downloadScorecard = () => {
     const {isIndicatorDownloaded, isCafDownloaded, isAllAudioDownloaded} = this.state;
+    this.setState({showDownloadProgress: true});
     if (!isIndicatorDownloaded || !isAllAudioDownloaded)
       this.downloadIndicator();
     if (!isCafDownloaded)
@@ -145,8 +156,8 @@ class ScorecardDetail extends Component {
   }
 
   isFullyDownloaded = () => {
-    const {isIndicatorDownloaded, isCafDownloaded, isAllAudioDownloaded} = this.state;
-    if (isIndicatorDownloaded && isCafDownloaded && isAllAudioDownloaded)
+    const {isIndicatorDownloaded, isCafDownloaded, isAllAudioDownloaded, isLanguageIndicatorDownloaded} = this.state;
+    if (isIndicatorDownloaded && isCafDownloaded && isAllAudioDownloaded && isLanguageIndicatorDownloaded)
       return true;
 
     return false;
@@ -161,28 +172,57 @@ class ScorecardDetail extends Component {
     return true;
   }
 
+  updateDownloadProgress = (percentage) => {
+    const timeout = setTimeout(() => {
+      const currentPrecentage = this.state.downloadProgress + percentage;
+      this.setState({downloadProgress: currentPrecentage}, () => {
+        if (this.state.downloadProgress >= 1) {
+          console.log('=== clear timeout ====');
+          clearTimeout(timeout);
+        }
+      });
+    }, 500);
+  }
+
   renderDownloadButton = () => {
     const {translations} = this.context;
     if (!this.isFullyDownloaded() && this.state.isFinishChecking) {
+      const isDisabled = this.isDisableDownload();
       return (
-        <Button full bordered iconRight primary
-          onPress={() => this.downloadScorecard()}
-          disabled={this.isDisableDownload()}
-          style={CustomStyle.bottomButton}
-        >
-          <Text style={[styles.buttonLabelStyle, {color: '#E2762D'}]}>
-            {translations["downloadAndSave"]}
-          </Text>
-          <Icon name="download" style={{right: 0, position: 'absolute'}} />
-        </Button>
+        <View>
+          <ProgressBar progress={this.state.downloadProgress} color={Color.headerColor} style={styles.progressBar}
+            visible={this.state.showDownloadProgress}
+          />
+
+          <Button full bordered iconRight primary
+            onPress={() => this.downloadScorecard()}
+            disabled={isDisabled}
+            style={[CustomStyle.bottomButton, isDisabled ? {borderColor: 'gray'} : {}]}
+          >
+            <Text style={[styles.buttonLabelStyle, isDisabled ? {color: 'gray'} : {color: '#E2762D'}]}>
+              {translations["downloadAndSave"]}
+            </Text>
+            <Icon name="download" style={{right: 0, position: 'absolute'}} />
+          </Button>
+        </View>
       );
     }
   };
 
+  updateScorecardDownloadStatus = () => {
+    const attrs = {
+      uuid: this.props.route.params.scorecard_uuid,
+      downloaded: true,
+    };
+    realm.write(() => { realm.create('Scorecard', attrs, 'modified'); });
+  }
+
   renderStartButton = () => {
     const {translations} = this.context;
-    if (this.isFullyDownloaded() && this.state.isFinishChecking)
+    if (this.isFullyDownloaded() && this.state.isFinishChecking) {
+      this.updateScorecardDownloadStatus();
       return (<BottomButton label={translations.start} onPress={() => this.startScorecard()} />);
+    }
   };
 
   _renderHeader() {
@@ -201,13 +241,17 @@ class ScorecardDetail extends Component {
       <Container>
         {this._renderHeader()}
         <ScrollView contentContainerStyle={styles.container}>
+          <Loading
+            ref="loading"
+            backgroundColor="#ffffffF2"
+            borderRadius={5}
+            size={70}
+            imageSize={40}
+            indicatorColor={Color.primaryColor}
+          />
+          
           <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           {this.renderScorecardDetail()}
-
-          <Text style={{textAlign: 'center', fontSize: 18, marginTop: 20}}>
-            {this.state.loadingMessage}
-          </Text>
-
           <View style={styles.buttonContainer}>
             {this.renderDownloadButton()}
             {this.renderStartButton()}
@@ -236,14 +280,13 @@ const styles = StyleSheet.create({
   buttonLabelStyle: {
     textTransform: 'uppercase',
     fontSize: 18,
-  }
+  },
+  progressBar: {
+    height: 20,
+    backgroundColor: '#e6e7e9',
+    marginBottom: 20,
+  },
 });
-
-function mapStateToProps(state) {
-  return {
-    isLoading: state.loadIndicatorListReducer.isLoading,
-  };
-}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -253,6 +296,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(ScorecardDetail);

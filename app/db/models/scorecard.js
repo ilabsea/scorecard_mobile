@@ -34,6 +34,7 @@ Scorecard.schema = {
     commune: 'string',
     program_id: 'int',
     uploaded: { type: 'bool', default: false },
+    downloaded: { type: 'bool', default: false },
   }
 }
 
