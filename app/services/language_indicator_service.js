@@ -26,10 +26,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, updateDownloadPercenta
     updateDownloadPercentage(getDownloadPercentage(indicators.length));
     savedCount += 1;
   });
-  if (savedCount === indicators.length)
-    callback(true);
-  else
-    callback(false);
+  callback(savedCount === indicators.length);
 }
 
 const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {

@@ -97,7 +97,6 @@ class ScorecardDetail extends Component {
         this.setState({isLanguageIndicatorDownloaded});
       });
       saveAudio(0, indicators, this.updateDownloadProgress, async (isAllAudioDownloaded) => {
-      // saveAudio(indicators, this.updateDownloadProgress, async (isAllAudioDownloaded) => {
         this.setState({isAllAudioDownloaded}, () => {
           console.log('IS all audio downloaded ====== ', this.state.isAllAudioDownloaded)
         });

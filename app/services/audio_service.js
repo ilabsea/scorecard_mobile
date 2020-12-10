@@ -5,21 +5,21 @@ import {getDownloadPercentage} from './scorecard_detail_service';
 
 const saveAudio = (index, indicators, updateDownloadPercentage, callback) => {
   if (index === indicators.length) {
-    setTimeout(() => {
-      callback(true);
-    }, 5000)
+    callback(true);
     return;
   }
 
   const languageIndicators = indicators[index]['languages_indicators'];
   if (languageIndicators.length > 0)
-    downloadFromLanguageIndicator(0, languageIndicators, indicators, updateDownloadPercentage, callback, index);
+    downloadLanguageIndicatorAudio(0, languageIndicators, indicators, updateDownloadPercentage, callback, () => {
+      saveAudio(index + 1, indicators, updateDownloadPercentage, callback);
+    });
 }
 
-downloadFromLanguageIndicator = (index, languageIndicators, indicators, updateDownloadPercentage, callback, indicatorIndex) => {
+downloadLanguageIndicatorAudio = (index, languageIndicators, indicators, updateDownloadPercentage, callback, callbackSaveAudio) => {
   if (index === languageIndicators.length) {
     updateDownloadPercentage(getDownloadPercentage(indicators.length));
-    saveAudio(indicatorIndex + 1, indicators, updateDownloadPercentage, callback);
+    callbackSaveAudio();
     return;
   }
 
@@ -27,12 +27,12 @@ downloadFromLanguageIndicator = (index, languageIndicators, indicators, updateDo
   if (languageIndicator.audio != undefined || languageIndicator.audio != null) {
     const audioUrl = `${environment.domain}${languageIndicator.audio}`;
     _checkAndSave(audioUrl, languageIndicator, callback, () => {
-      downloadFromLanguageIndicator(index + 1, languageIndicators, indicators, updateDownloadPercentage, callback, indicatorIndex);
+      downloadLanguageIndicatorAudio(index + 1, languageIndicators, indicators, updateDownloadPercentage, callback, callbackSaveAudio);
     })
   }
 }
 
-const _checkAndSave = (audioUrl, languageIndicator, callback, saveAudioCallback) => {
+const _checkAndSave = (audioUrl, languageIndicator, callback, callbackDownload) => {
   let audioPath = audioUrl.split('/');
   const fileName = audioPath[audioPath.length - 1];
 
@@ -54,7 +54,7 @@ const _checkAndSave = (audioUrl, languageIndicator, callback, saveAudioCallback)
       console.log('=== audio already exist ===');
       // callback(true);
     }
-    saveAudioCallback();
+    callbackDownload();
   });
 }
 

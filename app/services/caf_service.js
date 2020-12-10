@@ -16,10 +16,7 @@ const saveCaf = async (scorecardUUID, cafs, updateDownloadPercentage, callback) 
     });
     updateDownloadPercentage(getDownloadPercentage(cafs.length));
   });
-  if (savedCount === cafs.length)
-    callback(true);
-  else
-    callback(false);
+  callback(savedCount === cafs.length);
 };
 
 export {saveCaf};

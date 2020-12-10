@@ -17,10 +17,7 @@ const saveIndicator =  (scorecardUUID, indicators, updateDownloadPercentage, cal
     });
     updateDownloadPercentage(getDownloadPercentage(indicators.length));
   });
-  if (savedCount == indicators.length)
-    callback(true);
-  else
-    callback(false);
+  callback(savedCount === indicators.length);
 };
 
 const getIndicatorName = (indicatorName) => {

@@ -24,6 +24,22 @@ class ParticipantInformation extends Component {
     };
   }
 
+  componentDidMount() {
+    const participantInformation = realm.objects('ParticipantInformation').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
+    if (participantInformation != undefined) {
+      this.participantRef.current.state.participant = participantInformation.participant;
+      this.femaleRef.current.state.participant = participantInformation.female;
+      this.minorityRef.current.state.participant = participantInformation.minority;
+      this.disabilityRef.current.state.participant = participantInformation.disability;
+      this.poorRef.current.state.participant = participantInformation.poor;
+      this.youthRef.current.state.participant = participantInformation.youth;
+      this.setState({
+        participant: participantInformation.participant,
+        isError: participantInformation.participant <= 0 ? true : false,
+      });
+    }
+  }
+
   save = () => {
     if (this.state.isError)
       return;
