@@ -20,9 +20,10 @@ const CriteriaListItem = (props) => {
 
   const showPopup = () => {
     let indicator;
+    let scorecard = realm.objects('ScorecardPreference').filtered(`scorecard_uuid='${props.criteria.scorecard_uuid}'`)[0];
 
     if ( props.criteria.indicatorable_type == 'predefined' ) {
-      indicator = JSON.parse(JSON.stringify(realm.objects('LanguageIndicator').filtered(`indicator_id='${props.criteria.indicatorable_id}' AND language_code='${appLanguage}'`)[0]));
+      indicator = JSON.parse(JSON.stringify(realm.objects('LanguageIndicator').filtered(`indicator_id='${props.criteria.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0]));
       indicator.tag = props.criteria.tag;
     } else {
       indicator = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${props.criteria.indicatorable_id}'`)[0]));

@@ -20,7 +20,8 @@ import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriter
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
-import ParticipantModal from '../../components/VotingCriteria/ParticipantModal';
+import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
+import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -33,7 +34,8 @@ class VotingCriteriaList extends Component {
     this.state = {
       scorecard: realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0],
       votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`))),
-      visible: false
+      participantVisible: false,
+      addParticiantVisible: false,
     };
   }
 
@@ -78,10 +80,30 @@ class VotingCriteriaList extends Component {
     this.goTo('ScorecardResult');
   }
 
-  _showModal() {
-    let participants = realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false`);
+  _goToVotingForm(participant_uuid) {
+    this.props.navigation.navigate('VotingCriteriaForm', {scorecard_uuid: this.state.scorecard.uuid, participant_uuid: participant_uuid});
+  }
 
-    this.setState({visible: true, participants: participants});
+  _showParticipantModal = () => {
+    let participants = realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false`);
+    this.setState({
+      participantVisible: true,
+      participants: participants,
+    });
+  };
+
+  _showAddParticipantModal = () => {
+    this.setState({
+      participantVisible: false,
+      addParticipantVisible: true,
+    });
+  }
+
+  _hideAddParticipantModal = () => {
+    this.setState({
+      addParticipantVisible: false,
+      participantVisible: true,
+    });
   }
 
   _renderContent() {
@@ -93,7 +115,7 @@ class VotingCriteriaList extends Component {
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
 
           <Button
-            onPress={() => this._showModal()}
+            onPress={() => this._showParticipantModal()}
             iconLeft
             style={{backgroundColor: Color.headerColor}}>
             <Icon name='plus' type="FontAwesome" />
@@ -111,10 +133,22 @@ class VotingCriteriaList extends Component {
 
         <ParticipantModal
           participants={this.state.participants || []}
-          visible={this.state.visible}
+          visible={this.state.participantVisible}
           scorecardUuid={this.state.scorecard.uuid}
           navigation={this.props.navigation}
-          onDimiss={() => this.setState({visible: false})}/>
+          onDismiss={() => this.setState({participantVisible: false})}
+          showAddParticipantModal={() => this._showAddParticipantModal()}
+          onPressItem={(participantUuid) => this._goToVotingForm(participantUuid)}
+        />
+
+        <AddNewParticiantModal
+          visible={this.state.addParticipantVisible}
+          onDismiss={() => this.setState({addParticipantVisible: false})}
+          onClose={() => this._hideAddParticipantModal()}
+          scorecardUuid={this.props.scorecardUUID}
+          navigation={this.props.navigation}
+          onSaveParticipant={(participantUuid) => this._goToVotingForm(participantUuid)}
+        />
       </View>
     )
   }

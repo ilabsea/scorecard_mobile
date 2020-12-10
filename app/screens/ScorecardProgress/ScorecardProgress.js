@@ -72,7 +72,7 @@ export default class ScorecardProgress extends Component {
             navigation={this.props.navigation}/>
 
           <View style={{flex: 1, justifyContent: 'flex-end'}}>
-            { this._renderBtnDownload() }
+            { false && this._renderBtnDownload() }
             { this._renderBtnSubmit() }
           </View>
         </View>

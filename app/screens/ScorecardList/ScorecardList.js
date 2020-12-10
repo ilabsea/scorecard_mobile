@@ -39,7 +39,11 @@ export default class ScorecardList extends Component {
   }
 
   render() {
+    const { translations } = this.context;
     const scorecards = realm.objects('Scorecard');
+    const completedStatus = '5';
+    const progressScorecards = scorecards.filter(s => s.status != completedStatus);
+    const completeScorecards = scorecards.filter(s => s.status == completedStatus);
 
     if (!scorecards.length) {
       return this._renderNoData();
@@ -48,7 +52,11 @@ export default class ScorecardList extends Component {
     return (
       <ScrollView>
         <View style={{flex: 1, padding: 16}}>
-          { this.renderList(scorecards)}
+          { !!progressScorecards.length && <Text style={{marginBottom: 10}}>{translations.progressScorecards}</Text>}
+          { this.renderList(progressScorecards) }
+
+          { !!completeScorecards.length && <Text style={{marginBottom: 10}}>{translations.completeScorecards}</Text>}
+          { this.renderList(completeScorecards) }
         </View>
       </ScrollView>
     )

@@ -171,5 +171,9 @@
   "male": "Male",
   "otherGender": "Other",
   "optionYes": "Yes",
-  "optionNo": "No"
+  "optionNo": "No",
+  "numberOfCriteria": "Number of criteria",
+  "status": "Status",
+  "progressScorecards": "Progress scorecards",
+  "completeScorecards": "Complete scorecards",
 }

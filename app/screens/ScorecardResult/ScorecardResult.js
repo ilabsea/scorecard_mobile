@@ -5,7 +5,6 @@ import {
   ScrollView,
 } from 'react-native';
 
-import { StackActions } from '@react-navigation/native';
 import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
@@ -75,7 +74,7 @@ class ScorecardResult extends Component {
   }
 
   _finish() {
-    this.props.navigation.dispatch(StackActions.popToTop());
+    this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
   render() {

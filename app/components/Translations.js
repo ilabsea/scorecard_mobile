@@ -6,32 +6,13 @@ import km from '../localization/km.json';
 import en from '../localization/en.json';
 
 import realm from '../db/schema';
-import RNFS from 'react-native-fs';
 
 const DEFAULT_LANGUAGE = 'km';
 const APP_LANGUAGE = 'appLanguage';
 const languages = {km, en};
 const translations = new LocalizedStrings(languages); // 4
 
-// ------------------start
-const dbLanguages = realm.objects('Language');
-for(let i=0; i<dbLanguages.length; i++) {
-  RNFS.readFile(dbLanguages[i].file, 'utf8').then((res) => {
-    let obj = {};
-    obj[dbLanguages[i].code] = JSON.parse(res);
-
-    translations.setContent(Object.assign({}, translations.getContent(), obj));
-  })
-}
-
-// ------------------end
-
-export const LocalizationContext = createContext({ // 5
-  translations,
-  setAppLanguage: () => {}, // 6
-  appLanguage: DEFAULT_LANGUAGE, // 7
-  initializeAppLanguage: () => {}, // 8
-});
+export const LocalizationContext = createContext();
 
 export const LocalizationProvider = ({children}) => { // 9
   const [appLanguage, setAppLanguage] = useState(DEFAULT_LANGUAGE);

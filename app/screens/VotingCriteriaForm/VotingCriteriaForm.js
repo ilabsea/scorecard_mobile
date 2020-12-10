@@ -8,6 +8,8 @@ import {
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import realm from '../../db/schema';
 import Color from '../../themes/color';
@@ -18,7 +20,7 @@ import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
 import { Icon } from 'native-base';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-
+import participantListItemStyle from '../../themes/participantListItemStyle';
 import { submitVoting } from '../../services/votingCriteriaService';
 
 class VotingCriteriaForm extends Component {
@@ -30,7 +32,7 @@ class VotingCriteriaForm extends Component {
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
-      participant: { uuid: props.route.params.participant_uuid },
+      participant: realm.objects('Participant').filtered(`uuid='${props.route.params.participant_uuid}'`)[0],
       criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecard_uuid}'`))),
       isValid: false,
     };
@@ -64,17 +66,40 @@ class VotingCriteriaForm extends Component {
     )
   }
 
+  renderGender = (participant) => {
+    if (participant === undefined) return (<Text style={{marginLeft: 20}}>---</Text>);
+
+    if (participant.gender === '') {
+      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 20}} />);
+    }
+
+    const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
+    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 20}} color="black" />);
+  };
+
   _renderParticipant() {
     const { translations } = this.context;
+    const { participant } = this.state;
+    let columns = ['disability', 'minority', 'poor', 'youth'];
+    let description = [];
+
+    for(let i=0; i<columns.length; i++) {
+      if(participant[columns[i]]) {
+        description.push(translations[columns[i]]);
+      }
+    }
+    description = description.join('; ');
 
     return (
-      <View style={{flexDirection: 'row'}}>
-        <View style={{backgroundColor: '#dfdfdf', marginTop: 10, padding: 10, borderRadius: 8}}>
-          <Text>{translations.participant_id}: </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Icon name={'person'} style={{fontSize: 28, color: '#8e8e8c'}}/>
-            <Text style={{fontSize: 28, fontFamily: FontFamily.title, marginLeft: 10}}>ID: {this.state.participant.order}</Text>
-          </View>
+      <View style={participantListItemStyle.participantItem}>
+        <View style={participantListItemStyle.numberContainer}>
+          <Text style={participantListItemStyle.numberLabel}>{participant.order+1}</Text>
+        </View>
+
+        <View style={{flexDirection: 'row', flex: 1}}>
+          { this.renderGender(participant) }
+          <Text style={{marginLeft: 20}}>{participant.age}</Text>
+          <Text style={{marginLeft: 20}}>{description}</Text>
         </View>
       </View>
     )
@@ -84,7 +109,7 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={{padding: 20}}>
         <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
         { this._renderParticipant() }
 
@@ -149,7 +174,6 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1
   }
 })
