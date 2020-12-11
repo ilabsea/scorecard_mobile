@@ -1,3 +1,4 @@
+import ParticipantSchema from '../db/models/participant';
 import realm from '../db/schema';
 import {getIndicatorName, getIndicatorShortcutName} from './indicator_service';
 class Criteria {
@@ -43,6 +44,15 @@ class Criteria {
 
   getParticipantProposedCriteria = (participantUUID) => {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${this.scorecardUUID}' AND participant_uuid = '${participantUUID}'`);
+  }
+
+  hasRaisedCritria = (participants) => {
+    for (let i=0; i<participants.length; i++) {
+      const proposedCriteria = participants[i].proposed_criterias != undefined ? participants[i].proposed_criterias : this.getParticipantProposedCriteria(participants[i].uuid);
+      if (proposedCriteria.length > 0)
+        return true;
+    }
+    return false;
   }
 }
 
