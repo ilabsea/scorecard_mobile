@@ -4,10 +4,10 @@ import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard} 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
-import ActionButton from '../../components/ActionButton';
 import DependentValidationInputField from '../../components/ParticipantInformation/DependentValidationInputField';
 import IndependentValidationInputField from '../../components/ParticipantInformation/IndependentValidationInputField';
-import Color from '../../themes/color';
+import ProgressHeader from '../../components/ProgressHeader';
+import BottomButton from '../../components/BottomButton';
 class ParticipantInformation extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -91,7 +91,7 @@ class ParticipantInformation extends Component {
   renderFormInput = () => {
     const {translations} = this.context;
     return (
-      <View style={{marginTop: 30}}>
+      <View style={{marginTop: 25, marginBottom: 20}}>
         <IndependentValidationInputField
           ref={this.participantRef}
           label={translations['allParticipant']}
@@ -147,29 +147,31 @@ class ParticipantInformation extends Component {
       const {translations} = this.context;
       return (
         <View style={styles.buttonContainer}>
-          <ActionButton
-            onPress={() => this.save()}
-            label={translations['next']}
-            customButtonStyle={{marginBottom: 22}}
-            customBackgroundColor={Color.primaryButtonColor}
-            isDisabled={false}
-          />
+          <BottomButton label={translations.next} onPress={() => this.save()} />
         </View>
       );
     }
   }
 
   render() {
+    const {translations} = this.context;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={styles.container}>
-          <HeaderTitle
-            headline="participantInformation"
-            subheading="pleaseFillInformationBelow"
+        <View style={{flex: 1}}>
+          <ProgressHeader
+            title={translations.getStarted}
+            onBackPress={() => this.props.navigation.goBack()}
+            progressIndex={2}
           />
-          {this.renderFormInput()}
-          {this.renderSaveButton()}
-        </ScrollView>
+          <ScrollView contentContainerStyle={styles.container}>
+            <HeaderTitle
+              headline="participantInformation"
+              subheading="pleaseFillInformationBelow"
+            />
+            {this.renderFormInput()}
+            {this.renderSaveButton()}
+          </ScrollView>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -180,6 +182,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: 'white',
     padding: 20,
+    paddingBottom: 28,
   },
   buttonContainer: {
     flex: 1,

@@ -208,7 +208,7 @@ class ScorecardPreference extends Component {
             subheading="pleaseFillInformationBelow"
           />
           {this.renderForm()}
-          <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 28}}>
+          <View style={{flex: 1, justifyContent: 'flex-end'}}>
             <BottomButton
               label={translations.next}
               onPress={() => this.saveSelectedData()}
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: 'white',
     padding: 20,
-    paddingBottom: 0,
+    paddingBottom: 28,
   },
   inputLabel: {
     backgroundColor: 'white',

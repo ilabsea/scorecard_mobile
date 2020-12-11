@@ -72,7 +72,10 @@ class CriteriaSelection extends Component {
 
   getIndicatorName = (indicator) => {
     const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, indicator.uuid, 'text');
-    return languageIndicator != undefined ? languageIndicator.content : indicator.name.split(":").pop();
+    if (languageIndicator != undefined)
+      return languageIndicator.content != '' ? languageIndicator.content : indicator.name.split(":").pop();
+
+    return indicator.name.split(":").pop();
   }
 
   indicatorCard = (indicator, index) => {

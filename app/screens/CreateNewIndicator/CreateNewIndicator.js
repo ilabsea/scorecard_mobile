@@ -6,10 +6,9 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
-import ActionButton from '../../components/ActionButton';
+import BottomButton from '../../components/BottomButton';
 import CriteriaSelection from '../../components/RaisingProposed/CriteriaSelection';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
-import Color from '../../themes/color';
 import {saveParticipant} from '../../actions/participantAction';
 import uuidv4 from '../../utils/uuidv4';
 import {connect} from 'react-redux';
@@ -125,8 +124,8 @@ class CreateNewIndicator extends Component {
     const {translations} = this.context;
     if (this.state.isValid) {
       return (
-        <View style={{paddingBottom: 42, justifyContent: 'flex-end'}}>
-          <ActionButton label={translations['saveAndGoNext']} isDisabled={false} onPress={() => this.save()} customBackgroundColor={Color.primaryButtonColor}/>
+        <View style={{flex: 1, paddingTop: 50, justifyContent: 'flex-end'}}>
+          <BottomButton label={translations['saveAndGoNext']} onPress={() => this.save()} />
         </View>
       );
     }
@@ -154,20 +153,18 @@ class CreateNewIndicator extends Component {
       <Provider>
         <View style={{flex: 1, backgroundColor: '#ffffff'}}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView contentContainerStyle={{flexGrow: 1}}>
-              <View style={{paddingHorizontal: 20, paddingTop: 28, flex: 1}}>
-                {this._renderParticipant()}
-                <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
-                  {translations['chooseProposedCriteria']}
-                </Text>
-                <CriteriaSelection
-                  ref={this.indicatorSelectionRef}
-                  selectIndicator={this.selectIndicator}
-                  scorecardUUID={this.props.route.params.scorecard_uuid}
-                  participantUUID={this.props.route.params.participant_uuid}
-                />
-                {this.renderSaveButton()}
-              </View>
+            <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
+              {this._renderParticipant()}
+              <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
+                {translations['chooseProposedCriteria']}
+              </Text>
+              <CriteriaSelection
+                ref={this.indicatorSelectionRef}
+                selectIndicator={this.selectIndicator}
+                scorecardUUID={this.props.route.params.scorecard_uuid}
+                participantUUID={this.props.route.params.participant_uuid}
+              />
+              {this.renderSaveButton()}
             </ScrollView>
           </TouchableWithoutFeedback>
           <Portal>

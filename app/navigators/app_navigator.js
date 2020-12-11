@@ -152,22 +152,22 @@ function AppNavigator() {
           <Stack.Screen
             name="ParticipantInformation"
             component={ParticipantInformationScreen}
-            options={{
-              title: `${translations['getStarted']}`,
-            }}
+            options={({navigation}) => ({
+              header: () => null,
+            })}
           />
           <Stack.Screen
             name="ParticipantList"
             component={ParticipantListScreen}
-            options={{
-              title: `${translations['getStarted']}`,
-            }}
+            options={({navigation}) => ({
+              header: () => null,
+            })}
           />
           <Stack.Screen
             name="AddNewParticipant"
             component={AddNewParticipantScreen}
             options={{
-              title: `${translations['getStarted']}`,
+              title: `${translations.participantInformation}`,
             }}
           />
           <Stack.Screen

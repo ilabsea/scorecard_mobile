@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import {Subheading} from 'react-native-paper';
-import {Button} from 'native-base';
-
 import realm from '../../db/schema';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
 import SelectPicker from '../../components/SelectPicker';
-
 import ProgressHeader from '../../components/ProgressHeader';
+import BottomButton from '../../components/BottomButton';
 class Facilitator extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -138,13 +135,7 @@ class Facilitator extends Component {
       const {translations} = this.context;
       return (
         <View style={styles.buttonContainer}>
-          <Button full primary
-            onPress={() => this.saveSelectedData()}
-            style={{marginTop: 10, elevation: 0}}>
-            <Text style={[styles.buttonLabelStyle, {color: 'white'}]}>
-              {translations['next']}
-            </Text>
-          </Button>
+          <BottomButton label={translations.next} onPress={() => this.saveSelectedData()} />
         </View>
       );
     }
@@ -166,7 +157,6 @@ class Facilitator extends Component {
           onBackPress={() => this.props.navigation.goBack()}
           progressIndex={1}
         />
-
         <ScrollView contentContainerStyle={styles.container}>
           <HeaderTitle
             headline="facilitatorList"
@@ -187,10 +177,12 @@ class Facilitator extends Component {
             itemIndex={1}
             mustHasDefaultValue={false}
           />
-          <Subheading style={styles.otherFacilitatorsLabel}>
+          <Text style={styles.otherFacilitatorsLabel}>
             {translations['otherFacilitators']}
-          </Subheading>
-          {this.renderOtherFacilitators()}
+          </Text>
+          <View style={{marginBottom: 220}}>
+            {this.renderOtherFacilitators()}
+          </View>
           {this.renderNextButton()}
         </ScrollView>
       </View>
@@ -202,10 +194,12 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: 'white',
-    padding: 16,
+    padding: 20,
+    paddingBottom: 28,
   },
   otherFacilitatorsLabel: {
-    color: 'gray',
+    fontSize: 18,
+    color: '#2e2e2e',
     marginTop: 40,
     textTransform: 'uppercase',
     marginBottom: -10,
@@ -213,7 +207,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 20,
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

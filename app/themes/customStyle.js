@@ -19,6 +19,10 @@ const CustomStyle = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
     elevation: 2,
+  },
+  bottomButton: {
+    elevation: 0,
+    height: 50,
   }
 });
 

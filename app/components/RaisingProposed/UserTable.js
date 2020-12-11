@@ -14,7 +14,13 @@ class UserTable extends Component {
   getCellData = (cellData, cellIndex) => {
     const {translations} = this.context;
     const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'note', 'action'];
-    const participantCell = new ParticipantCell(tableHead[cellIndex], cellData, this.editParticipant, translations['edit']);
+    const labelTranslation = {
+      yes: translations.optionYes,
+      no: translations.optionNo,
+      male: translations.male,
+      female: translations.female,
+    }
+    const participantCell = new ParticipantCell(tableHead[cellIndex], cellData, this.editParticipant, translations['edit'], labelTranslation);
     return participantCell.cellItem[tableHead[cellIndex]];
   }
 

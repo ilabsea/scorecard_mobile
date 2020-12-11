@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {LocalizationContext} from '../Translations';
 
 class ParticipantListItem extends Component {
+  static contextType = LocalizationContext;
   renderParticipantNumber = (participant, index) => {
     if (participant != undefined)
       return (
@@ -46,6 +48,7 @@ class ParticipantListItem extends Component {
   }
 
   render() {
+    const {translations} = this.context;
     const {index, participant} = this.props;
     return (
       <TouchableOpacity>
@@ -84,7 +87,7 @@ class ParticipantListItem extends Component {
           <TouchableOpacity style={{width: 60, alignItems: 'center', paddingTop: 0}}
             onPress={() => this.editParticipant(index)}>
             <MaterialIcon name="edit" size={25} color="#e4761e" />
-            <Text style={{color: '#e4761e'}}>Edit</Text>
+            <Text style={{color: '#e4761e'}}>{translations.edit}</Text>
           </TouchableOpacity>
         </View>
         <View style={{borderBottomWidth: 1, borderBottomColor: '#b9b9b9', flex: 1}} />

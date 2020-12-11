@@ -4,20 +4,21 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {getIndicatorShortcutName} from './indicator_service';
 
 class ParticipantCell {
-  constructor(cellName, cellValue, buttonAction, actionLabel) {
+  constructor(cellName, cellValue, buttonAction, actionLabel, labelTranslation) {
     this.cellValue = cellValue;
     this.cellName = cellName;
     this.actionLabel = actionLabel;
     this.cellItem = {
       no: this.textCell(),
       age: this.textCell(),
-      gender: this.textCell(),
-      disability: this.booleanCell(),
+      gender: this.genderCell(labelTranslation),
+      disability: this.booleanCell(labelTranslation),
       indicator: this.indicatorCell(),
       note: this.textCell(),
       action: this.actionCell(),
     };
     this.buttonAction = buttonAction;
+
   }
 
   textCell = () => {
@@ -28,11 +29,19 @@ class ParticipantCell {
     );
   };
 
-  booleanCell = () => {
+  genderCell = (labelTranslation) => {
+    return (
+      <View style={styles.cellContainer}>
+        <Text>{this.cellValue === 'M' ? labelTranslation.male : labelTranslation.female}</Text>
+      </View>
+    );
+  }
+
+  booleanCell = (labelTranslation) => {
     return (
       <View style={styles.cellContainer}>
         <Text>
-          {this.cellValue === '' ? '' : this.cellValue ? 'Yes' : 'No'}
+          {this.cellValue === '' ? '' : this.cellValue ? labelTranslation.yes : labelTranslation.no}
         </Text>
       </View>
     );
