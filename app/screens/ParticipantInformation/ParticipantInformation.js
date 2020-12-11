@@ -25,36 +25,34 @@ class ParticipantInformation extends Component {
   }
 
   componentDidMount() {
-    const participantInformation = realm.objects('ParticipantInformation').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
-    if (participantInformation != undefined) {
-      this.participantRef.current.state.participant = participantInformation.participant;
-      this.femaleRef.current.state.participant = participantInformation.female;
-      this.minorityRef.current.state.participant = participantInformation.minority;
-      this.disabilityRef.current.state.participant = participantInformation.disability;
-      this.poorRef.current.state.participant = participantInformation.poor;
-      this.youthRef.current.state.participant = participantInformation.youth;
-      this.setState({
-        participant: participantInformation.participant,
-        isError: participantInformation.participant <= 0 ? true : false,
-      });
-    }
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
+    this.participantRef.current.state.participant = scorecard.number_of_participant;
+    this.femaleRef.current.state.participant = scorecard.number_of_female;
+    this.minorityRef.current.state.participant = scorecard.number_of_ethnic_minority;
+    this.disabilityRef.current.state.participant = scorecard.number_of_disability;
+    this.poorRef.current.state.participant = scorecard.number_of_id_poor;
+    this.youthRef.current.state.participant = scorecard.number_of_youth;
+    this.setState({
+      participant: scorecard.number_of_participant,
+      isError: scorecard.number_of_participant <= 0 ? true : false,
+    });
   }
 
   save = () => {
     if (this.state.isError)
       return;
-    
+
     const attrs = {
-      participant: this.getIntegerOf(this.participantRef.current.state.participant),
-      female: this.getIntegerOf(this.femaleRef.current.state.participant),
-      disability: this.getIntegerOf(this.disabilityRef.current.state.participant),
-      minority: this.getIntegerOf(this.minorityRef.current.state.participant),
-      poor: this.getIntegerOf(this.poorRef.current.state.participant),
-      youth: this.getIntegerOf(this.youthRef.current.state.participant),
-      scorecard_uuid: this.props.route.params.scorecard_uuid,
-    };
+      uuid: this.props.route.params.scorecard_uuid,
+      number_of_participant: this.getIntegerOf(this.participantRef.current.state.participant),
+      number_of_female: this.getIntegerOf(this.femaleRef.current.state.participant),
+      number_of_disability: this.getIntegerOf(this.disabilityRef.current.state.participant),
+      number_of_ethnic_minority: this.getIntegerOf(this.minorityRef.current.state.participant),
+      number_of_id_poor: this.getIntegerOf(this.poorRef.current.state.participant),
+      number_of_youth: this.getIntegerOf(this.youthRef.current.state.participant),
+    }
     realm.write(() => {
-      realm.create('ParticipantInformation', attrs, 'modified');
+      realm.create('Scorecard', attrs, 'modified');
     });
 
     this.props.navigation.navigate('ParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});

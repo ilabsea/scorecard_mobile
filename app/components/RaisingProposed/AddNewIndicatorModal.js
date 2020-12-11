@@ -55,11 +55,11 @@ class AddNewIndicatorModal extends Component {
       tag: this.state.name
     };
 
-    const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.scorecardUUID}'`)[0];
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.scorecardUUID}'`)[0];
     const customLanguageIndicator = {
       id: uuidv4(),
       content: this.state.name,
-      language_code: scorecardPreference.audio_language_code,
+      language_code: scorecard.audio_language_code,
       local_audio: this.state.audio,
       scorecard_uuid: this.props.scorecardUUID,
       indicator_id: customIndicator.uuid,

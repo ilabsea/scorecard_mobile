@@ -66,7 +66,7 @@ class ParticipantList extends Component {
   }
 
   renderParticipantList = () => {
-    const numberOfParticipant = realm.objects('ParticipantInformation').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"')[0].participant;
+    const numberOfParticipant = realm.objects('Scorecard').filtered('uuid = "' + this.props.route.params.scorecard_uuid + '"')[0].number_of_participant;
     this.totalParticipant = numberOfParticipant;
     return (
       <FlatList

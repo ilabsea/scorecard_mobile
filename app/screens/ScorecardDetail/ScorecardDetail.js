@@ -175,10 +175,8 @@ class ScorecardDetail extends Component {
     const timeout = setTimeout(() => {
       const currentPrecentage = this.state.downloadProgress + percentage;
       this.setState({downloadProgress: currentPrecentage}, () => {
-        if (this.state.downloadProgress >= 1) {
-          console.log('=== clear timeout ====');
+        if (this.state.downloadProgress >= 1)
           clearTimeout(timeout);
-        }
       });
     }, 500);
   }
