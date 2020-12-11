@@ -20,12 +20,12 @@ Scorecard.schema = {
     year: 'int',
     conducted_date: 'string?',
     number_of_caf: 'int?',
-    number_of_participant: 'int?',
-    number_of_female: 'int?',
-    number_of_disability: 'int?',
-    number_of_ethnic_minority: 'int?',
-    number_of_youth: 'int?',
-    number_of_id_poor: 'int?',
+    number_of_participant: { type: 'int?', default: 0 },
+    number_of_female: { type: 'int?', default: 0 },
+    number_of_disability: { type: 'int?', default: 0 },
+    number_of_ethnic_minority: { type: 'int?', default: 0 },
+    number_of_youth: { type: 'int?', default: 0 },
+    number_of_id_poor: { type: 'int?', default: 0 },
     status: { type: 'string', default: '1' },
     local_ngo_name: 'string',
     local_ngo_id: 'int',
@@ -35,6 +35,8 @@ Scorecard.schema = {
     program_id: 'int',
     uploaded: { type: 'bool', default: false },
     downloaded: { type: 'bool', default: false },
+    text_language_code: 'string?',
+    audio_language_code: 'string?'
   }
 }
 

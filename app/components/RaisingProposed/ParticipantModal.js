@@ -93,12 +93,12 @@ export default class ParticipantModal extends Component {
 
   renderAddNewParticipantButton = () => {
     const {translations} = this.context;
-    const numberOfParticipant = realm.objects('ParticipantInformation').filtered(`scorecard_uuid == '${this.props.scorecardUuid}'`)[0].participant;
+    const numberOfParticipant = realm.objects('Scorecard').filtered(`uuid == '${this.props.scorecardUuid}'`)[0].number_of_participant;
     const addedParticipants = realm.objects('Participant').filtered(`scorecard_uuid == '${this.props.scorecardUuid}'`);
     let isDisabled = addedParticipants.length === numberOfParticipant;
     return (
       <View style={{height: 50, alignItems: 'center'}}>
-        <Button iconLeft bordered primary disabled={isDisabled} onPress={() => this.props.showAddParticipantModal()}>
+        <Button iconLeft bordered primary disabled={isDisabled} onPress={() => this.props.showAddParticipantModal()} style={{alignSelf: 'flex-end'}}>
           <Icon name='plus' type="FontAwesome" style={isDisabled ? {color: 'gray'} : {color: Color.primaryButtonColor}} />
           <Text style={[styles.buttonLabel, isDisabled ? {color: 'gray'} : {}]}>{translations.addNewParticipant}</Text>
         </Button>

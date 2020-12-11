@@ -19,7 +19,6 @@ import {connect} from 'react-redux';
 import {loadProgramLanguageAction} from '../../actions/programLanguageAction';
 
 import ProgressHeader from '../../components/ProgressHeader';
-import uuidv4 from '../../utils/uuidv4';
 
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
@@ -78,9 +77,9 @@ class ScorecardPreference extends Component {
 
   getDefaultLocaleValue = (languages, type) => {
     let defaultValue = languages[0].value;
-    const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
-    if (scorecardPreference != undefined)
-      defaultValue = type === 'text' ? scorecardPreference.text_language_code : scorecardPreference.audio_language_code;
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
+    if (scorecard.text_language_code != undefined)
+      defaultValue = type === 'text' ? scorecard.text_language_code : scorecard.audio_language_code;
 
     return defaultValue;
   }
@@ -95,15 +94,15 @@ class ScorecardPreference extends Component {
 
   saveSelectedData = () => {
     const {date, textLocale, audioLocale} = this.state;
-    const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
     const attrs = {
-      uuid: scorecardPreference != undefined ? scorecardPreference.uuid : uuidv4(),
-      scorecard_uuid: this.props.route.params.scorecard_uuid,
-      selected_date: date,
+      uuid: this.props.route.params.scorecard_uuid,
+      conducted_date: date.toString(),
       text_language_code: textLocale,
       audio_language_code: audioLocale,
     };
-    realm.write(() => {realm.create('ScorecardPreference', attrs, 'modified');});
+    realm.write(() => {
+      realm.create('Scorecard', attrs, 'modified');
+    });
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 

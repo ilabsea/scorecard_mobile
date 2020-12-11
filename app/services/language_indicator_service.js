@@ -30,8 +30,8 @@ const saveLanguageIndicator = (scorecardUUID, indicators, updateDownloadPercenta
 }
 
 const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
-  const scorecardPreference = realm.objects('ScorecardPreference').filtered(`scorecard_uuid == '${scorecardUuid}'`)[0];
-  let languageCode = type === 'audio' ? scorecardPreference.audio_language_code : scorecardPreference.text_language_code;
+  const scorecard = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0];
+  let languageCode = type === 'audio' ? scorecard.audio_language_code : scorecard.text_language_code;
   return realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
 }
 
