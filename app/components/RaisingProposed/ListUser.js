@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button, Icon} from 'native-base';
+import {View, StyleSheet} from 'react-native';
+import {Button, Icon, Text} from 'native-base';
 import {LocalizationContext} from '../Translations';
 import UserTable from './UserTable';
 import realm from '../../db/schema';
 import {connect} from 'react-redux';
 import ParticipantModal from './ParticipantModal';
 import AddNewParticiantModal from './AddNewParticipantModal';
+import Color from '../../themes/color';
 class ListUser extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -19,7 +20,10 @@ class ListUser extends Component {
   }
 
   getParticipant = () => {
-    const savedParticipants = this.props.participants;
+    let savedParticipants = this.props.participants;
+    if (savedParticipants.length == 0)
+      savedParticipants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.scorecardUUID +'"').sorted('order', false);
+
     let participants = [];
     for (let i=0; i<savedParticipants.length; i++) {
       const gender = savedParticipants[i].gender === 'female' ? 'F' : savedParticipants[i].gender === 'male' ? 'M' : 'other';
@@ -28,7 +32,7 @@ class ListUser extends Component {
         savedParticipants[i].age,
         gender,
         savedParticipants[i].disability,
-        savedParticipants[i].proposed_criterias,
+        savedParticipants[i].proposed_criterias != undefined ? savedParticipants[i].proposed_criterias : this.getProposedCriteria(savedParticipants[i].uuid),
         savedParticipants[i].note,
         savedParticipants[i].uuid, // participant uuid
       ];
@@ -36,6 +40,10 @@ class ListUser extends Component {
     }
     return participants;
   };
+
+  getProposedCriteria = (participantUuid) => {
+    return realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.scorecardUUID +'" AND participant_uuid = "'+ participantUuid +'"');
+  }
 
   renderUserTable = () => {
     const tableHead = ['No', 'Age', 'Gender', 'Disability', 'Indicator Type', 'Note', 'Action'];
@@ -73,11 +81,12 @@ class ListUser extends Component {
       <View style={{marginTop: 40}}>
         <View style={styles.headingContainer}>
           <Text style={styles.headingTitle}>{translations['listUser']}</Text>
-          <Button iconLeft primary style={styles.button} onPress={() => this._showParticipantModal()}>
-            <Icon name="add" />
-            <Text style={styles.buttonLabel}>
-              {translations['proposeNewCriteria']}
-            </Text>
+          <Button
+            onPress={() => this._showParticipantModal()}
+            iconLeft
+            style={{backgroundColor: Color.headerColor}}>
+            <Icon name='plus' type="FontAwesome" />
+            <Text>{translations.proposeNewCriteria}</Text>
           </Button>
         </View>
         {this.renderUserTable()}
@@ -112,17 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 1,
     color: '#22354c',
-  },
-  button: {
-    paddingLeft: 15,
-    paddingRight: 20,
-    alignSelf: 'center',
-    height: 50,
-  },
-  buttonLabel: {
-    textTransform: 'uppercase',
-    color: 'white',
-    fontSize: 18,
   },
 });
 

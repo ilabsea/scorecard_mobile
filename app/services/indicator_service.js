@@ -1,6 +1,8 @@
 import realm from '../db/schema';
+import {getDownloadPercentage} from './scorecard_detail_service';
 
-const saveIndicator =  (scorecardUUID, indicators, callback) => {
+const saveIndicator =  (scorecardUUID, indicators, updateDownloadPercentage, callback) => {
+  let savedCount = 0;
   indicators.map((indicator) => {
     const indicatorSet = {
       id: indicator.id,
@@ -9,9 +11,13 @@ const saveIndicator =  (scorecardUUID, indicators, callback) => {
       scorecard_uuid: scorecardUUID,
       tag: indicator.tag_name
     };
-    realm.write(() => { realm.create('Indicator', indicatorSet, 'modified'); });
+    realm.write(() => {
+      realm.create('Indicator', indicatorSet, 'modified');
+      savedCount += 1;
+    });
+    updateDownloadPercentage(getDownloadPercentage(indicators.length));
   });
-  callback(true);
+  callback(savedCount === indicators.length);
 };
 
 const getIndicatorName = (indicatorName) => {

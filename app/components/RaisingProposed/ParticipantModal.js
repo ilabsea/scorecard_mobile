@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
-import {Icon, Button} from 'native-base';
+import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import {Icon, Button, Text} from 'native-base';
 import { Modal, Portal, Divider } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
@@ -98,8 +98,8 @@ export default class ParticipantModal extends Component {
     let isDisabled = addedParticipants.length === numberOfParticipant;
     return (
       <View style={{height: 50, alignItems: 'center'}}>
-        <Button iconLeft bordered primary disabled={isDisabled} style={styles.button} onPress={() => this.props.showAddParticipantModal()}>
-          <Icon name="add" style={isDisabled ? {color: 'gray'} : {color: Color.primaryButtonColor}} />
+        <Button iconLeft bordered primary disabled={isDisabled} onPress={() => this.props.showAddParticipantModal()}>
+          <Icon name='plus' type="FontAwesome" style={isDisabled ? {color: 'gray'} : {color: Color.primaryButtonColor}} />
           <Text style={[styles.buttonLabel, isDisabled ? {color: 'gray'} : {}]}>{translations.addNewParticipant}</Text>
         </Button>
         { isDisabled &&
