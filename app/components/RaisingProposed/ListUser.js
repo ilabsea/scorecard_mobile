@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import ParticipantModal from './ParticipantModal';
 import AddNewParticiantModal from './AddNewParticipantModal';
 import Color from '../../themes/color';
+import {getRaisedParticipants} from '../../services/participant_service';
 class ListUser extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -20,21 +21,22 @@ class ListUser extends Component {
   }
 
   getParticipant = () => {
-    let savedParticipants = this.props.participants;
-    if (savedParticipants.length == 0)
-      savedParticipants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.scorecardUUID +'"').sorted('order', false);
-
+    const raisedParticipants = getRaisedParticipants(this.props.participants, this.props.scorecardUUID);
     let participants = [];
-    for (let i=0; i<savedParticipants.length; i++) {
-      const gender = savedParticipants[i].gender === 'female' ? 'F' : savedParticipants[i].gender === 'male' ? 'M' : 'other';
+    for (let i=0; i<raisedParticipants.length; i++) {
+      const gender = raisedParticipants[i].gender === 'female' ? 'F' : raisedParticipants[i].gender === 'male' ? 'M' : 'other';
+      const proposedCriterias = raisedParticipants[i].proposed_criterias != undefined ? raisedParticipants[i].proposed_criterias : this.getProposedCriteria(raisedParticipants[i].uuid);
+      if (proposedCriterias.length === 0)
+        continue;
+
       const attrs = [
         i + 1,
-        savedParticipants[i].age,
+        raisedParticipants[i].age,
         gender,
-        savedParticipants[i].disability,
-        savedParticipants[i].proposed_criterias != undefined ? savedParticipants[i].proposed_criterias : this.getProposedCriteria(savedParticipants[i].uuid),
-        savedParticipants[i].note,
-        savedParticipants[i].uuid, // participant uuid
+        raisedParticipants[i].disability,
+        proposedCriterias,
+        raisedParticipants[i].note,
+        raisedParticipants[i].uuid, // participant uuid
       ];
       participants.push(attrs);
     }

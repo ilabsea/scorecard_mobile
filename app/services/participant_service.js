@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {getIndicatorShortcutName} from './indicator_service';
+import realm from '../db/schema';
 
 class ParticipantCell {
   constructor(cellName, cellValue, buttonAction, actionLabel, labelTranslation) {
@@ -109,4 +110,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export {ParticipantCell};
+const getRaisedParticipants = (reducerParticipants, scorecardUuid, ) => {
+  if (reducerParticipants.length === 0)
+    return realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
+
+  return reducerParticipants;
+}
+
+export {ParticipantCell, getRaisedParticipants};
