@@ -13,12 +13,9 @@ import MessageLabel from '../../components/MessageLabel';
 import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import Color from '../../themes/color';
-import {checkConnection} from '../../services/api_connectivity_service';
-
-import {connect} from 'react-redux';
-import {loadProgramLanguageAction} from '../../actions/programLanguageAction';
-
+import {checkConnection, handleApiResponse} from '../../services/api_service';
 import ProgressHeader from '../../components/ProgressHeader';
+import ProgramLanguageApi from '../../api/ProgramLanguageApi';
 
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
@@ -45,27 +42,26 @@ class ScorecardPreference extends Component {
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
     const programId = this.state.detail['program_id'];
-    this.props.loadProgramLanguageAction(programId, async (isSuccess, response) => {
+    const programLanguageApi = new ProgramLanguageApi();
+    const response = await programLanguageApi.load(programId);
+    handleApiResponse(response, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
-      if (isSuccess) {
-        const locales = await response;
-        const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
-        this.setState({
-          languages: languagesPickerFormat,
-          textLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
-          audioLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
-        });
-        this.refs.loading.show(false);
-      }
-      else {
-        this.setState({
-          messageType: 'error',
-          message: translations['failedToGetLanguage'],
-        });
-        this.refs.loading.show(false);
-      }
+      const locales = responseData;
+      const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
+      this.setState({
+        languages: languagesPickerFormat,
+        textLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
+        audioLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
+      });
+      this.refs.loading.show(false);
+    }, () => {
+      AsyncStorage.setItem('IS_CONNECTED', 'true');
+      this.setState({
+        messageType: 'error',
+        message: translations['failedToGetLanguage'],
+      });
+      this.refs.loading.show(false);
     });
-
     checkConnection((type, message) => {
       this.setState({
         messageType: type,
@@ -254,21 +250,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  return {
-    isLoading: state.loadProgramLanguageReducer.isLoading,
-    languages: state.loadProgramLanguageReducer.result,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    loadProgramLanguageAction: (programId, callback) =>
-      dispatch(loadProgramLanguageAction(programId, callback)),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ScorecardPreference);
+export default ScorecardPreference;

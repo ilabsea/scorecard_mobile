@@ -34,7 +34,10 @@ class BaseApi {
           return qs.stringify(params, {arrayFormat: 'brackets'})
         },
         headers: await BaseApi.getHeader(),
-      });
+      })
+      .catch((res) => {
+        return {error: res.toJSON().message};
+      })
 
       return response;
     } catch(error) {

@@ -10,10 +10,10 @@ import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
 import BottomButton from '../../components/BottomButton';
 
-import {connect} from 'react-redux';
-import {loadIndicatorListAction} from '../../actions/indicatorAction';
-import {loadCafListAction} from '../../actions/cafAction';
-import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, isAllRatingScaleDownloaded} from '../../services/scorecard_detail_service';
+import IndicatorApi from '../../api/IndicatorApi';
+import CafApi from '../../api/CafApi';
+
+import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded} from '../../services/scorecard_detail_service';
 import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';
@@ -21,6 +21,7 @@ import {saveAudio} from '../../services/audio_service';
 import ratingScaleService  from '../../services/rating_scale_service';
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
+import {handleApiResponse} from '../../services/api_service';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -68,7 +69,7 @@ class ScorecardDetail extends Component {
 
   checkSavedCaf = () => {
     this.fetchCafFromApi(async (response) => {
-      const cafs = await response;
+      const cafs = response;
       this.setState({
         isCafDownloaded: await isAllCafDownloaded(cafs),
         isFinishChecking: true,
@@ -116,13 +117,10 @@ class ScorecardDetail extends Component {
     });
   }
 
-  fetchIndicatorFromApi = (successCallback, failedCallback) => {
-    this.props.loadIndicatorListAction(this.scorecard.facility_id, (isSuccess, response) => {
-      if (isSuccess)
-        successCallback(response);
-      else
-        failedCallback(response);
-    });
+  fetchIndicatorFromApi = async (successCallback, failedCallback) => {
+    const indicatorApi = new IndicatorApi();
+    const response = await indicatorApi.load(this.scorecard.facility_id);
+    handleApiResponse(response, successCallback, failedCallback);
   }
 
   downloadCaf = () => {
@@ -142,13 +140,10 @@ class ScorecardDetail extends Component {
     });
   }
 
-  fetchCafFromApi = (successCallback, failedCallback) => {
-    this.props.loadCafListAction(this.scorecard.local_ngo_id, (isSuccess, response) => {
-      if (isSuccess)
-        successCallback(response);
-      else
-        failedCallback(response);
-    });
+  fetchCafFromApi = async (successCallback, failedCallback) => {
+    const cafApi = new CafApi();
+    const response = await cafApi.load(this.scorecard.local_ngo_id);
+    handleApiResponse(response, successCallback, failedCallback);
   }
 
   downloadScorecard = () => {
@@ -295,14 +290,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    loadIndicatorListAction: (facilityId, callback) => dispatch(loadIndicatorListAction(facilityId, callback)),
-    loadCafListAction: (localNgoId, callback) => dispatch(loadCafListAction(localNgoId, callback)),
-  }
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ScorecardDetail);
+export default ScorecardDetail;
