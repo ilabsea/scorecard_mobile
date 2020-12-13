@@ -17,10 +17,10 @@ import realm from '../../db/schema';
 const CriteriaListItem = (props) => {
   const { translations, appLanguage } = useContext(LocalizationContext); // 1
   const dispatch = useDispatch();
+  const scorecard = realm.objects('Scorecard').filtered(`uuid='${props.criteria.scorecard_uuid}'`)[0];
 
   const showPopup = () => {
     let indicator;
-    let scorecard = realm.objects('ScorecardPreference').filtered(`scorecard_uuid='${props.criteria.scorecard_uuid}'`)[0];
 
     if ( props.criteria.indicatorable_type == 'predefined' ) {
       indicator = JSON.parse(JSON.stringify(realm.objects('LanguageIndicator').filtered(`indicator_id='${props.criteria.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0]));
