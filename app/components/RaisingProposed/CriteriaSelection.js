@@ -6,7 +6,7 @@ import realm from '../../db/schema';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
-import {getIndicatorShortcutName} from '../../services/indicator_service';
+import {getIndicatorShortcutName, getSavedIndicators} from '../../services/indicator_service';
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -80,7 +80,7 @@ class CriteriaSelection extends Component {
 
   indicatorCard = (indicator, index) => {
     return (
-      <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
+      <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.selectIndicator(index)}
         >
@@ -106,7 +106,7 @@ class CriteriaSelection extends Component {
   renderIndicatorItem = (indicator, index) => {
     if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
       return (
-        <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
+        <View key={index} style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
           {this.indicatorCard(indicator, index)}
           <View style={{flex: 1, marginHorizontal: 10}} />
         </View>
@@ -118,9 +118,7 @@ class CriteriaSelection extends Component {
   getIndicator = () => {
     const {translations} = this.context;
     let indicators = [];
-    let predefinedIndicators = JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`scorecard_uuid = '${this.props.scorecardUUID}'`)));
-    const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${this.props.scorecardUUID}'`)));
-    const savedIndicators = predefinedIndicators.concat(customIndicators);
+    const savedIndicators = getSavedIndicators(this.props.scorecardUUID);
     const proposedCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${this.props.scorecardUUID}' AND participant_uuid = '${this.props.participantUUID}'`);
     let selectedIndicators = [];
     savedIndicators.map((indicator) => {

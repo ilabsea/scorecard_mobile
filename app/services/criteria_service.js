@@ -1,15 +1,8 @@
-import ParticipantSchema from '../db/models/participant';
 import realm from '../db/schema';
-import {getIndicatorName, getIndicatorShortcutName} from './indicator_service';
+import {getIndicatorName, getIndicatorShortcutName, getSavedIndicators} from './indicator_service';
 class Criteria {
   constructor(scorecardUUID) {
     this.scorecardUUID = scorecardUUID;
-  }
-
-  _getIndicators = () => {
-    let predefinedIndicators = realm.objects('Indicator').filtered(`scorecard_uuid == '${this.scorecardUUID}'`);
-    const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid == '${this.scorecardUUID}'`);
-    return [...predefinedIndicators, ...customIndicators];
   }
 
   _getRaisedCount = (indicatorId) => {
@@ -21,7 +14,7 @@ class Criteria {
   }
 
   getCriterias = () => {
-    let indicators = this._getIndicators();
+    let indicators = getSavedIndicators(this.scorecardUUID);
     const summaryCriteria = [{id: '', name: 'All indicator', raised_count: this._getTotalRaisedCount(), shortcut: 'view-agenda', scorecard_uuid: ''}];
     let criterias = [];
     indicators.map((indicator) => {
