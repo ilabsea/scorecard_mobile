@@ -23,7 +23,7 @@ class SelectPicker extends Component {
   };
 
   dropDownArrowRight = () => {
-    const {translations} = this.context;
+    const { translations } = ((!!this.context && this.context) || this.props);
     const {showCustomArrow} = this.props;
 
     if (showCustomArrow) {

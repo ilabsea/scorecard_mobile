@@ -85,6 +85,7 @@ class AddNewParticipantModal extends Component {
           }
           mustHasDefaultValue={false}
           customDropDownContainerStyle={{marginTop: -10}}
+          translations={translations}
         />
         <SelectPicker
           items={choices}
@@ -98,6 +99,7 @@ class AddNewParticipantModal extends Component {
             this.onChangeValue('isDisability', text.value)
           }
           mustHasDefaultValue={false}
+          translations={translations}
         />
         <SelectPicker
           items={choices}
@@ -109,6 +111,7 @@ class AddNewParticipantModal extends Component {
           showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
           mustHasDefaultValue={false}
+          translations={translations}
         />
         <SelectPicker
           items={choices}
@@ -120,6 +123,7 @@ class AddNewParticipantModal extends Component {
           showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
           mustHasDefaultValue={false}
+          translations={translations}
         />
         <SelectPicker
           items={choices}
@@ -131,6 +135,7 @@ class AddNewParticipantModal extends Component {
           showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
           mustHasDefaultValue={false}
+          translations={translations}
         />
       </View>
     );
