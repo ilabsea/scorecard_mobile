@@ -85,7 +85,12 @@ export default class CriteriaRatingItem extends Component {
     const { criteria } = this.props;
 
     if ( criteria.indicatorable_type == 'predefined' ) {
-      return JSON.parse(JSON.stringify(realm.objects('LanguageIndicator').filtered(`indicator_id='${criteria.indicatorable_id}' AND language_code='${appLanguage}'`)[0]));
+      let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${criteria.indicatorable_id}' AND language_code='${appLanguage}'`)[0];
+      indi = indi || realm.objects('Indicator').filtered(`id='${criteria.indicatorable_id}'`)[0];
+      indi = JSON.parse(JSON.stringify(indi));
+      indi.content = indi.content || indi.name;
+
+      return indi;
     }
 
     return JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${criteria.indicatorable_id}'`)[0]));
@@ -100,7 +105,7 @@ export default class CriteriaRatingItem extends Component {
         <Divider/>
         <View style={{flexDirection: 'row', marginTop: 30}}>
           <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize', marginRight: 10}}>
-            {this.props.criteria.tag}
+            { indicator.content }
           </Text>
 
           { !!indicator.local_audio && <PlaySound filePath={indicator.local_audio} /> }

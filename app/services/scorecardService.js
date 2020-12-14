@@ -5,25 +5,24 @@ import CustomIndicatorApi from '../api/CustomIndicatorApi';
 const scorecardService = (() => {
   const scorecardApi = new ScorecardApi();
   const customIndicatorApi = new CustomIndicatorApi();
-  var scorecard, customIndicators, scorecard_uuid;
+  var scorecard, customIndicators, scorecard_uuid, progressNumber, totalNumber;
 
   return {
     upload
   }
 
-  function upload(uuid) {
+  function upload(uuid, callback) {
     scorecard_uuid = uuid;
     scorecard = realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0];
     customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${scorecard_uuid}'`);
+    progressNumber = 0;
+    let indicators = customIndicators.filter(x => !x.id_from_server);
+    totalNumber = indicators.length + 1;
 
-    if (!scorecard || !scorecard.isCompleted) {
-      return;
-    }
+    if (!scorecard || !scorecard.isCompleted) { return; }
 
     try {
-      let indicators = customIndicators.filter(x => !!x.id_from_server);
-
-      uploadCustomIndicator(0, indicators);
+      uploadCustomIndicator(0, indicators, callback);
     } catch (error) {
       console.log(error);
     }
@@ -31,13 +30,13 @@ const scorecardService = (() => {
 
   // ------Step1------
   // upload all custom criterias then upload scorecard with its dependcy
-  function uploadCustomIndicator(index, customIndicators) {
-    if (index == customIndicators.length) {
-      uploadScorecard();
+  function uploadCustomIndicator(index, indicators, callback) {
+    if (index == indicators.length) {
+      uploadScorecard(callback);
       return ;
     }
 
-    let customIndicator = customIndicators[index];
+    let customIndicator = indicators[index];
 
     customIndicatorApi.post(scorecard_uuid, customIndicatorData(customIndicator))
       .then(function (response) {
@@ -47,12 +46,13 @@ const scorecardService = (() => {
           });
         }
 
-        uploadCustomIndicator(index + 1, customIndicators);
+        updateProgress(callback);
+        uploadCustomIndicator(index + 1, indicators, callback);
       });
   }
 
   // ------Step2------
-  function uploadScorecard() {
+  function uploadScorecard(callback) {
     let attrs = scorecardAttr();
     attrs.facilitators_attributes = facilitatorsAttr();
     attrs.participants_attributes = participantsAttr();
@@ -62,12 +62,19 @@ const scorecardService = (() => {
 
     scorecardApi.put(scorecard_uuid, attrs)
       .then(function (response) {
-        if (response.status == 201) {
+        if (response.status == 200) {
           realm.write(() => {
             scorecard.uploaded = true;
           });
         }
+
+        updateProgress(callback);
       });
+  }
+
+  function updateProgress(callback) {
+    progressNumber++;
+    !!callback && callback( progressNumber / totalNumber );
   }
 
   // Praviate methods
