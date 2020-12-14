@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 
 class AddNewParticipantModal extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
     this.ageRef = React.createRef();
@@ -164,7 +165,12 @@ class AddNewParticipantModal extends Component {
     this.props.saveParticipant(participants, this.props.scorecardUuid);
     this.resetFormData();
     this.props.onDismiss();
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: attrs.uuid});
+
+    if (!!onSaveParticipant) {
+      onSaveParticipant(attrs.uuid);
+    } else {
+      this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: attrs.uuid});
+    }
   }
 
   closeModal = () => {

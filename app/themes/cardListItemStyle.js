@@ -1,5 +1,6 @@
 import Color from '../themes/color';
 import { StyleSheet } from 'react-native';
+import { FontFamily } from '../assets/stylesheets/theme/font';
 
 const cardListItemStyle = StyleSheet.create({
   container: {
@@ -10,16 +11,17 @@ const cardListItemStyle = StyleSheet.create({
     fontSize: 24,
     color: '#3a3a3a',
     marginBottom: 6,
-    fontWeight: 'bold'
+    fontFamily: FontFamily.title
   },
   h2: {
     fontSize: 20,
     color: '#3a3a3a',
     marginBottom: 6,
-    fontWeight: 'bold'
+    fontFamily: FontFamily.title
   },
   paragraph: {
     fontSize: 16,
+    paddingRight: 10,
     flex: 1
   },
   contentWrapper: {

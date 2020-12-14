@@ -9,36 +9,29 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from '../ActionButton';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
+import styles from '../../themes/participantListItemStyle';
 
 export default class ParticipantModal extends Component {
   static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-  }
-
-  getGenderIcon(gender) {
-    switch (gender) {
-      case 'female':
-        return 'human-female';
-      case 'male':
-        return 'human-male'
-      default:
-        return 'gender-transgender';
-    }
-  }
 
   onPressItem(item) {
     this.props.onDismiss();
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: item.uuid});
+    if (!!this.props.onPressItem) {
+      this.props.onPressItem(item.uuid);
+    } else {
+      this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: item.uuid});
+    }
   }
 
   renderGender = (participant) => {
-    if (participant === undefined) return <Text style={{marginLeft: 20}}>---</Text>;
-    if (participant.gender === '')
-      return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 20}} />;
+    if (participant === undefined) return (<Text style={{marginLeft: 20}}>---</Text>);
+
+    if (participant.gender === '') {
+      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 20}} />);
+    }
 
     const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
-    return <FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 20}} color="black" />;
+    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 20}} color="black" />);
   };
 
   renderParticipantItem(item, index) {
@@ -57,13 +50,15 @@ export default class ParticipantModal extends Component {
       <View>
         <TouchableOpacity onPress={() => this.onPressItem(item)} style={styles.participantItem}>
           <View style={styles.numberContainer}>
-            <Text style={styles.numberLabel}>{index+1}</Text>
+            <Text style={styles.numberLabel}>{item.order+1}</Text>
           </View>
+
           <View style={{flexDirection: 'row', flex: 1}}>
-            {this.renderGender(item)}
+            { this.renderGender(item) }
             <Text style={{marginLeft: 20}}>{item.age}</Text>
             <Text style={{marginLeft: 20}}>{description}</Text>
           </View>
+
           <MaterialIcon name="arrow-forward-ios" color="black" />
         </TouchableOpacity>
         <Divider />
@@ -137,55 +132,3 @@ export default class ParticipantModal extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    height: 450,
-    marginHorizontal: 30,
-    justifyContent: 'flex-start',
-  },
-  header: {
-    fontSize: 24,
-    fontFamily: FontFamily.title,
-    marginBottom: 20,
-    textTransform: 'capitalize',
-    flex: 1,
-  },
-  btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  numberContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'gray',
-  },
-  numberLabel: {
-    fontWeight: '700',
-    fontSize: 18,
-    color: 'white',
-    margin: 0,
-    marginTop: -4,
-    padding: 0,
-    textAlign: 'center',
-  },
-  button: {
-    paddingLeft: 15,
-    paddingRight: 20,
-    alignSelf: 'center',
-  },
-  buttonLabel: {
-    color: Color.primaryButtonColor,
-  },
-  participantItem: {
-    flexDirection: 'row',
-    borderWidth: 0,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-});

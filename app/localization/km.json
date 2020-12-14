@@ -60,7 +60,7 @@
   "facilitatorCannotDuplicate": "មិន​អាច​ជ្រើស​រើស​អ្នក​សម្រប​សម្រួល​ស្ទួន​",
   "facilitatorLeadRequirMsg": "ត្រូវ​ការ​អ្នក​ដឹក​នាំ​សម្រប​សម្រួល​",
   "otherFacilitatorRequireMsg": "ត្រូវ​ការ​អ្នក​សម្រប​សម្រួល​ផ្សេងៗ​",
-  "scorecardList": "Scorecard Activity List",
+  "scorecardList": "សកម្មភាពបណ្ណដាក់ពិន្ទុ",
   "noData": "Nothing available to display",
   "viewDetail": "មើលបន្ថែម",
   "resume": "បន្ត",
@@ -171,5 +171,9 @@
   "male": "បុរស",
   "otherGender": "ផ្សេងៗ",
   "optionYes": "មែន",
-  "optionNo": "មិនមែន"
+  "optionNo": "មិនមែន",
+  "numberOfCriteria": "ចំនួនលក្ខណៈវិនិច្ឆ័យ",
+  "status": "ដំណាក់កាល",
+  "progressScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលធ្វើមិនទាន់ចប់",
+  "completeScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលបានធ្វើចប់",
 }

@@ -25,6 +25,7 @@ export default class ScorecardItem extends Component {
     return (
       <View style={[styles.statusIconWrapper, wrapperStyle]}>
         <Icon name={iconName} type="FontAwesome5" style={{fontSize: 50, color: '#fff'}} />
+        { scorecard.uploaded && <Icon name={'lock-closed'}  style={{position: 'absolute', bottom: 6, right: 6, color: '#fff'}}/> }
       </View>
     )
   }
@@ -44,16 +45,16 @@ export default class ScorecardItem extends Component {
         { this.renderStatusIcon(scorecard) }
 
         <View style={styles.contentWrapper}>
-          <Text style={styles.title}>ID: {scorecard.name}</Text>
+          <Text style={styles.title}>ID: {scorecard.name} ({scorecard.uuid})</Text>
 
           <View style={styles.subTextWrapper}>
             <Icon name='people' style={styles.subTextIcon} />
-            <Text style={styles.subText}>Number of criteria: {criteriasSize}</Text>
+            <Text style={styles.subText}>{translations.numberOfCriteria}: {criteriasSize}</Text>
           </View>
 
           <View style={styles.subTextWrapper}>
             <Icon name='document-text' style={styles.subTextIcon} />
-            <Text style={styles.subText}>Status: {status}</Text>
+            <Text style={styles.subText}>{translations.status}: {status}</Text>
           </View>
 
           <View style={{flex: 1}}></View>

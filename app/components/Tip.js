@@ -51,7 +51,7 @@ export default class Tip extends Component {
           <View style={cardListItemStyle.contentWrapper}>
             <Text style={cardListItemStyle.h1}>{ translations.tips }</Text>
 
-            <Text style={cardListItemStyle.paragraph}>{ this.state.tip.description }</Text>
+            <Text numberOfLines={2} style={cardListItemStyle.paragraph}>{ this.state.tip.description }</Text>
 
             <View style={cardListItemStyle.viewDetail}>
               <Text>{translations.viewTips}</Text>
