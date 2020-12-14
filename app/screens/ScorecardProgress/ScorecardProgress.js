@@ -26,10 +26,6 @@ export default class ScorecardProgress extends Component {
       progressPercentag: 0,
       showProgress: false
     };
-
-    // realm.write(() => {
-    //   // scorecard.uploaded = false;
-    // })
   }
 
   _renderBtnDownload() {
@@ -49,7 +45,7 @@ export default class ScorecardProgress extends Component {
   }
 
   submitToServer() {
-    if (!this.state.scorecard.isCompleted || this.state.scorecard.uploaded) { return; }
+    if (!this.state.scorecard.isCompleted || this.state.scorecard.isUploaded) { return; }
     this.setState({showProgress: true});
 
     scorecardService.upload(this.state.scorecard.uuid, (progressPercentag) => {
@@ -65,7 +61,7 @@ export default class ScorecardProgress extends Component {
 
   _renderBtnSubmit() {
     const { translations } = this.context
-    const btnStyle = (this.state.scorecard.isCompleted && !this.state.scorecard.uploaded) ? { backgroundColor: Color.headerColor } : styles.btnDisabled;
+    const btnStyle = (this.state.scorecard.isCompleted && !this.state.scorecard.isUploaded) ? { backgroundColor: Color.headerColor } : styles.btnDisabled;
 
     return (
       <TouchableOpacity
@@ -73,7 +69,7 @@ export default class ScorecardProgress extends Component {
         style={[styles.btn, btnStyle]}>
 
         <Text style={{color: '#fff', fontWeight: 'bold'}}>{translations['submit']}</Text>
-        { this.state.scorecard.uploaded &&
+        { this.state.scorecard.isUploaded &&
           <Icon name={'lock-closed'}  style={{position: 'absolute', right: 6, color: '#fff'}}/>
         }
       </TouchableOpacity>

@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
+import RNFS from 'react-native-fs';
 
 const scorecardService = (() => {
   const scorecardApi = new ScorecardApi();
@@ -8,7 +9,8 @@ const scorecardService = (() => {
   var scorecard, customIndicators, scorecard_uuid, progressNumber, totalNumber;
 
   return {
-    upload
+    upload,
+    removeScorecardAsset
   }
 
   function upload(uuid, callback) {
@@ -64,7 +66,7 @@ const scorecardService = (() => {
       .then(function (response) {
         if (response.status == 200) {
           realm.write(() => {
-            scorecard.uploaded = true;
+            scorecard.uploaded_date = new Date().toDateString();
           });
         }
 
@@ -197,6 +199,56 @@ const scorecardService = (() => {
 
     return data;
   }
+
+  // ------------------Removing Scorecard--------------------
+
+  function removeScorecardAsset(uuid, callback) {
+    let scorecard = realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
+    let tables = ['CustomIndicator', 'Facilitator', 'Participant', 'ProposedCriteria', 'VotingCriteria', 'Rating'];
+
+    realm.write(() => {
+      for(let i=0; i<tables.length; i++) {
+        let collection = realm.objects(tables[i]).filtered(`scorecard_uuid='${uuid}'`);
+
+        if (tables[i] == 'CustomIndicator') {
+          removeAudioFiles(collection);
+        }
+
+        realm.delete(collection);
+      }
+
+      scorecard.deleted_date = new Date().toDateString();
+    })
+  }
+
+  function removeAudioFiles(collection) {
+    let filePaths = collection.map(x => x.local_audio).filter(path => !!path);
+
+    for(let i=0; i<filePaths.length; i++) {
+      deleteFile(filePaths[i]);
+    }
+  }
+
+  function deleteFile(filePath) {
+    RNFS.exists(filePath)
+      .then( (result) => {
+        console.log("file exists: ", result);
+
+        if (!result) { return; }
+
+        return RNFS.unlink(filePath)
+          .then(() => {
+            console.log('FILE DELETED');
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }
+
 })();
 
 export default scorecardService;
