@@ -55,7 +55,7 @@ export default class ParticipantModalListItem extends Component {
 
           <View style={{flexDirection: 'row', flex: 1}}>
             { this.renderGender(item) }
-            <Text style={{marginLeft: 20}}>{item.age}</Text>
+            <Text style={{marginLeft: 20}}>{translations.age}: {item.age}</Text>
             <Text style={{marginLeft: 20}}>{this.getDescription(item, translations)}</Text>
           </View>
 
