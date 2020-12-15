@@ -85,13 +85,13 @@ class ListUser extends Component {
           <Text style={styles.headingTitle}>{translations['listUser']}</Text>
           <Button
             onPress={() => this._showParticipantModal()}
-            iconLeft
-            style={{backgroundColor: Color.headerColor}}>
+            iconLeft>
             <Icon name='plus' type="FontAwesome" />
             <Text>{translations.proposeNewCriteria}</Text>
           </Button>
         </View>
         {this.renderUserTable()}
+
         <ParticipantModal
           participants={this.state.participants || []}
           visible={this.state.participantVisible}
