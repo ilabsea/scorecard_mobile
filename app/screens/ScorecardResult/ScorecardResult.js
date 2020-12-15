@@ -36,6 +36,12 @@ class ScorecardResult extends Component {
   }
 
   componentDidMount() {
+    realm.write(() => {
+      if (this.state.scorecard.status < 5) {
+        this.state.scorecard.status = '5';
+      }
+    });
+
     this.props.getAll(this.state.scorecard.uuid);
   }
 

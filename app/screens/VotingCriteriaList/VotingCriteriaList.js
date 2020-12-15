@@ -41,6 +41,12 @@ class VotingCriteriaList extends Component {
   }
 
   componentDidMount() {
+    realm.write(() => {
+      if (this.state.scorecard.status < 4) {
+        this.state.scorecard.status = '4';
+      }
+    });
+
     this.props.setVotingCriterias(this.state.votingCriterias, { scorecard_uuid: this.state.scorecard.uuid });
   }
 
@@ -72,12 +78,6 @@ class VotingCriteriaList extends Component {
   }
 
   _goNext() {
-    realm.write(() => {
-      if (this.state.scorecard.status < 5) {
-        this.state.scorecard.status = '5';
-      }
-    });
-
     this.goTo('ScorecardResult');
   }
 
