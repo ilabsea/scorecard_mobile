@@ -29,6 +29,7 @@ export default class CriteriaRatingItem extends Component {
     this.state = {
       currentScore: 0,
       languageRatingScales: [],
+      scorecard: realm.objects('Scorecard').filtered(`uuid='${this.props.criteria.scorecard_uuid}'`)[0]
     };
   }
 
@@ -57,6 +58,7 @@ export default class CriteriaRatingItem extends Component {
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
     const audioRatingAudio = this._getLanguageRatingScaleAudio(rating.label);
+
     return (
       <View style={[styles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
         <TouchableOpacity
@@ -81,11 +83,11 @@ export default class CriteriaRatingItem extends Component {
   }
 
   _getIndicator() {
-    const { appLanguage } = this.context;
     const { criteria } = this.props;
+    const audioLanguage = this.state.scorecard.audio_language_code;
 
     if ( criteria.indicatorable_type == 'predefined' ) {
-      let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${criteria.indicatorable_id}' AND language_code='${appLanguage}'`)[0];
+      let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${criteria.indicatorable_id}' AND language_code='${audioLanguage}'`)[0];
       indi = indi || realm.objects('Indicator').filtered(`id='${criteria.indicatorable_id}'`)[0];
       indi = JSON.parse(JSON.stringify(indi));
       indi.content = indi.content || indi.name;
