@@ -53,17 +53,17 @@ const App: () => React$Node = () => {
   });
 
   return (
-    <Provider store={store}>
-      <StyleProvider style={getTheme(material)}>
-        <PaperProvider style={{flex: 1}} theme={theme}>
-          <LocalizationProvider>
+    <LocalizationProvider>
+      <Provider store={store}>
+        <StyleProvider style={getTheme(material)}>
+          <PaperProvider style={{flex: 1}} theme={theme}>
             <NavigationContainer>
               { !loading && <AppNavigator /> }
             </NavigationContainer>
-          </LocalizationProvider>
-        </PaperProvider>
-      </StyleProvider>
-    </Provider>
+          </PaperProvider>
+        </StyleProvider>
+      </Provider>
+    </LocalizationProvider>
   );
 };
 

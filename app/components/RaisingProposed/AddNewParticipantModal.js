@@ -167,16 +167,19 @@ class AddNewParticipantModal extends Component {
       scorecard_uuid: this.props.scorecardUuid,
       order: participants.length,
     };
-    realm.write(() => {realm.create('Participant', attrs);});
-    this.props.saveParticipant(participants, this.props.scorecardUuid);
-    this.resetFormData();
-    this.props.onDismiss();
+    realm.write(() => {
+      let participant = realm.create('Participant', attrs);
 
-    if (!!this.props.onSaveParticipant) {
-      this.props.onSaveParticipant(attrs.uuid);
-    } else {
-      this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: attrs.uuid});
-    }
+      this.props.saveParticipant(participants, this.props.scorecardUuid);
+      this.resetFormData();
+      this.props.onDismiss();
+
+      if (!!this.props.onSaveParticipant) {
+        this.props.onSaveParticipant(participant);
+      } else {
+        this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: attrs.uuid});
+      }
+    });
   }
 
   closeModal = () => {
