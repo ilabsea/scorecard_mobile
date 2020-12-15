@@ -23,6 +23,8 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import participantListItemStyle from '../../themes/participantListItemStyle';
 import { submitVoting } from '../../services/votingCriteriaService';
 
+import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+
 class VotingCriteriaForm extends Component {
   static contextType = LocalizationContext;
 
@@ -32,9 +34,9 @@ class VotingCriteriaForm extends Component {
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
-      participant: realm.objects('Participant').filtered(`uuid='${props.route.params.participant_uuid}'`)[0],
       criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecard_uuid}'`))),
       isValid: false,
+      participant_uuid: props.route.params.participant_uuid,
     };
   }
 
@@ -66,41 +68,17 @@ class VotingCriteriaForm extends Component {
     )
   }
 
-  renderGender = (participant) => {
-    if (participant === undefined) return (<Text style={{marginLeft: 20}}>---</Text>);
-
-    if (participant.gender === '') {
-      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 20}} />);
-    }
-
-    const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
-    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 20}} color="black" />);
-  };
-
   _renderParticipant() {
-    const { translations } = this.context;
-    const { participant } = this.state;
-    let columns = ['disability', 'minority', 'poor', 'youth'];
-    let description = [];
-
-    for(let i=0; i<columns.length; i++) {
-      if(participant[columns[i]]) {
-        description.push(translations[columns[i]]);
-      }
-    }
-    description = description.join('; ');
-
     return (
-      <View style={participantListItemStyle.participantItem}>
-        <View style={participantListItemStyle.numberContainer}>
-          <Text style={participantListItemStyle.numberLabel}>{participant.order+1}</Text>
-        </View>
+      <View>
+        <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
 
-        <View style={{flexDirection: 'row', flex: 1}}>
-          { this.renderGender(participant) }
-          <Text style={{marginLeft: 20}}>{participant.age}</Text>
-          <Text style={{marginLeft: 20}}>{description}</Text>
-        </View>
+        <ParticipantInfo
+          scorecard_uuid={ this.props.route.params.scorecard_uuid }
+          participant_uuid={ this.props.route.params.participant_uuid }
+          onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
+          navigation={this.props.navigation}
+        />
       </View>
     )
   }
@@ -110,7 +88,6 @@ class VotingCriteriaForm extends Component {
 
     return (
       <ScrollView style={styles.container} contentContainerStyle={{padding: 20}}>
-        <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
         { this._renderParticipant() }
 
         <Text style={{marginTop: 30, marginBottom: -10, fontSize: 20}}>{translations.pleaseSelect}</Text>
@@ -121,12 +98,12 @@ class VotingCriteriaForm extends Component {
   }
 
   _submit() {
-    const { participant } = this.state;
+    const { participant_uuid } = this.state;
 
-    submitVoting(this.state.criterias, participant.uuid);
+    submitVoting(this.state.criterias, participant_uuid);
 
     realm.write(() => {
-      realm.create('Participant', {uuid: participant.uuid, voted: true}, 'modified');
+      realm.create('Participant', {uuid: participant_uuid, voted: true}, 'modified');
     });
 
     this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
