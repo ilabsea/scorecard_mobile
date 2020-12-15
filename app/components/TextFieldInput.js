@@ -39,12 +39,13 @@ class TextFieldInput extends Component {
     const {label, isRequire} = this.props;
     if (isRequire)
       return label + ' *';
-    
+
     return label;
   }
 
   onChangeText = (value) => {
-    const {translations} = ((!!this.context && this.context) || this.props);
+    const { translations } = (!!this.context && this.context) || this.props;
+
     this.setState({validationMsg: ''});
     const validationMsg = validationService(this.props.fieldName, value === '' ? undefined : value);
     this.setState({

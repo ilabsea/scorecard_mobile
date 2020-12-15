@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
@@ -14,13 +14,13 @@ class CriteriaAudioButton extends Component {
     this.audioFile = null;
     this.timeout = null;
     this.state = {
-      iconName: 'play-arrow',
+      iconName: 'volume-medium',
     };
   }
 
   componentWillReceiveProps(props) {
     if (props.playingIndicatorId != this.props.indicator.uuid) {
-      this.setState({iconName: 'play-arrow'});
+      this.setState({iconName: 'volume-medium'});
     }
   }
 
@@ -37,7 +37,7 @@ class CriteriaAudioButton extends Component {
     const _this = this;
     this.timeout = setInterval(() => {
       if (_this._audioPlayer === null || _this._audioPlayer.playState === PAUSED) {
-        this.setState({iconName: 'play-arrow'});
+        this.setState({iconName: 'volume-medium'});
         clearInterval(_this.timeout);
       }
       if (this.props.audioPlayer.audioFile != this.audioFile)
@@ -56,7 +56,7 @@ class CriteriaAudioButton extends Component {
     else if (this.props.audioPlayer.audioFile === this.audioFile)
       this._audioPlayer.handlePlay();
 
-    this.setState({iconName: this._audioPlayer.playState === PLAYING ? 'pause' : 'play-arrow'});
+    this.setState({iconName: this._audioPlayer.playState === PLAYING ? 'pause' : 'volume-medium'});
     if (this._audioPlayer.playState === PLAYING) this.watchAudioPlayerState()
     this.props.updateAudioState(this.props.indicator.uuid, this._audioPlayer);
   }
@@ -66,7 +66,8 @@ class CriteriaAudioButton extends Component {
       <View style={{justifyContent: 'center'}}>
         { this.hasAudio() &&
           <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioButton}>
-            <MaterialIcon name={this.state.iconName} color="#ffffff" size={25} />
+
+            <Icon name={this.state.iconName} style={{ color: '#fff'}} />
           </TouchableOpacity>
         }
       </View>
