@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
-import TipBox from './TipBox';
+import Tip from '../Tip';
 import CriteriaList from './CriteriaList';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
@@ -45,7 +45,8 @@ class UserListing extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
-          <TipBox/>
+          <Tip/>
+
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
           <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
             scorecardUUID={this.props.scorecardUUID}
