@@ -145,7 +145,7 @@ class VotingCriteriaList extends Component {
           visible={this.state.addParticipantVisible}
           onDismiss={() => this.setState({addParticipantVisible: false})}
           onClose={() => this._hideAddParticipantModal()}
-          scorecardUuid={this.props.scorecardUUID}
+          scorecardUuid={this.state.scorecard.uuid}
           navigation={this.props.navigation}
           onSaveParticipant={(participantUuid) => this._goToVotingForm(participantUuid)}
         />
