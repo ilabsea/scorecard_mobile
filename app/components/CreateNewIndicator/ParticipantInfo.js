@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import { View, TouchableOppacity } from 'react-native';
 
 import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
+import { Icon, Button, Text } from 'native-base';
 
 import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
 import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
@@ -24,6 +25,18 @@ export default class ParticipantInfo extends Component {
 
   _renderParticipant() {
     const { translations } = this.context;
+    const { mode } = this.props;
+
+    if (!!mode && mode.type == 'button') {
+      return (
+        <Button
+          onPress={() => this.setState({participantVisible: true}) }
+          iconLeft>
+          <Icon name={mode.iconName || 'plus'} type="FontAwesome" />
+          <Text>{mode.label}</Text>
+        </Button>
+      )
+    }
 
     return (
       <ParticipantModalListItem
@@ -49,6 +62,10 @@ export default class ParticipantInfo extends Component {
   }
 
   _onCreateNewParticipant(participant) {
+    if (!!this.props.onPressCreateParticipant) {
+      return this.props.onPressCreateParticipant(participant);
+    }
+
     this.setState({
       currentParticipant: participant,
       addParticipantVisible: false
@@ -58,6 +75,10 @@ export default class ParticipantInfo extends Component {
   }
 
   _onPressItem(participant) {
+    if (!!this.props.onPressItem) {
+      return this.props.onPressItem(participant);
+    }
+
     this.setState({currentParticipant: participant, participantVisible: false});
 
     !!this.props.onGetParticipant && this.props.onGetParticipant(participant);

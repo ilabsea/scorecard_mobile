@@ -4,19 +4,19 @@ import {Button, Icon, Text} from 'native-base';
 import {LocalizationContext} from '../Translations';
 import UserTable from './UserTable';
 import realm from '../../db/schema';
-import {connect} from 'react-redux';
-import ParticipantModal from './ParticipantModal';
-import AddNewParticiantModal from './AddNewParticipantModal';
-import Color from '../../themes/color';
-import {getRaisedParticipants} from '../../services/participant_service';
+import { connect } from 'react-redux';
+import { getRaisedParticipants } from '../../services/participant_service';
+
+import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+
 class ListUser extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
+
     this.state = {
       participants: [],
-      participantVisible: false,
-      addParticiantVisible: false,
     };
   }
 
@@ -50,64 +50,34 @@ class ListUser extends Component {
   renderUserTable = () => {
     const tableHead = ['No', 'Age', 'Gender', 'Disability', 'Indicator Type', 'Note', 'Action'];
     const tableData = this.getParticipant();
+
     return (
       <UserTable tableHead={tableHead} tableData={tableData} scorecardUUID={this.props.scorecardUUID} navigation={this.props.navigation} />
     );
   };
 
-  _showParticipantModal = () => {
-    let participants = realm.objects('Participant').filtered(`scorecard_uuid='${this.props.scorecardUUID}' AND raised=false`).sorted('order', false);
-    this.setState({
-      participantVisible: true,
-      participants: participants,
-    });
-  };
-
-  _showAddParticipantModal = () => {
-    this.setState({
-      participantVisible: false,
-      addParticipantVisible: true,
-    });
-  }
-
-  _hideAddParticipantModal = () => {
-    this.setState({
-      addParticipantVisible: false,
-      participantVisible: true,
-    });
+  _goToCreateNewIndicator(participant_uuid) {
+    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUUID, participant_uuid: participant_uuid});
   }
 
   render() {
     const {translations} = this.context;
+
     return (
       <View style={{marginTop: 40}}>
         <View style={styles.headingContainer}>
           <Text style={styles.headingTitle}>{translations['listUser']}</Text>
-          <Button
-            onPress={() => this._showParticipantModal()}
-            iconLeft>
-            <Icon name='plus' type="FontAwesome" />
-            <Text>{translations.proposeNewCriteria}</Text>
-          </Button>
+
+          <ParticipantInfo
+            scorecard_uuid={ this.props.scorecardUUID }
+            mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
+            onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
+            onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
+            navigation={this.props.navigation}/>
+
         </View>
-        {this.renderUserTable()}
 
-        <ParticipantModal
-          participants={this.state.participants || []}
-          visible={this.state.participantVisible}
-          scorecardUuid={this.props.scorecardUUID}
-          navigation={this.props.navigation}
-          onDismiss={() => this.setState({participantVisible: false})}
-          showAddParticipantModal={() => this._showAddParticipantModal()}
-        />
-
-        <AddNewParticiantModal
-          visible={this.state.addParticipantVisible}
-          onDismiss={() => this.setState({addParticipantVisible: false})}
-          onClose={() => this._hideAddParticipantModal()}
-          scorecardUuid={this.props.scorecardUUID}
-          navigation={this.props.navigation}
-        />
+        { this.renderUserTable() }
       </View>
     );
   }
