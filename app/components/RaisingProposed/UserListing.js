@@ -42,7 +42,6 @@ class UserListing extends Component {
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
           <Tip/>
-
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
           <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
             scorecardUUID={this.props.scorecardUUID}
