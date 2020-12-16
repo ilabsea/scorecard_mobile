@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
-  FlatList
+  ScrollView,
 } from 'react-native';
 
 import { Icon, Button, Text } from 'native-base';
@@ -14,14 +14,11 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import ActionButton from '../../components/ActionButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
-import uuidv4 from '../../utils/uuidv4';
 
 import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
-import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
-import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
 class VotingCriteriaList extends Component {
@@ -60,15 +57,7 @@ class VotingCriteriaList extends Component {
   }
 
   _renderList() {
-    let data = this.props.votingCriterias;
-
-    return (
-      <FlatList
-        data={data}
-        renderItem={item => <VotingCriteriaListItem criteria={item.item}/>}
-        keyExtractor={item => uuidv4()}
-      />
-    )
+    return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index}/>);
   }
 
   goTo(routName) {
@@ -90,7 +79,7 @@ class VotingCriteriaList extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{flexDirection: 'row', marginVertical: 20}}>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
 
           <ParticipantInfo
@@ -102,24 +91,28 @@ class VotingCriteriaList extends Component {
         </View>
 
         { this._renderList() }
-
-        <ActionButton
-          onPress={() => this._goNext()}
-          customBackgroundColor={Color.headerColor}
-          label={translations.next}/>
       </View>
     )
   }
 
   render() {
+    const { translations } = this.context;
+
     return (
       <View style={{height: '100%'}}>
         { this._renderHeader() }
 
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Tip />
 
           { this._renderContent() }
+        </ScrollView>
+
+        <View style={styles.container}>
+          <ActionButton
+            onPress={() => this._goNext()}
+            customBackgroundColor={Color.headerColor}
+            label={translations.next}/>
         </View>
       </View>
     )
@@ -147,7 +140,6 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    flex: 1
   },
   h1: {
     fontSize: 24,

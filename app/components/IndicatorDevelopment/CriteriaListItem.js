@@ -13,22 +13,15 @@ import { LocalizationContext } from '../Translations';
 import { useDispatch } from 'react-redux';
 import { setModalCriteria, setModalVisible} from '../../actions/criteriaModalAction';
 import realm from '../../db/schema';
+import { getDisplayIndicator } from '../../services/indicator_service';
 
 const CriteriaListItem = (props) => {
   const { translations, appLanguage } = useContext(LocalizationContext); // 1
   const dispatch = useDispatch();
   const scorecard = realm.objects('Scorecard').filtered(`uuid='${props.criteria.scorecard_uuid}'`)[0];
+  const indicator = getDisplayIndicator(props.criteria, scorecard);
 
   const showPopup = () => {
-    let indicator;
-
-    if ( props.criteria.indicatorable_type == 'predefined' ) {
-      indicator = JSON.parse(JSON.stringify(realm.objects('LanguageIndicator').filtered(`indicator_id='${props.criteria.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0]));
-      indicator.tag = props.criteria.tag;
-    } else {
-      indicator = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${props.criteria.indicatorable_id}'`)[0]));
-    }
-
     dispatch(setModalCriteria(indicator));
     dispatch(setModalVisible(true));
   }
@@ -36,11 +29,11 @@ const CriteriaListItem = (props) => {
   return (
     <View style={styles.item}>
       <View style={styles.criteriaWrapper}>
-        <TouchableOpacity style={styles.criteria} onPress={() => showPopup()}>
-          <Text style={{color: '#fff', paddingHorizontal: 6}}>{props.criteria.tag} ({props.criteria.count})</Text>
-        </TouchableOpacity>
-
-        <View style={{flex: 1}}></View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <TouchableOpacity style={styles.criteria} onPress={() => showPopup()}>
+            <Text style={{color: '#fff', paddingHorizontal: 10}} numberOfLines={1}>{props.criteria.tag} ({props.criteria.count})</Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           onPress={ () => props.onPress() }

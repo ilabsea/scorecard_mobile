@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 
 class UserListing extends Component {
   static contextType = LocalizationContext;
+
   onPress = () => {
     this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
   }
@@ -44,7 +45,7 @@ class UserListing extends Component {
           <Tip/>
 
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
-          <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
+          <ListUser
             scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}
           />

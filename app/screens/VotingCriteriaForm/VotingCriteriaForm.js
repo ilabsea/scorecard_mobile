@@ -87,7 +87,7 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{padding: 20}}>
+      <ScrollView style={styles.container} contentContainerStyle={{padding: 16}}>
         { this._renderParticipant() }
 
         <Text style={{marginTop: 30, marginBottom: -10, fontSize: 20}}>{translations.pleaseSelect}</Text>

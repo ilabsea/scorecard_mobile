@@ -19,10 +19,6 @@ class RaisingProposed extends Component {
     })
   }
 
-  openCreateNewIndicatorScreen = () => {
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.route.params.scorecard_uuid});
-  };
-
   render() {
     const {translations} = this.context;
     return (
@@ -34,7 +30,6 @@ class RaisingProposed extends Component {
         />
         <UserListing
           scorecardUUID={this.props.route.params.scorecard_uuid}
-          openCreateNewIndicatorScreen={() => this.openCreateNewIndicatorScreen()}
           navigation={this.props.navigation}
         />
       </View>

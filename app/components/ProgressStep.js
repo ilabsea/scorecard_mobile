@@ -9,10 +9,15 @@ import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import { LocalizationContext } from './Translations';
 
 const badgeSize = 24;
+const titleWidth = 120;
+const lineWidth = titleWidth - 40;
 
 export default class ProgressStep extends Component {
+  static contextType = LocalizationContext;
+
   _renderNumber(title, index) {
     let isDone = this.props.progressIndex >= index;
     let iconStyle = isDone ? {backgroundColor: '#fff'} : {};
@@ -41,18 +46,22 @@ export default class ProgressStep extends Component {
     )
   }
 
-  _getData() {
-    return (this.props.steps || [
-      "Scorecard preference",
-      "Facilitator list",
-      "Paticipate information",
-      "Proposed Criteria"
-    ]);
+  _buildDefaultStep() {
+    const { translations } = this.context;
+
+    let steps = [
+      "scorecardPreference",
+      "facilitatorList",
+      "participantInformation",
+      "proposedCriteria"
+    ]
+
+    return steps.map(step => translations[step]);
   }
 
   _renderList() {
     let doms = [];
-    let steps = this._getData();
+    let steps = this.props.steps || this._buildDefaultStep();
 
     for(let i=0; i<steps.length; i++) {
       doms.push(this._renderNumber(steps[i], i));
@@ -84,9 +93,8 @@ const styles = StyleSheet.create({
   line: {
     height: 2,
     backgroundColor: Color.horizontalLineColor,
-    width: 100,
-    marginLeft: -50,
-    marginRight: -50,
+    width: lineWidth,
+    marginHorizontal: -(lineWidth/2),
     marginTop: badgeSize/2,
     alignSelf: 'flex-start'
   },
@@ -107,7 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingHorizontal: 2,
     fontSize: 16,
-    width: 140,
+    width: titleWidth,
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },

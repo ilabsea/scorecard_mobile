@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#003b5c',
     flexDirection: 'row',
     height: 86,
-    width: 360,
+    width: '65%',
+    maxWidth: 360,
     alignItems: 'center',
     borderRadius: 8,
     marginTop: 20

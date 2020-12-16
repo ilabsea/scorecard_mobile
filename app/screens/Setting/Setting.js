@@ -138,7 +138,6 @@ class Setting extends Component {
         placeholder={translations["selectLanguage"]}
         searchablePlaceholder={translations["searchForLanguage"]}
         zIndex={6000}
-        customLabelStyle={{zIndex: 6001}}
         showCustomArrow={false}
         onChangeItem={this.changeLocale}
         mustHasDefaultValue={true}

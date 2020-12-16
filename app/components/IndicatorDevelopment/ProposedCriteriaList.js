@@ -31,7 +31,7 @@ class ProposedCriteriaList extends Component {
 
     return (
       <View style={[customStyle.card, { flex: 1 }]}>
-        <Text style={styles.header}>{translations.proposedList} ({data.length})</Text>
+        <Text style={styles.title}>{translations.proposedList} ({data.length})</Text>
 
         <FlatList
           data={data}
@@ -66,7 +66,7 @@ export default connect(
 )(ProposedCriteriaList);
 
 const styles = StyleSheet.create({
-  header: {
+  title: {
     fontSize: 18,
     padding: 20,
     fontFamily: FontFamily.title,

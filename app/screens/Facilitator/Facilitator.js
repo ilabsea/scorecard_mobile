@@ -68,11 +68,8 @@ class Facilitator extends Component {
             placeholder={translations['selectFacilitator']}
             searchablePlaceholder={translations['searchForFacilitator']}
             zIndex={pickerzIndex}
-            customLabelStyle={customLabelStyle}
-            showCustomArrow={true}
             onChangeItem={(text) => this.onChangeFacilitator(text, index + 1)}
             itemIndex={itemIndex}
-            mustHasDefaultValue={false}
             key={uuidv4()}
           />
         );

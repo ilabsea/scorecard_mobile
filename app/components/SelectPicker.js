@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, InteractionManager} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../themes/color';
-import {LocalizationContext} from './Translations';
+import { LocalizationContext } from './Translations';
 
 class SelectPicker extends Component {
   static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-  }
 
   getDefaultValue = (items, value) => {
     if (items.length === 0) return null;
@@ -23,38 +20,26 @@ class SelectPicker extends Component {
   };
 
   dropDownArrowRight = () => {
-    const { translations } = ((!!this.context && this.context) || this.props);
-    const {showCustomArrow} = this.props;
+    const { translations } = this.context;
+    const { showCustomArrow } = this.props;
 
-    if (showCustomArrow) {
-      return (
-        <View style={{flexDirection: 'row'}}>
+    return (
+      <View style={{flexDirection: 'row'}}>
+        { showCustomArrow &&
           <Text
             style={{color: Color.clickableColor, textTransform: 'uppercase'}}>
             {translations['choose']}
           </Text>
-          <MaterialIcon
-            size={25}
-            name="keyboard-arrow-down"
-            style={{marginTop: -2}}
-            color="black"
-          />
-        </View>
-      );
-    } else {
-      return (
+        }
+
         <MaterialIcon
           size={25}
           name="keyboard-arrow-down"
           style={{marginTop: -2}}
           color="black"
         />
-      );
-    }
-  };
-
-  dropDownZindex = (zIndex) => {
-    return {zIndex: zIndex};
+      </View>
+    );
   };
 
   getLabel = () => {
@@ -69,37 +54,29 @@ class SelectPicker extends Component {
     const {
       items,
       selectedItem,
-      placeholder,
-      searchablePlaceholder,
-      searchable,
+      zIndex,
       customLabelStyle,
       customDropDownContainerStyle,
-      zIndex,
       onChangeItem,
       customContainerStyle,
-      isSearchable,
     } = this.props;
 
     return (
       <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
-        <Text style={[styles.inputLabel, customLabelStyle]}>
-          {this.getLabel()}
+        <Text style={[styles.inputLabel, {zIndex: (zIndex + 1)}, customLabelStyle]}>
+          { this.getLabel() }
         </Text>
+
         <DropDownPicker
-          items={items}
+          { ...this.props }
           defaultValue={this.getDefaultValue(items, selectedItem)}
-          placeholder={placeholder}
-          searchablePlaceholder={searchablePlaceholder}
-          zIndex={zIndex}
-          searchable={searchable}
           containerStyle={[styles.dropDownContainerStyle, customContainerStyle]}
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
           dropDownMaxHeight={200}
-          dropDownStyle={[{backgroundColor: 'white', opacity: 100}, this.dropDownZindex(zIndex)]}
+          dropDownStyle={[{backgroundColor: 'white', zIndex: zIndex}]}
           labelStyle={{fontSize: 16}}
           customArrowDown={() => this.dropDownArrowRight()}
-          onChangeItem={(item) => onChangeItem(item)}
         />
       </View>
     );
@@ -111,12 +88,14 @@ SelectPicker.defaultProps = {
   selectedItem: '',
   placeholder: '',
   searchablePlaceholder: '',
-  searchable: true,
+  searchable: false,
   customLabelStyle: {},
   customDropDownContainerStyle: {},
   zIndex: 1,
   onChangeItem: () => {},
   itemIndex: 0,
+  mustHasDefaultValue: false,
+  showCustomArrow: true,
 };
 
 const styles = StyleSheet.create({

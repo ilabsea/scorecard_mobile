@@ -64,79 +64,52 @@ class AddNewParticipantModal extends Component {
           value={age.toString()}
           isRequire={true}
           label={translations['age']}
-          searchable={false}
           placeholder={translations['enterAge']}
           fieldName="age"
           onChangeText={this.onChangeValue}
           isSecureEntry={false}
           maxLength={2}
           keyboardType="number-pad"
-          translations={translations}
         />
         <SelectPicker
           items={gender}
           selectedItem={selectedGender}
           label={translations['gender']}
-          searchable={false}
           zIndex={9000}
-          customLabelStyle={{zIndex: 9001}}
-          showCustomArrow={true}
           onChangeItem={(text) =>
             this.onChangeValue('selectedGender', text.value)
           }
-          mustHasDefaultValue={false}
           customDropDownContainerStyle={{marginTop: -10}}
-          translations={translations}
         />
         <SelectPicker
           items={choices}
           selectedItem={isDisability}
           label={translations['disability']}
-          searchable={false}
           zIndex={8000}
-          customLabelStyle={{zIndex: 8001}}
-          showCustomArrow={true}
           onChangeItem={(text) =>
             this.onChangeValue('isDisability', text.value)
           }
-          mustHasDefaultValue={false}
-          translations={translations}
         />
         <SelectPicker
           items={choices}
           selectedItem={isMinority}
           label="Minority"
-          searchable={false}
           zIndex={7000}
-          customLabelStyle={{zIndex: 7001}}
-          showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
-          mustHasDefaultValue={false}
-          translations={translations}
         />
         <SelectPicker
           items={choices}
           selectedItem={isPoor}
           label={translations['poor']}
-          searchable={false}
           zIndex={6000}
-          customLabelStyle={{zIndex: 6001}}
-          showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
-          mustHasDefaultValue={false}
-          translations={translations}
         />
         <SelectPicker
           items={choices}
           selectedItem={isYouth}
           label={translations['youth']}
-          searchable={false}
           zIndex={5000}
-          customLabelStyle={{zIndex: 5001}}
-          showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
-          mustHasDefaultValue={false}
-          translations={translations}
         />
       </View>
     );
@@ -174,11 +147,7 @@ class AddNewParticipantModal extends Component {
       this.resetFormData();
       this.props.onDismiss();
 
-      if (!!this.props.onSaveParticipant) {
-        this.props.onSaveParticipant(participant);
-      } else {
-        this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: attrs.uuid});
-      }
+      !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
     });
   }
 

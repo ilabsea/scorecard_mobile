@@ -64,7 +64,7 @@
   "noData": "Nothing available to display",
   "viewDetail": "មើលបន្ថែម",
   "resume": "បន្ត",
-  "submit": "SUBMIT",
+  "submit": "ដាក់ស្នើ",
   "resumeDownload": "RESUME DOWNLOAD",
   "participantInformation": "ព័ត៌មាន​អ្នកចូលរួម",
   "allParticipant": "អ្នក​ចូល​រួម​សរុប​",
@@ -134,7 +134,7 @@
   "voting": "ការដាក់ពិន្ទុ",
   "scorecardResult": "លទ្ធផលនៃ ការដាក់ពិន្ទុ",
   "newVote": "ធ្វើការដាក់ពិន្ទុ",
-  "top_indicators": "លក្ខណៈវិនិច្ឆ័យទាំង",
+  "top_indicators": "លក្ខណៈវិនិច្ឆ័យ",
   "proposedList": "លក្ខណៈវិនិច្ឆ័យ-លើកឡើង",
   "selectedList": "លក្ខណៈវិនិច្ឆ័យ​-ជ្រើសរើស",
   "choose_selected_criteria_below": "Choose selected criteria below",
@@ -178,4 +178,5 @@
   "completeScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលបានធ្វើចប់",
   "deletedScorecard": "លុបប័ណ្ណពិន្ទុ",
   "theScorecardDeleted": "ប័ណ្ណដាក់ពិន្ទុនេះត្រូវបានលុប!",
+  "step": "ជំហ៊ាន",
 }

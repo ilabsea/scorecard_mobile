@@ -25,18 +25,19 @@ const cardListItemStyle = StyleSheet.create({
     flex: 1
   },
   contentWrapper: {
-    paddingLeft: 20,
+    paddingLeft: 16,
     paddingTop: 10,
     flex: 1
   },
   statusIconWrapper: {
-    width: 160,
+    width: '23%',
+    maxWidth: 160,
     backgroundColor: Color.tipBgColor,
     alignItems: 'center',
     justifyContent: 'center'
   },
   listItem: {
-    height: 180,
+    minHeight: 170,
     marginBottom: 20,
     flexDirection: 'row',
   },

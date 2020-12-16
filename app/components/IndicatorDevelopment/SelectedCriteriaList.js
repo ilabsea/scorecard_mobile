@@ -41,13 +41,15 @@ class SelectedCriteriaList extends Component {
         <View style={styles.header}>
           <Text style={styles.title}>{translations.selectedList} ({this.props.selectedCriterias.length})</Text>
 
-          <TouchableOpacity
-            onPress={() => this._handleRemoveAll()}
-            style={styles.btnRemoveAll}>
+          <View style={{flexGrow: 1, alignItems: 'flex-end' }}>
+            <TouchableOpacity
+              onPress={() => this._handleRemoveAll()}
+              style={[styles.btnRemoveAll]}>
 
-            <Icon name='remove-circle' style={styles.removeIcon} />
-            <Text style={styles.textRemove}>{translations.removeAll}</Text>
-          </TouchableOpacity>
+              <Icon name='remove-circle' style={styles.removeIcon} />
+              <Text style={styles.textRemove}>{translations.removeAll}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <FlatList
@@ -93,22 +95,23 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: Color.headerColor,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
   title: {
     fontSize: 18,
     padding: 20,
     fontFamily: FontFamily.title,
     color: '#fff',
-    flex: 1
   },
   textRemove: {
     color: '#fff',
     fontFamily: FontFamily.title,
   },
   btnRemoveAll: {
-    marginRight: 16,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
   },
   removeIcon: {
     fontSize: 20,
