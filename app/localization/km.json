@@ -176,6 +176,6 @@
   "status": "ដំណាក់កាល",
   "progressScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលធ្វើមិនទាន់ចប់",
   "completeScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលបានធ្វើចប់",
-  "deletedScorecard": "Deleted Scorecard",
-  "theScorecardDeleted": "The scorecard is deleted!",
+  "deletedScorecard": "លុបប័ណ្ណពិន្ទុ",
+  "theScorecardDeleted": "ប័ណ្ណដាក់ពិន្ទុនេះត្រូវបានលុប!",
 }
