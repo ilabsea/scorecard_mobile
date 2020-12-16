@@ -48,7 +48,7 @@ class ScorecardDetail extends Component {
     this.setState({detail: scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
-    this.checkSavedRatingScale();
+    this.checkSavedRatingScale(scorecard.program_id);
   }
 
   checkSavedIndicator = () => {
@@ -70,7 +70,7 @@ class ScorecardDetail extends Component {
     this.fetchCafFromApi(async (response) => {
       const cafs = await response;
       this.setState({
-        isCafDownloaded: await isAllCafDownloaded(cafs),
+        isCafDownloaded: await isAllCafDownloaded(cafs, this.state.detail.local_ngo_id),
         isFinishChecking: true,
       });
       this.refs.loading.show(false);
@@ -80,9 +80,9 @@ class ScorecardDetail extends Component {
     });
   }
 
-  checkSavedRatingScale = () => {
+  checkSavedRatingScale = (programId) => {
     this.setState({
-      isRatingScaleDownloaded: isAllRatingScaleDownloaded(this.state.detail.program_id)
+      isRatingScaleDownloaded: isAllRatingScaleDownloaded(programId)
     })
   }
 
@@ -161,7 +161,7 @@ class ScorecardDetail extends Component {
   };
 
   startScorecard = () => {
-    this.props.navigation.navigate('ScorecardPreference', {scorecard_uuid: this.props.route.params.scorecard_uuid});
+    this.props.navigation.navigate('ScorecardPreference', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.state.detail.local_ngo_id});
   }
 
   isFullyDownloaded = () => {

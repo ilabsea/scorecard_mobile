@@ -8,7 +8,6 @@ const saveCaf = async (scorecardUUID, cafs, updateDownloadPercentage, callback) 
       id: caf.id,
       name: caf.name,
       local_ngo_id: caf['local_ngo_id'],
-      scorecard_uuid: scorecardUUID,
     };
     realm.write(() => {
       realm.create('Caf', cafSet, 'modified');

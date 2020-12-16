@@ -13,8 +13,8 @@ const isAllIndicatorDownloaded = async (apiIndicators, facilityId) => {
   return indicators.length === apiIndicators.length ? true : false;
 };
 
-const isAllCafDownloaded = async (apiCafs) => {
-  const cafs = await _getDataFromLocalStorage('Caf', null);
+const isAllCafDownloaded = async (apiCafs, localNgoId) => {
+  const cafs = realm.objects('Caf').filtered(`local_ngo_id == ${localNgoId}`);
   return cafs.length === apiCafs.length ? true : false;
 };
 
@@ -38,6 +38,10 @@ const isAllRatingScaleDownloaded = async (programId) => {
   const response = await ratingScaleApi.load(programId);
   const ratingScales = response.data;
   const savedRatingScales = realm.object('RatingScale').filtered(`program_id == ${programId}`);
+
+  if (savedRatingScales[0] === undefined || !response)
+    return false;
+
   return ratingScales.length === savedRatingScales.length;
 }
 

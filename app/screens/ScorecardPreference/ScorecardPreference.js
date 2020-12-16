@@ -103,7 +103,7 @@ class ScorecardPreference extends Component {
     realm.write(() => {
       realm.create('Scorecard', attrs, 'modified');
     });
-    this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid});
+    this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }
 
   renderForm = () => {
