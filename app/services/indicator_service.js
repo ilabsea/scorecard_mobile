@@ -1,10 +1,12 @@
 import realm from '../db/schema';
 import {getDownloadPercentage} from './scorecard_detail_service';
+import uuidv4 from '../utils/uuidv4';
 
 const saveIndicator =  (scorecardUUID, indicators, updateDownloadPercentage, callback) => {
   let savedCount = 0;
   indicators.map((indicator) => {
     const indicatorSet = {
+      uuid: uuidv4(),
       id: indicator.id,
       name: indicator.name,
       facility_id: indicator.categorizable.id,
@@ -28,4 +30,11 @@ const getIndicatorShortcutName = (indicatorName) => {
   return indicatorName.includes(':') ? indicatorName.split(':')[0] : indicatorName.substr(0, 4);
 }
 
-export {saveIndicator, getIndicatorName, getIndicatorShortcutName};
+const getSavedIndicators = (scorecardUuid) => {
+  const facilityId = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0].facility_id;
+  let predefinedIndicators = JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
+  const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`)));
+  return predefinedIndicators.concat(customIndicators);
+}
+
+export {saveIndicator, getIndicatorName, getIndicatorShortcutName, getSavedIndicators};

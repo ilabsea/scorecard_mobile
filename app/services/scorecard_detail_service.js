@@ -2,18 +2,19 @@ import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../db/schema';
 import {readAllFiles} from './local_file_system_service';
 import {getAudioFilename} from './audio_service';
+import RatingScaleApi from '../api/RatingScaleApi';
 
 const _getScorecardUUID = async () => {
   return await AsyncStorage.getItem('SELECTED_SCORECARD_UUID');
 }
 
-const isAllIndicatorDownloaded = async (apiIndicators) => {
-  const indicators = await _getDataFromLocalStorage('Indicator');
+const isAllIndicatorDownloaded = async (apiIndicators, facilityId) => {
+  const indicators = await _getDataFromLocalStorage('Indicator', facilityId);
   return indicators.length === apiIndicators.length ? true : false;
 };
 
 const isAllCafDownloaded = async (apiCafs) => {
-  const cafs = await _getDataFromLocalStorage('Caf');
+  const cafs = await _getDataFromLocalStorage('Caf', null);
   return cafs.length === apiCafs.length ? true : false;
 };
 
@@ -31,6 +32,14 @@ const CheckAllAudioDownloaded = async (indicators, callback) => {
     }
   });
 };
+
+const isAllRatingScaleDownloaded = async (programId) => {
+  const ratingScaleApi = new RatingScaleApi();
+  const response = await ratingScaleApi.load(programId);
+  const ratingScales = response.data;
+  const savedRatingScales = realm.object('RatingScale').filtered(`program_id == ${programId}`);
+  return ratingScales.length === savedRatingScales.length;
+}
 
 const _getLangIndicatorAudios = (indicators) => {
   let files = [];
@@ -62,15 +71,21 @@ const _isAudioDownloaded = (downloadedFiles, audioFilesName) => {
   return fileCount === downloadedFileCount ? true : false;
 }
 
-const _getDataFromLocalStorage = async (schema) => {
-  const scorecardUUID = await _getScorecardUUID();
-  const realmData = realm.objects(schema).filtered('scorecard_uuid = "' + scorecardUUID + '"');
+const _getDataFromLocalStorage = async (schema, facilityId) => {
+  let realmData = [];
+  if (schema === 'Indicator')
+    realmData = realm.objects(schema).filtered('facility_id = "' + facilityId + '"');
+  else {
+    const scorecardUUID = await _getScorecardUUID();
+    realmData = realm.objects(schema).filtered('scorecard_uuid = "' + scorecardUUID + '"');
+  }
+
   let data = JSON.stringify(realmData);
   return JSON.parse(data);
 }
 
 const getDownloadPercentage = (amountOfData) => {
-  return 25 / (amountOfData * 100);
+  return 20 / (amountOfData * 100);
 }
 
-export {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, getDownloadPercentage};
+export {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, getDownloadPercentage, isAllRatingScaleDownloaded};

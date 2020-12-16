@@ -13,11 +13,12 @@ import BottomButton from '../../components/BottomButton';
 import {connect} from 'react-redux';
 import {loadIndicatorListAction} from '../../actions/indicatorAction';
 import {loadCafListAction} from '../../actions/cafAction';
-import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded} from '../../services/scorecard_detail_service';
+import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, isAllRatingScaleDownloaded} from '../../services/scorecard_detail_service';
 import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';
 import {saveAudio} from '../../services/audio_service';
+import ratingScaleService  from '../../services/rating_scale_service';
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
@@ -35,6 +36,7 @@ class ScorecardDetail extends Component {
       isStopDownloadCaf: true,
       isStopDownloadAudio: true,
       isFinishChecking: false,
+      isRatingScaleDownloaded: false,
       downloadProgress: 0,
       showDownloadProgress: false,
     };
@@ -46,13 +48,14 @@ class ScorecardDetail extends Component {
     this.setState({detail: scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
+    this.checkSavedRatingScale();
   }
 
   checkSavedIndicator = () => {
     this.refs.loading.show();
     this.fetchIndicatorFromApi(async (response) => {
       const indicators = await response;
-      const isIndicatorsDownloaded = await isAllIndicatorDownloaded(indicators)
+      const isIndicatorsDownloaded = await isAllIndicatorDownloaded(indicators, this.state.detail.facility_id);
       this.setState({
         isIndicatorDownloaded: isIndicatorsDownloaded,
         isLanguageIndicatorDownloaded: isIndicatorsDownloaded,
@@ -77,6 +80,12 @@ class ScorecardDetail extends Component {
     });
   }
 
+  checkSavedRatingScale = () => {
+    this.setState({
+      isRatingScaleDownloaded: isAllRatingScaleDownloaded(this.state.detail.program_id)
+    })
+  }
+
   renderScorecardDetail = () => {
     const {detail} = this.state;
     return (<DisplayScorecardInfo scorecardDetail={detail}/>);
@@ -97,9 +106,10 @@ class ScorecardDetail extends Component {
         this.setState({isLanguageIndicatorDownloaded});
       });
       saveAudio(0, indicators, this.updateDownloadProgress, async (isAllAudioDownloaded) => {
-        this.setState({isAllAudioDownloaded}, () => {
-          console.log('IS all audio downloaded ====== ', this.state.isAllAudioDownloaded)
-        });
+        this.setState({isAllAudioDownloaded});
+      });
+      ratingScaleService.saveData(this.state.detail.program_id, this.updateDownloadProgress, (isRatingScaleDownloaded) => {
+        this.setState({isRatingScaleDownloaded});
       });
     }, (response) => {
       this.setState({isStopDownloadIndicator: true});
@@ -155,8 +165,8 @@ class ScorecardDetail extends Component {
   }
 
   isFullyDownloaded = () => {
-    const {isIndicatorDownloaded, isCafDownloaded, isAllAudioDownloaded, isLanguageIndicatorDownloaded} = this.state;
-    if (isIndicatorDownloaded && isCafDownloaded && isAllAudioDownloaded && isLanguageIndicatorDownloaded)
+    const {isIndicatorDownloaded, isCafDownloaded, isAllAudioDownloaded, isLanguageIndicatorDownloaded, isRatingScaleDownloaded} = this.state;
+    if (isIndicatorDownloaded && isCafDownloaded && isAllAudioDownloaded && isLanguageIndicatorDownloaded && isRatingScaleDownloaded)
       return true;
 
     return false;

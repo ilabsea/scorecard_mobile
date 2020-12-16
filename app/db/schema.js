@@ -14,6 +14,8 @@ import CustomIndicatorSchema from './models/customIndicator';
 import ProposedCriteriaSchema from './models/proposedCriteria';
 import VotingCriteriaSchema from './models/votingCriteria';
 import RatingSchema from './models/rating';
+import LanguageRatingScaleSchema from './models/languageRatingScale';
+import RatingScaleSchema from './models/ratingScale';
 
 const schema0 = [
   Scorecard,
@@ -31,6 +33,10 @@ const schema0 = [
   VotingCriteriaSchema,
   RatingSchema,
   CustomIndicatorSchema,
+
+  // ===Rating===
+  LanguageRatingScaleSchema,
+  RatingScaleSchema,
 ];
 
 const schemas = [

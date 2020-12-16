@@ -2,12 +2,12 @@
 
 const IndicatorSchema = {
   name: 'Indicator',
-  primaryKey: 'id',
+  primaryKey: 'uuid',
   properties: {
+    uuid: 'string',
     id: 'int',
     name: 'string',
     facility_id: 'int',
-    scorecard_uuid: 'string',
     tag: 'string'
   },
 };

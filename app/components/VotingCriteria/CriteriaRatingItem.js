@@ -27,8 +27,17 @@ export default class CriteriaRatingItem extends Component {
     super(props);
 
     this.state = {
-      currentScore: 0
+      currentScore: 0,
+      languageRatingScales: [],
     };
+  }
+
+  componentDidMount() {
+    const scorecardUuid = this.props.criteria.scorecard_uuid;
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0];
+    this.setState({
+      languageRatingScales: realm.objects('LanguageRatingScale').filtered(`program_id == ${scorecard.program_id} AND language_code == '${scorecard.audio_language_code}'`)
+    });
   }
 
   _onClickIcon(rating) {
@@ -36,10 +45,18 @@ export default class CriteriaRatingItem extends Component {
     !!this.props.onPress && this.props.onPress(rating);
   }
 
+  _getLanguageRatingScaleAudio(scaleCode) {
+    const languageRatingScale = this.state.languageRatingScales.filter(langRatingScale => {
+      return langRatingScale.rating_scale_code === scaleCode;
+    });
+    return languageRatingScale.length > 0 ? languageRatingScale[0].local_audio : '';
+  }
+
   _renderRatingIcon(rating) {
-    const { translations, appLanguage } = this.context;
+    const { translations } = this.context;
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
+    const audioRatingAudio = this._getLanguageRatingScaleAudio(rating.label);
     return (
       <View style={[styles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
         <TouchableOpacity
@@ -55,7 +72,7 @@ export default class CriteriaRatingItem extends Component {
 
         <PlaySound
           containerStyle={{borderRadius: 2, width: 100, flexDirection: 'row'}}
-          filePath={`${appLanguage}_${rating.audio}`}
+          filePath={audioRatingAudio}
           isLocal={true}>
           <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
         </PlaySound>
