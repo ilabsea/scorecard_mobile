@@ -7,8 +7,11 @@ import {
 import Sound from 'react-native-sound';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
+import { connect } from 'react-redux';
+import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
+import {PLAYING, PAUSED} from '../../utils/variable';
 
-export default class PlaySound extends Component {
+class PlaySound extends Component {
   constructor(props) {
     super(props);
 
@@ -17,10 +20,14 @@ export default class PlaySound extends Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({playState: 'pause'});
+  }
+
   componentWillUnmount() {
-    if (this.sound) {
-      this.sound.release();
-    }
+    if (this.sound) this.sound.release();
+    if (global.sound) global.sound.release();
+    this.props.setRatingScaleAudioStatus(PAUSED);
   }
 
   playComplete = (success) => {
@@ -31,6 +38,7 @@ export default class PlaySound extends Component {
     }
 
     this.setState({playState: 'pause'});
+    this.props.setRatingScaleAudioStatus(PAUSED);
   }
 
   playAudio() {
@@ -41,12 +49,25 @@ export default class PlaySound extends Component {
     Sound.setCategory('Playback');
     let folder = this.props.isLocal ? Sound.MAIN_BUNDLE : '';
 
-    this.sound = new Sound(this.props.filePath, folder, (error) => {
-      if (error) { return console.log('failed to load the sound', error); }
+    this.props.setRatingScaleAudioStatus(PLAYING);
+    if (this.sound != null) {
+      this.sound.release();
+      this.sound = null;
+      this.setState({playState: 'pause'});
+      this.props.setRatingScaleAudioStatus(PAUSED);
+    }
+    else {
+      this.sound = new Sound(this.props.filePath, folder, (error) => {
+        if (error) { return console.log('failed to load the sound', error); }
 
-      this.setState({playState: 'playing'});
-      this.sound.play(this.playComplete);
-    });
+        if (global.sound)
+          global.sound.release();
+
+        this.setState({playState: 'playing'});
+        this.sound.play(this.playComplete);
+        global.sound = this.sound;
+      });
+    }
   }
 
   render() {
@@ -75,3 +96,20 @@ const styles = StyleSheet.create({
     borderRadius: 18
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    ratingScaleAudio: state.ratingScaleAudioReducer,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setRatingScaleAudioStatus: (status) => dispatch(setRatingScaleAudioStatus(status)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PlaySound);

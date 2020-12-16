@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Color from '../themes/color';
 import validationService from '../services/validation_service';
-import {LocalizationContext} from '../components/Translations';
+import {LocalizationContext} from './Translations';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;
@@ -44,7 +44,7 @@ class TextFieldInput extends Component {
   }
 
   onChangeText = (value) => {
-    const {translations} = this.context;
+    const {translations} = ((!!this.context && this.context) || this.props);
     this.setState({validationMsg: ''});
     const validationMsg = validationService(this.props.fieldName, value === '' ? undefined : value);
     this.setState({

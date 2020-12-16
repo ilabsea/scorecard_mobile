@@ -71,6 +71,7 @@ class AddNewParticipantModal extends Component {
           isSecureEntry={false}
           maxLength={2}
           keyboardType="number-pad"
+          translations={translations}
         />
         <SelectPicker
           items={gender}
@@ -171,8 +172,8 @@ class AddNewParticipantModal extends Component {
     this.resetFormData();
     this.props.onDismiss();
 
-    if (!!onSaveParticipant) {
-      onSaveParticipant(attrs.uuid);
+    if (!!this.props.onSaveParticipant) {
+      this.props.onSaveParticipant(attrs.uuid);
     } else {
       this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: attrs.uuid});
     }
