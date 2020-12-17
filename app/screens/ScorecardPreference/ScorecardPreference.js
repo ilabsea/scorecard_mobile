@@ -151,8 +151,6 @@ class ScorecardPreference extends Component {
           placeholder={translations["selectLanguage"]}
           searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={6000}
-          customLabelStyle={{zIndex: 6001}}
-          showCustomArrow={true}
           onChangeItem={this.changeTextLocale}
           customDropDownContainerStyle={{marginTop: 30}}
           mustHasDefaultValue={true}
@@ -165,8 +163,6 @@ class ScorecardPreference extends Component {
           placeholder={translations["selectLanguage"]}
           searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={5000}
-          customLabelStyle={{zIndex: 5001}}
-          showCustomArrow={true}
           onChangeItem={this.changeAudioLocale}
           mustHasDefaultValue={true}
         />

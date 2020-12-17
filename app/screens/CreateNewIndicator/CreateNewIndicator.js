@@ -34,7 +34,7 @@ class CreateNewIndicator extends Component {
 
   componentDidMount() {
     const proposedCriterias = realm.objects('ProposedCriteria')
-      .filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "' + this.props.route.params.participant_uuid + '"');
+      .filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "' + this.state.participant_uuid + '"');
     this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
   }
 
@@ -69,7 +69,7 @@ class CreateNewIndicator extends Component {
 
   updateRaisedParticipant = () => {
     const participant = {
-      uuid: this.props.route.params.participant_uuid,
+      uuid: this.state.participant_uuid,
       raised: true,
     };
     realm.write(() => {realm.create('Participant', participant, 'modified')});
@@ -128,13 +128,12 @@ class CreateNewIndicator extends Component {
 
   renderSaveButton = () => {
     const {translations} = this.context;
-    if (this.state.isValid) {
-      return (
-        <View style={{flex: 1, paddingTop: 50, justifyContent: 'flex-end'}}>
-          <BottomButton label={translations['saveAndGoNext']} onPress={() => this.save()} />
-        </View>
-      );
-    }
+
+    return (
+      <View style={{padding: 20}}>
+        <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
+      </View>
+    );
   };
 
   _renderParticipant() {
@@ -143,6 +142,7 @@ class CreateNewIndicator extends Component {
         <HeaderTitle headline="createNewProposedCriteria" subheading="pleaseCheckScorecardDetailBelow"/>
 
         <ParticipantInfo
+          participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.route.params.scorecard_uuid}' AND raised=false SORT(order ASC)`)}
           scorecard_uuid={ this.props.route.params.scorecard_uuid }
           participant_uuid={ this.props.route.params.participant_uuid }
           onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
@@ -168,9 +168,10 @@ class CreateNewIndicator extends Component {
               scorecardUUID={this.props.route.params.scorecard_uuid}
               participantUUID={this.props.route.params.participant_uuid}
             />
-            {this.renderSaveButton()}
           </ScrollView>
         </TouchableWithoutFeedback>
+
+        { this.renderSaveButton() }
 
         <Portal>
           <AddNewIndicatorModal

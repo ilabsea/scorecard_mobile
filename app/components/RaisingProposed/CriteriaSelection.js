@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
@@ -10,8 +10,10 @@ import {getIndicatorShortcutName, getSavedIndicators} from '../../services/indic
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
+
     this.audioPlayer = null;
     this.state = {
       indicators: [],
@@ -72,6 +74,7 @@ class CriteriaSelection extends Component {
 
   getIndicatorName = (indicator) => {
     const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, indicator.uuid, 'text');
+
     if (languageIndicator != undefined)
       return languageIndicator.content != '' ? languageIndicator.content : indicator.name.split(":").pop();
 
@@ -82,18 +85,20 @@ class CriteriaSelection extends Component {
     return (
       <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
-          onPress={() => this.selectIndicator(index)}
-        >
+          onPress={() => this.selectIndicator(index)}>
+
           <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
             {index != this.state.indicators.length - 1 &&
               <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{indicator.shortcut}</Text>
             }
             {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
           </View>
+
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left'}}>{this.getIndicatorName(indicator)}</Text>
           </View>
         </TouchableOpacity>
+
         <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
           playingIndicatorId={this.state.playingIndicatorId}
           updateAudioState={this.updateAudioState}
@@ -106,12 +111,13 @@ class CriteriaSelection extends Component {
   renderIndicatorItem = (indicator, index) => {
     if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
       return (
-        <View key={index} style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
+        <View key={index} style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
           {this.indicatorCard(indicator, index)}
           <View style={{flex: 1, marginHorizontal: 10}} />
         </View>
       )
     }
+
     return this.indicatorCard(indicator, index);
   }
 
@@ -148,14 +154,15 @@ class CriteriaSelection extends Component {
   }
 
   render() {
+    let doms = this.state.indicators.map((item, index) =>
+      this.renderIndicatorItem(item, index)
+    )
+
     return (
-      <FlatList
-        data={this.state.indicators}
-        renderItem={({item, index}) => this.renderIndicatorItem(item, index)}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-      />
-    );
+      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10}}>
+        {doms}
+      </View>
+    )
   }
 }
 

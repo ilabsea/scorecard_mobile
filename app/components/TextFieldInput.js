@@ -7,24 +7,15 @@ import {LocalizationContext} from './Translations';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
+
     this.state = {
       isValid: true,
       validationMsg: '',
     };
   }
-
-  renderIcon = () => {
-    return (
-      <TextInput.Icon
-        color="#8C8C8C"
-        icon="email"
-        size={30}
-        style={{width: 100}}
-      />
-    );
-  };
 
   getValidationMsg = () => {
     const {message} = this.props;
@@ -44,42 +35,35 @@ class TextFieldInput extends Component {
   }
 
   onChangeText = (value) => {
-    const { translations } = (!!this.context && this.context) || this.props;
-
-    this.setState({validationMsg: ''});
+    const { translations } = this.context;
     const validationMsg = validationService(this.props.fieldName, value === '' ? undefined : value);
+
     this.setState({
       validationMsg: translations[validationMsg],
       isValid: validationMsg === null,
-    }, () => {
-      this.props.onChangeText(this.props.fieldName, value);
     });
+
+    this.props.onChangeText(this.props.fieldName, value);
   }
 
   render() {
     const {
       value,
-      placeholder,
       isSecureEntry,
-      keyboardType,
-      maxLength,
       borderColor,
     } = this.props;
 
     return (
       <View>
         <TextInput
+          { ...this.props }
           label={this.getLabel()}
-          placeholder={placeholder}
           mode="outlined"
-          // left={this.renderIcon()}
           clearButtonMode="while-editing"
           secureTextEntry={isSecureEntry}
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
           style={{backgroundColor: 'white', width: '100%'}}
-          keyboardType={keyboardType || 'default'}
-          maxLength={maxLength || null}
           theme={{colors: {primary: borderColor || 'blue'}}}
         />
 

@@ -16,7 +16,7 @@ export default class ParticipantInfo extends Component {
     super(props);
 
     this.state = {
-      participants: realm.objects('Participant').filtered(`scorecard_uuid='${props.scorecard_uuid}' AND raised=false SORT(order ASC)`),
+      participants: props.participants || [],
       participantVisible: false,
       addParticiantVisible: false,
       currentParticipant: realm.objects('Participant').filtered(`uuid == '${props.participant_uuid}'`)[0],

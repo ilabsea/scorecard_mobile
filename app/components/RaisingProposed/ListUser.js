@@ -12,20 +12,14 @@ import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 class ListUser extends Component {
   static contextType = LocalizationContext;
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      participants: [],
-    };
-  }
-
   getParticipant = () => {
     const raisedParticipants = getRaisedParticipants(this.props.participants, this.props.scorecardUUID);
     let participants = [];
+
     for (let i=0; i<raisedParticipants.length; i++) {
       const gender = raisedParticipants[i].gender === 'female' ? 'F' : raisedParticipants[i].gender === 'male' ? 'M' : 'other';
       const proposedCriterias = raisedParticipants[i].proposed_criterias != undefined ? raisedParticipants[i].proposed_criterias : this.getProposedCriteria(raisedParticipants[i].uuid);
+
       if (proposedCriterias.length === 0)
         continue;
 
@@ -48,11 +42,10 @@ class ListUser extends Component {
   }
 
   renderUserTable = () => {
-    const tableHead = ['No', 'Age', 'Gender', 'Disability', 'Indicator Type', 'Note', 'Action'];
     const tableData = this.getParticipant();
 
     return (
-      <UserTable tableHead={tableHead} tableData={tableData} scorecardUUID={this.props.scorecardUUID} navigation={this.props.navigation} />
+      <UserTable tableData={tableData} scorecardUUID={this.props.scorecardUUID} navigation={this.props.navigation} />
     );
   };
 
@@ -69,6 +62,7 @@ class ListUser extends Component {
           <Text style={styles.headingTitle}>{translations['listUser']}</Text>
 
           <ParticipantInfo
+            participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.scorecardUUID}' AND raised=false SORT(order ASC)`)}
             scorecard_uuid={ this.props.scorecardUUID }
             mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
             onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}

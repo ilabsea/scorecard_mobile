@@ -11,12 +11,12 @@ const ListItemStyle = StyleSheet.create({
     backgroundColor: '#787878',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 131,
-    borderRadius: 4
+    borderRadius: 4,
+    marginRight: 16,
   },
   criteriaWrapper: {
     flexDirection: 'row',
-    padding: 20
+    padding: 16,
   },
   btn: {
     height: 36,

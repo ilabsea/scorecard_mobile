@@ -19,14 +19,14 @@ export default class ParticipantModalListItem extends Component {
   }
 
   renderGender = (participant) => {
-    if (participant === undefined) return (<Text style={{marginLeft: 20}}>---</Text>);
+    if (participant === undefined) return (<Text style={{marginLeft: 16}}>---</Text>);
 
     if (participant.gender === '') {
-      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 20}} />);
+      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 16}} />);
     }
 
     const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
-    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 20}} color="black" />);
+    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 16}} color="black" />);
   };
 
   getDescription(item, translations) {
@@ -44,7 +44,7 @@ export default class ParticipantModalListItem extends Component {
 
   renderParticipantItem() {
     const item = this.props.participant;
-    const { translations } = (!!this.context && this.context) || this.props;
+    const { translations } = this.context;
 
     return (
       <View>
@@ -55,8 +55,8 @@ export default class ParticipantModalListItem extends Component {
 
           <View style={{flexDirection: 'row', flex: 1}}>
             { this.renderGender(item) }
-            <Text style={{marginLeft: 20}}>{translations.age}: {item.age}</Text>
-            <Text style={{marginLeft: 20}}>{this.getDescription(item, translations)}</Text>
+            <Text style={{marginLeft: 10}}>{translations.age}: {item.age}</Text>
+            <Text style={{marginLeft: 10, flex: 1}} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
           </View>
 
           <MaterialIcon name="arrow-forward-ios" color="black" />

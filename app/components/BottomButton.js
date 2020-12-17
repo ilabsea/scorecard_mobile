@@ -6,7 +6,7 @@ import CustomStyle from '../themes/customStyle';
 class BottomButton extends Component {
   render() {
     return (
-      <Button iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton}>
+      <Button  iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton} {...this.props}>
         <View style={{width: 60}} />
         <Text style={styles.labelStyle}>{this.props.label}</Text>
         <Icon name="arrow-forward" style={{marginRight: 20}} />

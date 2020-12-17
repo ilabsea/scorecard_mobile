@@ -83,61 +83,41 @@ class AddNewParticipant extends Component {
           items={gender}
           selectedItem={selectedGender}
           label={translations['gender']}
-          searchable={false}
           zIndex={9000}
-          customLabelStyle={{zIndex: 9001}}
-          showCustomArrow={true}
           onChangeItem={(text) =>
             this.onChangeValue('selectedGender', text.value)
           }
-          mustHasDefaultValue={false}
           customDropDownContainerStyle={{marginTop: -10}}
         />
         <SelectPicker
           items={choices}
           selectedItem={isDisability}
           label={translations['disability']}
-          searchable={false}
           zIndex={8000}
-          customLabelStyle={{zIndex: 8001}}
-          showCustomArrow={true}
           onChangeItem={(text) =>
             this.onChangeValue('isDisability', text.value)
           }
-          mustHasDefaultValue={false}
         />
         <SelectPicker
           items={choices}
           selectedItem={isMinority}
           label={translations['minority']}
-          searchable={false}
           zIndex={7000}
-          customLabelStyle={{zIndex: 7001}}
-          showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
-          mustHasDefaultValue={false}
         />
         <SelectPicker
           items={choices}
           selectedItem={isPoor}
           label={translations['poor']}
-          searchable={false}
           zIndex={6000}
-          customLabelStyle={{zIndex: 6001}}
-          showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
-          mustHasDefaultValue={false}
         />
         <SelectPicker
           items={choices}
           selectedItem={isYouth}
           label={translations['youth']}
-          searchable={false}
           zIndex={5000}
-          customLabelStyle={{zIndex: 5001}}
-          showCustomArrow={true}
           onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
-          mustHasDefaultValue={false}
         />
       </View>
     );

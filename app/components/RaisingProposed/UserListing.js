@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 
 class UserListing extends Component {
   static contextType = LocalizationContext;
+
   onPress = () => {
     this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
   }
@@ -25,31 +26,32 @@ class UserListing extends Component {
 
   renderFinishButton = () => {
     const {translations} = this.context;
-    if (this.hasRaisedCriteria()) {
-      return (
-        <View style={styles.buttonContainer}>
-          <BottomButton
-            label={translations['finish']}
-            onPress={() => this.onPress()}
-          />
-        </View>
-      );
-    }
+
+    return (
+      <View style={styles.buttonContainer}>
+        <BottomButton
+          disabled={!this.hasRaisedCriteria()}
+          label={translations['finish']}
+          onPress={() => this.onPress()}
+        />
+      </View>
+    );
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
+        <ScrollView contentContainerStyle={{padding: 20, paddingBottom: 28}}>
           <Tip/>
 
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
-          <ListUser openCreateNewIndicatorScreen={() => this.props.openCreateNewIndicatorScreen()}
+          <ListUser
             scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}
           />
-          {this.renderFinishButton()}
         </ScrollView>
+
+        { this.renderFinishButton() }
       </View>
     );
   }
@@ -61,9 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonContainer: {
-    flex: 1,
-    paddingTop: 110,
-    justifyContent: 'flex-end',
+    padding: 20
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

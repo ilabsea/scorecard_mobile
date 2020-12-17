@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 
 import { Divider} from 'react-native-paper';
@@ -16,9 +17,13 @@ import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import PlaySound from './PlaySound';
+import { getDisplayIndicator } from '../../services/indicator_service';
 
 const iconSize = 80;
 const iconWrapperSize = 98;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+console.log("windowWidth", windowWidth);
 
 export default class CriteriaRatingItem extends Component {
   static contextType = LocalizationContext;
@@ -29,6 +34,7 @@ export default class CriteriaRatingItem extends Component {
     this.state = {
       currentScore: 0,
       languageRatingScales: [],
+      scorecard: realm.objects('Scorecard').filtered(`uuid='${this.props.criteria.scorecard_uuid}'`)[0]
     };
   }
 
@@ -57,6 +63,8 @@ export default class CriteriaRatingItem extends Component {
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
     const audioRatingAudio = this._getLanguageRatingScaleAudio(rating.label);
+    let iconSizeRatio = iconSize * 0.8;
+
     return (
       <View style={[styles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
         <TouchableOpacity
@@ -64,14 +72,16 @@ export default class CriteriaRatingItem extends Component {
           style={{alignItems: 'center', marginBottom: 6}}>
 
           <View style={[styles.iconWrapper]}>
-            <Image source={Images[rating.image]} style={{width: iconSize, height: iconSize}} />
+            <Image source={Images[rating.image]} style={{width: iconSizeRatio, height: iconSizeRatio, maxWidth: iconSize, maxHeight: iconSize}} />
           </View>
 
-          <Text style={{fontSize: 16, color: '#22354c'}}>{translations[rating.label]}</Text>
+          <Text style={{fontSize: 16, color: '#22354c', textAlign: 'center'}}>{translations[rating.label]}</Text>
         </TouchableOpacity>
 
+        <View style={{flex: 1}}></View>
+
         <PlaySound
-          containerStyle={{borderRadius: 2, width: 100, flexDirection: 'row'}}
+          containerStyle={{borderRadius: 2, width: '90%', maxWidth: 100, flexDirection: 'row'}}
           filePath={audioRatingAudio}
           isLocal={true}>
           <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
@@ -80,38 +90,23 @@ export default class CriteriaRatingItem extends Component {
     )
   }
 
-  _getIndicator() {
-    const { appLanguage } = this.context;
-    const { criteria } = this.props;
-
-    if ( criteria.indicatorable_type == 'predefined' ) {
-      let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${criteria.indicatorable_id}' AND language_code='${appLanguage}'`)[0];
-      indi = indi || realm.objects('Indicator').filtered(`id='${criteria.indicatorable_id}'`)[0];
-      indi = JSON.parse(JSON.stringify(indi));
-      indi.content = indi.content || indi.name;
-
-      return indi;
-    }
-
-    return JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${criteria.indicatorable_id}'`)[0]));
-  }
-
   _renderRatingIcons() {
     const { translations } = this.context;
-    let indicator = this._getIndicator();
+    let indicator = getDisplayIndicator(this.props.criteria, this.state.scorecard);
 
     return (
       <View style={{marginTop: 30}}>
         <Divider/>
+
         <View style={{flexDirection: 'row', marginTop: 30}}>
           <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize', marginRight: 10}}>
-            { indicator.content }
+            { indicator.content || indicator.name}
           </Text>
 
           { !!indicator.local_audio && <PlaySound filePath={indicator.local_audio} /> }
         </View>
 
-        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <View style={{flexDirection: 'row', marginTop: 20, marginHorizontal: -8}}>
           { ratings.map(rating => this._renderRatingIcon(rating)) }
         </View>
       </View>
@@ -133,10 +128,9 @@ const styles = StyleSheet.create({
 
   },
   ratingWrapper: {
-    justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     borderWidth: 4,
     borderColor: '#ebebeb',
     paddingBottom: 10,

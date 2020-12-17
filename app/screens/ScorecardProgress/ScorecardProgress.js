@@ -14,6 +14,7 @@ import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import scorecardService from '../../services/scorecardService';
 import { ProgressBar } from 'react-native-paper';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 export default class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
@@ -88,24 +89,26 @@ export default class ScorecardProgress extends Component {
   }
 
   render() {
+    const { translations } = this.context;
+
     return (
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
-        <View style={{flex: 1, padding: 16}}>
-          <Text style={{fontSize: 24, color: "#000", fontWeight: 'bold', lineHeight: 40, marginBottom: 16}}>3 of 5 Step</Text>
+      <View style={{flex: 1}}>
+        <ScrollView contentContainerStyle={{padding: 20}}>
+          <Text style={{fontSize: 24, fontFamily: FontFamily.title, lineHeight: 40, marginBottom: 16}}>{ translations.step }: {this.state.scorecard.status} / 5</Text>
 
           <VerticalProgressStep
             progressIndex={this.state.scorecard.status || 3}
             scorecardUuid={this.state.scorecard.uuid}
             navigation={this.props.navigation}
             localNgoId={this.state.scorecard.local_ngo_id}/>
+        </ScrollView>
 
-          <View style={{flex: 1, justifyContent: 'flex-end'}}>
-            { this._renderProgressBar() }
-            { false && this._renderBtnDownload() }
-            { this._renderBtnSubmit() }
-          </View>
+        <View style={{padding: 20}}>
+          { this._renderProgressBar() }
+          { false && this._renderBtnDownload() }
+          { this._renderBtnSubmit() }
         </View>
-      </ScrollView>
+      </View>
     )
   }
 }

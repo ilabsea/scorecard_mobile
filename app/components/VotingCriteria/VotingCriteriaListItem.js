@@ -30,8 +30,10 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderIcon(icon, size) {
+    let sizeRatio = size * 0.8;
+
     return (
-      <Image source={Images[icon.image]} style={{width: size, height: size}} />
+      <Image source={Images[icon.image]} style={{width: sizeRatio, height: sizeRatio, maxWidth: size, maxHeight: size}} />
     )
   }
 
@@ -49,7 +51,7 @@ export default class VotingCriteriaListItem extends Component {
     let icons = ratings;
 
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         { icons.map(icon => this._renderRatingIcon(icon)) }
       </View>
     )
@@ -65,7 +67,7 @@ export default class VotingCriteriaListItem extends Component {
 
     return (
       <View style={styles.resultWrapper}>
-        <Text style={{fontSize: 18, marginRight: 20}}>{translations.result}:</Text>
+        <Text style={{marginRight: 8}}>{translations.result}:</Text>
 
         <View style={styles.medianWrapper}>
           { this._renderIcon(currentIcon, 60) }
@@ -77,14 +79,16 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderContent() {
     return (
-      <View style={{flexDirection: 'row', flex: 1}}>
-        <View style={{flex: 1}}>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{flex: 1, backgroundColor: ''}}>
           <Text style={[cardListItemStyle.h2, styles.capitalize]}>{this.props.criteria.tag}</Text>
 
           { this._renderRatingIcons() }
         </View>
 
-        { this._renderMedian() }
+        <View style={{ borderLeftWidth: 1, borderColor: Color.borderColor, justifyContent: 'center'}}>
+          { this._renderMedian() }
+        </View>
       </View>
     );
   }
@@ -106,12 +110,15 @@ export default class VotingCriteriaListItem extends Component {
     return (
       <TouchableOpacity
         onPress={ () => !!this.props.onPress && this.props.onPress() }
-        style={[cardListItemStyle.listItem, customStyle.card, {height: 160}]}>
+        style={[cardListItemStyle.listItem, customStyle.card, {minHeight: 160}]}>
 
         { this._renderAvata(scorecard) }
 
         <View style={cardListItemStyle.contentWrapper}>
           { this._renderContent() }
+
+          <View style={{flex: 1, minHeight: 10}}></View>
+
           { this._renderViewDetail() }
         </View>
       </TouchableOpacity>
@@ -121,15 +128,16 @@ export default class VotingCriteriaListItem extends Component {
 
 const styles = StyleSheet.create({
   ratingItem: {
-    width: 57,
-    height: 34,
+    width: '25%',
+    maxWidth: 57,
+    paddingVertical: 2,
     flexDirection: 'row',
-    marginRight: 8,
+    marginRight: 6,
     backgroundColor: '#d8d8d8',
     borderRadius: 15,
     alignItems: 'center',
     paddingLeft: 6,
-    marginTop: 12
+    marginTop: 6
   },
   ratingCount: {
     fontWeight: 'bold',
@@ -138,14 +146,12 @@ const styles = StyleSheet.create({
   },
   medianWrapper: {
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: 8,
   },
   resultWrapper: {
-    borderLeftWidth: 1,
-    borderColor: Color.borderColor,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 20,
+    paddingLeft: 10,
     marginBottom: 10
   },
   medianText: {

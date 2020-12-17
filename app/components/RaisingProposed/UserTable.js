@@ -12,7 +12,7 @@ class UserTable extends Component {
   }
 
   getCellData = (cellData, cellIndex) => {
-    const {translations} = this.context;
+    const { translations } = this.context;
     const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'note', 'action'];
     const labelTranslation = {
       yes: translations.optionYes,

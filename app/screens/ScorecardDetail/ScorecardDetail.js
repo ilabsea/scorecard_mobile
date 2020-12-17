@@ -13,7 +13,13 @@ import BottomButton from '../../components/BottomButton';
 import IndicatorApi from '../../api/IndicatorApi';
 import CafApi from '../../api/CafApi';
 
-import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, isAllRatingScaleDownloaded} from '../../services/scorecard_detail_service';
+import {
+  isAllIndicatorDownloaded,
+  isAllCafDownloaded,
+  CheckAllAudioDownloaded,
+  isAllRatingScaleDownloaded
+} from '../../services/scorecard_detail_service';
+
 import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';
@@ -187,9 +193,11 @@ class ScorecardDetail extends Component {
   }
 
   renderDownloadButton = () => {
-    const {translations} = this.context;
+    const { translations } = this.context;
+
     if (!this.isFullyDownloaded() && this.state.isFinishChecking) {
       const isDisabled = this.isDisableDownload();
+
       return (
         <View>
           <ProgressBar progress={this.state.downloadProgress} color={Color.headerColor} style={styles.progressBar}
@@ -199,8 +207,8 @@ class ScorecardDetail extends Component {
           <Button full bordered iconRight primary
             onPress={() => this.downloadScorecard()}
             disabled={isDisabled}
-            style={[CustomStyle.bottomButton, isDisabled ? {borderColor: 'gray'} : {}]}
-          >
+            style={[CustomStyle.bottomButton, isDisabled ? {borderColor: 'gray'} : {}]}>
+
             <Text style={[styles.buttonLabelStyle, isDisabled ? {color: 'gray'} : {color: '#E2762D'}]}>
               {translations["downloadAndSave"]}
             </Text>
@@ -251,14 +259,15 @@ class ScorecardDetail extends Component {
             imageSize={40}
             indicatorColor={Color.primaryColor}
           />
-          
+
           <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           {this.renderScorecardDetail()}
-          <View style={styles.buttonContainer}>
-            {this.renderDownloadButton()}
-            {this.renderStartButton()}
-          </View>
         </ScrollView>
+
+        <View style={styles.buttonContainer}>
+          {this.renderDownloadButton()}
+          {this.renderStartButton()}
+        </View>
       </Container>
     );
   }
@@ -276,8 +285,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    padding: 20
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

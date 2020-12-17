@@ -18,11 +18,7 @@ export default class ParticipantModal extends Component {
   onPressItem(item) {
     this.props.onDismiss();
 
-    if (!!this.props.onPressItem) {
-      this.props.onPressItem(item);
-    } else {
-      this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: item.uuid});
-    }
+    !!this.props.onPressItem && this.props.onPressItem(item);
   }
 
   renderParticipantItem(item) {
