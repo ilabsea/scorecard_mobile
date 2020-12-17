@@ -25,7 +25,7 @@ export default class VerticalProgressStep extends Component {
         title={ translations[step.label] }
         index={ step.value }
         progressIndex={ this.props.progressIndex }
-        onPress={() => this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid }) }
+        onPress={() => this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.props.localNgoId }) }
       />
     )
   }

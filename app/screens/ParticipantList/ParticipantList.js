@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontWeight: '700',
+    textAlign: 'center',
   },
 });
 

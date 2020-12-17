@@ -96,7 +96,8 @@ export default class ScorecardProgress extends Component {
           <VerticalProgressStep
             progressIndex={this.state.scorecard.status || 3}
             scorecardUuid={this.state.scorecard.uuid}
-            navigation={this.props.navigation}/>
+            navigation={this.props.navigation}
+            localNgoId={this.state.scorecard.local_ngo_id}/>
 
           <View style={{flex: 1, justifyContent: 'flex-end'}}>
             { this._renderProgressBar() }

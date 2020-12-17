@@ -20,7 +20,7 @@ class Facilitator extends Component {
   }
 
   async componentDidMount() {
-    let cafs = JSON.stringify(realm.objects('Caf').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"'));
+    let cafs = JSON.stringify(realm.objects('Caf').filtered(`local_ngo_id == ${this.props.route.params.local_ngo_id}`));
     cafs = JSON.parse(cafs);
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
     this.loadSavedFacilitators();
@@ -80,7 +80,6 @@ class Facilitator extends Component {
   };
 
   saveSelectedData = () => {
-    this.clearFacilitatorFromLocalStorage();
     const {selectedFacilitators} = this.state;
     for(let i=0; i<selectedFacilitators.length; i++) {
       if (selectedFacilitators[i] === null)
@@ -92,10 +91,7 @@ class Facilitator extends Component {
   };
 
   loadSavedFacilitators = () => {
-    const facilitators = realm.objects('Facilitator').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"');
-    let savedFacilitators = JSON.stringify(facilitators);
-    savedFacilitators = JSON.parse(savedFacilitators);
-
+    let savedFacilitators = JSON.parse(JSON.stringify(realm.objects('Facilitator').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"')));
     if (savedFacilitators.length > 0) {
       let facilitators = this.state.selectedFacilitators;
       savedFacilitators.map((facilitator, index) => {
@@ -112,21 +108,17 @@ class Facilitator extends Component {
   };
 
   saveFacilitatorToLocalStorage = async (caf, index) => {
-    const facilitator = {
+    const facilitators = realm.objects('Facilitator').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`);
+    const attrs = {
+      uuid: facilitators[index] === undefined ? uuidv4() : facilitators[index].uuid,
       id: parseInt(caf.value),
       name: caf.label,
       position: index === 0 ? 'lead' : 'other',
       scorecard_uuid: this.props.route.params.scorecard_uuid,
     };
-    realm.write(() => {
-      realm.create('Facilitator', facilitator);
-    });
-  };
 
-  clearFacilitatorFromLocalStorage = () => {
     realm.write(() => {
-      const facilitators = realm.objects('Facilitator').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"');
-      realm.delete(facilitators);
+      realm.create('Facilitator', attrs, 'modified');
     });
   };
 
