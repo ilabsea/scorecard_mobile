@@ -35,29 +35,21 @@ class ParticipantList extends Component {
 
   renderListHeader = () => {
     const {translations} = this.context;
+    const tableHeads = ['gender', 'age', 'disability', 'minority', 'poor', 'youth'];
+    const doms = tableHeads.map((col, index) =>
+      <View style={styles.itemColumn} key={index}>
+        <Text style={styles.itemTitle}>{translations[col]}</Text>
+      </View>
+    )
+
     return (
       <View style={{flexDirection: 'row', paddingBottom: 16}}>
         <View style={{paddingRight: 20, justifyContent: 'center', width: 60}}>
           <Text style={styles.itemTitle}>{translations.no}</Text>
         </View>
-        <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>{translations.gender}</Text>
-        </View>
-        <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>{translations.age}</Text>
-        </View>
-        <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>{translations.disability}</Text>
-        </View>
-        <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>{translations.minority}</Text>
-        </View>
-        <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>{translations.poor}</Text>
-        </View>
-        <View style={styles.itemColumn}>
-          <Text style={styles.itemTitle}>{translations.youth}</Text>
-        </View>
+
+        { doms }
+
         <View style={{width: 60, alignItems: 'center', justifyContent: 'center'}}>
           <Text style={styles.itemTitle}>{translations.action}</Text>
         </View>

@@ -157,14 +157,13 @@ class ParticipantInformation extends Component {
   };
 
   renderSaveButton = () => {
-    if (!this.state.isError) {
-      const {translations} = this.context;
-      return (
-        <View style={styles.buttonContainer}>
-          <BottomButton label={translations.next} onPress={() => this.save()} />
-        </View>
-      );
-    }
+    const {translations} = this.context;
+
+    return (
+      <View style={styles.buttonContainer}>
+        <BottomButton disabled={this.state.isError} label={translations.next} onPress={() => this.save()} />
+      </View>
+    );
   }
 
   render() {
@@ -182,9 +181,11 @@ class ParticipantInformation extends Component {
               headline="participantInformation"
               subheading="pleaseFillInformationBelow"
             />
+
             {this.renderFormInput()}
-            {this.renderSaveButton()}
           </ScrollView>
+
+          { this.renderSaveButton() }
         </View>
       </TouchableWithoutFeedback>
     );
@@ -199,8 +200,7 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    padding: 20
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

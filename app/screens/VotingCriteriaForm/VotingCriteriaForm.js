@@ -74,6 +74,7 @@ class VotingCriteriaForm extends Component {
         <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
 
         <ParticipantInfo
+          participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false SORT(order ASC)`)}
           scorecard_uuid={ this.props.route.params.scorecard_uuid }
           participant_uuid={ this.props.route.params.participant_uuid }
           onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}

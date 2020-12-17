@@ -94,7 +94,7 @@ class ScorecardResult extends Component {
           <View style={styles.container}>
             <Tip />
 
-            <View style={{flexDirection: 'row', marginVertical: 20}}>
+            <View style={{flexDirection: 'row', marginBottom: 20}}>
               <Text style={styles.h1}>{ translations.scorecardResult }</Text>
             </View>
 

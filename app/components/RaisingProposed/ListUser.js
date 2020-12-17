@@ -62,6 +62,7 @@ class ListUser extends Component {
           <Text style={styles.headingTitle}>{translations['listUser']}</Text>
 
           <ParticipantInfo
+            participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.scorecardUUID}' AND raised=false SORT(order ASC)`)}
             scorecard_uuid={ this.props.scorecardUUID }
             mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
             onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}

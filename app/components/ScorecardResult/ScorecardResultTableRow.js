@@ -89,11 +89,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   btn: {
-    width: 90,
+    width: '85%',
+    maxWidth: 90,
     height: 34,
     backgroundColor: '#cacaca',
-     borderRadius: 4,
-     justifyContent: 'center',
+    borderRadius: 4,
+    justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 6,
   },

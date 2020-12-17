@@ -120,14 +120,13 @@ class Facilitator extends Component {
   };
 
   renderNextButton = () => {
-    if (!this.state.isError) {
-      const {translations} = this.context;
-      return (
-        <View style={styles.buttonContainer}>
-          <BottomButton label={translations.next} onPress={() => this.saveSelectedData()} />
-        </View>
-      );
-    }
+    const {translations} = this.context;
+
+    return (
+      <View style={styles.buttonContainer}>
+        <BottomButton disabled={this.state.isError} label={translations.next} onPress={() => this.saveSelectedData()} />
+      </View>
+    );
   };
 
   getSelectedFacilitator = (facilitator) => {
@@ -169,11 +168,11 @@ class Facilitator extends Component {
           <Text style={styles.otherFacilitatorsLabel}>
             {translations['otherFacilitators']}
           </Text>
-          <View style={{marginBottom: 220}}>
-            {this.renderOtherFacilitators()}
-          </View>
-          {this.renderNextButton()}
+
+          { this.renderOtherFacilitators() }
         </ScrollView>
+
+        { this.renderNextButton() }
       </View>
     );
   }
@@ -194,8 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: -10,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    padding: 20
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

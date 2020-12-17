@@ -83,6 +83,7 @@ class VotingCriteriaList extends Component {
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
 
           <ParticipantInfo
+            participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false SORT(order ASC)`)}
             scorecard_uuid={ this.state.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
             onPressItem={(participant) => this._goToVotingForm(participant.uuid)}

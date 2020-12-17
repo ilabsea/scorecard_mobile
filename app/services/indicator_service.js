@@ -39,13 +39,17 @@ const getSavedIndicators = (scorecardUuid) => {
 
 const getDisplayIndicator = (indicatorable, scorecardObj) => {
   const scorecard = scorecardObj || realm.objects('Scorecard').filtered(`uuid='${indicatorable.scorecard_uuid}'`)[0];
-  const audioLanguage = scorecard.audio_language_code;
 
   if ( indicatorable.indicatorable_type == 'predefined' ) {
-    let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${audioLanguage}'`)[0];
+    let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0];
     indi = indi || realm.objects('Indicator').filtered(`id='${indicatorable.indicatorable_id}'`)[0];
     indi = JSON.parse(JSON.stringify(indi));
     indi.content = indi.content || indi.name;
+
+    if (!scorecard.isSameLanguageCode) {
+      let textIndi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.text_language_code}'`)[0];
+      indi.content = !!textIndi && textIndi.content;
+    }
 
     return indi;
   }

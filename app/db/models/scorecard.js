@@ -12,6 +12,10 @@ class Scorecard {
   get isDeleted() {
     return !!this.deleted_date;
   }
+
+  get isSameLanguageCode() {
+    return this.audio_language_code == this.text_language_code;
+  }
 }
 
 Scorecard.schema = {
