@@ -30,20 +30,14 @@ export default class CriteriaRatingItem extends Component {
 
   constructor(props) {
     super(props);
+    let scorecard = realm.objects('Scorecard').filtered(`uuid='${props.criteria.scorecard_uuid}'`)[0];
 
     this.state = {
       currentScore: 0,
       languageRatingScales: [],
-      scorecard: realm.objects('Scorecard').filtered(`uuid='${this.props.criteria.scorecard_uuid}'`)[0]
+      scorecard: scorecard,
+      languageRatingScales: JSON.parse(JSON.stringify(realm.objects('LanguageRatingScale').filtered(`program_id == ${scorecard.program_id}`)))
     };
-  }
-
-  componentDidMount() {
-    const scorecardUuid = this.props.criteria.scorecard_uuid;
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0];
-    this.setState({
-      languageRatingScales: realm.objects('LanguageRatingScale').filtered(`program_id == ${scorecard.program_id} AND language_code == '${scorecard.audio_language_code}'`)
-    });
   }
 
   _onClickIcon(rating) {
@@ -51,18 +45,33 @@ export default class CriteriaRatingItem extends Component {
     !!this.props.onPress && this.props.onPress(rating);
   }
 
-  _getLanguageRatingScaleAudio(scaleCode) {
-    const languageRatingScale = this.state.languageRatingScales.filter(langRatingScale => {
-      return langRatingScale.rating_scale_code === scaleCode;
-    });
-    return languageRatingScale.length > 0 ? languageRatingScale[0].local_audio : '';
+  _findLangugaeRatingScale(ratingCode, language_code) {
+    return this.state.languageRatingScales.filter(rating =>
+      rating.rating_scale_code == ratingCode && rating.language_code == language_code
+    )[0];
+  }
+
+  _getLanguageRatingScale(ratingCode) {
+    const { translations } = this.context;
+    const { scorecard } = this.state;
+    let rating = this._findLangugaeRatingScale(ratingCode, scorecard.audio_language_code) || {};
+
+    if (!scorecard.isSameLanguageCode) {
+      let textRating = this._findLangugaeRatingScale(ratingCode, scorecard.text_language_code);
+      rating.content = !!textRating && textRating.content;
+    }
+
+    rating.content = rating.content || translations[ratingCode];
+
+    return rating;
   }
 
   _renderRatingIcon(rating) {
     const { translations } = this.context;
+    const ratingLanguage = this._getLanguageRatingScale(rating.label);
+
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
-    const audioRatingAudio = this._getLanguageRatingScaleAudio(rating.label);
     let iconSizeRatio = iconSize * 0.8;
 
     return (
@@ -75,14 +84,14 @@ export default class CriteriaRatingItem extends Component {
             <Image source={Images[rating.image]} style={{width: iconSizeRatio, height: iconSizeRatio, maxWidth: iconSize, maxHeight: iconSize}} />
           </View>
 
-          <Text style={{fontSize: 16, color: '#22354c', textAlign: 'center'}}>{translations[rating.label]}</Text>
+          <Text style={{fontSize: 16, color: '#22354c', textAlign: 'center'}}>{ratingLanguage.content}</Text>
         </TouchableOpacity>
 
         <View style={{flex: 1}}></View>
 
         <PlaySound
           containerStyle={{borderRadius: 2, width: '90%', maxWidth: 100, flexDirection: 'row'}}
-          filePath={audioRatingAudio}
+          filePath={ratingLanguage.local_audio}
           isLocal={true}>
           <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
         </PlaySound>

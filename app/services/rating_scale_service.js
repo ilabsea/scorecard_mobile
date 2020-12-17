@@ -51,10 +51,11 @@ const ratingScaleService = (() => {
       id: languageRatingScale.id,
       language_code: languageRatingScale.language_code,
       audio: languageRatingScale.audio,
+      content: languageRatingScale.content,
       rating_scale_id: ratingScale.id,
       rating_scale_code: ratingScale.code,
       program_id: programId,
-    };  
+    };
 
     realm.write(() => {
       realm.create('LanguageRatingScale', attrs, 'modified');
