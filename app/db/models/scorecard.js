@@ -4,6 +4,14 @@ class Scorecard {
   get isCompleted() {
     return this.status == '5';
   }
+
+  get isUploaded() {
+    return !!this.uploaded_date;
+  }
+
+  get isDeleted() {
+    return !!this.deleted_date;
+  }
 }
 
 Scorecard.schema = {
@@ -33,10 +41,11 @@ Scorecard.schema = {
     district: 'string',
     commune: 'string',
     program_id: 'int',
-    uploaded: { type: 'bool', default: false },
+    uploaded_date: 'string?',
     downloaded: { type: 'bool', default: false },
     text_language_code: 'string?',
-    audio_language_code: 'string?'
+    audio_language_code: 'string?',
+    deleted_date: 'string?',
   }
 }
 

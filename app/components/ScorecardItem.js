@@ -25,7 +25,7 @@ export default class ScorecardItem extends Component {
     return (
       <View style={[styles.statusIconWrapper, wrapperStyle]}>
         <Icon name={iconName} type="FontAwesome5" style={{fontSize: 50, color: '#fff'}} />
-        { scorecard.uploaded && <Icon name={'lock-closed'}  style={{position: 'absolute', bottom: 6, right: 6, color: '#fff'}}/> }
+        { scorecard.isUploaded && <Icon name={'lock-closed'}  style={{position: 'absolute', bottom: 6, right: 6, color: '#fff'}}/> }
       </View>
     )
   }

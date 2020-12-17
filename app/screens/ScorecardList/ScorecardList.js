@@ -4,12 +4,14 @@ import {
   View,
   Text,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardItem from '../../components/ScorecardItem';
 import uuidv4 from '../../utils/uuidv4';
+import scorecardService from '../../services/scorecardService';
 
 export default class ScorecardList extends Component {
   static contextType = LocalizationContext;
@@ -25,6 +27,12 @@ export default class ScorecardList extends Component {
   }
 
   onPress(scorecard) {
+    const { translations } = this.context
+
+    if (scorecard.isDeleted) {
+      return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
+    }
+
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.name});
   }
 

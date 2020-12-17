@@ -20,6 +20,8 @@ import Color from './app/themes/color';
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
 
+import Queue from './app/utils/queue';
+
 Sentry.init({
   dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
 });
@@ -47,6 +49,7 @@ const App: () => React$Node = () => {
   useEffect(() => {
     setLoading(false);
     SplashScreen.hide();
+    Queue.initWorker();
   });
 
   return (
