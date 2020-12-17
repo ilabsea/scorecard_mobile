@@ -29,10 +29,8 @@ class CriteriaModal extends Component {
   }
 
   componentWillUnmount(){
-    if(this.sound) {
+    if(this.sound)
       this.sound.release();
-      this.sound = null;
-    }
 
     if(this.timeout) {
       clearInterval(this.timeout);
@@ -51,6 +49,9 @@ class CriteriaModal extends Component {
   }
 
   onDimiss() {
+    if (this.sound)
+      this.releaseAudio();
+
     this.setState({duration: 0, playSeconds: 0});
     this.props.setModalVisible(false);
   }
@@ -65,26 +66,56 @@ class CriteriaModal extends Component {
     if(this.timeout) {
       clearInterval(this.timeout);
     }
+    this.releaseAudio();
+  }
 
-    this.setState({ playState:'paused' });
-    this.sound.setCurrentTime(0);
+  handlePauseAndPlay() {
+    if (this.state.playState === 'playing') {
+      this.sound.pause();
+      this.setState({playState: 'paused'})
+      clearInterval(this.timeout);
+    }
+    else {
+      this.sound.play(this.playComplete);
+      this.setState({playState: 'playing'});
+      this.startPlayAudioInterval()
+    }
   }
 
   async playAudio() {
-    this.sound = new Sound(this.props.criteriaModal.criteria.local_audio, '', (error) => {
-      if (error) { return console.log('failed to load the sound', error); }
+    if (this.sound != null)
+      this.handlePauseAndPlay();
+    else {
+      this.setState({playSeconds: 0});
+      this.sound = new Sound(this.props.criteriaModal.criteria.local_audio, '', (error) => {
+        if (error) { return console.log('failed to load the sound', error); }
 
-      this.setState({duration: this.sound.getDuration(), playState: 'playing'});
-      this.sound.play(this.playComplete);
-    });
+        this.setState({duration: this.sound.getDuration(), playState: 'playing'});
+        this.sound.play(this.playComplete);
+      });
+      this.startPlayAudioInterval();
+    }
+  }
 
+  startPlayAudioInterval() {
     this.timeout = setInterval(() => {
       if(this.sound && this.sound.isLoaded() && this.state.playState == 'playing') {
         this.sound.getCurrentTime((seconds, isPlaying) => {
           this.setState({playSeconds: seconds});
         })
       }
-    }, 100);
+    }, 1000);
+  }
+
+  releaseAudio() {
+    this.sound.setCurrentTime(0);
+    this.sound.release();
+    this.sound = null;
+    this.setState({
+      playState: 'pause',
+      playSeconds: 0,
+      duration: 0,
+    })
   }
 
   getProgress() {

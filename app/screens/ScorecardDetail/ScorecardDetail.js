@@ -13,7 +13,7 @@ import BottomButton from '../../components/BottomButton';
 import IndicatorApi from '../../api/IndicatorApi';
 import CafApi from '../../api/CafApi';
 
-import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded} from '../../services/scorecard_detail_service';
+import {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, isAllRatingScaleDownloaded} from '../../services/scorecard_detail_service';
 import {saveLanguageIndicator} from '../../services/language_indicator_service';
 import {saveIndicator} from '../../services/indicator_service';
 import {saveCaf} from '../../services/caf_service';
