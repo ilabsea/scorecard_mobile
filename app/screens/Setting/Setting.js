@@ -17,11 +17,11 @@ import SelectPicker from '../../components/SelectPicker';
 
 import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
-import {checkConnection} from '../../services/api_connectivity_service';
+import {checkConnection} from '../../services/api_service';
+import {handleApiResponse} from '../../services/api_service';
 import {localeDictionary} from '../../constants/locale_constant';
 
-import {connect} from 'react-redux';
-import {authenticateAction} from '../../actions/sessionAction';
+import SessionApi from '../../api/SessionApi';
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -171,26 +171,21 @@ class Setting extends Component {
     return true;
   }
 
-  authenticate() {
+  async authenticate() {
     const { backendUrl, email, password } = this.state;
-
-    this.props.authenticateAction(email, password, async (isSuccess, response) => {
+    const response = await SessionApi.authenticate(email, password);
+    handleApiResponse(response, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
-
-      if (isSuccess) {
-        this.refs.loading.show(false);
-        this.setState({isLoading: false});
-
-        AsyncStorage.setItem('AUTH_TOKEN', response['authentication_token']);
-        AsyncStorage.setItem('SETTING', JSON.stringify({backendUrl: backendUrl, email: email, password: password}));
-
-        this.props.navigation.goBack();
-      }
-      else {
-        this.refs.loading.show(false);
-        this.setState({isLoading: false});
-        this.handleAuthenticateError(response);
-      }
+      this.refs.loading.show(false);
+      this.setState({isLoading: false});
+      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+      AsyncStorage.setItem('SETTING', JSON.stringify({backendUrl: backendUrl, email: email, password: password}));
+      this.props.navigation.goBack();
+    }, () => {
+      AsyncStorage.setItem('IS_CONNECTED', 'true');
+      this.refs.loading.show(false);
+      this.setState({isLoading: false});
+      this.handleAuthenticateError(response);
     });
   }
 
@@ -232,16 +227,19 @@ class Setting extends Component {
       message = 'invalidEmailOrPasswordMsg';
     else if (error.toLowerCase() === 'Your account is unprocessable')
       message = 'accountIsUnprocessable';
+    else
+      message = 'authenticationFailed';
 
     this.setState({errorMsg: message});
   }
 
   renderErrorMsg = () => {
+    const {translations} = this.context;
     const {errorMsg, messageType} = this.state;
 
     return (
       <MessageLabel
-        message={errorMsg}
+        message={translations[errorMsg]}
         type={messageType}
         customStyle={{marginTop: 120}}
       />
@@ -297,20 +295,4 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  return {
-    isLoading: state.authenticateReducer.isLoading,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    authenticateAction: (email, password, callback) =>
-      dispatch(authenticateAction(email, password, callback)),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Setting);
+export default Setting;

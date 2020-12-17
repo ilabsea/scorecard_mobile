@@ -18,11 +18,10 @@ import MessageLabel from '../../components/MessageLabel';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
-import {checkConnection} from '../../services/api_connectivity_service';
+import {checkConnection, handleApiResponse} from '../../services/api_service';
 
-import {connect} from 'react-redux';
-import {getScorecardDetailAction} from '../../actions/scorecardAction';
 import Brand from '../../components/Home/Brand';
+import ScorecardApi from '../../api/ScorecardApi';
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -81,7 +80,7 @@ class NewScorecard extends Component {
     });
   }
 
-  joinScorecard = () => {
+  joinScorecard = async () => {
     if (!this.isValid()) return;
 
     const {code} = this.state;
@@ -89,23 +88,22 @@ class NewScorecard extends Component {
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
-    this.props.getScorecardDetailAction(code, (isSuccess, response) => {
+    const scorecardApi = new ScorecardApi();
+    const response = await scorecardApi.load(code);
+    handleApiResponse(response, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
-      if (isSuccess) {
-        this.setState({isLoading: false});
-        this.refs.loading.show(false);
-
-        if (response === null) {
-          this.setState({codeMsg: 'scorecardIsNotExist'});
-        } else {
-          this.saveScorecard(response);
-          this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
-        }
-
-      } else {
-        this.setState({isLoading: false});
-        this.refs.loading.show(false);
+      this.setState({isLoading: false});
+      this.refs.loading.show(false);
+      if (responseData === null)
+        this.setState({codeMsg: 'scorecardIsNotExist'});
+      else {
+        this.saveScorecard(responseData);
+        this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
       }
+    }, () => {
+      AsyncStorage.setItem('IS_CONNECTED', 'true');
+      this.setState({isLoading: false});
+      this.refs.loading.show(false);
     });
 
     checkConnection((type, message) => {
@@ -193,20 +191,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  return {
-    isLoading: state.getScorecardDetailReducer.isLoading,
-    error: state.getScorecardDetailReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getScorecardDetailAction: (code, callback) => dispatch(getScorecardDetailAction(code, callback)),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewScorecard);
+export default NewScorecard;

@@ -16,4 +16,12 @@ const checkConnection = (callback) => {
   }, 20000);
 };
 
-export {checkConnection};
+const handleApiResponse = (response, successCallback, errorCallback) => {
+  if (response.error != undefined)
+    errorCallback();
+  else
+    successCallback(response.data);
+}
+
+
+export {checkConnection, handleApiResponse};
