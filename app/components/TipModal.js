@@ -49,7 +49,7 @@ export default class TipModal extends Component {
     return (
       <Portal>
         <Modal visible={this.props.visible} onDismiss={this.props.onDimiss} contentContainerStyle={ styles.container }>
-          <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20}}>{ translations.tipsDetails }</Text>
+          <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20}}>{ this.props.tip.title }</Text>
 
           <ScrollView style={{flex: 1}}>
             { this.renderTipList() }

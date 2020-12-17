@@ -92,7 +92,7 @@ class ScorecardResult extends Component {
 
         <ScrollView style={{flex: 1}}>
           <View style={styles.container}>
-            <Tip />
+            <Tip screenName={'ScorecardResult'}/>
 
             <View style={{flexDirection: 'row', marginBottom: 20}}>
               <Text style={styles.h1}>{ translations.scorecardResult }</Text>

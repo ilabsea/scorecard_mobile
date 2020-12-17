@@ -42,7 +42,7 @@ class UserListing extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{padding: 20, paddingBottom: 28}}>
-          <Tip/>
+          <Tip screenName={'RaisingProposed'}/>
 
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
           <ListUser

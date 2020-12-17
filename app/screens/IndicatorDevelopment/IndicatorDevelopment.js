@@ -112,7 +112,7 @@ class IndicatorDevelopment extends Component {
         { this._renderHeader() }
 
         <View style={styles.container}>
-          <Tip />
+          <Tip screenName={'IndicatorDevelopment'}/>
 
           { this._renderContent() }
         </View>
