@@ -4,6 +4,7 @@ import color from "color";
 
 import { Platform, Dimensions, PixelRatio } from "react-native";
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
+import customColor from '../color';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -39,7 +40,8 @@ export default {
   btnDisabledBg: "#b5b5b5",
   buttonPadding: 6,
   get btnPrimaryBg() {
-    return this.brandPrimary;
+    return customColor.headerColor;
+    // return this.brandPrimary;
   },
   get btnPrimaryColor() {
     return this.inverseTextColor;

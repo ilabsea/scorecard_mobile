@@ -22,6 +22,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
 import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
+import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -84,28 +85,6 @@ class VotingCriteriaList extends Component {
     this.props.navigation.navigate('VotingCriteriaForm', {scorecard_uuid: this.state.scorecard.uuid, participant_uuid: participant_uuid});
   }
 
-  _showParticipantModal = () => {
-    let participants = realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false`);
-    this.setState({
-      participantVisible: true,
-      participants: participants,
-    });
-  };
-
-  _showAddParticipantModal = () => {
-    this.setState({
-      participantVisible: false,
-      addParticipantVisible: true,
-    });
-  }
-
-  _hideAddParticipantModal = () => {
-    this.setState({
-      addParticipantVisible: false,
-      participantVisible: true,
-    });
-  }
-
   _renderContent() {
     const { translations } = this.context;
 
@@ -114,14 +93,12 @@ class VotingCriteriaList extends Component {
         <View style={{flexDirection: 'row', marginVertical: 20}}>
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
 
-          <Button
-            onPress={() => this._showParticipantModal()}
-            iconLeft
-            style={{backgroundColor: Color.headerColor}}>
-            <Icon name='plus' type="FontAwesome" />
-            <Text>{translations.newVote}</Text>
-          </Button>
-
+          <ParticipantInfo
+            scorecard_uuid={ this.state.scorecard.uuid }
+            mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
+            onPressItem={(participant) => this._goToVotingForm(participant.uuid)}
+            onPressCreateParticipant={(participant) => this._goToVotingForm(participant.uuid)}
+            navigation={this.props.navigation}/>
         </View>
 
         { this._renderList() }
@@ -130,25 +107,6 @@ class VotingCriteriaList extends Component {
           onPress={() => this._goNext()}
           customBackgroundColor={Color.headerColor}
           label={translations.next}/>
-
-        <ParticipantModal
-          participants={this.state.participants || []}
-          visible={this.state.participantVisible}
-          scorecardUuid={this.state.scorecard.uuid}
-          navigation={this.props.navigation}
-          onDismiss={() => this.setState({participantVisible: false})}
-          showAddParticipantModal={() => this._showAddParticipantModal()}
-          onPressItem={(participantUuid) => this._goToVotingForm(participantUuid)}
-        />
-
-        <AddNewParticiantModal
-          visible={this.state.addParticipantVisible}
-          onDismiss={() => this.setState({addParticipantVisible: false})}
-          onClose={() => this._hideAddParticipantModal()}
-          scorecardUuid={this.state.scorecard.uuid}
-          navigation={this.props.navigation}
-          onSaveParticipant={(participantUuid) => this._goToVotingForm(participantUuid)}
-        />
       </View>
     )
   }

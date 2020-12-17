@@ -13,8 +13,13 @@ import {saveParticipant} from '../../actions/participantAction';
 import uuidv4 from '../../utils/uuidv4';
 import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
+
+import HeaderTitle from '../../components/HeaderTitle';
+import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
     this.indicatorSelectionRef = React.createRef();
@@ -23,6 +28,7 @@ class CreateNewIndicator extends Component {
       isValid: false,
       selectedIndicators: [],
       unselectedIndicators: [],
+      participant_uuid: this.props.route.params.participant_uuid
     };
   }
 
@@ -79,7 +85,7 @@ class CreateNewIndicator extends Component {
         indicatorable_id: indicator.uuid.toString(),
         indicatorable_type: indicator.type,
         indicatorable_name: indicator.name,
-        participant_uuid: this.props.route.params.participant_uuid,
+        participant_uuid: this.state.participant_uuid,
         tag: indicator.tag
       };
       realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
@@ -132,17 +138,16 @@ class CreateNewIndicator extends Component {
   };
 
   _renderParticipant() {
-    const { translations } = this.context;
-    const participantNumber = realm.objects('Participant').filtered(`uuid == '${this.props.route.params.participant_uuid}'`)[0].order + 1;
     return (
-      <View style={{flexDirection: 'row'}}>
-        <View style={{backgroundColor: '#dfdfdf', marginTop: 10, padding: 10, borderRadius: 8}}>
-          <Text>{translations.participant_id}: </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Icon name={'person'} style={{fontSize: 28, color: '#8e8e8c'}}/>
-            <Text style={{fontSize: 28, fontFamily: FontFamily.title, marginLeft: 10}}>ID: {participantNumber}</Text>
-          </View>
-        </View>
+      <View>
+        <HeaderTitle headline="createNewProposedCriteria" subheading="pleaseCheckScorecardDetailBelow"/>
+
+        <ParticipantInfo
+          scorecard_uuid={ this.props.route.params.scorecard_uuid }
+          participant_uuid={ this.props.route.params.participant_uuid }
+          onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
+          navigation={this.props.navigation}
+        />
       </View>
     )
   }
@@ -150,34 +155,33 @@ class CreateNewIndicator extends Component {
   render() {
     const {translations} = this.context;
     return (
-      <Provider>
-        <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
-              {this._renderParticipant()}
-              <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
-                {translations['chooseProposedCriteria']}
-              </Text>
-              <CriteriaSelection
-                ref={this.indicatorSelectionRef}
-                selectIndicator={this.selectIndicator}
-                scorecardUUID={this.props.route.params.scorecard_uuid}
-                participantUUID={this.props.route.params.participant_uuid}
-              />
-              {this.renderSaveButton()}
-            </ScrollView>
-          </TouchableWithoutFeedback>
-          <Portal>
-            <AddNewIndicatorModal
-              isVisible={this.state.isModalVisible}
-              closeModal={() => this.closeModal()}
-              saveCustomIndicator={this.saveCustomIndicator}
-              participantUUID={this.props.route.params.participant_uuid}
+      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
+            { this._renderParticipant() }
+            <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
+              {translations['chooseProposedCriteria']}
+            </Text>
+            <CriteriaSelection
+              ref={this.indicatorSelectionRef}
+              selectIndicator={this.selectIndicator}
               scorecardUUID={this.props.route.params.scorecard_uuid}
+              participantUUID={this.props.route.params.participant_uuid}
             />
-          </Portal>
-        </View>
-      </Provider>
+            {this.renderSaveButton()}
+          </ScrollView>
+        </TouchableWithoutFeedback>
+
+        <Portal>
+          <AddNewIndicatorModal
+            isVisible={this.state.isModalVisible}
+            closeModal={() => this.closeModal()}
+            saveCustomIndicator={this.saveCustomIndicator}
+            participantUUID={this.props.route.params.participant_uuid}
+            scorecardUUID={this.props.route.params.scorecard_uuid}
+          />
+        </Portal>
+      </View>
     );
   }
 }

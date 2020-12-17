@@ -10,59 +10,30 @@ import ActionButton from '../ActionButton';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
 import styles from '../../themes/participantListItemStyle';
+import ParticipantModalListItem from './ParticipantModalListItem';
 
 export default class ParticipantModal extends Component {
   static contextType = LocalizationContext;
 
   onPressItem(item) {
     this.props.onDismiss();
+
     if (!!this.props.onPressItem) {
-      this.props.onPressItem(item.uuid);
+      this.props.onPressItem(item);
     } else {
       this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: item.uuid});
     }
   }
 
-  renderGender = (participant) => {
-    if (participant === undefined) return (<Text style={{marginLeft: 20}}>---</Text>);
-
-    if (participant.gender === '') {
-      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 20}} />);
-    }
-
-    const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
-    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 20}} color="black" />);
-  };
-
-  renderParticipantItem(item, index) {
+  renderParticipantItem(item) {
     const { translations } = this.context;
-    let arr = ['disability', 'minority', 'poor', 'youth'];
-    let description = [];
-
-    for(let i=0; i<arr.length; i++) {
-      if(item[arr[i]]) {
-        description.push(translations[arr[i]]);
-      }
-    }
-    description = description.join('; ');
 
     return (
-      <View>
-        <TouchableOpacity onPress={() => this.onPressItem(item)} style={styles.participantItem}>
-          <View style={styles.numberContainer}>
-            <Text style={styles.numberLabel}>{item.order+1}</Text>
-          </View>
-
-          <View style={{flexDirection: 'row', flex: 1}}>
-            { this.renderGender(item) }
-            <Text style={{marginLeft: 20}}>{item.age}</Text>
-            <Text style={{marginLeft: 20}}>{description}</Text>
-          </View>
-
-          <MaterialIcon name="arrow-forward-ios" color="black" />
-        </TouchableOpacity>
-        <Divider />
-      </View>
+      <ParticipantModalListItem
+        participant={item}
+        translations={translations}
+        onPress={() => this.onPressItem(item) }
+      />
     );
   }
 
@@ -70,7 +41,7 @@ export default class ParticipantModal extends Component {
     return (
       <FlatList
         style={{flex: 1, backgroundColor: '', marginBottom: 20}}
-        data={this.props.participants}
+        data={ this.props.participants }
         renderItem={({item, index}) => this.renderParticipantItem(item, index)}
         keyExtractor={item => item.uuid}
       />
