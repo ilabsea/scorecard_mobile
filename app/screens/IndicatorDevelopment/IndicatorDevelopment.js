@@ -37,6 +37,12 @@ class IndicatorDevelopment extends Component {
   }
 
   componentDidMount() {
+    realm.write(() => {
+      if (this.state.scorecard.status < 3) {
+        this.state.scorecard.status = '3';
+      }
+    });
+
     let selectedCriterias = JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${this.state.scorecard.uuid}'`)));
     let selectedTags = selectedCriterias.map(x => x.tag);
     let proposedCriterias = this._getProposedCriteria();
@@ -67,11 +73,6 @@ class IndicatorDevelopment extends Component {
 
   _submit() {
     submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias);
-    realm.write(() => {
-      if (this.state.scorecard.status < 4) {
-        this.state.scorecard.status = '4';
-      }
-    });
 
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }

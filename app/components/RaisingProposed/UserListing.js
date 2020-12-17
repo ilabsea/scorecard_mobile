@@ -14,10 +14,6 @@ import {connect} from 'react-redux';
 class UserListing extends Component {
   static contextType = LocalizationContext;
   onPress = () => {
-    realm.write(() => {
-      realm.create('Scorecard', { uuid: this.props.scorecardUUID, status: '2' }, 'modified');
-    })
-
     this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
   }
 
