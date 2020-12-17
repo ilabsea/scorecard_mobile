@@ -6,6 +6,7 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
+import realm from '../../db/schema';
 
 class VoiceRecord extends Component {
   static contextType = LocalizationContext;
@@ -13,7 +14,7 @@ class VoiceRecord extends Component {
     super(props);
     this.recorderInterval = null;
     this.playInterval = null;
-    this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}.mp4`;
+    this.filename = '';
     this.recorder = null;
     this.audioPlayer = null;
     this.state = {
@@ -28,6 +29,8 @@ class VoiceRecord extends Component {
 
   componentDidMount() {
     this.checkPermission();
+    const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid == '${this.props.scorecardUUID}'`);
+    this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}_${customIndicators.length + 1}.mp3`;            // Ex: abc123def_277403_2.mp3
   }
 
   checkPermission = () => {
@@ -43,7 +46,7 @@ class VoiceRecord extends Component {
   recordVoice = () => {
     if (!this.state.hasPermission) return;
 
-    this.recorder = new Recorder(this.filename);
+    this.recorder = new Recorder(this.filename, {format: 'mp3'});
     this.recorder.prepare(() => {
       this.recorder.record(() => {
         this.setState({isRecording: true});
