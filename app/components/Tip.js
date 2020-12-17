@@ -23,7 +23,7 @@ export default class Tip extends Component {
     super(props);
 
     this.state = {
-      tip: tips[0],
+      tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
       visibleModal: false
     };
   }
@@ -39,6 +39,7 @@ export default class Tip extends Component {
   render() {
     let scorecard = this.props.scorecard || {};
     const { translations } = this.context;
+    const description = this.state.tip.description || this.state.tip.tips.map(t => t.title).join(' ');
 
     return (
       <View>
@@ -51,7 +52,7 @@ export default class Tip extends Component {
           <View style={cardListItemStyle.contentWrapper}>
             <Text style={cardListItemStyle.h1}>{ translations.tips }</Text>
 
-            <Text numberOfLines={2} style={cardListItemStyle.paragraph}>{ this.state.tip.description }</Text>
+            <Text numberOfLines={2} style={cardListItemStyle.paragraph}>{ description }</Text>
 
             <View style={cardListItemStyle.viewDetail}>
               <Text>{translations.viewTips}</Text>

@@ -104,7 +104,7 @@ class VotingCriteriaList extends Component {
         { this._renderHeader() }
 
         <ScrollView contentContainerStyle={styles.container}>
-          <Tip />
+          <Tip screenName={'VotingCriteriaList'}/>
 
           { this._renderContent() }
         </ScrollView>

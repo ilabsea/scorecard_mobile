@@ -1,32 +1,78 @@
 export default [
   {
-    screenName: '',
-    description: 'Before the top 5 Ratting isssues start, This tips will help CAF better facilitate the dicussion on how to complie or finalize the key top 5 issues/ indicator to move forward by giving CAF key questions/statements.',
+    screenName: 'RaisingProposed',
+    title: 'វិធីដើម្បីបំផុសលក្ខណៈវិន្និច្ឆ័យ',
+    description: '',
     tips: [
       {
-        title: 'Speak slowly',
-        subTitle: 'You should speak slowly and preapre this tips. You should speak slowly and preapre this tips. You should speak slowly and preapre this tips.'
+        title: 'ព្យាយាមសួរនូវសំណួរបើកទៅកាន់អ្នកចូលរួម',
+        subTitle: 'តើពេលអ្នកទៅយកសេវា តើអ្នកដឹងថាអ្នកធ្វើអីដែរឬទេ? តើមានអ្នកមកសួរនាំអ្នកដែរឬទេ? តើតម្លៃសេវាយ៉ាងណាដែរ? មានខុសពីតម្លៃដែលអ្នកដឹងដែរឬទេ?'
       },
       {
-        title: 'Speak slowly',
-        subTitle: 'You should speak slowly and preapre this tips. You should speak slowly and preapre this tips. You should speak slowly and preapre this tips.'
+        title: 'ដឹកនាំអោយគាត់ស្រម៉ៃទៅកាន់ពេលដែលគាត់ទៅយកសេវា',
+        subTitle: ''
       },
       {
-        title: 'Speak slowly',
-        subTitle: 'You should speak slowly and preapre this tips. You should speak slowly and preapre this tips. You should speak slowly and preapre this tips.'
+        title: 'ផ្តោតលើអារម្មណ៍របស់គាត់ពេលដែលគាត់ទៅយកសេវា',
+        subTitle: ''
       },
       {
-        title: 'Speak slowly',
-        subTitle: 'You should speak slowly and preapre this tips. You should speak slowly and preapre this tips. You should speak slowly and preapre this tips.'
+        title: 'ពន្យល់គាត់ថាការលើកបញ្ហារនេះជាការសំងាត់',
+        subTitle: ''
       },
       {
-        title: 'Speak slowly',
-        subTitle: 'You should speak slowly and preapre this tips. You should speak slowly and preapre this tips. You should speak slowly and preapre this tips.'
+        title: 'បញ្ហាដែលគាត់លើកឡើងគឺពិតជាសំខាន់សម្រាប់សហគមន៍គាត់',
+        subTitle: ''
       },
       {
-        title: 'Speak slowly',
-        subTitle: 'You should speak slowly and preapre this tips. You should speak slowly and preapre this tips. You should speak slowly and preapre this tips.'
+        title: 'បង្កើតការសន្ទនារជាមួយគាត់អោយធ្វើយ៉ាងណាគាត់អាចប្រាប់ យើងពីការពិតនៃអារម្មណ៍របស់គាត់',
+        subTitle: ''
+      }
+    ]
+  },
+  {
+    screenName: 'IndicatorDevelopment',
+    title: 'ដំណាក់កាលនៃការជ្រើសរើសលក្ខណៈវិនិច្ឆ័យចុងក្រោយ',
+    description: '',
+    tips: [
+      {
+        title: 'បន្ទាប់ពីអ្នកបានធ្វើការសម្របសម្រួលអោយប្រជាជនធ្វើការសម្រេច នូវលក្ខណៈវិនិច្ឆ័យចុងក្រោយ (៥ឬ៦) រួចមក',
+        subTitle: ''
       },
-    ],
+      {
+        title: 'ដំណាក់កាលនេះគឺជាពេលដែលអ្នកអាចជ្រើសរើសយកលក្ខណៈវិនិច្ឆ័យ សម្រេចសម្រាប់យកទៅសកម្មភាពបន្ត។',
+        subTitle: ''
+      }
+    ]
+  },
+  {
+    screenName: 'VotingCriteriaList',
+    title: 'វិធីក្នុងការគណនាពិន្ទុដោយប្រព័ន្ធកុំព្យូទ័រ',
+    description: '',
+    tips: [
+      {
+        title: 'លទ្ធសរុបនេះគឺត្រូវបានគណនាតាមរយៈ មេដ្យាន ដែលជាការធ្វើការគណនាដោយប្រព័ន្ធកុំព្យូទ័រ។',
+        subTitle: ''
+      },
+      {
+        title: 'លទ្ធផលនៃការគណនានេះគឺពិតជាមានភាពជាក់លាក់បំផុត។ ហើយអ្នកទាំងអស់គ្នាអាចមើលចំនួសម្លេងដែល អ្នកចូលរួមបានបោះបានផងដែរ។',
+        subTitle: ''
+      }
+    ]
+  },
+  {
+    screenName: 'ScorecardResult',
+    title: 'តារាងសកម្មភាពអទិភាព',
+    description: '',
+    tips: [
+      {
+        title: 'បន្ទាប់ពីអ្នកបានបំផុសសកម្មភាពទៅកាន់ប្រជាពលរដ្ឋហើយ អ្នកអ្នកត្រូវបញ្ចូលនូវលទ្ធផលទាំងនោះក្នុងតារាងខាងក្រោម',
+        subTitle: ''
+      },
+      {
+        title: 'ការបញ្ចូលទិន្ន័យភ្លាមៗ វាជួយអោយគម្រោងទាំងមូលងាយស្រួល ក្នុងការទទួលបានទិន្ន័យទាន់ពេលនិងទៀងទាត់។',
+        subTitle: ''
+      }
+    ]
   },
 ]
