@@ -9,6 +9,7 @@ import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {getIndicatorShortcutName, getSavedIndicators} from '../../services/indicator_service';
 
 const windowWidth = Dimensions.get('window').width;
+const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -84,10 +85,8 @@ class CriteriaSelection extends Component {
   }
 
   indicatorCard = (indicator, index) => {
-    let containerStyle = windowWidth >= 550 ? { flex: 1 } : { width: windowWidth - 40 };
-
     return (
-      <View key={index} style={[styles.criteriaBoxContainer, containerStyle, this.selectedCriteriaBoxStyle(indicator)]}>
+      <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.selectIndicator(index)}>
 
@@ -178,6 +177,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     marginVertical: 10,
     marginHorizontal: 10,
+    width: itemWidth,
     height: 100,
     borderWidth: 1,
     borderColor: 'transparent'

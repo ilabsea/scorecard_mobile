@@ -192,8 +192,8 @@ const scorecardService = (() => {
     if (!!indicator.local_audio) {
       data.append('audio', {
         uri: 'file://' + indicator.local_audio,
-        type: 'audio/x-mp4',
-        name: 'audio.mp4'
+        type: 'audio/x-mp3',
+        name: 'audio.mp3'
       });
     }
 
