@@ -139,7 +139,7 @@ class Facilitator extends Component {
     const firstFacilitator = this.state.selectedFacilitators[0];
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
         <ProgressHeader
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}

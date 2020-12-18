@@ -37,7 +37,7 @@ const isAllRatingScaleDownloaded = async (programId) => {
   const ratingScaleApi = new RatingScaleApi();
   const response = await ratingScaleApi.load(programId);
   const ratingScales = response.data;
-  const savedRatingScales = realm.object('RatingScale').filtered(`program_id == ${programId}`);
+  const savedRatingScales = realm.objects('RatingScale').filtered(`program_id == ${programId}`);
 
   if (savedRatingScales[0] === undefined || !response)
     return false;
