@@ -45,7 +45,7 @@ export default class ScorecardItem extends Component {
         { this.renderStatusIcon(scorecard) }
 
         <View style={styles.contentWrapper}>
-          <Text style={styles.title}>ID: {scorecard.name} ({scorecard.uuid})</Text>
+          <Text style={styles.title} numberOfLines={1}>ID: {scorecard.uuid} ({scorecard.name})</Text>
 
           <View style={styles.subTextWrapper}>
             <Icon name='people' style={styles.subTextIcon} />
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   statusIconWrapper: {
-    width: 160,
+    width: '25%',
+    maxWidth: 160,
     backgroundColor: '#787878',
     alignItems: 'center',
     justifyContent: 'center'

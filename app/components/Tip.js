@@ -29,9 +29,10 @@ export default class Tip extends Component {
   }
 
   renderTipIcon(scorecard) {
+    let iconSize = 73 * 0.9;
     return (
       <View style={[cardListItemStyle.statusIconWrapper]}>
-        <Image source={require('../assets/images/tip.png')} style={{width: 73, height: 73}}/>
+        <Image source={require('../assets/images/tip.png')} style={{width: iconSize, height: iconSize}}/>
       </View>
     )
   }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import realm from '../../db/schema';
@@ -7,6 +7,8 @@ import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {getIndicatorShortcutName, getSavedIndicators} from '../../services/indicator_service';
+
+const windowWidth = Dimensions.get('window').width;
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -64,7 +66,7 @@ class CriteriaSelection extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    return indicator.isSelected ? {borderColor: Color.primaryButtonColor, borderWidth: 2} : {};
+    return indicator.isSelected ? { borderColor: Color.primaryButtonColor } : {};
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
@@ -82,8 +84,10 @@ class CriteriaSelection extends Component {
   }
 
   indicatorCard = (indicator, index) => {
+    let containerStyle = windowWidth >= 550 ? { flex: 1 } : { width: windowWidth - 40 };
+
     return (
-      <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
+      <View key={index} style={[styles.criteriaBoxContainer, containerStyle, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.selectIndicator(index)}>
 
@@ -111,7 +115,7 @@ class CriteriaSelection extends Component {
   renderIndicatorItem = (indicator, index) => {
     if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
       return (
-        <View key={index} style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
+        <View key={index} style={{flexDirection: 'row', width: '100%'}}>
           {this.indicatorCard(indicator, index)}
           <View style={{flex: 1, marginHorizontal: 10}} />
         </View>
@@ -171,11 +175,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 2,
     flexDirection: 'row',
-    elevation: 3,
+    elevation: 1,
     marginVertical: 10,
-    flex: 1,
     marginHorizontal: 10,
     height: 100,
+    borderWidth: 1,
+    borderColor: 'transparent'
   },
   criteriaBox: {
     flexDirection: 'row',

@@ -6,6 +6,7 @@ import UserTable from './UserTable';
 import realm from '../../db/schema';
 import { connect } from 'react-redux';
 import { getRaisedParticipants } from '../../services/participant_service';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 
@@ -61,14 +62,15 @@ class ListUser extends Component {
         <View style={styles.headingContainer}>
           <Text style={styles.headingTitle}>{translations['listUser']}</Text>
 
-          <ParticipantInfo
-            participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.scorecardUUID}' AND raised=false SORT(order ASC)`)}
-            scorecard_uuid={ this.props.scorecardUUID }
-            mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
-            onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
-            onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
-            navigation={this.props.navigation}/>
-
+          <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
+            <ParticipantInfo
+              participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.scorecardUUID}' AND raised=false SORT(order ASC)`)}
+              scorecard_uuid={ this.props.scorecardUUID }
+              mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
+              onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
+              onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
+              navigation={this.props.navigation}/>
+          </View>
         </View>
 
         { this.renderUserTable() }
@@ -81,11 +83,11 @@ const styles = StyleSheet.create({
   headingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap'
   },
   headingTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    flex: 1,
+    fontFamily: FontFamily.title,
     color: '#22354c',
   },
 });

@@ -185,6 +185,7 @@ class ScorecardPreference extends Component {
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}
           progressIndex={0}/>
+
         <ScrollView contentContainerStyle={styles.container}>
           <Loading
             ref="loading"
@@ -199,13 +200,14 @@ class ScorecardPreference extends Component {
             subheading="pleaseFillInformationBelow"
           />
           {this.renderForm()}
-          <View style={{flex: 1, justifyContent: 'flex-end'}}>
-            <BottomButton
-              label={translations.next}
-              onPress={() => this.saveSelectedData()}
-            />
-          </View>
         </ScrollView>
+
+        <View style={{padding: 20}}>
+          <BottomButton
+            label={translations.next}
+            onPress={() => this.saveSelectedData()}
+          />
+        </View>
       </View>
     );
   }
