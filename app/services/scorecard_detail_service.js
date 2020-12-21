@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../db/schema';
 import {readAllFiles} from './local_file_system_service';
 import {getAudioFilename} from './audio_service';
+import {saveIndicator} from './indicator_service';
+import {saveLanguageIndicator} from './language_indicator_service';
 import RatingScaleApi from '../api/RatingScaleApi';
 
 const _getScorecardUUID = async () => {
@@ -24,7 +26,6 @@ const CheckAllAudioDownloaded = async (indicators, callback) => {
   readAllFiles(async (isSuccess, response) => {
     if (isSuccess) {
       downloadedFiles = await response;
-
       if (audioFilesName.length === 0)
         callback(true)
       else
@@ -92,4 +93,78 @@ const getDownloadPercentage = (amountOfData) => {
   return 20 / (amountOfData * 100);
 }
 
-export {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, getDownloadPercentage, isAllRatingScaleDownloaded};
+const handleSaveIndicator = (options, isIndicatorDownloaded, callback) => {
+  if (isIndicatorDownloaded) {
+    options.updateDownloadProgress(0.2);
+    return;
+  }
+
+  saveIndicator(options.scorecardUuid, options.indicators, options.updateDownloadProgress,
+    (isIndicatorDownloaded) => {
+      callback(isIndicatorDownloaded);
+    }
+  );
+}
+
+const handleSaveLanguageIndicator = (options, isLanguageIndicatorDownloaded, callback) => {
+  if (isLanguageIndicatorDownloaded) {
+    options.updateDownloadProgress(0.2);
+    return;
+  }
+
+  saveLanguageIndicator(options.scorecardUuid, options.indicators, options.updateDownloadProgress,
+    (isDownloaded) => {
+      callback(isDownloaded);
+    }
+  );
+}
+
+const handleSaveAudio = (options, isAllAudioDownloaded, audioService, callback) => {
+  if (isAllAudioDownloaded) {
+    options.updateDownloadProgress(0.2);
+    return;
+  }
+
+  audioService.saveAudio(0, options.indicators, options.updateDownloadProgress,
+    (isDownloaded) => {
+      callback(isDownloaded);
+    }
+  );
+}
+
+const handleSaveRatingScale = (programId, isRatingScaleDownloaded, ratingScaleService, updateDownloadProgress, callback) => {
+  if (isRatingScaleDownloaded) {
+    updateDownloadProgress(0.2);
+    return;
+  }
+
+  ratingScaleService.saveData(programId, updateDownloadProgress,
+    (isDownloaded) => {
+      callback(isDownloaded);
+    }
+  );
+}
+
+const cancelApiRequest = (indicatorApi, cafApi, ratingScaleService) => {
+  if (this.indicatorApi != null)
+    indicatorApi.cancelRequest();
+
+  if (this.cafApi != null)
+    cafApi.cancelRequest();
+
+  if(ratingScaleService.ratingScaleApi != null)
+    ratingScaleService.ratingScaleApi.cancelRequest();
+}
+
+export {
+  isAllIndicatorDownloaded,
+  isAllCafDownloaded,
+  CheckAllAudioDownloaded,
+  getDownloadPercentage,
+  isAllRatingScaleDownloaded,
+  handleSaveIndicator,
+  handleSaveLanguageIndicator,
+  handleSaveAudio,
+  handleSaveRatingScale,
+  cancelApiRequest,
+};

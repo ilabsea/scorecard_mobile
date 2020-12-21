@@ -80,8 +80,19 @@ class NewScorecard extends Component {
     });
   }
 
+  isScorecardAlreadySaved = () => {
+    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.state.code}'`)[0];
+    return scorecard != undefined;
+  }
+
   joinScorecard = async () => {
     if (!this.isValid()) return;
+
+    if (this.isScorecardAlreadySaved()) {
+      AsyncStorage.setItem('SELECTED_SCORECARD_UUID', this.state.code);
+      this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.state.code});
+      return;
+    }
 
     const {code} = this.state;
     this.setState({isLoading: true});

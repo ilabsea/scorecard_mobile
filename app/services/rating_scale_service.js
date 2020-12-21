@@ -6,19 +6,27 @@ import { environment } from '../config/environment';
 import RNFS from 'react-native-fs';
 import {getDownloadPercentage} from './scorecard_detail_service';
 
-const ratingScaleService = (() => {
-  return {
-    saveData
+class RatingScaleService {
+  constructor (isStopDownload) {
+    this.isStopDownload = isStopDownload;
+    this.ratingScaleApi = null;
   }
 
-  async function saveData(programId, updateDownloadPercentage, callback) {
-    const ratingScaleApi = new RatingScaleApi();
-    const response = await ratingScaleApi.load(programId);
+  async saveData(programId, updateDownloadPercentage, callback) {
+    this.ratingScaleApi = new RatingScaleApi();
+    const response = await this.ratingScaleApi.load(programId);
     const ratingScales = response.data;
-    _saveRatingScale(0, ratingScales, programId, updateDownloadPercentage, callback);
+    this._saveRatingScale(0, ratingScales, programId, updateDownloadPercentage, callback);
   }
 
-  function _saveRatingScale(index, ratingScales, programId, updateDownloadPercentage, callback) {
+  cancelRequest() {
+    this.ratingScaleApi.cancelRequest();
+  }
+
+  _saveRatingScale(index, ratingScales, programId, updateDownloadPercentage, callback) {
+    if (this.isStopDownload)
+      return;
+
     if (index === ratingScales.length) {
       callback(true);
       return;
@@ -34,13 +42,13 @@ const ratingScaleService = (() => {
     realm.write(() => {
       realm.create('RatingScale', attrs, 'modified');
     });
-    _saveLanguageRatingScale(0, ratingScale, programId, () => {
+    this._saveLanguageRatingScale(0, ratingScale, programId, () => {
       updateDownloadPercentage(getDownloadPercentage(ratingScales.length));
-      _saveRatingScale(index + 1, ratingScales, programId, updateDownloadPercentage, callback);
+      this._saveRatingScale(index + 1, ratingScales, programId, updateDownloadPercentage, callback);
     });
   }
 
-  function _saveLanguageRatingScale(index, ratingScale, programId, callbackSaveRatingScale) {
+  _saveLanguageRatingScale(index, ratingScale, programId, callbackSaveRatingScale) {
     if (index === ratingScale.language_rating_scales.length) {
       callbackSaveRatingScale();
       return;
@@ -60,18 +68,18 @@ const ratingScaleService = (() => {
     realm.write(() => {
       realm.create('LanguageRatingScale', attrs, 'modified');
     });
-    _checkAndSave(languageRatingScale, () => {
-      _saveLanguageRatingScale(index + 1, ratingScale, programId, callbackSaveRatingScale);
+    this._checkAndSave(languageRatingScale, () => {
+      this._saveLanguageRatingScale(index + 1, ratingScale, programId, callbackSaveRatingScale);
     })
   }
 
-  function _checkAndSave(languageRatingScale, callBackSaveLanguageRatingScale) {
+  _checkAndSave(languageRatingScale, callBackSaveLanguageRatingScale) {
     let audioPath = languageRatingScale.audio.split('/');
     const filename = audioPath[audioPath.length - 1];
 
     readFile(filename, async (isSuccess, response) => {
       if (response === 'file not found') {
-        _downloadAudio(languageRatingScale, filename)
+        this._downloadAudio(languageRatingScale, filename)
       }
       else
         console.log('audio already exist')
@@ -80,8 +88,8 @@ const ratingScaleService = (() => {
     });
   }
 
-  function _downloadAudio(languageRatingScale, filename) {
-    const savingFilename = getAudioFilename(languageRatingScale.id, languageRatingScale.language_code, filename);          // Ex: 1_km_voice.mp3
+  _downloadAudio(languageRatingScale, filename) {
+    const savingFilename = `rating_${getAudioFilename(languageRatingScale.id, languageRatingScale.language_code, filename)}`;          // Ex: rating_1_km_voice.mp3
     let options = {
       fromUrl: `${environment.domain}${languageRatingScale.audio}`,
       toFile: `${RNFS.DocumentDirectoryPath}/${savingFilename}`,
@@ -100,6 +108,6 @@ const ratingScaleService = (() => {
       console.log('failed to download audio = ', err);
     });
   }
-})();
+}
 
-export default ratingScaleService;
+export default RatingScaleService;
