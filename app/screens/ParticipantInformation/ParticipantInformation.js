@@ -168,26 +168,26 @@ class ParticipantInformation extends Component {
 
   render() {
     const {translations} = this.context;
+
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1, backgroundColor: 'white'}}>
-          <ProgressHeader
-            title={translations.getStarted}
-            onBackPress={() => this.props.navigation.goBack()}
-            progressIndex={2}
+      <View style={{flex: 1}}>
+        <ProgressHeader
+          title={translations.getStarted}
+          onBackPress={() => this.props.navigation.goBack()}
+          progressIndex={2}
+        />
+
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled'>
+          <HeaderTitle
+            headline="participantInformation"
+            subheading="pleaseFillInformationBelow"
           />
-          <ScrollView contentContainerStyle={styles.container}>
-            <HeaderTitle
-              headline="participantInformation"
-              subheading="pleaseFillInformationBelow"
-            />
 
-            {this.renderFormInput()}
-          </ScrollView>
+          {this.renderFormInput()}
+        </ScrollView>
 
-          { this.renderSaveButton() }
-        </View>
-      </TouchableWithoutFeedback>
+        { this.renderSaveButton() }
+      </View>
     );
   }
 }

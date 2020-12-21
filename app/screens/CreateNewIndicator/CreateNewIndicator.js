@@ -156,20 +156,19 @@ class CreateNewIndicator extends Component {
     const {translations} = this.context;
     return (
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}}>
-            { this._renderParticipant() }
-            <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
-              {translations['chooseProposedCriteria']}
-            </Text>
-            <CriteriaSelection
-              ref={this.indicatorSelectionRef}
-              selectIndicator={this.selectIndicator}
-              scorecardUUID={this.props.route.params.scorecard_uuid}
-              participantUUID={this.props.route.params.participant_uuid}
-            />
-          </ScrollView>
-        </TouchableWithoutFeedback>
+        <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}} keyboardShouldPersistTaps='handled'>
+          { this._renderParticipant() }
+          <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
+            {translations['chooseProposedCriteria']}
+          </Text>
+
+          <CriteriaSelection
+            ref={this.indicatorSelectionRef}
+            selectIndicator={this.selectIndicator}
+            scorecardUUID={this.props.route.params.scorecard_uuid}
+            participantUUID={this.props.route.params.participant_uuid}
+          />
+        </ScrollView>
 
         { this.renderSaveButton() }
 

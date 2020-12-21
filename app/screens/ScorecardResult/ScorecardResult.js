@@ -12,7 +12,7 @@ import realm from '../../db/schema';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
-import ActionButton from '../../components/ActionButton';
+import BottomButton from '../../components/BottomButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 
@@ -103,9 +103,10 @@ class ScorecardResult extends Component {
         </ScrollView>
 
         <View style={{margin: 20}}>
-          <ActionButton
+          <BottomButton
             onPress={() => this._finish()}
             customBackgroundColor={Color.headerColor}
+            iconName={'checkmark'}
             label={translations.finish}/>
 
           <FormModal

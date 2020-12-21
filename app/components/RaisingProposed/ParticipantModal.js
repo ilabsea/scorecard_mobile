@@ -64,6 +64,7 @@ export default class ParticipantModal extends Component {
           <Icon name='plus' type="FontAwesome" style={isDisabled ? {color: 'gray'} : {color: Color.primaryButtonColor}} />
           <Text style={[styles.buttonLabel, isDisabled ? {color: 'gray'} : {}]}>{translations.addNewParticipant}</Text>
         </Button>
+
         { isDisabled &&
           <Text style={{color: 'red', fontSize: 14}}>{translations.reachTotalParticipant}</Text>
         }
@@ -78,9 +79,12 @@ export default class ParticipantModal extends Component {
     return (
       <Portal>
         <Modal visible={this.props.visible} onDismiss={() => onDismiss()} contentContainerStyle={ styles.container }>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             <Text style={styles.header}>{translations.participantList}</Text>
-            {this.renderAddNewParticipantButton()}
+
+            <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
+              {this.renderAddNewParticipantButton()}
+            </View>
           </View>
 
           { !!this.props.participants.length && this.renderParticipantList() }

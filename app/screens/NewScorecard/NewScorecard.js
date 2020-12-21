@@ -151,7 +151,7 @@ class NewScorecard extends Component {
 
             <Brand/>
 
-            <View style={{width: 360}}>
+            <View style={{width: '65%', maxWidth: 360}}>
               <TextFieldInput
                 value={code}
                 label={translations["scorecardCode"]}

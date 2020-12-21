@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
-import ActionButton from '../../components/ActionButton';
+import BottomButton from '../../components/BottomButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 
@@ -110,7 +110,7 @@ class VotingCriteriaList extends Component {
         </ScrollView>
 
         <View style={styles.container}>
-          <ActionButton
+          <BottomButton
             onPress={() => this._goNext()}
             customBackgroundColor={Color.headerColor}
             label={translations.next}/>

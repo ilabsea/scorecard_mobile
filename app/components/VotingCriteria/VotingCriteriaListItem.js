@@ -67,7 +67,7 @@ export default class VotingCriteriaListItem extends Component {
 
     return (
       <View style={styles.resultWrapper}>
-        <Text style={{marginRight: 8}}>{translations.result}:</Text>
+        <Text style={{marginRight: 8, fontSize: 14}}>{translations.result}:</Text>
 
         <View style={styles.medianWrapper}>
           { this._renderIcon(currentIcon, 60) }
@@ -149,10 +149,11 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   resultWrapper: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     paddingLeft: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    width: 100
   },
   medianText: {
     textAlign: 'center',

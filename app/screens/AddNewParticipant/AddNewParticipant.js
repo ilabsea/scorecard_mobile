@@ -132,13 +132,12 @@ class AddNewParticipant extends Component {
 
   renderSaveButton = () => {
     const {translations} = this.context;
-    if (this.isValidAge()) {
-      return (
-        <View style={styles.buttonContainer}>
-          <BottomButton onPress={() => this.saveParticipant()} label={translations['save']} />
-        </View>
-      );
-    }
+
+    return (
+      <View style={styles.buttonContainer}>
+        <BottomButton disabled={!this.isValidAge()} onPress={() => this.saveParticipant()} label={translations['save']} />
+      </View>
+    );
   }
 
   getTrueFalseValue = (value) => {
@@ -172,16 +171,16 @@ class AddNewParticipant extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={styles.container}>
+      <View style={{flex: 1}}>
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled'>
           <HeaderTitle
             headline="participantInformation"
             subheading="pleaseFillInformationBelow"
           />
           {this.renderForm()}
-          {this.renderSaveButton()}
         </ScrollView>
-      </TouchableWithoutFeedback>
+        {this.renderSaveButton()}
+      </View>
     );
   }
 }
@@ -194,8 +193,7 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    padding: 20
   },
 });
 

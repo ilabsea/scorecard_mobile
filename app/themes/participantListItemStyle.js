@@ -15,7 +15,6 @@ const participantListItemStyle = StyleSheet.create({
     fontFamily: FontFamily.title,
     marginBottom: 20,
     textTransform: 'capitalize',
-    flex: 1,
   },
   btnWrapper: {
     flexDirection: 'row',

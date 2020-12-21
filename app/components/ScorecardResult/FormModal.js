@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
-  Text,
 } from 'react-native';
 
-import { Modal, Portal, Button} from 'react-native-paper';
+import { Modal, Portal} from 'react-native-paper';
+import { Button, Text } from 'native-base';
 import { useDispatch } from 'react-redux';
 import { LocalizationContext } from '../Translations';
 import { getAll } from '../../actions/votingCriteriaAction';
@@ -64,8 +64,13 @@ const FormModal = (props) => {
 
         <View style={{flex: 1}}></View>
         <View style={styles.btnWrapper}>
-          <Button labelStyle={{fontFamily: FontFamily.title}} onPress={onDimiss}>{translations.cancel}</Button>
-          <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff', fontFamily: FontFamily.title}} onPress={submit}>{translations.save}</Button>
+          <Button bordered onPress={onDimiss} style={{marginRight: 10}}>
+            <Text style={{color: Color.headerColor}}>{translations.cancel}</Text>
+          </Button>
+
+          <Button onPress={submit}>
+            <Text>{translations.save}</Text>
+          </Button>
         </View>
       </Modal>
     </Portal>

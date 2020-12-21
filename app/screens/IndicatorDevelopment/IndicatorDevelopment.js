@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
-import ActionButton from '../../components/ActionButton';
+import BottomButton from '../../components/BottomButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 
@@ -88,7 +88,6 @@ class IndicatorDevelopment extends Component {
     return (
       <View style={{flex: 1}}>
         <Text style={styles.h1}>{ translations.proposedCriteria }</Text>
-        <Text style={styles.h2}>{ translations.choose_selected_criteria_below }</Text>
 
         <View style={styles.listWrapper}>
           <ProposedCriteriaList />
@@ -98,7 +97,7 @@ class IndicatorDevelopment extends Component {
           <SelectedCriteriaList onPressRemoveAll={() => this._onPressRemoveAll()}/>
         </View>
 
-        <ActionButton
+        <BottomButton
           onPress={ () => this._submit() }
           customBackgroundColor={Color.headerColor}
           label={translations.next}/>
@@ -149,9 +148,6 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 24,
     fontFamily: FontFamily.title,
-  },
-  h2: {
-    fontSize: 18,
     marginBottom: 20
   },
   listWrapper: {
