@@ -84,6 +84,7 @@ class AddNewIndicatorModal extends Component {
             {translations['cancel']}
           </Text>
         </TouchableOpacity>
+
         <ActionButton
           onPress={() => this.save()}
           label={translations['save']}

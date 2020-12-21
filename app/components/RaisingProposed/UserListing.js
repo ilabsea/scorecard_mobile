@@ -31,7 +31,7 @@ class UserListing extends Component {
       <View style={styles.buttonContainer}>
         <BottomButton
           disabled={!this.hasRaisedCriteria()}
-          label={translations['finish']}
+          label={translations['finishAndNext']}
           onPress={() => this.onPress()}
         />
       </View>

@@ -8,7 +8,7 @@ import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {getIndicatorShortcutName, getSavedIndicators} from '../../services/indicator_service';
 
-const windowWidth = Dimensions.get('window').width;
+const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
 
 class CriteriaSelection extends Component {
@@ -49,6 +49,7 @@ class CriteriaSelection extends Component {
     let indicators = this.state.indicators;
     let selectedIndicators = this.state.selectedIndicators;
     let unselectedIndicators = this.state.unselectedIndicators;
+
     if (indicators[index].isSelected) {
       selectedIndicators = selectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
       unselectedIndicators.push(indicators[index]);
@@ -57,7 +58,9 @@ class CriteriaSelection extends Component {
       selectedIndicators.push(indicators[index]);
       unselectedIndicators = unselectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
     }
+
     indicators[index].isSelected = !indicators[index].isSelected;
+
     this.setState({
       indicators,
       selectedIndicators,

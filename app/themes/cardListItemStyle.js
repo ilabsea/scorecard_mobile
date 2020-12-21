@@ -20,7 +20,7 @@ const cardListItemStyle = StyleSheet.create({
     fontFamily: FontFamily.title
   },
   paragraph: {
-    fontSize: 16,
+    fontSize: 15,
     paddingRight: 10,
     flex: 1
   },
@@ -30,7 +30,7 @@ const cardListItemStyle = StyleSheet.create({
     flex: 1
   },
   statusIconWrapper: {
-    width: '23%',
+    width: '22%',
     maxWidth: 160,
     backgroundColor: Color.tipBgColor,
     alignItems: 'center',

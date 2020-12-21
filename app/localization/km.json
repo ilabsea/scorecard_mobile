@@ -118,7 +118,6 @@
   "insertGender": "សូមបញ្ចូលភេទ",
   "cancel": "បោះបង់",
   "inputText": "បញ្ចូលមាតិកា",
-  "finish": "បញ្ចប់ ហើយទៅវគ្គបន្ទាប់",
   "addNewScorecardVoting": "បង្កើតការបោះឆ្នោតថ្មី",
   "insertAge": "សូមបញ្ចូលអាយុ",
   "insertGender": "សូមបញ្ចូលភេទ",
@@ -128,7 +127,7 @@
   "remove": "ដកចេញ",
   "removeAll": "ដកចេញទាំងអស់",
   "close": "ចាកចេញ",
-  "setup": "Scorecard setup",
+  "setup": "ការកំណត់ប័ណ្ណពិន្ទុ",
   "proposedCriteria": "ការបំផុសលក្ខណៈ វិនិច្ឆ័យ",
   "indicatorDevelopment": "លក្ខណៈវិនិច្ឆ័យ ដែលបានជ្រើសរួច",
   "voting": "ការដាក់ពិន្ទុ",
@@ -179,4 +178,5 @@
   "deletedScorecard": "លុបប័ណ្ណពិន្ទុ",
   "theScorecardDeleted": "ប័ណ្ណដាក់ពិន្ទុនេះត្រូវបានលុប!",
   "step": "ជំហ៊ាន",
+  "finishAndNext": "បញ្ចប់ ហើយទៅវគ្គបន្ទាប់",
 }
