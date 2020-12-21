@@ -77,12 +77,15 @@ class Setting extends Component {
   renderInputForm = () => {
     const {translations} = this.context;
     const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
+    const backendUrlLabel = `${translations['backendUrl']} *`;
+    const emailLabel = `${translations['email']} *`;
+    const passwordLabel = `${translations['password']} *`;
 
     return (
       <View>
         <TextFieldInput
           value={backendUrl}
-          label={translations["backendUrl"]}
+          label={backendUrlLabel}
           placeholder={translations["enterBackendUrl"]}
           fieldName="backendUrl"
           onChangeText={this.onChangeText}
@@ -92,7 +95,7 @@ class Setting extends Component {
 
         <TextFieldInput
           value={email}
-          label={translations["email"]}
+          label={emailLabel}
           placeholder={translations["enterEmail"]}
           fieldName="email"
           onChangeText={this.onChangeText}
@@ -102,7 +105,7 @@ class Setting extends Component {
 
         <TextFieldInput
           value={password}
-          label={translations["password"]}
+          label={passwordLabel}
           placeholder={translations["enterPassword"]}
           fieldName="password"
           onChangeText={this.onChangeText}
@@ -138,7 +141,7 @@ class Setting extends Component {
         placeholder={translations["selectLanguage"]}
         searchablePlaceholder={translations["searchForLanguage"]}
         zIndex={6000}
-        showCustomArrow={false}
+        showCustomArrow={true}
         onChangeItem={this.changeLocale}
         mustHasDefaultValue={true}
       />
