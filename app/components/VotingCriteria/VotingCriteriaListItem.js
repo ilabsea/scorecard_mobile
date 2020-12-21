@@ -17,14 +17,15 @@ import uuidv4 from '../../utils/uuidv4';
 import Images from '../../utils/images';
 import ratings from '../../db/jsons/ratings';
 import { Median } from '../../utils/math';
+import { getDisplayIndicator } from '../../services/indicator_service';
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
 
-  _renderAvata(scorecard) {
+  _renderAvata(scorecard, indicator) {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
-        <Text style={[styles.capitalize, {fontSize: 60}]}>{this.props.criteria.tag[0]}</Text>
+        <Text style={[styles.capitalize, {fontSize: 60}]}>{indicator.content[0] || indicator.name[0]}</Text>
       </View>
     )
   }
@@ -77,11 +78,11 @@ export default class VotingCriteriaListItem extends Component {
     )
   }
 
-  _renderContent() {
+  _renderContent(indicator) {
     return (
       <View style={{flexDirection: 'row'}}>
         <View style={{flex: 1, backgroundColor: ''}}>
-          <Text style={[cardListItemStyle.h2, styles.capitalize]}>{this.props.criteria.tag}</Text>
+          <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
 
           { this._renderRatingIcons() }
         </View>
@@ -106,16 +107,17 @@ export default class VotingCriteriaListItem extends Component {
 
   render() {
     let scorecard = this.props.scorecard || {};
+    let indicator = getDisplayIndicator(this.props.criteria);
 
     return (
       <TouchableOpacity
         onPress={ () => !!this.props.onPress && this.props.onPress() }
         style={[cardListItemStyle.listItem, customStyle.card, {minHeight: 160}]}>
 
-        { this._renderAvata(scorecard) }
+        { this._renderAvata(scorecard, indicator) }
 
         <View style={cardListItemStyle.contentWrapper}>
-          { this._renderContent() }
+          { this._renderContent(indicator) }
 
           <View style={{flex: 1, minHeight: 10}}></View>
 
