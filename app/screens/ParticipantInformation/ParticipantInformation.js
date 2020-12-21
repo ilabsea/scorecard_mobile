@@ -170,7 +170,7 @@ class ParticipantInformation extends Component {
     const {translations} = this.context;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
           <ProgressHeader
             title={translations.getStarted}
             onBackPress={() => this.props.navigation.goBack()}
