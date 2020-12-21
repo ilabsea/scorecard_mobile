@@ -3,7 +3,7 @@ const Color = {
   clickableColor: '#e2762e',
   primaryColor: '#03314a',
   primaryButtonColor: '#e4761e',
-  errorColor: '#da0606',
+  errorColor: 'red',
   successColor: 'green',
   inputBorderLineColor: '#7a7a7a',
   borderColor: '#ccc',
