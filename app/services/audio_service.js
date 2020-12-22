@@ -1,6 +1,6 @@
 import { environment } from '../config/environment';
 import realm from '../db/schema';
-import {downloadFileFromUrl, readFile} from '../services/local_file_system_service';
+import {downloadFileFromUrl, isFileExist} from '../services/local_file_system_service';
 import {getDownloadPercentage} from './scorecard_detail_service';
 
 class AudioService {
@@ -40,29 +40,28 @@ class AudioService {
     }
   }
 
-  _checkAndSave = (audioUrl, languageIndicator, callback, callbackDownload) => {
+  _checkAndSave = async (audioUrl, languageIndicator, callback, callbackDownload) => {
     let audioPath = audioUrl.split('/');
     let fileName = audioPath[audioPath.length - 1];
     fileName = getAudioFilename(languageIndicator.id, languageIndicator.language_code, fileName);
-    // Start downloading
-    readFile(fileName, async (isSuccess, response) => {
-      if (response === 'file not found') {
-        // File not found then start to download file
-        downloadFileFromUrl(audioUrl, languageIndicator, async (isSuccess, response, localAudioFilePath) => {
-          if (isSuccess)
-            this._saveLocalAudioToLanguageIndicator(languageIndicator, localAudioFilePath, callbackDownload);
-          else {
-            console.log('download failed = ', response);
-            callback(false);
-          }
-        });
-      }
-      else {
-        // File is already exist
-        console.log('=== audio already exist ===');
-        callbackDownload();
-      }
-    });
+
+    const isAudioExist = await isFileExist(fileName)
+    if (isAudioExist) {
+      // File is already exist
+      console.log('=== audio already exist ===');
+      callbackDownload();
+    }
+    else {
+      // File not found then start to download file
+      downloadFileFromUrl(audioUrl, languageIndicator, async (isSuccess, response, localAudioFilePath) => {
+        if (isSuccess)
+          this._saveLocalAudioToLanguageIndicator(languageIndicator, localAudioFilePath, callbackDownload);
+        else {
+          console.log('download failed = ', response);
+          callback(false);
+        }
+      });
+    }
   }
 
   _saveLocalAudioToLanguageIndicator = (languageIndicator, localAudioFilePath, callbackDownload) => {

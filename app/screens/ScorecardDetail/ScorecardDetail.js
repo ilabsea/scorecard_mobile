@@ -16,7 +16,7 @@ import CafApi from '../../api/CafApi';
 import {
   isAllIndicatorDownloaded,
   isAllCafDownloaded,
-  CheckAllAudioDownloaded,
+  checkAllAudioDownloaded,
   isAllRatingScaleDownloaded,
   handleSaveIndicator,
   handleSaveLanguageIndicator,
@@ -77,7 +77,7 @@ class ScorecardDetail extends Component {
         isIndicatorDownloaded: isIndicatorsDownloaded,
         isLanguageIndicatorDownloaded: isIndicatorsDownloaded,
       });
-      CheckAllAudioDownloaded(indicators, async (isAllDownloaded) => {
+      checkAllAudioDownloaded(indicators, async (isAllDownloaded) => {
         this.setState({isAllAudioDownloaded: isAllDownloaded});
       });
     }, (response) => {});

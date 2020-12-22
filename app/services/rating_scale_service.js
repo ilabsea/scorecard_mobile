@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 import RatingScaleApi from '../api/RatingScaleApi';
-import {readFile} from '../services/local_file_system_service';
+import {isFileExist} from '../services/local_file_system_service';
 import {getAudioFilename} from './audio_service';
 import { environment } from '../config/environment';
 import RNFS from 'react-native-fs';
@@ -73,19 +73,18 @@ class RatingScaleService {
     })
   }
 
-  _checkAndSave(languageRatingScale, callBackSaveLanguageRatingScale) {
+  async _checkAndSave(languageRatingScale, callBackSaveLanguageRatingScale) {
     let audioPath = languageRatingScale.audio.split('/');
-    const filename = audioPath[audioPath.length - 1];
+    let fileName = audioPath[audioPath.length - 1];
+    fileName = `rating_${getAudioFilename(languageRatingScale.id, languageRatingScale.language_code, fileName)}`;
 
-    readFile(filename, async (isSuccess, response) => {
-      if (response === 'file not found') {
-        this._downloadAudio(languageRatingScale, filename)
-      }
-      else
-        console.log('audio already exist')
+    const isAudioExist = await isFileExist(fileName)
+    if (!isAudioExist)
+      this._downloadAudio(languageRatingScale, fileName);
+    else
+      console.log('audio already exist');
 
-      callBackSaveLanguageRatingScale();
-    });
+    callBackSaveLanguageRatingScale();
   }
 
   _downloadAudio(languageRatingScale, filename) {

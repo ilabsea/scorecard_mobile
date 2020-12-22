@@ -20,7 +20,7 @@ const isAllCafDownloaded = async (apiCafs, localNgoId) => {
   return cafs.length === apiCafs.length ? true : false;
 };
 
-const CheckAllAudioDownloaded = async (indicators, callback) => {
+const checkAllAudioDownloaded = async (indicators, callback) => {
   let audioFilesName = _getLangIndicatorAudios(indicators);
   let downloadedFiles = [];
   readAllFiles(async (isSuccess, response) => {
@@ -159,7 +159,7 @@ const cancelApiRequest = (indicatorApi, cafApi, ratingScaleService) => {
 export {
   isAllIndicatorDownloaded,
   isAllCafDownloaded,
-  CheckAllAudioDownloaded,
+  checkAllAudioDownloaded,
   getDownloadPercentage,
   isAllRatingScaleDownloaded,
   handleSaveIndicator,
