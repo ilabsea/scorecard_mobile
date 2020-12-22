@@ -30,8 +30,9 @@ const CriteriaListItem = (props) => {
     <View style={styles.item}>
       <View style={styles.criteriaWrapper}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <TouchableOpacity style={styles.criteria} onPress={() => showPopup()}>
-            <Text style={{color: '#fff', paddingHorizontal: 10}} numberOfLines={1}>{props.criteria.tag} ({props.criteria.count})</Text>
+          <TouchableOpacity style={[styles.criteria, {flexDirection: 'row', flexGrow: 1}]} onPress={() => showPopup()}>
+            <Text style={{color: '#fff', paddingHorizontal: 10, flex: 1}} numberOfLines={1}>{indicator.content || indicator.name}</Text>
+            <Text style={{color: '#fff', paddingHorizontal: 10}}>({props.criteria.count})</Text>
           </TouchableOpacity>
         </View>
 

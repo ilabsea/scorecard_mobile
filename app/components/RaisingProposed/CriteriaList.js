@@ -4,6 +4,7 @@ import CriteriaCard from './CriteriaCard';
 import {LocalizationContext} from '../Translations';
 import {Criteria} from '../../services/criteria_service';
 import { connect } from 'react-redux';
+
 class CriteriaList extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
