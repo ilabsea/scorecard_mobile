@@ -41,6 +41,9 @@ class TextFieldInput extends Component {
     this.setState({
       validationMsg: translations[validationMsg],
       isValid: validationMsg === null,
+    }, () => {
+      if (this.props.updateValidationStatus != undefined)
+        this.props.updateValidationStatus(this.state.isValid);
     });
 
     this.props.onChangeText(this.props.fieldName, value);

@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import { Modal, Portal, Button } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import {FontSize, FontFamily} from '../../assets/stylesheets/theme/font';
-import realm from '../../db/schema';
-import TextFieldInput from '../TextFieldInput';
-import SelectPicker from '../SelectPicker';
+import ParticipantForm from '../AddNewParticipant/ParticipantForm';
 import uuidv4 from '../../utils/uuidv4';
 import Color from '../../themes/color';
+
+import {saveParticipantInfo} from '../../services/participant_service';
 
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
@@ -25,6 +25,7 @@ class AddNewParticipantModal extends Component {
       isMinority: 'false',
       isPoor: 'false',
       isYouth: 'false',
+      isValidAge: false,
     };
   }
 
@@ -36,98 +37,35 @@ class AddNewParticipantModal extends Component {
       isMinority: 'false',
       isPoor: 'false',
       isYouth: 'false',
+      isValidAge: false,
     });
   }
 
-  onChangeValue = (fieldName, value) => {
-    const newState = {};
-    newState[fieldName] = value;
+  updateNewState = (newState) =>  {
     this.setState(newState);
-  };
+  }
+
+  updateValidationStatus = (isValid) => {
+    this.setState({
+      isValidAge: isValid,
+    })
+  }
 
   renderForm = () => {
-    const {translations} = this.context;
-    const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
-    const gender = [
-      {label: translations.female, value: 'female'},
-      {label: translations.male, value: 'male'},
-      {label: translations.otherGender, value: 'other'},
-    ];
-    const choices = [
-      {label: translations.optionNo, value: 'false'},
-      {label: translations.optionYes, value: 'true'},
-    ];
     return (
-      <View style={{paddingBottom: 160, paddingTop: 5}}>
-        <TextFieldInput
-          ref={this.ageRef}
-          value={age.toString()}
-          isRequire={true}
-          label={translations['age']}
-          placeholder={translations['enterAge']}
-          fieldName="age"
-          onChangeText={this.onChangeValue}
-          isSecureEntry={false}
-          maxLength={2}
-          keyboardType="number-pad"
-        />
-        <SelectPicker
-          items={gender}
-          selectedItem={selectedGender}
-          label={translations['gender']}
-          zIndex={9000}
-          onChangeItem={(text) =>
-            this.onChangeValue('selectedGender', text.value)
-          }
-          customDropDownContainerStyle={{marginTop: -10}}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isDisability}
-          label={translations['disability']}
-          zIndex={8000}
-          onChangeItem={(text) =>
-            this.onChangeValue('isDisability', text.value)
-          }
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isMinority}
-          label="Minority"
-          zIndex={7000}
-          onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isPoor}
-          label={translations['poor']}
-          zIndex={6000}
-          onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isYouth}
-          label={translations['youth']}
-          zIndex={5000}
-          onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
-        />
-      </View>
+      <ParticipantForm
+        updateNewState={this.updateNewState}
+        updateValidationStatus={this.updateValidationStatus}
+        containerStyle={{paddingBottom: 160, paddingTop: 5}}
+      />
     );
   };
-
-  isValidAge = () => {
-    if (this.ageRef.current === null)
-      return this.state.age != '' && this.state.age != 0;
-
-    return this.ageRef.current.state.isValid;
-  }
 
   getTrueFalseValue = (value) => {
     return value === 'false' ? false : true;
   }
 
   save = () => {
-    let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.scorecardUuid +'"').sorted('order', false);
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
     let attrs = {
       uuid: uuidv4(),
@@ -138,11 +76,10 @@ class AddNewParticipantModal extends Component {
       poor: this.getTrueFalseValue(isPoor),
       youth: this.getTrueFalseValue(isYouth),
       scorecard_uuid: this.props.scorecardUuid,
-      order: participants.length,
+      order: 0,
     };
-    realm.write(() => {
-      let participant = realm.create('Participant', attrs);
 
+    saveParticipantInfo(attrs, this.props.scorecardUuid, false, (participants, participant) => {
       this.props.saveParticipant(participants, this.props.scorecardUuid);
       this.resetFormData();
       this.props.onDismiss();
@@ -169,8 +106,11 @@ class AddNewParticipantModal extends Component {
 
           <View style={styles.btnWrapper}>
             <Button mode="contained" labelStyle={{color: '#fff', paddingTop: 2}} onPress={() => this.closeModal()}>{translations.close}</Button>
-            <Button mode="outlined" onPress={() => this.save()} disabled={!this.isValidAge()}
-              style={[styles.btnSave, this.isValidAge() ? {borderColor: Color.primaryButtonColor} : {}]}>
+            <Button
+              mode="outlined"
+              onPress={() => this.save()} disabled={!this.state.isValidAge}
+              style={[styles.btnSave, this.state.isValidAge ? {borderColor: Color.primaryButtonColor} : {}]}
+            >
               {translations.save}
             </Button>
           </View>
