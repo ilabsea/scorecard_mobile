@@ -55,7 +55,7 @@ class DependentValidationInputField extends Component {
           style={{backgroundColor: 'white', width: '100%'}}
           keyboardType="number-pad"
           maxLength={2}
-          theme={{colors: {primary: this.getBorderColor() || 'blue'}}}
+          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}
         />
         <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>
       </View>

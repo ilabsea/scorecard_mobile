@@ -15,7 +15,7 @@ const BigButton = (props) => {
       style={ styles.button }>
 
       <Icon name={props.icon} style={ styles.icon }/>
-      <Text style={{color: '#fff'}}>{ props.label }</Text>
+      <Text style={{color: '#fff', fontSize: 20}}>{ props.label }</Text>
     </TouchableOpacity>
   )
 }

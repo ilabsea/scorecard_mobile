@@ -17,7 +17,7 @@ class ActionButton extends Component {
   }
 
   render() {
-    const {onPress, label, isDisabled, customButtonStyle} = this.props;
+    const {onPress, label, isDisabled, customButtonStyle, customLabelStyle} = this.props;
 
     return (
       <Button
@@ -25,13 +25,12 @@ class ActionButton extends Component {
         mode="contained"
         uppercase={true}
         contentStyle={[styles.contentStyle]}
-        labelStyle={styles.labelStyle}
+        labelStyle={[styles.labelStyle, customLabelStyle]}
         style={[
           styles.buttonStyle,
           customButtonStyle,
           this.backgroundColor()
         ]}
-        labelStyle={{color: '#fff', fontFamily: FontFamily.title}}
         disabled={isDisabled}
       >
         {label}
@@ -47,12 +46,14 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     width: '100%',
-    borderRadius: 4,
+    borderRadius: 8,
     elevation: 0,
+    justifyContent: 'center',
   },
   labelStyle: {
     fontSize: 18,
-    color: '#fff'
+    color: '#fff',
+    fontFamily: FontFamily.title
   }
 });
 

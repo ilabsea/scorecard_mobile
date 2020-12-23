@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
+  TextInput as NativeTextInput,
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -102,13 +103,15 @@ class NewScorecard extends Component {
   renderErrorMsg = () => {
     const {errorMsg, messageType} = this.state;
 
-    return (
-      <MessageLabel
-        message={errorMsg}
-        type={messageType}
-        customStyle={{marginTop: 10}}
-      />
-    );
+    if (errorMsg != '') {
+      return (
+        <MessageLabel
+          message={errorMsg}
+          type={messageType}
+          customStyle={{marginTop: 10}}
+        />
+      );
+    }
   };
 
   render() {
@@ -133,7 +136,7 @@ class NewScorecard extends Component {
             <View style={{width: '65%', maxWidth: 360}}>
               <TextFieldInput
                 value={code}
-                label={translations["scorecardCode"]}
+                label={translations["enterScorecardCode"]}
                 placeholder={translations["enterScorecardCode"]}
                 fieldName="scorecardCode"
                 onChangeText={this.onChangeText}
@@ -141,13 +144,25 @@ class NewScorecard extends Component {
                 isSecureEntry={false}
                 maxLength={6}
                 keyboardType="number-pad"
+                customStyle={{fontSize: 22, height: 64}}
+                leftIcon="lock"
+                customIconStyle={{marginTop: 10}}
+                render={(innerProps) => (
+                  <NativeTextInput
+                    {...innerProps}
+                    style={{height: 64, paddingLeft: 40, fontSize: 20, fontFamily: FontFamily.body}}
+                  />
+                )}
+                customMessageStyle={{marginBottom: 0, color: '#03314a'}}
+                borderColor="#03314a"
               />
               {this.renderErrorMsg()}
 
               <ActionButton
                 onPress={() => this.joinScorecard()}
                 label={translations["join"]}
-                customButtonStyle={{marginTop: 16}}
+                customButtonStyle={{marginTop: 16, height: 64}}
+                customLabelStyle={{fontSize: 20}}
                 isDisabled={this.state.isLoading}
               />
             </View>
