@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
-import realm from '../../db/schema';
 
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
@@ -19,6 +18,7 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection, handleApiResponse} from '../../services/api_service';
+import scorecardService from '../../services/scorecardService';
 
 import Brand from '../../components/Home/Brand';
 import ScorecardApi from '../../api/ScorecardApi';
@@ -51,44 +51,11 @@ class NewScorecard extends Component {
     return true;
   };
 
-  _buildData(response) {
-    return ({
-      uuid: response.uuid,
-      unit_type: response.unit_type_name,
-      facility_id: response.facility_id,
-      facility: response.facility_name,
-      scorecard_type: response.scorecard_type,
-      name: response.name,
-      description: response.description,
-      year: response.year,
-      local_ngo_name: response.local_ngo_name,
-      local_ngo_id: response.local_ngo_id,
-      province: response.province,
-      district: response.district,
-      commune: response.commune,
-      program_id: response.program_id,
-    })
-  }
-
-  saveScorecard = (response) => {
-    this.uuid = response.uuid;
-    AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
-    let self = this;
-
-    realm.write(() => {
-      realm.create('Scorecard', self._buildData(response), 'modified');
-    });
-  }
-
-  isScorecardAlreadySaved = () => {
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.state.code}'`)[0];
-    return scorecard != undefined;
-  }
-
   joinScorecard = async () => {
-    if (!this.isValid()) return;
+    if (!this.isValid())
+      return;
 
-    if (this.isScorecardAlreadySaved()) {
+    if (scorecardService.isExists(this.state.code)) {
       AsyncStorage.setItem('SELECTED_SCORECARD_UUID', this.state.code);
       this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.state.code});
       return;
@@ -108,7 +75,8 @@ class NewScorecard extends Component {
       if (responseData === null)
         this.setState({codeMsg: 'scorecardIsNotExist'});
       else {
-        this.saveScorecard(responseData);
+        this.uuid = responseData.uuid;
+        scorecardService.saveScorecardDetail(responseData);
         this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
       }
     }, () => {

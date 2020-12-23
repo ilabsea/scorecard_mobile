@@ -156,6 +156,20 @@ const cancelApiRequest = (indicatorApi, cafApi, ratingScaleService) => {
     ratingScaleService.ratingScaleApi.cancelRequest();
 }
 
+const getScorecardDetail = async (scorecardUuid) => {
+  return await realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0];
+}
+
+const updateScorecardDownloadStatus = (scorecardUuid) => {
+  const attrs = {
+    uuid: scorecardUuid,
+    downloaded: true,
+  };
+  realm.write(() => {
+    realm.create('Scorecard', attrs, 'modified');
+  });
+}
+
 export {
   isAllIndicatorDownloaded,
   isAllCafDownloaded,
@@ -167,4 +181,6 @@ export {
   handleSaveAudio,
   handleSaveRatingScale,
   cancelApiRequest,
+  getScorecardDetail,
+  updateScorecardDownloadStatus,
 };

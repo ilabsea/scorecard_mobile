@@ -23,6 +23,8 @@ import {
   handleSaveAudio,
   handleSaveRatingScale,
   cancelApiRequest,
+  getScorecardDetail,
+  updateScorecardDownloadStatus,
 } from '../../services/scorecard_detail_service';
 
 import {saveCaf} from '../../services/caf_service';
@@ -59,13 +61,12 @@ class ScorecardDetail extends Component {
     };
   }
 
-  componentDidMount() {
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
-    this.scorecard = scorecard;
-    this.setState({detail: scorecard});
+  async componentDidMount() {
+    this.scorecard = await getScorecardDetail(this.props.route.params.scorecard_uuid);
+    this.setState({detail: this.scorecard});
     this.checkSavedIndicator();
     this.checkSavedCaf();
-    this.checkSavedRatingScale(scorecard.program_id);
+    this.checkSavedRatingScale(this.scorecard.program_id);
   }
 
   checkSavedIndicator = () => {
@@ -271,21 +272,13 @@ class ScorecardDetail extends Component {
     }
   };
 
-  updateScorecardDownloadStatus = () => {
-    const attrs = {
-      uuid: this.props.route.params.scorecard_uuid,
-      downloaded: true,
-    };
-    realm.write(() => {
-      realm.create('Scorecard', attrs, 'modified');
-    });
-  }
-
   renderStartButton = () => {
     const {translations} = this.context;
     if (this.isFullyDownloaded() && this.state.isFinishChecking) {
-      this.updateScorecardDownloadStatus();
-      return (<BottomButton label={translations.start} onPress={() => this.startScorecard()} />);
+      updateScorecardDownloadStatus(this.props.route.params.scorecard_uuid);
+      return (
+        <BottomButton label={translations.start} onPress={() => this.startScorecard()} />
+      );
     }
   };
 
