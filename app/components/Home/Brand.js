@@ -18,9 +18,7 @@ class Brand extends Component {
 
     return (
       <View style={{alignItems: 'center'}}>
-        <Image source={require('../../assets/images/care_logo.png')} style={styles.logo}/>
-
-        <View style={{marginBottom: 40, marginTop: 30}}>
+        <View style={{marginBottom: 40, marginTop: 30, alignItems: 'center'}}>
           <Text style={styles.title}>{ translations.welcomeTo }</Text>
           <Text style={styles.title}>{ translations.scorecardApp}</Text>
         </View>
@@ -36,10 +34,6 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#fff'
   },
-  logo: {
-    width: 120,
-    height: 120
-  }
 });
 
 export default Brand;
