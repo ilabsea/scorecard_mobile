@@ -15,10 +15,12 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
 import HTML from "react-native-render-html";
+import { getDisplayIndicator } from '../../services/indicator_service';
 
 const ScorecardResultTableRow = (props) => {
   const { translations } = useContext(LocalizationContext); // 1
   const { criteria } = props;
+  const indicator = getDisplayIndicator(criteria);
 
   const onPress = (fieldName) => {
     !!props.onPress && props.onPress(fieldName);
@@ -63,7 +65,7 @@ const ScorecardResultTableRow = (props) => {
 
   return (
     <TableWrapper style={styles.row} borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>
-      { _renderTextCell(criteria.tag, 4) }
+      { _renderTextCell(indicator.content || indicator.name, 4) }
       { _renderTextCell(median, 2) }
       { editableFields.map((fieldName, index) => (
         <Cell key={index} data={renderCell(fieldName)} textStyle={styles.text} style={{flex: 3}}/>

@@ -1,5 +1,6 @@
 import realm from '../db/schema';
-import {getIndicatorName, getIndicatorShortcutName, getSavedIndicators} from './indicator_service';
+import {getIndicatorName, getIndicatorShortcutName, getSavedIndicators, getDisplayIndicator} from './indicator_service';
+
 class Criteria {
   constructor(scorecardUUID) {
     this.scorecardUUID = scorecardUUID;
@@ -13,25 +14,26 @@ class Criteria {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}'`).length;
   }
 
+  _sort(arr) {
+    return arr.sort((a, b) => b.raised_count - a.raised_count);
+  }
+
   getCriterias = () => {
-    let indicators = getSavedIndicators(this.scorecardUUID);
+    let allCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`);
+    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}' DISTINCT(tag)`)));
     const summaryCriteria = [{id: '', name: 'All indicator', raised_count: this._getTotalRaisedCount(), shortcut: 'view-agenda', scorecard_uuid: ''}];
-    let criterias = [];
-    indicators.map((indicator) => {
-      const raisedCount = this._getRaisedCount(indicator.id || indicator.uuid);
-      if (raisedCount > 0) {
-        const attrs = {
-          id: indicator.id,
-          uuid: indicator.uuid,
-          name: getIndicatorName(indicator.name),
-          raised_count: raisedCount,
-          shortcut: getIndicatorShortcutName(indicator.name),
-          scorecard_uuid: indicator.scorecard_uuid,
-        };
-        criterias.push(attrs);
-      }
+
+    criterias = criterias.map(criteria => {
+      let indicator = getDisplayIndicator(criteria);
+      criteria.raised_count = allCriterias.filter(x => x.tag == criteria.tag).length;
+      criteria.name = indicator.content || indicator.name;
+      criteria.shortcut = getIndicatorShortcutName(criteria.name);
+
+      return criteria;
     });
-    criterias.sort((a, b) => (a.raised_count < b.raised_count));
+
+    criterias = this._sort(criterias);
+
     return [...summaryCriteria, ...criterias];
   }
 

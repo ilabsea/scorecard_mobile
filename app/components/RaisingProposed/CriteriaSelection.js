@@ -88,6 +88,8 @@ class CriteriaSelection extends Component {
   }
 
   indicatorCard = (indicator, index) => {
+    let displayName = this.getIndicatorName(indicator);
+
     return (
       <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
@@ -95,13 +97,13 @@ class CriteriaSelection extends Component {
 
           <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
             {index != this.state.indicators.length - 1 &&
-              <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{indicator.shortcut}</Text>
+              <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{getIndicatorShortcutName(displayName)}</Text>
             }
             {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
           </View>
 
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left'}}>{this.getIndicatorName(indicator)}</Text>
+            <Text style={{textAlign: 'left'}}>{displayName}</Text>
           </View>
         </TouchableOpacity>
 
@@ -133,6 +135,7 @@ class CriteriaSelection extends Component {
     const savedIndicators = getSavedIndicators(this.props.scorecardUUID);
     const proposedCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${this.props.scorecardUUID}' AND participant_uuid = '${this.props.participantUUID}'`);
     let selectedIndicators = [];
+
     savedIndicators.map((indicator) => {
       let attrs = {
         uuid: indicator.id || indicator.uuid,

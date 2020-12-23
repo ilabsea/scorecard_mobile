@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {getIndicatorShortcutName} from './indicator_service';
+import {getIndicatorShortcutName, getDisplayIndicator} from './indicator_service';
 import realm from '../db/schema';
 
 class ParticipantCell {
@@ -49,24 +49,25 @@ class ParticipantCell {
   };
 
   indicatorCell = () => {
-    if (
-      this.cellName == 'indicator' &&
-      this.cellValue != null &&
-      this.cellValue.length > 0
-    ) {
-      return this.cellValue.map((proposedCriteria, index) => {
-        return (
-          <View key={index} style={{flex: 1, justifyContent: 'center'}}>
-            <View style={styles.indicatorBadge}>
-              <Text style={styles.indicatorLabel}>
-                {getIndicatorShortcutName(proposedCriteria.indicatorable_name)}
-              </Text>
-            </View>
-          </View>
-        );
-      });
+    if (this.cellName != 'indicator' || !(this.cellValue && this.cellValue.length)) {
+      return null;
     }
-    return null;
+
+    let doms = this.cellValue.map((proposedCriteria, index) => {
+      let indicator = getDisplayIndicator(proposedCriteria);
+
+      return (
+        <View key={index} style={{flex: 1, justifyContent: 'center'}}>
+          <View style={styles.indicatorBadge}>
+            <Text style={styles.indicatorLabel}>
+              {getIndicatorShortcutName(indicator.content || indicator.name)}
+            </Text>
+          </View>
+        </View>
+      );
+    });
+
+    return doms;
   };
 
   actionCell = () => {
