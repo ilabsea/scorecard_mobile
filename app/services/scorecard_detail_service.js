@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../db/schema';
 import {readAllFiles} from './local_file_system_service';
 import {getAudioFilename} from './audio_service';
+import {saveIndicator} from './indicator_service';
+import {saveLanguageIndicator} from './language_indicator_service';
 import RatingScaleApi from '../api/RatingScaleApi';
 
 const _getScorecardUUID = async () => {
@@ -18,13 +20,12 @@ const isAllCafDownloaded = async (apiCafs, localNgoId) => {
   return cafs.length === apiCafs.length ? true : false;
 };
 
-const CheckAllAudioDownloaded = async (indicators, callback) => {
+const checkAllAudioDownloaded = async (indicators, callback) => {
   let audioFilesName = _getLangIndicatorAudios(indicators);
   let downloadedFiles = [];
   readAllFiles(async (isSuccess, response) => {
     if (isSuccess) {
       downloadedFiles = await response;
-
       if (audioFilesName.length === 0)
         callback(true)
       else
@@ -92,4 +93,94 @@ const getDownloadPercentage = (amountOfData) => {
   return 20 / (amountOfData * 100);
 }
 
-export {isAllIndicatorDownloaded, isAllCafDownloaded, CheckAllAudioDownloaded, getDownloadPercentage, isAllRatingScaleDownloaded};
+const handleSaveIndicator = (options, isIndicatorDownloaded, callback) => {
+  if (isIndicatorDownloaded) {
+    options.updateDownloadProgress(0.2);
+    return;
+  }
+
+  saveIndicator(options.scorecardUuid, options.indicators, options.updateDownloadProgress,
+    (isIndicatorDownloaded) => {
+      callback(isIndicatorDownloaded);
+    }
+  );
+}
+
+const handleSaveLanguageIndicator = (options, isLanguageIndicatorDownloaded, callback) => {
+  if (isLanguageIndicatorDownloaded) {
+    options.updateDownloadProgress(0.2);
+    return;
+  }
+
+  saveLanguageIndicator(options.scorecardUuid, options.indicators, options.updateDownloadProgress,
+    (isDownloaded) => {
+      callback(isDownloaded);
+    }
+  );
+}
+
+const handleSaveAudio = (options, isAllAudioDownloaded, audioService, callback) => {
+  if (isAllAudioDownloaded) {
+    options.updateDownloadProgress(0.2);
+    return;
+  }
+
+  audioService.saveAudio(0, options.indicators, options.updateDownloadProgress,
+    (isDownloaded) => {
+      callback(isDownloaded);
+    }
+  );
+}
+
+const handleSaveRatingScale = (programId, isRatingScaleDownloaded, ratingScaleService, updateDownloadProgress, callback) => {
+  if (isRatingScaleDownloaded) {
+    updateDownloadProgress(0.2);
+    return;
+  }
+
+  ratingScaleService.saveData(programId, updateDownloadProgress,
+    (isDownloaded) => {
+      callback(isDownloaded);
+    }
+  );
+}
+
+const cancelApiRequest = (indicatorApi, cafApi, ratingScaleService) => {
+  if (this.indicatorApi != null)
+    indicatorApi.cancelRequest();
+
+  if (this.cafApi != null)
+    cafApi.cancelRequest();
+
+  if(ratingScaleService.ratingScaleApi != null)
+    ratingScaleService.ratingScaleApi.cancelRequest();
+}
+
+const getScorecardDetail = async (scorecardUuid) => {
+  return await realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0];
+}
+
+const updateScorecardDownloadStatus = (scorecardUuid) => {
+  const attrs = {
+    uuid: scorecardUuid,
+    downloaded: true,
+  };
+  realm.write(() => {
+    realm.create('Scorecard', attrs, 'modified');
+  });
+}
+
+export {
+  isAllIndicatorDownloaded,
+  isAllCafDownloaded,
+  checkAllAudioDownloaded,
+  getDownloadPercentage,
+  isAllRatingScaleDownloaded,
+  handleSaveIndicator,
+  handleSaveLanguageIndicator,
+  handleSaveAudio,
+  handleSaveRatingScale,
+  cancelApiRequest,
+  getScorecardDetail,
+  updateScorecardDownloadStatus,
+};

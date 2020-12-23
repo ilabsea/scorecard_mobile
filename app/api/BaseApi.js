@@ -7,17 +7,22 @@ class BaseApi {
   constructor(responsibleModel, subModel) {
     this.responsibleModel = responsibleModel;
     this.subModel = subModel;
+    this.cancelTokenSource = axios.CancelToken.source();
   }
 
   load = (id) => {
     const options = {
       url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel,
       method: 'GET',
+      cancelToken: this.cancelTokenSource.token,
     };
 
     return BaseApi.request(options);
   }
 
+  cancelRequest = () => {
+    this.cancelTokenSource.cancel();
+  }
 
   static request = async (options) => {
     const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
@@ -34,6 +39,7 @@ class BaseApi {
           return qs.stringify(params, {arrayFormat: 'brackets'})
         },
         headers: await BaseApi.getHeader(),
+        cancelToken: options.cancelToken || undefined,
       })
       .catch((res) => {
         return {error: res.toJSON().message};

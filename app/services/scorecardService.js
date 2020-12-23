@@ -2,6 +2,7 @@ import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import RNFS from 'react-native-fs';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const scorecardService = (() => {
   const scorecardApi = new ScorecardApi();
@@ -10,7 +11,9 @@ const scorecardService = (() => {
 
   return {
     upload,
-    removeScorecardAsset
+    removeScorecardAsset,
+    isExists,
+    saveScorecardDetail,
   }
 
   function upload(uuid, callback) {
@@ -249,6 +252,36 @@ const scorecardService = (() => {
       });
   }
 
+  // --------------------New scorecard---------------------
+  function isExists(uuid) {
+    return realm.objects('Scorecard').filtered(`uuid == '${uuid}'`)[0] != undefined
+  }
+
+  function saveScorecardDetail(response) {
+    AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
+    realm.write(() => {
+      realm.create('Scorecard', _buildData(response), 'modified');
+    });
+  }
+
+  function _buildData(response) {
+    return ({
+      uuid: response.uuid,
+      unit_type: response.unit_type_name,
+      facility_id: response.facility_id,
+      facility: response.facility_name,
+      scorecard_type: response.scorecard_type,
+      name: response.name,
+      description: response.description,
+      year: response.year,
+      local_ngo_name: response.local_ngo_name,
+      local_ngo_id: response.local_ngo_id,
+      province: response.province,
+      district: response.district,
+      commune: response.commune,
+      program_id: response.program_id,
+    })
+  }
 })();
 
 export default scorecardService;

@@ -23,31 +23,10 @@ const downloadFileFromUrl = (url, languageIndicator, callback) => {
   });
 }
 
-const readFile = (fileName, callback) => {
-  const path = RNFS.DocumentDirectoryPath;
-
-  RNFS.readDir(path)
-    .then((result) => {
-      const searchedFile = result.filter(obj => {
-        return obj.name == fileName;
-      });
-
-      if (searchedFile.length === 0)
-        return Promise.all({}, {});
-
-      return Promise.all([RNFS.stat(searchedFile[0].path), searchedFile[0].path]);
-    })
-    .then((statResult) => {
-      if (statResult.length === 0)
-        callback(false, 'file not found');
-      else if (statResult[0].isFile()) {
-        const result = RNFS.readFile(statResult[1], 'base64');
-        callback(true, result);
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    });
+const isFileExist = async (fileName) => {
+  const filePath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+  const isFileExist = await RNFS.exists(filePath);
+  return isFileExist;
 }
 
 const readAllFiles = (callback) => {
@@ -61,4 +40,4 @@ const readAllFiles = (callback) => {
     })
 }
 
-export {downloadFileFromUrl, readFile, readAllFiles};
+export {downloadFileFromUrl, isFileExist, readAllFiles};
