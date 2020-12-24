@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     padding: 20,
-    paddingBottom: 28,
+    paddingBottom: 20,
   },
   itemColumn: {
     flex: 1,

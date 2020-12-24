@@ -178,5 +178,6 @@
   "deletedScorecard": "Deleted Scorecard",
   "theScorecardDeleted": "The scorecard is deleted!",
   "step": "Step",
-  "finishAndNext": "Finsih and go next",
+  "finishAndNext": "Finish and go next",
+  "clickToPlayVoice": "Click to play voice"
 }

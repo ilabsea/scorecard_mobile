@@ -155,14 +155,14 @@ class CriteriaModal extends Component {
     return (
       <Portal>
         <Modal visible={this.props.criteriaModal.visible} onDismiss={() => this.onDimiss() } contentContainerStyle={ styles.container }>
-          <Text style={styles.header}>{this.props.criteriaModal.criteria.tag}</Text>
+          <Text style={styles.header}>{ this.props.criteriaModal.criteria.content || '-' }</Text>
 
           <Text>{translations.issueNote}</Text>
 
           <View style={styles.contentWrapper}>
             <View style={styles.content}>
               <Text style={{fontSize: 22}}>
-                { this.props.criteriaModal.criteria.content || '-' }
+                {translations.clickToPlayVoice}
               </Text>
             </View>
 
