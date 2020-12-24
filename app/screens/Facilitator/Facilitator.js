@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import realm from '../../db/schema';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../../components/Translations';
@@ -17,6 +17,7 @@ class Facilitator extends Component {
       selectedFacilitators: Array.from({length: this.numberOfFacilitator}, () => null),
       isError: true,
     };
+    this.controllers = new Array(4);
   }
 
   async componentDidMount() {
@@ -71,12 +72,15 @@ class Facilitator extends Component {
             onChangeItem={(text) => this.onChangeFacilitator(text, index + 1)}
             itemIndex={itemIndex}
             key={uuidv4()}
+            controller={(instance) => this.controllers[index + 1] = instance}
+            onOpen={() => this.closeSelectBox(index + 1)}
           />
         );
       });
   };
 
   saveSelectedData = () => {
+    this.closeSelectBox(null);
     const {selectedFacilitators} = this.state;
     for(let i=0; i<selectedFacilitators.length; i++) {
       if (selectedFacilitators[i] === null)
@@ -133,47 +137,60 @@ class Facilitator extends Component {
     return (facilitator != undefined && facilitator != null) ? facilitator.value : null
   }
 
+  closeSelectBox = (exceptIndex) => {
+    for (let i = 0; i < this.controllers.length; i++) {
+      if (exceptIndex == i)
+        continue;
+
+      this.controllers[i].close();
+    }
+  }
+
   render() {
     const {translations} = this.context;
     const {facilitators} = this.state;
     const firstFacilitator = this.state.selectedFacilitators[0];
 
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
-        <ProgressHeader
-          title={translations['getStarted']}
-          onBackPress={() => this.props.navigation.goBack()}
-          progressIndex={1}
-        />
-        <ScrollView contentContainerStyle={styles.container}>
-          <HeaderTitle
-            headline="facilitatorList"
-            subheading="pleaseFillInformationBelow"
+      <TouchableWithoutFeedback onPress={() => this.closeSelectBox(null)}>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <ProgressHeader
+            title={translations['getStarted']}
+            onBackPress={() => this.props.navigation.goBack()}
+            progressIndex={1}
           />
-          <SelectPicker
-            items={facilitators}
-            selectedItem={this.getSelectedFacilitator(firstFacilitator)}
-            isRequire={true}
-            label={translations['facilitator']}
-            placeholder={translations['selectFacilitator']}
-            searchablePlaceholder={translations['searchForFacilitator']}
-            zIndex={8000}
-            customContainerStyle={{marginTop: 0}}
-            customLabelStyle={{zIndex: 8001, marginTop: -10}}
-            showCustomArrow={true}
-            onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
-            itemIndex={1}
-            mustHasDefaultValue={false}
-          />
-          <Text style={styles.otherFacilitatorsLabel}>
-            {translations['otherFacilitators']}
-          </Text>
+          <ScrollView contentContainerStyle={styles.container}>
+            <HeaderTitle
+              headline="facilitatorList"
+              subheading="pleaseFillInformationBelow"
+            />
+            <SelectPicker
+              items={facilitators}
+              selectedItem={this.getSelectedFacilitator(firstFacilitator)}
+              isRequire={true}
+              label={translations['facilitator']}
+              placeholder={translations['selectFacilitator']}
+              searchablePlaceholder={translations['searchForFacilitator']}
+              zIndex={8000}
+              customContainerStyle={{marginTop: 0}}
+              customLabelStyle={{zIndex: 8001, marginTop: -10}}
+              showCustomArrow={true}
+              onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
+              itemIndex={1}
+              mustHasDefaultValue={false}
+              controller={(instance) => this.controllers[0] = instance}
+              onOpen={() => this.closeSelectBox(0)}
+            />
+            <Text style={styles.otherFacilitatorsLabel}>
+              {translations['otherFacilitators']}
+            </Text>
 
-          { this.renderOtherFacilitators() }
-        </ScrollView>
+            { this.renderOtherFacilitators() }
+          </ScrollView>
 
-        { this.renderNextButton() }
-      </View>
+          { this.renderNextButton() }
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

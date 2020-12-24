@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
@@ -31,6 +31,7 @@ class AddNewParticipant extends Component {
       isYouth: this.savedParticipant != undefined ? this.savedParticipant.youth.toString() : 'false',
       isValidAge: this.savedParticipant != undefined ? true : false,
     };
+    this.controllers = new Array(5);
   }
 
   updateNewState = (newState) =>  {
@@ -60,6 +61,7 @@ class AddNewParticipant extends Component {
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
         containerStyle={{marginTop: 20, marginBottom: 60}}
+        controllers={this.controllers}
       />
     );
   };
@@ -99,18 +101,26 @@ class AddNewParticipant extends Component {
     });
   }
 
+  closeAllSelectBox = () => {
+    this.controllers.map((controller) => {
+      controller.close();
+    });
+  }
+
   render() {
     return (
-      <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled'>
-          <HeaderTitle
-            headline="participantInformation"
-            subheading="pleaseFillInformationBelow"
-          />
-          {this.renderForm()}
-        </ScrollView>
-        {this.renderSaveButton()}
-      </View>
+      <TouchableWithoutFeedback onPress={() => this.closeAllSelectBox()}>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled'>
+            <HeaderTitle
+              headline="participantInformation"
+              subheading="pleaseFillInformationBelow"
+            />
+            {this.renderForm()}
+          </ScrollView>
+          {this.renderSaveButton()}
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

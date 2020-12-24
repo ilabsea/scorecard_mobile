@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
@@ -30,6 +30,8 @@ class ScorecardPreference extends Component {
       message: '',
       messageType: '',
     };
+    this.textLanguageController;
+    this.audioLanguageController;
   }
 
   componentDidMount() {
@@ -89,6 +91,7 @@ class ScorecardPreference extends Component {
   }
 
   saveSelectedData = () => {
+    this.closeAllSelectBox();
     const {date, textLocale, audioLocale} = this.state;
     const attrs = {
       uuid: this.props.route.params.scorecard_uuid,
@@ -141,6 +144,7 @@ class ScorecardPreference extends Component {
             onDateChange={(date) => {
               this.setState({date: date});
             }}
+            onOpenModal={() => this.closeAllSelectBox()}
           />
         </View>
 
@@ -154,6 +158,8 @@ class ScorecardPreference extends Component {
           onChangeItem={this.changeTextLocale}
           customDropDownContainerStyle={{marginTop: 30}}
           mustHasDefaultValue={true}
+          controller={(instance) => this.textLanguageController = instance}
+          onOpen={() => this.audioLanguageController.close()}
         />
 
         <SelectPicker
@@ -165,6 +171,8 @@ class ScorecardPreference extends Component {
           zIndex={5000}
           onChangeItem={this.changeAudioLocale}
           mustHasDefaultValue={true}
+          controller={(instance) => this.audioLanguageController = instance}
+          onOpen={() => this.textLanguageController.close()}
         />
 
         <MessageLabel
@@ -176,39 +184,46 @@ class ScorecardPreference extends Component {
     );
   };
 
+  closeAllSelectBox = () => {
+    this.textLanguageController.close();
+    this.audioLanguageController.close();
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
-      <View style={{flex: 1}}>
-        <ProgressHeader
-          title={translations['getStarted']}
-          onBackPress={() => this.props.navigation.goBack()}
-          progressIndex={0}/>
+      <TouchableWithoutFeedback onPress={() => this.closeAllSelectBox()}>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <ProgressHeader
+            title={translations['getStarted']}
+            onBackPress={() => this.props.navigation.goBack()}
+            progressIndex={0}/>
 
-        <ScrollView contentContainerStyle={styles.container}>
-          <Loading
-            ref="loading"
-            backgroundColor="#ffffffF2"
-            borderRadius={5}
-            size={70}
-            imageSize={40}
-            indicatorColor={Color.primaryColor}
-          />
-          <HeaderTitle
-            headline="scorecardPreference"
-            subheading="pleaseFillInformationBelow"
-          />
-          {this.renderForm()}
-        </ScrollView>
+          <ScrollView contentContainerStyle={styles.container}>
+            <Loading
+              ref="loading"
+              backgroundColor="#ffffffF2"
+              borderRadius={5}
+              size={70}
+              imageSize={40}
+              indicatorColor={Color.primaryColor}
+            />
+            <HeaderTitle
+              headline="scorecardPreference"
+              subheading="pleaseFillInformationBelow"
+            />
+            {this.renderForm()}
+          </ScrollView>
 
-        <View style={{padding: 20}}>
-          <BottomButton
-            label={translations.next}
-            onPress={() => this.saveSelectedData()}
-          />
+          <View style={{padding: 20}}>
+            <BottomButton
+              label={translations.next}
+              onPress={() => this.saveSelectedData()}
+            />
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

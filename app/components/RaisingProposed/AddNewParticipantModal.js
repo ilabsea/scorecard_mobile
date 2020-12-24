@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { Modal, Portal, Button } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import {FontSize, FontFamily} from '../../assets/stylesheets/theme/font';
@@ -27,6 +27,7 @@ class AddNewParticipantModal extends Component {
       isYouth: 'false',
       isValidAge: false,
     };
+    this.controllers = new Array(5);
   }
 
   resetFormData = () => {
@@ -57,6 +58,7 @@ class AddNewParticipantModal extends Component {
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
         containerStyle={{paddingBottom: 160, paddingTop: 5}}
+        controllers={this.controllers}
       />
     );
   };
@@ -93,27 +95,38 @@ class AddNewParticipantModal extends Component {
     this.props.onClose();
   }
 
+  onTouchWithoutFeedback = () => {
+    Keyboard.dismiss();
+    this.controllers.map((controller) => {
+      controller.close();
+    });
+  }
+
   render() {
     const {translations} = this.context;
     return (
       <Portal>
         <Modal visible={this.props.visible} onDismiss={() => this.props.onDismiss()} contentContainerStyle={ styles.container }>
-          <Text style={styles.header}>{translations.addNewParticipant}</Text>
+          <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
+            <View style={{backgroundColor: 'white', flex: 1}}>
+              <Text style={styles.header}>{translations.addNewParticipant}</Text>
 
-          <ScrollView style={{marginBottom: 30}}>
-            {this.renderForm()}
-          </ScrollView>
+              <ScrollView style={{marginBottom: 30}}>
+                {this.renderForm()}
+              </ScrollView>
 
-          <View style={styles.btnWrapper}>
-            <Button mode="contained" labelStyle={{color: '#fff', paddingTop: 2}} onPress={() => this.closeModal()}>{translations.close}</Button>
-            <Button
-              mode="outlined"
-              onPress={() => this.save()} disabled={!this.state.isValidAge}
-              style={[styles.btnSave, this.state.isValidAge ? {borderColor: Color.primaryButtonColor} : {}]}
-            >
-              {translations.save}
-            </Button>
-          </View>
+              <View style={styles.btnWrapper}>
+                <Button mode="contained" labelStyle={{color: '#fff', paddingTop: 2}} onPress={() => this.closeModal()}>{translations.close}</Button>
+                <Button
+                  mode="outlined"
+                  onPress={() => this.save()} disabled={!this.state.isValidAge}
+                  style={[styles.btnSave, this.state.isValidAge ? {borderColor: Color.primaryButtonColor} : {}]}
+                >
+                  {translations.save}
+                </Button>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
         </Modal>
       </Portal>
     );
