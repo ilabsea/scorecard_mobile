@@ -46,6 +46,15 @@ class ParticipantForm extends Component {
     return !this.state.isValidAge ? 'red' : '';
   }
 
+  closeSelectBox = (exceptIndex) => {
+    for (let i = 0; i < this.props.controllers.length; i++) {
+      if (exceptIndex == i)
+        continue;
+
+      this.props.controllers[i].close();
+    }
+  }
+
   render() {
     const {translations} = this.context;
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
@@ -74,6 +83,7 @@ class ParticipantForm extends Component {
           keyboardType="number-pad"
           updateValidationStatus={this.updateValidationStatus}
           borderColor={this.getBorderColor()}
+          onFocus={() => this.closeSelectBox(null)}
         />
         <SelectPicker
           items={gender}
@@ -84,6 +94,8 @@ class ParticipantForm extends Component {
             this.onChangeValue('selectedGender', text.value)
           }
           customDropDownContainerStyle={{marginTop: -10}}
+          controller={(instance) => this.props.controllers[0] = instance}
+          onOpen={() => this.closeSelectBox(0)}
         />
         <SelectPicker
           items={choices}
@@ -93,6 +105,8 @@ class ParticipantForm extends Component {
           onChangeItem={(text) =>
             this.onChangeValue('isDisability', text.value)
           }
+          controller={(instance) => this.props.controllers[1] = instance}
+          onOpen={() => this.closeSelectBox(1)}
         />
         <SelectPicker
           items={choices}
@@ -100,6 +114,8 @@ class ParticipantForm extends Component {
           label={translations['minority']}
           zIndex={7000}
           onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
+          controller={(instance) => this.props.controllers[2] = instance}
+          onOpen={() => this.closeSelectBox(2)}
         />
         <SelectPicker
           items={choices}
@@ -107,6 +123,8 @@ class ParticipantForm extends Component {
           label={translations['poor']}
           zIndex={6000}
           onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
+          controller={(instance) => this.props.controllers[3] = instance}
+          onOpen={() => this.closeSelectBox(3)}
         />
         <SelectPicker
           items={choices}
@@ -114,6 +132,8 @@ class ParticipantForm extends Component {
           label={translations['youth']}
           zIndex={5000}
           onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
+          controller={(instance) => this.props.controllers[4] = instance}
+          onOpen={() => this.closeSelectBox(4)}
         />
       </View>
     );    

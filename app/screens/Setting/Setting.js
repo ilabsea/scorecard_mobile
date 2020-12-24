@@ -41,6 +41,7 @@ class Setting extends Component {
       messageType: '',
       isLoading: false,
     };
+    this.languageController;
   }
 
   componentDidMount = async () => {
@@ -91,6 +92,7 @@ class Setting extends Component {
           onChangeText={this.onChangeText}
           message={translations[backendUrlErrorMsg]}
           isSecureEntry={false}
+          onFocus={() => this.languageController.close()}
         />
 
         <TextFieldInput
@@ -101,6 +103,7 @@ class Setting extends Component {
           onChangeText={this.onChangeText}
           message={translations[emailErrorMsg]}
           isSecureEntry={false}
+          onFocus={() => this.languageController.close()}
         />
 
         <TextFieldInput
@@ -111,6 +114,7 @@ class Setting extends Component {
           onChangeText={this.onChangeText}
           message={translations[passwordErrorMsg]}
           isSecureEntry={true}
+          onFocus={() => this.languageController.close()}
         />
       </View>
     );
@@ -144,6 +148,8 @@ class Setting extends Component {
         showCustomArrow={true}
         onChangeItem={this.changeLocale}
         mustHasDefaultValue={true}
+        controller={(instance) => this.languageController = instance}
+        onOpen={() => Keyboard.dismiss()}
       />
     );
   };
@@ -248,11 +254,16 @@ class Setting extends Component {
     );
   }
 
+  onTouchWithoutFeedback = () => {
+    Keyboard.dismiss();
+    this.languageController.close();
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
         <View style={[styles.container]}>
           <Loading
             ref="loading"
