@@ -78,14 +78,21 @@ export default class ScorecardProgress extends Component {
   }
 
   _renderProgressBar() {
-    return (
-      <ProgressBar
-        progress={this.state.progressPercentag}
-        color={Color.headerColor}
-        style={styles.progressBar}
-        visible={ this.state.showProgress }
-      />
-    );
+    if (this.state.showProgress) {
+      return (
+        <View>
+          <Text style={styles.uploadPercentageLabel}>
+            {Math.ceil(this.state.progressPercentag * 100)}%
+          </Text>
+          <ProgressBar
+            progress={this.state.progressPercentag}
+            color={Color.headerColor}
+            style={styles.progressBar}
+            visible={ this.state.showProgress }
+          />
+        </View>
+      );
+    }
   }
 
   render() {
@@ -139,8 +146,16 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   progressBar: {
-    height: 20,
+    height: 30,
     backgroundColor: '#e6e7e9',
     marginBottom: 20,
   },
+  uploadPercentageLabel: {
+    textAlign: 'center',
+    zIndex: 1,
+    marginTop: 4,
+    left: '48%',
+    position: 'absolute',
+    fontWeight: 'bold',
+  }
 })
