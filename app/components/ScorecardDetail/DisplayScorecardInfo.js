@@ -18,7 +18,11 @@ class DisplayScorecardInfo extends Component {
     ];
 
     return renderFields.map((renderField, index) => {
-      const value = scorecardDetail[renderField.fieldName] != undefined ? scorecardDetail[renderField.fieldName].toString() : ''
+      let value = scorecardDetail[renderField.fieldName] != undefined ? scorecardDetail[renderField.fieldName].toString() : ''
+
+      if (renderField.fieldName === 'scorecard_type')
+        value = value === 'self_assessment' ? translations.selfAssessment : translations.communityScorecard;
+
       return (
         <TextInput
           label={translations[renderField.label]}
