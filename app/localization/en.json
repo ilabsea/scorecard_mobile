@@ -179,5 +179,6 @@
   "theScorecardDeleted": "The scorecard is deleted!",
   "step": "Step",
   "finishAndNext": "Finish and go next",
-  "clickToPlayVoice": "Click to play voice"
+  "clickToPlayVoice": "Click to play voice",
+  "audio": "audio"
 }

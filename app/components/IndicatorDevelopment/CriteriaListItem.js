@@ -31,7 +31,7 @@ const CriteriaListItem = (props) => {
       <View style={styles.criteriaWrapper}>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <TouchableOpacity style={[styles.criteria, {flexDirection: 'row', flexGrow: 1}]} onPress={() => showPopup()}>
-            <Text style={{color: '#fff', paddingHorizontal: 10, flex: 1}} numberOfLines={1}>{indicator.content || indicator.name}</Text>
+            <Text style={{color: '#fff', paddingHorizontal: 10, flex: 1}} numberOfLines={1}>{indicator.name || indicator.content}</Text>
             <Text style={{color: '#fff', paddingHorizontal: 10}}>({props.criteria.count})</Text>
           </TouchableOpacity>
         </View>
@@ -46,7 +46,7 @@ const CriteriaListItem = (props) => {
       </View>
 
       <TouchableOpacity style={styles.footer} onPress={() => showPopup()}>
-        <Text style={{flex: 1}}>1 Note</Text>
+        {_renderIndicatorSign(indicator)}
 
         <View style={styles.viewDetail}>
           <Text>{translations.viewDetail}</Text>
@@ -55,6 +55,26 @@ const CriteriaListItem = (props) => {
       </TouchableOpacity>
     </View>
   )
+}
+
+const _renderIndicatorSign = (indicator) => {
+  const { translations } = useContext(LocalizationContext);
+
+  if (indicator.local_audio != null) {
+    return (
+      <View style={{flexDirection: 'row', flex: 1}}>
+        <Icon name='mic-outline' style={{fontSize: 20, marginTop: 2}} />
+        <Text style={{flex: 1}}>{translations.audio}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={{flexDirection: 'row', flex: 1}}>
+      <Icon name='attach-outline' style={{fontSize: 20, marginTop: 2}} />
+      <Text style={{flex: 1}}>1 {translations.note}</Text>
+    </View>
+  );
 }
 
 CriteriaListItem.defaultProps = {
