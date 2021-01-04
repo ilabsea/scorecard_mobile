@@ -180,5 +180,7 @@
   "step": "Step",
   "finishAndNext": "Finish and go next",
   "clickToPlayVoice": "Click to play voice",
-  "audio": "audio"
+  "audio": "audio",
+  "self_assessment": "Sefl assessment",
+  "community_scorecard": "Community scorecard",
 }
