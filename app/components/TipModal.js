@@ -15,9 +15,10 @@ import Color from '../themes/color';
 import customStyle from '../themes/customStyle';
 import cardListItemStyle from '../themes/cardListItemStyle';
 import tips from '../db/jsons/tips';
-import { Modal, Portal, Button, Avatar } from 'react-native-paper';
+import { Modal, Portal, Avatar } from 'react-native-paper';
 import uuidv4 from '../utils/uuidv4';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import CloseButton from './CloseButton';
 
 export default class TipModal extends Component {
   static contextType = LocalizationContext;
@@ -56,7 +57,7 @@ export default class TipModal extends Component {
           </ScrollView>
 
           <View style={styles.btnWrapper}>
-            <Button mode="contained" contentStyle={{backgroundColor: Color.headerColor}} labelStyle={{color: '#fff', fontFamily: FontFamily.title}} onPress={this.props.onDimiss}>{translations.close}</Button>
+            <CloseButton onPress={this.props.onDimiss} label={translations.close} />
           </View>
         </Modal>
       </Portal>

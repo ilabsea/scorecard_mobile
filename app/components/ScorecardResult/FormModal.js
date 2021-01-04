@@ -12,6 +12,9 @@ import { getAll } from '../../actions/votingCriteriaAction';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
+import CloseButton from '../CloseButton';
+import SaveButton from '../SaveButton';
+
 import Color from '../../themes/color';
 import realm from '../../db/schema';
 
@@ -21,8 +24,8 @@ const FormModal = (props) => {
   const { criteria, visible } = props;
   const richText = React.createRef();
 
-  const onDimiss = () => {
-    !!props.onDimiss && props.onDimiss();
+  const onDismiss = () => {
+    !!props.onDismiss && props.onDismiss();
   }
 
   async function submit() {
@@ -35,12 +38,12 @@ const FormModal = (props) => {
     });
 
     dispatch(getAll(criteria.scorecard_uuid));
-    onDimiss();
+    onDismiss();
   }
 
   return (
     <Portal>
-      <Modal visible={visible} onDismiss={onDimiss} contentContainerStyle={ styles.container }>
+      <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
         <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20}}>{translations.insert}{translations[criteria.currentFieldName]}</Text>
 
         <RichEditor
@@ -64,13 +67,8 @@ const FormModal = (props) => {
 
         <View style={{flex: 1}}></View>
         <View style={styles.btnWrapper}>
-          <Button bordered onPress={onDimiss} style={{marginRight: 10}}>
-            <Text style={{color: Color.headerColor}}>{translations.cancel}</Text>
-          </Button>
-
-          <Button onPress={submit}>
-            <Text>{translations.save}</Text>
-          </Button>
+          <CloseButton onPress={() => onDismiss()} label={translations.close} />
+          <SaveButton onPress={() => submit()} label={translations.save} />
         </View>
       </Modal>
     </Portal>
