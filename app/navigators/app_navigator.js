@@ -24,6 +24,7 @@ import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
 import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
 import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticipant';
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
+import ContactScreen from '../screens/Contact/Contact';
 
 // Util and components
 import Color from '../themes/color';
@@ -183,6 +184,13 @@ function AppNavigator() {
         component={CreateNewIndicatorScreen}
         options={{
           title: `${translations['createNewProposedCriteria']}`,
+        }}
+      />
+      <Stack.Screen
+        name="Contact"
+        component={ContactScreen}
+        options={{
+          title: `${translations['contact']}`,
         }}
       />
     </Stack.Navigator>
