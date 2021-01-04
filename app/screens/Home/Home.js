@@ -1,21 +1,15 @@
 import React, {Component, useContext, useEffect, useState} from 'react';
 import { LocalizationContext } from '../../components/Translations';
-import ActionButton from '../../components/ActionButton';
-import { Button } from 'react-native-paper';
 
 import {
-  ScrollView,
   StyleSheet,
   ImageBackground,
   View,
-  Image,
-  Text,
 } from "react-native";
 
-import { Icon } from 'native-base';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 import BigButton from '../../components/Home/BigButton';
 import Brand from '../../components/Home/Brand';
+import Logos from '../../components/Home/Logos';
 
 class Home extends Component {
   static contextType = LocalizationContext;
@@ -24,8 +18,10 @@ class Home extends Component {
     const {translations} = this.context;
 
     return (
-      <ImageBackground source={require('../../assets/images/bg.jpg')} style={styles.imageBg}>
-        <View style={{alignItems: 'center'}}>
+      <ImageBackground source={require('../../assets/images/home/bg.png')} style={styles.imageBg}>
+        <View style={{alignItems: 'center', flex: 1}}>
+          <View style={{flex: 3}}></View>
+
           <Brand />
 
           <BigButton
@@ -39,6 +35,8 @@ class Home extends Component {
             label={ translations['savedScorecard'] }
             icon={'list-circle'}
           />
+
+          <Logos />
         </View>
       </ImageBackground>
     );
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
   imageBg: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 });
 
