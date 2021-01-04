@@ -41,6 +41,11 @@ class DependentValidationInputField extends Component {
     return !this.state.isValid ? 'red' : '';
   };
 
+  onFocusTextInput = () => {
+    if (this.state.participant === 0 || this.state.participant === '0')
+      this.setState({participant: ''});
+  }
+
   render() {
     const {label, placeholder} = this.props;
     return (
@@ -56,6 +61,7 @@ class DependentValidationInputField extends Component {
           keyboardType="number-pad"
           maxLength={2}
           theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}
+          onFocus={() => this.onFocusTextInput()}
         />
         <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>
       </View>

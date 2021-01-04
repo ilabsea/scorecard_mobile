@@ -55,6 +55,12 @@ class ParticipantForm extends Component {
     }
   }
 
+  onFocusTextInput = () => {
+    this.closeSelectBox(null);
+    if (this.state.age === 0 || this.state.age === '0')
+      this.setState({age: ''});
+  }
+
   render() {
     const {translations} = this.context;
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
@@ -83,7 +89,7 @@ class ParticipantForm extends Component {
           keyboardType="number-pad"
           updateValidationStatus={this.updateValidationStatus}
           borderColor={this.getBorderColor()}
-          onFocus={() => this.closeSelectBox(null)}
+          onFocus={() => this.onFocusTextInput()}
         />
         <SelectPicker
           items={gender}
