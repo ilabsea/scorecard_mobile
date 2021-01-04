@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   Text,
+  Alert
 } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
@@ -10,11 +11,30 @@ import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
+import realm from '../../db/schema';
 
 const badgeSize = 40;
 
 export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scorecard: realm.objects('Scorecard').filtered(`uuid='${props.scorecardUuid}'`)[0]
+    };
+  }
+
+  onPress(step) {
+    const { translations } = this.context;
+
+    if (this.state.scorecard.isUploaded) {
+      return Alert.alert(translations.locked, translations.alreadyUploaded);
+    }
+
+    this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.props.localNgoId })
+  }
 
   _renderMilestoneCard(step) {
     const { translations } = this.context;
@@ -25,7 +45,7 @@ export default class VerticalProgressStep extends Component {
         title={ translations[step.label] }
         index={ step.value }
         progressIndex={ this.props.progressIndex }
-        onPress={() => this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.props.localNgoId }) }
+        onPress={() => this.onPress(step) }
       />
     )
   }

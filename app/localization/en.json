@@ -187,4 +187,6 @@
   "clickHereIfForgetCode": "If forget code, click here!",
   "fundedBy": "Funded by",
   "implementedBy": "Implemented by",
+  "alreadyUploaded": "The scorecard is locked after uploaded!",
+  "locked": "Locked",
 }
