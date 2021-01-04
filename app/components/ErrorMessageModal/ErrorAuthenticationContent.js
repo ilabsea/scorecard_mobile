@@ -1,0 +1,138 @@
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
+import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { LocalizationContext } from '../Translations';
+import TextFieldInput from '../TextFieldInput';
+import authenticationService from '../../services/authentication_service';
+import CloseButton from '../CloseButton';
+import SaveButton from '../SaveButton';
+
+class ErrorAuthenticationContent extends Component {
+  static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      emailErrorMsg: '',
+      passwordErrorMsg: '',
+      isLoading: false,
+      isValidForm: false,
+      message: '',
+      isError: false,
+    };
+  }
+
+  onChangeText = (fieldName, value) => {
+    let state = {};
+    state[fieldName] = value;
+    state[`${fieldName}ErrorMsg`] = '';
+    state['message'] = '';
+
+    this.setState(state, () => {
+      this.setState({
+        isValidForm: authenticationService.isValidForm(this.state.email, this.state.password)
+      })
+    });
+  }
+
+  save = async () => {
+    const { translations }  = this.context;
+    if (!this.state.isValidForm)
+      return;
+
+    this.setState({
+      isLoading: true,
+      message: translations.authenticating,
+    });
+
+    authenticationService.authenticate(this.state.email, this.state.password, async (responseData) => {
+      this.setState({
+        isLoading: false,
+        message: translations.successfullyAuthenticated,
+      });
+      const setting = await AsyncStorage.getItem('SETTING');
+      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+      AsyncStorage.setItem('SETTING',JSON.stringify({
+        backendUrl: JSON.parse(setting).backendUrl,
+        email: this.state.email,
+        password: this.state.password
+      }));
+
+      this.props.onDismiss();
+    }, (error) => {
+      this.setState({
+        isLoading: false,
+        message: translations.emailOrPasswordIsIncorrect,
+      });
+    })
+  }
+
+  render() {
+    const { translations } = this.context;
+    const emailLabel = `${translations['email']} *`;
+    const passwordLabel = `${translations['password']} *`;
+
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View>
+          <Text style={styles.title}>{translations.serverRequiresAuthentication}</Text>
+          <Text style={{marginTop: 10, marginBottom: 15}}>
+            {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
+          </Text>
+
+          <TextFieldInput
+            value={this.state.email}
+            label={emailLabel}
+            placeholder={translations.enterEmail}
+            fieldName="email"
+            onChangeText={this.onChangeText}
+            message={translations.emailErrorMsg}
+          />
+
+          <TextFieldInput
+            value={this.state.password}
+            label={passwordLabel}
+            placeholder={translations.enterPassword}
+            fieldName="password"
+            onChangeText={this.onChangeText}
+            message={translations.passwordErrorMsg}
+            isSecureEntry={true}
+          />
+
+          { this.state.message != '' &&
+            <Text style={{ textAlign: 'center', color: this.state.isError ? 'red' : 'green'}}>
+              {this.state.message}
+            </Text>
+          }
+
+          <View style={styles.btnWrapper}>
+            <CloseButton onPress={this.props.onDismiss} label={translations.close} />
+            <SaveButton
+              onPress={() => this.save()}
+              disabled={!this.state.isValidForm || this.state.isLoading}
+              label={translations.save}
+            />
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    fontFamily: FontFamily.title,
+    marginBottom: 20,
+  },
+  btnWrapper: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+});
+
+export default ErrorAuthenticationContent;

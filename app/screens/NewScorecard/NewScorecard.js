@@ -16,6 +16,7 @@ import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import TextFieldInput from '../../components/TextFieldInput';
 import MessageLabel from '../../components/MessageLabel';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
@@ -27,6 +28,9 @@ import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
 import ScorecardApi from '../../api/ScorecardApi';
 
+const errorEndpoint = 0;
+const errorAuthentication = 1;
+const errorScorecard = 2;
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -38,6 +42,8 @@ class NewScorecard extends Component {
       errorMsg: '',
       messageType: '',
       isLoading: false,
+      visibleModal: false,
+      errorType: null,
     };
   }
 
@@ -76,16 +82,25 @@ class NewScorecard extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
       this.refs.loading.show(false);
-      if (responseData === null)
-        this.setState({codeMsg: 'scorecardIsNotExist'});
+      if (responseData === null) {
+        this.setState({
+          codeMsg: 'scorecardIsNotExist',
+          visibleModal: true,
+          errorType: errorScorecard,
+        });
+      }
       else {
         this.uuid = responseData.uuid;
         scorecardService.saveScorecardDetail(responseData);
         this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
       }
-    }, () => {
+    }, (error) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
-      this.setState({isLoading: false});
+      this.setState({
+        isLoading: false,
+        visibleModal: true,
+        errorType: error === 'Network Error' ? errorEndpoint : errorAuthentication,
+      });
       this.refs.loading.show(false);
     });
 
@@ -191,6 +206,11 @@ class NewScorecard extends Component {
 
             <Logos />
 
+            <ErrorMessageModal
+              visible={this.state.visibleModal}
+              onDismiss={() => this.setState({visibleModal: false})}
+              errorType={this.state.errorType}
+            />
           </View>
         </ImageBackground>
       </TouchableWithoutFeedback>

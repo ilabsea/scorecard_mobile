@@ -18,7 +18,7 @@ const checkConnection = (callback) => {
 
 const handleApiResponse = (response, successCallback, errorCallback) => {
   if (response.error != undefined)
-    errorCallback();
+    errorCallback(response.error);
   else
     successCallback(response.data);
 }

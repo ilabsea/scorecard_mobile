@@ -190,4 +190,14 @@
   "alreadyUploaded": "The scorecard is locked after uploaded!",
   "locked": "Locked",
   "cannotBeBlank": "Can't be blank",
+  "scorecardNotFound": "Scorecard not found",
+  "scorecardDownloadFailed": "Scorecard download failed",
+  "serverRequiresAuthentication": "Server requires authentication",
+  "invalidEmailOrPasswordForServer": "Invalid email or password for server",
+  "authenticating": "Authenticating...",
+  "successfullyAuthenticated": "Successfully authenticated",
+  "emailOrPasswordIsIncorrect": "Email or password is incorrect",
+  "cscAppCannotReachTheServerAt": "CSC app cannot reach the server at",
+  "didYouEnterTheUrlCorrectly": "Did you enter the URL correctly?",
+  "ifYouKeepHavingThisProblem": " If you keep having this problem, report it to the person who asked you to collect data."
 }
