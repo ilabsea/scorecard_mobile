@@ -24,6 +24,7 @@ import scorecardService from '../../services/scorecardService';
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
+import Logos from '../../components/Home/Logos';
 import ScorecardApi from '../../api/ScorecardApi';
 
 class NewScorecard extends Component {
@@ -138,8 +139,8 @@ class NewScorecard extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground source={require('../../assets/images/bg.jpg')} style={styles.imageBg}>
-          <View style={{alignItems: 'center'}}>
+        <ImageBackground source={require('../../assets/images/home/bg.png')} style={styles.imageBg}>
+          <View style={{alignItems: 'center', flex: 1}}>
             <Loading
               ref="loading"
               backgroundColor="#ffffffF2"
@@ -148,6 +149,8 @@ class NewScorecard extends Component {
               imageSize={40}
               indicatorColor={Color.primaryColor}
             />
+
+            <View style={{flex: 3}}></View>
 
             <Brand/>
 
@@ -186,6 +189,8 @@ class NewScorecard extends Component {
 
               { this.renderBtnContact() }
             </View>
+
+            <Logos />
 
           </View>
         </ImageBackground>
