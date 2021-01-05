@@ -22,6 +22,7 @@ import CriteriaModal from '../../components/IndicatorDevelopment/CriteriaModal';
 import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { submitCriterias } from '../../services/selectedCriteriaService';
+import { set } from '../../actions/currentScorecardAction';
 
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
@@ -40,6 +41,7 @@ class IndicatorDevelopment extends Component {
     realm.write(() => {
       if (this.state.scorecard.status < 3) {
         this.state.scorecard.status = '3';
+        this.props.setCurrentScorecard(this.state.scorecard);
       }
     });
 
@@ -132,6 +134,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setSelectedCriterias: (criterias) => dispatch(setSelectedCriterias(criterias)),
     setProposedCriterias: (criterias) => dispatch(setProposedCriterias(criterias)),
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };
 }
 

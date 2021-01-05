@@ -13,7 +13,10 @@ import ScorecardItem from '../../components/ScorecardItem';
 import uuidv4 from '../../utils/uuidv4';
 import scorecardService from '../../services/scorecardService';
 
-export default class ScorecardList extends Component {
+import { connect } from 'react-redux';
+import { set } from '../../actions/currentScorecardAction';
+
+class ScorecardList extends Component {
   static contextType = LocalizationContext;
 
   renderList(scorecards) {
@@ -32,7 +35,7 @@ export default class ScorecardList extends Component {
     if (scorecard.isDeleted) {
       return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
     }
-
+    this.props.setCurrentScorecard(scorecard);
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.name});
   }
 
@@ -70,3 +73,18 @@ export default class ScorecardList extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ScorecardList);

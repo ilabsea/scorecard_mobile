@@ -17,6 +17,7 @@ import Tip from '../../components/Tip';
 
 import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
+import { set } from '../../actions/currentScorecardAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
@@ -41,6 +42,7 @@ class VotingCriteriaList extends Component {
     realm.write(() => {
       if (this.state.scorecard.status < 4) {
         this.state.scorecard.status = '4';
+        this.props.setCurrentScorecard(this.state.scorecard);
       }
     });
 
@@ -130,6 +132,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getAll: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
     setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };
 }
 
