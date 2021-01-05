@@ -26,7 +26,7 @@ class Criteria {
     criterias = criterias.map(criteria => {
       let indicator = getDisplayIndicator(criteria);
       criteria.raised_count = allCriterias.filter(x => x.tag == criteria.tag).length;
-      criteria.name = indicator.content || indicator.name;
+      criteria.name = indicator.name || indicator.content;
       criteria.shortcut = getIndicatorShortcutName(criteria.name);
 
       return criteria;
