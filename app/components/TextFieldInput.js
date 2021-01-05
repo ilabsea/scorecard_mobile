@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-paper';
 import Color from '../themes/color';
 import validationService from '../services/validation_service';
 import {LocalizationContext} from './Translations';
+import { color } from 'react-native-reanimated';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;
@@ -49,11 +50,27 @@ class TextFieldInput extends Component {
     this.props.onChangeText(this.props.fieldName, value);
   }
 
+  renderLeftIcon = () => {
+    if (this.props.leftIcon)
+      return (
+        <TextInput.Icon
+          name={this.props.leftIcon}
+          color="#959595"
+          size={this.props.iconSize}
+          style={this.props.customIconStyle}
+        />
+      );
+
+    return null;
+  }
+
   render() {
     const {
       value,
       isSecureEntry,
       borderColor,
+      customStyle,
+      customMessageStyle,
     } = this.props;
 
     return (
@@ -66,11 +83,14 @@ class TextFieldInput extends Component {
           secureTextEntry={isSecureEntry}
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
-          style={{backgroundColor: 'white', width: '100%'}}
-          theme={{colors: {primary: borderColor || 'blue'}}}
+          style={[{backgroundColor: 'white', width: '100%'}, customStyle]}
+          theme={{colors: {primary: borderColor || Color.clickableColor}, fontSize: 49}}
+          left={this.renderLeftIcon()}
         />
 
-        <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>
+        <Text style={[styles.messageLabel, customMessageStyle]}>
+          {this.getValidationMsg()}
+        </Text>
       </View>
     );
   }
@@ -79,7 +99,7 @@ class TextFieldInput extends Component {
 const styles = StyleSheet.create({
   messageLabel: {
     color: Color.errorColor,
-    marginBottom: 10
+    marginBottom: 10,
   }
 });
 
