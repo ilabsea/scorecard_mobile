@@ -11,7 +11,7 @@ import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
-import realm from '../../db/schema';
+import scorecardService from '../../services/scorecardService';
 
 const badgeSize = 40;
 
@@ -22,7 +22,7 @@ export default class VerticalProgressStep extends Component {
     super(props);
 
     this.state = {
-      scorecard: realm.objects('Scorecard').filtered(`uuid='${props.scorecardUuid}'`)[0]
+      scorecard: scorecardService.find(props.scorecardUuid)
     };
   }
 
