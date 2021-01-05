@@ -42,6 +42,7 @@ class PlaySound extends Component {
   }
 
   playAudio() {
+    this.props.onPress();
     if (!this.props.filePath) {
       return;
     }
