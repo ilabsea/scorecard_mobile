@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     zIndex: 1,
     marginTop: 4,
-    left: '50%',
+    left: '48%',
     position: 'absolute',
     fontWeight: 'bold',
   }
