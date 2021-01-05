@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Modal} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
 import TextFieldInput from '../TextFieldInput';
@@ -7,9 +7,11 @@ import VoiceRecord from './VoiceRecord';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../Translations';
 import {CUSTOM} from '../../utils/variable';
-import realm from '../../db/schema';
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
+import scorecardService from '../../services/scorecardService';
+
+import { isBlank } from '../../utils/string_util';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -31,8 +33,12 @@ class AddNewIndicatorModal extends Component {
   }
 
   isValid = () => {
-    if (this.state.name === '' || this.state.name === undefined) return false;
-    if (this.state.note != '' || this.state.audio != null) return true;
+    if (isBlank(this.state.name))
+      return false;
+
+    if (!isBlank(this.state.note) || !isBlank(this.state.audio))
+      return true;
+
     return false;
   }
 
@@ -55,7 +61,7 @@ class AddNewIndicatorModal extends Component {
       tag: this.state.name
     };
 
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.scorecardUUID}'`)[0];
+    const scorecard = scorecardService.find(this.props.scorecardUUID);
     const customLanguageIndicator = {
       id: uuidv4(),
       content: this.state.name,
@@ -94,35 +100,39 @@ class AddNewIndicatorModal extends Component {
         visible={this.props.isVisible}
         onDismiss={() => this.props.closeModal()}
         contentContainerStyle={styles.container}>
-        <Text style={styles.header}>{translations['addNewCriteria']}</Text>
-        <TextFieldInput
-          value={this.state.name}
-          isRequire={true}
-          label={translations['criteriaName']}
-          placeholder={translations['enterCriteriaName']}
-          fieldName="criteriaName"
-          onChangeText={this.onChangeText}
-        />
-        <View style={{marginBottom: 20}}>
-          <TextInput
-            label={translations['enterNewCriteriaAsVoice']}
-            placeholder={translations['enterNewCriteriaAsVoice']}
-            mode="outlined"
-            clearButtonMode="while-editing"
-            value={this.state.note}
-            onChangeText={(text) => this.onChangeNote(text)}
-            style={{backgroundColor: 'white', width: '100%'}}
-            multiline={true}
-            height={180}
-          />
-        </View>
-        <VoiceRecord
-          participantUUID={this.props.participantUUID}
-          scorecardUUID={this.props.scorecardUUID}
-          finishRecord={this.finishRecord}
-          deleteAudio={() => this.setState({audio: null})}
-        />
-        {this.renderButton()}
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View>
+            <Text style={styles.header}>{translations['addNewCriteria']}</Text>
+            <TextFieldInput
+              value={this.state.name}
+              isRequire={true}
+              label={translations['criteriaName']}
+              placeholder={translations['enterCriteriaName']}
+              fieldName="criteriaName"
+              onChangeText={this.onChangeText}
+            />
+            <View style={{marginBottom: 20}}>
+              <TextInput
+                label={translations['enterNewCriteriaAsVoice']}
+                placeholder={translations['enterNewCriteriaAsVoice']}
+                mode="outlined"
+                clearButtonMode="while-editing"
+                value={this.state.note}
+                onChangeText={(text) => this.onChangeNote(text)}
+                style={{backgroundColor: 'white', width: '100%'}}
+                multiline={true}
+                height={180}
+              />
+            </View>
+            <VoiceRecord
+              participantUUID={this.props.participantUUID}
+              scorecardUUID={this.props.scorecardUUID}
+              finishRecord={this.finishRecord}
+              deleteAudio={() => this.setState({audio: null})}
+            />
+            {this.renderButton()}
+          </View>
+        </TouchableWithoutFeedback>
       </Modal>
     );
   }

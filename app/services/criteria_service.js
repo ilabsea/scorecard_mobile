@@ -1,5 +1,7 @@
 import realm from '../db/schema';
-import {getIndicatorName, getIndicatorShortcutName, getSavedIndicators, getDisplayIndicator} from './indicator_service';
+
+import {getDisplayIndicator} from './indicator_service';
+import { getIndicatorShortcutName } from '../utils/indicator_util';
 
 class Criteria {
   constructor(scorecardUUID) {

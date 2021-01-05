@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
-import realm from '../../db/schema';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
-import {getIndicatorShortcutName, getSavedIndicators} from '../../services/indicator_service';
+import { getAll as getAllIndicators } from '../../services/indicator_service';
+import scorecardService from '../../services/scorecardService';
+import  { getIndicatorShortcutName } from '../../utils/indicator_util';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
@@ -132,8 +133,8 @@ class CriteriaSelection extends Component {
   getIndicator = () => {
     const {translations} = this.context;
     let indicators = [];
-    const savedIndicators = getSavedIndicators(this.props.scorecardUUID);
-    const proposedCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${this.props.scorecardUUID}' AND participant_uuid = '${this.props.participantUUID}'`);
+    const savedIndicators = getAllIndicators(this.props.scorecardUUID);
+    const proposedCriterias = scorecardService.getProposedCriterias(this.props.scorecardUUID, this.props.participantUUID);
     let selectedIndicators = [];
 
     savedIndicators.map((indicator) => {
