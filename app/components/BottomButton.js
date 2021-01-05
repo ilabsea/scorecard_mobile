@@ -18,7 +18,7 @@ class BottomButton extends Component {
 
 const styles = StyleSheet.create({
   labelStyle: {
-    fontSize: 18,
+    fontSize: 20,
     flex: 1,
     textAlign: 'center',
   },

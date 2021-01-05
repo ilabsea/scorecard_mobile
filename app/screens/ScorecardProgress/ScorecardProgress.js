@@ -70,7 +70,7 @@ class ScorecardProgress extends Component {
         onPress={() => this.submitToServer() }
         style={[styles.btn, btnStyle]}>
 
-        <Text style={{color: '#fff', fontWeight: 'bold'}}>{translations['submit']}</Text>
+        <Text style={{color: '#fff', fontSize: 20}}>{translations['submit']}</Text>
         { this.state.scorecard.isUploaded &&
           <Icon name={'lock-closed'}  style={{position: 'absolute', right: 6, color: '#fff'}}/>
         }
