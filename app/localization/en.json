@@ -181,4 +181,8 @@
   "audio": "audio",
   "self_assessment": "Sefl assessment",
   "community_scorecard": "Community scorecard",
+  "contact": "Contact",
+  "contact_number": "Contact number",
+  "contact_email": "Contact email",
+  "clickHereIfForgetCode": "If forget code, click here!",
 }

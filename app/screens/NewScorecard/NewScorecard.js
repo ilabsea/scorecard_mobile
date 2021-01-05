@@ -7,6 +7,7 @@ import {
   Keyboard,
   ImageBackground,
   TextInput as NativeTextInput,
+  TouchableOpacity,
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -20,6 +21,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection, handleApiResponse} from '../../services/api_service';
 import scorecardService from '../../services/scorecardService';
+import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
 import ScorecardApi from '../../api/ScorecardApi';
@@ -114,8 +116,24 @@ class NewScorecard extends Component {
     }
   };
 
+  renderBtnContact() {
+    const { translations } = this.context;
+
+    return (
+      <View style={{ alignItems: 'center', marginTop: 30}}>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Contact')}
+          style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
+
+          <Text style={{color: '#fff'}}>{translations.clickHereIfForgetCode}</Text>
+          <Icon name={'chevron-forward'} style={{color: '#fff', fontSize: 24}}/>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   render() {
-    const {translations} = this.context;
+    const { translations } = this.context;
     const {code, codeMsg} = this.state;
 
     return (
@@ -165,6 +183,8 @@ class NewScorecard extends Component {
                 customLabelStyle={{fontSize: 20}}
                 isDisabled={this.state.isLoading}
               />
+
+              { this.renderBtnContact() }
             </View>
 
           </View>
