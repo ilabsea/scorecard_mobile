@@ -7,13 +7,15 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Modal, Portal, Button, ProgressBar, Colors } from 'react-native-paper';
+import { Modal, Portal, ProgressBar } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import { setModalVisible } from '../../actions/criteriaModalAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import Sound from 'react-native-sound';
+
+import CloseButton from '../CloseButton';
 
 class CriteriaModal extends Component {
   static contextType = LocalizationContext;
@@ -48,7 +50,7 @@ class CriteriaModal extends Component {
     return ((h<10?'0'+h:h) + ':' + (m<10?'0'+m:m) + ':' + (s<10?'0'+s:s));
   }
 
-  onDimiss() {
+  onDismiss() {
     if (this.sound)
       this.releaseAudio();
 
@@ -176,7 +178,7 @@ class CriteriaModal extends Component {
           <View style={{flex: 1}}></View>
 
           <View style={styles.btnWrapper}>
-            <Button mode="contained" labelStyle={{color: '#fff'}} onPress={() => this.onDimiss()}>{translations.close}</Button>
+            <CloseButton onPress={() => this.onDismiss()} label={translations.close} />
           </View>
 
         </Modal>

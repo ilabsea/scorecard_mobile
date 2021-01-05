@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import { Modal, Portal, Button } from 'react-native-paper';
+import { Modal, Portal } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import {FontSize, FontFamily} from '../../assets/stylesheets/theme/font';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
 import uuidv4 from '../../utils/uuidv4';
-import Color from '../../themes/color';
+
+import CloseButton from '../CloseButton';
+import SaveButton from '../SaveButton';
 
 import {saveParticipantInfo} from '../../services/participant_service';
 
@@ -116,14 +118,16 @@ class AddNewParticipantModal extends Component {
               </ScrollView>
 
               <View style={styles.btnWrapper}>
-                <Button mode="contained" labelStyle={{color: '#fff', paddingTop: 2}} onPress={() => this.closeModal()}>{translations.close}</Button>
-                <Button
-                  mode="outlined"
-                  onPress={() => this.save()} disabled={!this.state.isValidAge}
-                  style={[styles.btnSave, this.state.isValidAge ? {borderColor: Color.primaryButtonColor} : {}]}
-                >
-                  {translations.save}
-                </Button>
+                <CloseButton
+                  onPress={() => this.closeModal()}
+                  label={translations.close}
+                />
+
+                <SaveButton
+                  disabled={!this.state.isValidAge}
+                  onPress={() => this.save()}
+                  label={translations.save}
+                />
               </View>
             </View>
           </TouchableWithoutFeedback>

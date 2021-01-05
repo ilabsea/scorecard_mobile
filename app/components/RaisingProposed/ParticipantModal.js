@@ -11,6 +11,7 @@ import Color from '../../themes/color';
 import realm from '../../db/schema';
 import styles from '../../themes/participantListItemStyle';
 import ParticipantModalListItem from './ParticipantModalListItem';
+import CloseButton from '../CloseButton';
 
 export default class ParticipantModal extends Component {
   static contextType = LocalizationContext;
@@ -91,12 +92,7 @@ export default class ParticipantModal extends Component {
           { !this.props.participants.length && this.renderNoData() }
 
           <View style={styles.btnWrapper}>
-            <ActionButton
-              onPress={() => onDismiss()}
-              label={translations.close}
-              customBackgroundColor={Color.primaryButtonColor}
-              customButtonStyle={{width: 100}}
-            />
+            <CloseButton onPress={() => onDismiss()} label={translations.close} />
           </View>
         </Modal>
       </Portal>

@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Modal} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
 import TextFieldInput from '../TextFieldInput';
-import ActionButton from '../ActionButton';
 import VoiceRecord from './VoiceRecord';
-import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../Translations';
 import {CUSTOM} from '../../utils/variable';
 import realm from '../../db/schema';
+import CloseButton from '../CloseButton';
+import SaveButton from '../SaveButton';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -77,20 +77,11 @@ class AddNewIndicatorModal extends Component {
     const {translations} = this.context;
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => this.cancel()}
-          style={styles.buttonCancel}>
-          <Text style={styles.buttonCancelLabel}>
-            {translations['cancel']}
-          </Text>
-        </TouchableOpacity>
-
-        <ActionButton
+        <CloseButton onPress={() => this.cancel()} label={translations.close} />
+        <SaveButton
           onPress={() => this.save()}
-          label={translations['save']}
-          customButtonStyle={{width: 100}}
-          customBackgroundColor={Color.primaryButtonColor}
-          isDisabled={!this.isValid()}
+          label={translations.save}
+          disabled={!this.isValid()}
         />
       </View>
     )
@@ -152,17 +143,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginTop: 126,
-  },
-  buttonCancel: {
-    width: 100,
-    marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonCancelLabel: {
-    fontSize: 18,
-    textTransform: 'uppercase',
-    color: '#656565',
   },
 });
 

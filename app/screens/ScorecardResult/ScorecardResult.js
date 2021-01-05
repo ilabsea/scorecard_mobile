@@ -112,7 +112,7 @@ class ScorecardResult extends Component {
           <FormModal
             visible={this.state.visible}
             criteria={this.state.currentCriteria}
-            onDimiss={() => this.setState({visible: false})}
+            onDismiss={() => this.setState({visible: false})}
           />
         </View>
       </View>
