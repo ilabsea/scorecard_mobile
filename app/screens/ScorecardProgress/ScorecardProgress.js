@@ -7,7 +7,6 @@ import {
   Text
 } from 'react-native';
 
-import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import Color from '../../themes/color';
@@ -16,11 +15,13 @@ import scorecardService from '../../services/scorecardService';
 import { ProgressBar } from 'react-native-paper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
-export default class ScorecardProgress extends Component {
+import { connect } from 'react-redux';
+
+class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    let scorecard = realm.objects('Scorecard').filtered(`uuid == '${props.route.params.uuid}'`)[0];
+    let scorecard = props.currentScorecard;
 
     this.state = {
       scorecard: scorecard,
@@ -119,6 +120,21 @@ export default class ScorecardProgress extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    currentScorecard: state.currentScorecard,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ScorecardProgress);
 
 const styles = StyleSheet.create({
   btn: {

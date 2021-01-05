@@ -14,6 +14,18 @@ const scorecardService = (() => {
     removeScorecardAsset,
     isExists,
     saveScorecardDetail,
+    find,
+    update
+  }
+
+  function find(uuid) {
+    return realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
+  }
+
+  function update(uuid, params={}) {
+    realm.write(() => {
+      realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
+    })
   }
 
   function upload(uuid, callback) {

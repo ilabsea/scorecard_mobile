@@ -8,6 +8,7 @@ import {
 import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
+import { set } from '../../actions/currentScorecardAction';
 import realm from '../../db/schema';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -39,6 +40,7 @@ class ScorecardResult extends Component {
     realm.write(() => {
       if (this.state.scorecard.status < 5) {
         this.state.scorecard.status = '5';
+        this.props.setCurrentScorecard(this.state.scorecard);
       }
     });
 
@@ -129,6 +131,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAll: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };
 }
 
