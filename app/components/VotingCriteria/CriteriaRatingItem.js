@@ -92,7 +92,9 @@ export default class CriteriaRatingItem extends Component {
         <PlaySound
           containerStyle={{borderRadius: 2, width: '90%', maxWidth: 100, flexDirection: 'row'}}
           filePath={ratingLanguage.local_audio}
-          isLocal={true}>
+          isLocal={true}
+          onPress={() => this._onClickIcon(rating)}
+        >
           <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
         </PlaySound>
       </View>
