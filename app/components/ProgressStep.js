@@ -12,11 +12,16 @@ import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { LocalizationContext } from './Translations';
 
 const badgeSize = 24;
-const titleWidth = 120;
-const lineWidth = titleWidth - 40;
-
 export default class ProgressStep extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemWidth: 0
+    }
+    this.titleWidth = this.props.steps ? 120 : 145;
+    this.lineWidth = this.titleWidth - 40;
+  }
 
   _renderNumber(title, index) {
     let isDone = this.props.progressIndex >= index;
@@ -34,15 +39,16 @@ export default class ProgressStep extends Component {
           { badgeIcon }
         </View>
 
-        <Text style={[styles.title, titleStyle]}>{title}</Text>
+        <Text style={[styles.title, titleStyle, {width: this.titleWidth}]}>{title}</Text>
       </View>
     )
   }
 
   _renderLine(index) {
-    let lineStyle = index < this.props.progressIndex ? { backgroundColor: '#fff' } : {};
+    let lineBackgroundColor = index < this.props.progressIndex ? { backgroundColor: '#fff' } : {};
+    let lineStyle = {width: this.lineWidth, marginHorizontal: -(this.lineWidth/2)};
     return (
-      <View style={[styles.line, lineStyle]} key={uuidv4()}></View>
+      <View style={[styles.line, lineStyle, lineBackgroundColor]} key={uuidv4()}></View>
     )
   }
 
@@ -93,8 +99,6 @@ const styles = StyleSheet.create({
   line: {
     height: 2,
     backgroundColor: Color.horizontalLineColor,
-    width: lineWidth,
-    marginHorizontal: -(lineWidth/2),
     marginTop: badgeSize/2,
     alignSelf: 'flex-start'
   },
@@ -115,7 +119,6 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingHorizontal: 2,
     fontSize: 16,
-    width: titleWidth,
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },
