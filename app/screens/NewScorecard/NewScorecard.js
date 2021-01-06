@@ -162,7 +162,6 @@ class NewScorecard extends Component {
                 fieldName="scorecardCode"
                 onChangeText={this.onChangeText}
                 message={translations[codeMsg]}
-                isSecureEntry={false}
                 maxLength={6}
                 keyboardType="number-pad"
                 customStyle={{fontSize: 22, height: 64}}

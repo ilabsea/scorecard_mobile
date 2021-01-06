@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { validatePresent } from '../../services/validation_service';
 import { LocalizationContext } from '../Translations';
-import NumericInput from './NumericInput';
+import NumericInput from '../NumericInput';
 
 class IndependentValidtionInputField extends Component {
   static contextType = LocalizationContext;
@@ -12,26 +12,19 @@ class IndependentValidtionInputField extends Component {
 
     this.state = {
       participant: 0,
-      validationMsg: '',
-      isValid: true,
+      isValid: true
     };
   }
 
-  onChangeText = (participant) => {
+  setParticipant = (participant) => {
     const { translations } = this.context;
-    const isPresent = validatePresent('participant', participant);
-    const validationMsg = !isPresent ? translations['allParticipantRequireMsg'] : '';
 
-    this.setState(
-      {
-        participant: participant,
-        validationMsg: validationMsg,
-        isValid: isPresent,
-      },
-      () => {
-        this.props.onParticipantChange();
-      },
-    );
+    this.setState( {
+      participant: participant,
+      isValid: !!participant
+    }, () => {
+      this.props.onParticipantChange();
+    });
   };
 
   render() {
@@ -39,9 +32,8 @@ class IndependentValidtionInputField extends Component {
       <NumericInput
         { ...this.props }
         value={ this.state.participant.toString() }
-        onChangeText={ (text) => this.onChangeText(text) }
-        isValid={ this.state.isValid }
-        errorMessage={ this.state.validationMsg }
+        onChangeText={ (value) => this.setParticipant(value) }
+        isRequired={true}
       />
     );
   }

@@ -91,7 +91,6 @@ class Setting extends Component {
           fieldName="backendUrl"
           onChangeText={this.onChangeText}
           message={translations[backendUrlErrorMsg]}
-          isSecureEntry={false}
           onFocus={() => this.languageController.close()}
         />
 
@@ -102,7 +101,6 @@ class Setting extends Component {
           fieldName="email"
           onChangeText={this.onChangeText}
           message={translations[emailErrorMsg]}
-          isSecureEntry={false}
           onFocus={() => this.languageController.close()}
         />
 
@@ -113,7 +111,7 @@ class Setting extends Component {
           fieldName="password"
           onChangeText={this.onChangeText}
           message={translations[passwordErrorMsg]}
-          isSecureEntry={true}
+          secureTextEntry={true}
           onFocus={() => this.languageController.close()}
         />
       </View>

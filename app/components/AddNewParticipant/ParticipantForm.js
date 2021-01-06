@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {LocalizationContext} from '../Translations';
-import TextFieldInput from '../TextFieldInput';
 import SelectPicker from '../SelectPicker';
+import NumericInput from '../NumericInput';
+import { getIntegerOf } from '../../utils/math';
 
 class ParticipantForm extends Component {
   static contextType = LocalizationContext;
@@ -16,14 +17,12 @@ class ParticipantForm extends Component {
       isMinority: 'false',
       isPoor: 'false',
       isYouth: 'false',
-      isValidAge: false,
     };
   }
 
   componentDidMount() {
     if (this.props.isUpdate) {
       this.setState(this.props.participant);
-      this.setState({isValidAge: true});
     }
   }
 
@@ -34,18 +33,6 @@ class ParticipantForm extends Component {
     this.props.updateNewState(newState);
   };
 
-  updateValidationStatus = (isValid) => {
-    this.setState({
-      isValidAge: isValid
-    });
-
-    this.props.updateValidationStatus(isValid);
-  }
-
-  getBorderColor = () => {
-    return !this.state.isValidAge ? 'red' : '';
-  }
-
   closeSelectBox = (exceptIndex) => {
     for (let i = 0; i < this.props.controllers.length; i++) {
       if (exceptIndex == i)
@@ -53,12 +40,6 @@ class ParticipantForm extends Component {
 
       this.props.controllers[i].close();
     }
-  }
-
-  onFocusTextInput = () => {
-    this.closeSelectBox(null);
-    if (this.state.age === 0 || this.state.age === '0')
-      this.setState({age: ''});
   }
 
   render() {
@@ -76,21 +57,18 @@ class ParticipantForm extends Component {
 
     return (
       <View style={this.props.containerStyle}>
-        <TextFieldInput
+        <NumericInput
           value={age.toString()}
-          isRequire={true}
-          label={translations['age']}
-          searchable={false}
+          label={`${translations['age']} *`}
           placeholder={translations['enterAge']}
-          fieldName="age"
-          onChangeText={this.onChangeValue}
-          isSecureEntry={false}
-          maxLength={2}
-          keyboardType="number-pad"
-          updateValidationStatus={this.updateValidationStatus}
-          borderColor={this.getBorderColor()}
-          onFocus={() => this.onFocusTextInput()}
+          onChangeText={(value) => {
+            this.onChangeValue('age', value);
+            this.props.updateValidationStatus(getIntegerOf(value) > 0);
+          }}
+          isRequired={true}
+          onFocus={() => this.closeSelectBox(null)}
         />
+
         <SelectPicker
           items={gender}
           selectedItem={selectedGender}
@@ -142,7 +120,7 @@ class ParticipantForm extends Component {
           onOpen={() => this.closeSelectBox(4)}
         />
       </View>
-    );    
+    );
   }
 }
 

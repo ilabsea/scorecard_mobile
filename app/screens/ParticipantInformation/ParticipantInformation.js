@@ -8,8 +8,10 @@ import DependentValidationInputField from '../../components/ParticipantInformati
 import IndependentValidationInputField from '../../components/ParticipantInformation/IndependentValidationInputField';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
+
 class ParticipantInformation extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
     this.participantRef = React.createRef();
@@ -96,7 +98,7 @@ class ParticipantInformation extends Component {
           this.youthRef,
         ];
         otherParticipantRefs.map((otherParticipantRef) => {
-          otherParticipantRef.current.onChangeText(otherParticipantRef.current.state.participant);
+          otherParticipantRef.current.setParticipant(otherParticipantRef.current.state.participant);
         });
       }
     });

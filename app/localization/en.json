@@ -189,4 +189,5 @@
   "implementedBy": "Implemented by",
   "alreadyUploaded": "The scorecard is locked after uploaded!",
   "locked": "Locked",
+  "cannotBeBlank": "Can't be blank",
 }

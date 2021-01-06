@@ -41,7 +41,7 @@ class TextFieldInput extends Component {
 
     this.setState({
       validationMsg: translations[validationMsg],
-      isValid: validationMsg === null,
+      isValid: !validationMsg,
     }, () => {
       if (this.props.updateValidationStatus != undefined)
         this.props.updateValidationStatus(this.state.isValid);
@@ -67,7 +67,6 @@ class TextFieldInput extends Component {
   render() {
     const {
       value,
-      isSecureEntry,
       borderColor,
       customStyle,
       customMessageStyle,
@@ -80,7 +79,6 @@ class TextFieldInput extends Component {
           label={this.getLabel()}
           mode="outlined"
           clearButtonMode="while-editing"
-          secureTextEntry={isSecureEntry}
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
           style={[{backgroundColor: 'white', width: '100%'}, customStyle]}
@@ -95,6 +93,10 @@ class TextFieldInput extends Component {
     );
   }
 }
+
+TextFieldInput.defaultProps = {
+  leftIcon: '',
+};
 
 const styles = StyleSheet.create({
   messageLabel: {
