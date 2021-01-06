@@ -3,17 +3,15 @@ import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Modal, Portal, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { LocalizationContext } from '../Translations';
 import ErrorEndpointContent  from './ErrorEndpointContent';
 import ErrorAuthenticationContent from './ErrorAuthenticationContent';
 import ErrorScorecardContent from './ErrorScorecardContent';
-
-const errorEndpoint = 0;
-const errorAuthentication = 1;
-const errorScorecard = 2;
+import {
+  ERROR_AUTHENTICATION,
+  ERROR_ENDPOINT,
+} from '../../constants/error_constant';
 
 class ErrorMessageModal extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -24,22 +22,20 @@ class ErrorMessageModal extends Component {
   async componentDidMount() {
     const setting = await AsyncStorage.getItem('SETTING');
     this.setState({
-      backendUrl: JSON.parse(setting).backendUrl,
+      backendUrl: setting != null ? JSON.parse(setting).backendUrl : 'https://isaf-stg.ilabsea.org',
     });
   }
 
   _renderContent = () => {
-    if (this.props.errorType === errorAuthentication)
+    if (this.props.errorType === ERROR_AUTHENTICATION)
       return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
-    else if (this.props.errorType === errorEndpoint)
+    else if (this.props.errorType === ERROR_ENDPOINT)
       return <ErrorEndpointContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />;
 
     return <ErrorScorecardContent onDismiss={this.props.onDismiss} />
   }
 
   render() {
-    const { translations } = this.context;
-
     return (
       <Portal>
         <Modal visible={this.props.visible} onDismiss={this.props.onDismiss} contentContainerStyle={styles.container}>

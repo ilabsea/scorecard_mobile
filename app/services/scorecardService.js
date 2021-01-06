@@ -3,6 +3,7 @@ import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
+import { getErrorType } from './api_service';
 
 const scorecardService = (() => {
   const scorecardApi = new ScorecardApi();
@@ -28,7 +29,7 @@ const scorecardService = (() => {
     })
   }
 
-  function upload(uuid, callback) {
+  function upload(uuid, callback, errorCallback) {
     scorecard_uuid = uuid;
     scorecard = realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0];
     customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${scorecard_uuid}'`);
@@ -39,7 +40,7 @@ const scorecardService = (() => {
     if (!scorecard || !scorecard.isCompleted) { return; }
 
     try {
-      uploadCustomIndicator(0, indicators, callback);
+      uploadCustomIndicator(0, indicators, callback, errorCallback);
     } catch (error) {
       console.log(error);
     }
@@ -47,14 +48,13 @@ const scorecardService = (() => {
 
   // ------Step1------
   // upload all custom criterias then upload scorecard with its dependcy
-  function uploadCustomIndicator(index, indicators, callback) {
+  function uploadCustomIndicator(index, indicators, callback, errorCallback) {
     if (index == indicators.length) {
-      uploadScorecard(callback);
+      uploadScorecard(callback, errorCallback);
       return ;
     }
 
     let customIndicator = indicators[index];
-
     customIndicatorApi.post(scorecard_uuid, customIndicatorData(customIndicator))
       .then(function (response) {
         if (response.status == 201) {
@@ -69,7 +69,7 @@ const scorecardService = (() => {
   }
 
   // ------Step2------
-  function uploadScorecard(callback) {
+  function uploadScorecard(callback, errorCallback) {
     let attrs = scorecardAttr();
     attrs.facilitators_attributes = facilitatorsAttr();
     attrs.participants_attributes = participantsAttr();
@@ -84,6 +84,8 @@ const scorecardService = (() => {
             scorecard.uploaded_date = new Date().toDateString();
           });
         }
+        else if (response.status === undefined)
+          errorCallback(getErrorType(response.error));
 
         updateProgress(callback);
       });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { FontFamily } from '../../assets/stylesheets/theme/font';
+import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import authenticationService from '../../services/authentication_service';
@@ -54,6 +54,7 @@ class ErrorAuthenticationContent extends Component {
         message: translations.successfullyAuthenticated,
       });
       const setting = await AsyncStorage.getItem('SETTING');
+      authenticationService.clearErrorAuthentication();
       AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
       AsyncStorage.setItem('SETTING',JSON.stringify({
         backendUrl: JSON.parse(setting).backendUrl,
@@ -63,6 +64,8 @@ class ErrorAuthenticationContent extends Component {
 
       this.props.onDismiss();
     }, (error) => {
+      authenticationService.setIsErrorAuthentication();
+      AsyncStorage.removeItem('AUTH_TOKEN');
       this.setState({
         isLoading: false,
         message: translations.emailOrPasswordIsIncorrect,
@@ -78,7 +81,7 @@ class ErrorAuthenticationContent extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View>
-          <Text style={styles.title}>{translations.serverRequiresAuthentication}</Text>
+          <Text style={CustomStyle.modalTitle}>{translations.serverRequiresAuthentication}</Text>
           <Text style={{marginTop: 10, marginBottom: 15}}>
             {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
           </Text>
@@ -108,7 +111,7 @@ class ErrorAuthenticationContent extends Component {
             </Text>
           }
 
-          <View style={styles.btnWrapper}>
+          <View style={CustomStyle.modalBtnWrapper}>
             <CloseButton onPress={this.props.onDismiss} label={translations.close} />
             <SaveButton
               onPress={() => this.save()}
@@ -121,18 +124,5 @@ class ErrorAuthenticationContent extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    fontFamily: FontFamily.title,
-    marginBottom: 20,
-  },
-  btnWrapper: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
-  },
-});
 
 export default ErrorAuthenticationContent;

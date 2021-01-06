@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { FontFamily } from '../assets/stylesheets/theme/font';
 
 const CustomStyle = StyleSheet.create({
   textInputContainer: {
@@ -23,6 +24,16 @@ const CustomStyle = StyleSheet.create({
   bottomButton: {
     elevation: 0,
     height: 50,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontFamily: FontFamily.title,
+    marginBottom: 20,
+  },
+  modalBtnWrapper: {
+    marginTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   }
 });
 
