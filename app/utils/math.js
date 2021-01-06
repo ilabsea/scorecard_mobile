@@ -9,3 +9,7 @@ export const Median = function(arr) {
 
   return Math.ceil(median);
 }
+
+export const getIntegerOf = function(value) {
+  return parseInt(value) || 0;
+}

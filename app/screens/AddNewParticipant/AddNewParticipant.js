@@ -29,7 +29,7 @@ class AddNewParticipant extends Component {
       isMinority: this.savedParticipant != undefined ? this.savedParticipant.minority.toString() : 'false',
       isPoor: this.savedParticipant != undefined ? this.savedParticipant.poor.toString() : 'false',
       isYouth: this.savedParticipant != undefined ? this.savedParticipant.youth.toString() : 'false',
-      isValidAge: this.savedParticipant != undefined ? true : false,
+      isValidAge: !!this.savedParticipant,
     };
     this.controllers = new Array(5);
   }

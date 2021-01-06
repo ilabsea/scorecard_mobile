@@ -8,8 +8,10 @@ import DependentValidationInputField from '../../components/ParticipantInformati
 import IndependentValidationInputField from '../../components/ParticipantInformation/IndependentValidationInputField';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
+
 class ParticipantInformation extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
     this.participantRef = React.createRef();
@@ -96,7 +98,7 @@ class ParticipantInformation extends Component {
           this.youthRef,
         ];
         otherParticipantRefs.map((otherParticipantRef) => {
-          otherParticipantRef.current.onChangeText(otherParticipantRef.current.state.participant);
+          otherParticipantRef.current.setParticipant(otherParticipantRef.current.state.participant);
         });
       }
     });
@@ -108,46 +110,40 @@ class ParticipantInformation extends Component {
       <View style={{marginTop: 25, marginBottom: 20}}>
         <IndependentValidationInputField
           ref={this.participantRef}
-          label={translations['allParticipant']}
-          placeholder={translations['enterNumberOfParticipant']}
+          label={`${translations['allParticipant']}  *`}
           onParticipantChange={this.onParticipantChange}
         />
         <DependentValidationInputField
           ref={this.femaleRef}
-          label={translations['female']}
-          placeholder={translations['enterNumberOfFemale']}
+          label={translations['numberOfFemale']}
           fieldName="female"
           dependentParticipant={this.state.participant}
           validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.disabilityRef}
-          label={translations['disability']}
-          placeholder={translations['enterNumberOfDisability']}
+          label={translations['numberOfDisability']}
           fieldName="disability"
           dependentParticipant={this.state.participant}
           validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.minorityRef}
-          label={translations['minority']}
-          placeholder={translations['enterNumberOfMinority']}
+          label={translations['numberOfMinority']}
           fieldName="minority"
           dependentParticipant={this.state.participant}
           validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.poorRef}
-          label={translations['poor']}
-          placeholder={translations['enterNumberOfPoor']}
+          label={translations['numberOfPoor']}
           fieldName="poor"
           dependentParticipant={this.state.participant}
           validateForm={this.validateForm}
         />
         <DependentValidationInputField
           ref={this.youthRef}
-          label={translations['youth']}
-          placeholder={translations['enterNumberOfYouth']}
+          label={translations['numberOfYouth']}
           fieldName="youth"
           dependentParticipant={this.state.participant}
           validateForm={this.validateForm}

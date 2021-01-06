@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import Color from '../../themes/color';
-import {LocalizationContext} from '../Translations';
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { LocalizationContext } from '../Translations';
+import NumericInput from '../NumericInput';
+import { getIntegerOf } from '../../utils/math';
 
 class DependentValidationInputField extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
+
     this.state = {
       participant: 0,
       isValid: true,
@@ -15,59 +17,32 @@ class DependentValidationInputField extends Component {
   }
 
   getValidationMsg = () => {
-    const {translations} = this.context;
-    let message = '';
-    if (!this.state.isValid)
-      message = translations[this.props.fieldName] + ' ' + translations['mustNotBeGreaterThanTotalParticipant'];
+    if (this.state.isValid) { return '' };
 
-    return message;
+    const { translations } = this.context;
+
+    return translations[this.props.fieldName] + ' ' + translations.mustNotBeGreaterThanTotalParticipant;
   };
 
-  getIntegerOf = (value) => {
-    return parseInt(value) || 0;
-  };
-
-  onChangeText = (participant) => {
-    const {dependentParticipant} = this.props;
+  setParticipant = (participant) => {
     this.setState({
       participant: participant,
-      isValid: this.getIntegerOf(dependentParticipant) >= this.getIntegerOf(participant),
+      isValid: getIntegerOf(this.props.dependentParticipant) >= getIntegerOf(participant),
     }, () => {
       this.props.validateForm();
     });
   };
 
-  getBorderColor = () => {
-    return !this.state.isValid ? 'red' : '';
-  };
-
   render() {
-    const {label, placeholder} = this.props;
     return (
-      <View>
-        <TextInput
-          label={label}
-          placeholder={placeholder}
-          mode="outlined"
-          clearButtonMode="while-editing"
-          value={this.state.participant.toString()}
-          onChangeText={(text) => this.onChangeText(text)}
-          style={{backgroundColor: 'white', width: '100%'}}
-          keyboardType="number-pad"
-          maxLength={2}
-          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}
-        />
-        <Text style={styles.messageLabel}>{this.getValidationMsg()}</Text>
-      </View>
+      <NumericInput
+        { ...this.props }
+        value={ this.state.participant.toString() }
+        onChangeText={ (value) => this.setParticipant(value) }
+        errorMessage={this.getValidationMsg()}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  messageLabel: {
-    color: Color.errorColor,
-    marginBottom: 10,
-  },
-});
 
 export default DependentValidationInputField;
