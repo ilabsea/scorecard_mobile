@@ -15,7 +15,8 @@ const scorecardService = (() => {
     isExists,
     saveScorecardDetail,
     find,
-    update
+    update,
+    getProposedCriterias
   }
 
   function find(uuid) {
@@ -293,6 +294,10 @@ const scorecardService = (() => {
       commune: response.commune,
       program_id: response.program_id,
     })
+  }
+
+  function getProposedCriterias(scorecardUuid, participantUuid) {
+    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
   }
 })();
 

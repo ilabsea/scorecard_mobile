@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {getIndicatorShortcutName, getDisplayIndicator} from './indicator_service';
+import {getDisplayIndicator} from './indicator_service';
+import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import realm from '../db/schema';
 
 class ParticipantCell {
