@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Color from '../../themes/color';
 
-class NumbericTextInput extends Component {
+class NumbericInput extends Component {
   getBorderColor = () => {
     return !this.props.isValid ? 'red' : '';
   };
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NumbericTextInput;
+export default NumbericInput;

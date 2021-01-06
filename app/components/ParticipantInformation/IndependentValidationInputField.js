@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { validatePresent } from '../../services/validation_service';
 import { LocalizationContext } from '../Translations';
-import NumericTextInput from './NumericTextInput';
+import NumericInput from './NumericInput';
 
 class IndependentValidtionInputField extends Component {
   static contextType = LocalizationContext;
@@ -36,7 +36,7 @@ class IndependentValidtionInputField extends Component {
 
   render() {
     return (
-      <NumericTextInput
+      <NumericInput
         { ...this.props }
         value={ this.state.participant.toString() }
         onChangeText={ (text) => this.onChangeText(text) }
