@@ -19,6 +19,7 @@ import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_service';
 import {handleApiResponse} from '../../services/api_service';
+import authenticationService from '../../services/authentication_service';
 import {localeDictionary} from '../../constants/locale_constant';
 
 import SessionApi from '../../api/SessionApi';
@@ -184,11 +185,15 @@ class Setting extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.refs.loading.show(false);
       this.setState({isLoading: false});
+      authenticationService.clearErrorAuthentication();
       AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-      AsyncStorage.setItem('SETTING', JSON.stringify({backendUrl: backendUrl, email: email, password: password}));
       this.props.navigation.goBack();
-    }, () => {
+    }, (error) => {
+      if (error.indexOf('422') > -1)
+        authenticationService.setIsErrorAuthentication();
+
       AsyncStorage.setItem('IS_CONNECTED', 'true');
+      AsyncStorage.removeItem('AUTH_TOKEN');
       this.refs.loading.show(false);
       this.setState({isLoading: false});
       this.handleAuthenticateError(response);
@@ -201,6 +206,11 @@ class Setting extends Component {
     }
 
     AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
+    AsyncStorage.setItem('SETTING', JSON.stringify({
+      backendUrl: this.state.backendUrl,
+      email: this.state.email,
+      password: this.state.password
+    }));
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
     this.refs.loading.show();

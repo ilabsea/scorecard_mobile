@@ -16,16 +16,20 @@ import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import TextFieldInput from '../../components/TextFieldInput';
 import MessageLabel from '../../components/MessageLabel';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
-import {checkConnection, handleApiResponse} from '../../services/api_service';
+import {checkConnection, handleApiResponse, getErrorType} from '../../services/api_service';
 import scorecardService from '../../services/scorecardService';
+import authenticationService from '../../services/authentication_service';
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
 import ScorecardApi from '../../api/ScorecardApi';
+
+import { ERROR_SCORECARD } from '../../constants/error_constant';
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -38,6 +42,8 @@ class NewScorecard extends Component {
       errorMsg: '',
       messageType: '',
       isLoading: false,
+      visibleModal: false,
+      errorType: null,
     };
   }
 
@@ -56,6 +62,12 @@ class NewScorecard extends Component {
   };
 
   joinScorecard = async () => {
+    const isErrorAuthentication = await authenticationService.isErrorAuthentication();
+    if (isErrorAuthentication) {
+      this.setErrorState('422');
+      return;
+    }
+
     if (!this.isValid())
       return;
 
@@ -76,16 +88,22 @@ class NewScorecard extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
       this.refs.loading.show(false);
-      if (responseData === null)
-        this.setState({codeMsg: 'scorecardIsNotExist'});
+      if (responseData === null) {
+        this.setState({
+          codeMsg: 'scorecardIsNotExist',
+          visibleModal: true,
+          errorType: ERROR_SCORECARD,
+        });
+      }
       else {
         this.uuid = responseData.uuid;
         scorecardService.saveScorecardDetail(responseData);
         this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
       }
-    }, () => {
+    }, (error) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
+      this.setErrorState(error);
       this.refs.loading.show(false);
     });
 
@@ -98,6 +116,13 @@ class NewScorecard extends Component {
       this.refs.loading.show(false);
     });
   };
+
+  setErrorState = (error) => {
+    this.setState({
+      visibleModal: true,
+      errorType: getErrorType(error),
+    });
+  }
 
   onChangeText = (type, value) => {
     this.setState({code: value});
@@ -191,6 +216,11 @@ class NewScorecard extends Component {
 
             <Logos />
 
+            <ErrorMessageModal
+              visible={this.state.visibleModal}
+              onDismiss={() => this.setState({visibleModal: false})}
+              errorType={this.state.errorType}
+            />
           </View>
         </ImageBackground>
       </TouchableWithoutFeedback>

@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import {Container, Button, Icon} from "native-base";
-import {ProgressBar} from 'react-native-paper';
+import {Container} from "native-base";
 import Loading from 'react-native-whc-loading';
-import realm from '../../db/schema';
 import BigHeader from '../../components/BigHeader';
 
 import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
+import DownloadButton from '../../components/ScorecardDetail/DownloadButton';
 import BottomButton from '../../components/BottomButton';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 
 import IndicatorApi from '../../api/IndicatorApi';
 import CafApi from '../../api/CafApi';
+import authenticationService from '../../services/authentication_service';
 
 import {
   isAllIndicatorDownloaded,
@@ -30,9 +31,8 @@ import {
 import {saveCaf} from '../../services/caf_service';
 import {AudioService} from '../../services/audio_service';
 import RatingScaleService  from '../../services/rating_scale_service';
-import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
-import {handleApiResponse} from '../../services/api_service';
+import {getErrorType, handleApiResponse} from '../../services/api_service';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -58,6 +58,8 @@ class ScorecardDetail extends Component {
       downloadProgress: 0,
       showDownloadProgress: false,
       isStopDownload: false,
+      visibleModal: false,
+      errorType: null,
     };
   }
 
@@ -147,7 +149,8 @@ class ScorecardDetail extends Component {
           isStopDownloadAudio: true,
         });
       });
-    }, (response) => {
+    }, (error) => {
+      this.setErrorState(error);
       this.setState({isStopDownloadIndicator: true});
     });
   }
@@ -159,6 +162,9 @@ class ScorecardDetail extends Component {
   }
 
   downloadRatingScale = () => {
+    if (this.state.errorType)
+      return;
+
     handleSaveRatingScale(
       this.state.detail.program_id,
       this.state.isRatingScaleDownloaded,
@@ -174,7 +180,7 @@ class ScorecardDetail extends Component {
   }
 
   downloadCaf = () => {
-    if (this.state.isCafDownloaded) {
+    if (this.state.isCafDownloaded || this.state.errorType) {
       this.updateDownloadProgress(0.2);
       return;
     }
@@ -188,7 +194,8 @@ class ScorecardDetail extends Component {
           isStopDownloadCaf: true,
         })
       });
-    }, (response) => {
+    }, (error) => {
+      this.setErrorState(error);
       this.setState({
         isStopDownloadAudio: true,
         isStopDownloadCaf: true,
@@ -202,8 +209,18 @@ class ScorecardDetail extends Component {
     handleApiResponse(response, successCallback, failedCallback);
   }
 
-  downloadScorecard = () => {
-    this.setState({showDownloadProgress: true});
+  downloadScorecard = async () => {
+    const isErrorAuthentication = await authenticationService.isErrorAuthentication();
+    if (isErrorAuthentication) {
+      this.setErrorState('422');
+      return;
+    }
+
+    this.setState({
+      showDownloadProgress: true,
+      errorType: null,
+      downloadProgress: 0,
+    });
     this.downloadIndicator();
     this.downloadCaf();
     this.downloadRatingScale();
@@ -241,33 +258,16 @@ class ScorecardDetail extends Component {
   }
 
   renderDownloadButton = () => {
-    const { translations } = this.context;
-
     if (!this.isFullyDownloaded() && this.state.isFinishChecking) {
-      const isDisabled = this.isDisableDownload();
+      const isDisabled = this.state.errorType ? false : this.isDisableDownload();
 
       return (
-        <View>
-          { this.state.showDownloadProgress &&
-            <View>
-              <Text style={styles.downloadPercentageLabel}>{Math.ceil(this.state.downloadProgress * 100)}%</Text>
-              <ProgressBar progress={this.state.downloadProgress} color={Color.headerColor} style={styles.progressBar}
-                visible={this.state.showDownloadProgress}
-              />
-            </View>
-          }
-
-          <Button full bordered iconRight primary
-            onPress={() => this.downloadScorecard()}
-            disabled={isDisabled}
-            style={[CustomStyle.bottomButton, isDisabled ? {borderColor: 'gray'} : {}]}>
-
-            <Text style={[styles.buttonLabelStyle, isDisabled ? {color: 'gray'} : {color: '#E2762D'}]}>
-              {translations["downloadAndSave"]}
-            </Text>
-            <Icon name="download" style={{right: 0, position: 'absolute'}} />
-          </Button>
-        </View>
+        <DownloadButton
+          showDownloadProgress={this.state.showDownloadProgress}
+          downloadProgress={this.state.downloadProgress}
+          disabled={isDisabled}
+          onPress={() => this.downloadScorecard()}
+        />
       );
     }
   };
@@ -302,6 +302,14 @@ class ScorecardDetail extends Component {
     )
   }
 
+  setErrorState = (error) => {
+    this.setState({
+      errorType: getErrorType(error),
+      showDownloadProgress: false,
+      visibleModal: true,
+    });
+  }
+
   render() {
     const {translations} = this.context;
     return (
@@ -325,6 +333,11 @@ class ScorecardDetail extends Component {
           {this.renderDownloadButton()}
           {this.renderStartButton()}
         </View>
+        <ErrorMessageModal
+          visible={this.state.visibleModal}
+          onDismiss={() => this.setState({visibleModal: false})}
+          errorType={this.state.errorType}
+        />
       </Container>
     );
   }
@@ -344,23 +357,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20
   },
-  buttonLabelStyle: {
-    textTransform: 'uppercase',
-    fontSize: 18,
-  },
-  progressBar: {
-    height: 30,
-    backgroundColor: '#e6e7e9',
-    marginBottom: 20,
-  },
-  downloadPercentageLabel: {
-    textAlign: 'center',
-    zIndex: 1,
-    marginTop: 4,
-    left: '48%',
-    position: 'absolute',
-    fontWeight: 'bold',
-  }
 });
 
 export default ScorecardDetail;

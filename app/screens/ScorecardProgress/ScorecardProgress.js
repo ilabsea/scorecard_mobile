@@ -9,9 +9,12 @@ import {
 
 import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import scorecardService from '../../services/scorecardService';
+import authenticationService from '../../services/authentication_service';
+
 import { ProgressBar } from 'react-native-paper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
@@ -26,7 +29,9 @@ class ScorecardProgress extends Component {
     this.state = {
       scorecard: scorecard,
       progressPercentag: 0,
-      showProgress: false
+      showProgress: false,
+      visibleModal: false,
+      errorType: null,
     };
   }
 
@@ -46,9 +51,12 @@ class ScorecardProgress extends Component {
     )
   }
 
-  submitToServer() {
+  async submitToServer() {
     if (!this.state.scorecard.isCompleted || this.state.scorecard.isUploaded) { return; }
-    this.setState({showProgress: true});
+    this.setState({
+      showProgress: true,
+      progressPercentag: 0,
+    });
 
     scorecardService.upload(this.state.scorecard.uuid, (progressPercentag) => {
       this.setState({progressPercentag: progressPercentag});
@@ -58,6 +66,12 @@ class ScorecardProgress extends Component {
           this.setState({showProgress: false});
         }, 500);
       }
+    }, (errorType) => {
+      this.setState({
+        visibleModal: true,
+        errorType: errorType,
+        showProgress: false,
+      });
     });
   }
 
@@ -116,6 +130,12 @@ class ScorecardProgress extends Component {
           { false && this._renderBtnDownload() }
           { this._renderBtnSubmit() }
         </View>
+
+        <ErrorMessageModal
+          visible={this.state.visibleModal}
+          onDismiss={() => this.setState({visibleModal: false})}
+          errorType={this.state.errorType}
+        />
       </View>
     )
   }
