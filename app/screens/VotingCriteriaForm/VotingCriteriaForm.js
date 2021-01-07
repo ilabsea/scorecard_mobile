@@ -8,19 +8,13 @@ import {
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-
 import realm from '../../db/schema';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../../components/Translations';
 
-import ActionButton from '../../components/ActionButton';
+import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
-import { Icon } from 'native-base';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-import participantListItemStyle from '../../themes/participantListItemStyle';
 import { submitVoting } from '../../services/votingCriteriaService';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
@@ -116,11 +110,12 @@ class VotingCriteriaForm extends Component {
 
     return (
       <View style={{padding: 20}}>
-        <ActionButton
-          onPress={() => this._submit() }
+        <BottomButton
+          onPress={() => this._submit()}
           customBackgroundColor={Color.headerColor}
-          isDisabled={!this.state.isValid}
-          label={translations.save}/>
+          disabled={!this.state.isValid}
+          label={translations.save}
+        />
       </View>
     )
   }
