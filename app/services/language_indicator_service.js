@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 import {PREDEFINED} from '../utils/variable';
-import {getDownloadPercentage} from './scorecard_detail_service';
+import {getDownloadPercentage} from '../utils/scorecard_detail_util';
 
 const saveLanguageIndicator = (scorecardUUID, indicators, updateDownloadPercentage, callback) => {
   let savedCount = 0;

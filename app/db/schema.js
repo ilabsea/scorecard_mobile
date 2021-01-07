@@ -16,6 +16,7 @@ import VotingCriteriaSchema from './models/votingCriteria';
 import RatingSchema from './models/rating';
 import LanguageRatingScaleSchema from './models/languageRatingScale';
 import RatingScaleSchema from './models/ratingScale';
+import ProgramLanguageSchema from './models/programLanguage';
 
 const schema0 = [
   Scorecard,
@@ -25,6 +26,7 @@ const schema0 = [
   LanguageIndicatorSchema,
   FacilitatorSchema,
   ParticipantSchema,
+  ProgramLanguageSchema,
 
   // ===ProposedCriteria===
   ProposedCriteriaSchema,

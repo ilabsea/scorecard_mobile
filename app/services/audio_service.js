@@ -1,7 +1,7 @@
 import { environment } from '../config/environment';
 import realm from '../db/schema';
 import {downloadFileFromUrl, isFileExist} from '../services/local_file_system_service';
-import {getDownloadPercentage} from './scorecard_detail_service';
+import {getDownloadPercentage} from '../utils/scorecard_detail_util';
 
 class AudioService {
   constructor(isStopDownload) {

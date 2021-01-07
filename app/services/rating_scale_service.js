@@ -4,7 +4,7 @@ import {isFileExist} from '../services/local_file_system_service';
 import {getAudioFilename} from './audio_service';
 import { environment } from '../config/environment';
 import RNFS from 'react-native-fs';
-import {getDownloadPercentage} from './scorecard_detail_service';
+import {getDownloadPercentage} from '../utils/scorecard_detail_util';
 
 class RatingScaleService {
   constructor (isStopDownload) {

@@ -6,14 +6,8 @@ import {ProgressBar} from 'react-native-paper';
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
-import {LocalizationContext} from '../Translations';
-
 class DownloadButton extends Component {
-  static contextType = LocalizationContext;
-
   render() {
-    const { translations } = this.context;
-
     return (
       <View>
         { this.props.showDownloadProgress &&
@@ -30,7 +24,7 @@ class DownloadButton extends Component {
           style={[CustomStyle.bottomButton, this.props.disabled ? {borderColor: 'gray'} : {}]}>
 
           <Text style={[styles.buttonLabelStyle, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]}>
-            {translations["downloadAndSave"]}
+            {this.props.label}
           </Text>
           <Icon name="download" style={{right: 0, position: 'absolute'}} />
         </Button>

@@ -3,26 +3,24 @@ import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'reac
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
-import AsyncStorage from '@react-native-community/async-storage';
-import Loading from 'react-native-whc-loading';
 
-import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
 import MessageLabel from '../../components/MessageLabel';
 import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
-import Color from '../../themes/color';
-import {checkConnection, handleApiResponse} from '../../services/api_service';
 import ProgressHeader from '../../components/ProgressHeader';
-import ProgramLanguageApi from '../../api/ProgramLanguageApi';
+import Color from '../../themes/color';
+import { getAll as getAllProgramLanguage } from '../../services/program_language_service';
+import scorecardService from '../../services/scorecardService';
+import { isKhmerLanguage } from '../../utils/program_language_util';
 
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
-      detail: '',
+      scorecard: '',
       languages: [],
       textLocale: '',
       audioLocale: '',
@@ -35,49 +33,31 @@ class ScorecardPreference extends Component {
   }
 
   componentDidMount() {
-    const scorecard = realm.objects('Scorecard').filtered(`uuid = '${this.props.route.params.scorecard_uuid}'`)[0];
-    this.setState({detail: scorecard}, () => {this.loadProgramLanguage();});
+    const scorecard = scorecardService.find(this.props.route.params.scorecard_uuid);
+    this.setState({scorecard: scorecard}, () => {
+      this.loadProgramLanguage();
+    });
   }
 
   loadProgramLanguage = async () => {
-    const {translations} = this.context;
-    this.refs.loading.show();
-    AsyncStorage.setItem('IS_CONNECTED', 'false');
-    const programId = this.state.detail['program_id'];
-    const programLanguageApi = new ProgramLanguageApi();
-    const response = await programLanguageApi.load(programId);
-    handleApiResponse(response, (responseData) => {
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      const locales = responseData;
-      const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
-      this.setState({
-        languages: languagesPickerFormat,
-        textLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
-        audioLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
-      });
-      this.refs.loading.show(false);
-    }, () => {
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      this.setState({
-        messageType: 'error',
-        message: translations['failedToGetLanguage'],
-      });
-      this.refs.loading.show(false);
-    });
-    checkConnection((type, message) => {
-      this.setState({
-        messageType: type,
-        message: translations[message],
-      });
-      this.refs.loading.show(false);
+    const locales = getAllProgramLanguage(this.state.scorecard.program_id);
+    const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
+    this.setState({
+      languages: languagesPickerFormat,
+      textLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'text'),
+      audioLocale: this.getDefaultLocaleValue(languagesPickerFormat, 'audio'),
     });
   }
 
   getDefaultLocaleValue = (languages, type) => {
     let defaultValue = languages[0].value;
-    const scorecard = realm.objects('Scorecard').filtered(`uuid == '${this.props.route.params.scorecard_uuid}'`)[0];
-    if (scorecard.text_language_code != undefined)
-      defaultValue = type === 'text' ? scorecard.text_language_code : scorecard.audio_language_code;
+    languages.map((language) => {
+      if (isKhmerLanguage(language))
+        defaultValue = language.value;
+    });
+
+    if (this.state.scorecard.text_language_code != undefined)
+      defaultValue = type === 'text' ? this.state.scorecard.text_language_code : this.state.scorecard.audio_language_code;
 
     return defaultValue;
   }
@@ -94,14 +74,12 @@ class ScorecardPreference extends Component {
     this.closeAllSelectBox();
     const {date, textLocale, audioLocale} = this.state;
     const attrs = {
-      uuid: this.props.route.params.scorecard_uuid,
       conducted_date: date.toString(),
       text_language_code: textLocale,
       audio_language_code: audioLocale,
     };
-    realm.write(() => {
-      realm.create('Scorecard', attrs, 'modified');
-    });
+
+    scorecardService.update(this.props.route.params.scorecard_uuid, attrs);
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }
 
@@ -201,14 +179,6 @@ class ScorecardPreference extends Component {
             progressIndex={0}/>
 
           <ScrollView contentContainerStyle={styles.container}>
-            <Loading
-              ref="loading"
-              backgroundColor="#ffffffF2"
-              borderRadius={5}
-              size={70}
-              imageSize={40}
-              indicatorColor={Color.primaryColor}
-            />
             <HeaderTitle
               headline="scorecardPreference"
               subheading="pleaseFillInformationBelow"
