@@ -1,21 +1,27 @@
 import realm from '../db/schema';
-import {getDownloadPercentage} from '../utils/scorecard_detail_util';
+import CafApi from '../api/CafApi';
+import { handleApiResponse } from './api_service';
 
-const saveCaf = async (scorecardUUID, cafs, updateDownloadPercentage, callback) => {
-  let savedCount = 0;
-  cafs.map((caf) => {
-    const cafSet = {
-      id: caf.id,
-      name: caf.name,
-      local_ngo_id: caf['local_ngo_id'],
-    };
-    realm.write(() => {
-      realm.create('Caf', cafSet, 'modified');
-      savedCount += 1;
+const save = async (localNgoId, callback) => {
+  const cafApi = new CafApi();
+  const response = await cafApi.load(localNgoId);
+  handleApiResponse(response, (cafs) => {
+    let savedCount = 0;
+    cafs.map((caf) => {
+      const cafSet = {
+        id: caf.id,
+        name: caf.name,
+        local_ngo_id: caf['local_ngo_id'],
+      };
+      realm.write(() => {
+        realm.create('Caf', cafSet, 'modified');
+        savedCount += 1;
+      });
     });
-    updateDownloadPercentage(getDownloadPercentage(cafs.length));
+    callback(savedCount === cafs.length);
+  }, (error) => {
+    console.log('error download caf = ', error);
   });
-  callback(savedCount === cafs.length);
 };
 
-export {saveCaf};
+export { save };

@@ -1,10 +1,9 @@
 import realm from '../db/schema';
-import {getDownloadPercentage} from '../utils/scorecard_detail_util';
 import uuidv4 from '../utils/uuidv4';
 import { handleApiResponse } from './api_service';
 import ProgramLanguageApi from '../api/ProgramLanguageApi';
 
-const save = async (programId, updateDownloadProgress, callback) => {
+const save = async (programId, callback) => {
   let savedCount = 0;
   const programLanguageApi = new ProgramLanguageApi();
   const response = await programLanguageApi.load(programId);
@@ -23,7 +22,6 @@ const save = async (programId, updateDownloadProgress, callback) => {
           realm.create('ProgramLanguage', attrs);
         });
       }
-      updateDownloadProgress(getDownloadPercentage(languages.length));
       savedCount += 1;
     });
 

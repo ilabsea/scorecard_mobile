@@ -50,12 +50,6 @@ Scorecard.schema = {
     text_language_code: 'string?',
     audio_language_code: 'string?',
     deleted_date: 'string?',
-    indicator_downloaded: { type: 'bool', default: false },
-    language_indicator_downloaded: { type: 'bool', default: false },
-    caf_downloaded: { type: 'bool', default: false },
-    audio_downloaded: { type: 'bool', default: false },
-    rating_scale_downloaded: { type: 'bool', default: false },
-    program_language_downloaded: { type: 'bool', default: false },
   }
 }
 

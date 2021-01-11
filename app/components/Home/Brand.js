@@ -32,7 +32,10 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: FontFamily.title,
     fontSize: 32,
-    color: '#fff'
+    color: '#fff',
+    textShadowColor: '#454444',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 1,
   },
 });
 

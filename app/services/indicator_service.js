@@ -1,8 +1,7 @@
 import realm from '../db/schema';
-import {getDownloadPercentage} from '../utils/scorecard_detail_util';
 import uuidv4 from '../utils/uuidv4';
 
-const saveIndicator =  (scorecardUUID, indicators, updateDownloadPercentage, callback) => {
+const saveIndicator =  (scorecardUUID, indicators, callback) => {
   let savedCount = 0;
   indicators.map((indicator) => {
     if (!isExist(indicator.id)) {
@@ -18,7 +17,6 @@ const saveIndicator =  (scorecardUUID, indicators, updateDownloadPercentage, cal
         realm.create('Indicator', indicatorSet, 'modified');
       });
     }
-    updateDownloadPercentage(getDownloadPercentage(indicators.length));
     savedCount += 1;
   });
   callback(savedCount === indicators.length);

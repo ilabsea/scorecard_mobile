@@ -10,30 +10,39 @@ import BottomButton from '../../components/BottomButton';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 
 import IndicatorApi from '../../api/IndicatorApi';
-import CafApi from '../../api/CafApi';
 import authenticationService from '../../services/authentication_service';
 
-import { getEachSectionPercentage } from '../../utils/scorecard_detail_util';
-
 import {
-  handleSaveIndicator,
-  handleSaveLanguageIndicator,
-  handleSaveAudio,
-  handleSaveRatingScale,
-  handleSaveProgramLanguage,
   cancelApiRequest,
   getScorecardDetail,
-  updateScorecardDownloadStatus,
-  updateDownloadedField,
-  isDownloaded,
-  isResumeDownload,
+  handleSaveScorecardPhase,
+  saveCallback,
 } from '../../services/scorecard_detail_service';
 
-import {saveCaf} from '../../services/caf_service';
+import {
+  find as findScorecardDownload,
+  isDownloaded,
+  getDownloadPercentage,
+  isInidcatorSectionDownloaded,
+} from '../../services/scorecard_download_service';
+
 import {AudioService} from '../../services/audio_service';
 import RatingScaleService  from '../../services/rating_scale_service';
-import Color from '../../themes/color';
 import {getErrorType, handleApiResponse} from '../../services/api_service';
+
+import {saveIndicator} from '../../services/indicator_service';
+import {saveLanguageIndicator} from '../../services/language_indicator_service';
+import { save as saveProgramLanguage } from '../../services/program_language_service';
+import { save as saveCaf } from '../../services/caf_service';
+
+import {
+  indicatorPhase,
+  languageIndicatorPhase,
+  audioPhase,
+  cafPhase,
+  ratingScalePhase,
+  programLanguagePhase,
+} from '../../constants/scorecard_constant';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -45,38 +54,19 @@ class ScorecardDetail extends Component {
     this.cafApi = null;
     this.state = {
       detail: '',
-      isIndicatorDownloaded: false,
-      isLanguageIndicatorDownloaded: false,
-      isCafDownloaded: false,
-      isAllAudioDownloaded: false,
-      isRatingScaleDownloaded: false,
-      isProgramLanguageDownloaded: false,
-      isStopDownloadIndicator: true,
-      isStopDownloadCaf: true,
-      isStopDownloadAudio: true,
-      isStopDownloadRatingScale: true,
-      isStopDownloadLangIndicator: true,
-      isStopDownloadProgramLanguage: true,
       downloadProgress: 0,
       showDownloadProgress: false,
       isStopDownload: false,
       visibleModal: false,
       errorType: null,
       isFinishDownloaded: false,
+      isDownloading: false,
     };
   }
 
   async componentDidMount() {
     this.scorecard = await getScorecardDetail(this.props.route.params.scorecard_uuid);
-    this.setState({
-      detail: this.scorecard,
-      isIndicatorDownloaded: this.scorecard.indicator_downloaded,
-      isLanguageIndicatorDownloaded: this.scorecard.language_indicator_downloaded,
-      isCafDownloaded: this.scorecard.caf_downloaded,
-      isAllAudioDownloaded: this.scorecard.audio_downloaded,
-      isRatingScaleDownloaded: this.scorecard.rating_scale_downloaded,
-      isProgramLanguageDownloaded: this.scorecard.program_language_downloaded,
-    });
+    this.setState({ detail: this.scorecard });
   }
 
   renderScorecardDetail = () => {
@@ -84,53 +74,44 @@ class ScorecardDetail extends Component {
     return (<DisplayScorecardInfo scorecardDetail={detail}/>);
   };
 
-  downloadIndicator = () => {
-    if (this.state.isIndicatorDownloaded && this.state.isLanguageIndicatorDownloaded && this.state.isAllAudioDownloaded) {
-      this.updateDownloadProgress(getEachSectionPercentage() * 3);
+  downloadIndicatorSection = () => {
+    if (isInidcatorSectionDownloaded()) {
+      this.updateDownloadProgress();
       return;
     }
 
-    this.setState({
-      isStopDownloadIndicator: this.state.isIndicatorDownloaded,
-      isStopDownloadLangIndicator: this.state.isLanguageIndicatorDownloaded,
-      isStopDownloadAudio: this.state.isAllAudioDownloaded,
-    });
     this.fetchIndicatorFromApi(async (response) => {
-      const options = {
-        indicators: await response,
-        scorecardUuid: this.props.route.params.scorecard_uuid,
-        updateDownloadProgress: this.updateDownloadProgress,
-      };
+      const indicators = await response;
+      const { scorecard_uuid } = this.props.route.params;
+      const phases = [
+        {
+          value: indicatorPhase,
+          save: saveIndicator(scorecard_uuid, indicators, (isDownloaded) => {
+            this._callback(indicatorPhase, isDownloaded);
+          })
+        },
+        {
+          value: languageIndicatorPhase,
+          save: saveLanguageIndicator(scorecard_uuid, indicators, (isDownloaded) => {
+            this._callback(languageIndicatorPhase, isDownloaded);
+          })
+        },
+        {
+          value: audioPhase,
+          save: this.audioService.saveAudio(0, indicators, (isDownloaded) => {
+            this._callback(audioPhase, isDownloaded);
+          })
+        }
+      ]
 
-      handleSaveIndicator(options, this.state.isIndicatorDownloaded, (isIndicatorDownloaded) => {
-        updateDownloadedField(this.props.route.params.scorecard_uuid, 'indicator', isIndicatorDownloaded);
-
-        this.setState({
-          isIndicatorDownloaded,
-          isStopDownloadIndicator: true,
-        });
-      });
-
-      handleSaveLanguageIndicator(options, this.state.isLanguageIndicatorDownloaded, (isLanguageIndicatorDownloaded) => {
-        updateDownloadedField(this.props.route.params.scorecard_uuid, 'language_indicator', isLanguageIndicatorDownloaded);
-
-        this.setState({
-          isLanguageIndicatorDownloaded,
-          isStopDownloadLangIndicator: true,
-        });
-      });
-
-      handleSaveAudio(options, this.state.isAllAudioDownloaded, this.audioService, (isAllAudioDownloaded) => {
-        updateDownloadedField(this.props.route.params.scorecard_uuid, 'audio', isAllAudioDownloaded);
-
-        this.setState({
-          isAllAudioDownloaded,
-          isStopDownloadAudio: true,
+      phases.map((phase) => {
+        handleSaveScorecardPhase(scorecard_uuid, phase.value, this.updateDownloadProgress, () => {
+          phase.save;
         });
       });
     }, (error) => {
       this.setErrorState(error);
-      this.setState({isStopDownloadIndicator: true});
+      this.setState({isDownloading: false});
     });
   }
 
@@ -138,84 +119,6 @@ class ScorecardDetail extends Component {
     this.indicatorApi = new IndicatorApi();
     const response = await this.indicatorApi.load(this.scorecard.facility_id);
     handleApiResponse(response, successCallback, failedCallback);
-  }
-
-  downloadRatingScale = () => {
-    if (this.state.errorType)
-      return;
-
-    if (this.state.isRatingScaleDownloaded) {
-      this.updateDownloadProgress(getEachSectionPercentage());
-      return;
-    }
-
-    this.setState({ isStopDownloadRatingScale: false });
-    handleSaveRatingScale(
-      this.state.detail.program_id,
-      this.ratingScaleService,
-      this.updateDownloadProgress,
-      async (isRatingScaleDownloaded) => {
-        updateDownloadedField(this.props.route.params.scorecard_uuid, 'rating_scale', isRatingScaleDownloaded);
-
-        this.setState({
-          isRatingScaleDownloaded,
-          isStopDownloadRatingScale: true,
-        });
-      }
-    );
-  }
-
-  downloadCaf = () => {
-    if (this.state.isCafDownloaded || this.state.errorType) {
-      this.updateDownloadProgress(getEachSectionPercentage());
-      return;
-    }
-
-    this.setState({isStopDownloadCaf: false});
-    this.fetchCafFromApi(async (response) => {
-      const cafs = await response;
-      saveCaf(this.props.route.params.scorecard_uuid, cafs, this.updateDownloadProgress, async (isCafDownloaded) => {
-        updateDownloadedField(this.props.route.params.scorecard_uuid, 'caf', isCafDownloaded);
-
-        this.setState({
-          isCafDownloaded,
-          isStopDownloadCaf: true,
-        });
-      });
-    }, (error) => {
-      this.setErrorState(error);
-      this.setState({
-        isStopDownloadAudio: true,
-        isStopDownloadCaf: true,
-      });
-    });
-  }
-
-  fetchCafFromApi = async (successCallback, failedCallback) => {
-    this.cafApi = new CafApi();
-    const response = await this.cafApi.load(this.scorecard.local_ngo_id);
-    handleApiResponse(response, successCallback, failedCallback);
-  }
-
-  downloadProgramLanguage = () => {
-    if (this.state.isProgramLanguageDownloaded) {
-      this.updateDownloadProgress(getEachSectionPercentage());
-      return;
-    }
-
-    this.setState({ isStopDownloadProgramLanguage: false });
-    handleSaveProgramLanguage(
-      this.state.detail.program_id,
-      this.updateDownloadProgress,
-      (isProgramLanguageDownloaded) => {
-        updateDownloadedField(this.props.route.params.scorecard_uuid, 'program_language', isProgramLanguageDownloaded);
-
-        this.setState({
-          isProgramLanguageDownloaded,
-          isStopDownloadProgramLanguage: true,
-        });
-      }
-    );
   }
 
   downloadScorecard = async () => {
@@ -229,12 +132,48 @@ class ScorecardDetail extends Component {
       showDownloadProgress: true,
       errorType: null,
       downloadProgress: 0,
+      isDownloading: true,
     });
-    this.downloadIndicator();
-    this.downloadCaf();
-    this.downloadRatingScale();
-    this.downloadProgramLanguage();
+
+    if (this.state.errorType)
+      return;
+
+    this.downloadIndicatorSection();
+
+    const { scorecard_uuid } = this.props.route.params;
+    const { program_id, local_ngo_id } = this.state.detail
+
+    const phases = [
+      {
+        value: cafPhase,
+        save: saveCaf(local_ngo_id, (isDownloaded) => {
+          this._callback(cafPhase, isDownloaded);
+        })
+      },
+      {
+        value: ratingScalePhase,
+        save: this.ratingScaleService.saveData(program_id, (isDownloaded) => {
+          this._callback(ratingScalePhase, isDownloaded);
+        })
+      },
+      {
+        value: programLanguagePhase,
+        save: saveProgramLanguage(program_id, (isDownloaded) => {
+          this._callback(programLanguagePhase, isDownloaded);
+        })
+      }
+    ];
+
+    phases.map((phase) => {
+      handleSaveScorecardPhase(scorecard_uuid, phase.value, this.updateDownloadProgress, () => {
+        phase.save;
+      });
+    });
   };
+
+  _callback = (phase, isDownloaded) => {
+    saveCallback(this.props.route.params.scorecard_uuid, phase, isDownloaded, this.updateDownloadProgress);
+  }
 
   startScorecard = () => {
     this.props.navigation.navigate('ScorecardPreference', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.state.detail.local_ngo_id});
@@ -244,33 +183,17 @@ class ScorecardDetail extends Component {
     return isDownloaded(this.props.route.params.scorecard_uuid) || this.state.isFinishDownloaded;
   }
 
-  isDisableDownload = () => {
-    const {
-      isStopDownloadIndicator,
-      isStopDownloadCaf,
-      isStopDownloadAudio,
-      isStopDownloadLangIndicator,
-      isStopDownloadRatingScale,
-      isStopDownloadProgramLanguage,
-    } = this.state;
-
-    if (isStopDownloadIndicator && isStopDownloadCaf &&
-        isStopDownloadAudio && isStopDownloadLangIndicator &&
-        isStopDownloadRatingScale && isStopDownloadProgramLanguage)
-      return false;
-
-    return true;
-  }
-
-  updateDownloadProgress = (percentage) => {
+  updateDownloadProgress = () => {
+    const { scorecard_uuid } = this.props.route.params;
     const timeout = setTimeout(() => {
-      const currentPercentage = this.state.downloadProgress + percentage;
-      this.setState({downloadProgress: currentPercentage}, () => {
-        if (this.state.downloadProgress >= 0.98) {
-          updateScorecardDownloadStatus(this.props.route.params.scorecard_uuid);
+      this.setState({downloadProgress: getDownloadPercentage(scorecard_uuid)}, () => {
+        if (isDownloaded(scorecard_uuid)) {
           this.setState({
-            isFinishDownloaded: true
+            isFinishDownloaded: true,
+            isDownloading: false,
+            showDownloadProgress: false,
           });
+
           clearTimeout(timeout);
         }
       });
@@ -279,9 +202,9 @@ class ScorecardDetail extends Component {
 
   renderDownloadButton = () => {
     if (!this.isFullyDownloaded()) {
-      const isDisabled = this.state.errorType ? false : this.isDisableDownload();
+      const isDisabled = this.state.errorType ? false : this.state.isDownloading;
       const { translations } = this.context;
-      const label = isResumeDownload(this.state.detail) ? translations.resumeDownload : translations.downloadAndSave;
+      const label = findScorecardDownload(this.props.route.params.scorecard_uuid) != undefined ? translations.resumeDownload : translations.downloadAndSave;
 
       return (
         <DownloadButton
@@ -298,7 +221,6 @@ class ScorecardDetail extends Component {
   renderStartButton = () => {
     const {translations} = this.context;
     if (this.isFullyDownloaded()) {
-      updateScorecardDownloadStatus(this.props.route.params.scorecard_uuid);
       return (
         <BottomButton label={translations.start} onPress={() => this.startScorecard()} />
       );
