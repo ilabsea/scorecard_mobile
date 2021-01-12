@@ -298,7 +298,7 @@ class Setting extends Component {
             onPress={() => this.save()}
             isDisabled={this.state.isLoading}
           />
-          <Text style={{textAlign: 'center', marginTop: 10}}>Version { pkg.version }</Text>
+          <Text style={{textAlign: 'center', marginTop: 10}}>{translations.version} { pkg.version }</Text>
         </View>
       </TouchableWithoutFeedback>
     );

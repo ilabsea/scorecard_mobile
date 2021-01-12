@@ -19,6 +19,8 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import PlaySound from './PlaySound';
 import { getDisplayIndicator } from '../../services/indicator_service';
 
+import { savePlayingCriteriaAudio } from '../../services/votingCriteriaService';
+
 const iconSize = 80;
 const iconWrapperSize = 98;
 const windowWidth = Dimensions.get('window').width;
@@ -66,13 +68,15 @@ export default class CriteriaRatingItem extends Component {
     return rating;
   }
 
-  _renderRatingIcon(rating) {
+  _renderRatingIcon(rating, rowIndex) {
     const { translations } = this.context;
     const ratingLanguage = this._getLanguageRatingScale(rating.label);
 
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
     let iconSizeRatio = iconSize * 0.8;
+
+    const position = `${this.props.colIndex}${rowIndex}`;
 
     return (
       <View style={[styles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
@@ -94,6 +98,8 @@ export default class CriteriaRatingItem extends Component {
           filePath={ratingLanguage.local_audio}
           isLocal={true}
           onPress={() => this._onClickIcon(rating)}
+          onSavePlayingAudio={() => savePlayingCriteriaAudio(position)}
+          position={position}
         >
           <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
         </PlaySound>
@@ -118,7 +124,7 @@ export default class CriteriaRatingItem extends Component {
         </View>
 
         <View style={{flexDirection: 'row', marginTop: 20, marginHorizontal: -8}}>
-          { ratings.map(rating => this._renderRatingIcon(rating)) }
+          { ratings.map((rating, index) => this._renderRatingIcon(rating, index)) }
         </View>
       </View>
     )
