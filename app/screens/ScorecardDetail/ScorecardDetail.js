@@ -239,10 +239,12 @@ class ScorecardDetail extends Component {
 
   _renderHeader() {
     const {translations} = this.context;
+    const title = `${translations.scorecardApp} - ${this.props.route.params.scorecard_uuid}`;
+
     return (
       <BigHeader
         title={translations.welcomeTo}
-        bigTitle={translations.scorecardApp}
+        bigTitle={title}
         onBackPress={() => this.onBackPress()}/>
     )
   }

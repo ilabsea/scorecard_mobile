@@ -5,6 +5,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loading from 'react-native-whc-loading';
@@ -23,6 +24,8 @@ import authenticationService from '../../services/authentication_service';
 import {localeDictionary} from '../../constants/locale_constant';
 
 import SessionApi from '../../api/SessionApi';
+
+import pkg from '../../../package';
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -289,6 +292,7 @@ class Setting extends Component {
             onPress={() => this.save()}
             isDisabled={this.state.isLoading}
           />
+          <Text style={{textAlign: 'center', marginTop: 10}}>Version { pkg.version }</Text>
         </View>
       </TouchableWithoutFeedback>
     );
