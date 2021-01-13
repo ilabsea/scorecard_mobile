@@ -52,6 +52,9 @@ class ScorecardProgress extends Component {
   }
 
   async submitToServer() {
+    if (this.state.showProgress)
+      return;
+
     if (!this.state.scorecard.isCompleted || this.state.scorecard.isUploaded) { return; }
     this.setState({
       showProgress: true,
@@ -75,6 +78,13 @@ class ScorecardProgress extends Component {
     });
   }
 
+  _disableBackground() {
+    if (this.state.showProgress)
+      return styles.btnDisabled;
+
+    return ''
+  }
+
   _renderBtnSubmit() {
     const { translations } = this.context
     const btnStyle = (this.state.scorecard.isCompleted && !this.state.scorecard.isUploaded) ? { backgroundColor: Color.headerColor } : styles.btnDisabled;
@@ -82,7 +92,7 @@ class ScorecardProgress extends Component {
     return (
       <TouchableOpacity
         onPress={() => this.submitToServer() }
-        style={[styles.btn, btnStyle]}>
+        style={[styles.btn, btnStyle, this._disableBackground()]}>
 
         <Text style={{color: '#fff', fontSize: 20}}>{translations['submit']}</Text>
         { this.state.scorecard.isUploaded &&

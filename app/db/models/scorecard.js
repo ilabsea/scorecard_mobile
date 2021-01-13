@@ -50,6 +50,7 @@ Scorecard.schema = {
     text_language_code: 'string?',
     audio_language_code: 'string?',
     deleted_date: 'string?',
+    finished: { type: 'bool', default: false },
   }
 }
 

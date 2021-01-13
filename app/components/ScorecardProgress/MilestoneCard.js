@@ -24,7 +24,7 @@ export default class MilestoneCard extends Component {
     let cardStyle = isDone ? {} : { backgroundColor: Color.disableCardColor };
     let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
 
-    if (index == this.props.progressIndex) {
+    if (index == this.props.progressIndex && !this.props.isFinished) {
       titleStyle = { color: '#000', fontFamily: FontFamily.title};
     }
 
@@ -35,19 +35,18 @@ export default class MilestoneCard extends Component {
 
         <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
 
-        { index < this.props.progressIndex &&
+        { (index < this.props.progressIndex || this.props.isFinished) &&
           <View style={styles.viewDetail}>
             <Text>{translations['viewDetail']}</Text>
             <Icon name='chevron-forward-outline' style={{fontSize: 24}} />
           </View>
         }
 
-        { index == this.props.progressIndex &&
+        { (index == this.props.progressIndex && !this.props.isFinished) &&
           <View style={styles.btnResume}>
             <Text style={{color: '#fff', fontSize: 16}}>{translations['resume']}</Text>
           </View>
         }
-
       </TouchableOpacity>
     );
   }
