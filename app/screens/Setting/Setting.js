@@ -21,6 +21,7 @@ import {checkConnection} from '../../services/api_service';
 import {handleApiResponse} from '../../services/api_service';
 import authenticationService from '../../services/authentication_service';
 import {localeDictionary} from '../../constants/locale_constant';
+import contactService from '../../services/contact_service';
 
 import SessionApi from '../../api/SessionApi';
 
@@ -181,12 +182,16 @@ class Setting extends Component {
   async authenticate() {
     const { backendUrl, email, password } = this.state;
     const response = await SessionApi.authenticate(email, password);
+
     handleApiResponse(response, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
+      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+
+      authenticationService.clearErrorAuthentication();
+      contactService.downloadContacts()
+
       this.refs.loading.show(false);
       this.setState({isLoading: false});
-      authenticationService.clearErrorAuthentication();
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
       this.props.navigation.goBack();
     }, (error) => {
       if (error.indexOf('422') > -1)
@@ -194,6 +199,7 @@ class Setting extends Component {
 
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.removeItem('AUTH_TOKEN');
+
       this.refs.loading.show(false);
       this.setState({isLoading: false});
       this.handleAuthenticateError(response);

@@ -17,10 +17,10 @@ import styles from '../../themes/scorecardListItemStyle';
 export default class ContactListItem extends Component {
   static contextType = LocalizationContext;
 
-  renderStatusIcon(item) {
+  renderStatusIcon(item, iconName) {
     return (
       <View style={[styles.statusIconWrapper]}>
-        <Icon name={item.iconName} style={{fontSize: 50, color: '#fff'}} />
+        <Icon name={iconName} style={{fontSize: 50, color: '#fff'}} />
       </View>
     )
   }
@@ -28,6 +28,8 @@ export default class ContactListItem extends Component {
   render() {
     const { translations } = this.context;
     const { contact } = this.props;
+    const iconName = contact.contact_type == 'email' ? 'at' : 'call';
+    const title = contact.contact_type == 'email' ? translations.contact_email : translations.contact_number;
 
     return (
       <TouchableOpacity
@@ -35,13 +37,13 @@ export default class ContactListItem extends Component {
         onPress={ () => !!this.props.onPress && this.props.onPress() }
         style={[styles.listItem, styles.card]}>
 
-        { this.renderStatusIcon(contact) }
+        { this.renderStatusIcon(contact, iconName) }
 
         <View style={styles.contentWrapper}>
-          <Text style={styles.title} numberOfLines={1}>{translations[contact.title]}</Text>
+          <Text style={styles.title} numberOfLines={1}>{title}</Text>
 
           <View style={styles.subTextWrapper}>
-            <Icon name={contact.iconName} style={styles.subTextIcon} />
+            <Icon name={iconName} style={styles.subTextIcon} />
             <Text style={styles.subText}>{contact.value}</Text>
           </View>
 

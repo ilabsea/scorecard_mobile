@@ -1,14 +1,10 @@
 export default [
   {
-    title: 'contact_number',
-    type: 'tel',
-    iconName: 'call',
+    contact_type: 'tel',
     value: '023 888 999 or 1288',
   },
   {
-    title: 'contact_email',
-    type: 'email',
-    iconName: 'at',
+    contact_type: 'email',
     value: 'abc@gmail.com',
   },
 ]
