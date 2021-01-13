@@ -19,6 +19,8 @@ import RatingScaleSchema from './models/ratingScale';
 import ProgramLanguageSchema from './models/programLanguage';
 import ScorecardDownloadSchema from './models/scorecardDownload';
 
+import ContactSchema from './models/contact';
+
 const schema0 = [
   Scorecard,
   LanguageSchema,
@@ -41,6 +43,8 @@ const schema0 = [
   // ===Rating===
   LanguageRatingScaleSchema,
   RatingScaleSchema,
+
+  ContactSchema,
 ];
 
 const schemas = [
