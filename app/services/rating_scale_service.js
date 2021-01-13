@@ -4,7 +4,6 @@ import {isFileExist} from '../services/local_file_system_service';
 import {getAudioFilename} from './audio_service';
 import { environment } from '../config/environment';
 import RNFS from 'react-native-fs';
-import {getDownloadPercentage} from './scorecard_detail_service';
 
 class RatingScaleService {
   constructor (isStopDownload) {
@@ -12,18 +11,18 @@ class RatingScaleService {
     this.ratingScaleApi = null;
   }
 
-  async saveData(programId, updateDownloadPercentage, callback) {
+  async saveData(programId, callback) {
     this.ratingScaleApi = new RatingScaleApi();
     const response = await this.ratingScaleApi.load(programId);
     const ratingScales = response.data;
-    this._saveRatingScale(0, ratingScales, programId, updateDownloadPercentage, callback);
+    this._saveRatingScale(0, ratingScales, programId, callback);
   }
 
   cancelRequest() {
     this.ratingScaleApi.cancelRequest();
   }
 
-  _saveRatingScale(index, ratingScales, programId, updateDownloadPercentage, callback) {
+  _saveRatingScale(index, ratingScales, programId, callback) {
     if (this.isStopDownload)
       return;
 
@@ -42,13 +41,12 @@ class RatingScaleService {
     realm.write(() => {
       realm.create('RatingScale', attrs, 'modified');
     });
-    this._saveLanguageRatingScale(0, ratingScale, programId, () => {
-      updateDownloadPercentage(getDownloadPercentage(ratingScales.length));
-      this._saveRatingScale(index + 1, ratingScales, programId, updateDownloadPercentage, callback);
+    this._saveLanguageRatingScale(0, ratingScale, programId, callback, () => {
+      this._saveRatingScale(index + 1, ratingScales, programId, callback);
     });
   }
 
-  _saveLanguageRatingScale(index, ratingScale, programId, callbackSaveRatingScale) {
+  _saveLanguageRatingScale(index, ratingScale, programId, callback, callbackSaveRatingScale) {
     if (index === ratingScale.language_rating_scales.length) {
       callbackSaveRatingScale();
       return;
@@ -68,27 +66,26 @@ class RatingScaleService {
     realm.write(() => {
       realm.create('LanguageRatingScale', attrs, 'modified');
     });
-    this._checkAndSave(languageRatingScale, () => {
-      this._saveLanguageRatingScale(index + 1, ratingScale, programId, callbackSaveRatingScale);
+    this._checkAndSave(languageRatingScale, callback, () => {
+      this._saveLanguageRatingScale(index + 1, ratingScale, programId, callback, callbackSaveRatingScale);
     })
   }
 
-  async _checkAndSave(languageRatingScale, callBackSaveLanguageRatingScale) {
+  async _checkAndSave(languageRatingScale, callback, callBackSaveLanguageRatingScale) {
     let audioPath = languageRatingScale.audio.split('/');
     let fileName = audioPath[audioPath.length - 1];
     fileName = `rating_${getAudioFilename(languageRatingScale.id, languageRatingScale.language_code, fileName)}`;
 
     const isAudioExist = await isFileExist(fileName)
     if (!isAudioExist)
-      this._downloadAudio(languageRatingScale, fileName);
+      this._downloadAudio(languageRatingScale, fileName, callback, callBackSaveLanguageRatingScale);
     else
       console.log('audio already exist');
-
-    callBackSaveLanguageRatingScale();
   }
 
-  _downloadAudio(languageRatingScale, filename) {
+  _downloadAudio(languageRatingScale, filename, callback, callbackSaveLanguageRatingScale) {
     const savingFilename = `rating_${getAudioFilename(languageRatingScale.id, languageRatingScale.language_code, filename)}`;          // Ex: rating_1_km_voice.mp3
+
     let options = {
       fromUrl: `${environment.domain}${languageRatingScale.audio}`,
       toFile: `${RNFS.DocumentDirectoryPath}/${savingFilename}`,
@@ -103,8 +100,10 @@ class RatingScaleService {
       realm.write(() => {
         realm.create('LanguageRatingScale', attrs, 'modified');
       });
+      callbackSaveLanguageRatingScale();
     }).catch(err => {
       console.log('failed to download audio = ', err);
+      callback(false);
     });
   }
 }

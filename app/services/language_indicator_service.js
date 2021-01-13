@@ -1,8 +1,7 @@
 import realm from '../db/schema';
 import {PREDEFINED} from '../utils/variable';
-import {getDownloadPercentage} from './scorecard_detail_service';
 
-const saveLanguageIndicator = (scorecardUUID, indicators, updateDownloadPercentage, callback) => {
+const saveLanguageIndicator = (scorecardUUID, indicators, callback) => {
   let savedCount = 0;
   indicators.map(indicator => {
     const languagesIndicators = indicator['languages_indicators'];
@@ -23,7 +22,6 @@ const saveLanguageIndicator = (scorecardUUID, indicators, updateDownloadPercenta
         });
       });
     }
-    updateDownloadPercentage(getDownloadPercentage(indicators.length));
     savedCount += 1;
   });
   callback(savedCount === indicators.length);

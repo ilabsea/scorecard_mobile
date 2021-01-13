@@ -123,7 +123,7 @@ const scorecardService = (() => {
 
   function votingCriteriasAttr() {
     let votingCriterias = getJSON('VotingCriteria');
-    let columns = ['scorecard_uuid', 'median', 'strength', 'weakness', 'desired_change', 'suggested_action'];
+    let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'desired_change', 'suggested_action'];
 
     return getCriteriaAttr(votingCriterias, columns);
   }

@@ -1,14 +1,13 @@
 import { environment } from '../config/environment';
 import realm from '../db/schema';
 import {downloadFileFromUrl, isFileExist} from '../services/local_file_system_service';
-import {getDownloadPercentage} from './scorecard_detail_service';
 
 class AudioService {
   constructor(isStopDownload) {
     this.isStopDownload = isStopDownload;
   }
 
-  saveAudio = (index, indicators, updateDownloadPercentage, callback) => {
+  saveAudio = (index, indicators, callback) => {
     if (index === indicators.length) {
       callback(true);
       return;
@@ -16,14 +15,13 @@ class AudioService {
 
     const languageIndicators = indicators[index]['languages_indicators'];
     if (languageIndicators.length > 0)
-      this._downloadLanguageIndicatorAudio(0, languageIndicators, indicators, updateDownloadPercentage, callback, () => {
-        this.saveAudio(index + 1, indicators, updateDownloadPercentage, callback);
+      this._downloadLanguageIndicatorAudio(0, languageIndicators, indicators, callback, () => {
+        this.saveAudio(index + 1, indicators, callback);
       });
   }
 
-  _downloadLanguageIndicatorAudio = (index, languageIndicators, indicators, updateDownloadPercentage, callback, callbackSaveAudio) => {
+  _downloadLanguageIndicatorAudio = (index, languageIndicators, indicators, callback, callbackSaveAudio) => {
     if (index === languageIndicators.length) {
-      updateDownloadPercentage(getDownloadPercentage(indicators.length));
       callbackSaveAudio();
       return;
     }
@@ -35,7 +33,7 @@ class AudioService {
     if (languageIndicator.audio != undefined || languageIndicator.audio != null) {
       const audioUrl = `${environment.domain}${languageIndicator.audio}`;
       this._checkAndSave(audioUrl, languageIndicator, callback, () => {
-        this._downloadLanguageIndicatorAudio(index + 1, languageIndicators, indicators, updateDownloadPercentage, callback, callbackSaveAudio);
+        this._downloadLanguageIndicatorAudio(index + 1, languageIndicators, indicators, callback, callbackSaveAudio);
       })
     }
   }
