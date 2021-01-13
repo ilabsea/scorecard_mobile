@@ -58,7 +58,7 @@ export default class MilestoneCard extends Component {
   _renderBadge() {
     let isDone = this._isDone();
     let badgeIconStyle = isDone ? { backgroundColor: Color.headerColor } : {};
-    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index + 1}</Text>
+    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index}</Text>
 
     return (
       <View style={[styles.badgeIcon, badgeIconStyle]}>

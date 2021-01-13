@@ -50,8 +50,7 @@ class PlaySound extends Component {
   }
 
   playAudio() {
-    if (this.props.onPress)
-      this.props.onPress();
+    !!this.props.onPress && this.props.onPress();
 
     if (!this.props.filePath) {
       return;
@@ -90,13 +89,14 @@ class PlaySound extends Component {
   }
 
   render() {
-    const { children, containerStyle } = this.props;
+    const { children, containerStyle, filePath } = this.props;
     let iconName = this.state.playState == 'playing' ? 'pause' : 'volume-medium';
+    let btnBg = !!filePath ? Color.headerColor : '#787878';
 
     return (
       <TouchableOpacity
         onPress={() => this.playAudio() }
-        style={[styles.btnAudio, containerStyle]}>
+        style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
 
         { children }
         <Icon name={iconName} style={{ color: '#fff'}}/>
