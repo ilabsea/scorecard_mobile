@@ -205,5 +205,5 @@
   "raisedTimes": "Raised times",
   "criteriaList": "Criteria list",
   "pleaseSelectCriteria": "Please select criteria",
-  "availableAmount": "Available amount",
+  "numberOfSelectedCriterias": "# of selected",
 }

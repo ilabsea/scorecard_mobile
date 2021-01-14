@@ -10,8 +10,7 @@ import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
 import {PLAYING, PAUSED} from '../../utils/variable';
-
-import { isPlayingCriteria, clearPlayingCriteria } from '../../services/votingCriteriaService';
+import votingCriteriaService from '../../services/votingCriteriaService';
 
 class PlaySound extends Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class PlaySound extends Component {
   }
 
   async componentDidMount() {
-    const isPlaying = await isPlayingCriteria(this.props.position);
+    const isPlaying = await votingCriteriaService.isPlayingCriteria(this.props.position);
     if (isPlaying)
       this.setState({playState: 'playing'});
   }
@@ -60,7 +59,7 @@ class PlaySound extends Component {
     Sound.setCategory('Playback');
     let folder = this.props.isLocal ? Sound.MAIN_BUNDLE : '';
 
-    clearPlayingCriteria();
+    votingCriteriaService.clearPlayingCriteria();
     this.props.setRatingScaleAudioStatus(PAUSED);
 
     if (global.sound)

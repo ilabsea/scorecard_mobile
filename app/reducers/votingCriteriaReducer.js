@@ -1,9 +1,10 @@
 import realm from '../db/schema';
+import votingCriteriaService from '../services/votingCriteriaService';
 
 const votingCriteriaReducer = (state=[], action) => {
   switch(action.type) {
     case 'GET_ALL':
-      return JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${action.payload}'`)));
+      return JSON.parse(JSON.stringify(votingCriteriaService.getAll(action.payload)));
     case 'SET_VOTING_CRITERIAS':
       return action.payload;
     default:

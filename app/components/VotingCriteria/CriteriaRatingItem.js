@@ -18,8 +18,7 @@ import ratings from '../../db/jsons/ratings';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import PlaySound from './PlaySound';
 import { getDisplayIndicator } from '../../services/indicator_service';
-
-import { savePlayingCriteriaAudio } from '../../services/votingCriteriaService';
+import votingCriteriaService from '../../services/votingCriteriaService';
 
 const iconSize = 80;
 const iconWrapperSize = 98;
@@ -98,7 +97,7 @@ export default class CriteriaRatingItem extends Component {
           filePath={ratingLanguage.local_audio}
           isLocal={true}
           onPress={() => this._onClickIcon(rating)}
-          onSavePlayingAudio={() => savePlayingCriteriaAudio(position)}
+          onSavePlayingAudio={() => votingCriteriaService.savePlayingCriteriaAudio(position)}
           position={position}
         >
           <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>

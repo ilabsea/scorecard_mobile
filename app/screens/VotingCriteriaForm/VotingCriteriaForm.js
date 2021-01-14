@@ -15,7 +15,7 @@ import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
-import { submitVoting, clearPlayingCriteria } from '../../services/votingCriteriaService';
+import votingCriteriaService from '../../services/votingCriteriaService';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
@@ -35,7 +35,7 @@ class VotingCriteriaForm extends Component {
   }
 
   componentWillUnmount() {
-    clearPlayingCriteria();
+    votingCriteriaService.clearPlayingCriteria();
   }
 
   onClickRatingIcon(criteria, rating) {
@@ -100,7 +100,7 @@ class VotingCriteriaForm extends Component {
   _submit() {
     const { participant_uuid } = this.state;
 
-    submitVoting(this.state.criterias, participant_uuid);
+    votingCriteriaService.submitVoting(this.state.criterias, participant_uuid);
 
     realm.write(() => {
       realm.create('Participant', {uuid: participant_uuid, voted: true}, 'modified');

@@ -19,36 +19,37 @@ import { removeFromProposed } from '../../actions/proposedCriteriaAction';
 class ProposedCriteriaModal extends Component {
   static contextType = LocalizationContext;
 
-  criterias = [];
+  maximumCriteriaAmount = 10;
 
   constructor(props) {
     super(props);
 
     this.state = {
-      availableAmount: 5 - this.props.selectedCriterias.length
+      criterias: []
     };
   }
 
   handleAddingCriteria(criteria, action) {
     if (action == 'add') {
-      this.setState({availableAmount: this.state.availableAmount - 1});
-      this.criterias.push(criteria);
-      return
+      return this.setState({criterias: [...this.state.criterias, criteria]});
     }
 
-    this.setState({availableAmount: this.state.availableAmount + 1});
-    this.criterias = this.criterias.filter(cri => cri.tag != criteria.tag);
+    return this.setState({criterias: this.state.criterias.filter(cri => cri.tag != criteria.tag)});
   }
 
   onSave() {
     !!this.props.onDismiss && this.props.onDismiss();
 
-    for(let i=0; i<this.criterias.length; i++) {
-      this.props.addToSelected(this.criterias[i]);
-      this.props.removeFromProposed(this.criterias[i]);
+    for(let i=0; i<this.state.criterias.length; i++) {
+      this.props.addToSelected(this.state.criterias[i]);
+      this.props.removeFromProposed(this.state.criterias[i]);
     }
 
-    this.criterias = [];
+    this.setState({criterias: []});
+  }
+
+  selectedAmount() {
+    return this.props.selectedCriterias.length + this.state.criterias.length;
   }
 
   _renderList() {
@@ -57,8 +58,9 @@ class ProposedCriteriaModal extends Component {
         data={this.props.proposedCriterias}
         renderItem={ item =>
           <ProposedCriteriaItem
-            availableAmount={this.state.availableAmount}
+            selectedAmount={ this.selectedAmount() }
             onPress={(item, action) => this.handleAddingCriteria(item, action)}
+            maximumCriteriaAmount={this.maximumCriteriaAmount}
             criteria={item.item} />
         }
       />
@@ -67,7 +69,7 @@ class ProposedCriteriaModal extends Component {
 
   onDismiss() {
     !!this.props.onDismiss && this.props.onDismiss();
-    this.criterias = [];
+    this.setState({criterias: []});
   }
 
   render() {
@@ -79,7 +81,7 @@ class ProposedCriteriaModal extends Component {
           <Text style={styles.header}>{translations.criteriaList}</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={{marginBottom: 16, flex: 1}}>{translations.pleaseSelectCriteria}</Text>
-            <Text>{translations.availableAmount}: {this.state.availableAmount}</Text>
+            <Text style={{fontFamily: FontFamily.title}}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
           </View>
 
           { this._renderList() }

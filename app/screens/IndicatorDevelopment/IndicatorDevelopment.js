@@ -6,26 +6,26 @@ import {
 } from 'react-native';
 
 import { Button, Text } from 'native-base';
-
 import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
-import realm from '../../db/schema';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
+import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
+import SelectedCriteriaItem from '../../components/IndicatorDevelopment/SelectedCriteriaItem';
+
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
-
-import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
+import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
-import { submitCriterias } from '../../services/selectedCriteriaService';
 import { set } from '../../actions/currentScorecardAction';
 
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
-import SelectedCriteriaItem from '../../components/IndicatorDevelopment/SelectedCriteriaItem';
+import scorecardService from '../../services/scorecardService';
+import votingCriteriaService from '../../services/votingCriteriaService';
+import proposedCriteriaService from '../../services/proposedCriteriaService';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -35,35 +35,23 @@ class IndicatorDevelopment extends Component {
 
     this.state = {
       visibleModal: false,
-      scorecard: realm.objects('Scorecard').filtered(`uuid='${props.route.params.scorecard_uuid}'`)[0]
+      scorecard: scorecardService.find(props.route.params.scorecard_uuid)
     };
   }
 
   componentDidMount() {
-    realm.write(() => {
-      if (this.state.scorecard.status < 3) {
-        this.state.scorecard.status = '3';
-        this.props.setCurrentScorecard(this.state.scorecard);
-      }
-    });
+    if (this.state.scorecard.status < 3) {
+      scorecardService.update(this.state.scorecard.uuid, {status: '3'});
+      this.props.setCurrentScorecard(this.state.scorecard);
+    }
 
-    let selectedCriterias = JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${this.state.scorecard.uuid}'`)));
-    let selectedTags = selectedCriterias.map(x => x.tag);
-    let proposedCriterias = this._getProposedCriteria();
-
-    selectedCriterias = proposedCriterias.filter(x => selectedTags.includes(x.tag));
+    let selectedTags = votingCriteriaService.getSelectedTags(this.state.scorecard.uuid);
+    let proposedCriterias = proposedCriteriaService.getProposedCriterias(this.state.scorecard.uuid);
+    let selectedCriterias = proposedCriterias.filter(x => selectedTags.includes(x.tag));
     proposedCriterias = proposedCriterias.filter(x => !selectedTags.includes(x.tag));
 
     this.props.setSelectedCriterias(selectedCriterias);
     this.props.setProposedCriterias(proposedCriterias);
-  }
-
-  _getProposedCriteria() {
-    let allCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.state.scorecard.uuid}'`);
-    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' DISTINCT(tag)`)));
-    criterias.map(criteria => criteria.count = allCriterias.filter(x => x.tag == criteria.tag).length);
-
-    return criterias;
   }
 
   _renderHeader() {
@@ -76,7 +64,7 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias);
+    votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias);
 
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }

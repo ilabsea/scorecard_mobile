@@ -205,5 +205,5 @@
   "raisedTimes": "ចំនួនដងដែលបានស្នើរឡើង",
   "criteriaList": "បញ្ជីលក្ខណៈវិនិច្ឆ័យ",
   "pleaseSelectCriteria": "សូមធ្វើកាជ្រើសរើសលក្ខណៈវិនិច្ឆ័យ",
-  "availableAmount": "ចំនួនដែលនៅសល់",
+  "numberOfSelectedCriterias": "ចំនួនលក្ខណៈវិនិច្ឆ័យដែលបានជ្រើសរើស",
 }
