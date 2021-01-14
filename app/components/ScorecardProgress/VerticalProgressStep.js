@@ -33,6 +33,9 @@ export default class VerticalProgressStep extends Component {
       return Alert.alert(translations.locked, translations.alreadyUploaded);
     }
 
+    if (this.state.scorecard.finished || step.value < this.props.progressIndex)
+      return;
+
     this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.props.localNgoId })
   }
 
@@ -46,6 +49,7 @@ export default class VerticalProgressStep extends Component {
         index={ step.value }
         progressIndex={ this.props.progressIndex }
         onPress={() => this.onPress(step) }
+        isFinished={this.state.scorecard.finished}
       />
     )
   }

@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import { Icon, Text } from 'native-base';
@@ -22,6 +23,8 @@ import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardR
 
 import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
+
+import scorecardService from '../../services/scorecardService';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -82,6 +85,27 @@ class ScorecardResult extends Component {
   }
 
   _finish() {
+    const { translations } = this.context;
+
+    Alert.alert(
+      translations.finish,
+      translations.doYouWantToFinishTheScorecard,
+      [
+        {
+          text: translations.cancel,
+          style: "cancel"
+        },
+        {
+          text: translations.ok,
+          onPress: () => this._confirmFinish(),
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  _confirmFinish() {
+    scorecardService.updateFinishStatus(this.state.scorecard.uuid);
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 

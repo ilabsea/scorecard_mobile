@@ -17,7 +17,8 @@ const scorecardService = (() => {
     saveScorecardDetail,
     find,
     update,
-    getProposedCriterias
+    getProposedCriterias,
+    updateFinishStatus,
   }
 
   function find(uuid) {
@@ -45,6 +46,17 @@ const scorecardService = (() => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function updateFinishStatus(uuid) {
+    const attrs = {
+      uuid: uuid,
+      finished: true,
+    };
+
+    realm.write(() => {
+      realm.create('Scorecard', attrs, 'modified');
+    });
   }
 
   // ------Step1------
