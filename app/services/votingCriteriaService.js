@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import realm from '../db/schema';
 import ratings from '../db/jsons/ratings';
 import uuidv4 from '../utils/uuidv4';
@@ -43,4 +44,17 @@ export const submitVoting = (criterias, participant_uuid) => {
     let score = Median(arr);
     return score;
   }
+}
+
+export const savePlayingCriteriaAudio = (criteriaPosition) => {
+  AsyncStorage.setItem('PLAYING_CRITERIA', criteriaPosition);
+}
+
+export const isPlayingCriteria = async (criteriaPosition) => {
+  const playingPosition = await AsyncStorage.getItem('PLAYING_CRITERIA');
+  return playingPosition === criteriaPosition
+}
+
+export const clearPlayingCriteria = () => {
+  AsyncStorage.removeItem('PLAYING_CRITERIA');
 }

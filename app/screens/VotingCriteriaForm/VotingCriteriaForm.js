@@ -15,7 +15,7 @@ import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
-import { submitVoting } from '../../services/votingCriteriaService';
+import { submitVoting, clearPlayingCriteria } from '../../services/votingCriteriaService';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
@@ -34,6 +34,10 @@ class VotingCriteriaForm extends Component {
     };
   }
 
+  componentWillUnmount() {
+    clearPlayingCriteria();
+  }
+
   onClickRatingIcon(criteria, rating) {
     criteria.ratingScore = rating.value;
 
@@ -50,12 +54,13 @@ class VotingCriteriaForm extends Component {
 
   _renderCriteriaRatingList() {
     return (
-      this.state.criterias.map(criteria => {
+      this.state.criterias.map((criteria, index) => {
         return (
           <CriteriaRatingItem
             key={criteria.uuid}
             criteria={criteria}
             onPress={ (rating) => this.onClickRatingIcon(criteria, rating) }
+            colIndex={index}
           />
         )
       })

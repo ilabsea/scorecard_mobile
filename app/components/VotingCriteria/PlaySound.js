@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
 import {PLAYING, PAUSED} from '../../utils/variable';
 
+import { isPlayingCriteria, clearPlayingCriteria } from '../../services/votingCriteriaService';
+
 class PlaySound extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,12 @@ class PlaySound extends Component {
     this.state = {
       playState: 'pause'
     };
+  }
+
+  async componentDidMount() {
+    const isPlaying = await isPlayingCriteria(this.props.position);
+    if (isPlaying)
+      this.setState({playState: 'playing'});
   }
 
   componentWillReceiveProps(props) {
@@ -49,28 +57,36 @@ class PlaySound extends Component {
       return;
     }
 
+    this.sound = null;
     Sound.setCategory('Playback');
     let folder = this.props.isLocal ? Sound.MAIN_BUNDLE : '';
 
-    this.props.setRatingScaleAudioStatus(PLAYING);
-    if (this.sound != null) {
-      this.sound.release();
-      this.sound = null;
+    clearPlayingCriteria();
+    this.props.setRatingScaleAudioStatus(PAUSED);
+
+    if (global.sound)
+      global.sound.release();
+
+    if (this.state.playState === 'playing') {
       this.setState({playState: 'pause'});
-      this.props.setRatingScaleAudioStatus(PAUSED);
+      return;
     }
-    else {
-      this.sound = new Sound(this.props.filePath, folder, (error) => {
-        if (error) { return console.log('failed to load the sound', error); }
 
-        if (global.sound)
-          global.sound.release();
+    this.props.setRatingScaleAudioStatus(PLAYING);
 
-        this.setState({playState: 'playing'});
-        this.sound.play(this.playComplete);
-        global.sound = this.sound;
-      });
-    }
+    this.sound = new Sound(this.props.filePath, folder, (error) => {
+      if (error) { return console.log('failed to load the sound', error); }
+
+      if (global.sound)
+        global.sound.release();
+
+      this.setState({playState: 'playing'});
+      this.sound.play(this.playComplete);
+      global.sound = this.sound;
+    });
+
+    if (this.props.onSavePlayingAudio)
+      this.props.onSavePlayingAudio();
   }
 
   render() {

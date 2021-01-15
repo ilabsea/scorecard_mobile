@@ -199,5 +199,6 @@
   "didYouEnterTheUrlCorrectly": " Did you enter the URL correctly?",
   "ifYouKeepHavingThisProblem": " If you keep having this problem, report it to the person who asked you to collect data.",
   "doYouWantToFinishTheScorecard": "Do you want to finish the scorecard?",
-  "ok": "OK"
+  "ok": "OK",
+  "version": "Version"
 }
