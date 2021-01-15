@@ -37,8 +37,12 @@ const ScorecardResultTableRow = (props) => {
   const renderEditText = (fieldName) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center'}}>
-        <View style={{flex: 1, maxHeight: 100}}>
-          <HTML html={criteria[fieldName]} />
+        <View style={{flex: 1, height: 100}}>
+          <HTML html={criteria[fieldName]}
+            alterChildren={(node) => alterChildren(node)}
+            tagsStyles={tagsStyles()}
+            alterData={(node) => alterData(node)}
+          />
         </View>
 
         <TouchableOpacity onPress={() => onPress(fieldName)} style={{width: 28, height: 28, backgroundColor: Color.headerColor, justifyContent: 'center', alignItems: 'center', borderRadius: 14, marginLeft: 10}}>
@@ -46,6 +50,32 @@ const ScorecardResultTableRow = (props) => {
         </TouchableOpacity>
       </View>
     )
+  }
+
+  const tagsStyles = () => {
+    return {
+      div: { maxHeight: 100 },
+      ol: { marginLeft: -20 },
+      ul: { marginLeft: -20 },
+      li: { maxHeight: 100 },
+    };
+  }
+
+  const alterChildren = (node) => {
+    const { children, name } = node;
+    if (name === "ul" || name === "ol" && children && children.length)
+      return children.splice(0, 1);
+    else if (name == "div")
+      return children[0];
+  }
+
+  const alterData = (node) => {
+    let { parent, data } = node;
+
+    if (parent && parent.name === "li")
+      return data.slice(0, 5) + '...';
+
+    return data.slice(0, 15) + '...';
   }
 
   const renderCell = (fieldName) => {
