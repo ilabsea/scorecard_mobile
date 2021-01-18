@@ -141,9 +141,14 @@ const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => 
   });
 }
 
+const getUnvoted = (scorecardUuid) => {
+  return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND voted=false SORT(order ASC)`);
+}
+
 export {
   ParticipantCell,
   getRaisedParticipants,
   getParticipantInfo,
-  saveParticipantInfo
+  saveParticipantInfo,
+  getUnvoted
 };

@@ -196,9 +196,14 @@
   "successfullyAuthenticated": "Successfully authenticated",
   "emailOrPasswordIsIncorrect": "Email or password is incorrect",
   "cscAppCannotReachTheServerAt": "CSC app cannot reach the server at",
-  "didYouEnterTheUrlCorrectly": " Did you enter the URL correctly?",
-  "ifYouKeepHavingThisProblem": " If you keep having this problem, report it to the person who asked you to collect data.",
   "doYouWantToFinishTheScorecard": "Do you want to finish the scorecard?",
   "ok": "OK",
-  "version": "Version"
+  "version": "Version",
+  "didYouEnterTheUrlCorrectly": "Did you enter the URL correctly?",
+  "ifYouKeepHavingThisProblem": "If you keep having this problem, report it to the person who asked you to collect data.",
+  "pleaseAddCriteria": "Please add criterias",
+  "raisedTimes": "Raised times",
+  "criteriaList": "Criteria list",
+  "pleaseSelectCriteria": "Please select criteria",
+  "numberOfSelectedCriterias": "# of selected",
 }

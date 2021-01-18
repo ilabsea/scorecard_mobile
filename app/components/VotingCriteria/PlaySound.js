@@ -10,8 +10,7 @@ import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
 import {PLAYING, PAUSED} from '../../utils/variable';
-
-import { isPlayingCriteria, clearPlayingCriteria } from '../../services/votingCriteriaService';
+import votingCriteriaService from '../../services/votingCriteriaService';
 
 class PlaySound extends Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class PlaySound extends Component {
   }
 
   async componentDidMount() {
-    const isPlaying = await isPlayingCriteria(this.props.position);
+    const isPlaying = await votingCriteriaService.isPlayingCriteria(this.props.position);
     if (isPlaying)
       this.setState({playState: 'playing'});
   }
@@ -50,8 +49,7 @@ class PlaySound extends Component {
   }
 
   playAudio() {
-    if (this.props.onPress)
-      this.props.onPress();
+    !!this.props.onPress && this.props.onPress();
 
     if (!this.props.filePath) {
       return;
@@ -61,7 +59,7 @@ class PlaySound extends Component {
     Sound.setCategory('Playback');
     let folder = this.props.isLocal ? Sound.MAIN_BUNDLE : '';
 
-    clearPlayingCriteria();
+    votingCriteriaService.clearPlayingCriteria();
     this.props.setRatingScaleAudioStatus(PAUSED);
 
     if (global.sound)
@@ -90,13 +88,14 @@ class PlaySound extends Component {
   }
 
   render() {
-    const { children, containerStyle } = this.props;
+    const { children, containerStyle, filePath } = this.props;
     let iconName = this.state.playState == 'playing' ? 'pause' : 'volume-medium';
+    let btnBg = !!filePath ? Color.headerColor : '#787878';
 
     return (
       <TouchableOpacity
         onPress={() => this.playAudio() }
-        style={[styles.btnAudio, containerStyle]}>
+        style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
 
         { children }
         <Icon name={iconName} style={{ color: '#fff'}}/>

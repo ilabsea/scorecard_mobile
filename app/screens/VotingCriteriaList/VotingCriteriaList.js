@@ -9,7 +9,6 @@ import { Icon, Button, Text } from 'native-base';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
-import realm from '../../db/schema';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import Color from '../../themes/color';
@@ -21,6 +20,8 @@ import { set } from '../../actions/currentScorecardAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+import scorecardService from '../../services/scorecardService';
+import * as participantService from '../../services/participant_service';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -31,22 +32,19 @@ class VotingCriteriaList extends Component {
     let scorecard_uuid = props.route.params.scorecard_uuid;
 
     this.state = {
-      scorecard: realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0],
-      votingCriterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecard_uuid}'`))),
+      scorecard: scorecardService.find(scorecard_uuid),
       participantVisible: false,
       addParticiantVisible: false,
     };
   }
 
   componentDidMount() {
-    realm.write(() => {
-      if (this.state.scorecard.status < 4) {
-        this.state.scorecard.status = '4';
-        this.props.setCurrentScorecard(this.state.scorecard);
-      }
-    });
+    if (this.state.scorecard.status < 4) {
+      scorecardService.update(this.state.scorecard.uuid, {status: '4'})
+      this.props.setCurrentScorecard(this.state.scorecard);
+    }
 
-    this.props.setVotingCriterias(this.state.votingCriterias, { scorecard_uuid: this.state.scorecard.uuid });
+    this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
   }
 
   _renderHeader() {
@@ -82,10 +80,10 @@ class VotingCriteriaList extends Component {
     return (
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row', marginTop: 20}}>
-          <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.state.votingCriterias.length}</Text>
+          <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingCriterias.length}</Text>
 
           <ParticipantInfo
-            participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false SORT(order ASC)`)}
+            participants={ participantService.getUnvoted(this.state.scorecard.uuid) }
             scorecard_uuid={ this.state.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
             onPressItem={(participant) => this._goToVotingForm(participant.uuid)}
@@ -130,7 +128,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAll: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+    refreshVotingCriteriaState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
     setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };

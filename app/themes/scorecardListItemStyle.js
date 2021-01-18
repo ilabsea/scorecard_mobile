@@ -40,7 +40,7 @@ const ListItemStyle = StyleSheet.create({
     justifyContent: 'center'
   },
   listItem: {
-    height: 160,
+    maxHeight: 160,
     backgroundColor: '#fff',
     marginBottom: 20,
     borderRadius: 4,

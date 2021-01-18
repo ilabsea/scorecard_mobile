@@ -196,9 +196,14 @@
   "successfullyAuthenticated": "ជោគជ័យក្នុងការផ្ទៀងផ្ទាត់",
   "emailOrPasswordIsIncorrect": "អ៊ីមែល​​​ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ",
   "cscAppCannotReachTheServerAt": "កម្មវិធី CSC មិនអាចភ្ជាប់ទំនាក់ទំនងជាមួយ",
-  "didYouEnterTheUrlCorrectly": " តើអ្នកបានបញ្ចូល URL ត្រឹមត្រូវទេ?",
-  "ifYouKeepHavingThisProblem": " ប្រសិនបើអ្នកនៅតែជួបប្រទះបញ្ហានេះសូមរាយការណ៍ទៅកាន់អ្នកដែលស្នើរសុំឱ្យអ្នកប្រមូលទិន្នន័យ។",
   "doYouWantToFinishTheScorecard": "តើអ្នកចង់បញ្ចប់ប័ណ្ណពិន្ទុនេះ?",
   "ok": "យល់ព្រម",
-  "version": "កំណែ"
+  "version": "កំណែ",
+  "didYouEnterTheUrlCorrectly": "តើអ្នកបានបញ្ចូល URL ត្រឹមត្រូវទេ?",
+  "ifYouKeepHavingThisProblem": "ប្រសិនបើអ្នកនៅតែជួបប្រទះបញ្ហានេះសូមរាយការណ៍ទៅកាន់អ្នកដែលស្នើរសុំឱ្យអ្នកប្រមូលទិន្នន័យ។",
+  "pleaseAddCriteria": "សូម​ជ្រើស​រើស​លក្ខណៈវិនិច្ឆ័យ",
+  "raisedTimes": "ចំនួនដងដែលបានស្នើរឡើង",
+  "criteriaList": "បញ្ជីលក្ខណៈវិនិច្ឆ័យ",
+  "pleaseSelectCriteria": "សូមធ្វើកាជ្រើសរើសលក្ខណៈវិនិច្ឆ័យ",
+  "numberOfSelectedCriterias": "ចំនួនលក្ខណៈវិនិច្ឆ័យដែលបានជ្រើសរើស",
 }

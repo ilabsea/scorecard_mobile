@@ -8,7 +8,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from '../ActionButton';
 import Color from '../../themes/color';
-import realm from '../../db/schema';
 import styles from '../../themes/participantListItemStyle';
 
 export default class ParticipantModalListItem extends Component {
