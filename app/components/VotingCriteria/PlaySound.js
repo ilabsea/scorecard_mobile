@@ -87,9 +87,16 @@ class PlaySound extends Component {
       this.props.onSavePlayingAudio();
   }
 
+  getIconName() {
+    if (!this.props.filePath) {
+      return 'volume-mute';
+    }
+
+    return this.state.playState == 'playing' ? 'pause' : 'volume-medium';
+  }
+
   render() {
     const { children, containerStyle, filePath } = this.props;
-    let iconName = this.state.playState == 'playing' ? 'pause' : 'volume-medium';
     let btnBg = !!filePath ? Color.headerColor : '#787878';
 
     return (
@@ -98,7 +105,7 @@ class PlaySound extends Component {
         style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
 
         { children }
-        <Icon name={iconName} style={{ color: '#fff'}}/>
+        <Icon name={this.getIconName()} style={{ color: '#fff'}}/>
       </TouchableOpacity>
     )
   }
