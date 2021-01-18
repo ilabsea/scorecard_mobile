@@ -98,7 +98,7 @@ function AppNavigator() {
         name="VotingCriteriaForm"
         component={VotingCriteriaFormScreen}
         options={{
-          headerTitle: "Scorecard Voting",
+          headerTitle: `${translations['scorecardVoting']}`,
         }}
       />
       <Stack.Screen

@@ -97,7 +97,7 @@
   "note": "ចំណាំ",
   "action": "សកម្មភាព",
   "finish": "បញ្ចប់",
-  "recordNewUser": "Recored New User",
+  "recordNewUser": "ការកំណត់អ្នកចូលរួមថ្មី",
   "ageRequireMsg": "ត្រូវការអាយុ",
   "ageMustBeNumber": "អាយុត្រូវតែជាលេខ",
   "ageMustBePositive": "អាយុត្រូវតែជាចំនួនវិជ្ជមាន",
@@ -114,7 +114,6 @@
   "insertAge": "សូមបញ្ចូលអាយុ",
   "insertGender": "សូមបញ្ចូលភេទ",
   "inputText": "បញ្ចូលមាតិកា",
-  "addNewScorecardVoting": "បង្កើតការបោះឆ្នោតថ្មី",
   "insertAge": "សូមបញ្ចូលអាយុ",
   "insertGender": "សូមបញ្ចូលភេទ",
   "cancel": "បោះបង់",
@@ -206,4 +205,6 @@
   "criteriaList": "បញ្ជីលក្ខណៈវិនិច្ឆ័យ",
   "pleaseSelectCriteria": "សូមធ្វើកាជ្រើសរើសលក្ខណៈវិនិច្ឆ័យ",
   "numberOfSelectedCriterias": "ចំនួនលក្ខណៈវិនិច្ឆ័យដែលបានជ្រើសរើស",
+  "scorecardVoting": "ការដាក់ពិន្ទុ",
+  "selectParticipant": "សូមជ្រើសរើសអ្នកចូលរួម"
 }
