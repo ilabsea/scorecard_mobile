@@ -21,6 +21,11 @@ class NumericInput extends Component {
     !!this.props.onFocus && this.props.onFocus();
   }
 
+  onBlur = () => {
+    if (!this.props.value)
+      this.props.onChangeText(0);
+  }
+
   getErrorMessage() {
     const { translations } = this.context;
 
@@ -43,6 +48,7 @@ class NumericInput extends Component {
           theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}
           hasActiveOutline={true}
           onFocus={ () => this.onFocus() }
+          onBlur={ () => this.onBlur() }
         />
 
         <Text style={styles.messageLabel}>{ this.getErrorMessage() }</Text>

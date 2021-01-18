@@ -21,7 +21,7 @@ class IndependentValidtionInputField extends Component {
 
     this.setState( {
       participant: participant,
-      isValid: !!participant
+      isValid: !!participant && participant > 0
     }, () => {
       this.props.onParticipantChange();
     });
