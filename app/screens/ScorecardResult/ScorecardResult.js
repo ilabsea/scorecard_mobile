@@ -15,6 +15,7 @@ import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
+import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 
@@ -35,7 +36,8 @@ class ScorecardResult extends Component {
     this.state = {
       scorecard: realm.objects('Scorecard').filtered(`uuid == '${props.route.params.scorecard_uuid}'`)[0],
       currentCriteria: {},
-      visible: false
+      visible: false,
+      visibleConfirmModal: false,
     };
   }
 
@@ -84,26 +86,6 @@ class ScorecardResult extends Component {
     });
   }
 
-  _finish() {
-    const { translations } = this.context;
-
-    Alert.alert(
-      translations.finish,
-      translations.doYouWantToFinishTheScorecard,
-      [
-        {
-          text: translations.cancel,
-          style: "cancel"
-        },
-        {
-          text: translations.ok,
-          onPress: () => this._confirmFinish(),
-        }
-      ],
-      { cancelable: false }
-    );
-  }
-
   _confirmFinish() {
     scorecardService.updateFinishStatus(this.state.scorecard.uuid);
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
@@ -130,7 +112,7 @@ class ScorecardResult extends Component {
 
         <View style={{margin: 20}}>
           <BottomButton
-            onPress={() => this._finish()}
+            onPress={() => this.setState({visibleConfirmModal: true})}
             customBackgroundColor={Color.headerColor}
             iconName={'checkmark'}
             label={translations.finish}/>
@@ -139,6 +121,16 @@ class ScorecardResult extends Component {
             visible={this.state.visible}
             criteria={this.state.currentCriteria}
             onDismiss={() => this.setState({visible: false})}
+          />
+
+          <MessageModal
+            visible={this.state.visibleConfirmModal}
+            onDismiss={() => this.setState({visibleConfirmModal: false})}
+            title={translations.finish}
+            description={translations.doYouWantToFinishTheScorecard}
+            hasConfirmButton={true}
+            confirmButtonLabel={translations.ok}
+            onPressConfirmButton={() => this._confirmFinish()}
           />
         </View>
       </View>

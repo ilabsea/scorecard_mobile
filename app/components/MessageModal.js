@@ -28,10 +28,10 @@ class MessageModal extends Component {
 
           <View style={CustomStyle.modalBtnWrapper}>
             <CloseButton onPress={this.props.onDismiss} label={translations.close} />
-            { this.props.hasSaveButton &&
+            { this.props.hasConfirmButton &&
               <SaveButton
-                label={this.props.actionSaveLabel}
-                onPress={() => this.props.onPressSaveButton()}
+                label={this.props.confirmButtonLabel}
+                onPress={() => this.props.onPressConfirmButton()}
               />
             }
           </View>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 20,
+    width: '50%',
     marginHorizontal: 30,
     justifyContent: 'flex-start',
     alignSelf: 'center',
