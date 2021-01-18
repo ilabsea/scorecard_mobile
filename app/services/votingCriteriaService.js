@@ -79,8 +79,10 @@ const votingCriteriaService = (() => {
 
     function _updateCriteria(criteria) {
       let criteriaObj = find(criteria.uuid);
-      criteriaObj[_getCountMethod(criteria)] += 1;
-      criteriaObj.median = _getEverageScore(criteriaObj);
+      realm.write(() => {
+        criteriaObj[_getCountMethod(criteria)] += 1;
+        criteriaObj.median = _getAverageScore(criteriaObj);
+      });
     }
 
     function _buildRatingData(criteria, participant_uuid) {
@@ -97,7 +99,7 @@ const votingCriteriaService = (() => {
       return ratings.filter(rating => rating.value == criteria.ratingScore)[0]['countMethodName'];
     }
 
-    function _getEverageScore(criteria) {
+    function _getAverageScore(criteria) {
       let arr = [];
 
       for(let i=0; i<ratings.length; i++) {
