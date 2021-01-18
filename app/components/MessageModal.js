@@ -4,7 +4,7 @@ import { Modal, Portal} from 'react-native-paper';
 
 import { LocalizationContext } from './Translations';
 import CloseButton from './CloseButton';
-import ActionButton from './ActionButton';
+import SaveButton from './SaveButton';
 
 import CustomStyle from '../themes/customStyle';
 
@@ -21,17 +21,17 @@ class MessageModal extends Component {
           onDismiss={this.props.onDismiss}
           contentContainerStyle={styles.container}
         >
-          <Text style={CustomStyle.modalTitle}>{translations.locked}</Text>
+          <Text style={CustomStyle.modalTitle}>{this.props.title}</Text>
           <Text stle={{marginTop: 10}}>
-            { translations.alreadyUploaded }
+            { this.props.description }
           </Text>
 
           <View style={CustomStyle.modalBtnWrapper}>
             <CloseButton onPress={this.props.onDismiss} label={translations.close} />
-            { this.props.hasActionButton &&
-              <ActionButton
-                label={this.props.actionButtonLabel}
-                onPress={() => this.props.onPressActionButton()}
+            { this.props.hasSaveButton &&
+              <SaveButton
+                label={this.props.actionSaveLabel}
+                onPress={() => this.props.onPressSaveButton()}
               />
             }
           </View>

@@ -156,7 +156,7 @@ class ScorecardProgress extends Component {
           onDismiss={() => this.setState({visibleMessageModal: false})}
           title={translations.locked}
           description={translations.alreadyUploaded}
-          hasActionButton={false}
+          hasSaveButton={false}
         />
       </View>
     )
