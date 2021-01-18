@@ -34,7 +34,7 @@ export default class ContactListItem extends Component {
     return (
       <TouchableOpacity
         key={uuidV4()}
-        onPress={ () => !!this.props.onPress && this.props.onPress() }
+        onPress={ () => !!this.props.onPress && this.props.onPress(this.props.contact) }
         style={[styles.listItem, styles.card]}>
 
         { this.renderStatusIcon(contact, iconName) }
