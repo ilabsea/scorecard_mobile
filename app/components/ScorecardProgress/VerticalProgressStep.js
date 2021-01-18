@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text,
-  Alert
 } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
@@ -30,11 +28,9 @@ export default class VerticalProgressStep extends Component {
     const { translations } = this.context;
 
     if (this.state.scorecard.isUploaded) {
-      return Alert.alert(translations.locked, translations.alreadyUploaded);
-    }
-
-    if (this.state.scorecard.finished || step.value < this.props.progressIndex)
+      this.props.showMessageModal();
       return;
+    }
 
     this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.props.localNgoId })
   }
