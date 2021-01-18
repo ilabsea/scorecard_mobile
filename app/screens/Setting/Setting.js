@@ -246,6 +246,7 @@ class Setting extends Component {
       return;
     }
 
+    this.setState({messageType: 'error'});
     const error = response.error;
 
     if (error.toLowerCase() === 'invalid email or password!')
