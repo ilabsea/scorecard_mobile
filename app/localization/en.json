@@ -114,7 +114,6 @@
   "insertAge": "Please insert age",
   "insertGender": "Please insert gender",
   "inputText": "Input Text",
-  "addNewScorecardVoting": "Add New Scorecard Voting",
   "insertAge": "Please insert age",
   "insertGender": "Please insert gender",
   "cancel": "Cancel",
@@ -206,4 +205,6 @@
   "criteriaList": "Criteria list",
   "pleaseSelectCriteria": "Please select criteria",
   "numberOfSelectedCriterias": "# of selected",
+  "scorecardVoting": "Scorecard Voting",
+  "selectParticipant": "Select participant"
 }

@@ -14,7 +14,6 @@ import uuidv4 from '../../utils/uuidv4';
 import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
 
-import HeaderTitle from '../../components/HeaderTitle';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
 class CreateNewIndicator extends Component {
@@ -137,9 +136,13 @@ class CreateNewIndicator extends Component {
   };
 
   _renderParticipant() {
+    const { translations } = this.context;
+
     return (
       <View>
-        <HeaderTitle headline="createNewProposedCriteria" subheading="pleaseCheckScorecardDetailBelow"/>
+        <Text style={{fontSize: 18, color: '#2e2e2e'}}>
+          {translations.selectParticipant}
+        </Text>
 
         <ParticipantInfo
           participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.route.params.scorecard_uuid}' AND raised=false SORT(order ASC)`)}
