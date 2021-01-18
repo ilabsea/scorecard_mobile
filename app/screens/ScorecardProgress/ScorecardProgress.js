@@ -10,6 +10,7 @@ import {
 import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import scorecardService from '../../services/scorecardService';
@@ -32,6 +33,7 @@ class ScorecardProgress extends Component {
       showProgress: false,
       visibleModal: false,
       errorType: null,
+      visibleMessageModal: false,
     };
   }
 
@@ -132,7 +134,9 @@ class ScorecardProgress extends Component {
             progressIndex={this.state.scorecard.status || 3}
             scorecardUuid={this.state.scorecard.uuid}
             navigation={this.props.navigation}
-            localNgoId={this.state.scorecard.local_ngo_id}/>
+            localNgoId={this.state.scorecard.local_ngo_id}
+            showMessageModal={() => this.setState({ visibleMessageModal: true })}
+          />
         </ScrollView>
 
         <View style={{padding: 20}}>
@@ -145,6 +149,14 @@ class ScorecardProgress extends Component {
           visible={this.state.visibleModal}
           onDismiss={() => this.setState({visibleModal: false})}
           errorType={this.state.errorType}
+        />
+
+        <MessageModal
+          visible={this.state.visibleMessageModal}
+          onDismiss={() => this.setState({visibleMessageModal: false})}
+          title={translations.locked}
+          description={translations.alreadyUploaded}
+          hasSaveButton={false}
         />
       </View>
     )
