@@ -34,7 +34,13 @@ const CustomStyle = StyleSheet.create({
     marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'flex-end'
-  }
+  },
+  indicatorShortcutLabel: {
+    fontSize: 60,
+    color: '#787878',
+    fontFamily: FontFamily.title,
+    textTransform: 'uppercase',
+  },
 });
 
 export default CustomStyle;

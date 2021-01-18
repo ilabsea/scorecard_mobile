@@ -11,10 +11,10 @@ import { Icon } from 'native-base';
 import { Button } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import { getDisplayIndicator } from '../../services/indicator_service';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import itemStyles from '../../themes/scorecardListItemStyle';
 import PlaySound from '../VotingCriteria/PlaySound';
 import Color from '../../themes/color';
+import CustomStyle from '../../themes/customStyle';
 import scorecardService from '../../services/scorecardService';
 
 class ProposedCriteriaItem extends Component {
@@ -36,7 +36,7 @@ class ProposedCriteriaItem extends Component {
 
     return (
       <View style={[itemStyles.statusIconWrapper, styles.statusIconWrapper, activeStyle]}>
-        <Text style={[styles.shortcutTitle, {color: textColor}]}>{this.state.indicator.content[0]}</Text>
+        <Text style={[CustomStyle.indicatorShortcutLabel, {color: textColor}]}>{this.state.indicator.content[0]}</Text>
       </View>
     )
   }
@@ -92,9 +92,4 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 3,
     borderBottomLeftRadius: 3
   },
-  shortcutTitle: {
-    fontSize: 60,
-    fontFamily: FontFamily.title,
-    textTransform: 'uppercase'
-  }
 })
