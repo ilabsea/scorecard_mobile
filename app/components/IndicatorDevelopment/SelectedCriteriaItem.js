@@ -18,6 +18,8 @@ import PlaySound from '../VotingCriteria/PlaySound';
 import scorecardService from '../../services/scorecardService';
 import { getDisplayIndicator } from '../../services/indicator_service';
 
+import CustomStyle from '../../themes/customStyle';
+
 class SelectedCriteriaItem extends Component {
   static contextType = LocalizationContext;
 
@@ -34,7 +36,7 @@ class SelectedCriteriaItem extends Component {
   renderShortcutLabel() {
     return (
       <View style={[styles.statusIconWrapper, {backgroundColor: '#d0cdcd'}]}>
-        <Text style={{fontSize: 60, color: '#787878', fontFamily: FontFamily.title}}>{this.state.indicator.content[0]}</Text>
+        <Text style={CustomStyle.indicatorShortcutLabel}>{this.state.indicator.content[0]}</Text>
       </View>
     )
   }

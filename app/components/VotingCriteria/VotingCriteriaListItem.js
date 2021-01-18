@@ -18,6 +18,7 @@ import Images from '../../utils/images';
 import ratings from '../../db/jsons/ratings';
 import { Median } from '../../utils/math';
 import { getDisplayIndicator } from '../../services/indicator_service';
+import CustomStyle from '../../themes/customStyle';
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
@@ -25,7 +26,9 @@ export default class VotingCriteriaListItem extends Component {
   _renderAvata(scorecard, indicator) {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
-        <Text style={[styles.capitalize, {fontSize: 60}]}>{indicator.content[0] || indicator.name[0]}</Text>
+        <Text style={CustomStyle.indicatorShortcutLabel}>
+          {indicator.content[0] || indicator.name[0]}
+        </Text>
       </View>
     )
   }
