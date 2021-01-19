@@ -104,7 +104,7 @@ class CriteriaSelection extends Component {
           </View>
 
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left'}}>{displayName}</Text>
+            <Text style={{textAlign: 'left'}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 
