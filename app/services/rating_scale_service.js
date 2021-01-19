@@ -66,9 +66,14 @@ class RatingScaleService {
     realm.write(() => {
       realm.create('LanguageRatingScale', attrs, 'modified');
     });
-    this._checkAndSave(languageRatingScale, callback, () => {
+
+    if (languageRatingScale.audio) {
+      this._checkAndSave(languageRatingScale, callback, () => {
+        this._saveLanguageRatingScale(index + 1, ratingScale, programId, callback, callbackSaveRatingScale);
+      })
+    }
+    else
       this._saveLanguageRatingScale(index + 1, ratingScale, programId, callback, callbackSaveRatingScale);
-    })
   }
 
   async _checkAndSave(languageRatingScale, callback, callBackSaveLanguageRatingScale) {

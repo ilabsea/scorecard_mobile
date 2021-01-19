@@ -86,7 +86,7 @@ class ScorecardDetail extends Component {
       const phases = [
         {
           value: indicatorPhase,
-          save: saveIndicator(scorecard_uuid, indicators, (isDownloaded) => {
+          save: saveIndicator(0, scorecard_uuid, indicators, (isDownloaded) => {
             this._callback(indicatorPhase, isDownloaded);
           })
         },
