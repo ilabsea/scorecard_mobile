@@ -61,8 +61,9 @@ class ProposedCriteriaModal extends Component {
             selectedAmount={ this.selectedAmount() }
             onPress={(item, action) => this.handleAddingCriteria(item, action)}
             maximumCriteriaAmount={this.maximumCriteriaAmount}
-            criteria={item.item} />
+            criteria={item.item}/>
         }
+        keyExtractor={(item, index) => index}
       />
     )
   }
