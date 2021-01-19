@@ -23,7 +23,7 @@ import CustomStyle from '../../themes/customStyle';
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
 
-  _renderAvata(scorecard, indicator) {
+  _renderAvatar(scorecard, indicator) {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
         <Text style={CustomStyle.indicatorShortcutLabel}>
@@ -97,17 +97,6 @@ export default class VotingCriteriaListItem extends Component {
     );
   }
 
-  _renderViewDetail() {
-    const { translations } = this.context;
-
-    return (
-      <View style={cardListItemStyle.viewDetail}>
-        <Text>{translations.viewDetail}</Text>
-        <Icon name='chevron-forward-outline' style={{fontSize: 24}} />
-      </View>
-    )
-  }
-
   render() {
     let scorecard = this.props.scorecard || {};
     let indicator = getDisplayIndicator(this.props.criteria);
@@ -115,16 +104,12 @@ export default class VotingCriteriaListItem extends Component {
     return (
       <TouchableOpacity
         onPress={ () => !!this.props.onPress && this.props.onPress() }
-        style={[cardListItemStyle.listItem, customStyle.card, {minHeight: 160}]}>
+        style={[cardListItemStyle.listItem, customStyle.card, {minHeight: 138}]}>
 
-        { this._renderAvata(scorecard, indicator) }
+        { this._renderAvatar(scorecard, indicator) }
 
         <View style={cardListItemStyle.contentWrapper}>
           { this._renderContent(indicator) }
-
-          <View style={{flex: 1, minHeight: 10}}></View>
-
-          { this._renderViewDetail() }
         </View>
       </TouchableOpacity>
     )
