@@ -36,15 +36,7 @@ const ScorecardResultTableRow = (props) => {
 
   const renderEditText = (fieldName) => {
     return (
-      <View style={{flexDirection: 'row', padding: 6, alignItems: 'center'}}>
-        <View style={{flex: 1, height: 100}}>
-          <HTML html={criteria[fieldName]}
-            alterChildren={(node) => alterChildren(node)}
-            tagsStyles={tagsStyles()}
-            alterData={(node) => alterData(node)}
-          />
-        </View>
-
+      <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
         <TouchableOpacity onPress={() => onPress(fieldName)} style={{width: 28, height: 28, backgroundColor: Color.headerColor, justifyContent: 'center', alignItems: 'center', borderRadius: 14, marginLeft: 10}}>
           <Icon name={'pen'} type="FontAwesome5" style={{color: '#fff', fontSize: 14}}/>
         </TouchableOpacity>
