@@ -112,11 +112,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const getRaisedParticipants = (reducerParticipants, scorecardUuid, ) => {
-  if (reducerParticipants.length === 0)
-    return realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
-
-  return reducerParticipants;
+const getRaisedParticipants = (scorecardUuid) => {
+  return realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
 }
 
 const getParticipantInfo = (scorecardUuid, participantUuid) => {
