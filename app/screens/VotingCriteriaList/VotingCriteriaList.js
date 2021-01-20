@@ -22,6 +22,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import scorecardService from '../../services/scorecardService';
 import * as participantService from '../../services/participant_service';
+import InstructionModal from '../../components/InstructionModal';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -33,6 +34,7 @@ class VotingCriteriaList extends Component {
       scorecard: scorecardService.find(props.route.params.scorecard_uuid),
       participantVisible: false,
       addParticiantVisible: false,
+      visibleInstructionModal: true,
     };
   }
 
@@ -115,6 +117,11 @@ class VotingCriteriaList extends Component {
             customBackgroundColor={Color.headerColor}
             label={translations.next}/>
         </View>
+
+        <InstructionModal
+          screenName='VotingCriteriaList'
+          visible={this.state.visibleInstructionModal}
+          onDimiss={() => this.setState({visibleInstructionModal: false})} />
       </View>
     )
   }

@@ -1,5 +1,11 @@
 export default [
   {
+    screenName: "ParticipantList",
+    title: "វិធីបញ្ចូលព័ត៌មានអ្នកចូលរួម",
+    description: "",
+    tips: []
+  },
+  {
     screenName: 'RaisingProposed',
     title: 'វិធីដើម្បីបំផុសលក្ខណៈវិន្និច្ឆ័យ',
     description: '',
