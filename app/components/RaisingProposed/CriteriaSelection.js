@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions, Image} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
@@ -97,10 +97,12 @@ class CriteriaSelection extends Component {
           onPress={() => this.selectIndicator(index)}>
 
           <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
-            {index != this.state.indicators.length - 1 &&
-              <Text style={[styles.criteriaShortcut, this.shortcutColor(indicator)]}>{getIndicatorShortcutName(displayName)}</Text>
+            { index != this.state.indicators.length - 1 && !!indicator.local_image &&
+              <Image source={{uri: `file://${indicator.local_image}`}} style={{width: 100, height: 100}} resizeMode={'contain'} />
             }
             {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
+
+
           </View>
 
           <View style={styles.detailContainer}>
@@ -145,6 +147,7 @@ class CriteriaSelection extends Component {
         isSelected: false,
         tag: indicator.tag,
         type: indicator.id != undefined ? 'predefined' : 'custom',
+        local_image: indicator.local_image,
       };
       if (proposedCriterias != undefined) {
         for (let i=0; i<proposedCriterias.length; i++) {

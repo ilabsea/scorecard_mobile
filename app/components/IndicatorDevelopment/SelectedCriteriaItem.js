@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text
+  Text,
+  Image,
 } from 'react-native';
 
 import { Button } from 'react-native-paper';
@@ -34,9 +35,13 @@ class SelectedCriteriaItem extends Component {
   }
 
   renderShortcutLabel() {
+    const { indicator } = this.state;
+
     return (
       <View style={[styles.statusIconWrapper, {backgroundColor: '#d0cdcd'}]}>
-        <Text style={CustomStyle.indicatorShortcutLabel}>{this.state.indicator.content[0]}</Text>
+        { !!indicator.local_image &&
+          <Image source={{uri: `file://${indicator.local_image}`}} style={{width: 130, height: 130}} resizeMode={'contain'} />
+        }
       </View>
     )
   }

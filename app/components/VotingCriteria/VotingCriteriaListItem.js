@@ -26,9 +26,9 @@ export default class VotingCriteriaListItem extends Component {
   _renderAvatar(scorecard, indicator) {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
-        <Text style={CustomStyle.indicatorShortcutLabel}>
-          {indicator.content[0] || indicator.name[0]}
-        </Text>
+        { !!indicator.local_image &&
+          <Image source={{uri: `file://${indicator.local_image}`}} style={{width: 130, height: 130}} resizeMode={'contain'} />
+        }
       </View>
     )
   }

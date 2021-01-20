@@ -3,8 +3,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Alert,
-  Text
+  Text,
+  Image,
 } from 'react-native';
 
 import { Icon } from 'native-base';
@@ -32,11 +32,13 @@ class ProposedCriteriaItem extends Component {
 
   renderShortcutLabel() {
     let activeStyle = this.state.active ? { backgroundColor: Color.headerColor } : {};
-    let textColor = this.state.active ? '#fff' : '#787878';
+    const { indicator } = this.state;
 
     return (
       <View style={[itemStyles.statusIconWrapper, styles.statusIconWrapper, activeStyle]}>
-        <Text style={[CustomStyle.indicatorShortcutLabel, {color: textColor}]}>{this.state.indicator.content[0]}</Text>
+        { !!indicator.local_image &&
+          <Image source={{uri: `file://${indicator.local_image}`}} style={{width: 120, height: 120}} resizeMode={'contain'} />
+        }
       </View>
     )
   }
@@ -70,7 +72,7 @@ class ProposedCriteriaItem extends Component {
             <Text style={itemStyles.subText}>{translations.raisedTimes}: ({this.props.criteria.count})</Text>
           </View>
 
-          <View style={{paddingRight: 16, justifyContent: 'center'}}>
+          <View style={{paddingRight: 16, paddingBottom: 16, justifyContent: 'flex-end'}}>
             <PlaySound filePath={this.state.indicator.local_audio}/>
           </View>
         </View>
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
   statusIconWrapper: {
     backgroundColor: '#d0cdcd',
     borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3
+    borderBottomLeftRadius: 3,
+    height: 120,
   },
 })

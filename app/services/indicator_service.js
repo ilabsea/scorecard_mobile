@@ -60,10 +60,12 @@ const getDisplayIndicator = (indicatorable, scorecardObj) => {
 }
 
 function getPredefinedIndicator(indicatorable, scorecard) {
+  let predefined = realm.objects('Indicator').filtered(`id='${indicatorable.indicatorable_id}'`)[0];
   let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0];
-  indi = indi || realm.objects('Indicator').filtered(`id='${indicatorable.indicatorable_id}'`)[0];
+  indi = indi || predefined;
   indi = JSON.parse(JSON.stringify(indi));
   indi.content = indi.content || indi.name;
+  indi.local_image = predefined.local_image;
 
   if (!scorecard.isSameLanguageCode) {
     let textIndi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.text_language_code}'`)[0];
