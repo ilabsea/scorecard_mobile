@@ -14,7 +14,8 @@ class CriteriaList extends Component {
 
   renderCriteriaList = () => {
     const {translations} = this.context;
-    const criterias = this.props.criterias.length > 0 ? this.props.criterias : this.criteria.getCriterias();
+
+    const criterias = this.criteria.getCriterias();
     return criterias.map((criteria, index) => {
       const criteriaName = index === 0 ? translations['allCriteria'] : criteria.name;
       return (<CriteriaCard criteria={criteria} criteriaName={criteriaName} index={index} key={index} />);

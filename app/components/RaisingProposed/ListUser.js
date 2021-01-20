@@ -14,7 +14,7 @@ class ListUser extends Component {
   static contextType = LocalizationContext;
 
   getParticipant = () => {
-    const raisedParticipants = getRaisedParticipants(this.props.participants, this.props.scorecardUUID);
+    const raisedParticipants = getRaisedParticipants(this.props.scorecardUUID);
     let participants = [];
 
     for (let i=0; i<raisedParticipants.length; i++) {

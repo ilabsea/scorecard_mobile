@@ -19,7 +19,7 @@ class UserListing extends Component {
   }
 
   hasRaisedCriteria = () => {
-    const raisedParticipants = getRaisedParticipants(this.props.participants, this.props.scorecardUUID);
+    const raisedParticipants = getRaisedParticipants(this.props.scorecardUUID);
     const criteria = new Criteria(this.props.scorecardUUID);
     return criteria.hasRaisedCritria(raisedParticipants)
   }
