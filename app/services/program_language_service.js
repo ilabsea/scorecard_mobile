@@ -1,9 +1,18 @@
 import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4';
 import { handleApiResponse } from './api_service';
-import ProgramLanguageApi from '../api/ProgramLanguageApi';
 
-const save = async (programId, callback) => {
+import ProgramLanguageApi from '../api/ProgramLanguageApi';
+import { programLanguagePhase } from '../constants/scorecard_constant';
+
+import { isPhaseDownloaded } from './scorecard_download_service';
+
+const save = async (scorecardUuid, programId, successCallback, errorCallback) => {
+  if (isPhaseDownloaded(scorecardUuid, programLanguagePhase)) {
+    successCallback(true, programLanguagePhase);
+    return;
+  }
+
   let savedCount = 0;
   const programLanguageApi = new ProgramLanguageApi();
   const response = await programLanguageApi.load(programId);
@@ -25,9 +34,10 @@ const save = async (programId, callback) => {
       savedCount += 1;
     });
 
-    callback(savedCount === languages.length);
+    successCallback(savedCount === languages.length, programLanguagePhase);
   }, (error) => {
     console.log('error download program language = ', error);
+    errorCallback();
   });
 };
 

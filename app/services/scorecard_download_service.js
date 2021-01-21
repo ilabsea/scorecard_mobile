@@ -35,6 +35,11 @@ const update = (scorecardUuid, phase, updateDownloadProgress) => {
   }
 
   let downloadPhases = JSON.parse(scorecardDownload.step);
+  if (downloadPhases[phase] === 'downloaded') {
+    updateDownloadProgress();
+    return;
+  }
+
   downloadPhases[phase] = 'downloaded';
 
   const attrs = {

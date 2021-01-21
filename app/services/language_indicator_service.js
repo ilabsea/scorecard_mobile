@@ -1,7 +1,46 @@
 import realm from '../db/schema';
 import {PREDEFINED} from '../utils/variable';
+import { languageIndicatorPhase, langIndicatorAudioPhase } from '../constants/scorecard_constant';
+import { downloadAudio } from './download_service';
 
-const saveLanguageIndicator = (scorecardUUID, indicators, callback) => {
+class LanguageIndicatorService {
+  constructor() {
+    this.isStopDownload = false;
+  }
+
+  saveAudio = (scorecardUuid, successCallback, errorCallback) => {
+    const langIndicators = realm.objects('LanguageIndicator').filtered(`scorecard_uuid == '${scorecardUuid}'`);
+    const options = {
+      items: langIndicators,
+      type: 'indicator',
+      phase: langIndicatorAudioPhase,
+    };
+
+    downloadAudio(0, options, successCallback, errorCallback, this._saveLocalAudioToLangIndicator);
+  }
+
+  stopDownload = () => {
+    this.isStopDownload = true;
+  }
+
+  _saveLocalAudioToLangIndicator = (langIndicator, localAudioFilePath, callbackDownload) => {
+    const attrs = {
+      id: langIndicator.id.toString(),
+      local_audio: localAudioFilePath,
+    };
+
+    realm.write(() => {
+      realm.create('LanguageIndicator', attrs, 'modified');
+    });
+
+    if (this.isStopDownload)
+      return;
+
+    callbackDownload();
+  }
+}
+
+const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
   let savedCount = 0;
   indicators.map(indicator => {
     const languagesIndicators = indicator['languages_indicators'];
@@ -24,8 +63,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, callback) => {
     }
     savedCount += 1;
   });
-
-  callback(savedCount === indicators.length);
+  successCallback(savedCount === indicators.length, languageIndicatorPhase);
 }
 
 const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
@@ -34,4 +72,8 @@ const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
   return realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
 }
 
-export {saveLanguageIndicator, getLanguageIndicator};
+export {
+  saveLanguageIndicator,
+  getLanguageIndicator,
+  LanguageIndicatorService,
+};
