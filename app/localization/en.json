@@ -195,7 +195,7 @@
   "successfullyAuthenticated": "Successfully authenticated",
   "emailOrPasswordIsIncorrect": "Email or password is incorrect",
   "cscAppCannotReachTheServerAt": "CSC app cannot reach the server at",
-  "doYouWantToFinishTheScorecard": "Do you want to finish the scorecard?",
+  "doYouWantToFinishTheScorecard": "Do you want to finish this scorecard?",
   "ok": "OK",
   "version": "Version",
   "didYouEnterTheUrlCorrectly": "Did you enter the URL correctly?",
