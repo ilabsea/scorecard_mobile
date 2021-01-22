@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Imagebackground, ImageBackground} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
@@ -38,10 +38,6 @@ class CriteriaSelection extends Component {
       this.audioPlayer.release();
   }
 
-  iconContainerBackground = (indicator) => {
-    return indicator.isSelected ? {backgroundColor: Color.primaryButtonColor} : {};
-  }
-
   shortcutColor = (indicator) => {
     return indicator.isSelected ? {color: '#ffffff'} : {};
   }
@@ -71,7 +67,7 @@ class CriteriaSelection extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    return indicator.isSelected ? { borderColor: Color.primaryButtonColor } : {};
+    return indicator.isSelected ? { borderColor: Color.primaryButtonColor, borderWidth: 2 } : {};
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
@@ -96,13 +92,16 @@ class CriteriaSelection extends Component {
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.selectIndicator(index)}>
 
-          <View style={[styles.iconContainer, this.iconContainerBackground(indicator)]}>
+          <View style={[
+            styles.iconContainer,
+            !!indicator.local_image ? {backgroundColor: 'transparent'} : {},
+            index === this.state.indicators.length - 1 ? {marginBottom: -2} : {}
+          ]}
+          >
             { index != this.state.indicators.length - 1 && !!indicator.local_image &&
-              <Image source={{uri: `file://${indicator.local_image}`}} style={{width: 100, height: 100}} resizeMode={'contain'} />
+              <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={styles.indicatorImage} resizeMode='contain' />
             }
             {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
-
-
           </View>
 
           <View style={styles.detailContainer}>
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
     width: itemWidth,
     height: 100,
     borderWidth: 1,
-    borderColor: 'transparent'
+    borderColor: 'transparent',
   },
   criteriaBox: {
     flexDirection: 'row',
@@ -216,6 +215,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  indicatorImage: {
+    width: '99%',
+    height: '99%',
+    borderWidth: 0,
+    borderColor: 'transparent'
+  }
 });
 
 export default CriteriaSelection;

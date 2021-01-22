@@ -1,15 +1,33 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
+import { find as findIndicator } from '../../services/indicator_service';
+
 class CriteriaCard extends Component {
+  renderCriteriaImage = () => {
+    const indicator = this.props.criteria.indicatorable_type === 'predefined' ? findIndicator(this.props.criteria.indicatorable_id) : null;
+
+    if (indicator && indicator.local_image)
+      return (
+        <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={{width: '100%', height: '100%'}} resizeMode='contain' />
+      );
+
+    return <View style={styles.blankContainer}/>
+  }
+
   render() {
     const {criteria, criteriaName, index} = this.props;
     return (
       <View key={index} style={styles.criteriaCardContainer}>
         <View style={styles.iconContainer}>
-          {index === 0 && <MaterialIcon name={criteria.shortcut} size={24} color="#787878" /> }
-          {index > 0 && <Text style={styles.criteriaShortcut}>{criteria.shortcut}</Text>}
+          {index === 0 &&
+            <View style={[styles.blankContainer, { justifyContent: 'center', alignItems: 'center' }]}>
+              <MaterialIcon name={criteria.shortcut} size={24} color="#787878" />
+            </View>
+          }
+
+          {index > 0 && this.renderCriteriaImage()}
         </View>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.criteriaLabel}>{criteriaName}</Text>
@@ -34,7 +52,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 75,
     height: 75,
-    backgroundColor: '#d0cdcd',
     justifyContent: 'center',
     alignItems: 'center',
     borderTopLeftRadius: 2,
@@ -62,6 +79,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: -4,
   },
+  blankContainer: {
+    backgroundColor: '#d0cdcd',
+    width: '100%',
+    height: '100%',
+  }
 });
 
 export default CriteriaCard;

@@ -18,6 +18,7 @@ const save = async (localNgoId, callback) => {
         savedCount += 1;
       });
     });
+
     callback(savedCount === cafs.length);
   }, (error) => {
     console.log('error download caf = ', error);

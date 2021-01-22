@@ -32,18 +32,22 @@ class RatingScaleService {
     }
 
     const ratingScale = ratingScales[index];
-    const attrs = {
-      id: ratingScale.id,
-      name: ratingScale.name,
-      value: ratingScale.value,
-      program_id: programId,
-    };
-    realm.write(() => {
-      realm.create('RatingScale', attrs, 'modified');
-    });
-    this._saveLanguageRatingScale(0, ratingScale, programId, callback, () => {
+    if (!this._isExist(ratingScale.id)) {
+      const attrs = {
+        id: ratingScale.id,
+        name: ratingScale.name,
+        value: ratingScale.value,
+        program_id: programId,
+      };
+      realm.write(() => {
+        realm.create('RatingScale', attrs, 'modified');
+      });
+      this._saveLanguageRatingScale(0, ratingScale, programId, callback, () => {
+        this._saveRatingScale(index + 1, ratingScales, programId, callback);
+      });
+    }
+    else
       this._saveRatingScale(index + 1, ratingScales, programId, callback);
-    });
   }
 
   _saveLanguageRatingScale(index, ratingScale, programId, callback, callbackSaveRatingScale) {
@@ -85,7 +89,7 @@ class RatingScaleService {
     if (!isAudioExist)
       this._downloadAudio(languageRatingScale, fileName, callback, callBackSaveLanguageRatingScale);
     else
-      console.log('audio already exist');
+      callBackSaveLanguageRatingScale();
   }
 
   _downloadAudio(languageRatingScale, filename, callback, callbackSaveLanguageRatingScale) {
@@ -110,6 +114,11 @@ class RatingScaleService {
       console.log('failed to download audio = ', err);
       callback(false);
     });
+  }
+
+  _isExist = (ratingScaleId) => {
+    const ratingScale = realm.objects('RatingScale').filtered(`id = ${ratingScaleId}`)[0];
+    return ratingScale === undefined ? false : true;
   }
 }
 

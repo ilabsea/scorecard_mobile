@@ -4,7 +4,7 @@ import RNFS from 'react-native-fs';
 import { environment } from '../config/environment';
 import {isFileExist} from '../services/local_file_system_service';
 
-const saveIndicator =  (index, scorecardUUID, indicators, callback) => {
+const saveIndicator =  (index, indicators, callback) => {
   if (index === indicators.length) {
     callback(true);
     return;
@@ -17,7 +17,6 @@ const saveIndicator =  (index, scorecardUUID, indicators, callback) => {
       id: indicator.id,
       name: indicator.name,
       facility_id: indicator.categorizable.id,
-      scorecard_uuid: scorecardUUID,
       tag: indicator.tag_name,
     };
 
@@ -27,11 +26,13 @@ const saveIndicator =  (index, scorecardUUID, indicators, callback) => {
 
     if (indicator.image)
       downloadImage(indicatorSet.uuid, indicator.id, indicator.image, () => {
-        saveIndicator(index + 1, scorecardUUID, indicators, callback);
+        saveIndicator(index + 1, indicators, callback);
       });
     else
-      saveIndicator(index + 1, scorecardUUID, indicators, callback);
+      saveIndicator(index + 1, indicators, callback);
   }
+  else
+    saveIndicator(index + 1, indicators, callback);
 };
 
 const isExist = (indicatorId) => {
@@ -57,6 +58,10 @@ const getDisplayIndicator = (indicatorable, scorecardObj) => {
   indi.content = indi.content || indi.name;
 
   return indi;
+}
+
+const find = (indicatorId) => {
+  return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
 }
 
 function getPredefinedIndicator(indicatorable, scorecard) {
@@ -101,10 +106,13 @@ async function downloadImage(indicatorUuid, indicatorId, url, saveCallback) {
       saveCallback();
     });
   }
+  else
+    saveCallback();
 }
 
 export {
   saveIndicator,
   getDisplayIndicator,
   getAll,
+  find,
 };
