@@ -21,6 +21,7 @@ export default class TipModal extends Component {
 
     let doms = this.props.tip.tips.map((tip, index) =>
       <TipListItem
+        key={index}
         title={tip.title}
         subTitle={tip.subTitle}
         number={index + 1} />
@@ -40,7 +41,7 @@ export default class TipModal extends Component {
     const { translations } = this.context;
 
     let doms = this.props.screenInstruction.notes.map((note, index) =>
-      <TipListItem title={note} number={index + 1} />
+      <TipListItem title={note} number={index + 1} key={index} />
     )
 
     return (
@@ -56,10 +57,11 @@ export default class TipModal extends Component {
 
   render() {
     const { translations } = this.context;
+    let minHeightStyle = this.props.tip.tips.length ? { minHeight: '70%' } : {};
 
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDimiss} contentContainerStyle={ [styles.container, {minHeight: "70%"}] }>
+        <Modal visible={this.props.visible} onDismiss={this.props.onDimiss} contentContainerStyle={ [styles.container, minHeightStyle] }>
           <ScrollView style={{flex: 1}}>
             { this.renderInstructions() }
             { this.renderTips() }

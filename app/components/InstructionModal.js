@@ -27,7 +27,7 @@ export default class InstructionModal extends Component {
 
   renderContent() {
     let doms = this.state.screen.notes.map((note, index) =>
-      <TipListItem title={note} number={index + 1} />
+      <TipListItem key={index} title={note} number={index + 1} />
     );
 
     return doms;

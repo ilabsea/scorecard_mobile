@@ -16,10 +16,10 @@ import BottomButton from '../../components/BottomButton';
 import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 import OutlinedButton from '../../components/OutlinedButton';
 import InstructionModal from '../../components/InstructionModal';
 import Tip from '../../components/Tip';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
