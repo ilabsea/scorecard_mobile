@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {getDisplayIndicator} from './indicator_service';
-import  { getIndicatorShortcutName } from '../utils/indicator_util';
+import { getDisplayIndicator } from './indicator_service';
+import { getIndicatorShortcutName } from '../utils/indicator_util';
 import realm from '../db/schema';
 
 class ParticipantCell {
@@ -16,11 +16,9 @@ class ParticipantCell {
       gender: this.genderCell(labelTranslation),
       disability: this.booleanCell(labelTranslation),
       indicator: this.indicatorCell(),
-      note: this.textCell(),
       action: this.actionCell(),
     };
     this.buttonAction = buttonAction;
-
   }
 
   textCell = () => {
@@ -60,8 +58,8 @@ class ParticipantCell {
       return (
         <View key={index} style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.indicatorBadge}>
-            <Text style={styles.indicatorLabel}>
-              {getIndicatorShortcutName(indicator.content || indicator.name)}
+            <Text style={styles.indicatorLabel} numberOfLines={1}>
+              {indicator.content || indicator.name}
             </Text>
           </View>
         </View>
@@ -93,17 +91,16 @@ class ParticipantCell {
 
 const styles = StyleSheet.create({
   indicatorBadge: {
-    paddingHorizontal: 2,
-    paddingVertical: 2,
+    padding: 2,
     marginHorizontal: 2,
   },
   indicatorLabel: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: '700',
     backgroundColor: '#787878',
-    padding: 5,
+    paddingHorizontal: 5,
     borderRadius: 3,
+    maxWidth: 120,
   },
   cellContainer: {
     justifyContent: 'center',
