@@ -8,6 +8,7 @@ import {getLanguageIndicator} from '../../services/language_indicator_service';
 import { getAll as getAllIndicators } from '../../services/indicator_service';
 import scorecardService from '../../services/scorecardService';
 import  { getIndicatorShortcutName } from '../../utils/indicator_util';
+import { CUSTOM, PREDEFINED } from '../../utils/variable';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
@@ -86,21 +87,18 @@ class CriteriaSelection extends Component {
 
   indicatorCard = (indicator, index) => {
     let displayName = this.getIndicatorName(indicator);
+    let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
+    let isAddNewCriteriaIndex = index == this.state.indicators.length - 1;
 
     return (
       <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.selectIndicator(index)}>
-
-          <View style={[
-            styles.iconContainer,
-            !!indicator.local_image ? {backgroundColor: 'transparent'} : {},
-          ]}
-          >
-            { index != this.state.indicators.length - 1 && !!indicator.local_image &&
+          <View style={[styles.iconContainer, iconContainerStyle]}>
+            { !isAddNewCriteriaIndex && !!indicator.local_image &&
               <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={styles.indicatorImage} resizeMode='contain' />
             }
-            {index === this.state.indicators.length - 1 && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
+            { isAddNewCriteriaIndex && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
           </View>
 
           <View style={styles.detailContainer}>
@@ -144,7 +142,7 @@ class CriteriaSelection extends Component {
         shortcut: getIndicatorShortcutName(indicator.name),
         isSelected: false,
         tag: indicator.tag,
-        type: indicator.id != undefined ? 'predefined' : 'custom',
+        type: !!indicator.id ? PREDEFINED : CUSTOM,
         local_image: indicator.local_image,
       };
       if (proposedCriterias != undefined) {
