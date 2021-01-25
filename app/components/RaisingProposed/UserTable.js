@@ -7,13 +7,14 @@ import uuidv4 from '../../utils/uuidv4';
 
 class UserTable extends Component {
   static contextType = LocalizationContext;
+
   editParticipant = (participantUUID) => {
     this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
   }
 
   getCellData = (cellData, cellIndex) => {
     const { translations } = this.context;
-    const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'note', 'action'];
+    const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'action'];
     const labelTranslation = {
       yes: translations.optionYes,
       no: translations.optionNo,
@@ -25,28 +26,29 @@ class UserTable extends Component {
   }
 
   render() {
-    const {translations} = this.context;
-    const {tableData} = this.props;
+    const { translations } = this.context;
+    const { tableData } = this.props;
     const tableHead = [
       translations['no'],
       translations['age'],
       translations['gender'],
       translations['disability'],
       translations['criteria'],
-      translations['note'],
       translations['action'],
     ];
+
+    let criteriaCellIndex = 4;
 
     return (
       <View style={styles.container} key={uuidv4()}>
         <Table borderStyle={{borderWidth: 1, borderColor: '#c1c1c1'}}>
-          <Row data={tableHead} style={styles.tableHead} textStyle={styles.headerText} />
+          <Row data={tableHead} flexArr={[1, 1, 1, 1, 3, 1]} style={styles.tableHead} textStyle={styles.headerText} />
           {
             tableData.map((rowData, rowIndex) => (
               <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex)} textStyle={styles.text} />
+                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex)} textStyle={styles.text} style={{flex: (cellIndex == criteriaCellIndex ? 3 : 1)}} />
                   ))
                 }
               </TableWrapper>

@@ -30,8 +30,7 @@ class ListUser extends Component {
         gender,
         raisedParticipants[i].disability,
         proposedCriterias,
-        raisedParticipants[i].note,
-        raisedParticipants[i].uuid, // participant uuid
+        raisedParticipants[i].uuid,
       ];
       participants.push(attrs);
     }
