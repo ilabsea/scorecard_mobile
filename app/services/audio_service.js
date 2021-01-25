@@ -14,10 +14,14 @@ class AudioService {
     }
 
     const languageIndicators = indicators[index]['languages_indicators'];
-    if (languageIndicators.length > 0)
+
+    if (languageIndicators.length > 0) {
       this._downloadLanguageIndicatorAudio(0, languageIndicators, indicators, callback, () => {
         this.saveAudio(index + 1, indicators, callback);
       });
+    }
+    else
+      this.saveAudio(index + 1, indicators, callback);
   }
 
   _downloadLanguageIndicatorAudio = (index, languageIndicators, indicators, callback, callbackSaveAudio) => {
@@ -36,6 +40,8 @@ class AudioService {
         this._downloadLanguageIndicatorAudio(index + 1, languageIndicators, indicators, callback, callbackSaveAudio);
       })
     }
+    else
+      this._downloadLanguageIndicatorAudio(index + 1, languageIndicators, indicators, callback, callbackSaveAudio);
   }
 
   _checkAndSave = async (audioUrl, languageIndicator, callback, callbackDownload) => {

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text
+  Text,
+  ImageBackground,
 } from 'react-native';
 
 import { Button } from 'react-native-paper';
@@ -19,6 +20,8 @@ import scorecardService from '../../services/scorecardService';
 import { getDisplayIndicator } from '../../services/indicator_service';
 
 import CustomStyle from '../../themes/customStyle';
+import CriteriaTitle from './CriteriaTitle';
+import CriteriaImage from './CriteriaImage';
 
 class SelectedCriteriaItem extends Component {
   static contextType = LocalizationContext;
@@ -33,11 +36,15 @@ class SelectedCriteriaItem extends Component {
     };
   }
 
-  renderShortcutLabel() {
+  renderImage() {
+    const { indicator } = this.state;
+
     return (
-      <View style={[styles.statusIconWrapper, {backgroundColor: '#d0cdcd'}]}>
-        <Text style={CustomStyle.indicatorShortcutLabel}>{this.state.indicator.content[0]}</Text>
-      </View>
+      <CriteriaImage
+        indicator={indicator}
+        width='100%'
+        height='100%'
+      />
     )
   }
 
@@ -50,20 +57,17 @@ class SelectedCriteriaItem extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={[styles.listItem, styles.card]}>
-        { this.renderShortcutLabel() }
+      <View style={[styles.listItem, styles.card, {maxHeight: 130}]}>
+        { this.renderImage() }
 
         <View style={styles.contentWrapper}>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
-              <Text style={styles.title} numberOfLines={1}>{this.state.indicator.content}</Text>
-              <Text style={styles.subText}>{translations.raisedTimes}: ({this.props.criteria.count})</Text>
-            </View>
 
-            <View style={{paddingRight: 16}}>
-              <PlaySound filePath={this.state.indicator.local_audio} />
-            </View>
-          </View>
+          <CriteriaTitle
+            title={this.state.indicator.content}
+            subText={translations.raisedTimes}
+            criteriaCount={this.props.criteria.count}
+            indicator={this.state.indicator}
+          />
 
           <View style={{flex: 1}}></View>
 

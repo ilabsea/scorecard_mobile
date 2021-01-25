@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image
+  Image,
+  ImageBackground,
 } from 'react-native';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -25,10 +26,14 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderAvatar(scorecard, indicator) {
     return (
-      <View style={[cardListItemStyle.statusIconWrapper, { backgroundColor: Color.cardListItemAvataBg }]}>
-        <Text style={CustomStyle.indicatorShortcutLabel}>
-          {indicator.content[0] || indicator.name[0]}
-        </Text>
+      <View style={[
+        cardListItemStyle.statusIconWrapper,
+        styles.avatarContainer,
+        !!indicator.local_image ? { backgroundColor: 'transparent' } : {}]}
+      >
+        { !!indicator.local_image &&
+          <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={{width: '99%', height: '99%'}} resizeMode='contain' />
+        }
       </View>
     )
   }
@@ -70,12 +75,14 @@ export default class VotingCriteriaListItem extends Component {
     let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
 
     return (
-      <View style={styles.resultWrapper}>
-        <Text style={{marginRight: 8, fontSize: 14}}>{translations.result}:</Text>
+      <View style={{ borderLeftWidth: 1, borderColor: Color.borderColor, justifyContent: 'center'}}>
+        <View style={styles.resultWrapper}>
+          <Text style={{marginRight: 8, fontSize: 14}}>{translations.result}:</Text>
 
-        <View style={styles.medianWrapper}>
-          { this._renderIcon(currentIcon, 60) }
-          <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
+          <View style={styles.medianWrapper}>
+            { this._renderIcon(currentIcon, 60) }
+            <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
+          </View>
         </View>
       </View>
     )
@@ -84,15 +91,13 @@ export default class VotingCriteriaListItem extends Component {
   _renderContent(indicator) {
     return (
       <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1, backgroundColor: ''}}>
+        <View style={{flex: 1, backgroundColor: '', paddingRight: 20}}>
           <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
 
           { this._renderRatingIcons() }
         </View>
 
-        <View style={{ borderLeftWidth: 1, borderColor: Color.borderColor, justifyContent: 'center'}}>
-          { this._renderMedian() }
-        </View>
+        { this._renderMedian() }
       </View>
     );
   }
@@ -104,11 +109,11 @@ export default class VotingCriteriaListItem extends Component {
     return (
       <TouchableOpacity
         onPress={ () => !!this.props.onPress && this.props.onPress() }
-        style={[cardListItemStyle.listItem, customStyle.card, {minHeight: 138}]}>
+        style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
 
         { this._renderAvatar(scorecard, indicator) }
 
-        <View style={cardListItemStyle.contentWrapper}>
+        <View style={[cardListItemStyle.contentWrapper, { paddingBottom: 10 }]}>
           { this._renderContent(indicator) }
         </View>
       </TouchableOpacity>
@@ -143,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 10,
     marginBottom: 10,
-    width: 100
+    width: 120,
   },
   medianText: {
     textAlign: 'center',
@@ -153,5 +158,10 @@ const styles = StyleSheet.create({
   },
   capitalize: {
     textTransform: 'capitalize'
+  },
+  avatarContainer: {
+    backgroundColor: Color.cardListItemAvataBg,
+    width: 140,
+    height: '100%',
   }
 })

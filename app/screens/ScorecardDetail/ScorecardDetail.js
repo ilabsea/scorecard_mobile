@@ -75,7 +75,7 @@ class ScorecardDetail extends Component {
   };
 
   downloadIndicatorSection = () => {
-    if (isInidcatorSectionDownloaded()) {
+    if (isInidcatorSectionDownloaded(this.props.route.params.scorecard_uuid)) {
       this.updateDownloadProgress();
       return;
     }
@@ -86,7 +86,7 @@ class ScorecardDetail extends Component {
       const phases = [
         {
           value: indicatorPhase,
-          save: saveIndicator(scorecard_uuid, indicators, (isDownloaded) => {
+          save: saveIndicator(0, indicators, (isDownloaded) => {
             this._callback(indicatorPhase, isDownloaded);
           })
         },

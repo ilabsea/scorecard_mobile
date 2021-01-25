@@ -1,25 +1,38 @@
 import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4';
+import RNFS from 'react-native-fs';
+import { environment } from '../config/environment';
+import {isFileExist} from '../services/local_file_system_service';
 
-const saveIndicator =  (scorecardUUID, indicators, callback) => {
-  let savedCount = 0;
-  indicators.map((indicator) => {
-    if (!isExist(indicator.id)) {
-      const indicatorSet = {
-        uuid: uuidv4(),
-        id: indicator.id,
-        name: indicator.name,
-        facility_id: indicator.categorizable.id,
-        scorecard_uuid: scorecardUUID,
-        tag: indicator.tag_name
-      };
-      realm.write(() => {
-        realm.create('Indicator', indicatorSet, 'modified');
+const saveIndicator =  (index, indicators, callback) => {
+  if (index === indicators.length) {
+    callback(true);
+    return;
+  }
+
+  const indicator = indicators[index];
+  if (!isExist(indicator.id)) {
+    const indicatorSet = {
+      uuid: uuidv4(),
+      id: indicator.id,
+      name: indicator.name,
+      facility_id: indicator.categorizable.id,
+      tag: indicator.tag_name,
+    };
+
+    realm.write(() => {
+      realm.create('Indicator', indicatorSet, 'modified');
+    });
+
+    if (indicator.image)
+      downloadImage(indicatorSet.uuid, indicator.id, indicator.image, () => {
+        saveIndicator(index + 1, indicators, callback);
       });
-    }
-    savedCount += 1;
-  });
-  callback(savedCount === indicators.length);
+    else
+      saveIndicator(index + 1, indicators, callback);
+  }
+  else
+    saveIndicator(index + 1, indicators, callback);
 };
 
 const isExist = (indicatorId) => {
@@ -47,11 +60,17 @@ const getDisplayIndicator = (indicatorable, scorecardObj) => {
   return indi;
 }
 
+const find = (indicatorId) => {
+  return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
+}
+
 function getPredefinedIndicator(indicatorable, scorecard) {
+  let predefined = realm.objects('Indicator').filtered(`id='${indicatorable.indicatorable_id}'`)[0];
   let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0];
-  indi = indi || realm.objects('Indicator').filtered(`id='${indicatorable.indicatorable_id}'`)[0];
+  indi = indi || predefined;
   indi = JSON.parse(JSON.stringify(indi));
   indi.content = indi.content || indi.name;
+  indi.local_image = predefined.local_image;
 
   if (!scorecard.isSameLanguageCode) {
     let textIndi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.text_language_code}'`)[0];
@@ -61,8 +80,39 @@ function getPredefinedIndicator(indicatorable, scorecard) {
   return indi;
 }
 
+async function downloadImage(indicatorUuid, indicatorId, url, saveCallback) {
+  const fileUrl = url.split("/");
+  const filename = `${indicatorId}_${fileUrl[fileUrl.length - 1]}`;
+  const isImageExist = await isFileExist(filename);
+
+  if (!isImageExist) {
+    let options = {
+      fromUrl: `${environment.domain}${url}`,
+      toFile: `${RNFS.DocumentDirectoryPath}/${filename}`,
+      background: false,
+    };
+    RNFS.downloadFile(options).promise.then(res => {
+      const attrs = {
+        uuid: indicatorUuid,
+        local_image: options.toFile,
+      };
+
+      realm.write(() => {
+        realm.create('Indicator', attrs, 'modified');
+      });
+      saveCallback();
+    }).catch(err => {
+      console.log('error download indicator image = ', err);
+      saveCallback();
+    });
+  }
+  else
+    saveCallback();
+}
+
 export {
   saveIndicator,
   getDisplayIndicator,
   getAll,
+  find,
 };

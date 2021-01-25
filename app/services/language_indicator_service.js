@@ -24,6 +24,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, callback) => {
     }
     savedCount += 1;
   });
+
   callback(savedCount === indicators.length);
 }
 

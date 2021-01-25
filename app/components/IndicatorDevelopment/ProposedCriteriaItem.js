@@ -3,8 +3,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Alert,
-  Text
+  Text,
+  ImageBackground,
 } from 'react-native';
 
 import { Icon } from 'native-base';
@@ -16,6 +16,9 @@ import PlaySound from '../VotingCriteria/PlaySound';
 import Color from '../../themes/color';
 import CustomStyle from '../../themes/customStyle';
 import scorecardService from '../../services/scorecardService';
+
+import CriteriaTitle from './CriteriaTitle';
+import CriteriaImage from './CriteriaImage';
 
 class ProposedCriteriaItem extends Component {
   static contextType = LocalizationContext;
@@ -32,12 +35,16 @@ class ProposedCriteriaItem extends Component {
 
   renderShortcutLabel() {
     let activeStyle = this.state.active ? { backgroundColor: Color.headerColor } : {};
-    let textColor = this.state.active ? '#fff' : '#787878';
+    const { indicator } = this.state;
 
     return (
-      <View style={[itemStyles.statusIconWrapper, styles.statusIconWrapper, activeStyle]}>
-        <Text style={[CustomStyle.indicatorShortcutLabel, {color: textColor}]}>{this.state.indicator.content[0]}</Text>
-      </View>
+      <CriteriaImage
+        indicator={indicator}
+        customStyle={styles.statusIconWrapper}
+        activeStyle={activeStyle}
+        width='99%'
+        height='99%'
+      />
     )
   }
 
@@ -56,24 +63,22 @@ class ProposedCriteriaItem extends Component {
   render() {
     const { translations } = this.context;
     const getBorderColor = this.state.active ? Color.headerColor : '#ccc';
+    const getBorderWidth = this.state.active ? 2 : 1;
 
     return (
       <TouchableOpacity
         onPress={ () => this.handleSelected() }
-        style={[itemStyles.listItem, { borderWidth: 1, borderColor: getBorderColor}]}>
+        style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: 95}]}>
 
         { this.renderShortcutLabel() }
 
-        <View style={[itemStyles.contentWrapper, {flexDirection: 'row'}]}>
-          <View style={{flex: 1}}>
-            <Text style={itemStyles.title} numberOfLines={1}>{this.state.indicator.content}</Text>
-            <Text style={itemStyles.subText}>{translations.raisedTimes}: ({this.props.criteria.count})</Text>
-          </View>
-
-          <View style={{paddingRight: 16, justifyContent: 'center'}}>
-            <PlaySound filePath={this.state.indicator.local_audio}/>
-          </View>
-        </View>
+        <CriteriaTitle
+          title={this.state.indicator.content}
+          subText={translations.raisedTimes}
+          criteriaCount={this.props.criteria.count}
+          indicator={this.state.indicator}
+          customContainerStyle={itemStyles.contentWrapper}
+        />
       </TouchableOpacity>
     )
   }
@@ -90,6 +95,7 @@ const styles = StyleSheet.create({
   statusIconWrapper: {
     backgroundColor: '#d0cdcd',
     borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3
+    borderBottomLeftRadius: 3,
+    maxWidth: 95,
   },
 })
