@@ -4,15 +4,16 @@ import {
   View,
   Text,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 
 import { LocalizationContext } from './Translations';
 import { Modal, Portal } from 'react-native-paper';
 import { Icon } from 'native-base';
-import CloseButton from './CloseButton';
 import screenInstructions from '../db/jsons/screenInstructions';
 import TipListItem from './Tip/TipListItem';
 import styles from '../themes/modalStyle';
+import BottomButton from './BottomButton';
 
 export default class InstructionModal extends Component {
   static contextType = LocalizationContext;
@@ -27,10 +28,18 @@ export default class InstructionModal extends Component {
 
   renderContent() {
     let doms = this.state.screen.notes.map((note, index) =>
-      <TipListItem key={index} title={note} number={index + 1} />
+      <TipListItem
+        titleStyle={{color: '#fff'}}
+        key={index}
+        title={note}
+        number={index + 1} />
     );
 
-    return doms;
+    return (
+      <View style={{backgroundColor: '#858796', borderRadius: 10, padding: 20, paddingBottom: 0}}>
+        {doms}
+      </View>
+    );
   }
 
   render() {
@@ -38,17 +47,24 @@ export default class InstructionModal extends Component {
 
     return (
       <Portal>
-        <Modal visible={this.props.visible} dismissable={false} contentContainerStyle={ styles.container }>
+        <Modal visible={this.props.visible} dismissable={false} contentContainerStyle={ styles.containerFull }>
           <Text style={styles.title}>
             {translations.notes}: {this.state.screen.title}
           </Text>
 
-          <ScrollView style={{flex: 1}}>
-            { this.renderContent() }
-          </ScrollView>
+          <ImageBackground
+            imageStyle={{borderRadius: 10}}
+            source={ require('../assets/images/community.png') }
+            style={{flex: 1, resizeMode: "cover"}} >
 
-          <View style={styles.btnActionWrapper}>
-            <CloseButton onPress={this.props.onDimiss} label={translations.next} />
+            <ScrollView style={{flex: 1}}>
+              { this.renderContent() }
+
+            </ScrollView>
+          </ImageBackground>
+
+          <View style={{paddingTop: 20}}>
+            <BottomButton label={translations.next} onPress={this.props.onDimiss} />
           </View>
         </Modal>
       </Portal>

@@ -25,6 +25,13 @@ const modalStyle = StyleSheet.create({
     borderTopWidth: 2,
     borderColor: '#ccc',
     marginVertical: 20
+  },
+  containerFull: {
+    backgroundColor: 'white',
+    padding: 20,
+    minHeight: "100%",
+    // marginHorizontal: 30,
+    justifyContent: 'flex-start',
   }
 });
 

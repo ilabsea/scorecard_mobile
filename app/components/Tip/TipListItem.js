@@ -23,14 +23,14 @@ export default class TipListItem extends Component {
 
   render() {
     const { translations } = this.context;
-    const { title, subTitle, number } = this.props;
+    const { title, subTitle, number, titleStyle } = this.props;
 
     return (
       <View key={ uuidv4() } style={{flexDirection: 'row', marginBottom: 20}}>
         { this.renderIcon(number) }
 
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text style={{flexShrink: 1}}>{title}</Text>
+          <Text style={[{flexShrink: 1}, titleStyle]}>{title}</Text>
 
           { !!subTitle && <Text style={{color: '#858796', flexShrink: 1}}>{subTitle}</Text> }
         </View>
