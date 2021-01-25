@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="#bbdefb"
+  android:background="#e4761e"
   android:gravity="center">
 
   <LinearLayout
@@ -10,18 +10,25 @@
     android:layout_height="wrap_content"
     android:gravity="center" >
 
+    <ImageView
+      android:id="@+id/logo"
+      android:layout_width="250dp"
+      android:layout_height="250dp"
+      android:src="@drawable/csc_logo" />
   </LinearLayout>
 
   <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
     android:gravity="center" >
 
     <TextView android:id="@+id/text"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textColor="#1e77d3"
-      android:textSize="28dp"
-      android:text="ប័ណ្ណពិន្ទុ" />
+      android:textColor="#fff"
+      android:textSize="36sp"
+      android:fontFamily="@font/battambang_bold"
+      android:text="ប័ណ្ណដាក់ពិន្ទុ" />
   </LinearLayout>
 </LinearLayout>
