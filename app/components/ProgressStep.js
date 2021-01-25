@@ -20,7 +20,7 @@ export default class ProgressStep extends Component {
       itemWidth: 0
     }
     this.titleWidth = this.props.steps ? 120 : 145;
-    this.lineWidth = this.titleWidth - 40;
+    this.lineWidth = this.props.steps.length > 4 ? this.titleWidth - 15 : this.titleWidth - 40;
   }
 
   _renderNumber(title, index) {
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     height: '100%',
+    width: '19%',
   },
   badgeIcon: {
     backgroundColor: 'rgba(0, 0, 0, 0.27)',
