@@ -181,9 +181,6 @@ class Facilitator extends Component {
               controller={(instance) => this.controllers[0] = instance}
               onOpen={() => this.closeSelectBox(0)}
             />
-            <Text style={styles.otherFacilitatorsLabel}>
-              {translations['otherFacilitators']}
-            </Text>
 
             { this.renderOtherFacilitators() }
           </ScrollView>
