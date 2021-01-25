@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from 'react-native';
 import realm from '../../db/schema';
 
 import {LocalizationContext} from '../../components/Translations';
@@ -9,11 +16,15 @@ import BottomButton from '../../components/BottomButton';
 import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
+import OutlinedButton from '../../components/OutlinedButton';
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
+
     this.totalParticipant = 0;
     this.state = {
       isLoading: false,
@@ -25,12 +36,8 @@ class ParticipantList extends Component {
   }
 
   fetchParticipant = () => {
-    this.setState({isLoading: true});
     const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
-    this.setState({
-      isLoading: false,
-    });
   }
 
   renderListHeader = () => {
@@ -60,44 +67,59 @@ class ParticipantList extends Component {
   renderParticipantList = () => {
     const numberOfParticipant = realm.objects('Scorecard').filtered('uuid = "' + this.props.route.params.scorecard_uuid + '"')[0].number_of_participant;
     this.totalParticipant = numberOfParticipant;
-    return (
-      <FlatList
-        data={Array(numberOfParticipant).fill({})}
-        renderItem={({item, index}) =>
-          <ParticipantListItem index={index} participant={this.props.participants[index]}
-            navigation={this.props.navigation} scorecardUUID={this.props.route.params.scorecard_uuid}
-          />
-        }
-        keyExtractor={(item, index) => index.toString()}
-        refreshControl={
-          <RefreshControl
-           refreshing={this.state.isLoading}
-           onRefresh={() => this.fetchParticipant()}
-          />
-        }
+
+    let doms = this.props.participants.map((participant, index) =>
+      <ParticipantListItem key={index} index={index} participant={participant}
+        navigation={this.props.navigation} scorecardUUID={this.props.route.params.scorecard_uuid}
       />
-    );
+    )
+
+    return doms;
+  }
+
+  renderTitleWithAddNewButton() {
+    const {translations} = this.context;
+
+    return (
+      <View style={{flexDirection: 'row', marginBottom: 20}}>
+        <Text style={{fontSize: 20, fontFamily: FontFamily.title, flex: 1}}>
+          {translations.participantList}
+        </Text>
+
+        <OutlinedButton
+          icon="plus"
+          label={translations.addNewParticipant}
+          onPress={() => this.props.navigation.navigate('AddNewParticipant', {scorecard_uuid: this.props.route.params.scorecard_uuid}) }
+        />
+      </View>
+    )
   }
 
   render() {
     const {translations} = this.context;
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: '#fff'}}>
           <ProgressHeader
             title={translations.getStarted}
             onBackPress={() => this.props.navigation.goBack()}
             progressIndex={2}
           />
-          <View style={styles.container}>
-            <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 20}}>{translations.participantList}</Text>
-            {this.renderListHeader()}
-            {this.renderParticipantList()}
+
+          <ScrollView contentContainerStyle={styles.container}>
+            { this.renderTitleWithAddNewButton() }
+            { this.renderListHeader() }
+            { this.renderParticipantList() }
+          </ScrollView>
+
+          <View style={{padding: 20}}>
             <ParticipantCountLabel
               customContainerStyle={{paddingVertical: 10}}
               totalParticipant={this.totalParticipant}
               addedParticipant={this.props.participants.length}
             />
+
             <BottomButton
               label={translations.next}
               onPress={() => this.props.navigation.navigate('RaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
@@ -111,10 +133,7 @@ class ParticipantList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
     padding: 20,
-    paddingBottom: 20,
   },
   itemColumn: {
     flex: 1,
