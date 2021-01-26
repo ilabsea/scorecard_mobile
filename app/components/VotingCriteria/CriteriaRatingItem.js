@@ -114,12 +114,14 @@ export default class CriteriaRatingItem extends Component {
       <View style={{marginTop: 30}}>
         <Divider/>
 
-        <View style={{flexDirection: 'row', marginTop: 30}}>
-          <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize', marginRight: 10}}>
+        <View style={{flexDirection: 'row', marginTop: 30, marginRight: 40}}>
+          <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize', marginRight: 10,}} numberOfLines={1}>
             { indicator.content || indicator.name}
           </Text>
 
-          { !!indicator.local_audio && <PlaySound filePath={indicator.local_audio} /> }
+          <View>
+            { <PlaySound filePath={indicator.local_audio} /> }
+          </View>
         </View>
 
         <View style={{flexDirection: 'row', marginTop: 20, marginHorizontal: -8}}>
