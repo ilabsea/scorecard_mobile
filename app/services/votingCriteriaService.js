@@ -31,9 +31,10 @@ const votingCriteriaService = (() => {
   }
 
   function cleanArchiveCriterias(scorecardUuid, selectedCriterias) {
-    let selectedTags = selectedCriterias.map(x => x.tag);
     let votingCriterias = votingCriteriaService.getAll(scorecardUuid);
-    let archiveCriterias = votingCriterias.filter(criteria => !selectedTags.includes(criteria.tag));
+    let archiveCriterias = votingCriterias.filter(criteria =>
+      !selectedCriterias.filter(sc => sc.indicatorable_id == criteria.indicatorable_id && sc.indicatorable_type == criteria.indicatorable_type).length
+    )
 
     realm.write(() => {
       realm.delete(archiveCriterias);
@@ -50,13 +51,16 @@ const votingCriteriaService = (() => {
     return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND tag='${tag}'`);
   }
 
+  function filterByIndicator(scorecardUuid, indicatorable_id, indicatorable_type) {
+    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND indicatorable_id='${indicatorable_id}' AND indicatorable_type='${indicatorable_type}'`);
+  }
+
   function submitCriterias(scorecard_uuid, selectedCriterias) {
     cleanArchiveCriterias(scorecard_uuid, selectedCriterias);
 
     for(let i=0; i<selectedCriterias.length; i++) {
       let criteria = selectedCriterias[i];
-      let obj = filterByTag(criteria.scorecard_uuid, criteria.tag)[0];
-
+      let obj = filterByIndicator(criteria.scorecard_uuid, criteria.indicatorable_id, criteria.indicatorable_type)[0];
       if (!!obj) { continue; }
 
       let data = {

@@ -110,9 +110,18 @@ async function downloadImage(indicatorUuid, indicatorId, url, saveCallback) {
     saveCallback();
 }
 
+const getTags = (scorecardUuid) => {
+  let indicators = getAll(scorecardUuid);
+
+  return indicators.map(indi => indi.tag)
+          .filter(tag => !!tag)
+          .filter((tag, index, self) => self.indexOf(tag) == index);
+}
+
 export {
   saveIndicator,
   getDisplayIndicator,
   getAll,
   find,
+  getTags,
 };

@@ -1,51 +1,51 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import {Modal} from 'react-native-paper';
-import {TextInput} from 'react-native-paper';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
+
+import { Modal, TextInput} from 'react-native-paper';
 import TextFieldInput from '../TextFieldInput';
 import VoiceRecord from './VoiceRecord';
 import uuidv4 from '../../utils/uuidv4';
-import {LocalizationContext} from '../Translations';
-import {CUSTOM} from '../../utils/variable';
+import { LocalizationContext } from '../Translations';
+import { CUSTOM } from '../../utils/variable';
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
 import scorecardService from '../../services/scorecardService';
-
+import Autocomplete from './Autocomplete';
 import { isBlank } from '../../utils/string_util';
+import { getTags } from '../../services/indicator_service';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
-      note: '',
+      tag: '',
       audio: null,
     };
-  }
 
-  onChangeText = (fieldName, name) => {
-    this.setState({name});
-  }
-
-  onChangeNote = (text) => {
-    this.setState({note: text});
+    this.tags = getTags(props.scorecardUUID);
   }
 
   isValid = () => {
     if (isBlank(this.state.name))
       return false;
 
-    if (!isBlank(this.state.note) || !isBlank(this.state.audio))
-      return true;
-
-    return false;
+    return true;
   }
 
   cancel = () => {
     this.setState({
       name: '',
-      note: '',
+      tag: '',
       audio: null,
     });
     this.props.closeModal();
@@ -55,10 +55,9 @@ class AddNewIndicatorModal extends Component {
     const customIndicator = {
       uuid: uuidv4(),
       name: this.state.name,
-      content: this.state.note,
       local_audio: this.state.audio,
       scorecard_uuid: this.props.scorecardUUID,
-      tag: this.state.name
+      tag: this.state.tag
     };
 
     const scorecard = scorecardService.find(this.props.scorecardUUID);
@@ -93,43 +92,54 @@ class AddNewIndicatorModal extends Component {
     )
   }
 
+  _filterData = (query) => {
+    if (query === '') {
+      return [];
+    }
+
+    let PATTERN = new RegExp(`${query.trim()}`, 'i');
+    return this.tags.filter(str => PATTERN.test(str));
+  }
+
   render() {
     const {translations} = this.context;
+    const data = this._filterData(this.state.tag);
+
     return (
       <Modal
         visible={this.props.isVisible}
         onDismiss={() => this.props.closeModal()}
         contentContainerStyle={styles.container}>
+
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View>
             <Text style={styles.header}>{translations['addNewCriteria']}</Text>
+
             <TextFieldInput
               value={this.state.name}
               isRequire={true}
               label={translations['criteriaName']}
               placeholder={translations['enterCriteriaName']}
               fieldName="criteriaName"
-              onChangeText={this.onChangeText}
+              onChangeText={(fieldName, text) => this.setState({name: text})}
             />
-            <View style={{marginBottom: 20}}>
-              <TextInput
-                label={translations['enterNewCriteriaAsVoice']}
-                placeholder={translations['enterNewCriteriaAsVoice']}
-                mode="outlined"
-                clearButtonMode="while-editing"
-                value={this.state.note}
-                onChangeText={(text) => this.onChangeNote(text)}
-                style={{backgroundColor: 'white', width: '100%'}}
-                multiline={true}
-                height={180}
-              />
-            </View>
+
+            <Autocomplete
+              autoCapitalize="none"
+              autoCorrect={false}
+              label={translations['enterTag']}
+              data={data}
+              value={this.state.tag}
+              onChangeText={(text) => this.setState({tag: text})}
+            />
+
             <VoiceRecord
               participantUUID={this.props.participantUUID}
               scorecardUUID={this.props.scorecardUUID}
               finishRecord={this.finishRecord}
               deleteAudio={() => this.setState({audio: null})}
             />
+
             {this.renderButton()}
           </View>
         </TouchableWithoutFeedback>

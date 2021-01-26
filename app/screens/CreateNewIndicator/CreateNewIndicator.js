@@ -13,6 +13,7 @@ import {saveParticipant} from '../../actions/participantAction';
 import uuidv4 from '../../utils/uuidv4';
 import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
+import { CUSTOM } from '../../utils/variable';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
@@ -82,11 +83,12 @@ class CreateNewIndicator extends Component {
         uuid: this.getCriteriaUUID(indicator.uuid),
         scorecard_uuid: this.props.route.params.scorecard_uuid.toString(),
         indicatorable_id: indicator.uuid.toString(),
-        indicatorable_type: indicator.type,
+        indicatorable_type: indicator.type || CUSTOM,
         indicatorable_name: indicator.name,
         participant_uuid: this.state.participant_uuid,
         tag: indicator.tag
       };
+
       realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
     });
     this.updateRaisedParticipant();
