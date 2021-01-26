@@ -16,6 +16,10 @@ class Scorecard {
   get isSameLanguageCode() {
     return this.audio_language_code == this.text_language_code;
   }
+
+  get displayName() {
+    return `${this.uuid} (${this.name})`;
+  }
 }
 
 Scorecard.schema = {

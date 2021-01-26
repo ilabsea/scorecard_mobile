@@ -10,7 +10,6 @@ import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
-import realm from '../../db/schema';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
@@ -34,7 +33,7 @@ class ScorecardResult extends Component {
     super(props);
 
     this.state = {
-      scorecard: realm.objects('Scorecard').filtered(`uuid == '${props.route.params.scorecard_uuid}'`)[0],
+      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
       currentCriteria: {},
       visible: false,
       visibleConfirmModal: false,
@@ -42,20 +41,20 @@ class ScorecardResult extends Component {
   }
 
   componentDidMount() {
-    realm.write(() => {
-      if (this.state.scorecard.status < 5) {
-        this.state.scorecard.status = '5';
-        this.props.setCurrentScorecard(this.state.scorecard);
-      }
-    });
+    if (this.state.scorecard.status < 5) {
+      scorecardService.update(this.state.scorecard.uuid, {status: '5'})
+      this.props.setCurrentScorecard(this.state.scorecard);
+    }
 
     this.props.getAll(this.state.scorecard.uuid);
   }
 
   _renderHeader() {
+    const { translations } = this.context;
+
     return (
       <HorizontalProgressHeader
-        title={this.state.scorecard.name}
+        title={translations.scorecardResult}
         navigation={this.props.navigation}
         progressIndex={4}/>
     )

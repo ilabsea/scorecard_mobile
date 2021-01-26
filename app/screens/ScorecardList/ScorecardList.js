@@ -36,7 +36,7 @@ class ScorecardList extends Component {
       return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
     }
     this.props.setCurrentScorecard(scorecard);
-    this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.name});
+    this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});
   }
 
   _renderNoData() {
