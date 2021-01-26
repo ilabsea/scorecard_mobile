@@ -95,7 +95,6 @@ class CriteriaSelection extends Component {
           <View style={[
             styles.iconContainer,
             !!indicator.local_image ? {backgroundColor: 'transparent'} : {},
-            index === this.state.indicators.length - 1 ? {marginBottom: -2} : {}
           ]}
           >
             { index != this.state.indicators.length - 1 && !!indicator.local_image &&
@@ -183,13 +182,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 2,
     flexDirection: 'row',
-    elevation: 1,
     marginVertical: 10,
     marginHorizontal: 10,
     width: itemWidth,
     height: 100,
-    borderWidth: 1,
-    borderColor: 'transparent',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
   criteriaBox: {
     flexDirection: 'row',
