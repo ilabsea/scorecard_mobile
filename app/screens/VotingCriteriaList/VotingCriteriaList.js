@@ -29,10 +29,8 @@ class VotingCriteriaList extends Component {
   constructor(props) {
     super(props);
 
-    let scorecard_uuid = props.route.params.scorecard_uuid;
-
     this.state = {
-      scorecard: scorecardService.find(scorecard_uuid),
+      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
       participantVisible: false,
       addParticiantVisible: false,
     };
@@ -48,9 +46,11 @@ class VotingCriteriaList extends Component {
   }
 
   _renderHeader() {
+    const { translations } = this.context;
+
     return (
       <HorizontalProgressHeader
-        title={this.state.scorecard.name}
+        title={translations.voting}
         navigation={this.props.navigation}
         progressIndex={3}/>
     )

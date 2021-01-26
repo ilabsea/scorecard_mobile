@@ -55,9 +55,11 @@ class IndicatorDevelopment extends Component {
   }
 
   _renderHeader() {
+    const { translations } = this.context;
+
     return (
       <HorizontalProgressHeader
-        title={this.state.scorecard.name}
+        title={translations.indicatorDevelopment}
         navigation={this.props.navigation}
         progressIndex={2}/>
     )

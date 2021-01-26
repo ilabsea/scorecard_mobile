@@ -46,7 +46,7 @@ export default class ScorecardItem extends Component {
         { this.renderStatusIcon(scorecard) }
 
         <View style={styles.contentWrapper}>
-          <Text style={styles.title} numberOfLines={1}>ID: {scorecard.uuid} ({scorecard.name})</Text>
+          <Text style={styles.title} numberOfLines={1}>ID: {scorecard.displayName}</Text>
 
           <View style={styles.subTextWrapper}>
             <Icon name='people' style={styles.subTextIcon} />
