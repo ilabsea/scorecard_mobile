@@ -19,8 +19,7 @@ class Brand extends Component {
     return (
       <View style={{alignItems: 'center'}}>
         <View style={{marginBottom: 40, marginTop: 30, alignItems: 'center'}}>
-          <Text style={styles.title}>{ translations.welcomeTo }</Text>
-          <Text style={styles.title}>{ translations.scorecardApp}</Text>
+          <Image source={require('../../assets/images/home/csc_logo.png')} style={{width: 130, height: 130, borderWidth: 4, borderColor: 'rgba(255,255,255,0.5)', borderRadius: 10}} />
         </View>
       </View>
     );
