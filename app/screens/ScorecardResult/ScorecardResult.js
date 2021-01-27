@@ -25,7 +25,6 @@ import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import scorecardService from '../../services/scorecardService';
-import InstructionModal from '../../components/InstructionModal';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -38,7 +37,6 @@ class ScorecardResult extends Component {
       currentCriteria: {},
       visible: false,
       visibleConfirmModal: false,
-      visibleInstructionModal: true,
     };
   }
 
@@ -133,11 +131,6 @@ class ScorecardResult extends Component {
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this._confirmFinish()}
           />
-
-          <InstructionModal
-            screenName='ScorecardResult'
-            visible={this.state.visibleInstructionModal}
-            onDimiss={() => this.setState({visibleInstructionModal: false})} />
         </View>
       </View>
     )

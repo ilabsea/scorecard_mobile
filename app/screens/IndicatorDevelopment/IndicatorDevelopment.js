@@ -26,7 +26,6 @@ import { set } from '../../actions/currentScorecardAction';
 import scorecardService from '../../services/scorecardService';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
-import InstructionModal from '../../components/InstructionModal';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -37,7 +36,6 @@ class IndicatorDevelopment extends Component {
     this.state = {
       visibleModal: false,
       scorecard: scorecardService.find(props.route.params.scorecard_uuid),
-      visibleInstructionModal: true
     };
   }
 
@@ -155,11 +153,6 @@ class IndicatorDevelopment extends Component {
           visible={this.state.visibleModal}
           onDismiss={() => this.setState({visibleModal: false})}
         />
-
-        <InstructionModal
-          screenName='IndicatorDevelopment'
-          visible={this.state.visibleInstructionModal}
-          onDimiss={() => this.setState({visibleInstructionModal: false})} />
       </View>
     )
   }

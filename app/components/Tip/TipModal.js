@@ -17,8 +17,6 @@ export default class TipModal extends Component {
   static contextType = LocalizationContext;
 
   renderTips() {
-    if (!this.props.tip.tips.length) { return; }
-
     let doms = this.props.tip.tips.map((tip, index) =>
       <TipListItem
         key={index}
@@ -27,43 +25,18 @@ export default class TipModal extends Component {
         number={index + 1} />
     )
 
-    return (
-      <View>
-        <View style={styles.devider}></View>
-        <Text style={styles.title}>{ this.props.tip.title }</Text>
-
-        { doms }
-      </View>
-    );
-  }
-
-  renderInstructions() {
-    const { translations } = this.context;
-
-    let doms = this.props.screenInstruction.notes.map((note, index) =>
-      <TipListItem title={note} number={index + 1} key={index} />
-    )
-
-    return (
-      <View>
-        <Text style={styles.title}>
-          {translations.notes}: {this.props.screenInstruction.title}
-        </Text>
-
-        { doms }
-      </View>
-    )
+    return doms;
   }
 
   render() {
     const { translations } = this.context;
-    let minHeightStyle = this.props.tip.tips.length ? { minHeight: '70%' } : {};
 
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDimiss} contentContainerStyle={ [styles.container, minHeightStyle] }>
+        <Modal visible={this.props.visible} onDismiss={this.props.onDimiss} contentContainerStyle={ [styles.container, { minHeight: '70%' }] }>
           <ScrollView style={{flex: 1}}>
-            { this.renderInstructions() }
+            <Text style={styles.title}>{ this.props.tip.title }</Text>
+
             { this.renderTips() }
           </ScrollView>
 

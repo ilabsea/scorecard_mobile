@@ -17,8 +17,6 @@ import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 import OutlinedButton from '../../components/OutlinedButton';
-import InstructionModal from '../../components/InstructionModal';
-import Tip from '../../components/Tip';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ParticipantList extends Component {
@@ -30,7 +28,6 @@ class ParticipantList extends Component {
     this.totalParticipant = 0;
     this.state = {
       isLoading: false,
-      visibleInstructionModal: true
     }
   }
 
@@ -111,7 +108,6 @@ class ParticipantList extends Component {
           />
 
           <ScrollView contentContainerStyle={styles.container}>
-            <Tip screenName={'ParticipantList'}/>
             { this.renderTitleWithAddNewButton() }
             { this.renderListHeader() }
             { this.renderParticipantList() }
@@ -126,14 +122,9 @@ class ParticipantList extends Component {
 
             <BottomButton
               label={translations.next}
-              onPress={() => this.props.navigation.navigate('RaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
+              onPress={() => this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
             />
           </View>
-
-          <InstructionModal
-            screenName='ParticipantList'
-            visible={this.state.visibleInstructionModal}
-            onDimiss={() => this.setState({visibleInstructionModal: false})} />
         </View>
       </TouchableWithoutFeedback>
     );

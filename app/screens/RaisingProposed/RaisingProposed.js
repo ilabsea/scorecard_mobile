@@ -8,7 +8,6 @@ import ProgressHeader from '../../components/ProgressHeader';
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import scorecardService from '../../services/scorecardService';
-import InstructionModal from '../../components/InstructionModal';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -21,10 +20,6 @@ class RaisingProposed extends Component {
     if (scorecard.status < 2) {
       scorecardService.update(scorecard.uuid, {status: '2'});
       props.setCurrentScorecard(scorecard);
-    }
-
-    this.state = {
-      visibleInstructionModal: true
     }
   }
 
@@ -41,11 +36,6 @@ class RaisingProposed extends Component {
           scorecardUUID={this.props.route.params.scorecard_uuid}
           navigation={this.props.navigation}
         />
-
-        <InstructionModal
-          screenName='RaisingProposed'
-          visible={this.state.visibleInstructionModal}
-          onDimiss={() => this.setState({visibleInstructionModal: false})} />
       </View>
     );
   }

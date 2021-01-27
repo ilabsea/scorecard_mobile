@@ -57,7 +57,7 @@ class ParticipantInformation extends Component {
       realm.create('Scorecard', attrs, 'modified');
     });
 
-    this.props.navigation.navigate('ParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
+    this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 
   getIntegerOf = (value) => {

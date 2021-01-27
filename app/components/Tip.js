@@ -15,7 +15,6 @@ import customStyle from '../themes/customStyle';
 import cardListItemStyle from '../themes/cardListItemStyle';
 import tips from '../db/jsons/tips';
 import TipModal from './Tip/TipModal';
-import screenInstructions from '../db/jsons/screenInstructions';
 
 export default class Tip extends Component {
   static contextType = LocalizationContext;
@@ -25,7 +24,6 @@ export default class Tip extends Component {
 
     this.state = {
       tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
-      screenInstruction: screenInstructions.filter(s => s.screenName == props.screenName)[0] || screenInstructions[0],
       visibleModal: false
     };
   }
@@ -69,7 +67,6 @@ export default class Tip extends Component {
         <TipModal
           visible={this.state.visibleModal}
           tip={this.state.tip}
-          screenInstruction={this.state.screenInstruction}
           onDimiss={() => this.setState({visibleModal: false})}
         />
       </View>

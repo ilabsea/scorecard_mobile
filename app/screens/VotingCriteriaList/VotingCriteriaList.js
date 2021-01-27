@@ -22,7 +22,6 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import scorecardService from '../../services/scorecardService';
 import * as participantService from '../../services/participant_service';
-import InstructionModal from '../../components/InstructionModal';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -32,9 +31,6 @@ class VotingCriteriaList extends Component {
 
     this.state = {
       scorecard: scorecardService.find(props.route.params.scorecard_uuid),
-      participantVisible: false,
-      addParticiantVisible: false,
-      visibleInstructionModal: true,
     };
   }
 
@@ -62,14 +58,8 @@ class VotingCriteriaList extends Component {
     return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index}/>);
   }
 
-  goTo(routName) {
-    const { navigation } = this.props;
-
-    navigation.navigate(routName, {scorecard_uuid: this.state.scorecard.uuid})
-  }
-
   _goNext() {
-    this.goTo('ScorecardResult');
+    this.props.navigation.navigate('OfflineScorecardResult', {scorecard_uuid: this.state.scorecard.uuid});
   }
 
   _goToVotingForm(participant_uuid) {
@@ -117,11 +107,6 @@ class VotingCriteriaList extends Component {
             customBackgroundColor={Color.headerColor}
             label={translations.next}/>
         </View>
-
-        <InstructionModal
-          screenName='VotingCriteriaList'
-          visible={this.state.visibleInstructionModal}
-          onDimiss={() => this.setState({visibleInstructionModal: false})} />
       </View>
     )
   }

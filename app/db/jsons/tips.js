@@ -1,11 +1,5 @@
 export default [
   {
-    screenName: "ParticipantList",
-    title: "វិធីបញ្ចូលព័ត៌មានអ្នកចូលរួម",
-    description: "",
-    tips: []
-  },
-  {
     screenName: 'RaisingProposed',
     title: 'វិធីដើម្បីបំផុសលក្ខណៈវិន្និច្ឆ័យ',
     description: '',
@@ -38,7 +32,7 @@ export default [
   },
   {
     screenName: 'IndicatorDevelopment',
-    title: 'ដំណាក់កាលនៃការជ្រើសរើសលក្ខណៈវិនិច្ឆ័យចុងក្រោយ',
+    title: 'ដំណាក់កាលនៃការជ្រើសរើសលក្ខណៈវិនិច្ឆ័យអាទិភាព',
     description: '',
     tips: [
       {
