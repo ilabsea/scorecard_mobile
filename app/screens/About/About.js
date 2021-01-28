@@ -47,7 +47,7 @@ class About extends Component {
     return (
       <View style={{marginTop: 40, alignItems: 'center'}}>
         <Text style={styles.logoTitle}>{translations.fundedBy}</Text>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => {Linking.openURL('https://eeas.europa.eu/delegations/cambodia_en')}}>
           <Image source={require('../../assets/images/home/eu.png')} style={{width: 125, height: 125, marginBottom: 50, marginTop: 10}} />
         </TouchableOpacity>
 
