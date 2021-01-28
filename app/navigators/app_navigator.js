@@ -1,9 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 
-import { TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AppIcon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 
 // Screens
@@ -25,10 +22,12 @@ import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
 import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticipant';
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
 import ContactScreen from '../screens/Contact/Contact';
+import AboutScreen from '../screens/About/About';
 
 // Util and components
 import Color from '../themes/color';
 import { LocalizationContext } from '../components/Translations';
+import SettingMenu from '../components/Home/SettingMenu';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 const Stack = createStackNavigator();
@@ -58,11 +57,7 @@ function AppNavigator() {
         options={({navigation}) => ({
           title: `${translations['scorecardApp']}`,
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Setting')}
-              style={{marginRight: 16}}>
-              <AppIcon style={{fontSize: 25}} name="settings" color="white" />
-            </TouchableOpacity>
+            <SettingMenu navigation={navigation} />
           ),
         })}
       />
@@ -191,6 +186,13 @@ function AppNavigator() {
         component={ContactScreen}
         options={{
           title: `${translations['contact']}`,
+        }}
+      />
+      <Stack.Screen
+        name="About"
+        component={AboutScreen}
+        options={{
+          title: `${translations['about']}`,
         }}
       />
     </Stack.Navigator>
