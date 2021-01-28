@@ -14,7 +14,8 @@ import {
   Right,
   Body,
   Content,
-  StyleProvider
+  StyleProvider,
+  Button,
 } from "native-base";
 
 import getTheme from '../themes/components';
@@ -30,7 +31,7 @@ export default class BigHeader extends React.Component {
   render() {
     return (
       <Header span>
-        <View style={{flexDirection: 'row', marginTop: 16}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 8}}>
           <Left>
             <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()}/>
           </Left>
@@ -38,6 +39,12 @@ export default class BigHeader extends React.Component {
           <Body>
             <Title>{this.props.title}</Title>
           </Body>
+
+          <Right>
+            <Button transparent onPress={() => !!this.props.onPressHome && this.props.onPressHome()}>
+              <Icon name='home' />
+            </Button>
+          </Right>
         </View>
 
         <View style={{width: '100%'}}>

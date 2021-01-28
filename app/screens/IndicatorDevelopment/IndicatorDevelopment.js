@@ -59,7 +59,7 @@ class IndicatorDevelopment extends Component {
 
     return (
       <HorizontalProgressHeader
-        title={translations.indicatorDevelopment}
+        title={translations.setIndicatorDevelopment}
         navigation={this.props.navigation}
         progressIndex={2}/>
     )
@@ -115,7 +115,7 @@ class IndicatorDevelopment extends Component {
     return (
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={[styles.h1, {flex: 1}]}>{ translations.proposedCriteria }</Text>
+          <Text style={[styles.h1, {flex: 1}]}>{ translations.indicatorDevelopment }</Text>
 
           { hasData && this._renderBtnAddCriteria() }
         </View>

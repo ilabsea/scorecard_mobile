@@ -18,7 +18,9 @@ class Scorecard {
   }
 
   get displayName() {
-    return `${this.uuid} (${this.name})`;
+    let scorecard_type = this.scorecard_type.split("_").map(x => x[0]).join("").toUpperCase();
+
+    return `${this.uuid} (${this.commune}-${this.district}-${this.province}-${this.year}-${scorecard_type})`;
   }
 }
 

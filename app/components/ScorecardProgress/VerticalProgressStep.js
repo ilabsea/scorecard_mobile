@@ -41,7 +41,7 @@ export default class VerticalProgressStep extends Component {
     return (
       <MilestoneCard
         key={uuidv4()}
-        title={ translations[step.label] }
+        title={ translations[step.headerTitle] }
         index={ step.value }
         progressIndex={ this.props.progressIndex }
         onPress={() => this.onPress(step) }

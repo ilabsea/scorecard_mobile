@@ -176,6 +176,7 @@ class ScorecardPreference extends Component {
           <ProgressHeader
             title={translations['getStarted']}
             onBackPress={() => this.props.navigation.goBack()}
+            onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={0}/>
 
           <ScrollView contentContainerStyle={styles.container}>
