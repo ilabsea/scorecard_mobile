@@ -164,7 +164,7 @@ class NewScorecard extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground source={require('../../assets/images/home/bg.png')} style={styles.imageBg}>
+        <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
           <View style={{alignItems: 'center', flex: 1}}>
             <Loading
               ref="loading"

@@ -18,7 +18,7 @@ class Home extends Component {
     const {translations} = this.context;
 
     return (
-      <ImageBackground source={require('../../assets/images/home/bg.png')} style={styles.imageBg}>
+      <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
         <View style={{alignItems: 'center', flex: 1}}>
           <View style={{flex: 3}}></View>
 
