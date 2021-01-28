@@ -13,8 +13,10 @@ import authenticationService from '../../services/authentication_service';
 
 import {
   find as findScorecardDownload,
-  update as updateScorecardDownload,
-  isDownloaded as isScorecardDownloaded,
+  // update as updateScorecardDownload,
+  // isDownloaded as isPhaseDownloaded,
+  isInfoSectionDownloaded,
+  updateDownloadInfoSection,
   getDownloadPercentage,
 } from '../../services/scorecard_download_service';
 
@@ -32,6 +34,8 @@ import { LanguageIndicatorService } from '../../services/language_indicator_serv
 import { LanguageRatingScaleService } from '../../services/language_rating_scale_service';
 import scorecardService from '../../services/scorecardService';
 
+import { INFO } from '../../constants/scorecard_constant';
+
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -46,7 +50,6 @@ class ScorecardDetail extends Component {
       scorecard: scorecardService.find(props.route.params.scorecard_uuid),
       downloadProgress: 0,
       showDownloadProgress: false,
-      isStopDownload: false,
       visibleModal: false,
       errorType: null,
       isFinishDownloaded: false,
@@ -56,11 +59,15 @@ class ScorecardDetail extends Component {
   }
 
   downloadScorecard = async () => {
-    const isErrorAuthentication = await authenticationService.isErrorAuthentication();
-    if (isErrorAuthentication) {
-      this.setErrorState('422');
+    authenticationService.checkErrorAuthentication(() => {
+      this.setState({
+        errorType: getErrorType('422'),
+        showDownloadProgress: false,
+        visibleModal: true,
+      });
+
       return;
-    }
+    });
 
     this.setState({
       showDownloadProgress: true,
@@ -69,9 +76,6 @@ class ScorecardDetail extends Component {
       isDownloading: true,
       isErrorDownload: false,
     });
-
-    if (this.state.errorType)
-      return;
 
     this.downloadProgramLanguage();
   };
@@ -106,24 +110,6 @@ class ScorecardDetail extends Component {
   downloadIndicator = () => {
     saveIndicatorSection(this.props.route.params.scorecard_uuid, this.state.scorecard.facility_id,
       (isDownloaded, phase) => {
-        this.successCallback(isDownloaded, phase, this.downloadLangIndicatorAudio());
-      },
-      this.errorCallback
-    );
-  }
-
-  downloadLangIndicatorAudio = () => {
-    this.languageIndicatorService.saveAudio(this.props.route.params.scorecard_uuid,
-      (isDownloaded, phase) => {
-        this.successCallback(isDownloaded, phase, this.downloadLangRatingScaleAudio());
-      },
-      this.errorCallback
-    );
-  }
-
-  downloadLangRatingScaleAudio = () => {
-    this.languageRatingScaleService.saveAudio(this.state.scorecard.program_id,
-      (isDownloaded, phase) => {
         this.successCallback(isDownloaded, phase, this.downloadIndicatorImage());
       },
       this.errorCallback
@@ -139,9 +125,33 @@ class ScorecardDetail extends Component {
     );
   }
 
+  // downloadLangIndicatorAudio = () => {
+  //   this.languageIndicatorService.saveAudio(this.props.route.params.scorecard_uuid,
+  //     (isDownloaded, phase) => {
+  //       this.successCallback(isDownloaded, phase, this.downloadLangRatingScaleAudio());
+  //     },
+  //     this.errorCallback
+  //   );
+  // }
+
+  // downloadLangRatingScaleAudio = () => {
+  //   this.languageRatingScaleService.saveAudio(this.state.scorecard.program_id,
+  //     (isDownloaded, phase) => {
+  //       this.successCallback(isDownloaded, phase, this.downloadIndicatorImage());
+  //     },
+  //     this.errorCallback
+  //   );
+  // }
+
   successCallback = (isDownloaded, phase, downloadNextPhase) => {
     if (isDownloaded) {
-      updateScorecardDownload(this.props.route.params.scorecard_uuid, phase, this.updateDownloadProgress);
+      const options = {
+        scorecard_uuid: this.props.route.params.scorecard_uuid,
+        program_id: this.state.scorecard.program_id,
+        phase: phase,
+      };
+
+      updateDownloadInfoSection(options, this.updateDownloadProgress);
 
       if (downloadNextPhase)
         downloadNextPhase();
@@ -160,14 +170,15 @@ class ScorecardDetail extends Component {
   }
 
   isFullyDownloaded = () => {
-    return isScorecardDownloaded(this.props.route.params.scorecard_uuid) || this.state.isFinishDownloaded;
+    return isInfoSectionDownloaded(this.props.route.params.scorecard_uuid) || this.state.isFinishDownloaded;
   }
 
   updateDownloadProgress = () => {
     const { scorecard_uuid } = this.props.route.params;
+
     const timeout = setTimeout(() => {
-      this.setState({downloadProgress: getDownloadPercentage(scorecard_uuid)}, () => {
-        if (isScorecardDownloaded(scorecard_uuid)) {
+      this.setState({downloadProgress: getDownloadPercentage(scorecard_uuid, INFO)}, () => {
+        if (isInfoSectionDownloaded(scorecard_uuid)) {
           this.setState({
             isFinishDownloaded: true,
             isDownloading: false,
@@ -216,10 +227,6 @@ class ScorecardDetail extends Component {
   };
 
   onBackPress = () => {
-    this.setState({
-      isStopDownload: true,
-    });
-
     this.languageIndicatorService.stopDownload()
     this.languageRatingScaleService.stopDownload();
     this.indicatorService.stopDownload();
@@ -237,14 +244,6 @@ class ScorecardDetail extends Component {
         bigTitle={title}
         onBackPress={() => this.onBackPress()}/>
     )
-  }
-
-  setErrorState = (error) => {
-    this.setState({
-      errorType: getErrorType(error),
-      showDownloadProgress: false,
-      visibleModal: true,
-    });
   }
 
   render() {

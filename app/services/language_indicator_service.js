@@ -8,8 +8,8 @@ class LanguageIndicatorService {
     this.isStopDownload = false;
   }
 
-  saveAudio = (scorecardUuid, successCallback, errorCallback) => {
-    const langIndicators = realm.objects('LanguageIndicator').filtered(`scorecard_uuid == '${scorecardUuid}'`);
+  saveAudio = (scorecardUuid, languageCode, successCallback, errorCallback) => {
+    const langIndicators = realm.objects('LanguageIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}'`);
     const options = {
       items: langIndicators,
       type: 'indicator',

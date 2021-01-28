@@ -1,13 +1,13 @@
 import realm from '../db/schema';
 import RatingScaleApi from '../api/RatingScaleApi';
-import { isPhaseDownloaded } from './scorecard_download_service';
+import { isPhaseDownloaded, INFO } from './scorecard_download_service';
 import { saveLanguageRatingScale } from './language_rating_scale_service';
 
 import { handleApiResponse } from './api_service';
 import { ratingScalePhase } from '../constants/scorecard_constant';
 
 const save = async (scorecardUuid, programId, successCallback, errorCallback) => {
-  if (isPhaseDownloaded(scorecardUuid, ratingScalePhase)) {
+  if (isPhaseDownloaded(scorecardUuid, ratingScalePhase, INFO)) {
     successCallback(true, ratingScalePhase);
     return;
   }

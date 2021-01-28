@@ -10,33 +10,58 @@ import MessageLabel from '../../components/MessageLabel';
 import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import ProgressHeader from '../../components/ProgressHeader';
+import DownloadButton from '../../components/ScorecardDetail/DownloadButton';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+
 import Color from '../../themes/color';
 import { getAll as getAllProgramLanguage } from '../../services/program_language_service';
 import scorecardService from '../../services/scorecardService';
+import authenticationService from '../../services/authentication_service';
+import { LanguageIndicatorService } from '../../services/language_indicator_service';
+import { LanguageRatingScaleService } from '../../services/language_rating_scale_service';
+
 import { isKhmerLanguage } from '../../utils/program_language_util';
+
+import {
+  find as findScorecardDownload,
+  isAudioLanguageDownloaded,
+  updateDownloadAudioSection,
+  getDownloadPercentage,
+} from '../../services/scorecard_download_service';
+
+import { AUDIO } from '../../constants/scorecard_constant';
 
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+
+    this.languageIndicatorService = new LanguageIndicatorService();
+    this.languageRatingScaleService = new LanguageRatingScaleService();
+
     this.state = {
-      scorecard: '',
+      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
       languages: [],
       textLocale: '',
       audioLocale: '',
       date: Moment().format('DD/MM/YYYY'),
       message: '',
       messageType: '',
+
+      downloadProgress: 0,
+      showDownloadProgress: false,
+      visibleModal: false,
+      errorType: null,
+      isFinishDownloaded: false,
+      isDownloading: false,
+      isErrorDownload: false,
     };
     this.textLanguageController;
     this.audioLanguageController;
   }
 
   componentDidMount() {
-    const scorecard = scorecardService.find(this.props.route.params.scorecard_uuid);
-    this.setState({scorecard: scorecard}, () => {
-      this.loadProgramLanguage();
-    });
+    this.loadProgramLanguage();
   }
 
   loadProgramLanguage = async () => {
@@ -68,6 +93,8 @@ class ScorecardPreference extends Component {
 
   changeAudioLocale = (item) => {
     this.setState({audioLocale: item.value});
+
+    console.log('Is audio language downloaded == ', isAudioLanguageDownloaded(this.props.route.params.scorecard_uuid, item.value));
   }
 
   saveSelectedData = () => {
@@ -167,6 +194,113 @@ class ScorecardPreference extends Component {
     this.audioLanguageController.close();
   }
 
+  downloadScorecardAudio = () => {
+    authenticationService.checkErrorAuthentication(() => {
+      this.setState({
+        errorType: getErrorType('422'),
+        showDownloadProgress: false,
+        visibleModal: true,
+      });
+
+      return;
+    });
+
+    this.setState({
+      showDownloadProgress: true,
+      errorType: null,
+      downloadProgress: 0,
+      isDownloading: true,
+      isErrorDownload: false,
+    });
+
+    this.languageIndicatorService.saveAudio(
+      this.props.route.params.scorecard_uuid,
+      this.state.audioLocale,
+      (isDownloaded, phase) => {
+        console.log('is Audio downloaded == ', isDownloaded);
+        this.successCallback(isDownloaded, phase, this.downloadLangRatingScaleAudio());
+      },
+      () => {
+        console.log('++ error download audio ++');
+        this.errorCallback();
+      }
+    );
+  }
+
+  downloadLangRatingScaleAudio = () => {
+    this.languageRatingScaleService.saveAudio(this.state.scorecard.program_id,
+      (isDownloaded, phase) => {
+        console.log('is lang rating scale audio downloaded = ', isDownloaded);
+        this.successCallback(isDownloaded, phase, null);
+      },
+      this.errorCallback
+    );
+  }
+
+  successCallback = (isDownloaded, phase, downloadNextPhase) => {
+    if (isDownloaded) {
+      const options = {
+        scorecard_uuid: this.props.route.params.scorecard_uuid,
+        program_id: this.state.scorecard.program_id,
+        phase: phase,
+      };
+
+      updateDownloadAudioSection(options, this.updateDownloadProgress);
+
+      if (downloadNextPhase)
+        downloadNextPhase();
+    }
+  }
+
+  errorCallback = () => {
+    console.log('== download error ==');
+    // this.setState({
+    //   isErrorDownload: true,
+    //   showDownloadProgress: false,
+    // });
+  }
+
+  updateDownloadProgress = () => {
+    const timeout = setTimeout(() => {
+      this.setState({downloadProgress: getDownloadPercentage(this.props.route.params.scorecard_uuid, AUDIO)}, () => {
+        if (isAudioLanguageDownloaded(this.props.route.params.scorecard_uuid, this.state.audioLocale)) {
+          this.setState({
+            isFinishDownloaded: true,
+            isDownloading: false,
+            showDownloadProgress: false,
+          });
+
+          clearTimeout(timeout);
+        }
+      });
+    }, 500);
+  }
+
+  renderDownloadButton = () => {
+    if (isAudioLanguageDownloaded(this.props.route.params.scorecard_uuid, this.state.audioLocale))
+      return;
+
+    const isDisabled = this.state.errorType ? false : this.state.isDownloading;
+    const { translations } = this.context;
+    const label = findScorecardDownload(this.props.route.params.scorecard_uuid) != undefined ? translations.resumeDownload : translations.downloadAndSave;
+
+    return (
+      <View>
+        { this.state.isErrorDownload &&
+          <Text style={{textAlign: 'center', marginBottom: 5, color: 'red'}}>{translations.failedToDownloadScorecard}</Text>
+        }
+
+        <DownloadButton
+          showDownloadProgress={this.state.showDownloadProgress}
+          downloadProgress={this.state.downloadProgress}
+          disabled={isDisabled}
+          onPress={() => this.downloadScorecardAudio()}
+          label={label}
+        />
+      </View>
+    );
+  };
+
   render() {
     const {translations} = this.context;
 
@@ -184,15 +318,19 @@ class ScorecardPreference extends Component {
               headline="scorecardPreference"
               subheading="pleaseFillInformationBelow"
             />
+
             {this.renderForm()}
           </ScrollView>
 
           <View style={{padding: 20}}>
-            <BottomButton
-              label={translations.next}
-              onPress={() => this.saveSelectedData()}
-            />
+            {this.renderDownloadButton()}
           </View>
+
+          <ErrorMessageModal
+            visible={this.state.visibleModal}
+            onDismiss={() => this.setState({visibleModal: false})}
+            errorType={this.state.errorType}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

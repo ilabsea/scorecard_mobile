@@ -62,11 +62,10 @@ class NewScorecard extends Component {
   };
 
   joinScorecard = async () => {
-    const isErrorAuthentication = await authenticationService.isErrorAuthentication();
-    if (isErrorAuthentication) {
+    authenticationService.checkErrorAuthentication(() => {
       this.setErrorState('422');
       return;
-    }
+    });
 
     if (!this.isValid())
       return;

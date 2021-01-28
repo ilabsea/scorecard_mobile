@@ -8,7 +8,7 @@ const authenticationService = (() => {
     authenticate,
     isValidForm,
     setIsErrorAuthentication,
-    isErrorAuthentication,
+    checkErrorAuthentication,
     clearErrorAuthentication,
   };
 
@@ -32,9 +32,11 @@ const authenticationService = (() => {
     AsyncStorage.setItem('IS_ERROR_AUTHENTICATION', 'true');
   }
 
-  async function isErrorAuthentication() {
+  async function checkErrorAuthentication(callback) {
     const isError = await AsyncStorage.getItem('IS_ERROR_AUTHENTICATION');
-    return isError ? true : false;
+
+    if (isError)
+      callback();
   }
 
   function clearErrorAuthentication() {

@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 import { downloadAudio } from './download_service';
-import { isPhaseDownloaded } from './scorecard_download_service';
+import { isPhaseDownloaded, INFO } from './scorecard_download_service';
 import { langRatingScaleAudioPhase } from '../constants/scorecard_constant';
 
 class LanguageRatingScaleService {
@@ -41,7 +41,7 @@ class LanguageRatingScaleService {
 }
 
 const saveLanguageRatingScale = (index, langRatingScales, ratingScale, programId, scorecardUuid, successCallback) => {
-  if (index === langRatingScales.length || isPhaseDownloaded(scorecardUuid, langRatingScaleAudioPhase)) {
+  if (index === langRatingScales.length || isPhaseDownloaded(scorecardUuid, langRatingScaleAudioPhase, INFO)) {
     successCallback(true, langRatingScaleAudioPhase);
     return;
   }

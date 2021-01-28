@@ -3,12 +3,12 @@ import uuidv4 from '../utils/uuidv4';
 import { handleApiResponse } from './api_service';
 
 import ProgramLanguageApi from '../api/ProgramLanguageApi';
-import { programLanguagePhase } from '../constants/scorecard_constant';
+import { programLanguagePhase, INFO } from '../constants/scorecard_constant';
 
 import { isPhaseDownloaded } from './scorecard_download_service';
 
 const save = async (scorecardUuid, programId, successCallback, errorCallback) => {
-  if (isPhaseDownloaded(scorecardUuid, programLanguagePhase)) {
+  if (isPhaseDownloaded(scorecardUuid, programLanguagePhase, INFO)) {
     successCallback(true, programLanguagePhase);
     return;
   }

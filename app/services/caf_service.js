@@ -2,10 +2,10 @@ import realm from '../db/schema';
 import CafApi from '../api/CafApi';
 import { handleApiResponse } from './api_service';
 import { isPhaseDownloaded } from './scorecard_download_service';
-import { cafPhase } from '../constants/scorecard_constant';
+import { cafPhase, INFO } from '../constants/scorecard_constant';
 
 const save = async (scorecardUuid, localNgoId, successCallback, errorCallback) => {
-  if (isPhaseDownloaded(scorecardUuid, cafPhase)) {
+  if (isPhaseDownloaded(scorecardUuid, cafPhase, INFO)) {
     successCallback(true, cafPhase);
     return;
   }
