@@ -1,10 +1,18 @@
 import realm from '../db/schema';
 import CafApi from '../api/CafApi';
 import { handleApiResponse } from './api_service';
+import { isPhaseDownloaded } from './scorecard_download_service';
+import { cafPhase } from '../constants/scorecard_constant';
 
-const save = async (localNgoId, callback) => {
+const save = async (scorecardUuid, localNgoId, successCallback, errorCallback) => {
+  if (isPhaseDownloaded(scorecardUuid, cafPhase)) {
+    successCallback(true, cafPhase);
+    return;
+  }
+
   const cafApi = new CafApi();
   const response = await cafApi.load(localNgoId);
+
   handleApiResponse(response, (cafs) => {
     let savedCount = 0;
     cafs.map((caf) => {
@@ -19,9 +27,10 @@ const save = async (localNgoId, callback) => {
       });
     });
 
-    callback(savedCount === cafs.length);
+    successCallback(savedCount === cafs.length, cafPhase);
   }, (error) => {
     console.log('error download caf = ', error);
+    errorCallback();
   });
 };
 

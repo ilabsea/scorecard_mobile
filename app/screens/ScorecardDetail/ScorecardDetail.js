@@ -9,51 +9,41 @@ import DownloadButton from '../../components/ScorecardDetail/DownloadButton';
 import BottomButton from '../../components/BottomButton';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 
-import IndicatorApi from '../../api/IndicatorApi';
 import authenticationService from '../../services/authentication_service';
 
 import {
-  cancelApiRequest,
-  getScorecardDetail,
-  handleSaveScorecardPhase,
-  saveCallback,
-} from '../../services/scorecard_detail_service';
-
-import {
   find as findScorecardDownload,
-  isDownloaded,
+  update as updateScorecardDownload,
+  isDownloaded as isScorecardDownloaded,
   getDownloadPercentage,
-  isInidcatorSectionDownloaded,
 } from '../../services/scorecard_download_service';
 
-import {AudioService} from '../../services/audio_service';
-import RatingScaleService  from '../../services/rating_scale_service';
-import {getErrorType, handleApiResponse} from '../../services/api_service';
+import { save as saveRatingScale }  from '../../services/rating_scale_service';
+import {getErrorType} from '../../services/api_service';
 
-import {saveIndicator} from '../../services/indicator_service';
-import {saveLanguageIndicator} from '../../services/language_indicator_service';
+import {
+  saveIndicatorSection,
+  IndicatorService,
+} from '../../services/indicator_service';
 import { save as saveProgramLanguage } from '../../services/program_language_service';
 import { save as saveCaf } from '../../services/caf_service';
 
-import {
-  indicatorPhase,
-  languageIndicatorPhase,
-  audioPhase,
-  cafPhase,
-  ratingScalePhase,
-  programLanguagePhase,
-} from '../../constants/scorecard_constant';
+import { LanguageIndicatorService } from '../../services/language_indicator_service';
+import { LanguageRatingScaleService } from '../../services/language_rating_scale_service';
+import scorecardService from '../../services/scorecardService';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    this.audioService = new AudioService(false);
-    this.ratingScaleService = new RatingScaleService(false);
-    this.indicatorApi = null;
+
+    this.languageIndicatorService = new LanguageIndicatorService();
+    this.languageRatingScaleService = new LanguageRatingScaleService();
+    this.indicatorService = new IndicatorService();
+
     this.cafApi = null;
     this.state = {
-      detail: '',
+      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
       downloadProgress: 0,
       showDownloadProgress: false,
       isStopDownload: false,
@@ -61,64 +51,8 @@ class ScorecardDetail extends Component {
       errorType: null,
       isFinishDownloaded: false,
       isDownloading: false,
+      isErrorDownload: false,
     };
-  }
-
-  async componentDidMount() {
-    this.scorecard = await getScorecardDetail(this.props.route.params.scorecard_uuid);
-    this.setState({ detail: this.scorecard });
-  }
-
-  renderScorecardDetail = () => {
-    const {detail} = this.state;
-    return (<DisplayScorecardInfo scorecardDetail={detail}/>);
-  };
-
-  downloadIndicatorSection = () => {
-    if (isInidcatorSectionDownloaded(this.props.route.params.scorecard_uuid)) {
-      this.updateDownloadProgress();
-      return;
-    }
-
-    this.fetchIndicatorFromApi(async (response) => {
-      const indicators = await response;
-      const { scorecard_uuid } = this.props.route.params;
-      const phases = [
-        {
-          value: indicatorPhase,
-          save: saveIndicator(0, indicators, (isDownloaded) => {
-            this._callback(indicatorPhase, isDownloaded);
-          })
-        },
-        {
-          value: languageIndicatorPhase,
-          save: saveLanguageIndicator(scorecard_uuid, indicators, (isDownloaded) => {
-            this._callback(languageIndicatorPhase, isDownloaded);
-          })
-        },
-        {
-          value: audioPhase,
-          save: this.audioService.saveAudio(0, indicators, (isDownloaded) => {
-            this._callback(audioPhase, isDownloaded);
-          })
-        }
-      ]
-
-      phases.map((phase) => {
-        handleSaveScorecardPhase(scorecard_uuid, phase.value, this.updateDownloadProgress, () => {
-          phase.save;
-        });
-      });
-    }, (error) => {
-      this.setErrorState(error);
-      this.setState({isDownloading: false});
-    });
-  }
-
-  fetchIndicatorFromApi = async (successCallback, failedCallback) => {
-    this.indicatorApi = new IndicatorApi();
-    const response = await this.indicatorApi.load(this.scorecard.facility_id);
-    handleApiResponse(response, successCallback, failedCallback);
   }
 
   downloadScorecard = async () => {
@@ -133,61 +67,107 @@ class ScorecardDetail extends Component {
       errorType: null,
       downloadProgress: 0,
       isDownloading: true,
+      isErrorDownload: false,
     });
 
     if (this.state.errorType)
       return;
 
-    this.downloadIndicatorSection();
-
-    const { scorecard_uuid } = this.props.route.params;
-    const { program_id, local_ngo_id } = this.state.detail
-
-    const phases = [
-      {
-        value: cafPhase,
-        save: saveCaf(local_ngo_id, (isDownloaded) => {
-          this._callback(cafPhase, isDownloaded);
-        })
-      },
-      {
-        value: ratingScalePhase,
-        save: this.ratingScaleService.saveData(program_id, (isDownloaded) => {
-          this._callback(ratingScalePhase, isDownloaded);
-        })
-      },
-      {
-        value: programLanguagePhase,
-        save: saveProgramLanguage(program_id, (isDownloaded) => {
-          this._callback(programLanguagePhase, isDownloaded);
-        })
-      }
-    ];
-
-    phases.map((phase) => {
-      handleSaveScorecardPhase(scorecard_uuid, phase.value, this.updateDownloadProgress, () => {
-        phase.save;
-      });
-    });
+    this.downloadProgramLanguage();
   };
 
-  _callback = (phase, isDownloaded) => {
-    saveCallback(this.props.route.params.scorecard_uuid, phase, isDownloaded, this.updateDownloadProgress);
+  downloadProgramLanguage = () => {
+    saveProgramLanguage(this.props.route.params.scorecard_uuid, this.state.scorecard.program_id,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, this.downloadCaf());
+      },
+      this.errorCallback
+    );
+  }
+
+  downloadCaf = () => {
+    saveCaf(this.props.route.params.scorecard_uuid, this.state.scorecard.local_ngo_id,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, this.downloadRatingScale());
+      },
+      this.errorCallback
+    );
+  }
+
+  downloadRatingScale = () => {
+    saveRatingScale(this.props.route.params.scorecard_uuid, this.state.scorecard.program_id,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, this.downloadIndicator());
+      },
+      this.errorCallback
+    );
+  }
+
+  downloadIndicator = () => {
+    saveIndicatorSection(this.props.route.params.scorecard_uuid, this.state.scorecard.facility_id,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, this.downloadLangIndicatorAudio());
+      },
+      this.errorCallback
+    );
+  }
+
+  downloadLangIndicatorAudio = () => {
+    this.languageIndicatorService.saveAudio(this.props.route.params.scorecard_uuid,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, this.downloadLangRatingScaleAudio());
+      },
+      this.errorCallback
+    );
+  }
+
+  downloadLangRatingScaleAudio = () => {
+    this.languageRatingScaleService.saveAudio(this.state.scorecard.program_id,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, this.downloadIndicatorImage());
+      },
+      this.errorCallback
+    );
+  }
+
+  downloadIndicatorImage = () => {
+    this.indicatorService.saveImage(this.props.route.params.scorecard_uuid,
+      (isDownloaded, phase) => {
+        this.successCallback(isDownloaded, phase, null);
+      },
+      this.errorCallback
+    );
+  }
+
+  successCallback = (isDownloaded, phase, downloadNextPhase) => {
+    if (isDownloaded) {
+      updateScorecardDownload(this.props.route.params.scorecard_uuid, phase, this.updateDownloadProgress);
+
+      if (downloadNextPhase)
+        downloadNextPhase();
+    }
+  }
+
+  errorCallback = () => {
+    this.setState({
+      isErrorDownload: true,
+      showDownloadProgress: false,
+    });
   }
 
   startScorecard = () => {
-    this.props.navigation.navigate('ScorecardPreference', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.state.detail.local_ngo_id});
+    this.props.navigation.navigate('ScorecardPreference', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.state.scorecard.local_ngo_id});
   }
 
   isFullyDownloaded = () => {
-    return isDownloaded(this.props.route.params.scorecard_uuid) || this.state.isFinishDownloaded;
+    return isScorecardDownloaded(this.props.route.params.scorecard_uuid) || this.state.isFinishDownloaded;
   }
 
   updateDownloadProgress = () => {
     const { scorecard_uuid } = this.props.route.params;
     const timeout = setTimeout(() => {
       this.setState({downloadProgress: getDownloadPercentage(scorecard_uuid)}, () => {
-        if (isDownloaded(scorecard_uuid)) {
+        if (isScorecardDownloaded(scorecard_uuid)) {
           this.setState({
             isFinishDownloaded: true,
             isDownloading: false,
@@ -201,12 +181,20 @@ class ScorecardDetail extends Component {
   }
 
   renderDownloadButton = () => {
-    if (!this.isFullyDownloaded()) {
-      const isDisabled = this.state.errorType ? false : this.state.isDownloading;
-      const { translations } = this.context;
-      const label = findScorecardDownload(this.props.route.params.scorecard_uuid) != undefined ? translations.resumeDownload : translations.downloadAndSave;
+    if (this.isFullyDownloaded()) {
+      return;
+    }
 
-      return (
+    const isDisabled = this.state.errorType ? false : this.state.isDownloading;
+    const { translations } = this.context;
+    const label = findScorecardDownload(this.props.route.params.scorecard_uuid) != undefined ? translations.resumeDownload : translations.downloadAndSave;
+
+    return (
+      <View>
+        { this.state.isErrorDownload &&
+          <Text style={{textAlign: 'center', marginBottom: 5, color: 'red'}}>{translations.failedToDownloadScorecard}</Text>
+        }
+
         <DownloadButton
           showDownloadProgress={this.state.showDownloadProgress}
           downloadProgress={this.state.downloadProgress}
@@ -214,8 +202,8 @@ class ScorecardDetail extends Component {
           onPress={() => this.downloadScorecard()}
           label={label}
         />
-      );
-    }
+      </View>
+    );
   };
 
   renderStartButton = () => {
@@ -228,12 +216,14 @@ class ScorecardDetail extends Component {
   };
 
   onBackPress = () => {
-    cancelApiRequest(this.indicatorApi, this.cafApi, this.ratingScaleService);
     this.setState({
       isStopDownload: true,
     });
-    this.audioService.isStopDownload = true;
-    this.ratingScaleService.isStopDownload = true;
+
+    this.languageIndicatorService.stopDownload()
+    this.languageRatingScaleService.stopDownload();
+    this.indicatorService.stopDownload();
+
     this.props.navigation.goBack();
   }
 
@@ -259,12 +249,14 @@ class ScorecardDetail extends Component {
 
   render() {
     const {translations} = this.context;
+
     return (
       <Container>
         {this._renderHeader()}
+        
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
-          {this.renderScorecardDetail()}
+          <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
         </ScrollView>
 
         <View style={styles.buttonContainer}>

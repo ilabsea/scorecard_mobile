@@ -1,21 +1,15 @@
-const scorecardItem = {
-  indicator: 'indicator_downloaded',
-  language_indicator: 'language_indicator_downloaded',
-  caf: 'caf_downloaded',
-  audio: 'audio_downloaded',
-  rating_scale: 'rating_scale_downloaded',
-  program_language: 'program_language_downloaded',
-};
+// Download phases of scorecard contain indicator, language_indicator, caf,
+// rating_scale, program_language, lang_indicator_audio, lang_rating_scale_audio, and indicator_image
+const scorecardDownloadSteps = 8;
 
-// Download phases of scorecard contain indicator, language_indicator, caf, audio, rating_scale, and program_language
-const scorecardDownloadSteps = 6;
-
-const indicatorPhase = 1;
-const languageIndicatorPhase = 2;
-const cafPhase = 3;
-const audioPhase = 4;
-const ratingScalePhase = 5;
-const programLanguagePhase = 6;
+const programLanguagePhase = 1;
+const cafPhase = 2;
+const ratingScalePhase = 3;
+const indicatorPhase = 4;
+const languageIndicatorPhase = 5;
+const langIndicatorAudioPhase = 6;
+const langRatingScaleAudioPhase = 7;
+const indicatorImagePhase = 8;
 
 const scorecardDownloadPhases = {
   1: 'failed',
@@ -24,16 +18,19 @@ const scorecardDownloadPhases = {
   4: 'failed',
   5: 'failed',
   6: 'failed',
+  7: 'failed',
+  8: 'failed',
 }
 
 export {
-  scorecardItem,
   scorecardDownloadPhases,
   indicatorPhase,
   languageIndicatorPhase,
   cafPhase,
-  audioPhase,
   ratingScalePhase,
   programLanguagePhase,
+  langIndicatorAudioPhase,
+  langRatingScaleAudioPhase,
+  indicatorImagePhase,
   scorecardDownloadSteps,
 };

@@ -9,6 +9,7 @@ const IndicatorSchema = {
     name: 'string',
     facility_id: 'int',
     tag: 'string',
+    image: 'string?',
     local_image: 'string?',
   },
 };
