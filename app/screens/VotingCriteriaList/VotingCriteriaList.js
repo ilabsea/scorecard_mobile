@@ -31,8 +31,6 @@ class VotingCriteriaList extends Component {
 
     this.state = {
       scorecard: scorecardService.find(props.route.params.scorecard_uuid),
-      participantVisible: false,
-      addParticiantVisible: false,
     };
   }
 
@@ -60,14 +58,8 @@ class VotingCriteriaList extends Component {
     return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index}/>);
   }
 
-  goTo(routName) {
-    const { navigation } = this.props;
-
-    navigation.navigate(routName, {scorecard_uuid: this.state.scorecard.uuid})
-  }
-
   _goNext() {
-    this.goTo('ScorecardResult');
+    this.props.navigation.navigate('OfflineScorecardResult', {scorecard_uuid: this.state.scorecard.uuid});
   }
 
   _goToVotingForm(participant_uuid) {

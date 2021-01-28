@@ -24,6 +24,8 @@ import ParticipantInformationScreen from '../screens/ParticipantInformation/Part
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 
+import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
+
 // Util and components
 import Color from '../themes/color';
 import { LocalizationContext } from '../components/Translations';
@@ -124,10 +126,6 @@ function AppNavigator() {
         options={({navigation}) => ({
           header: () => null,
         })}
-        // options={{
-        //   title: `${translations['scorecardDetail']}`,
-        //   headerTitleAlign: 'center',
-        // }}
       />
       <Stack.Screen
         name="ScorecardPreference"
@@ -135,9 +133,6 @@ function AppNavigator() {
         options={({navigation}) => ({
           header: () => null,
         })}
-        // options={{
-        //   title: `${translations['getStarted']}`,
-        // }}
       />
       <Stack.Screen
         name="Facilitator"
@@ -194,6 +189,34 @@ function AppNavigator() {
         options={{
           title: `${translations['about']}`,
         }}
+      />
+      <Stack.Screen
+        name="OfflineParticipantList"
+        component={OfflineInstructionScreen}
+        options={({navigation}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="OfflineRaisingProposed"
+        component={OfflineInstructionScreen}
+        options={({navigation}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="OfflineIndicatorDevelopment"
+        component={OfflineInstructionScreen}
+        options={({navigation}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="OfflineScorecardResult"
+        component={OfflineInstructionScreen}
+        options={({navigation}) => ({
+          header: () => null,
+        })}
       />
     </Stack.Navigator>
   );

@@ -16,8 +16,8 @@ import BottomButton from '../../components/BottomButton';
 import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 import OutlinedButton from '../../components/OutlinedButton';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
@@ -122,7 +122,7 @@ class ParticipantList extends Component {
 
             <BottomButton
               label={translations.next}
-              onPress={() => this.props.navigation.navigate('RaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
+              onPress={() => this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
             />
           </View>
         </View>

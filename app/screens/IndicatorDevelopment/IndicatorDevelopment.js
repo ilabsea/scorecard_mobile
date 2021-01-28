@@ -35,7 +35,7 @@ class IndicatorDevelopment extends Component {
 
     this.state = {
       visibleModal: false,
-      scorecard: scorecardService.find(props.route.params.scorecard_uuid)
+      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
     };
   }
 
@@ -74,7 +74,7 @@ class IndicatorDevelopment extends Component {
   _renderSelectedCriterias() {
     let doms = this.props.selectedCriterias.map((criteria, index) => <SelectedCriteriaItem criteria={criteria} key={index}/>);
     return (
-      <View style={{}}>
+      <View>
         {doms}
       </View>
     )

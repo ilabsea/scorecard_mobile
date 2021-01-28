@@ -15,7 +15,7 @@ class UserListing extends Component {
   static contextType = LocalizationContext;
 
   onPress = () => {
-    this.props.navigation.navigate('IndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
+    this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
   }
 
   hasRaisedCriteria = () => {

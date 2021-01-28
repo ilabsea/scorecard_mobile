@@ -32,7 +32,7 @@ export default [
   },
   {
     screenName: 'IndicatorDevelopment',
-    title: 'ដំណាក់កាលនៃការជ្រើសរើសលក្ខណៈវិនិច្ឆ័យចុងក្រោយ',
+    title: 'ដំណាក់កាលនៃការជ្រើសរើសលក្ខណៈវិនិច្ឆ័យអាទិភាព',
     description: '',
     tips: [
       {

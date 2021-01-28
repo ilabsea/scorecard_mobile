@@ -3,12 +3,12 @@ import { View, TouchableOppacity } from 'react-native';
 
 import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
-import { Icon, Button, Text } from 'native-base';
 
 import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
 import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import ParticipantModalListItem from '../../components/RaisingProposed/ParticipantModalListItem';
 import Color from '../../themes/color';
+import OutlinedButton from '../OutlinedButton';
 
 export default class ParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -30,13 +30,11 @@ export default class ParticipantInfo extends Component {
 
     if (!!mode && mode.type == 'button') {
       return (
-        <Button
-          bordered
+        <OutlinedButton
+          icon={mode.iconName || 'plus'}
+          label={mode.label}
           onPress={() => this.setState({participantVisible: true}) }
-          iconLeft>
-          <Icon name={mode.iconName || 'plus'} type="FontAwesome" style={{color: Color.headerColor}} />
-          <Text style={{color: Color.headerColor}}>{mode.label}</Text>
-        </Button>
+        />
       )
     }
 

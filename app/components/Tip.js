@@ -14,7 +14,7 @@ import Color from '../themes/color';
 import customStyle from '../themes/customStyle';
 import cardListItemStyle from '../themes/cardListItemStyle';
 import tips from '../db/jsons/tips';
-import TipModal from './TipModal';
+import TipModal from './Tip/TipModal';
 
 export default class Tip extends Component {
   static contextType = LocalizationContext;
@@ -30,6 +30,7 @@ export default class Tip extends Component {
 
   renderTipIcon(scorecard) {
     let iconSize = 73 * 0.9;
+
     return (
       <View style={[cardListItemStyle.statusIconWrapper]}>
         <Image source={require('../assets/images/tip.png')} style={{width: iconSize, height: iconSize}}/>

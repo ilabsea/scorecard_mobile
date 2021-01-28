@@ -13,7 +13,6 @@ class OutlinedButton extends Component {
         <Icon name={this.props.icon || 'plus'} type="FontAwesome" style={{color: Color.headerColor}} />
         <Text style={{color: Color.headerColor}}>{this.props.label}</Text>
       </Button>
-
     );
   }
 }
