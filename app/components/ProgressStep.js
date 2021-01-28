@@ -20,7 +20,7 @@ export default class ProgressStep extends Component {
       itemWidth: 0
     }
     this.titleWidth = this.props.steps ? 120 : 145;
-    this.lineWidth = this.props.steps.length > 4 ? this.titleWidth - 15 : this.titleWidth - 40;
+    this.lineWidth = this.titleWidth - 40;
   }
 
   _renderNumber(title, index) {
@@ -33,8 +33,10 @@ export default class ProgressStep extends Component {
       titleStyle['fontFamily'] = FontFamily.title;
     }
 
+    let wrapperStyle = this.props.steps.length > 4 ? { width: '20%' } : {};
+
     return (
-      <View style={[styles.itemWrapper]} key={uuidv4()}>
+      <View style={[styles.itemWrapper, wrapperStyle]} key={uuidv4()}>
         <View style={[styles.badgeIcon, iconStyle]}>
           { badgeIcon }
         </View>
@@ -106,7 +108,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     height: '100%',
-    width: '19%',
   },
   badgeIcon: {
     backgroundColor: 'rgba(0, 0, 0, 0.27)',
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 2,
     paddingHorizontal: 2,
-    fontSize: 16,
+    fontSize: 15,
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },
