@@ -110,6 +110,7 @@ class CriteriaSelection extends Component {
           playingIndicatorId={this.state.playingIndicatorId}
           updateAudioState={this.updateAudioState}
           scorecardUUID={this.props.scorecardUUID}
+          isAddNewCriteria={isAddNewCriteriaIndex}
         />
       </View>
     )

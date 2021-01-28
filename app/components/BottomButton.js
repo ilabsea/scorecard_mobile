@@ -10,7 +10,7 @@ class BottomButton extends Component {
       <Button iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton} {...this.props}>
         <View style={{width: 60}} />
         <Text style={styles.labelStyle}>{this.props.label}</Text>
-        <Icon name={iconName} style={{marginRight: 20}} />
+        <Icon name={iconName} style={{marginRight: 20, color: '#fff'}} />
       </Button>
     );
   }

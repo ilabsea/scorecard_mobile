@@ -70,6 +70,11 @@ class CriteriaAudioButton extends Component {
             <Icon name={this.state.iconName} style={{ color: '#fff'}} />
           </TouchableOpacity>
         }
+        { !this.hasAudio() && !this.props.isAddNewCriteria &&
+          <View style={styles.noAudioIconContainer}>
+            <Icon name='volume-mute' style={{ color: '#fff'}} />
+          </View>
+        }
       </View>
     );
   }
@@ -87,6 +92,15 @@ const styles = StyleSheet.create({
     marginRight: 14,
     marginLeft: 10,
   },
+  noAudioIconContainer: {
+    backgroundColor: '#787878',
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 18,
+    marginRight: 10,
+  }
 });
 
 export default CriteriaAudioButton;
