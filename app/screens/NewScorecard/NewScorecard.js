@@ -17,12 +17,15 @@ import ActionButton from '../../components/ActionButton';
 import TextFieldInput from '../../components/TextFieldInput';
 import MessageLabel from '../../components/MessageLabel';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+import ScorecardInfoModal from '../../components/NewScorecard/ScorecardInfoModal';
+
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection, handleApiResponse, getErrorType} from '../../services/api_service';
 import scorecardService from '../../services/scorecardService';
 import authenticationService from '../../services/authentication_service';
+import { isDownloaded } from '../../services/scorecard_download_service';
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
@@ -30,6 +33,9 @@ import Logos from '../../components/Home/Logos';
 import ScorecardApi from '../../api/ScorecardApi';
 
 import { ERROR_SCORECARD } from '../../constants/error_constant';
+
+import { connect } from 'react-redux';
+import { set } from '../../actions/currentScorecardAction';
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -44,6 +50,8 @@ class NewScorecard extends Component {
       isLoading: false,
       visibleModal: false,
       errorType: null,
+      visibleInfoModal: false,
+      isSubmitted: false,
     };
   }
 
@@ -71,9 +79,26 @@ class NewScorecard extends Component {
     if (!this.isValid())
       return;
 
+    if (scorecardService.isSubmitted(this.state.code)) {
+      this.setState({
+        visibleInfoModal: true,
+        isSubmitted: true,
+      });
+      return;
+    }
+
     if (scorecardService.isExists(this.state.code)) {
       AsyncStorage.setItem('SELECTED_SCORECARD_UUID', this.state.code);
-      this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.state.code});
+
+      if (!isDownloaded(this.state.code)) {
+        this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.state.code});
+        return;
+      }
+
+      this.setState({
+        visibleInfoModal: true,
+        isSubmitted: false,
+      });
       return;
     }
 
@@ -125,7 +150,10 @@ class NewScorecard extends Component {
   }
 
   onChangeText = (type, value) => {
-    this.setState({code: value});
+    this.setState({
+      code: value,
+      codeMsg: '',
+    });
   };
 
   renderErrorMsg = () => {
@@ -156,6 +184,15 @@ class NewScorecard extends Component {
         </TouchableOpacity>
       </View>
     )
+  }
+
+  isDisabled = () => {
+    const codeValidationMsg = validationService('scorecardCode', this.state.code);
+
+    if (codeValidationMsg != null || this.state.isLoading || this.state.code === '')
+      return true;
+
+    return false;
   }
 
   render() {
@@ -189,7 +226,7 @@ class NewScorecard extends Component {
                 message={translations[codeMsg]}
                 maxLength={6}
                 keyboardType="number-pad"
-                customStyle={{fontSize: 22, height: 64}}
+                customStyle={{fontSize: 22, height: 64, marginBottom: 20}}
                 leftIcon="lock"
                 customIconStyle={{marginTop: 10}}
                 render={(innerProps) => (
@@ -198,8 +235,8 @@ class NewScorecard extends Component {
                     style={{height: 64, paddingLeft: 40, fontSize: 20, fontFamily: FontFamily.body}}
                   />
                 )}
-                customMessageStyle={{marginBottom: 0, color: '#03314a'}}
                 borderColor="#03314a"
+                hideMessage={true}
               />
               {this.renderErrorMsg()}
 
@@ -208,7 +245,7 @@ class NewScorecard extends Component {
                 label={translations["join"]}
                 customButtonStyle={{marginTop: 16, height: 64}}
                 customLabelStyle={{fontSize: 20}}
-                isDisabled={this.state.isLoading}
+                isDisabled={this.isDisabled()}
               />
 
               { this.renderBtnContact() }
@@ -220,6 +257,15 @@ class NewScorecard extends Component {
               visible={this.state.visibleModal}
               onDismiss={() => this.setState({visibleModal: false})}
               errorType={this.state.errorType}
+            />
+
+            <ScorecardInfoModal
+              visible={this.state.visibleInfoModal}
+              navigation={this.props.navigation}
+              onDismiss={() => this.setState({ visibleInfoModal: false })}
+              isSubmitted={this.state.isSubmitted}
+              scorecardUuid={this.state.code}
+              setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
             />
           </View>
         </ImageBackground>
@@ -239,4 +285,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewScorecard;
+function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NewScorecard);

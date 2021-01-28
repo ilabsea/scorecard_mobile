@@ -33,9 +33,17 @@ class SettingMenu extends Component {
           />
         }
       >
-        <Menu.Item onPress={() => this.navigate('Setting')} title={translations.setting} />
+        <Menu.Item
+          onPress={() => this.navigate('Setting')}
+          title={translations.setting}
+          icon='wrench'
+        />
         <Divider />
-        <Menu.Item onPress={() => this.navigate('About')} title={translations.about} />
+        <Menu.Item
+          onPress={() => this.navigate('About')}
+          title={translations.about}
+          icon='information'
+        />
       </Menu>
     );
   }

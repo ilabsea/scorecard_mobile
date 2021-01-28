@@ -35,6 +35,10 @@ class TextFieldInput extends Component {
     return label;
   }
 
+  getBorderColor = () => {
+    return !!this.getValidationMsg() ? 'red' : this.props.borderColor ? this.props.borderColor : '';
+  };
+
   onChangeText = (value) => {
     const { translations } = this.context;
     const validationMsg = validationService(this.props.fieldName, value === '' ? undefined : value);
@@ -67,7 +71,6 @@ class TextFieldInput extends Component {
   render() {
     const {
       value,
-      borderColor,
       customStyle,
       customMessageStyle,
     } = this.props;
@@ -82,13 +85,17 @@ class TextFieldInput extends Component {
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
           style={[{backgroundColor: 'white', width: '100%'}, customStyle]}
-          theme={{colors: {primary: borderColor || Color.clickableColor}, fontSize: 49}}
+          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}, fontSize: 49}}
           left={this.renderLeftIcon()}
+          autoCompleteType='off'
+          autoCapitalize='none'
         />
 
-        <Text style={[styles.messageLabel, customMessageStyle]}>
-          {this.getValidationMsg()}
-        </Text>
+        { !this.props.hideMessage &&
+          <Text style={[styles.messageLabel, customMessageStyle]}>
+            {this.getValidationMsg()}
+          </Text>
+        }
       </View>
     );
   }
