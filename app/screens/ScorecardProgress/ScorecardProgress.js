@@ -80,21 +80,23 @@ class ScorecardProgress extends Component {
     });
   }
 
-  _disableBackground() {
-    if (this.state.showProgress)
-      return styles.btnDisabled;
+  _isButtonDisable = () => {
+    if (this.state.showProgress || !this.state.scorecard.isCompleted || this.state.scorecard.isUploaded)
+      return true;
 
-    return ''
+    return false;
   }
 
   _renderBtnSubmit() {
     const { translations } = this.context
-    const btnStyle = (this.state.scorecard.isCompleted && !this.state.scorecard.isUploaded) ? { backgroundColor: Color.headerColor } : styles.btnDisabled;
+    let isDisable = this._isButtonDisable();
+    let btnStyle = isDisable ? styles.btnDisabled : { backgroundColor: Color.headerColor };
 
     return (
       <TouchableOpacity
+        disabled={isDisable}
         onPress={() => this.submitToServer() }
-        style={[styles.btn, btnStyle, this._disableBackground()]}>
+        style={[styles.btn, btnStyle]}>
 
         <Text style={{color: '#fff', fontSize: 20}}>{translations['submit']}</Text>
         { this.state.scorecard.isUploaded &&
@@ -141,7 +143,6 @@ class ScorecardProgress extends Component {
 
         <View style={{padding: 20}}>
           { this._renderProgressBar() }
-          { false && this._renderBtnDownload() }
           { this._renderBtnSubmit() }
         </View>
 
