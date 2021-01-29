@@ -4,6 +4,8 @@ import { View, Text, Image, StyleSheet, Linking, TouchableOpacity } from 'react-
 import { LocalizationContext } from '../../components/Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import pkg from '../../../package';
+
 class About extends Component {
   static contextType = LocalizationContext;
 
@@ -70,6 +72,10 @@ class About extends Component {
         </Text>
 
         { this.renderLogos() }
+
+        <View style={{flex: 1, alignSelf: 'flex-end', justifyContent: 'flex-end', marginBottom: 10}}>
+          <Text style={{textAlign: 'center', marginTop: 10}}>{translations.version} { pkg.version }</Text>
+        </View>
       </View>
     );
   }
