@@ -13,8 +13,9 @@ export default class Contact extends Component {
   constructor(props) {
     super(props);
 
+    let localContacts = contactService.getAll();
     this.state = {
-      contacts: contactService.getAll() || contacts
+      contacts: (localContacts.length && localContacts) || contacts
     };
   }
 

@@ -29,7 +29,7 @@ class SettingMenu extends Component {
         anchor={
           <AppIcon name="settings" size={20} color="white"
             onPress={() => this.setState({ isVisible: true })}
-            style={{marginRight: 16}}
+            style={{padding: 16}}
           />
         }
       >
