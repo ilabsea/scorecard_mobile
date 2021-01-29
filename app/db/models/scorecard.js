@@ -18,7 +18,9 @@ class Scorecard {
   }
 
   get displayName() {
-    return `${this.uuid} (${this.name})`;
+    let scorecard_type = {community_scorecard: 'CS', self_assessment: 'SA'}[this.scorecard_type];
+
+    return `${this.uuid} (${this.commune}-${this.district}-${this.province}-${this.year}-${this.facility}-${scorecard_type})`;
   }
 }
 

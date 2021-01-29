@@ -170,6 +170,7 @@ class ParticipantInformation extends Component {
         <ProgressHeader
           title={translations.getStarted}
           onBackPress={() => this.props.navigation.goBack()}
+          onPressHome={() => this.props.navigation.popToTop()}
           progressIndex={2}
         />
 

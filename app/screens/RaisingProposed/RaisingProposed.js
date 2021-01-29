@@ -30,6 +30,7 @@ class RaisingProposed extends Component {
         <ProgressHeader
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}
+          onPressHome={() => this.props.navigation.popToTop()}
           progressIndex={3}
         />
         <UserListing

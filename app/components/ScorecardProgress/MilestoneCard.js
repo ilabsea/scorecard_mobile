@@ -37,8 +37,8 @@ export default class MilestoneCard extends Component {
 
         { (index < this.props.progressIndex || this.props.isFinished) &&
           <View style={styles.viewDetail}>
-            <Text>{translations['viewDetail']}</Text>
-            <Icon name='chevron-forward-outline' style={{fontSize: 24}} />
+            <Text style={{color: Color.headerColor}}>{translations['viewDetail']}</Text>
+            <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
           </View>
         }
 

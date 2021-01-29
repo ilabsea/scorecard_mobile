@@ -57,8 +57,8 @@ export default class Tip extends Component {
             <Text numberOfLines={2} style={cardListItemStyle.paragraph}>{ description }</Text>
 
             <View style={cardListItemStyle.viewDetail}>
-              <Text>{translations.viewTips}</Text>
-              <Icon name='chevron-forward-outline' style={{fontSize: 24}} />
+              <Text style={{color: Color.headerColor}}>{translations.viewTips}</Text>
+              <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
             </View>
 
           </View>

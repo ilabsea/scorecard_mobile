@@ -13,6 +13,7 @@ const HorizontalProgressHeader = (props) => {
       title={ props.title }
       onBackPress={() => props.navigation.goBack() }
       steps={ steps }
+      onPressHome={ () => props.navigation.popToTop() }
       progressIndex={ props.progressIndex }/>
   );
 }
