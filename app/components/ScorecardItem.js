@@ -20,8 +20,8 @@ export default class ScorecardItem extends Component {
   static contextType = LocalizationContext;
 
   renderStatusIcon(scorecard) {
-    let wrapperStyle = scorecard.isCompleted ? {} : { backgroundColor: Color.headerColor };
-    let iconName     = scorecard.isCompleted ? 'check' : 'file-alt';
+    let wrapperStyle = scorecard.isInLastPhase ? {} : { backgroundColor: Color.headerColor };
+    let iconName     = scorecard.isInLastPhase ? 'check' : 'file-alt';
 
     return (
       <View style={[styles.statusIconWrapper, wrapperStyle]}>

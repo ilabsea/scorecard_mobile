@@ -57,7 +57,7 @@ class ScorecardProgress extends Component {
     if (this.state.showProgress)
       return;
 
-    if (!this.state.scorecard.isCompleted || this.state.scorecard.isUploaded) { return; }
+    if (!this.state.scorecard.isInLastPhase || this.state.scorecard.isUploaded) { return; }
     this.setState({
       showProgress: true,
       progressPercentag: 0,
@@ -81,7 +81,7 @@ class ScorecardProgress extends Component {
   }
 
   _isButtonDisable = () => {
-    if (this.state.showProgress || !this.state.scorecard.isCompleted || this.state.scorecard.isUploaded)
+    if (this.state.showProgress || this.state.scorecard.isUploaded || !this.state.scorecard.finished)
       return true;
 
     return false;
