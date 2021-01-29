@@ -25,12 +25,10 @@ export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
 
   _renderAvatar(scorecard, indicator) {
+    let bgStyle = !!indicator.local_image ? { backgroundColor: 'transparent' } : {};
+
     return (
-      <View style={[
-        cardListItemStyle.statusIconWrapper,
-        styles.avatarContainer,
-        !!indicator.local_image ? { backgroundColor: 'transparent' } : {}]}
-      >
+      <View style={[cardListItemStyle.statusIconWrapper, styles.avatarContainer, bgStyle]}>
         { !!indicator.local_image &&
           <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={{width: '99%', height: '99%'}} resizeMode='contain' />
         }
@@ -75,14 +73,12 @@ export default class VotingCriteriaListItem extends Component {
     let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
 
     return (
-      <View style={{ borderLeftWidth: 1, borderColor: Color.borderColor, justifyContent: 'center'}}>
-        <View style={styles.resultWrapper}>
-          <Text style={{marginRight: 8, fontSize: 14}}>{translations.result}:</Text>
+      <View style={styles.resultWrapper}>
+        <Text style={{fontSize: 14}}>{translations.score}: {criteria.median}</Text>
 
-          <View style={styles.medianWrapper}>
-            { this._renderIcon(currentIcon, 60) }
-            <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
-          </View>
+        <View style={{alignItems: 'center'}}>
+          { this._renderIcon(currentIcon, 60) }
+          <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
         </View>
       </View>
     )
@@ -90,14 +86,10 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderContent(indicator) {
     return (
-      <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1, backgroundColor: '', paddingRight: 20}}>
-          <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
+      <View style={[cardListItemStyle.contentWrapper, { padding: 10 }]}>
+        <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
 
-          { this._renderRatingIcons() }
-        </View>
-
-        { this._renderMedian() }
+        { this._renderRatingIcons() }
       </View>
     );
   }
@@ -107,16 +99,11 @@ export default class VotingCriteriaListItem extends Component {
     let indicator = getDisplayIndicator(this.props.criteria);
 
     return (
-      <TouchableOpacity
-        onPress={ () => !!this.props.onPress && this.props.onPress() }
-        style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
-
+      <View style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
         { this._renderAvatar(scorecard, indicator) }
-
-        <View style={[cardListItemStyle.contentWrapper, { paddingBottom: 10 }]}>
-          { this._renderContent(indicator) }
-        </View>
-      </TouchableOpacity>
+        { this._renderContent(indicator) }
+        { this._renderMedian() }
+      </View>
     )
   }
 }
@@ -139,20 +126,17 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center'
   },
-  medianWrapper: {
-    alignItems: 'center',
-    marginRight: 8,
-  },
   resultWrapper: {
     flexDirection: 'column',
     alignItems: 'center',
-    paddingLeft: 10,
-    marginBottom: 10,
+    justifyContent: 'center',
     width: 120,
+    borderLeftWidth: 1,
+    borderColor: Color.borderColor,
   },
   medianText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 15,
     marginTop: 4,
     color: Color.headerColor,
   },
@@ -161,7 +145,6 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     backgroundColor: Color.cardListItemAvataBg,
-    width: 140,
-    height: '100%',
+    width: '17%',
   }
 })
