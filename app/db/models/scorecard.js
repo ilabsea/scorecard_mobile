@@ -18,9 +18,9 @@ class Scorecard {
   }
 
   get displayName() {
-    let scorecard_type = this.scorecard_type.split("_").map(x => x[0]).join("").toUpperCase();
+    let scorecard_type = {community_scorecard: 'CS', self_assessment: 'SA'}[this.scorecard_type];
 
-    return `${this.uuid} (${this.commune}-${this.district}-${this.province}-${this.year}-${scorecard_type})`;
+    return `${this.uuid} (${this.commune}-${this.district}-${this.province}-${this.year}-${this.facility}-${scorecard_type})`;
   }
 }
 

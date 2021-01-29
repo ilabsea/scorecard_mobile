@@ -18,8 +18,8 @@ class Brand extends Component {
 
     return (
       <View style={{alignItems: 'center'}}>
-        <View style={{marginBottom: 40, marginTop: 30, alignItems: 'center'}}>
-          <Image source={require('../../assets/images/home/csc_logo.png')} style={{width: 130, height: 130, borderWidth: 4, borderColor: 'rgba(255,255,255,0.5)', borderRadius: 10}} />
+        <View style={{marginBottom: 20, marginTop: 40, alignItems: 'center'}}>
+          <Image source={require('../../assets/images/home/csc_logo.png')} style={{width: 97, height: 97, borderWidth: 4, borderColor: 'rgba(255,255,255,0.5)', borderRadius: 10}} />
         </View>
       </View>
     );
