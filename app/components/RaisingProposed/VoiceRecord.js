@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, PermissionsAndroid} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {Recorder} from '@react-native-community/audio-toolkit';
+import Tooltip from 'react-native-walkthrough-tooltip';
+
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import AudioPlayer from '../../services/audio_player_service';
@@ -24,6 +26,7 @@ class VoiceRecord extends Component {
       recordDuration: 0,
       playSeconds: 0,
       hasPermission: false,
+      toolTipVisible: false,
     };
   }
 
@@ -118,23 +121,34 @@ class VoiceRecord extends Component {
   };
 
   renderRecordButton = () => {
+    const { translations } = this.context;
+
     return (
       <View>
         <View style={{alignItems: 'center'}}>
           {this.state.isRecording && this.renderRecordTime()}
         </View>
-        <TouchableOpacity
-          onLongPress={() => this.recordVoice()}
-          onPressOut={() => this.stopRecordVoice()}
-          style={styles.voiceRecordButton}>
-          <MaterialIcon name="mic" size={35} color="#ffffff" />
-        </TouchableOpacity>
+        <Tooltip
+          isVisible={this.state.toolTipVisible}
+          content={<Text>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
+          placement="top"
+          onClose={() => this.setState({ toolTipVisible: false })}
+        >
+          <TouchableOpacity
+            onLongPress={() => this.recordVoice()}
+            onPressOut={() => this.stopRecordVoice()}
+            onPress={() => this.setState({ toolTipVisible: true })}
+            style={styles.voiceRecordButton}>
+            <MaterialIcon name="mic" size={35} color="#ffffff" />
+          </TouchableOpacity>
+        </Tooltip>
       </View>
     );
   };
 
   delete = () => {
     this.recorder.destroy();
+    this.recorder =  null;
     if (this.audioPlayer != null)
       this.audioPlayer.release();
 
