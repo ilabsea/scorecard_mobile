@@ -55,10 +55,17 @@ export default class MilestoneCard extends Component {
     return this.props.progressIndex >= this.props.index;
   }
 
+  _isFinished() {
+    if (this.props.isFinished)
+      return true;
+
+    return this.props.progressIndex > this.props.index;
+  }
+
   _renderBadge() {
     let isDone = this._isDone();
     let badgeIconStyle = isDone ? { backgroundColor: Color.headerColor } : {};
-    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index}</Text>
+    let badgeIcon = this._isFinished() ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index}</Text>
 
     return (
       <View style={[styles.badgeIcon, badgeIconStyle]}>
