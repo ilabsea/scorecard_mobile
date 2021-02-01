@@ -18,7 +18,7 @@ export default class Logos extends Component {
     let width = (logo.width * height)/logo.height;
 
     return (
-      <View style={{backgroundColor: '#fff', borderRadius: 30, padding: 6, marginHorizontal: 10}} key={index}>
+      <View style={{backgroundColor: '#fff', borderRadius: 30, padding: 8, marginHorizontal: 10}} key={index}>
         <Image source={logo.source} style={[{width: width, height: height}, logo.style]}/>
       </View>
     )
@@ -29,7 +29,7 @@ export default class Logos extends Component {
 
     let logos = [
       { source: require('../../assets/images/home/care.png'), width: 596, height: 220, style: {}},
-      { source: require('../../assets/images/home/api.png'), width: 308, height: 252, style: {marginHorizontal: 10}},
+      { source: require('../../assets/images/home/api.png'), width: 308, height: 252, style: {marginHorizontal: 10, marginTop: -1}},
       { source: require('../../assets/images/home/instedd.png'), width: 744, height: 224, style: {}},
     ]
 
