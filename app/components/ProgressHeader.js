@@ -40,11 +40,11 @@ export default class BigHeader extends React.Component {
             <Title>{this.props.title}</Title>
           </Body>
 
-          <Right>
+          <View>
             <Button transparent onPress={() => !!this.props.onPressHome && this.props.onPressHome()}>
               <Icon name='home' />
             </Button>
-          </Right>
+          </View>
         </View>
 
         <View style={{width: '100%'}}>

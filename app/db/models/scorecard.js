@@ -17,10 +17,14 @@ class Scorecard {
     return this.audio_language_code == this.text_language_code;
   }
 
-  get displayName() {
+  get subTitle() {
     let scorecard_type = {community_scorecard: 'CS', self_assessment: 'SA'}[this.scorecard_type];
 
-    return `${this.uuid} (${this.commune}-${this.district}-${this.province}-${this.year}-${this.facility}-${scorecard_type})`;
+    return `${this.commune}-${this.district}-${this.province}-${this.year}-${this.facility_code}-${scorecard_type}`;
+  }
+
+  get displayName() {
+    return `${this.uuid} (${this.subTitle})`;
   }
 }
 
@@ -32,6 +36,7 @@ Scorecard.schema = {
     unit_type: 'string',
     facility_id: 'int',
     facility: 'string',
+    facility_code: 'string',
     scorecard_type: 'string',
     name: 'string',
     description: 'string?',

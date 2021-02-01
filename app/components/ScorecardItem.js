@@ -46,7 +46,10 @@ export default class ScorecardItem extends Component {
         { this.renderStatusIcon(scorecard) }
 
         <View style={styles.contentWrapper}>
-          <Text style={styles.title} numberOfLines={1}>ID: {scorecard.displayName}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center', paddingRight: 20}}>
+            <Text style={styles.title}>ID: {scorecard.uuid} </Text>
+            <Text style={[{fontFamily: FontFamily.title, marginBottom: 8, flex: 1}]} numberOfLines={1}>({scorecard.subTitle})</Text>
+          </View>
 
           <View style={styles.subTextWrapper}>
             <Icon name='people' style={styles.subTextIcon} />
