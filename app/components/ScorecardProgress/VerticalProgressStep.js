@@ -45,7 +45,7 @@ export default class VerticalProgressStep extends Component {
         index={ step.value }
         progressIndex={ this.props.progressIndex }
         onPress={() => this.onPress(step) }
-        isFinished={this.state.scorecard.finished}
+        isScorecardFinished={this.state.scorecard.finished}
       />
     )
   }

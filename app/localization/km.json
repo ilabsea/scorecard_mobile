@@ -217,5 +217,7 @@
   "thisScorecardIsAlreadySubmitted": "ប័ណ្ណដាក់ពិន្ទុនេះបានដាក់ស្នើរួចហើយ",
   "continue": "បន្ត",
   "scorecardIsInStep": "ប័ណ្ណដាក់ពិន្ទុកំពុងនៅក្នុងជំហ៊ាន",
-  "thisScorecardIsInStep": "ប័ណ្ណដាក់ពិន្ទុនេះកំពុងនៅក្នុងជំហ៊ាន"
+  "thisScorecardIsInStep": "ប័ណ្ណដាក់ពិន្ទុនេះកំពុងនៅក្នុងជំហ៊ាន",
+  "noInternetConnection": "មិនមានសេវាអ៊ីនធឺណិត",
+  "thereIsNoInternetConnectionOnThisDevice": "ឧបករណ៍នេះមិនមានសេវាអ៊ីនធឺណិត"
 }
