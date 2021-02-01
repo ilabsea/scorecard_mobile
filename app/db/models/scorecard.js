@@ -1,8 +1,10 @@
 'use strict';
 
+import scorecardProgress from '../jsons/scorecardProgress';
+
 class Scorecard {
-  get isCompleted() {
-    return this.status == '5';
+  get isInLastPhase() {
+    return this.status == scorecardProgress[scorecardProgress.length - 1].value;
   }
 
   get isUploaded() {

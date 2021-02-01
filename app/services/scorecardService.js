@@ -39,7 +39,7 @@ const scorecardService = (() => {
     let indicators = customIndicators.filter(x => !x.id_from_server);
     totalNumber = indicators.length + 1;
 
-    if (!scorecard || !scorecard.isCompleted) { return; }
+    if (!scorecard || !scorecard.isInLastPhase) { return; }
 
     try {
       uploadCustomIndicator(0, indicators, callback, errorCallback);
