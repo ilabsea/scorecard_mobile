@@ -131,6 +131,7 @@ class AddNewIndicatorModal extends Component {
               data={data}
               value={this.state.tag}
               onChangeText={(text) => this.setState({tag: text})}
+              style={{marginBottom: 24}}
             />
 
             <VoiceRecord
