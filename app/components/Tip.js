@@ -15,6 +15,7 @@ import customStyle from '../themes/customStyle';
 import cardListItemStyle from '../themes/cardListItemStyle';
 import tips from '../db/jsons/tips';
 import TipModal from './Tip/TipModal';
+import { TouchableRipple } from 'react-native-paper';
 
 export default class Tip extends Component {
   static contextType = LocalizationContext;
@@ -29,10 +30,10 @@ export default class Tip extends Component {
   }
 
   renderTipIcon(scorecard) {
-    let iconSize = 73 * 0.9;
+    let iconSize = 40;
 
     return (
-      <View style={[cardListItemStyle.statusIconWrapper]}>
+      <View style={[cardListItemStyle.statusIconWrapper, {width: 70}]}>
         <Image source={require('../assets/images/tip.png')} style={{width: iconSize, height: iconSize}}/>
       </View>
     )
@@ -41,28 +42,23 @@ export default class Tip extends Component {
   render() {
     let scorecard = this.props.scorecard || {};
     const { translations } = this.context;
-    const description = this.state.tip.description || this.state.tip.tips.map(t => t.title).join(' ');
 
     return (
       <View>
-        <TouchableOpacity
+        <TouchableRipple
           onPress={ () => this.setState({visibleModal: true}) }
-          style={[cardListItemStyle.listItem, customStyle.card]}>
+          style={[customStyle.card, {marginBottom: 16}]}>
 
-          { this.renderTipIcon(scorecard) }
+          <View style={{flexDirection: 'row'}}>
+            { this.renderTipIcon(scorecard) }
 
-          <View style={cardListItemStyle.contentWrapper}>
-            <Text style={cardListItemStyle.h1}>{ translations.tips }</Text>
-
-            <Text numberOfLines={2} style={cardListItemStyle.paragraph}>{ description }</Text>
-
-            <View style={cardListItemStyle.viewDetail}>
+            <View style={styles.contentWrapper}>
+              <Text style={[cardListItemStyle.h2, { marginBottom: 0, flex: 1 }]}>{ translations.tips }</Text>
               <Text style={{color: Color.headerColor}}>{translations.viewTips}</Text>
               <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
             </View>
-
           </View>
-        </TouchableOpacity>
+        </TouchableRipple>
 
         <TipModal
           visible={this.state.visibleModal}
@@ -75,11 +71,11 @@ export default class Tip extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    minHeight: 450,
-    marginHorizontal: 30,
-    justifyContent: 'flex-start'
-  },
+  contentWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    padding: 16,
+    paddingRight: 10
+  }
 });
