@@ -17,6 +17,8 @@ import { CUSTOM } from '../../utils/variable';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
+import { getIndicatorList } from '../../services/indicator_service';
+
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
 
@@ -26,16 +28,20 @@ class CreateNewIndicator extends Component {
     this.state = {
       isModalVisible: false,
       isValid: false,
+      indicators: [],
       selectedIndicators: [],
       unselectedIndicators: [],
-      participant_uuid: this.props.route.params.participant_uuid
+      participant_uuid: this.props.route.params.participant_uuid,
+      customIndicator: null,
     };
   }
 
   componentDidMount() {
     const proposedCriterias = realm.objects('ProposedCriteria')
       .filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "' + this.state.participant_uuid + '"');
+
     this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
+    this._updateIndicatorList();
   }
 
   selectIndicator = () => {
@@ -56,15 +62,20 @@ class CreateNewIndicator extends Component {
   saveCustomIndicator = (customIndicator, customLanguageIndicator) => {
     let selectedIndicators = this.state.selectedIndicators;
     selectedIndicators.push(customIndicator);
+
     this.setState({selectedIndicators});
     realm.write(() => {
       realm.create('CustomIndicator', customIndicator, 'modified');
       realm.create('LanguageIndicator', customLanguageIndicator, 'modified');
     });
+
     this.setState({
       isModalVisible: false,
       isValid: true,
+      customIndicator: customIndicator,
     });
+    
+    this._updateIndicatorList();
   }
 
   updateRaisedParticipant = () => {
@@ -157,8 +168,19 @@ class CreateNewIndicator extends Component {
     )
   }
 
+  _updateIndicatorList = () => {
+    const { translations } = this.context;
+    const allCriteria = getIndicatorList(this.props.route.params.scorecard_uuid, this.state.participant_uuid, translations.addNewCriteria);
+
+    this.setState({
+      indicators: allCriteria.indicators,
+      selectIndicators: allCriteria.selectedIndicators,
+    });
+  }
+
   render() {
     const {translations} = this.context;
+
     return (
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
         <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}} keyboardShouldPersistTaps='handled'>
@@ -172,6 +194,9 @@ class CreateNewIndicator extends Component {
             selectIndicator={this.selectIndicator}
             scorecardUUID={this.props.route.params.scorecard_uuid}
             participantUUID={this.props.route.params.participant_uuid}
+            indicators={this.state.indicators}
+            selectedIndicators={this.state.selectedIndicators}
+            customIndicator={this.state.customIndicator}
           />
         </ScrollView>
 

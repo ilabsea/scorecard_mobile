@@ -5,10 +5,6 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
-import { getAll as getAllIndicators } from '../../services/indicator_service';
-import scorecardService from '../../services/scorecardService';
-import  { getIndicatorShortcutName } from '../../utils/indicator_util';
-import { CUSTOM, PREDEFINED } from '../../utils/variable';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
@@ -26,12 +22,26 @@ class CriteriaSelection extends Component {
       unselectedIndicators: [],
       isModalVisible: false,
       playingIndicatorId: null,
-      audioIcon: 'play-arrow'
+      audioIcon: 'play-arrow',
+      customIndicator: null,
     };
   }
 
-  componentDidMount() {
-    this.setState({indicators: this.getIndicator()});
+  static getDerivedStateFromProps(props, state) {
+    let indicators = props.indicators;
+
+    props.selectedIndicators.map((selectedIndicator) => {
+      var index = props.indicators.findIndex(indicator => indicator.uuid == selectedIndicator.uuid)
+
+      if (index != -1) {
+        indicators[index].isSelected = true;
+      }
+    });
+
+    return {
+      indicators: indicators,
+      selectedIndicators: props.selectedIndicators,
+    };
   }
 
   componentWillUnmount() {
@@ -68,7 +78,10 @@ class CriteriaSelection extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    return indicator.isSelected ? { borderColor: Color.primaryButtonColor, borderWidth: 2 } : {};
+    if (indicator.isSelected || (this.state.customIndicator != null && this.state.customIndicator.uuid == indicator.uuid))
+      return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
+
+    return {};
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
@@ -127,40 +140,6 @@ class CriteriaSelection extends Component {
     }
 
     return this.indicatorCard(indicator, index);
-  }
-
-  getIndicator = () => {
-    const {translations} = this.context;
-    let indicators = [];
-    const savedIndicators = getAllIndicators(this.props.scorecardUUID);
-    const proposedCriterias = scorecardService.getProposedCriterias(this.props.scorecardUUID, this.props.participantUUID);
-    let selectedIndicators = [];
-
-    savedIndicators.map((indicator) => {
-      let attrs = {
-        uuid: indicator.id || indicator.uuid,
-        name: indicator.name,
-        shortcut: getIndicatorShortcutName(indicator.name),
-        isSelected: false,
-        tag: indicator.tag,
-        type: !!indicator.id ? PREDEFINED : CUSTOM,
-        local_image: indicator.local_image,
-      };
-      if (proposedCriterias != undefined) {
-        for (let i=0; i<proposedCriterias.length; i++) {
-          const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-          if (proposedCriterias[i].indicatorable_id === indicatorId) {
-            attrs.isSelected = true;
-            selectedIndicators.push(attrs);
-            break;
-          }
-        }
-      }
-      indicators.push(attrs);
-    });
-    indicators.push({name: translations['addNewCriteria'], uuid: '', shortcut: 'add', isSelected: false, type: 'custom'})
-    this.setState({selectedIndicators}, () => {this.props.selectIndicator();});
-    return indicators;
   }
 
   render() {
