@@ -6,8 +6,8 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import authenticationService from '../../services/authentication_service';
-import CloseButton from '../CloseButton';
-import SaveButton from '../SaveButton';
+
+import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
 class ErrorAuthenticationContent extends Component {
   static contextType = LocalizationContext;
@@ -102,7 +102,7 @@ class ErrorAuthenticationContent extends Component {
             fieldName="password"
             onChangeText={this.onChangeText}
             message={translations.passwordErrorMsg}
-            isSecureEntry={true}
+            secureTextEntry={true}
           />
 
           { this.state.message != '' &&
@@ -111,14 +111,13 @@ class ErrorAuthenticationContent extends Component {
             </Text>
           }
 
-          <View style={CustomStyle.modalBtnWrapper}>
-            <CloseButton onPress={this.props.onDismiss} label={translations.close} />
-            <SaveButton
-              onPress={() => this.save()}
-              disabled={!this.state.isValidForm || this.state.isLoading}
-              label={translations.save}
-            />
-          </View>
+          <ModalConfirmationButtons
+            onClose={this.props.onDismiss}
+            closeButtonLabel={translations.close}
+            onConfirm={() => this.save()}
+            confirmButtonLabel={translations.save}
+            isConfirmButtonDisabled={!this.state.isValidForm || this.state.isLoading}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

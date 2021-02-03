@@ -19,6 +19,7 @@ const scorecardService = (() => {
     update,
     getProposedCriterias,
     updateFinishStatus,
+    isSubmitted,
   }
 
   function find(uuid) {
@@ -77,7 +78,7 @@ const scorecardService = (() => {
         }
 
         updateProgress(callback);
-        uploadCustomIndicator(index + 1, indicators, callback);
+        uploadCustomIndicator(index + 1, indicators, callback, errorCallback);
       });
   }
 
@@ -313,6 +314,15 @@ const scorecardService = (() => {
 
   function getProposedCriterias(scorecardUuid, participantUuid) {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
+  }
+
+  function isSubmitted(scorecardUuid) {
+    const scorecard = find(scorecardUuid);
+
+    if (!scorecard)
+      return false;
+
+    return scorecard.isUploaded;
   }
 })();
 
