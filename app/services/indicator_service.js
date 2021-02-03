@@ -6,8 +6,11 @@ import { downloadFileFromUrl, isFileExist } from './local_file_system_service';
 import IndicatorApi from '../api/IndicatorApi';
 import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
+import scorecardService from './scorecardService';
 
 import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_constant';
+import  { getIndicatorShortcutName } from '../utils/indicator_util';
+import { CUSTOM, PREDEFINED } from '../utils/variable';
 
 const saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, errorCallback) => {
   const indicatorApi = new IndicatorApi();
@@ -70,6 +73,40 @@ const getDisplayIndicator = (indicatorable, scorecardObj) => {
 
 const find = (indicatorId) => {
   return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
+}
+
+const getIndicatorList = (scorecardUuid, participantUuid, addNewLabel) => {
+  let indicators = [];
+  const savedIndicators = getAll(scorecardUuid);
+  const proposedCriterias = scorecardService.getProposedCriterias(scorecardUuid, participantUuid);
+
+  let selectedIndicators = [];
+
+  savedIndicators.map((indicator) => {
+    let attrs = {
+      uuid: indicator.id || indicator.uuid,
+      name: indicator.name,
+      shortcut: getIndicatorShortcutName(indicator.name),
+      isSelected: false,
+      tag: indicator.tag,
+      type: !!indicator.id ? PREDEFINED : CUSTOM,
+      local_image: indicator.local_image,
+    };
+    if (proposedCriterias != undefined) {
+      for (let i=0; i<proposedCriterias.length; i++) {
+        const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
+        if (proposedCriterias[i].indicatorable_id === indicatorId) {
+          attrs.isSelected = true;
+          selectedIndicators.push(attrs);
+          break;
+        }
+      }
+    }
+    indicators.push(attrs);
+  });
+  indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
+
+  return {indicators, selectedIndicators};
 }
 
 function getPredefinedIndicator(indicatorable, scorecard) {
@@ -169,5 +206,6 @@ export {
   getAll,
   find,
   getTags,
+  getIndicatorList,
   IndicatorService,
 };

@@ -72,6 +72,11 @@ class AddNewIndicatorModal extends Component {
     };
 
     this.props.saveCustomIndicator(customIndicator, customLanguageIndicator);
+    this.setState({
+      name: '',
+      tag: '',
+      audio: null,
+    });
   }
 
   finishRecord = (filename) => {
