@@ -8,8 +8,8 @@ class LanguageRatingScaleService {
     this.isStopDownload = false;
   }
 
-  saveAudio = (programId, successCallback, errorCallback) => {
-    const langRatingScales = realm.objects('LanguageRatingScale').filtered(`program_id = ${programId}`);
+  saveAudio = (programId, languageCode, successCallback, errorCallback) => {
+    const langRatingScales = realm.objects('LanguageRatingScale').filtered(`program_id = ${programId} AND language_code == '${languageCode}'`);
     const options = {
       items: langRatingScales,
       type: 'rating',

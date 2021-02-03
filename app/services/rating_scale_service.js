@@ -27,7 +27,7 @@ const save = async (scorecardUuid, programId, successCallback, errorCallback) =>
     },
     (error) => {
       console.log('error download rating scale = ', error);
-      errorCallback();
+      errorCallback(error);
     }
   );
 }

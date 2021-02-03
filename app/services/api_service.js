@@ -25,7 +25,8 @@ const handleApiResponse = (response, successCallback, errorCallback) => {
 }
 
 const getErrorType = (error) => {
-  if (error.indexOf('422') > -1 || error.indexOf('401') > -1)
+  console.log('Error type == ', error);
+  if (error != null && (error.indexOf('422') > -1 || error.indexOf('401') > -1))
     return ERROR_AUTHENTICATION;
 
   return ERROR_ENDPOINT;

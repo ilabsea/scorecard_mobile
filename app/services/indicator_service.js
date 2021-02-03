@@ -21,7 +21,7 @@ const saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, 
     saveLanguageIndicator(scorecardUuid, indicators, successCallback)
   }, (error) => {
     console.log('error download caf = ', error);
-    errorCallback();
+    errorCallback(error);
   });
 }
 

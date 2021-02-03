@@ -30,7 +30,7 @@ const save = async (scorecardUuid, localNgoId, successCallback, errorCallback) =
     successCallback(savedCount === cafs.length, cafPhase);
   }, (error) => {
     console.log('error download caf = ', error);
-    errorCallback();
+    errorCallback(error);
   });
 };
 

@@ -4,12 +4,15 @@ import {
   isFileExist,
 } from '../services/local_file_system_service';
 
+import { getEachAudioFilePercentage } from '../utils/scorecard_detail_util';
+
 // options parameter contains items, type, and phase
 const downloadAudio = (index, options, successCallback, errorCallback, storeAudioUrl) => {
   const { items, type, phase } = options;
+  const eachFilePercentage = getEachAudioFilePercentage(items.length);
 
   if (index === items.length) {
-    successCallback(true, phase);
+    successCallback(true, phase, null);
     return;
   }
 
@@ -23,11 +26,14 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
     };
 
     _checkAndSave(itemOptions, errorCallback, storeAudioUrl, () => {
+      successCallback(false, phase, eachFilePercentage);
       downloadAudio(index + 1, options, successCallback, errorCallback, storeAudioUrl);
     })
   }
-  else
+  else {
+    successCallback(false, phase, eachFilePercentage);
     downloadAudio(index + 1, options, successCallback, errorCallback, storeAudioUrl);
+  }
 }
 
 async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDownload) {
@@ -49,8 +55,10 @@ async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDown
       (isSuccess, response, localAudioFilePath) => {
         if (isSuccess)
           storeAudioUrl(item, localAudioFilePath, callbackDownload);
-        else
+        else {
+          console.log('Error download file == ', response);
           errorCallback();
+        }
       }
     );
   }
