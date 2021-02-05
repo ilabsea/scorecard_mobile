@@ -230,9 +230,18 @@ const stopDownload = () => {
     _indicatorService.stopDownload();
   }
 
-  // _languageIndicatorService = null;
-  // _languageRatingScaleService = null;
-  // _indicatorService = null;
+  _languageIndicatorService = null;
+  _languageRatingScaleService = null;
+  _indicatorService = null;
+}
+
+
+const deleteScorecardDownload = (scorecardUuid) => {
+  const scorecardDownload = find(scorecardUuid);
+
+  realm.write(() => {
+    realm.delete(scorecardDownload);
+  });
 }
 
 export {
@@ -243,4 +252,5 @@ export {
   download,
   stopDownload,
   downloadLangIndicatorAudio,
+  deleteScorecardDownload,
 }

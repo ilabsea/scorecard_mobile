@@ -1,15 +1,23 @@
 import realm from '../db/schema';
-import ratings from '../db/jsons/ratings';
 
 const ratingService = (() => {
   return {
-    create
+    create,
+    deleteRatings,
   }
 
   function create(data) {
     realm.write(() => {
       realm.create('Rating', data);
     })
+  }
+
+  function deleteRatings(scorecardUuid) {
+    const ratings = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}'`);
+
+    realm.write(() => {
+      realm.delete(ratings);
+    });
   }
 })();
 

@@ -4,6 +4,16 @@ import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getErrorType } from './api_service';
+import facilitatorService from './facilitator_service';
+import { deleteParticipants } from './participant_service';
+import { deleteScorecardDownload } from './scorecard_download_service';
+import { deleteLanguageIndicators } from './language_indicator_service';
+import ratingService from './ratingService';
+import votingCriteriaService from './votingCriteriaService';
+import customIndicatorService from './custom_indicator_service';
+import proposedCriteriaService from './proposedCriteriaService';
+
+import BaseModelService from './baseModelService';
 
 const scorecardService = (() => {
   const scorecardApi = new ScorecardApi();
@@ -15,11 +25,16 @@ const scorecardService = (() => {
     removeScorecardAsset,
     isExists,
     saveScorecardDetail,
+    getAll,
     find,
     update,
     getProposedCriterias,
     updateFinishStatus,
     isSubmitted,
+  }
+
+  function getAll() {
+    return realm.objects('Scorecard');
   }
 
   function find(uuid) {
@@ -327,3 +342,30 @@ const scorecardService = (() => {
 })();
 
 export default scorecardService;
+class ScorecardService extends BaseModelService {
+
+  delete = (scorecardUuid) => {
+    const scorecard = realm.objects('Scorecard').filtered(`uuid='${scorecardUuid}'`)[0];
+
+    if (scorecard.isUploaded)
+      return;
+
+    const responsibleModel = 'Scorecard';
+    super.delete(scorecardUuid, responsibleModel);
+
+    this.deleteScorecardData(scorecardUuid);
+  }
+
+  deleteScorecardData = (uuid) => {
+    deleteParticipants(uuid);
+    deleteScorecardDownload(uuid);
+    deleteLanguageIndicators(uuid);
+    facilitatorService.deleteFacilitators(uuid);
+    ratingService.deleteRatings(uuid);
+    votingCriteriaService.deleteVotingCriteria(uuid);
+    customIndicatorService.deleteCustomIndicators(uuid);
+    proposedCriteriaService.deleteProposedCriterias(uuid);
+  }
+}
+
+export { ScorecardService };
