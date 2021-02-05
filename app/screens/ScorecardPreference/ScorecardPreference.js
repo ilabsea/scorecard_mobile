@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'reac
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
+import NetInfo from '@react-native-community/netinfo';
 
 import {LocalizationContext} from '../../components/Translations';
 import SelectPicker from '../../components/SelectPicker';
@@ -11,6 +12,8 @@ import DownloadButton from '../../components/ScorecardDetail/DownloadButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import ProgressHeader from '../../components/ProgressHeader';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+
+import { ERROR_INTERNET } from '../../constants/error_constant';
 
 import Color from '../../themes/color';
 
@@ -56,12 +59,20 @@ class ScorecardPreference extends Component {
       isErrorDownload: false,
       isAudioDownloaded: false,
       isDownloadAudio: false,
+      hasInternetConnection: false,
     };
     this.textLanguageController;
     this.audioLanguageController;
   }
 
   componentDidMount() {
+    NetInfo.addEventListener((state) => {
+      if (state.isInternetReachable != null && state.isInternetReachable)
+        this.setState({ hasInternetConnection: true });
+      else
+        this.setState({ hasInternetConnection: false });
+    });
+
     this.loadProgramLanguage();
   }
 
@@ -216,7 +227,12 @@ class ScorecardPreference extends Component {
 
   downloadScorecard = async () => {
     const isErrorAuthentication = await authenticationService.isErrorAuthentication();
-    if (isErrorAuthentication) {
+
+    if (!this.state.hasInternetConnection) {
+      this.errorCallback(ERROR_INTERNET);
+      return;
+    }
+    else if (isErrorAuthentication) {
       this.errorCallback('422');
       return;
     }
@@ -265,7 +281,7 @@ class ScorecardPreference extends Component {
     }
   }
 
-  errorCallback = (error = null) => {
+  errorCallback = (error) => {
     this.setState({
       errorType: getErrorType(error),
       showDownloadProgress: false,

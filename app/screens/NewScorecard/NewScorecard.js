@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
@@ -32,7 +33,7 @@ import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
 import ScorecardApi from '../../api/ScorecardApi';
 
-import { ERROR_SCORECARD } from '../../constants/error_constant';
+import { ERROR_SCORECARD, ERROR_INTERNET } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -52,7 +53,17 @@ class NewScorecard extends Component {
       errorType: null,
       visibleInfoModal: false,
       isSubmitted: false,
+      hasInternetConnection: false,
     };
+  }
+
+  componentDidMount() {
+    NetInfo.addEventListener((state) => {
+      if (state.isInternetReachable != null && state.isInternetReachable)
+        this.setState({ hasInternetConnection: true });
+      else
+        this.setState({ hasInternetConnection: false });
+    });
   }
 
   isValid = () => {
@@ -99,6 +110,11 @@ class NewScorecard extends Component {
         visibleInfoModal: true,
         isSubmitted: false,
       });
+      return;
+    }
+
+    if (!this.state.hasInternetConnection) {
+      this.setErrorState(ERROR_INTERNET);
       return;
     }
 

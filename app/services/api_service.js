@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { ERROR_AUTHENTICATION, ERROR_ENDPOINT } from '../constants/error_constant';
+
+import { ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_INTERNET } from '../constants/error_constant';
 
 const checkConnection = (callback) => {
   setTimeout(async function () {
@@ -25,9 +26,10 @@ const handleApiResponse = (response, successCallback, errorCallback) => {
 }
 
 const getErrorType = (error) => {
-  console.log('Error type == ', error);
-  if (error != null && (error.indexOf('422') > -1 || error.indexOf('401') > -1))
+  if (error != null && (error.indexOf('422') != -1 || error.indexOf('401') != -1))
     return ERROR_AUTHENTICATION;
+  else if (error !=null && error.indexOf(ERROR_INTERNET) != -1)
+    return ERROR_INTERNET;
 
   return ERROR_ENDPOINT;
 }

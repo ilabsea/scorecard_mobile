@@ -16,6 +16,7 @@ const authenticationService = (() => {
     const response = await SessionApi.authenticate(email, password);
     handleApiResponse(response, (res) => {
       successCallback(res);
+      clearErrorAuthentication();
     }, (error) => {
       failedCallback(error);
     });
