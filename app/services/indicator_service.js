@@ -201,6 +201,36 @@ const getTags = (scorecardUuid) => {
           .filter((tag, index, self) => self.indexOf(tag) == index);
 }
 
+const getIndicatorProps = (props, state) => {
+  let indicators = props.indicators;
+  let defaultSelectedIndicators = [];
+
+  if (props.customIndicator != null) {
+    let index = indicators.findIndex((indicator) => {
+      return indicator.uuid == props.customIndicator.uuid;
+    })
+
+    indicators[index].isSelected = true;
+
+    if (!defaultSelectedIndicators.some(indicator => indicator.uuid == indicators[index].uuid))
+      defaultSelectedIndicators.push(indicators[index]);
+  }
+
+  state.selectedIndicators.map((selectedIndicator) => {
+    let index = indicators.findIndex((indicator) => {
+      return indicator.uuid == selectedIndicator.uuid;
+    })
+
+    if (index != -1) {
+      indicators[index].isSelected = true;
+      if (!defaultSelectedIndicators.some(indicator => indicator.uuid == indicators[index].uuid))
+        defaultSelectedIndicators.push(indicators[index]);
+    }
+  });
+
+  return { indicators: indicators, selectedIndicators: defaultSelectedIndicators };
+}
+
 export {
   saveIndicatorSection,
   getDisplayIndicator,
@@ -208,5 +238,6 @@ export {
   find,
   getTags,
   getIndicatorList,
+  getIndicatorProps,
   IndicatorService,
 };

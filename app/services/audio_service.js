@@ -57,6 +57,7 @@ class AudioService {
     }
     else {
       // File not found then start to download file
+      console.log('Audio url == ', audioUrl);
       downloadFileFromUrl(audioUrl, languageIndicator, async (isSuccess, response, localAudioFilePath) => {
         if (isSuccess)
           this._saveLocalAudioToLanguageIndicator(languageIndicator, localAudioFilePath, callbackDownload);
