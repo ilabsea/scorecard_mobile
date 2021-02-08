@@ -5,7 +5,7 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
-import { getIndicatorList, getIndicatorProps } from '../../services/indicator_service';
+import { getIndicatorState } from '../../services/indicator_service';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
@@ -29,7 +29,7 @@ class CriteriaSelection extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    return getIndicatorState(props, state);
+    return getIndicatorsState(props, state);
   }
 
   componentWillUnmount() {
