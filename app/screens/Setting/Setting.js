@@ -20,9 +20,10 @@ import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_service';
 import {handleApiResponse} from '../../services/api_service';
-import authenticationService from '../../services/authentication_service';
+import authenticationFormService from '../../services/authentication_form_service';
 import {localeDictionary} from '../../constants/locale_constant';
 import contactService from '../../services/contact_service';
+import internetConnectionService from '../../services/internet_connection_service';
 
 import SessionApi from '../../api/SessionApi';
 
@@ -45,6 +46,7 @@ class Setting extends Component {
       errorMsg: '',
       messageType: '',
       isLoading: false,
+      hasInternetConnection: false,
     };
     this.languageController;
   }
@@ -64,6 +66,10 @@ class Setting extends Component {
     } catch (error) {
       this.setState(setting);
     }
+
+    internetConnectionService.watchConnection((hasConnection) => {
+      this.setState({ hasInternetConnection: hasConnection });
+    });
   }
 
   getLocales = () => {
@@ -190,7 +196,7 @@ class Setting extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
 
-      authenticationService.clearErrorAuthentication();
+      authenticationFormService.clearErrorAuthentication();
       contactService.downloadContacts()
 
       this.refs.loading.show(false);
@@ -198,7 +204,7 @@ class Setting extends Component {
       this.props.navigation.goBack();
     }, (error) => {
       if (error.status == 422)
-        authenticationService.setIsErrorAuthentication();
+        authenticationFormService.setIsErrorAuthentication();
 
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.removeItem('AUTH_TOKEN');
@@ -210,6 +216,13 @@ class Setting extends Component {
   }
 
   save = async () => {
+    const { translations } = this.context;
+
+    if (!this.state.hasInternetConnection) {
+      internetConnectionService.showAlertMessage(translations.noInternetConnection,);
+      return;
+    }
+
     if (!this.isValidForm()) {
       return;
     }
@@ -249,9 +262,9 @@ class Setting extends Component {
     this.setState({messageType: 'error'});
     const error = response.error;
 
-    if (error.toLowerCase() === 'invalid email or password!')
+    if (error.message.toLowerCase() === 'invalid email or password!')
       message = 'invalidEmailOrPasswordMsg';
-    else if (error.toLowerCase() === 'Your account is unprocessable')
+    else if (error.message.toLowerCase() === 'Your account is unprocessable')
       message = 'accountIsUnprocessable';
     else
       message = 'authenticationFailed';

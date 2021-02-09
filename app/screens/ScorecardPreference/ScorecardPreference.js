@@ -11,7 +11,7 @@ import MessageModal from '../../components/MessageModal';
 import ScorecardPreferenceForm from '../../components/ScorecardPreference/ScorecardPreferenceForm';
 
 import ScorecardService from '../../services/scorecardService';
-import authenticationService from '../../services/authentication_service';
+import authenticationFormService from '../../services/authentication_form_service';
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
@@ -86,13 +86,13 @@ class ScorecardPreference extends Component {
 
   showConfirmModal = async (hasScorecardDownload) => {
     const { translations } = this.context;
-    const isErrorAuthentication = await authenticationService.isErrorAuthentication();
+    const isAuthenticated = await authenticationFormService.isAuthenticated();
 
     if (!this.state.hasInternetConnection) {
       internetConnectionService.showAlertMessage(translations.noInternetConnection);
       return;
     }
-    else if (isErrorAuthentication) {
+    else if (!isAuthenticated) {
       this.errorCallback('422');
       return;
     }
@@ -187,6 +187,14 @@ class ScorecardPreference extends Component {
     this.props.navigation.goBack();
   }
 
+  onDismissErrorMessageModal = () => {
+    this.setState({
+      visibleModal: false,
+      isErrorDownload: false,
+      errorType: null,
+    });
+  }
+
   render() {
     const {translations} = this.context;
     const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.textLocale);
@@ -220,7 +228,7 @@ class ScorecardPreference extends Component {
 
           <ErrorMessageModal
             visible={this.state.visibleModal}
-            onDismiss={() => this.setState({visibleModal: false})}
+            onDismiss={() => this.onDismissErrorMessageModal()}
             errorType={this.state.errorType}
           />
 

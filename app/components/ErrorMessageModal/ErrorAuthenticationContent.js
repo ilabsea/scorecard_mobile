@@ -6,6 +6,7 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import authenticationService from '../../services/authentication_service';
+import authenticationFormService from '../../services/authentication_form_service';
 
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
@@ -33,7 +34,7 @@ class ErrorAuthenticationContent extends Component {
 
     this.setState(state, () => {
       this.setState({
-        isValidForm: authenticationService.isValidForm(this.state.email, this.state.password)
+        isValidForm: authenticationFormService.isValidForm(this.state.email, this.state.password)
       })
     });
   }
@@ -53,18 +54,19 @@ class ErrorAuthenticationContent extends Component {
         isLoading: false,
         message: translations.successfullyAuthenticated,
       });
-      const setting = await AsyncStorage.getItem('SETTING');
-      authenticationService.clearErrorAuthentication();
+      const endPointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
+      authenticationFormService.clearErrorAuthentication();
       AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+
       AsyncStorage.setItem('SETTING',JSON.stringify({
-        backendUrl: JSON.parse(setting).backendUrl,
+        backendUrl: endPointUrl,
         email: this.state.email,
         password: this.state.password
       }));
 
       this.props.onDismiss();
     }, (error) => {
-      authenticationService.setIsErrorAuthentication();
+      authenticationFormService.setIsErrorAuthentication();
       AsyncStorage.removeItem('AUTH_TOKEN');
       this.setState({
         isLoading: false,
