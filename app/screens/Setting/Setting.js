@@ -197,7 +197,7 @@ class Setting extends Component {
       this.setState({isLoading: false});
       this.props.navigation.goBack();
     }, (error) => {
-      if (error.indexOf('422') > -1)
+      if (error.status == 422)
         authenticationService.setIsErrorAuthentication();
 
       AsyncStorage.setItem('IS_CONNECTED', 'true');

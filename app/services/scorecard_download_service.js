@@ -1,38 +1,25 @@
 import realm from '../db/schema';
-import {
-  getEachPhasePercentage,
-  getEachAudioPhasePercentage,
-} from '../utils/scorecard_detail_util';
-import {
-  scorecardDownloadPhases,
-  indicatorPhase,
-  languageIndicatorPhase,
-  audioPhase,
-  scorecardAudioDownloadPhases,
-  langIndicatorAudioPhase,
-  langRatingScaleAudioPhase,
-} from '../constants/scorecard_constant';
+import { getEachPhasePercentage } from '../utils/scorecard_detail_util';
 
-import {
-  saveIndicatorSection,
-  IndicatorService,
-} from './indicator_service';
+import { scorecardDownloadPhases } from '../constants/scorecard_constant';
+
+import { saveIndicatorSection, IndicatorService } from './indicator_service';
 import { save as saveCaf } from './caf_service';
 import { save as saveRatingScale }  from './rating_scale_service';
 
 import { LanguageIndicatorService } from './language_indicator_service';
 import { LanguageRatingScaleService } from './language_rating_scale_service';
 
+
 const find = (scorecardUuid) => {
   return realm.objects('ScorecardDownload').filtered(`scorecard_uuid == '${scorecardUuid}'`)[0];
 }
 
-const create = (scorecardUuid, programId, phase) => {
+const _create = (scorecardUuid, phase) => {
   let attrs = {
     scorecard_uuid: scorecardUuid,
     finished: false,
     download_percentage: getEachPhasePercentage(),
-    audio_step: scorecardAudioDownloadPhases(programId),
   };
   let phases = scorecardDownloadPhases;
   phases[phase] = 'downloaded';
@@ -44,34 +31,18 @@ const create = (scorecardUuid, programId, phase) => {
   });
 }
 
-const update = (options, phase, updateDownloadProgress) => {
-  const { scorecard, audioLocale } = options;
+const _update = (scorecard, phase, updateDownloadProgress) => {
   const scorecardDownload = find(scorecard.uuid);
 
   if (scorecardDownload === undefined) {
-    create(scorecard.uuid, scorecard.program_id, phase);
+    _create(scorecard.uuid, phase);
     return;
   }
 
   let downloadPhases = JSON.parse(scorecardDownload.step);
-  let audioDownloadPhases = JSON.parse(scorecardDownload.audio_step);
-
-  if (_isAudioPhase(phase)) {
-    audioDownloadPhases[langIndicatorAudioPhase][audioLocale] = 'downloaded';
-    audioDownloadPhases[langRatingScaleAudioPhase][audioLocale] = 'downloaded';
-
-    const attrs = {
-      scorecard_uuid: scorecard.uuid,
-      audio_step: JSON.stringify(audioDownloadPhases),
-    };
-
-    realm.write(() => {
-      realm.create('ScorecardDownload', attrs, 'modified');
-    });
-  }
 
   if (downloadPhases[phase] === 'downloaded') {
-    updateDownloadProgress(getEachAudioPhasePercentage());
+    updateDownloadProgress();
     return;
   }
 
@@ -88,7 +59,7 @@ const update = (options, phase, updateDownloadProgress) => {
     realm.create('ScorecardDownload', attrs, 'modified');
   });
 
-  updateDownloadProgress(getEachAudioPhasePercentage());
+  updateDownloadProgress();
 }
 
 const isPhaseDownloaded = (scorecardUuid, phase) => {
@@ -103,13 +74,6 @@ const isPhaseDownloaded = (scorecardUuid, phase) => {
 const isDownloaded = (scorecardUuid) => {
   const scorecardDownload = find(scorecardUuid);
   return scorecardDownload != undefined ? scorecardDownload.finished : false;
-}
-
-// Indicator section contains indicator, language_indicator, and audio
-const isInidcatorSectionDownloaded = (scorecardUuid) => {
-  return isPhaseDownloaded(scorecardUuid, indicatorPhase) &&
-         isPhaseDownloaded(scorecardUuid, languageIndicatorPhase) &&
-         isPhaseDownloaded(scorecardUuid, audioPhase);
 }
 
 const getDownloadPercentage = (scorecardUuid) => {
@@ -209,11 +173,8 @@ const _downloadIndicatorImage = (scorecard, audioLocale, updateDownloadProgress,
 }
 
 const downloadLangIndicatorAudio = (scorecard, audioLocale, updateDownloadProgress, errorCallback) => {
-  if (!_languageIndicatorService) {
+  if (!_languageIndicatorService)
     _languageIndicatorService = new LanguageIndicatorService();
-    _languageRatingScaleService = new LanguageRatingScaleService();
-    _indicatorService = new IndicatorService();
-  }
 
   _languageIndicatorService.saveAudio(scorecard.uuid, audioLocale,
     (isDownloaded, phase, downloadPercentage) => {
@@ -254,13 +215,8 @@ const _downloadLangRatingScaleAudio = (scorecard, audioLocale, updateDownloadPro
 const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downloadNextPhase) => {
   const { isDownloaded, scorecard, phase, audioLocale } = options;
 
-  if (!isDownloaded && _isAudioPhase(phase) && options.downloadPercentage) {
-    updateDownloadProgress(options.downloadPercentage);
-    return;
-  }
-
   if (isDownloaded) {
-    update(options, phase, updateDownloadProgress);
+    _update(scorecard, phase, updateDownloadProgress);
 
     if (downloadNextPhase)
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
@@ -268,49 +224,23 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
 }
 
 const stopDownload = () => {
-  if (_languageIndicatorService) {
+  if (_indicatorService) {
     _languageIndicatorService.stopDownload()
     _languageRatingScaleService.stopDownload();
     _indicatorService.stopDownload();
   }
 
-  _languageIndicatorService = null;
-  _languageRatingScaleService = null;
-  _indicatorService = null;
-}
-
-const isAudioLanguageDownloaded = (scorecardUuid, languageCode) => {
-  const scorecardDownload = find(scorecardUuid);
-
-  if (!scorecardDownload)
-    return false;
-
-  const audioStep = JSON.parse(scorecardDownload.audio_step);
-  const downloadedLangIndicator = audioStep[langIndicatorAudioPhase];
-  const downloadedLangRatingScale = audioStep[langRatingScaleAudioPhase];
-
-  if (downloadedLangIndicator[languageCode] === 'failed' || downloadedLangRatingScale[languageCode] === 'failed')
-    return false;
-
-  return true;
-}
-
-const _isAudioPhase = (phase) => {
-  if (phase == langIndicatorAudioPhase || phase == langRatingScaleAudioPhase)
-    return true;
-
-  return false;
+  // _languageIndicatorService = null;
+  // _languageRatingScaleService = null;
+  // _indicatorService = null;
 }
 
 export {
   find,
-  update,
   isPhaseDownloaded,
-  isInidcatorSectionDownloaded,
   isDownloaded,
   getDownloadPercentage,
   download,
   stopDownload,
-  isAudioLanguageDownloaded,
   downloadLangIndicatorAudio,
 }

@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
-import NetInfo from '@react-native-community/netinfo';
 
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
@@ -27,13 +26,14 @@ import {checkConnection, handleApiResponse, getErrorType} from '../../services/a
 import scorecardService from '../../services/scorecardService';
 import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
+import internetConnectionService from '../../services/internet_connection_service';
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
 import ScorecardApi from '../../api/ScorecardApi';
 
-import { ERROR_SCORECARD, ERROR_INTERNET } from '../../constants/error_constant';
+import { ERROR_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -58,11 +58,8 @@ class NewScorecard extends Component {
   }
 
   componentDidMount() {
-    NetInfo.addEventListener((state) => {
-      if (state.isInternetReachable != null && state.isInternetReachable)
-        this.setState({ hasInternetConnection: true });
-      else
-        this.setState({ hasInternetConnection: false });
+    internetConnectionService.watchConnection((hasConnection) => {
+      this.setState({ hasInternetConnection: hasConnection });
     });
   }
 
@@ -82,19 +79,19 @@ class NewScorecard extends Component {
 
   joinScorecard = async () => {
     const isErrorAuthentication = await authenticationService.isErrorAuthentication();
+
     if (isErrorAuthentication) {
       this.setErrorState('422');
       return;
     }
 
-    if (!this.isValid())
-      return;
-
-    if (scorecardService.isSubmitted(this.state.code)) {
+    const isSubmitted = scorecardService.isSubmitted(this.state.code);
+    if (!this.isValid() || isSubmitted) {
       this.setState({
-        visibleInfoModal: true,
-        isSubmitted: true,
+        visibleInfoModal: isSubmitted,
+        isSubmitted: isSubmitted,
       });
+
       return;
     }
 
@@ -110,11 +107,13 @@ class NewScorecard extends Component {
         visibleInfoModal: true,
         isSubmitted: false,
       });
+
       return;
     }
 
     if (!this.state.hasInternetConnection) {
-      this.setErrorState(ERROR_INTERNET);
+      const { translations } = this.context;
+      internetConnectionService.showAlertMessage(translations.noInternetConnection);
       return;
     }
 
@@ -144,7 +143,7 @@ class NewScorecard extends Component {
     }, (error) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
-      this.setErrorState(error);
+      this.setErrorState(error.status);
       this.refs.loading.show(false);
     });
 

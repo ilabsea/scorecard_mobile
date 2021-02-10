@@ -6,11 +6,6 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 
-import {
-  ERROR_SCORECARD,
-  ERROR_INTERNET,
-} from '../../constants/error_constant';
-
 class ErrorMessageContent extends Component {
   static contextType = LocalizationContext;
 
@@ -20,20 +15,10 @@ class ErrorMessageContent extends Component {
     return(
       <View>
         <Text style={CustomStyle.modalTitle}>
-          { this.props.errorType == ERROR_SCORECARD &&
-            translations.scorecardNotFound
-          }
-          { this.props.errorType == ERROR_INTERNET &&
-            translations.noInternetConnection
-          }
+        { translations.scorecardNotFound }
         </Text>
         <Text style={{marginTop: 10}}>
-          { this.props.errorType == ERROR_SCORECARD &&
-            translations.scorecardIsNotExist
-          }
-          { this.props.errorType == ERROR_INTERNET &&
-            translations.thereIsNoInternetConnectionOnThisDevice
-          }
+          { translations.scorecardIsNotExist }
         </Text>
 
         <View style={CustomStyle.modalBtnWrapper}>

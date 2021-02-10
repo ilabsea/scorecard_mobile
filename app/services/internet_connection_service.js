@@ -1,7 +1,7 @@
 import { ToastAndroid } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 
-const internetConnentService = (() => {
+const internetConnectionService = (() => {
   return {
     watchConnection,
     hasConnection,
@@ -29,4 +29,4 @@ const internetConnentService = (() => {
   }
 })();
 
-export default internetConnentService;
+export default internetConnectionService;

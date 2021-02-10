@@ -6,7 +6,6 @@ const ScorecardDownloadSchema = {
   properties: {
     scorecard_uuid: 'string',
     step: 'string',
-    audio_step: 'string',
     finished: { type: 'bool', default: false },
     download_percentage: { type: 'float', default: 0 },
   },

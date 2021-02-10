@@ -32,7 +32,7 @@ class ErrorMessageModal extends Component {
     else if (this.props.errorType === ERROR_ENDPOINT)
       return <ErrorEndpointContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />;
 
-    return <ErrorMessageContent onDismiss={this.props.onDismiss} errorType={this.props.errorType} />
+    return <ErrorMessageContent onDismiss={this.props.onDismiss} />
   }
 
   render() {
