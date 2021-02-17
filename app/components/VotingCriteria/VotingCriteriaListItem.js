@@ -3,11 +3,13 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
+  TouchableOpacity,
   Image,
 } from 'react-native';
 
+import styles from './styles/votingCriteriaListItemStyle';
 import { LocalizationContext } from '../../components/Translations';
+import VotingInfoModal from './VotingInfoModal';
 import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import customStyle from '../../themes/customStyle';
@@ -18,7 +20,7 @@ import ratings from '../../db/jsons/ratings';
 
 import { Median } from '../../utils/math';
 import indicatorHelper from '../../helpers/indicator_helper';
-import CustomStyle from '../../themes/customStyle';
+import { getVotingInfos } from '../../helpers/voting_criteria_helper';
 
 import { getDisplayIndicator } from '../../services/indicator_service';
 import CriteriaImage from '../IndicatorDevelopment/CriteriaImage';
@@ -26,7 +28,18 @@ import CriteriaImage from '../IndicatorDevelopment/CriteriaImage';
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
 
-  _renderAvatar(indicator) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalVisible: false,
+      votingInfos: [],
+    };
+  }
+
+  _renderAvatar(scorecard, indicator) {
+    let bgStyle = !!indicator.local_image ? { backgroundColor: 'transparent' } : {};
+
     return (
       <CriteriaImage
         indicator={indicator}
@@ -85,13 +98,29 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderContent(indicator) {
+    const { translations } = this.context;
+
     return (
       <View style={[cardListItemStyle.contentWrapper, { padding: 10 }]}>
         <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
 
         { this._renderRatingIcons() }
+
+        <View style={{borderWidth: 0, marginTop: 18, justifyContent: 'flex-end', flexDirection: 'row'}}>
+          <Text style={{fontSize: 15, color: Color.headerColor}}>{ translations.viewDetail }</Text>
+          <Icon name="chevron-forward-outline" style={{ fontSize: 24, color: Color.headerColor }}/>
+        </View>
       </View>
     );
+  }
+
+  showVotingDetail = (indicator) => {
+    const votingInfos = getVotingInfos(indicator.scorecard_uuid, indicator.indicator_id);
+
+    this.setState({
+      modalVisible: true,
+      votingInfos: votingInfos,
+    })
   }
 
   render() {
@@ -99,48 +128,20 @@ export default class VotingCriteriaListItem extends Component {
     let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
 
     return (
-      <View style={[customStyle.card, {height: 130, marginBottom: 20, flexDirection: 'row',}]}>
-        { this._renderAvatar(indicator) }
-        { this._renderContent(indicator) }
-        { this._renderMedian() }
-      </View>
+      <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
+        <View style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
+          { this._renderAvatar(scorecard, indicator) }
+          { this._renderContent(indicator) }
+          { this._renderMedian() }
+
+          <VotingInfoModal
+            visible={this.state.modalVisible}
+            votingInfos={this.state.votingInfos}
+            scorecard={this.props.scorecard}
+            onDismiss={() => this.setState({ modalVisible: false })}
+          />
+        </View>
+      </TouchableOpacity>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  ratingItem: {
-    width: '25%',
-    maxWidth: 54,
-    paddingVertical: 2,
-    flexDirection: 'row',
-    marginRight: 6,
-    backgroundColor: '#d8d8d8',
-    borderRadius: 15,
-    alignItems: 'center',
-    paddingLeft: 6,
-    marginTop: 6
-  },
-  ratingCount: {
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: 'center'
-  },
-  resultWrapper: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 96,
-    borderLeftWidth: 1,
-    borderColor: Color.borderColor,
-  },
-  medianText: {
-    textAlign: 'center',
-    fontSize: 14,
-    marginTop: 4,
-    color: Color.headerColor,
-  },
-  capitalize: {
-    textTransform: 'capitalize'
-  },
-})
