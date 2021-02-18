@@ -147,11 +147,16 @@ const deleteParticipants = (scorecardUuid) => {
   });
 }
 
+const getAll = (scorecardUuid) => {
+  return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}'`);
+}
+
 export {
   ParticipantCell,
   getRaisedParticipants,
   getParticipantInfo,
   saveParticipantInfo,
   getUnvoted,
-  deleteParticipants
+  deleteParticipants,
+  getAll
 };
