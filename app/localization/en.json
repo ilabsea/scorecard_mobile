@@ -213,7 +213,7 @@
   "notes": "Notes",
   "failedToDownloadScorecard": "Failed to download scorecard",
   "pleasePressAndHoldTheButtonToRecordAudio": "Please press and hold the button to record the audio",
-  "isSubmitted": "Is submitted",
+  "isSubmitted": "Already submitted",
   "thisScorecardIsAlreadySubmitted": "This scorecard is already submitted",
   "continue": "Continue",
   "scorecardIsInStep": "Scorecard is in step",

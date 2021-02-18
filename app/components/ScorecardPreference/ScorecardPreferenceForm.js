@@ -63,7 +63,7 @@ class ScorecardPreferenceForm extends Component {
     return (
       <View style={{marginTop: 10}}>
         <View style={styles.dropDownContainer}>
-          <Text style={[styles.inputLabel, {top: -15, zIndex: 10}]}>
+          <Text style={[styles.inputLabel, {top: -20, zIndex: 10}]}>
             {translations['date']}
           </Text>
           <DatePicker

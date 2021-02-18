@@ -16,10 +16,9 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import styles from '../../themes/scorecardListItemStyle';
 import PlaySound from '../VotingCriteria/PlaySound';
 
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 import indicatorHelper from '../../helpers/indicator_helper';
 
-import CustomStyle from '../../themes/customStyle';
 import CriteriaTitle from './CriteriaTitle';
 import CriteriaImage from './CriteriaImage';
 
@@ -57,7 +56,7 @@ class SelectedCriteriaItem extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={[styles.listItem, styles.card, {maxHeight: 130}]}>
+      <View style={[styles.listItem, styles.card, {height: 130}]}>
         { this.renderImage() }
 
         <View style={styles.contentWrapper}>

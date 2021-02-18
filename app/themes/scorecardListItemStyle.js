@@ -34,7 +34,7 @@ const ListItemStyle = StyleSheet.create({
   },
   statusIconWrapper: {
     width: '25%',
-    maxWidth: 160,
+    maxWidth: 130,
     backgroundColor: '#787878',
     alignItems: 'center',
     justifyContent: 'center'

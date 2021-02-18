@@ -4,9 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image,
-  ImageBackground,
 } from 'react-native';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -17,27 +15,29 @@ import cardListItemStyle from '../../themes/cardListItemStyle';
 import uuidv4 from '../../utils/uuidv4';
 import Images from '../../utils/images';
 import ratings from '../../db/jsons/ratings';
+
 import { Median } from '../../utils/math';
 import indicatorHelper from '../../helpers/indicator_helper';
 import CustomStyle from '../../themes/customStyle';
 
+import { getDisplayIndicator } from '../../services/indicator_service';
+import CriteriaImage from '../IndicatorDevelopment/CriteriaImage';
+
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
 
-  _renderAvatar(scorecard, indicator) {
-    let bgStyle = !!indicator.local_image ? { backgroundColor: 'transparent' } : {};
-
+  _renderAvatar(indicator) {
     return (
-      <View style={[cardListItemStyle.statusIconWrapper, styles.avatarContainer, bgStyle]}>
-        { !!indicator.local_image &&
-          <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={{width: '99%', height: '99%'}} resizeMode='contain' />
-        }
-      </View>
+      <CriteriaImage
+        indicator={indicator}
+        width='100%'
+        height='100%'
+      />
     )
   }
 
   _renderIcon(icon, size) {
-    let sizeRatio = size * 0.8;
+    let sizeRatio = size * 0.75;
 
     return (
       <Image source={Images[icon.image]} style={{width: sizeRatio, height: sizeRatio, maxWidth: size, maxHeight: size}} />
@@ -77,7 +77,7 @@ export default class VotingCriteriaListItem extends Component {
         <Text style={{fontSize: 14}}>{translations.score}: {criteria.median}</Text>
 
         <View style={{alignItems: 'center'}}>
-          { this._renderIcon(currentIcon, 60) }
+          { this._renderIcon(currentIcon, 56) }
           <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
         </View>
       </View>
@@ -99,8 +99,8 @@ export default class VotingCriteriaListItem extends Component {
     let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
 
     return (
-      <View style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
-        { this._renderAvatar(scorecard, indicator) }
+      <View style={[customStyle.card, {height: 130, marginBottom: 20, flexDirection: 'row',}]}>
+        { this._renderAvatar(indicator) }
         { this._renderContent(indicator) }
         { this._renderMedian() }
       </View>
@@ -111,7 +111,7 @@ export default class VotingCriteriaListItem extends Component {
 const styles = StyleSheet.create({
   ratingItem: {
     width: '25%',
-    maxWidth: 57,
+    maxWidth: 54,
     paddingVertical: 2,
     flexDirection: 'row',
     marginRight: 6,
@@ -130,21 +130,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120,
+    width: 96,
     borderLeftWidth: 1,
     borderColor: Color.borderColor,
   },
   medianText: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 14,
     marginTop: 4,
     color: Color.headerColor,
   },
   capitalize: {
     textTransform: 'capitalize'
   },
-  avatarContainer: {
-    backgroundColor: Color.cardListItemAvataBg,
-    width: '17%',
-  }
 })
