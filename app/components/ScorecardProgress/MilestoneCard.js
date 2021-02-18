@@ -24,7 +24,7 @@ export default class MilestoneCard extends Component {
     let cardStyle = isDone ? {} : { backgroundColor: Color.disableCardColor };
     let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
 
-    if (index == this.props.progressIndex && !this.props.isFinished) {
+    if (index == this.props.progressIndex && !this.props.isScorecardFinished) {
       titleStyle = { color: '#000', fontFamily: FontFamily.title};
     }
 
@@ -35,14 +35,14 @@ export default class MilestoneCard extends Component {
 
         <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
 
-        { (index < this.props.progressIndex || this.props.isFinished) &&
+        { (index < this.props.progressIndex || this.props.isScorecardFinished) &&
           <View style={styles.viewDetail}>
             <Text style={{color: Color.headerColor}}>{translations['viewDetail']}</Text>
             <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
           </View>
         }
 
-        { (index == this.props.progressIndex && !this.props.isFinished) &&
+        { (index == this.props.progressIndex && !this.props.isScorecardFinished) &&
           <View style={styles.btnResume}>
             <Text style={{color: '#fff', fontSize: 16}}>{translations['resume']}</Text>
           </View>
@@ -55,17 +55,17 @@ export default class MilestoneCard extends Component {
     return this.props.progressIndex >= this.props.index;
   }
 
-  _isFinished() {
-    if (this.props.isFinished)
+  _isPhaseFinished() {
+    if (this.props.isScorecardFinished)
       return true;
 
     return this.props.progressIndex > this.props.index;
   }
 
   _renderBadge() {
-    let isDone = this._isDone();
-    let badgeIconStyle = isDone ? { backgroundColor: Color.headerColor } : {};
-    let badgeIcon = this._isFinished() ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index}</Text>
+    let isPhaseFinished = this._isPhaseFinished();
+    let badgeIconStyle = isPhaseFinished ? { backgroundColor: Color.headerColor } : {};
+    let badgeIcon = isPhaseFinished ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index}</Text>
 
     return (
       <View style={[styles.badgeIcon, badgeIconStyle]}>

@@ -217,5 +217,7 @@
   "thisScorecardIsAlreadySubmitted": "This scorecard is already submitted",
   "continue": "Continue",
   "scorecardIsInStep": "Scorecard is in step",
-  "thisScorecardIsInStep": "This scorecard is in step"
+  "thisScorecardIsInStep": "This scorecard is in step",
+  "noInternetConnection": "No internet connection",
+  "thereIsNoInternetConnectionOnThisDevice": "There is no internet connection on this device."
 }

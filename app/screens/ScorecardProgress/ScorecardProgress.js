@@ -14,7 +14,7 @@ import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import scorecardService from '../../services/scorecardService';
-import authenticationService from '../../services/authentication_service';
+import internetConnectionService from '../../services/internet_connection_service';
 
 import { ProgressBar } from 'react-native-paper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -34,7 +34,16 @@ class ScorecardProgress extends Component {
       visibleModal: false,
       errorType: null,
       visibleMessageModal: false,
+      hasInternetConnection: false,
+      messageModalTitle: null,
+      messageModalDescription: null,
     };
+  }
+
+  componentDidMount() {
+    internetConnectionService.watchConnection((hasConnection) => {
+      this.setState({ hasInternetConnection: hasConnection });
+    });
   }
 
   _renderBtnDownload() {
@@ -54,6 +63,13 @@ class ScorecardProgress extends Component {
   }
 
   async submitToServer() {
+    const { translations } = this.context;
+
+    if (!this.state.hasInternetConnection) {
+      internetConnectionService.showAlertMessage(translations.noInternetConnection,);
+      return;
+    }
+
     if (this.state.showProgress)
       return;
 
@@ -124,6 +140,14 @@ class ScorecardProgress extends Component {
     }
   }
 
+  showMessageModal = (title, description) => {
+    this.setState({
+      visibleMessageModal: true,
+      messageModalTitle: title,
+      messageModalDescription: description,
+    });
+  }
+
   render() {
     const { translations } = this.context;
 
@@ -137,7 +161,7 @@ class ScorecardProgress extends Component {
             scorecardUuid={this.state.scorecard.uuid}
             navigation={this.props.navigation}
             localNgoId={this.state.scorecard.local_ngo_id}
-            showMessageModal={() => this.setState({ visibleMessageModal: true })}
+            showMessageModal={() => this.showMessageModal(translations.locked, translations.alreadyUploaded)}
           />
         </ScrollView>
 
@@ -155,8 +179,8 @@ class ScorecardProgress extends Component {
         <MessageModal
           visible={this.state.visibleMessageModal}
           onDismiss={() => this.setState({visibleMessageModal: false})}
-          title={translations.locked}
-          description={translations.alreadyUploaded}
+          title={this.state.messageModalTitle}
+          description={this.state.messageModalDescription}
           hasConfirmButton={false}
         />
       </View>
