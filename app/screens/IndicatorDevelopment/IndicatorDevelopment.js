@@ -23,7 +23,7 @@ import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
 
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
 
@@ -33,17 +33,15 @@ class IndicatorDevelopment extends Component {
   constructor(props) {
     super(props);
 
-    this.scorecardService = new ScorecardService();
-
     this.state = {
       visibleModal: false,
-      scorecard: this.scorecardService.find(props.route.params.scorecard_uuid),
+      scorecard: Scorecard.find(props.route.params.scorecard_uuid),
     };
   }
 
   componentDidMount() {
     if (this.state.scorecard.status < 3) {
-      this.scorecardService.update(this.state.scorecard.uuid, {status: '3'});
+      Scorecard.update(this.state.scorecard.uuid, {status: '3'});
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 

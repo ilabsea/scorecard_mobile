@@ -4,12 +4,17 @@ const proposedCriteriaService = (() => {
   return {
     getAll,
     getAllDistinctTag,
+    getAllByParticipant,
     getProposedCriterias,
     deleteProposedCriterias,
   }
 
   function getAll(scorecardUuid) {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecardUuid}'`);
+  }
+
+  function getAllByParticipant(scorecardUuid, participantUuid) {
+    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
   }
 
   function getAllDistinctTag(scorecardUuid) {

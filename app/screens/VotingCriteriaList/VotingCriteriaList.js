@@ -20,7 +20,7 @@ import { set } from '../../actions/currentScorecardAction';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
 
 class VotingCriteriaList extends Component {
@@ -29,15 +29,14 @@ class VotingCriteriaList extends Component {
   constructor(props) {
     super(props);
 
-    this.scorecardService = new ScorecardService();
     this.state = {
-      scorecard: this.scorecardService.find(props.route.params.scorecard_uuid),
+      scorecard: Scorecard.find(props.route.params.scorecard_uuid),
     };
   }
 
   componentDidMount() {
     if (this.state.scorecard.status < 4) {
-      this.scorecardService.update(this.state.scorecard.uuid, {status: '4'})
+      Scorecard.update(this.state.scorecard.uuid, {status: '4'})
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 

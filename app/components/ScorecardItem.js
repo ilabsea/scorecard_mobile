@@ -14,11 +14,9 @@ import { Icon } from 'native-base';
 import Color from '../themes/color';
 import uuidV4 from '../utils/uuidv4';
 import scorecardProgress from '../db/jsons/scorecardProgress';
-import realm from '../db/schema';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import styles from '../themes/scorecardListItemStyle';
-
-import scorecardService from '../services/scorecardService';
+import votingCriteriaService from '../services/votingCriteriaService';
 
 export default class ScorecardItem extends Component {
   static contextType = LocalizationContext;
@@ -63,7 +61,7 @@ export default class ScorecardItem extends Component {
     const { translations } = this.context;
     let scorecard = this.props.scorecard || {};
     let status = !!scorecard.status ? translations[scorecardProgress.filter(x => x.value == scorecard.status)[0].label] : '';
-    let criteriasSize = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecard.uuid}' DISTINCT(tag)`).length;
+    let criteriasSize = votingCriteriaService.getAll(scorecard.uuid).length;
 
     return (
       <Swipeable

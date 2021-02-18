@@ -29,20 +29,6 @@ class ScorecardService extends BaseModelService {
     this.totalNumber = 0;
   }
 
-  getAll() {
-    return realm.objects('Scorecard');
-  }
-
-  find(uuid) {
-    return realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
-  }
-
-  update(uuid, params={}) {
-    realm.write(() => {
-      realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
-    })
-  }
-
   upload(uuid, callback, errorCallback) {
     this.scorecard_uuid = uuid;
     this.scorecard = realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
@@ -58,17 +44,6 @@ class ScorecardService extends BaseModelService {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  updateFinishStatus(uuid) {
-    const attrs = {
-      uuid: uuid,
-      finished: true,
-    };
-
-    realm.write(() => {
-      realm.create('Scorecard', attrs, 'modified');
-    });
   }
 
   // ------Step1------
@@ -296,50 +271,6 @@ class ScorecardService extends BaseModelService {
   }
 
   // --------------------New scorecard---------------------
-  isExists(uuid) {
-    return realm.objects('Scorecard').filtered(`uuid == '${uuid}'`)[0] != undefined
-  }
-
-  saveScorecardDetail(response) {
-    AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
-    realm.write(() => {
-      realm.create('Scorecard', this._buildData(response), 'modified');
-    });
-  }
-
-  _buildData(response) {
-    return ({
-      uuid: response.uuid,
-      unit_type: response.unit_type_name,
-      facility_id: response.facility_id,
-      facility: response.facility.name,
-      facility_code: response.facility.code,
-      scorecard_type: response.scorecard_type,
-      name: response.name,
-      description: response.description,
-      year: response.year,
-      local_ngo_name: response.local_ngo_name,
-      local_ngo_id: response.local_ngo_id,
-      province: response.province,
-      district: response.district,
-      commune: response.commune,
-      program_id: response.program_id,
-    })
-  }
-
-  getProposedCriterias(scorecardUuid, participantUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
-  }
-
-  isSubmitted(scorecardUuid) {
-    const scorecard = this.find(scorecardUuid);
-
-    if (!scorecard)
-      return false;
-
-    return scorecard.isUploaded;
-  }
-
   delete(scorecardUuid) {
     const scorecard = this.find(scorecardUuid);
 

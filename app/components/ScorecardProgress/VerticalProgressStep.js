@@ -9,7 +9,7 @@ import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
 
 const badgeSize = 40;
 
@@ -19,9 +19,8 @@ export default class VerticalProgressStep extends Component {
   constructor(props) {
     super(props);
 
-    const scorecardService = new ScorecardService();
     this.state = {
-      scorecard: scorecardService.find(props.scorecardUuid)
+      scorecard: Scorecard.find(props.scorecardUuid)
     };
   }
 

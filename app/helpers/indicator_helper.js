@@ -1,11 +1,9 @@
-import ScorecardService from '../services/scorecardService';
 import IndicatorService from '../services/indicator_service';
 import customIndicatorService from '../services/custom_indicator_service';
 import { find as findLanguageIndicator } from '../services/language_indicator_service';
+import Scorecard from '../models/Scorecard';
 
 const indicatorHelper = (() => {
-  const indicatorService = new IndicatorService();
-
   return {
     getIndicatorsState,
     isExist,
@@ -39,13 +37,12 @@ const indicatorHelper = (() => {
   }
 
   function isExist(indicatorId) {
-    const indicator = indicatorService.find(indicatorId);
+    const indicator = new IndicatorService().find(indicatorId);
     return indicator === undefined ? false : true;
   }
 
   function getDisplayIndicator(indicatorable, scorecardObj) {
-    const scorecardService = new ScorecardService();
-    const scorecard = scorecardObj || scorecardService.find(indicatorable.scorecard_uuid);
+    const scorecard = scorecardObj || Scorecard.find(indicatorable.scorecard_uuid);
 
     if (indicatorable.indicatorable_type == 'predefined') {
       return _getPredefinedIndicator(indicatorable, scorecard);
@@ -58,7 +55,7 @@ const indicatorHelper = (() => {
   }
 
   function getTags(scorecardUuid) {
-    let indicators = indicatorService.getAll(scorecardUuid);
+    let indicators = new IndicatorService().getAll(scorecardUuid);
 
     return indicators.map(indi => indi.tag)
             .filter(tag => !!tag)
@@ -68,7 +65,7 @@ const indicatorHelper = (() => {
   // Private
 
   function _getPredefinedIndicator(indicatorable, scorecard) {
-    let predefined = indicatorService.find(indicatorable.indicatorable_id);
+    let predefined = new IndicatorService().find(indicatorable.indicatorable_id);
     let indi = findLanguageIndicator(indicatorable.indicatorable_id, scorecard.audio_language_code);
     indi = indi || predefined;
     indi = JSON.parse(JSON.stringify(indi));

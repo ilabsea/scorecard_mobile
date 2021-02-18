@@ -64,6 +64,7 @@ Scorecard.schema = {
     audio_language_code: 'string?',
     deleted_date: 'string?',
     finished: { type: 'bool', default: false },
+    downloaded_at: 'date',
   }
 }
 

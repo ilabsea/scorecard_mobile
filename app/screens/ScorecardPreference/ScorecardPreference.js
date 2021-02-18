@@ -10,11 +10,11 @@ import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageMo
 import MessageModal from '../../components/MessageModal';
 import ScorecardPreferenceForm from '../../components/ScorecardPreference/ScorecardPreferenceForm';
 
-import ScorecardService from '../../services/scorecardService';
 import authenticationFormService from '../../services/authentication_form_service';
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
+import Scorecard from '../../models/Scorecard';
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -27,8 +27,7 @@ class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    const scorecardService = new ScorecardService();
-    const scorecard = scorecardService.find(this.props.route.params.scorecard_uuid)
+    const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid)
 
     this.state = {
       scorecard: scorecard,

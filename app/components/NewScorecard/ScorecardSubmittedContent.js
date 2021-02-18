@@ -6,14 +6,14 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
 
 class ScorecardSubmittedContent extends Component {
   static contextType = LocalizationContext;
 
   viewDetail = () => {
-    const scorecardService = new ScorecardService();
-    const scorecard = scorecardService.find(this.props.scorecardUuid);
+    const scorecard = Scorecard.find(this.props.scorecardUuid);
+
     this.props.onDismiss();
     this.props.setCurrentScorecard(scorecard);
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});

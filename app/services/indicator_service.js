@@ -6,7 +6,7 @@ import { downloadFileFromUrl, isFileExist } from './local_file_system_service';
 import IndicatorApi from '../api/IndicatorApi';
 import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
-import ScorecardService from './scorecardService';
+import proposedCriteriaService from './proposedCriteriaService';
 
 import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_constant';
 import  { getIndicatorShortcutName } from '../utils/indicator_util';
@@ -119,8 +119,7 @@ class IndicatorService {
   getIndicatorList = (scorecardUuid, participantUuid, addNewLabel) => {
     let indicators = [];
     const savedIndicators = this.getAll(scorecardUuid);
-    const scorecardService = new ScorecardService();
-    const proposedCriterias = scorecardService.getProposedCriterias(scorecardUuid, participantUuid);
+    const proposedCriterias = proposedCriteriaService.getAllByParticipant(scorecardUuid, participantUuid);
 
     let selectedIndicators = [];
 
