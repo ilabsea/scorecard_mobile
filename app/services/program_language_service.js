@@ -3,19 +3,14 @@ import uuidv4 from '../utils/uuidv4';
 import { handleApiResponse } from './api_service';
 
 import ProgramLanguageApi from '../api/ProgramLanguageApi';
-import { programLanguagePhase } from '../constants/scorecard_constant';
 
-import { isPhaseDownloaded } from './scorecard_download_service';
-
-const save = async (scorecardUuid, programId, successCallback, errorCallback) => {
-  if (isPhaseDownloaded(scorecardUuid, programLanguagePhase)) {
-    successCallback(true, programLanguagePhase);
+const save = async (programId, successCallback, errorCallback) => {
+  if (isExist(programId))
     return;
-  }
 
-  let savedCount = 0;
   const programLanguageApi = new ProgramLanguageApi();
   const response = await programLanguageApi.load(programId);
+
   handleApiResponse(response, (languages) => {
     languages.map((language) => {
       if (!_isExist(language.id, programId)) {
@@ -31,13 +26,12 @@ const save = async (scorecardUuid, programId, successCallback, errorCallback) =>
           realm.create('ProgramLanguage', attrs);
         });
       }
-      savedCount += 1;
     });
 
-    successCallback(savedCount === languages.length, programLanguagePhase);
+    successCallback(languages);
   }, (error) => {
     console.log('error download program language = ', error);
-    errorCallback();
+    errorCallback(error);
   });
 };
 
@@ -50,4 +44,8 @@ const getAll = (programId) => {
   return realm.objects('ProgramLanguage').filtered(`program_id = ${programId}`);
 }
 
-export { save, getAll };
+const isExist = (programId) => {
+  return realm.objects('ProgramLanguage').filtered(`program_id = ${programId}`)[0] != undefined;
+}
+
+export { save, getAll, isExist };

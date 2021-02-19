@@ -1,7 +1,15 @@
-import { scorecardDownloadSteps } from '../constants/scorecard_constant';
+import {
+  scorecardDownloadSteps,
+} from '../constants/scorecard_constant';
 
 const getEachPhasePercentage = () => {
   return 1/scorecardDownloadSteps;
 }
 
-export { getEachPhasePercentage };
+const getEachAudioFilePercentage = (numberOfAudio) => {
+  const eachPhasePercentage = 1/scorecardDownloadSteps;
+
+  return eachPhasePercentage / numberOfAudio;
+}
+
+export { getEachPhasePercentage, getEachAudioFilePercentage };

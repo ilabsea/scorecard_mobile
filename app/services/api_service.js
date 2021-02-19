@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+
 import { ERROR_AUTHENTICATION, ERROR_ENDPOINT } from '../constants/error_constant';
 
 const checkConnection = (callback) => {
@@ -24,8 +25,8 @@ const handleApiResponse = (response, successCallback, errorCallback) => {
     successCallback(response.data);
 }
 
-const getErrorType = (error) => {
-  if (error.indexOf('422') > -1 || error.indexOf('401') > -1)
+const getErrorType = (errorStatus) => {
+  if (errorStatus == 422 || errorStatus == 401)
     return ERROR_AUTHENTICATION;
 
   return ERROR_ENDPOINT;

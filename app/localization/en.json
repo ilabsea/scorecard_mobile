@@ -219,5 +219,7 @@
   "scorecardIsInStep": "Scorecard is in step",
   "thisScorecardIsInStep": "This scorecard is in step",
   "noInternetConnection": "No internet connection",
-  "thereIsNoInternetConnectionOnThisDevice": "There is no internet connection on this device."
+  "thereIsNoInternetConnectionOnThisDevice": "There is no internet connection on this device.",
+  "theScorecardContainsImagesAndAudios": "The scorecard contains images and audios",
+  "downloadScorcardDescription": "If you download it without WIFI, you may spend a lot. After downloading with the selected language, you cannot change it. Are you sure to download the scorecard with text display in “{0}” and audio display in “{1}”?"
 }

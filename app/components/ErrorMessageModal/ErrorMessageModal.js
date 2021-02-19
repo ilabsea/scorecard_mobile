@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import ErrorEndpointContent  from './ErrorEndpointContent';
 import ErrorAuthenticationContent from './ErrorAuthenticationContent';
-import ErrorScorecardContent from './ErrorScorecardContent';
+import ErrorMessageContent from './ErrorMessageContent';
 import {
   ERROR_AUTHENTICATION,
   ERROR_ENDPOINT,
@@ -32,7 +32,7 @@ class ErrorMessageModal extends Component {
     else if (this.props.errorType === ERROR_ENDPOINT)
       return <ErrorEndpointContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />;
 
-    return <ErrorScorecardContent onDismiss={this.props.onDismiss} />
+    return <ErrorMessageContent onDismiss={this.props.onDismiss} />
   }
 
   render() {

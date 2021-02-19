@@ -6,7 +6,7 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 
-class ErrorScorecardContent extends Component {
+class ErrorMessageContent extends Component {
   static contextType = LocalizationContext;
 
   render() {
@@ -14,9 +14,11 @@ class ErrorScorecardContent extends Component {
 
     return(
       <View>
-        <Text style={CustomStyle.modalTitle}>{translations.scorecardNotFound}</Text>
+        <Text style={CustomStyle.modalTitle}>
+        { translations.scorecardNotFound }
+        </Text>
         <Text style={{marginTop: 10}}>
-          {translations.scorecardIsNotExist}
+          { translations.scorecardIsNotExist }
         </Text>
 
         <View style={CustomStyle.modalBtnWrapper}>
@@ -27,4 +29,4 @@ class ErrorScorecardContent extends Component {
   }
 }
 
-export default ErrorScorecardContent;
+export default ErrorMessageContent;

@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
+import { getErrorObject } from '../utils/api_error_util';
+
 const qs = require('qs');
 
 class BaseApi {
@@ -42,7 +44,8 @@ class BaseApi {
         cancelToken: options.cancelToken || undefined,
       })
       .catch((res) => {
-        return {error: res.toJSON().message};
+        const error = getErrorObject(res);
+        return {error: error};
       })
 
       return response;

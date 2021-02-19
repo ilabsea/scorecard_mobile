@@ -1,6 +1,5 @@
 import realm from '../db/schema';
 import ContactApi from '../api/ContactApi';
-import { getErrorType } from './api_service';
 
 const contactService = (() => {
   const contactApi = new ContactApi();

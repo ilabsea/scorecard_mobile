@@ -26,6 +26,7 @@ import {checkConnection, handleApiResponse, getErrorType} from '../../services/a
 import scorecardService from '../../services/scorecardService';
 import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
+import internetConnectionService from '../../services/internet_connection_service';
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
@@ -52,7 +53,14 @@ class NewScorecard extends Component {
       errorType: null,
       visibleInfoModal: false,
       isSubmitted: false,
+      hasInternetConnection: false,
     };
+  }
+
+  componentDidMount() {
+    internetConnectionService.watchConnection((hasConnection) => {
+      this.setState({ hasInternetConnection: hasConnection });
+    });
   }
 
   isValid = () => {
@@ -71,19 +79,19 @@ class NewScorecard extends Component {
 
   joinScorecard = async () => {
     const isErrorAuthentication = await authenticationService.isErrorAuthentication();
+
     if (isErrorAuthentication) {
       this.setErrorState('422');
       return;
     }
 
-    if (!this.isValid())
-      return;
-
-    if (scorecardService.isSubmitted(this.state.code)) {
+    const isSubmitted = scorecardService.isSubmitted(this.state.code);
+    if (!this.isValid() || isSubmitted) {
       this.setState({
-        visibleInfoModal: true,
-        isSubmitted: true,
+        visibleInfoModal: isSubmitted,
+        isSubmitted: isSubmitted,
       });
+
       return;
     }
 
@@ -99,6 +107,13 @@ class NewScorecard extends Component {
         visibleInfoModal: true,
         isSubmitted: false,
       });
+
+      return;
+    }
+
+    if (!this.state.hasInternetConnection) {
+      const { translations } = this.context;
+      internetConnectionService.showAlertMessage(translations.noInternetConnection);
       return;
     }
 
@@ -128,7 +143,7 @@ class NewScorecard extends Component {
     }, (error) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
-      this.setErrorState(error);
+      this.setErrorState(error.status);
       this.refs.loading.show(false);
     });
 

@@ -1,15 +1,16 @@
+import { getAll as getAllProgramLanguage } from '../services/program_language_service';
+
 // Download phases of scorecard contain indicator, language_indicator, caf,
 // rating_scale, program_language, lang_indicator_audio, lang_rating_scale_audio, and indicator_image
-const scorecardDownloadSteps = 8;
+const scorecardDownloadSteps = 7;
 
-const programLanguagePhase = 1;
-const cafPhase = 2;
-const ratingScalePhase = 3;
-const indicatorPhase = 4;
-const languageIndicatorPhase = 5;
+const cafPhase = 1;
+const ratingScalePhase = 2;
+const indicatorPhase = 3;
+const languageIndicatorPhase = 4;
+const indicatorImagePhase = 5;
 const langIndicatorAudioPhase = 6;
 const langRatingScaleAudioPhase = 7;
-const indicatorImagePhase = 8;
 
 const scorecardDownloadPhases = {
   1: 'failed',
@@ -19,7 +20,6 @@ const scorecardDownloadPhases = {
   5: 'failed',
   6: 'failed',
   7: 'failed',
-  8: 'failed',
 }
 
 export {
@@ -28,7 +28,6 @@ export {
   languageIndicatorPhase,
   cafPhase,
   ratingScalePhase,
-  programLanguagePhase,
   langIndicatorAudioPhase,
   langRatingScaleAudioPhase,
   indicatorImagePhase,

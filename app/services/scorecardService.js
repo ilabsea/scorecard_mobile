@@ -98,8 +98,8 @@ const scorecardService = (() => {
             scorecard.uploaded_date = new Date().toDateString();
           });
         }
-        else if (response.status === undefined)
-          errorCallback(getErrorType(response.error));
+        else if (response.error)
+          errorCallback(getErrorType(response.error.status));
 
         updateProgress(callback);
       });
