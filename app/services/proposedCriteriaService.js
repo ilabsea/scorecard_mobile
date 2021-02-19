@@ -5,6 +5,7 @@ const proposedCriteriaService = (() => {
     getAll,
     getAllDistinctTag,
     getAllByParticipant,
+    getAllDistinct,
     getProposedCriterias,
     deleteProposedCriterias,
   }

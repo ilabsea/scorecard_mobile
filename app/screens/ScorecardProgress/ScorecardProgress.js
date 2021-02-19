@@ -159,9 +159,8 @@ class ScorecardProgress extends Component {
 
           <VerticalProgressStep
             progressIndex={this.state.scorecard.status || 3}
-            scorecardUuid={this.state.scorecard.uuid}
+            scorecard={this.state.scorecard}
             navigation={this.props.navigation}
-            localNgoId={this.state.scorecard.local_ngo_id}
             showMessageModal={() => this.showMessageModal(translations.locked, translations.alreadyUploaded)}
           />
         </ScrollView>
