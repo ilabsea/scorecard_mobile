@@ -15,7 +15,7 @@ import itemStyles from '../../themes/scorecardListItemStyle';
 import PlaySound from '../VotingCriteria/PlaySound';
 import Color from '../../themes/color';
 import CustomStyle from '../../themes/customStyle';
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 
 import CriteriaTitle from './CriteriaTitle';
 import CriteriaImage from './CriteriaImage';
@@ -25,6 +25,7 @@ class ProposedCriteriaItem extends Component {
 
   constructor(props) {
     super(props);
+    const scorecardService = new ScorecardService();
     let scorecard = scorecardService.find(props.criteria.scorecard_uuid);
 
     this.state = {

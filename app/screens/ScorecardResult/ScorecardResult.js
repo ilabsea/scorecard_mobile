@@ -24,16 +24,17 @@ import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardR
 import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
+    this.scorecardService = new ScorecardService();
 
     this.state = {
-      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
+      scorecard: this.scorecardService.find(props.route.params.scorecard_uuid),
       currentCriteria: {},
       visible: false,
       visibleConfirmModal: false,
@@ -42,7 +43,7 @@ class ScorecardResult extends Component {
 
   componentDidMount() {
     if (this.state.scorecard.status < 5) {
-      scorecardService.update(this.state.scorecard.uuid, {status: '5'})
+      this.scorecardService.update(this.state.scorecard.uuid, {status: '5'})
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 
@@ -87,7 +88,7 @@ class ScorecardResult extends Component {
 
   _confirmFinish() {
     this.setState({visibleConfirmModal: false});
-    scorecardService.updateFinishStatus(this.state.scorecard.uuid);
+    this.scorecardService.updateFinishStatus(this.state.scorecard.uuid);
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 

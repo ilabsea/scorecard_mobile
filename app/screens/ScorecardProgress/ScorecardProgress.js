@@ -13,7 +13,7 @@ import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageMo
 import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 
 import { ProgressBar } from 'react-native-paper';
@@ -79,6 +79,7 @@ class ScorecardProgress extends Component {
       progressPercentag: 0,
     });
 
+    const scorecardService = new ScorecardService();
     scorecardService.upload(this.state.scorecard.uuid, (progressPercentag) => {
       this.setState({progressPercentag: progressPercentag});
 

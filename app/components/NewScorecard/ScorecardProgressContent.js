@@ -5,7 +5,7 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -14,7 +14,7 @@ class ScorecardProgressContent extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-
+    const scorecardService = new ScorecardService();
     this.state = {
       scorecard: scorecardService.find(this.props.scorecardUuid),
     };
