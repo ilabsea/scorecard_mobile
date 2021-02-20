@@ -10,7 +10,7 @@ import {
 import { Icon } from 'native-base';
 import { Button } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
-import { getDisplayIndicator } from '../../services/indicator_service';
+import indicatorHelper from '../../helpers/indicator_helper';
 import itemStyles from '../../themes/scorecardListItemStyle';
 import PlaySound from '../VotingCriteria/PlaySound';
 import Color from '../../themes/color';
@@ -29,7 +29,7 @@ class ProposedCriteriaItem extends Component {
     let scorecard = scorecardService.find(props.criteria.scorecard_uuid);
 
     this.state = {
-      indicator: getDisplayIndicator(props.criteria, scorecard),
+      indicator: indicatorHelper.getDisplayIndicator(props.criteria, scorecard),
       active: false
     };
   }

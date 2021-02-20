@@ -11,7 +11,7 @@ import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
 import { TableWrapper, Cell } from 'react-native-table-component';
-import { getDisplayIndicator } from '../../services/indicator_service';
+import indicatorHelper from '../../helpers/indicator_helper';
 
 export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
@@ -60,7 +60,7 @@ export default class ScorecardResultTableRow extends Component {
 
   render() {
     const editableFields = ['strength',  'weakness', 'desired_change', 'suggested_action'];
-    const indicator = getDisplayIndicator(this.props.criteria);
+    const indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
 
     return (
       <TableWrapper style={styles.row} borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>

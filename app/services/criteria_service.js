@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 
-import {getDisplayIndicator} from './indicator_service';
+import indicatorHelper from '../helpers/indicator_helper'
 import { getIndicatorShortcutName } from '../utils/indicator_util';
 
 class Criteria {
@@ -26,7 +26,7 @@ class Criteria {
     const summaryCriteria = [{id: '', name: 'All indicator', raised_count: this._getTotalRaisedCount(), shortcut: 'view-agenda', scorecard_uuid: ''}];
 
     criterias = criterias.map(criteria => {
-      let indicator = getDisplayIndicator(criteria);
+      let indicator = indicatorHelper.getDisplayIndicator(criteria);
       criteria.raised_count = allCriterias.filter(x => x.tag == criteria.tag).length;
       criteria.name = indicator.name || indicator.content;
       criteria.shortcut = getIndicatorShortcutName(criteria.name);

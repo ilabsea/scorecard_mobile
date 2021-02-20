@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import { find as findIndicator } from '../../services/indicator_service';
+import IndicatorService from '../../services/indicator_service';
 
 class CriteriaCard extends Component {
   renderCriteriaImage = () => {
-    const indicator = this.props.criteria.indicatorable_type === 'predefined' ? findIndicator(this.props.criteria.indicatorable_id) : null;
+    const indicatorService = new IndicatorService();
+    const indicator = this.props.criteria.indicatorable_type === 'predefined' ? indicatorService.find(this.props.criteria.indicatorable_id) : null;
 
     if (indicator && indicator.local_image)
       return (

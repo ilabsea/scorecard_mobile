@@ -18,7 +18,7 @@ import SaveButton from '../SaveButton';
 import ScorecardService from '../../services/scorecardService';
 import Autocomplete from './Autocomplete';
 import { isBlank } from '../../utils/string_util';
-import { getTags } from '../../services/indicator_service';
+import indicatorHelper from '../../helpers/indicator_helper';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -32,7 +32,7 @@ class AddNewIndicatorModal extends Component {
       audio: null,
     };
 
-    this.tags = getTags(props.scorecardUUID);
+    this.tags = indicatorHelper.getTags(props.scorecardUUID);
   }
 
   isValid = () => {

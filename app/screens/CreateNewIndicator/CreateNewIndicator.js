@@ -17,7 +17,7 @@ import { CUSTOM } from '../../utils/variable';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
-import { getIndicatorList } from '../../services/indicator_service';
+import IndicatorService from '../../services/indicator_service';
 
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
@@ -170,7 +170,8 @@ class CreateNewIndicator extends Component {
 
   _updateIndicatorList = () => {
     const { translations } = this.context;
-    const allCriteria = getIndicatorList(this.props.route.params.scorecard_uuid, this.state.participant_uuid, translations.addNewCriteria);
+    const indicatorService = new IndicatorService();
+    const allCriteria = indicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, this.state.participant_uuid, translations.addNewCriteria);
 
     this.setState({
       indicators: allCriteria.indicators,

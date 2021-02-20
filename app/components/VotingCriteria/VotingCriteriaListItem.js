@@ -18,7 +18,7 @@ import uuidv4 from '../../utils/uuidv4';
 import Images from '../../utils/images';
 import ratings from '../../db/jsons/ratings';
 import { Median } from '../../utils/math';
-import { getDisplayIndicator } from '../../services/indicator_service';
+import indicatorHelper from '../../helpers/indicator_helper';
 import CustomStyle from '../../themes/customStyle';
 
 export default class VotingCriteriaListItem extends Component {
@@ -96,7 +96,7 @@ export default class VotingCriteriaListItem extends Component {
 
   render() {
     let scorecard = this.props.scorecard || {};
-    let indicator = getDisplayIndicator(this.props.criteria);
+    let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
 
     return (
       <View style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
