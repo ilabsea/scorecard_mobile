@@ -157,7 +157,7 @@ class IndicatorService {
     const isImageExist = await isFileExist(filename);
 
     if (!isImageExist) {
-      const url = indicator.image;
+      const url = environment.type == 'local' ? `${environment.domain}${indicator.image}` : indicator.image;
 
       downloadFileFromUrl(url, filename,
         (isSuccess, response, localAudioFilePath) => {
