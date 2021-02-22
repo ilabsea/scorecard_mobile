@@ -5,7 +5,6 @@ import { find as findLanguageIndicator } from '../services/language_indicator_se
 
 const indicatorHelper = (() => {
   const indicatorService = new IndicatorService();
-  const scorecardService = new ScorecardService();
 
   return {
     getIndicatorsState,
@@ -45,6 +44,7 @@ const indicatorHelper = (() => {
   }
 
   function getDisplayIndicator(indicatorable, scorecardObj) {
+    const scorecardService = new ScorecardService();
     const scorecard = scorecardObj || scorecardService.find(indicatorable.scorecard_uuid);
 
     if (indicatorable.indicatorable_type == 'predefined') {
