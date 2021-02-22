@@ -18,7 +18,8 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
 
   const item = items[index];
   if (item.audio) {
-    const audioUrl = `${environment.domain}${item.audio}`;
+
+    const audioUrl = environment.type == 'development' ? `${environment.domain}${item.audio}` : item.audio;
     const itemOptions = {
       audioUrl: audioUrl,
       item: item,
@@ -39,9 +40,7 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
 async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDownload) {
   const { audioUrl, item, type } = options;
 
-  let audioPath = audioUrl.split('/');
-  let filename = audioPath[audioPath.length - 1];
-  filename = _getAudioFilename(type, item.id, item.language_code, filename);
+  let filename = _getAudioFilename(type, item.id, item.language_code);
 
   const isAudioExist = await isFileExist(filename)
 
@@ -64,8 +63,9 @@ async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDown
   }
 }
 
-function _getAudioFilename(type, dependentId, languageCode, filename) {
-  return `${type}_${dependentId}_${languageCode}_${filename}`;
+// Example of audio filename: "indicator_1_km.mp3"
+function _getAudioFilename(type, dependentId, languageCode) {
+  return `${type}_${dependentId}_${languageCode}.mp3`;
 }
 
 export { downloadAudio };
