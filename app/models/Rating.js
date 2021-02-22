@@ -1,9 +1,9 @@
 import realm from '../db/schema';
 
-const ratingService = (() => {
+const Rating = (() => {
   return {
     create,
-    deleteRatings,
+    deleteAll,
   }
 
   function create(data) {
@@ -12,7 +12,7 @@ const ratingService = (() => {
     })
   }
 
-  function deleteRatings(scorecardUuid) {
+  function deleteAll(scorecardUuid) {
     const ratings = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}'`);
 
     realm.write(() => {
@@ -21,4 +21,4 @@ const ratingService = (() => {
   }
 })();
 
-export default ratingService;
+export default Rating;

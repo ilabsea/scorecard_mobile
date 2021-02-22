@@ -5,17 +5,15 @@ import BigHeader from '../../components/BigHeader';
 import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
 import BottomButton from '../../components/BottomButton';
-
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
-    const scorecardService = new ScorecardService();
     this.state = {
-      scorecard: scorecardService.find(props.route.params.scorecard_uuid),
+      scorecard: Scorecard.find(props.route.params.scorecard_uuid),
     };
   }
 
@@ -44,7 +42,7 @@ class ScorecardDetail extends Component {
     return (
       <Container>
         {this._renderHeader()}
-        
+
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>

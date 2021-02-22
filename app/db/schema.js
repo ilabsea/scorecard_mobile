@@ -2,24 +2,24 @@
 
 import Realm from 'realm';
 // import UserSchema from './user';
-import LanguageSchema from './models/language';
-import IndicatorSchema from './models/indicator';
-import CafSchema from './models/caf';
-import LanguageIndicatorSchema from './models/languageIndicator';
-import FacilitatorSchema from './models/facilitator';
-import Scorecard from './models/scorecard';
-import ParticipantSchema from './models/participant';
-import CustomIndicatorSchema from './models/customIndicator';
+import LanguageSchema from './migrations/language';
+import IndicatorSchema from './migrations/indicator';
+import CafSchema from './migrations/caf';
+import LanguageIndicatorSchema from './migrations/languageIndicator';
+import FacilitatorSchema from './migrations/facilitator';
+import Scorecard from './migrations/scorecard';
+import ParticipantSchema from './migrations/participant';
+import CustomIndicatorSchema from './migrations/customIndicator';
 
-import ProposedCriteriaSchema from './models/proposedCriteria';
-import VotingCriteriaSchema from './models/votingCriteria';
-import RatingSchema from './models/rating';
-import LanguageRatingScaleSchema from './models/languageRatingScale';
-import RatingScaleSchema from './models/ratingScale';
-import ProgramLanguageSchema from './models/programLanguage';
-import ScorecardDownloadSchema from './models/scorecardDownload';
+import ProposedCriteriaSchema from './migrations/proposedCriteria';
+import VotingCriteriaSchema from './migrations/votingCriteria';
+import RatingSchema from './migrations/rating';
+import LanguageRatingScaleSchema from './migrations/languageRatingScale';
+import RatingScaleSchema from './migrations/ratingScale';
+import ProgramLanguageSchema from './migrations/programLanguage';
+import ScorecardDownloadSchema from './migrations/scorecardDownload';
 
-import ContactSchema from './models/contact';
+import ContactSchema from './migrations/contact';
 
 const schema0 = [
   Scorecard,

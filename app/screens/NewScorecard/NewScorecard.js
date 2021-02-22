@@ -23,7 +23,8 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection, handleApiResponse, getErrorType} from '../../services/api_service';
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
+
 import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
 import authenticationFormService from '../../services/authentication_form_service';
@@ -57,8 +58,6 @@ class NewScorecard extends Component {
       isSubmitted: false,
       hasInternetConnection: false,
     };
-
-    this.scorecardService = new ScorecardService();
   }
 
   componentDidMount() {
@@ -95,8 +94,7 @@ class NewScorecard extends Component {
       return;
     }
 
-    const isSubmitted = this.scorecardService.isSubmitted(this.state.code);
-    if (!this.isValid() || isSubmitted) {
+    if (!this.isValid() || Scorecard.isSubmitted(this.state.code)) {
       this.setState({
         visibleInfoModal: isSubmitted,
         isSubmitted: isSubmitted,
@@ -105,7 +103,7 @@ class NewScorecard extends Component {
       return;
     }
 
-    if (this.scorecardService.isExists(this.state.code)) {
+    if (Scorecard.isExists(this.state.code)) {
       AsyncStorage.setItem('SELECTED_SCORECARD_UUID', this.state.code);
 
       if (!isDownloaded(this.state.code)) {
@@ -148,7 +146,7 @@ class NewScorecard extends Component {
       }
       else {
         this.uuid = responseData.uuid;
-        this.scorecardService.saveScorecardDetail(responseData);
+        Scorecard.upsert(responseData);
         this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
       }
     }, (error) => {

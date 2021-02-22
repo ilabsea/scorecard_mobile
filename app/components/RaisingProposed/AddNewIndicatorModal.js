@@ -15,7 +15,8 @@ import { LocalizationContext } from '../Translations';
 import { CUSTOM } from '../../utils/variable';
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
-import ScorecardService from '../../services/scorecardService';
+
+import Scorecard from '../../models/Scorecard';
 import Autocomplete from './Autocomplete';
 import { isBlank } from '../../utils/string_util';
 import indicatorHelper from '../../helpers/indicator_helper';
@@ -60,8 +61,7 @@ class AddNewIndicatorModal extends Component {
       tag: this.state.tag
     };
 
-    const scorecardService = new ScorecardService();
-    const scorecard = scorecardService.find(this.props.scorecardUUID);
+    const scorecard = Scorecard.find(this.props.scorecardUUID);
     const customLanguageIndicator = {
       id: uuidv4(),
       content: this.state.name,

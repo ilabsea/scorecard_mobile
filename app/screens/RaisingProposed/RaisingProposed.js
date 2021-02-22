@@ -7,7 +7,8 @@ import ProgressHeader from '../../components/ProgressHeader';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
-import ScorecardService from '../../services/scorecardService';
+
+import Scorecard from '../../models/Scorecard';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -15,11 +16,10 @@ class RaisingProposed extends Component {
   constructor(props) {
     super(props);
 
-    const scorecardService = new ScorecardService();
-    let scorecard = scorecardService.find(props.route.params.scorecard_uuid);
+    let scorecard = Scorecard.find(props.route.params.scorecard_uuid);
 
     if (scorecard.status < 2) {
-      scorecardService.update(scorecard.uuid, {status: '2'});
+      Scorecard.update(scorecard.uuid, {status: '2'});
       props.setCurrentScorecard(scorecard);
     }
   }

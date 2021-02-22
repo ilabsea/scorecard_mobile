@@ -12,7 +12,7 @@ import ScorecardItem from '../../components/ScorecardItem';
 import MessageModal from '../../components/MessageModal';
 
 import uuidv4 from '../../utils/uuidv4';
-import ScorecardService from '../../services/scorecardService';
+import Scorecard from '../../models/Scorecard';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -23,19 +23,16 @@ class ScorecardList extends Component {
   constructor(props) {
     super(props);
 
-    this.scorecardService = new ScorecardService();
-
     this.state = {
       visibleModal: false,
       selectedScorecard: null,
-      scorecards: [],
-      scorecards: this.scorecardService.getAll(),
+      scorecards: Scorecard.getAll(),
     }
   }
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener("focus", () => {
-      this.setState({ scorecards: this.scorecardService.getAll() });
+      this.setState({ scorecards: Scorecard.getAll() });
     });
   }
 
@@ -77,11 +74,11 @@ class ScorecardList extends Component {
   }
 
   _confirmDelete() {
-    this.scorecardService.delete(this.state.selectedScorecard.uuid);
+    Scorecard.delete(this.state.selectedScorecard.uuid);
 
     this.setState({
       visibleModal: false,
-      scorecards: this.scorecardService.getAll(),
+      scorecards: Scorecard.getAll(),
     });
   }
 

@@ -3,7 +3,7 @@ import realm from '../db/schema';
 import ratings from '../db/jsons/ratings';
 import uuidv4 from '../utils/uuidv4';
 import { Median } from '../utils/math';
-import ratingService from './ratingService';
+import Rating from '../models/Rating';
 
 const votingCriteriaService = (() => {
   return {
@@ -78,7 +78,7 @@ const votingCriteriaService = (() => {
 
   function submitVoting(criterias, participant_uuid) {
     for(let i=0; i<criterias.length; i++) {
-      ratingService.create(_buildRatingData(criterias[i], participant_uuid));
+      Rating.create(_buildRatingData(criterias[i], participant_uuid));
       _updateCriteria(criterias[i]);
     }
 

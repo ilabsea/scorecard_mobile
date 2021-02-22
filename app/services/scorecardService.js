@@ -4,14 +4,15 @@ import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getErrorType } from './api_service';
-import facilitatorService from './facilitator_service';
-import { deleteParticipants } from './participant_service';
-import { deleteScorecardDownload } from './scorecard_download_service';
 import { deleteLanguageIndicators } from './language_indicator_service';
-import ratingService from './ratingService';
 import votingCriteriaService from './votingCriteriaService';
-import customIndicatorService from './custom_indicator_service';
 import proposedCriteriaService from './proposedCriteriaService';
+
+import Scorecard from '../models/Scorecard';
+import CustomIndicator from '../models/CustomIndicator';
+import Facilitator from '../models/Facilitator';
+import Participant from '../models/Participant';
+import Rating from '../models/Rating';
 
 import BaseModelService from './baseModelService';
 
@@ -29,24 +30,10 @@ class ScorecardService extends BaseModelService {
     this.totalNumber = 0;
   }
 
-  getAll() {
-    return realm.objects('Scorecard');
-  }
-
-  find(uuid) {
-    return realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
-  }
-
-  update(uuid, params={}) {
-    realm.write(() => {
-      realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
-    })
-  }
-
   upload(uuid, callback, errorCallback) {
     this.scorecard_uuid = uuid;
-    this.scorecard = realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
-    this.customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${this.scorecard_uuid}'`);
+    this.scorecard = Scorecard.find(uuid)
+    this.customIndicators = CustomIndicator.getAll(uuid);
     this.progressNumber = 0;
     let indicators = this.customIndicators.filter(x => !x.id_from_server);
     this.totalNumber = indicators.length + 1;
@@ -60,17 +47,6 @@ class ScorecardService extends BaseModelService {
     }
   }
 
-  updateFinishStatus(uuid) {
-    const attrs = {
-      uuid: uuid,
-      finished: true,
-    };
-
-    realm.write(() => {
-      realm.create('Scorecard', attrs, 'modified');
-    });
-  }
-
   // ------Step1------
   // upload all custom criterias then upload scorecard with its dependcy
   uploadCustomIndicator(index, indicators, callback, errorCallback) {
@@ -82,13 +58,10 @@ class ScorecardService extends BaseModelService {
 
     let customIndicator = indicators[index];
 
-    // this.customIndicatorApi = new CustomIndicatorApi();
     this.customIndicatorApi.post(this.scorecard_uuid, this.customIndicatorData(customIndicator))
       .then(function (response) {
         if (response.status == 201) {
-          realm.write(() => {
-            customIndicator.id_from_server = response.data.id;
-          });
+          CustomIndicator.update(customIndicator.uuid, {id_from_server: response.data.id});
         }
 
         _this.updateProgress(callback);
@@ -109,9 +82,7 @@ class ScorecardService extends BaseModelService {
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
-          realm.write(() => {
-            _this.scorecard.uploaded_date = new Date().toDateString();
-          });
+          Scorecard.update(_this.scorecard.uuid, { uploaded_date: new Date().toDateString() });
         }
         else if (response.error)
           errorCallback(getErrorType(response.error.status));
@@ -180,15 +151,18 @@ class ScorecardService extends BaseModelService {
   }
 
   scorecardAttr() {
+    let facilitators = Facilitator.getAll(this.scorecard.uuid);
+    let participants = Participant.getAll(this.scorecard.uuid);
+
     return {
       conducted_date: this.scorecard.conducted_date,
-      number_of_caf: this.scorecard.number_of_caf,
-      number_of_participant: this.scorecard.number_of_participant,
-      number_of_female: this.scorecard.number_of_female,
-      number_of_disability: this.scorecard.number_of_disability,
-      number_of_ethnic_minority: this.scorecard.number_of_ethnic_minority,
-      number_of_youth: this.scorecard.number_of_youth,
-      number_of_id_poor: this.scorecard.number_of_id_poor,
+      number_of_caf: facilitators.length,
+      number_of_participant: participants.length,
+      number_of_female: participants.filter(p => p.gender == "female").length,
+      number_of_disability: participants.filter(p => !!p.disability).length,
+      number_of_ethnic_minority: participants.filter(p => !!p.minority).length,
+      number_of_youth: participants.filter(p => !!p.youth).length,
+      number_of_id_poor: participants.filter(p => !!p.poor).length,
     }
   }
 
@@ -211,7 +185,7 @@ class ScorecardService extends BaseModelService {
   }
 
   facilitatorsAttr() {
-    let facilitators = realm.objects('Facilitator').filtered(`scorecard_uuid='${this.scorecard_uuid}'`);
+    let facilitators = Facilitator.getAll(this.scorecard_uuid);
     let data = facilitators.map(facilitator => ({
       caf_id: facilitator.id,
       position: facilitator.position,
@@ -246,102 +220,9 @@ class ScorecardService extends BaseModelService {
     return data;
   }
 
-  // ------------------Removing Scorecard--------------------
-
-  removeScorecardAsset(uuid, callback) {
-    let scorecard = realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
-    let tables = ['CustomIndicator', 'Facilitator', 'Participant', 'ProposedCriteria', 'VotingCriteria', 'Rating'];
-
-    realm.write(() => {
-      for(let i=0; i<tables.length; i++) {
-        let collection = realm.objects(tables[i]).filtered(`scorecard_uuid='${uuid}'`);
-
-        if (tables[i] == 'CustomIndicator') {
-          this.removeAudioFiles(collection);
-        }
-
-        realm.delete(collection);
-      }
-
-      this.scorecard.deleted_date = new Date().toDateString();
-    })
-  }
-
-  removeAudioFiles(collection) {
-    let filePaths = collection.map(x => x.local_audio).filter(path => !!path);
-
-    for(let i=0; i<filePaths.length; i++) {
-      this.deleteFile(filePaths[i]);
-    }
-  }
-
-  deleteFile(filePath) {
-    RNFS.exists(filePath)
-      .then( (result) => {
-        console.log("file exists: ", result);
-
-        if (!result) { return; }
-
-        return RNFS.unlink(filePath)
-          .then(() => {
-            console.log('FILE DELETED');
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }
-
   // --------------------New scorecard---------------------
-  isExists(uuid) {
-    return realm.objects('Scorecard').filtered(`uuid == '${uuid}'`)[0] != undefined
-  }
-
-  saveScorecardDetail(response) {
-    AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
-    realm.write(() => {
-      realm.create('Scorecard', this._buildData(response), 'modified');
-    });
-  }
-
-  _buildData(response) {
-    return ({
-      uuid: response.uuid,
-      unit_type: response.unit_type_name,
-      facility_id: response.facility_id,
-      facility: response.facility.name,
-      facility_code: response.facility.code,
-      scorecard_type: response.scorecard_type,
-      name: response.name,
-      description: response.description,
-      year: response.year,
-      local_ngo_name: response.local_ngo_name,
-      local_ngo_id: response.local_ngo_id,
-      province: response.province,
-      district: response.district,
-      commune: response.commune,
-      program_id: response.program_id,
-    })
-  }
-
-  getProposedCriterias(scorecardUuid, participantUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
-  }
-
-  isSubmitted(scorecardUuid) {
-    const scorecard = this.find(scorecardUuid);
-
-    if (!scorecard)
-      return false;
-
-    return scorecard.isUploaded;
-  }
-
   delete(scorecardUuid) {
-    const scorecard = this.find(scorecardUuid);
+    const scorecard = Scorecard.find(scorecardUuid);
 
     if (scorecard.isUploaded)
       return;
@@ -350,15 +231,15 @@ class ScorecardService extends BaseModelService {
     this._deleteScorecardData(scorecardUuid);
   }
 
-  _deleteScorecardData = (uuid) => {
-    deleteParticipants(uuid);
-    deleteScorecardDownload(uuid);
-    deleteLanguageIndicators(uuid);
-    facilitatorService.deleteFacilitators(uuid);
-    ratingService.deleteRatings(uuid);
-    votingCriteriaService.deleteVotingCriteria(uuid);
-    customIndicatorService.deleteCustomIndicators(uuid);
-    proposedCriteriaService.deleteProposedCriterias(uuid);
+  _deleteScorecardData = (scorecardUuid) => {
+    Participant.deleteAll(scorecardUuid);
+    Scorecard.destroy(scorecardUuid);
+    deleteLanguageIndicators(scorecardUuid);
+    Facilitator.deleteAll(scorecardUuid);
+    Rating.deleteAll(scorecardUuid);
+    CustomIndicator.deleteAll(scorecardUuid);
+    votingCriteriaService.deleteVotingCriteria(scorecardUuid);
+    proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
   }
 }
 
