@@ -7,6 +7,7 @@ const Scorecard = (() => {
     find,
     update,
     upsert,
+    destroy,
     isSubmitted,
     isExists,
   }
@@ -29,6 +30,14 @@ const Scorecard = (() => {
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
     realm.write(() => {
       realm.create('Scorecard', _buildData(response), 'modified');
+    });
+  }
+
+  function destroy(scorecardUuid) {
+    let scorecard = find(scorecardUuid);
+
+    realm.write(() => {
+      realm.delete(scorecard);
     });
   }
 

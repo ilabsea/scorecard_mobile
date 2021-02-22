@@ -1,5 +1,5 @@
 import IndicatorService from '../services/indicator_service';
-import customIndicatorService from '../services/custom_indicator_service';
+import CustomIndicator from '../models/CustomIndicator';
 import { find as findLanguageIndicator } from '../services/language_indicator_service';
 import Scorecard from '../models/Scorecard';
 
@@ -48,7 +48,7 @@ const indicatorHelper = (() => {
       return _getPredefinedIndicator(indicatorable, scorecard);
     }
 
-    let indi = JSON.parse(JSON.stringify(customIndicatorService.find(indicatorable.indicatorable_id)));
+    let indi = JSON.parse(JSON.stringify(CustomIndicator.find(indicatorable.indicatorable_id)));
     indi.content = indi.content || indi.name;
 
     return indi;
