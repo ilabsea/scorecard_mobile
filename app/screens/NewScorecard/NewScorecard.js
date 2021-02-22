@@ -23,7 +23,7 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection, handleApiResponse, getErrorType} from '../../services/api_service';
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
 import internetConnectionService from '../../services/internet_connection_service';
@@ -55,6 +55,8 @@ class NewScorecard extends Component {
       isSubmitted: false,
       hasInternetConnection: false,
     };
+
+    this.scorecardService = new ScorecardService();
   }
 
   componentDidMount() {
@@ -85,7 +87,7 @@ class NewScorecard extends Component {
       return;
     }
 
-    const isSubmitted = scorecardService.isSubmitted(this.state.code);
+    const isSubmitted = this.scorecardService.isSubmitted(this.state.code);
     if (!this.isValid() || isSubmitted) {
       this.setState({
         visibleInfoModal: isSubmitted,
@@ -95,7 +97,7 @@ class NewScorecard extends Component {
       return;
     }
 
-    if (scorecardService.isExists(this.state.code)) {
+    if (this.scorecardService.isExists(this.state.code)) {
       AsyncStorage.setItem('SELECTED_SCORECARD_UUID', this.state.code);
 
       if (!isDownloaded(this.state.code)) {
@@ -124,6 +126,7 @@ class NewScorecard extends Component {
 
     const scorecardApi = new ScorecardApi();
     const response = await scorecardApi.load(code);
+
     handleApiResponse(response, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
@@ -137,7 +140,7 @@ class NewScorecard extends Component {
       }
       else {
         this.uuid = responseData.uuid;
-        scorecardService.saveScorecardDetail(responseData);
+        this.scorecardService.saveScorecardDetail(responseData);
         this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
       }
     }, (error) => {

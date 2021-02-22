@@ -16,6 +16,7 @@ const votingCriteriaService = (() => {
     savePlayingCriteriaAudio,
     isPlayingCriteria,
     clearPlayingCriteria,
+    deleteVotingCriteria,
   }
 
   function find(uuid) {
@@ -128,6 +129,14 @@ const votingCriteriaService = (() => {
 
   function clearPlayingCriteria () {
     AsyncStorage.removeItem('PLAYING_CRITERIA');
+  }
+
+  function deleteVotingCriteria(scorecardUuid) {
+    const votingCriterias = votingCriteriaService.getAll(scorecardUuid);
+
+    realm.write(() => {
+      realm.delete(votingCriterias);
+    });
   }
 })();
 

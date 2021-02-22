@@ -72,8 +72,17 @@ const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
   return realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
 }
 
+const deleteLanguageIndicators = (scorecardUuid) => {
+  const langIndicators = realm.objects('LanguageIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`);
+
+  realm.write(() => {
+    realm.delete(langIndicators);
+  });
+}
+
 export {
   saveLanguageIndicator,
   getLanguageIndicator,
+  deleteLanguageIndicators,
   LanguageIndicatorService,
 };

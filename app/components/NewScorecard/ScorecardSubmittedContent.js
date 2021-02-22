@@ -6,12 +6,13 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 
 class ScorecardSubmittedContent extends Component {
   static contextType = LocalizationContext;
 
   viewDetail = () => {
+    const scorecardService = new ScorecardService();
     const scorecard = scorecardService.find(this.props.scorecardUuid);
     this.props.onDismiss();
     this.props.setCurrentScorecard(scorecard);

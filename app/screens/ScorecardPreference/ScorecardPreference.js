@@ -10,7 +10,7 @@ import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageMo
 import MessageModal from '../../components/MessageModal';
 import ScorecardPreferenceForm from '../../components/ScorecardPreference/ScorecardPreferenceForm';
 
-import scorecardService from '../../services/scorecardService';
+import ScorecardService from '../../services/scorecardService';
 import authenticationService from '../../services/authentication_service';
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
@@ -27,6 +27,7 @@ class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    const scorecardService = new ScorecardService();
     const scorecard = scorecardService.find(this.props.route.params.scorecard_uuid)
 
     this.state = {
@@ -188,7 +189,7 @@ class ScorecardPreference extends Component {
 
   render() {
     const {translations} = this.context;
-    const textLocalLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.textLocale);
+    const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.textLocale);
     const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.audioLocale);
 
     return (
@@ -206,6 +207,8 @@ class ScorecardPreference extends Component {
               languages={this.state.languages}
               changeValue={this.changeValue}
               scorecard={this.state.scorecard}
+              textLocale={this.state.textLocale}
+              audioLocale={this.state.audioLocale}
             />
           </ScrollView>
 
@@ -225,7 +228,7 @@ class ScorecardPreference extends Component {
             visible={this.state.visibleConfirmModal}
             onDismiss={() => this.setState({visibleConfirmModal: false})}
             title={translations.theScorecardContainsImagesAndAudios}
-            description={translations.formatString(translations.downloadScorcardDescription, textLocalLabel, audioLocaleLabel)}
+            description={translations.formatString(translations.downloadScorcardDescription, textLocaleLabel, audioLocaleLabel)}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this.downloadScorecard()}

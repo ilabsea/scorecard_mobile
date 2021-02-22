@@ -139,10 +139,19 @@ const getUnvoted = (scorecardUuid) => {
   return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND voted=false SORT(order ASC)`);
 }
 
+const deleteParticipants = (scorecardUuid) => {
+  const participants = realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}'`);
+
+  realm.write(() => {
+    realm.delete(participants);
+  });
+}
+
 export {
   ParticipantCell,
   getRaisedParticipants,
   getParticipantInfo,
   saveParticipantInfo,
-  getUnvoted
+  getUnvoted,
+  deleteParticipants
 };

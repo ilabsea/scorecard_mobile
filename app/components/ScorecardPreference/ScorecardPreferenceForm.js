@@ -29,6 +29,13 @@ class ScorecardPreferenceForm extends Component {
     this.audioLanguageController;
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      textLocale: props.textLocale,
+      audioLocale: props.audioLocale,
+    });
+  }
+
   closeAllSelectBox = () => {
     this.textLanguageController.close();
     this.audioLanguageController.close();

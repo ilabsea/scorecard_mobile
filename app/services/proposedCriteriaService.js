@@ -5,6 +5,7 @@ const proposedCriteriaService = (() => {
     getAll,
     getAllDistinctTag,
     getProposedCriterias,
+    deleteProposedCriterias,
   }
 
   function getAll(scorecardUuid) {
@@ -28,6 +29,14 @@ const proposedCriteriaService = (() => {
     );
 
     return criterias;
+  }
+
+  function deleteProposedCriterias(scorecardUuid) {
+    const proposedCriterias = getAll(scorecardUuid);
+
+    realm.write(() => {
+      realm.delete(proposedCriterias);
+    });
   }
 
 })();

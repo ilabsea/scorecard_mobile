@@ -4,52 +4,63 @@ import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getErrorType } from './api_service';
+import facilitatorService from './facilitator_service';
+import { deleteParticipants } from './participant_service';
+import { deleteScorecardDownload } from './scorecard_download_service';
+import { deleteLanguageIndicators } from './language_indicator_service';
+import ratingService from './ratingService';
+import votingCriteriaService from './votingCriteriaService';
+import customIndicatorService from './custom_indicator_service';
+import proposedCriteriaService from './proposedCriteriaService';
 
-const scorecardService = (() => {
-  const scorecardApi = new ScorecardApi();
-  const customIndicatorApi = new CustomIndicatorApi();
-  var scorecard, customIndicators, scorecard_uuid, progressNumber, totalNumber;
+import BaseModelService from './baseModelService';
 
-  return {
-    upload,
-    removeScorecardAsset,
-    isExists,
-    saveScorecardDetail,
-    find,
-    update,
-    getProposedCriterias,
-    updateFinishStatus,
-    isSubmitted,
+class ScorecardService extends BaseModelService {
+
+  constructor() {
+    super();
+    this.responsibleModel = 'Scorecard';
+    this.scorecard = null;
+    this.scorecardApi = new ScorecardApi();
+    this.customIndicatorApi = new CustomIndicatorApi();
+    this.customIndicators = null;
+    this.scorecard_uuid = null;
+    this.progressNumber = 0;
+    this.totalNumber = 0;
   }
 
-  function find(uuid) {
+  getAll() {
+    return realm.objects('Scorecard');
+  }
+
+  find(uuid) {
     return realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
   }
 
-  function update(uuid, params={}) {
+  update(uuid, params={}) {
     realm.write(() => {
       realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
     })
   }
 
-  function upload(uuid, callback, errorCallback) {
-    scorecard_uuid = uuid;
-    scorecard = realm.objects('Scorecard').filtered(`uuid='${scorecard_uuid}'`)[0];
-    customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${scorecard_uuid}'`);
-    progressNumber = 0;
-    let indicators = customIndicators.filter(x => !x.id_from_server);
-    totalNumber = indicators.length + 1;
+  upload(uuid, callback, errorCallback) {
+    this.scorecard_uuid = uuid;
+    this.scorecard = realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
+    this.customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid='${this.scorecard_uuid}'`);
+    this.progressNumber = 0;
+    let indicators = this.customIndicators.filter(x => !x.id_from_server);
+    this.totalNumber = indicators.length + 1;
 
-    if (!scorecard || !scorecard.isInLastPhase) { return; }
+    if (!this.scorecard || !this.scorecard.isInLastPhase) { return; }
 
     try {
-      uploadCustomIndicator(0, indicators, callback, errorCallback);
+      this.uploadCustomIndicator(0, indicators, callback, errorCallback);
     } catch (error) {
       console.log(error);
     }
   }
 
-  function updateFinishStatus(uuid) {
+  updateFinishStatus(uuid) {
     const attrs = {
       uuid: uuid,
       finished: true,
@@ -62,14 +73,17 @@ const scorecardService = (() => {
 
   // ------Step1------
   // upload all custom criterias then upload scorecard with its dependcy
-  function uploadCustomIndicator(index, indicators, callback, errorCallback) {
+  uploadCustomIndicator(index, indicators, callback, errorCallback) {
+    const _this = this;
     if (index == indicators.length) {
-      uploadScorecard(callback, errorCallback);
+      this.uploadScorecard(callback, errorCallback);
       return ;
     }
 
     let customIndicator = indicators[index];
-    customIndicatorApi.post(scorecard_uuid, customIndicatorData(customIndicator))
+
+    // this.customIndicatorApi = new CustomIndicatorApi();
+    this.customIndicatorApi.post(this.scorecard_uuid, this.customIndicatorData(customIndicator))
       .then(function (response) {
         if (response.status == 201) {
           realm.write(() => {
@@ -77,74 +91,75 @@ const scorecardService = (() => {
           });
         }
 
-        updateProgress(callback);
-        uploadCustomIndicator(index + 1, indicators, callback, errorCallback);
+        _this.updateProgress(callback);
+        _this.uploadCustomIndicator(index + 1, indicators, callback, errorCallback);
       });
   }
 
   // ------Step2------
-  function uploadScorecard(callback, errorCallback) {
-    let attrs = scorecardAttr();
-    attrs.facilitators_attributes = facilitatorsAttr();
-    attrs.participants_attributes = participantsAttr();
-    attrs.raised_indicators_attributes = proposedCriteriasAttr();
-    attrs.voting_indicators_attributes = votingCriteriasAttr();
-    attrs.ratings_attributes = ratingsAttr();
+  uploadScorecard(callback, errorCallback) {
+    const _this = this;
+    let attrs = this.scorecardAttr();
+    attrs.facilitators_attributes = this.facilitatorsAttr();
+    attrs.participants_attributes = this.participantsAttr();
+    attrs.raised_indicators_attributes = this.proposedCriteriasAttr();
+    attrs.voting_indicators_attributes = this.votingCriteriasAttr();
+    attrs.ratings_attributes = this.ratingsAttr();
 
-    scorecardApi.put(scorecard_uuid, attrs)
+    this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
           realm.write(() => {
-            scorecard.uploaded_date = new Date().toDateString();
+            _this.scorecard.uploaded_date = new Date().toDateString();
           });
         }
         else if (response.error)
           errorCallback(getErrorType(response.error.status));
 
-        updateProgress(callback);
+        _this.updateProgress(callback);
       });
   }
 
-  function updateProgress(callback) {
-    progressNumber++;
-    !!callback && callback( progressNumber / totalNumber );
+  updateProgress(callback) {
+    this.progressNumber++;
+    !!callback && callback( this.progressNumber / this.totalNumber );
   }
 
   // Praviate methods
-  function ratingsAttr() {
-    let ratings = getJSON('Rating');
+  ratingsAttr() {
+    let ratings = this.getJSON('Rating');
     let columns = ['uuid', 'scorecard_uuid', 'participant_uuid', 'score'];
 
     return ratings.map(rating => {
-      let attr = getAttributes(rating, columns);
+      let attr = this.getAttributes(rating, columns);
       attr.voting_indicator_uuid = rating.voting_criteria_uuid;
       return attr;
     });
   }
 
-  function getIndicator(criteria) {
+  getIndicator(criteria) {
     let indicatorable_id = criteria.indicatorable_id;
     let indicatorable_type = 'Indicator';
 
     if (criteria.indicatorable_type != 'predefined') {
-      indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
+      indicatorable_id = this.customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
       indicatorable_type = 'CustomIndicator';
     }
 
     return { id: indicatorable_id, type: indicatorable_type };
   }
 
-  function votingCriteriasAttr() {
-    let votingCriterias = getJSON('VotingCriteria');
+  votingCriteriasAttr() {
+    let votingCriterias = this.getJSON('VotingCriteria');
     let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'desired_change', 'suggested_action'];
 
-    return getCriteriaAttr(votingCriterias, columns);
+    return this.getCriteriaAttr(votingCriterias, columns);
   }
 
-  function getCriteriaAttr(criterias, columns, has_tag) {
+  getCriteriaAttr(criterias, columns, has_tag) {
     return criterias.map(criteria => {
-      let indicator = getIndicator(criteria);
-      let attr = getAttributes(criteria, columns);
+      let indicator = this.getIndicator(criteria);
+      let attr = this.getAttributes(criteria, columns);
 
       attr.indicatorable_id = indicator.id;
       attr.indicatorable_type = indicator.type;
@@ -157,46 +172,46 @@ const scorecardService = (() => {
     })
   }
 
-  function proposedCriteriasAttr() {
-    let proposedCriterias = getJSON('ProposedCriteria');
+  proposedCriteriasAttr() {
+    let proposedCriterias = this.getJSON('ProposedCriteria');
     let columns = ['scorecard_uuid', 'participant_uuid'];
 
-    return getCriteriaAttr(proposedCriterias, columns, true);
+    return this.getCriteriaAttr(proposedCriterias, columns, true);
   }
 
-  function scorecardAttr() {
+  scorecardAttr() {
     return {
-      conducted_date: scorecard.conducted_date,
-      number_of_caf: scorecard.number_of_caf,
-      number_of_participant: scorecard.number_of_participant,
-      number_of_female: scorecard.number_of_female,
-      number_of_disability: scorecard.number_of_disability,
-      number_of_ethnic_minority: scorecard.number_of_ethnic_minority,
-      number_of_youth: scorecard.number_of_youth,
-      number_of_id_poor: scorecard.number_of_id_poor,
+      conducted_date: this.scorecard.conducted_date,
+      number_of_caf: this.scorecard.number_of_caf,
+      number_of_participant: this.scorecard.number_of_participant,
+      number_of_female: this.scorecard.number_of_female,
+      number_of_disability: this.scorecard.number_of_disability,
+      number_of_ethnic_minority: this.scorecard.number_of_ethnic_minority,
+      number_of_youth: this.scorecard.number_of_youth,
+      number_of_id_poor: this.scorecard.number_of_id_poor,
     }
   }
 
-  function participantsAttr() {
-    let participants = getJSON('Participant');
+  participantsAttr() {
+    let participants = this.getJSON('Participant');
     let columns = ['uuid', 'age', 'gender', 'disability', 'minority', 'youth', 'scorecard_uuid'];
 
     return participants.map(participant => {
-      let attr = getAttributes(participant, columns);
+      let attr = this.getAttributes(participant, columns);
       attr.poor_card = participant.poor;
 
       return attr;
     });
   }
 
-  function getAttributes(obj, columns) {
+  getAttributes(obj, columns) {
     return Object.keys(obj)
       .filter(key => columns.indexOf(key) >= 0)
       .reduce((obj2, key) => Object.assign(obj2, { [key]: obj[key] }), {});
   }
 
-  function facilitatorsAttr() {
-    let facilitators = realm.objects('Facilitator').filtered(`scorecard_uuid='${scorecard_uuid}'`);
+  facilitatorsAttr() {
+    let facilitators = realm.objects('Facilitator').filtered(`scorecard_uuid='${this.scorecard_uuid}'`);
     let data = facilitators.map(facilitator => ({
       caf_id: facilitator.id,
       position: facilitator.position,
@@ -206,11 +221,11 @@ const scorecardService = (() => {
     return data;
   }
 
-  function getJSON(realmModelName) {
-    return JSON.parse(JSON.stringify(realm.objects(realmModelName).filtered(`scorecard_uuid='${scorecard_uuid}'`)));
+  getJSON(realmModelName) {
+    return JSON.parse(JSON.stringify(realm.objects(realmModelName).filtered(`scorecard_uuid='${this.scorecard_uuid}'`)));
   }
 
-  function customIndicatorData(indicator) {
+  customIndicatorData(indicator) {
     let attrs = {
       uuid: indicator.uuid,
       name: indicator.name,
@@ -233,7 +248,7 @@ const scorecardService = (() => {
 
   // ------------------Removing Scorecard--------------------
 
-  function removeScorecardAsset(uuid, callback) {
+  removeScorecardAsset(uuid, callback) {
     let scorecard = realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
     let tables = ['CustomIndicator', 'Facilitator', 'Participant', 'ProposedCriteria', 'VotingCriteria', 'Rating'];
 
@@ -242,25 +257,25 @@ const scorecardService = (() => {
         let collection = realm.objects(tables[i]).filtered(`scorecard_uuid='${uuid}'`);
 
         if (tables[i] == 'CustomIndicator') {
-          removeAudioFiles(collection);
+          this.removeAudioFiles(collection);
         }
 
         realm.delete(collection);
       }
 
-      scorecard.deleted_date = new Date().toDateString();
+      this.scorecard.deleted_date = new Date().toDateString();
     })
   }
 
-  function removeAudioFiles(collection) {
+  removeAudioFiles(collection) {
     let filePaths = collection.map(x => x.local_audio).filter(path => !!path);
 
     for(let i=0; i<filePaths.length; i++) {
-      deleteFile(filePaths[i]);
+      this.deleteFile(filePaths[i]);
     }
   }
 
-  function deleteFile(filePath) {
+  deleteFile(filePath) {
     RNFS.exists(filePath)
       .then( (result) => {
         console.log("file exists: ", result);
@@ -281,18 +296,18 @@ const scorecardService = (() => {
   }
 
   // --------------------New scorecard---------------------
-  function isExists(uuid) {
+  isExists(uuid) {
     return realm.objects('Scorecard').filtered(`uuid == '${uuid}'`)[0] != undefined
   }
 
-  function saveScorecardDetail(response) {
+  saveScorecardDetail(response) {
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
     realm.write(() => {
-      realm.create('Scorecard', _buildData(response), 'modified');
+      realm.create('Scorecard', this._buildData(response), 'modified');
     });
   }
 
-  function _buildData(response) {
+  _buildData(response) {
     return ({
       uuid: response.uuid,
       unit_type: response.unit_type_name,
@@ -312,18 +327,39 @@ const scorecardService = (() => {
     })
   }
 
-  function getProposedCriterias(scorecardUuid, participantUuid) {
+  getProposedCriterias(scorecardUuid, participantUuid) {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
   }
 
-  function isSubmitted(scorecardUuid) {
-    const scorecard = find(scorecardUuid);
+  isSubmitted(scorecardUuid) {
+    const scorecard = this.find(scorecardUuid);
 
     if (!scorecard)
       return false;
 
     return scorecard.isUploaded;
   }
-})();
 
-export default scorecardService;
+  delete(scorecardUuid) {
+    const scorecard = this.find(scorecardUuid);
+
+    if (scorecard.isUploaded)
+      return;
+
+    super.delete(scorecardUuid, this.responsibleModel);
+    this._deleteScorecardData(scorecardUuid);
+  }
+
+  _deleteScorecardData = (uuid) => {
+    deleteParticipants(uuid);
+    deleteScorecardDownload(uuid);
+    deleteLanguageIndicators(uuid);
+    facilitatorService.deleteFacilitators(uuid);
+    ratingService.deleteRatings(uuid);
+    votingCriteriaService.deleteVotingCriteria(uuid);
+    customIndicatorService.deleteCustomIndicators(uuid);
+    proposedCriteriaService.deleteProposedCriterias(uuid);
+  }
+}
+
+export default ScorecardService;

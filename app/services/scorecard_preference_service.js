@@ -8,7 +8,7 @@ import {
   isExist as isProgramLanguageExist,
 } from './program_language_service';
 import { getAll as getAllProgramLanguage } from './program_language_service';
-import scorecardService from './scorecardService';
+import ScorecardService from './scorecardService';
 
 import { isKhmerLanguage } from '../utils/program_language_util';
 
@@ -90,6 +90,7 @@ const scorecardPreferenceService = (() => {
       audio_language_code: audioLocale,
     };
 
+    const scorecardService = new ScorecardService();
     scorecardService.update(scorecardUuid, attrs);
   }
 })();
