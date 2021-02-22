@@ -41,6 +41,14 @@ const CustomStyle = StyleSheet.create({
     fontFamily: FontFamily.title,
     textTransform: 'uppercase',
   },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    width: '90%',
+    marginHorizontal: 30,
+    justifyContent: 'flex-start',
+    alignSelf: 'center',
+  }
 });
 
 export default CustomStyle;

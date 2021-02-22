@@ -13,3 +13,8 @@ export const Median = function(arr) {
 export const getIntegerOf = function(value) {
   return parseInt(value) || 0;
 }
+
+export const roundUpHalf = function(num) {
+  let adjustNum = (num % 0.5 <= 0.24) ? (num + 0.5) : num;
+  return Math.round(adjustNum * 2) / 2;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { Modal, Portal} from 'react-native-paper';
 
 import { LocalizationContext } from './Translations';
@@ -19,7 +19,7 @@ class MessageModal extends Component {
         <Modal
           visible={this.props.visible}
           onDismiss={this.props.onDismiss}
-          contentContainerStyle={styles.container}
+          contentContainerStyle={CustomStyle.modalContainer}
         >
           <Text style={CustomStyle.modalTitle}>{this.props.title}</Text>
           <Text stle={{marginTop: 10}}>
@@ -40,16 +40,5 @@ class MessageModal extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    width: '60%',
-    marginHorizontal: 30,
-    justifyContent: 'flex-start',
-    alignSelf: 'center',
-  },
-});
 
 export default MessageModal;

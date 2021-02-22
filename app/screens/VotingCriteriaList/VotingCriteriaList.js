@@ -22,6 +22,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
+import tips from '../../db/jsons/tips';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -55,7 +56,7 @@ class VotingCriteriaList extends Component {
   }
 
   _renderList() {
-    return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index}/>);
+    return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index} scorecard={this.state.scorecard} />);
   }
 
   _goNext() {
