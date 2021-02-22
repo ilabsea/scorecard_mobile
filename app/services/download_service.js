@@ -19,7 +19,7 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
   const item = items[index];
   if (item.audio) {
 
-    const audioUrl = environment.type == 'local' ? `${environment.domain}${item.audio}` : item.audio;
+    const audioUrl = environment.type == 'development' ? `${environment.domain}${item.audio}` : item.audio;
     const itemOptions = {
       audioUrl: audioUrl,
       item: item,
