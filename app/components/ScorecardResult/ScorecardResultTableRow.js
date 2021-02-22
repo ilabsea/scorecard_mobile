@@ -59,7 +59,7 @@ export default class ScorecardResultTableRow extends Component {
   )
 
   render() {
-    const editableFields = ['strength',  'weakness', 'desired_change', 'suggested_action'];
+    const editableFields = ['strength',  'weakness', 'suggested_action'];
     const indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
 
     return (

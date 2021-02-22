@@ -122,7 +122,7 @@ class ScorecardService extends BaseModelService {
 
   votingCriteriasAttr() {
     let votingCriterias = this.getJSON('VotingCriteria');
-    let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'desired_change', 'suggested_action'];
+    let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action'];
 
     return this.getCriteriaAttr(votingCriterias, columns);
   }

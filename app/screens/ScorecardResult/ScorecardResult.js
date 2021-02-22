@@ -61,13 +61,13 @@ class ScorecardResult extends Component {
 
   _renderTable() {
     const { translations } = this.context;
-    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'desired_change', 'suggested_action'];
+    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'suggested_action'];
     tableHead = tableHead.map(x => translations[x]);
     const tableRows = this.props.criterias;
 
     return (
       <Table borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>
-        <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3, 3]}/>
+        <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3]}/>
         {
           tableRows.map((criteria, index) => (
             <ScorecardResultTableRow key={index} criteria={criteria} onPress={(fieldName) => this._handleShowModal(criteria, fieldName)}/>
