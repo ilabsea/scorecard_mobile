@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Container} from "native-base";
 import BigHeader from '../../components/BigHeader';
-
 import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
 import BottomButton from '../../components/BottomButton';

@@ -23,6 +23,8 @@ class ErrorMessageModal extends Component {
     const setting = await AsyncStorage.getItem('SETTING');
     this.setState({
       backendUrl: setting != null ? JSON.parse(setting).backendUrl : 'https://isaf-stg.ilabsea.org',
+    }, () => {
+      AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
     });
   }
 

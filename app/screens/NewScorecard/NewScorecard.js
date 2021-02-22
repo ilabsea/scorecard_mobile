@@ -26,7 +26,9 @@ import {checkConnection, handleApiResponse, getErrorType} from '../../services/a
 import ScorecardService from '../../services/scorecardService';
 import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
+import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
+
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
@@ -80,9 +82,15 @@ class NewScorecard extends Component {
   };
 
   joinScorecard = async () => {
-    const isErrorAuthentication = await authenticationService.isErrorAuthentication();
+    const { translations } = this.context;
+    if (!this.state.hasInternetConnection) {
+      internetConnectionService.showAlertMessage(translations.noInternetConnection,);
+      return;
+    }
 
-    if (isErrorAuthentication) {
+    const isAuthenticated = await authenticationFormService.isAuthenticated();
+
+    if (!isAuthenticated) {
       this.setErrorState('422');
       return;
     }
