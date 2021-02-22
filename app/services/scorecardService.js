@@ -4,6 +4,7 @@ import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getErrorType } from './api_service';
+import { deleteScorecardDownload } from './scorecard_download_service';
 import { deleteLanguageIndicators } from './language_indicator_service';
 import votingCriteriaService from './votingCriteriaService';
 import proposedCriteriaService from './proposedCriteriaService';
@@ -233,7 +234,7 @@ class ScorecardService extends BaseModelService {
 
   _deleteScorecardData = (scorecardUuid) => {
     Participant.deleteAll(scorecardUuid);
-    Scorecard.destroy(scorecardUuid);
+    deleteScorecardDownload(scorecardUuid);
     deleteLanguageIndicators(scorecardUuid);
     Facilitator.deleteAll(scorecardUuid);
     Rating.deleteAll(scorecardUuid);

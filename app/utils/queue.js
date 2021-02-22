@@ -14,7 +14,7 @@ export default class Queue {
 
       if (differenceInDays >= 30) {
         const scorecardService = new ScorecardService();
-        scorecardService.removeScorecardAsset(scorecards[i].uuid);
+        scorecardService.delete(scorecards[i].uuid);
       }
     }
   }
