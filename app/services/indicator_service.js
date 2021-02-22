@@ -119,6 +119,7 @@ class IndicatorService {
   getIndicatorList = (scorecardUuid, participantUuid, addNewLabel) => {
     let indicators = [];
     const savedIndicators = this.getAll(scorecardUuid);
+    const scorecardService = new ScorecardService();
     const proposedCriterias = scorecardService.getProposedCriterias(scorecardUuid, participantUuid);
 
     let selectedIndicators = [];
