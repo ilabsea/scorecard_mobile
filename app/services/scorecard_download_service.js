@@ -3,7 +3,7 @@ import { getEachPhasePercentage } from '../utils/scorecard_detail_util';
 
 import { scorecardDownloadPhases } from '../constants/scorecard_constant';
 
-import { saveIndicatorSection, IndicatorService } from './indicator_service';
+import IndicatorService from './indicator_service';
 import { save as saveCaf } from './caf_service';
 import { save as saveRatingScale }  from './rating_scale_service';
 
@@ -141,7 +141,7 @@ const _downloadRatingScale = (scorecard, audioLocale, updateDownloadProgress, er
 }
 
 const _downloadIndicator = (scorecard, audioLocale, updateDownloadProgress, errorCallback) => {
-  saveIndicatorSection(scorecard.uuid, scorecard.facility_id,
+  _indicatorService.saveIndicatorSection(scorecard.uuid, scorecard.facility_id,
     (isDownloaded, phase) => {
       const options = {
         isDownloaded,

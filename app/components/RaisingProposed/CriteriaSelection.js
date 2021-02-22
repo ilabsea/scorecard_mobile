@@ -5,6 +5,7 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+import indicatorHelper from '../../helpers/indicator_helper';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
@@ -28,20 +29,7 @@ class CriteriaSelection extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    let indicators = props.indicators;
-
-    props.selectedIndicators.map((selectedIndicator) => {
-      var index = props.indicators.findIndex(indicator => indicator.uuid == selectedIndicator.uuid)
-
-      if (index != -1) {
-        indicators[index].isSelected = true;
-      }
-    });
-
-    return {
-      indicators: indicators,
-      selectedIndicators: props.selectedIndicators,
-    };
+    return indicatorHelper.getIndicatorsState(props, state)
   }
 
   componentWillUnmount() {

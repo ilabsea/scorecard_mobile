@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { getDisplayIndicator } from './indicator_service';
+import indicatorHelper from '../helpers/indicator_helper';
 import { getIndicatorShortcutName } from '../utils/indicator_util';
 import realm from '../db/schema';
 
@@ -53,7 +53,7 @@ class ParticipantCell {
     }
 
     let doms = this.cellValue.map((proposedCriteria, index) => {
-      let indicator = getDisplayIndicator(proposedCriteria);
+      let indicator = indicatorHelper.getDisplayIndicator(proposedCriteria);
 
       return (
         <View key={index} style={{flex: 1, justifyContent: 'center'}}>

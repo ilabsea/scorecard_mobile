@@ -131,6 +131,7 @@ class VoiceRecord extends Component {
         <Tooltip
           isVisible={this.state.toolTipVisible}
           content={<Text>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
+          contentStyle={{width: 300, flexWrap: 'wrap', flexDirection: 'row'}}
           placement="top"
           onClose={() => this.setState({ toolTipVisible: false })}
         >

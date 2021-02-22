@@ -17,7 +17,7 @@ import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import PlaySound from './PlaySound';
-import { getDisplayIndicator } from '../../services/indicator_service';
+import indicatorHelper from '../../helpers/indicator_helper';
 import votingCriteriaService from '../../services/votingCriteriaService';
 
 const iconSize = 80;
@@ -108,7 +108,7 @@ export default class CriteriaRatingItem extends Component {
 
   _renderRatingIcons() {
     const { translations } = this.context;
-    let indicator = getDisplayIndicator(this.props.criteria, this.state.scorecard);
+    let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria, this.state.scorecard);
 
     return (
       <View style={{marginTop: 30}}>

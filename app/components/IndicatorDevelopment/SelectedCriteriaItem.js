@@ -16,8 +16,8 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import styles from '../../themes/scorecardListItemStyle';
 import PlaySound from '../VotingCriteria/PlaySound';
 
-import ScorecardService from '../../services/scorecardService';
-import { getDisplayIndicator } from '../../services/indicator_service';
+import scorecardService from '../../services/scorecardService';
+import indicatorHelper from '../../helpers/indicator_helper';
 
 import CustomStyle from '../../themes/customStyle';
 import CriteriaTitle from './CriteriaTitle';
@@ -32,7 +32,7 @@ class SelectedCriteriaItem extends Component {
     let scorecard = scorecardService.find(props.criteria.scorecard_uuid);
 
     this.state = {
-      indicator: getDisplayIndicator(props.criteria, scorecard)
+      indicator: indicatorHelper.getDisplayIndicator(props.criteria, scorecard)
     };
   }
 

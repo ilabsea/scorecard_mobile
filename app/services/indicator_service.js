@@ -12,124 +12,7 @@ import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_cons
 import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
 
-const saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, errorCallback) => {
-  const indicatorApi = new IndicatorApi();
-  const response = await indicatorApi.load(facilityId);
-
-  handleApiResponse(response, (indicators) => {
-    _saveIndicator(indicators, scorecardUuid, successCallback);
-    saveLanguageIndicator(scorecardUuid, indicators, successCallback)
-  }, (error) => {
-    console.log('error download caf = ', error);
-    errorCallback(error);
-  });
-}
-
-function _saveIndicator(indicators, scorecardUuid, successCallback) {
-  let savedCount = 0;
-  indicators.map((indicator) => {
-    if (!isExist(indicator.id)) {
-      const indicatorSet = {
-        uuid: uuidv4(),
-        id: indicator.id,
-        name: indicator.name,
-        facility_id: indicator.categorizable.id,
-        scorecard_uuid: scorecardUuid,
-        tag: indicator.tag_name,
-        image: indicator.image != null ? indicator.image : undefined,
-      };
-      realm.write(() => {
-        realm.create('Indicator', indicatorSet, 'modified');
-      });
-    }
-    savedCount += 1;
-  });
-  successCallback(savedCount === indicators.length, indicatorPhase);
-}
-
-const isExist = (indicatorId) => {
-  const indicator = realm.objects('Indicator').filtered(`id == ${indicatorId}`)[0];
-  return indicator === undefined ? false : true;
-}
-
-const getAll = (scorecardUuid) => {
-  let predefinedIndicators = getIndicator(scorecardUuid);
-  const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`)));
-  return predefinedIndicators.concat(customIndicators);
-}
-
-const getDisplayIndicator = (indicatorable, scorecardObj) => {
-  const scorecard = scorecardObj || realm.objects('Scorecard').filtered(`uuid='${indicatorable.scorecard_uuid}'`)[0];
-
-  if ( indicatorable.indicatorable_type == 'predefined' ) {
-    return getPredefinedIndicator(indicatorable, scorecard);
-  }
-
-  let indi = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`uuid='${indicatorable.indicatorable_id}'`)[0]));
-  indi.content = indi.content || indi.name;
-
-  return indi;
-}
-
-const find = (indicatorId) => {
-  return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
-}
-
-const getIndicatorList = (scorecardUuid, participantUuid, addNewLabel) => {
-  let indicators = [];
-  const savedIndicators = getAll(scorecardUuid);
-  const scorecardService = new ScorecardService();
-  const proposedCriterias = scorecardService.getProposedCriterias(scorecardUuid, participantUuid);
-
-  let selectedIndicators = [];
-
-  savedIndicators.map((indicator) => {
-    let attrs = {
-      uuid: indicator.id || indicator.uuid,
-      name: indicator.name,
-      shortcut: getIndicatorShortcutName(indicator.name),
-      isSelected: false,
-      tag: indicator.tag,
-      type: !!indicator.id ? PREDEFINED : CUSTOM,
-      local_image: indicator.local_image,
-    };
-    if (proposedCriterias != undefined) {
-      for (let i=0; i<proposedCriterias.length; i++) {
-        const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-        if (proposedCriterias[i].indicatorable_id === indicatorId) {
-          attrs.isSelected = true;
-          selectedIndicators.push(attrs);
-          break;
-        }
-      }
-    }
-    indicators.push(attrs);
-  });
-  indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
-
-  return {indicators, selectedIndicators};
-}
-
-function getPredefinedIndicator(indicatorable, scorecard) {
-  let predefined = realm.objects('Indicator').filtered(`id='${indicatorable.indicatorable_id}'`)[0];
-  let indi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.audio_language_code}'`)[0];
-  indi = indi || predefined;
-  indi = JSON.parse(JSON.stringify(indi));
-  indi.content = indi.content || indi.name;
-  indi.local_image = predefined.local_image;
-
-  if (!scorecard.isSameLanguageCode) {
-    let textIndi = realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorable.indicatorable_id}' AND language_code='${scorecard.text_language_code}'`)[0];
-    indi.content = !!textIndi && textIndi.content;
-  }
-
-  return indi;
-}
-
-function getIndicator(scorecardUuid) {
-  const facilityId = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0].facility_id;
-  return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
-}
+import indicatorHelper from '../helpers/indicator_helper';
 
 class IndicatorService {
   constructor() {
@@ -137,7 +20,7 @@ class IndicatorService {
   }
 
   saveImage = (scorecardUuid, successCallback, errorCallback) => {
-    let indicators = getIndicator(scorecardUuid);
+    let indicators = this._getPredefinedIndicator(scorecardUuid);
     this.downloadImage(0, indicators, successCallback, errorCallback);
   }
 
@@ -191,22 +74,91 @@ class IndicatorService {
   stopDownload = () => {
     this.isStopDownload = true;
   }
+
+  getAll = (scorecardUuid) => {
+    let predefinedIndicators = this._getPredefinedIndicator(scorecardUuid);
+    const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`)));
+    return predefinedIndicators.concat(customIndicators);
+  }
+
+  saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, errorCallback) => {
+    const indicatorApi = new IndicatorApi();
+    const response = await indicatorApi.load(facilityId);
+
+    handleApiResponse(response, (indicators) => {
+      this._saveIndicator(indicators, scorecardUuid, successCallback);
+      saveLanguageIndicator(scorecardUuid, indicators, successCallback)
+    }, (error) => {
+      console.log('error download caf = ', error);
+      errorCallback(error);
+    });
+  }
+
+  _saveIndicator(indicators, scorecardUuid, successCallback) {
+    let savedCount = 0;
+    indicators.map((indicator) => {
+      if (!indicatorHelper.isExist(indicator.id)) {
+        const indicatorSet = {
+          uuid: uuidv4(),
+          id: indicator.id,
+          name: indicator.name,
+          facility_id: indicator.categorizable.id,
+          scorecard_uuid: scorecardUuid,
+          tag: indicator.tag_name,
+          image: indicator.image != null ? indicator.image : undefined,
+        };
+        realm.write(() => {
+          realm.create('Indicator', indicatorSet, 'modified');
+        });
+      }
+      savedCount += 1;
+    });
+    successCallback(savedCount === indicators.length, indicatorPhase);
+  }
+
+  getIndicatorList = (scorecardUuid, participantUuid, addNewLabel) => {
+    let indicators = [];
+    const savedIndicators = this.getAll(scorecardUuid);
+    const scorecardService = new ScorecardService();
+    const proposedCriterias = scorecardService.getProposedCriterias(scorecardUuid, participantUuid);
+
+    let selectedIndicators = [];
+
+    savedIndicators.map((indicator) => {
+      let attrs = {
+        uuid: indicator.id || indicator.uuid,
+        name: indicator.name,
+        shortcut: getIndicatorShortcutName(indicator.name),
+        isSelected: false,
+        tag: indicator.tag,
+        type: !!indicator.id ? PREDEFINED : CUSTOM,
+        local_image: indicator.local_image,
+      };
+      if (proposedCriterias != undefined) {
+        for (let i=0; i<proposedCriterias.length; i++) {
+          const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
+          if (proposedCriterias[i].indicatorable_id === indicatorId) {
+            attrs.isSelected = true;
+            selectedIndicators.push(attrs);
+            break;
+          }
+        }
+      }
+      indicators.push(attrs);
+    });
+    indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
+
+    return {indicators, selectedIndicators};
+  }
+
+  find = (indicatorId) => {
+    return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
+  }
+
+  _getPredefinedIndicator(scorecardUuid) {
+    const facilityId = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0].facility_id;
+    return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
+  }
 }
 
-const getTags = (scorecardUuid) => {
-  let indicators = getAll(scorecardUuid);
-
-  return indicators.map(indi => indi.tag)
-          .filter(tag => !!tag)
-          .filter((tag, index, self) => self.indexOf(tag) == index);
-}
-
-export {
-  saveIndicatorSection,
-  getDisplayIndicator,
-  getAll,
-  find,
-  getTags,
-  getIndicatorList,
-  IndicatorService,
-};
+export default IndicatorService;
