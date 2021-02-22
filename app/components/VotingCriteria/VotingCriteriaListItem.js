@@ -22,7 +22,6 @@ import { Median } from '../../utils/math';
 import indicatorHelper from '../../helpers/indicator_helper';
 import { getVotingInfos } from '../../helpers/voting_criteria_helper';
 
-import { getDisplayIndicator } from '../../services/indicator_service';
 import CriteriaImage from '../IndicatorDevelopment/CriteriaImage';
 
 export default class VotingCriteriaListItem extends Component {
@@ -59,7 +58,7 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderRatingIcon(icon) {
     return (
-      <View key={uuidv4()} style={styles.ratingItem}>
+      <View key={uuidv4()} style={[styles.ratingItem, { width: 50 }]}>
         { this._renderIcon(icon, 28) }
 
         <Text style={styles.ratingCount}>{this.props.criteria[icon.countMethodName]}</Text>
@@ -101,12 +100,12 @@ export default class VotingCriteriaListItem extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={[cardListItemStyle.contentWrapper, { padding: 10 }]}>
+      <View style={[cardListItemStyle.contentWrapper, { padding: 10}]}>
         <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
 
         { this._renderRatingIcons() }
 
-        <View style={{borderWidth: 0, marginTop: 18, justifyContent: 'flex-end', flexDirection: 'row'}}>
+        <View style={{borderWidth: 0, marginTop: 10, justifyContent: 'flex-end', flexDirection: 'row'}}>
           <Text style={{fontSize: 15, color: Color.headerColor}}>{ translations.viewDetail }</Text>
           <Icon name="chevron-forward-outline" style={{ fontSize: 24, color: Color.headerColor }}/>
         </View>

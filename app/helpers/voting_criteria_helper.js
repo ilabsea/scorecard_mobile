@@ -1,18 +1,15 @@
 import realm from '../db/schema';
-import ratingService from '../services/ratingService';
-import ScorecardService from '../services/scorecardService';
+import Rating from '../models/Rating';
+import Participant from '../models/Participant'
 import { roundUpHalf } from '../utils/math';
 
 const getVotingInfos = (scorecardUuid, indicatorId) => {
-  const scorecardService = new ScorecardService();
-  const scorecard = scorecardService.find(scorecardUuid);
-
   let votingInfos = [
-    { type: 'female', voting_score: 0, average_score: 0, participant: scorecard.number_of_female },
-    { type: 'disability', voting_score: 0, average_score: 0, participant: scorecard.number_of_disability },
-    { type: 'minority', voting_score: 0, average_score: 0, participant: scorecard.number_of_ethnic_minority },
-    { type: 'poor', voting_score: 0, average_score: 0, participant: scorecard.number_of_id_poor },
-    { type: 'youth', voting_score: 0, average_score: 0, participant: scorecard.number_of_youth },
+    { type: 'female', voting_score: 0, average_score: 0, participant: _getVotedParticipantByType(scorecardUuid, 'female') },
+    { type: 'disability', voting_score: 0, average_score: 0, participant: _getVotedParticipantByType(scorecardUuid, 'disability') },
+    { type: 'minority', voting_score: 0, average_score: 0, participant: _getVotedParticipantByType(scorecardUuid, 'minority') },
+    { type: 'poor', voting_score: 0, average_score: 0, participant: _getVotedParticipantByType(scorecardUuid, 'poor') },
+    { type: 'youth', voting_score: 0, average_score: 0, participant: _getVotedParticipantByType(scorecardUuid, 'youth') },
   ];
 
   const votingCriteria = realm.objects('VotingCriteria').filtered(`scorecard_uuid == '${scorecardUuid}' AND indicatorable_id == '${indicatorId}'`)[0];
@@ -26,7 +23,7 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
       participants = allParticipants.filter((participant) => participant.gender == 'female');
 
     participants.map((participant) => {
-      const rating = ratingService.findByVotingCriteriaAndParticipant(votingCriteria.uuid, participant.uuid);
+      const rating = Rating.findByVotingCriteriaAndParticipant(votingCriteria.uuid, participant.uuid);
       votingInfo.voting_score += rating != undefined ? rating.score : 0;
     });
 
@@ -36,4 +33,20 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
   return votingInfos;
 }
 
-export { getVotingInfos };
+const hasVoting = (scorecardUuid) => {
+  return Rating.getAll(scorecardUuid).length > 0 ? true : false;
+}
+
+// Private
+const _getVotedParticipantByType = (scorecardUuid, type) => {
+  let participants = Participant.getVoted(scorecardUuid);
+
+  if (type == 'female')
+    participants = participants.filter((participant) => participant.gender == 'female');
+  else
+    participants = participants.filter((participant) => participant[type]);
+
+  return participants.length;
+}
+
+export { getVotingInfos, hasVoting };

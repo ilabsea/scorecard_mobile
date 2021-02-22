@@ -8,6 +8,8 @@ import CloseButton from '../CloseButton';
 import CustomStyle from '../../themes/customStyle';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import { hasVoting } from '../../helpers/voting_criteria_helper';
+
 import uuidv4 from '../../utils/uuidv4';
 
 class VotingInfoModal extends Component {
@@ -112,6 +114,23 @@ class VotingInfoModal extends Component {
     );
   }
 
+  _renderContent() {
+    if (hasVoting(this.props.scorecard.uuid)) {
+      return (
+        <View>
+          { this._renderParticipantInformationSection() }
+
+          { this._renderSummaryInfoSection() }
+        </View>
+      )
+    }
+
+    const { translations } = this.context;
+    return (
+      <Text style={{paddingHorizontal: 10}}>{ translations.thereIsNoVotingYet }</Text>
+    );
+  }
+
   render() {
     const { translations } = this.context;
 
@@ -126,9 +145,7 @@ class VotingInfoModal extends Component {
             { translations.votingDetail }
           </Text>
 
-          { this._renderParticipantInformationSection() }
-
-          { this._renderSummaryInfoSection() }
+          {this._renderContent()}
 
           <View style={CustomStyle.modalBtnWrapper}>
             <CloseButton onPress={this.props.onDismiss} label={translations.close} />

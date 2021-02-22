@@ -3,6 +3,8 @@ import realm from '../db/schema';
 const Participant = (() => {
   return {
     getAll,
+    deleteAll,
+    getVoted,
   }
 
   function getAll(scorecardUuid) {
@@ -15,6 +17,10 @@ const Participant = (() => {
     realm.write(() => {
       realm.delete(participants);
     });
+  }
+
+  function getVoted(scorecardUuid) {
+    return realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = true`);
   }
 })();
 
