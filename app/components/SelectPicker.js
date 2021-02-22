@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     backgroundColor: 'white',
     color: Color.inputBorderLineColor,
-    fontWeight: '700',
+    fontSize: 12,
     marginLeft: 12,
     paddingHorizontal: 6,
     position: 'absolute',

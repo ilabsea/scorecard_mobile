@@ -72,7 +72,7 @@ class VotingCriteriaList extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <View style={{flexDirection: 'row'}}>
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingCriterias.length}</Text>
 
           <ParticipantInfo
