@@ -231,7 +231,8 @@ class Setting extends Component {
     AsyncStorage.setItem('SETTING', JSON.stringify({
       backendUrl: this.state.backendUrl,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      locale: this.state.locale
     }));
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 

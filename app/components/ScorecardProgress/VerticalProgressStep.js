@@ -8,7 +8,7 @@ import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
-import scorecardStepService from '../../services/scorecardStepService';
+import ScorecardStep from '../../models/ScorecardStep';
 
 const badgeSize = 40;
 
@@ -33,13 +33,37 @@ export default class VerticalProgressStep extends Component {
       <MilestoneCard
         key={uuidv4()}
         title={ translations[step.headerTitle] }
-        subTitle={ step.subTitle }
+        subTitle={ this._getSubTitle(step) }
         index={ step.value }
         progressIndex={ this.props.progressIndex }
         onPress={() => this.onPress(step) }
         isScorecardFinished={this.props.scorecard.finished}
       />
     )
+  }
+
+  _getSubTitle(step) {
+    if (typeof this[step.getSubTitle] === "function") {
+      return this[step.getSubTitle](step);
+    }
+  }
+
+  getScorecardSetupSubTitle(step) {
+    const { translations } = this.context;
+
+    return `${translations.conductedDate}: ${step.subTitle}`;
+  }
+
+  getProposedCriteriaSubTitle(step) {
+    const { translations } = this.context;
+
+    return `${translations.numberOfCriteria}: ${step.subTitle}`;
+  }
+
+  getIndicatorDevelopmentSubTitle(step) {
+    const { translations } = this.context;
+
+    return `${translations.numberOfCriteria}: ${step.subTitle}`;
   }
 
   _renderLine(index) {
@@ -53,7 +77,7 @@ export default class VerticalProgressStep extends Component {
   _renderList() {
     const { translations, appLanguage } = this.context;
     let doms = [];
-    let steps = scorecardStepService.getAllWithSubTitle(this.props.scorecard, translations, appLanguage);
+    let steps = ScorecardStep.getAllWithSubTitle(this.props.scorecard, appLanguage);
 
     for(let i=0; i<steps.length; i++) {
       doms.push(this._renderMilestoneCard(steps[i]));
