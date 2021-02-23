@@ -1,5 +1,6 @@
 import realm from '../db/schema';
 import ScorecardService from '../services/scorecardService';
+import environment from '../config/environment';
 
 export default class Queue {
   static async initWorker() {
@@ -12,9 +13,9 @@ export default class Queue {
       let differenceInTime = today.getTime() - uploadedDate.getTime();
       let differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-      if (differenceInDays >= 30) {
+      if (differenceInDays > environment.validDay) {
         const scorecardService = new ScorecardService();
-        scorecardService.removeScorecardAsset(scorecards[i].uuid);
+        scorecardService.delete(scorecards[i].uuid);
       }
     }
   }
