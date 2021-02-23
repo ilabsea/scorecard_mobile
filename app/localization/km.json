@@ -227,5 +227,6 @@
   "doYouWantToDeleteThisScorecard": "តើអ្នកពិតជាចង់លុបប័ណ្ណដាក់ពិន្ទុនេះមែនទេ?",
   "votingDetail": "ព័ត៌មានលម្អិតអំពីការបោះឆ្នោត",
   "averageScoreByGroup": "ពិន្ទុមធ្យមតាមក្រុម",
-  "thereIsNoVotingYet": "មិនទាន់មានការដាក់ពិន្ទុនៅឡើយទេ"
+  "thereIsNoVotingYet": "មិនទាន់មានការដាក់ពិន្ទុនៅឡើយទេ",
+  "conductedDate": "ធ្វើនៅថ្ងៃទី",
 }

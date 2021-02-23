@@ -33,7 +33,12 @@ export default class MilestoneCard extends Component {
         onPress={ () => isDone && onPress()}
         style={[CustomStyle.card, styles.card, cardStyle]}>
 
-        <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
+        <View style={{flex: 1}}>
+          <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
+          { (index < this.props.progressIndex && !!this.props.subTitle) &&
+            <Text style={{fontSize: 14}}>{this.props.subTitle}</Text>
+          }
+        </View>
 
         { (index < this.props.progressIndex || this.props.isScorecardFinished) &&
           <View style={styles.viewDetail}>
@@ -86,7 +91,6 @@ export default class MilestoneCard extends Component {
 
 const styles = StyleSheet.create({
   title: {
-    flex: 1,
     color: '#808080',
     fontSize: 20,
     lineHeight: 34
