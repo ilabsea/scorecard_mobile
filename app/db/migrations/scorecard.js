@@ -65,6 +65,7 @@ Scorecard.schema = {
     deleted_date: 'string?',
     finished: { type: 'bool', default: false },
     downloaded_at: 'date',
+    primary_school: 'string?',
   }
 }
 

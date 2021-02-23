@@ -5,7 +5,7 @@ import {LocalizationContext} from '../../components/Translations';
 class DisplayScorecardInfo extends Component {
   static contextType = LocalizationContext;
   render() {
-    const {translations} = this.context;
+    const {translations, appLanguage} = this.context;
     const {scorecardDetail} = this.props;
     const renderFields = [
       {label: 'year', fieldName: 'year'},
@@ -17,11 +17,21 @@ class DisplayScorecardInfo extends Component {
       {label: 'implementer', fieldName: 'local_ngo_name'},
     ];
 
+    if (scorecardDetail.primary_school != null) {
+      const primarySchool = { label: 'primarySchool', fieldName: 'primary_school' };
+      renderFields.splice(6, 0, primarySchool);
+    }
+
     return renderFields.map((renderField, index) => {
       let value = scorecardDetail[renderField.fieldName] != undefined ? scorecardDetail[renderField.fieldName].toString() : ''
 
       if (renderField.label == 'scorecardType') {
         value = translations[scorecardDetail[renderField.fieldName]]
+      }
+
+      if (renderField.label == 'primarySchool') {
+        const primarySchool = JSON.parse(scorecardDetail.primary_school);
+        value = appLanguage == 'km' ? primarySchool.name_km : primarySchool.name_en;
       }
 
       return (

@@ -70,7 +70,8 @@ const Scorecard = (() => {
       district: response.district,
       commune: response.commune,
       program_id: response.program_id,
-      downloaded_at: new Date()
+      downloaded_at: new Date(),
+      primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
     })
   }
 })();
