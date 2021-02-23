@@ -1,3 +1,4 @@
+import RNFS from 'react-native-fs';
 import { environment } from '../config/environment';
 import {
   downloadFileFromUrl,
@@ -45,8 +46,10 @@ async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDown
   const isAudioExist = await isFileExist(filename)
 
   // File is already exist
-  if (isAudioExist)
-    callbackDownload();
+  if (isAudioExist) {
+    const audioFilePath = `${RNFS.DocumentDirectoryPath}/${filename}`;
+    storeAudioUrl(item, audioFilePath, callbackDownload);
+  }
 
   // File not found then start to download file
   else {
