@@ -44,7 +44,7 @@ const CustomStyle = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'white',
     padding: 20,
-    width: '90%',
+    width: '70%',
     marginHorizontal: 30,
     justifyContent: 'flex-start',
     alignSelf: 'center',

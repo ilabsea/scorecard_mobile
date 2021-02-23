@@ -14,7 +14,6 @@ const VotingCriteriaSchema = {
     median: 'int?',
     strength: 'string?',
     weakness: 'string?',
-    desired_change: 'string?',
     suggested_action: 'string?',
     very_bad_count: {type: 'int', default: 0},
     bad_count: {type: 'int', default: 0},
