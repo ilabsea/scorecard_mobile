@@ -14,6 +14,8 @@ import MessageModal from '../../components/MessageModal';
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
 
+import ScorecardService from '../../services/scorecardService';
+
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
@@ -74,7 +76,8 @@ class ScorecardList extends Component {
   }
 
   _confirmDelete() {
-    Scorecard.delete(this.state.selectedScorecard.uuid);
+    const scorecardService = new ScorecardService();
+    scorecardService.delete(this.state.selectedScorecard.uuid);
 
     this.setState({
       visibleModal: false,

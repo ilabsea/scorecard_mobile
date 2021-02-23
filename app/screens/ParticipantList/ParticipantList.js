@@ -19,6 +19,8 @@ import {connect} from 'react-redux';
 import OutlinedButton from '../../components/OutlinedButton';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import Participant from '../../models/Participant';
+
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
 
@@ -68,11 +70,15 @@ class ParticipantList extends Component {
     const numberOfParticipant = realm.objects('Scorecard').filtered('uuid = "' + this.props.route.params.scorecard_uuid + '"')[0].number_of_participant;
     this.totalParticipant = numberOfParticipant;
 
-    let doms = this.props.participants.map((participant, index) =>
-      <ParticipantListItem key={index} index={index} participant={participant}
-        navigation={this.props.navigation} scorecardUUID={this.props.route.params.scorecard_uuid}
-      />
-    )
+    let doms = null;
+
+    if (Participant.getAll(this.props.route.params.scorecard_uuid).length > 0) {
+      doms = this.props.participants.map((participant, index) =>
+        <ParticipantListItem key={index} index={index} participant={participant}
+          navigation={this.props.navigation} scorecardUUID={this.props.route.params.scorecard_uuid}
+        />
+      )
+    }
 
     return doms;
   }
