@@ -38,6 +38,9 @@ const ScorecardStep = (() => {
   }
 
   function getScorecardSetupSubTitle(scorecard) {
+    if (scorecard.conducted_date == null)
+      return '';
+
     let date = scorecard.conducted_date.split('/').reverse().join('-');
 
     return moment(date).locale(locale).format('LL');
