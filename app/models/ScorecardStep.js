@@ -4,24 +4,21 @@ import votingCriteriaService from '../services/votingCriteriaService';
 import moment from "moment/min/moment-with-locales";
 import AsyncStorage from '@react-native-community/async-storage';
 
-const ScorecardStep = (() => {
-  let locale = 'km';
-
-  return {
-    getAll,
-    getAllWithSubTitle
+class ScorecardStep {
+  constructor() {
+    this.locale = 'km';
   }
 
-  function getAll() {
+  getAll() {
     return scorecardProgress;
   }
 
-  function getAllWithSubTitle(scorecard, appLanguage) {
-    locale = appLanguage;
-    let steps = getAll();
+  getAllWithSubTitle(scorecard, appLanguage) {
+    this.locale = appLanguage;
+    let steps = this.getAll();
 
     for(let i=0; i<steps.length; i++) {
-      steps[i].subTitle = _getSubTitle(steps[i], scorecard);
+      steps[i].subTitle = this._getSubTitle(steps[i], scorecard);
     }
 
     return steps;
@@ -29,30 +26,30 @@ const ScorecardStep = (() => {
 
   // private methods
 
-  function _getSubTitle(step, scorecard) {
-    let fn = eval(step.getSubTitle);
-
-    if (typeof fn === "function") {
-      return fn(scorecard);
+  _getSubTitle(step, scorecard) {
+    if (step.getSubTitle != '') {
+      return this[step.getSubTitle](scorecard);
     }
+
+    return '';
   }
 
-  function getScorecardSetupSubTitle(scorecard) {
+  getScorecardSetupSubTitle(scorecard) {
     if (scorecard.conducted_date == null)
       return '';
 
     let date = scorecard.conducted_date.split('/').reverse().join('-');
 
-    return moment(date).locale(locale).format('LL');
+    return moment(date).locale(this.locale).format('LL');
   }
 
-  function getProposedCriteriaSubTitle(scorecard) {
+  getProposedCriteriaSubTitle(scorecard) {
     return proposedCriteriaService.getAllDistinct(scorecard.uuid).length;
   }
 
-  function getIndicatorDevelopmentSubTitle(scorecard) {
+  getIndicatorDevelopmentSubTitle(scorecard) {
     return votingCriteriaService.getAll(scorecard.uuid).length;
   }
-})();
+}
 
 export default ScorecardStep;

@@ -40,9 +40,11 @@ const proposedCriteriaService = (() => {
   function deleteProposedCriterias(scorecardUuid) {
     const proposedCriterias = getAll(scorecardUuid);
 
-    realm.write(() => {
-      realm.delete(proposedCriterias);
-    });
+    if (proposedCriterias.length > 0) {
+      realm.write(() => {
+        realm.delete(proposedCriterias);
+      });
+    }
   }
 
 })();

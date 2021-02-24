@@ -17,9 +17,11 @@ const Rating = (() => {
   function deleteAll(scorecardUuid) {
     const ratings = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}'`);
 
-    realm.write(() => {
-      realm.delete(ratings);
-    });
+    if (ratings.length > 0) {
+      realm.write(() => {
+        realm.delete(ratings);
+      });
+    }
   }
 
   function findByVotingCriteriaAndParticipant(votingCriUuid, participantUuid) {
