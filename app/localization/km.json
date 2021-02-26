@@ -230,5 +230,11 @@
   "conductedDate": "ធ្វើនៅថ្ងៃទី",
   "primarySchool": "បឋមសិក្សា",
   "votedParticipantInformation": "ព័ត៌មានអ្នកចូលរួមដាក់ពិន្ទុ",
-  "addNew": "បន្ថែម"
+  "addNew": "បន្ថែម",
+  "clickOnTheCriteriaToSelect": "ចុចលើលក្ខណៈវិនិច្ឆ័យដើម្បីជ្រើសរើស",
+  "clickOnThisCardToCreateNewCriteria": "ចុចលើប្រអប់នេះដើម្បីបង្កើតលក្ខណៈវិនិច្ឆ័យថ្មី",
+  "clickOnAudioIconToPlayTheSound": "ចុចលើរូបសញ្ញានេះដើម្បីលេងសម្លេង",
+  "clickOnSaveButtonToContinue": "ចុចលើប៊ូតុង 'រក្សាទុក' ដើម្បីទៅមុខបន្ត",
+  "previous": "ត្រលប់ក្រោយ",
+  "skip": "រំលង"
 }

@@ -230,5 +230,11 @@
   "conductedDate": "Conducted date",
   "primarySchool": "Primary school",
   "votedParticipantInformation": "Voted participant information",
-  "addNew": "Add new"
+  "addNew": "Add new",
+  "clickOnTheCriteriaToSelect": "Click on the criteria to select",
+  "clickOnThisCardToCreateNewCriteria": "Click on this card to create new criteria",
+  "clickOnAudioIconToPlayTheSound": "Click on the audio icon to play the sound",
+  "clickOnSaveButtonToContinue": "Click on 'Save' button to continue",
+  "previous": "Previous",
+  "skip": "Skip"
 }

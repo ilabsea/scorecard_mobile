@@ -10,6 +10,7 @@ const Scorecard = (() => {
     destroy,
     isSubmitted,
     isExists,
+    tourTipShown
   }
 
   function getAll() {
@@ -49,6 +50,10 @@ const Scorecard = (() => {
 
   function isExists(uuid) {
     return !!find(uuid);
+  }
+
+  function tourTipShown(uuid) {
+    return find(uuid).tour_tip_shown;
   }
 
   // Private

@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Imagebackground, ImageBackground} from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {View, ScrollView} from 'react-native';
+import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
+
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
+import IndicatorCard from './IndicatorCard';
+
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import indicatorHelper from '../../helpers/indicator_helper';
+import TourTipButton from '../TourTipButton';
 
-const windowWidth = Math.floor(Dimensions.get('window').width);
-const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
+import Scorecard from '../../models/Scorecard';
+
+const WalkableView = walkthroughable(View);
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -18,7 +23,7 @@ class CriteriaSelection extends Component {
 
     this.audioPlayer = null;
     this.state = {
-      indicators: [],
+      indicators: props.indicators,
       selectedIndicators: [],
       unselectedIndicators: [],
       isModalVisible: false,
@@ -26,10 +31,25 @@ class CriteriaSelection extends Component {
       audioIcon: 'play-arrow',
       customIndicator: null,
     };
+
+    this.scrollViewRef = React.createRef();
   }
 
   static getDerivedStateFromProps(props, state) {
     return indicatorHelper.getIndicatorsState(props, state)
+  }
+
+  componentDidMount() {
+    if (!Scorecard.tourTipShown(this.props.scorecardUUID)) {
+      const _this = this;
+      this.props.start(false, this.scrollViewRef);
+
+      Scorecard.update(this.props.scorecardUUID, { tour_tip_shown: true });
+
+      this.props.copilotEvents.on("stop", () => {
+        _this.props.startNextTourTip()
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -62,7 +82,7 @@ class CriteriaSelection extends Component {
       selectedIndicators,
       unselectedIndicators,
       isModalVisible: index === indicators.length - 1 ? true : false,
-    }, () => {this.props.selectIndicator();});
+    }, () => { this.props.selectIndicator(this.state); });
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
@@ -86,48 +106,96 @@ class CriteriaSelection extends Component {
     return indicator.name.split(":").pop();
   }
 
-  indicatorCard = (indicator, index) => {
-    let displayName = this.getIndicatorName(indicator);
-    let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
+  _renderIndicatorWithTourTip = (indicator, index) => {
+    const isAddNewCriteriaIndex = index == this.state.indicators.length - 1;
+
+    if (index == 0 || isAddNewCriteriaIndex) {
+      const { translations } = this.context;
+      const text = isAddNewCriteriaIndex ? translations.clickOnThisCardToCreateNewCriteria : translations.clickOnTheCriteriaToSelect;
+      const order = isAddNewCriteriaIndex ? 3 : 1;
+      const name = isAddNewCriteriaIndex ? 'customCriteriaCard' : 'criteriaCard';
+
+      return (
+        <CopilotStep
+          text={text}
+          order={order}
+          name={name}
+        >
+          <WalkableView>{ this.indicatorCard(indicator, index) }</WalkableView>
+        </CopilotStep>
+      )
+    }
+
+    return this.indicatorCard(indicator, index);
+  }
+
+  _renderAudioButton = (indicator, index) => {
+    if (index == 0) {
+      const { translations } = this.context;
+      return (
+        <CopilotStep
+          text={ translations.clickOnAudioIconToPlayTheSound }
+          order={2}
+          name="audioButton"
+        >
+          <WalkableView style={{justifyContent: 'center'}}>
+            { this.audioButton(indicator, index) }
+          </WalkableView>
+        </CopilotStep>
+      )
+    }
+
+    return this.audioButton(indicator, index);
+  }
+
+  audioButton = (indicator, index) => {
     let isAddNewCriteriaIndex = index == this.state.indicators.length - 1;
 
     return (
-      <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
-        <TouchableOpacity style={styles.criteriaBox}
-          onPress={() => this.selectIndicator(index)}>
-          <View style={[styles.iconContainer, iconContainerStyle]}>
-            { !isAddNewCriteriaIndex && !!indicator.local_image &&
-              <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={styles.indicatorImage} resizeMode='contain' />
-            }
-            { isAddNewCriteriaIndex && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
-          </View>
+      <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
+        playingIndicatorId={this.state.playingIndicatorId}
+        updateAudioState={this.updateAudioState}
+        scorecardUUID={this.props.scorecardUUID}
+        isAddNewCriteria={isAddNewCriteriaIndex}
+      />
+    );
+  }
 
-          <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left'}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
-          playingIndicatorId={this.state.playingIndicatorId}
-          updateAudioState={this.updateAudioState}
-          scorecardUUID={this.props.scorecardUUID}
-          isAddNewCriteria={isAddNewCriteriaIndex}
-        />
-      </View>
+  indicatorCard = (indicator, index) => {
+    return (
+      <IndicatorCard
+        indicators={this.state.indicators}
+        indicator={indicator}
+        customIndicator={this.state.customIndicator}
+        index={index}
+        scorecardUuid={this.props.scorecardUUID}
+        selectIndicator={this.selectIndicator}
+      >
+        {this._renderAudioButton(indicator, index)}
+      </IndicatorCard>
     )
   }
 
   renderIndicatorItem = (indicator, index) => {
     if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
+      const { translations } = this.context;
       return (
-        <View key={index} style={{flexDirection: 'row', width: '100%'}}>
-          {this.indicatorCard(indicator, index)}
-          <View style={{flex: 1, marginHorizontal: 10}} />
-        </View>
+        <CopilotStep
+          text={translations.clickOnThisCardToCreateNewCriteria}
+          order={3}
+          name='customCriteriaCard'
+        >
+          <WalkableView>
+            <View key={index} style={{flexDirection: 'row', width: '100%'}}>
+              {this.indicatorCard(indicator, index)}
+              <View style={{flex: 1, marginHorizontal: 10}} />
+            </View>
+          </WalkableView>
+        </CopilotStep>
       )
     }
 
-    return this.indicatorCard(indicator, index);
+    return this._renderIndicatorWithTourTip(indicator, index)
   }
 
   render() {
@@ -136,61 +204,28 @@ class CriteriaSelection extends Component {
     )
 
     return (
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10}}>
-        {doms}
-      </View>
+      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 28}} keyboardShouldPersistTaps='handled'
+        ref={ref => (this.scrollViewRef = ref)}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10}}>
+          {doms}
+        </View>
+      </ScrollView>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  criteriaBoxContainer: {
-    backgroundColor: 'white',
-    borderRadius: 2,
-    flexDirection: 'row',
-    marginVertical: 10,
-    marginHorizontal: 10,
-    width: itemWidth,
-    height: 100,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
-    elevation: 2,
+export default copilot({
+  overlay: 'svg',
+  animated: true,
+  verticalOffset: 24,
+  backdropColor: "rgba(31, 31, 31, 0.7)",
+  labels: {
+    previous: <TourTipButton label='previous' />,
+    next: <TourTipButton label='next' />,
+    skip: <TourTipButton label='skip' />,
+    finish: <TourTipButton label='next' />
   },
-  criteriaBox: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  iconContainer: {
-    width: 100,
-    backgroundColor: '#d0cdcd',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopLeftRadius: 2,
-    borderBottomLeftRadius: 2,
-  },
-  criteriaShortcut: {
-    color: '#787878',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  detailContainer: {
-    paddingLeft: 10,
-    paddingRight: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  indicatorImage: {
-    width: '99%',
-    height: '99%',
-    borderWidth: 0,
-    borderColor: 'transparent'
-  }
-});
-
-export default CriteriaSelection;
+  stepNumberComponent: () => (<View/>)
+})(CriteriaSelection);
