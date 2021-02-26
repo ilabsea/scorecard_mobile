@@ -36,6 +36,7 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
         <TouchableOpacity onPress={() => this.onPress(fieldName)} style={styles.btnEdit}>
+          <Text style={{color: '#fff', marginRight: 6}}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
           <Icon name={'pen'} type="FontAwesome5" style={{color: '#fff', fontSize: 14}}/>
         </TouchableOpacity>
       </View>
@@ -104,12 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   btnEdit: {
-    width: 28,
-    height: 28,
     backgroundColor: Color.headerColor,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 14,
-    marginLeft: 10
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    borderRadius: 5,
   }
 });
