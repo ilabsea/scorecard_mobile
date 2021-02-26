@@ -77,7 +77,7 @@ export default class VerticalProgressStep extends Component {
   _renderList() {
     const { translations, appLanguage } = this.context;
     let doms = [];
-    let steps = ScorecardStep.getAllWithSubTitle(this.props.scorecard, appLanguage);
+    let steps = new ScorecardStep().getAllWithSubTitle(this.props.scorecard, appLanguage);
 
     for(let i=0; i<steps.length; i++) {
       doms.push(this._renderMilestoneCard(steps[i]));

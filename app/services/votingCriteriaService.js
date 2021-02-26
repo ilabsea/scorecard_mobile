@@ -134,9 +134,11 @@ const votingCriteriaService = (() => {
   function deleteVotingCriteria(scorecardUuid) {
     const votingCriterias = votingCriteriaService.getAll(scorecardUuid);
 
-    realm.write(() => {
-      realm.delete(votingCriterias);
-    });
+    if (votingCriterias.length > 0) {
+      realm.write(() => {
+        realm.delete(votingCriterias);
+      });
+    }
   }
 })();
 

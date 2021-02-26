@@ -25,10 +25,12 @@ const CustomIndicator = (() => {
   function deleteAll(scorecardUuid) {
     const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`);
 
-    realm.write(() => {
-      _removeAudioFiles(customIndicators);
-      realm.delete(customIndicators);
-    });
+    if (customIndicators.length > 0) {
+      realm.write(() => {
+        _removeAudioFiles(customIndicators);
+        realm.delete(customIndicators);
+      });
+    }
   }
 
   // Private method

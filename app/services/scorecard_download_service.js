@@ -239,9 +239,11 @@ const stopDownload = () => {
 const deleteScorecardDownload = (scorecardUuid) => {
   const scorecardDownload = find(scorecardUuid);
 
-  realm.write(() => {
-    realm.delete(scorecardDownload);
-  });
+  if (scorecardDownload != undefined) {
+    realm.write(() => {
+      realm.delete(scorecardDownload);
+    });
+  }
 }
 
 export {

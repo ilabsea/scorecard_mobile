@@ -13,9 +13,11 @@ const Facilitator = (() => {
   function deleteAll(scorecardUuid) {
     const facilitators = realm.objects('Facilitator').filtered(`scorecard_uuid = '${scorecardUuid}'`);
 
-    realm.write(() => {
-      realm.delete(facilitators);
-    });
+    if (facilitators.length > 0) {
+      realm.write(() => {
+        realm.delete(facilitators);
+      });
+    }
   }
 })();
 
