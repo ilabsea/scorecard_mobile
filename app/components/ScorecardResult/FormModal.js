@@ -19,7 +19,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
 import OutlinedButton from '../OutlinedButton';
-import TextFieldInput from '../TextFieldInput';
+import ScorecardResultTextInput from './ScorecardResultTextInput';
 
 import realm from '../../db/schema';
 
@@ -88,25 +88,24 @@ const FormModal = (props) => {
 
     return renderPoints.map((note, index) => {
       let fieldName = `note-${index}`;
-
       return (
-        <View key={index} style={{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center'}}>
+        <View key={index} style={{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold', marginRight: 20}}>{ index + 1 }.</Text>
           <View style={{flex: 1}}>
-            <TextFieldInput
+            <ScorecardResultTextInput
+              autoFocus={true}
               value={note}
-              label={ translations[criteria.currentFieldName] }
-              placeholder={ translations.enterNote }
+              placeholder={translations[criteria.currentFieldName]}
               fieldName={fieldName}
               onChangeText={onChangeText}
-              customStyle={{marginTop: -15}}
-            />
+              customStyle={{marginTop: 0, borderWidth: 0}}/>
           </View>
 
           <TouchableOpacity
             onPress={() => deletePoint(index)}
-            style={{marginLeft: 20, marginTop: -45}}
-          >
-            <Icon name='trash' type="FontAwesome" style={{color: 'red', fontSize: 20}} />
+            style={{marginLeft: 20}}
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+            <Icon name='trash' type="FontAwesome" style={{color: 'red', fontSize: 22}} />
           </TouchableOpacity>
         </View>
       )
@@ -119,7 +118,9 @@ const FormModal = (props) => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{flex: 1, backgroundColor: 'white'}}>
             <View style={{flexDirection: 'row'}}>
-              <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20, flex: 1}}>{translations.insert}{translations[criteria.currentFieldName]}</Text>
+              <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20, flex: 1}}>
+                {translations.insert}{translations[criteria.currentFieldName]}
+              </Text>
 
               <OutlinedButton
                 icon='plus'
@@ -129,13 +130,12 @@ const FormModal = (props) => {
             </View>
 
             <ScrollView
-              contentContainerStyle={{borderWidth: 0, paddingTop: 20}}
+              contentContainerStyle={{paddingTop: 0, paddingBottom: 20}}
               showsVerticalScrollIndicator={false}
             >
               { _renderForm() }
             </ScrollView>
 
-            <View style={{flex: 1}}></View>
             <View style={styles.btnWrapper}>
               <CloseButton onPress={() => onDismiss()} label={translations.close} />
               <SaveButton onPress={() => submit()} label={translations.save} />
@@ -153,12 +153,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 20,
-    minHeight: 450,
+    minHeight: 590,
     marginHorizontal: 30,
     justifyContent: 'flex-start'
   },
   btnWrapper: {
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginTop: 20
   },
 });
