@@ -2,6 +2,7 @@ import realm from '../db/schema';
 import Rating from '../models/Rating';
 import Participant from '../models/Participant'
 import { roundUpHalf } from '../utils/math';
+import { participantTypes } from '../constants/participant_constant';
 
 const getVotingInfos = (scorecardUuid, indicatorId) => {
   let votingInfos = [
@@ -37,6 +38,16 @@ const hasVoting = (scorecardUuid) => {
   return Rating.getAll(scorecardUuid).length > 0 ? true : false;
 }
 
+const getVotingParticipants = (scorecardUuid) => {
+  let participantInfos = [];
+
+  participantTypes.map((type) => {
+    participantInfos.push(_getVotedParticipantByType(scorecardUuid, type));
+  });
+
+  return participantInfos;
+}
+
 // Private
 const _getVotedParticipantByType = (scorecardUuid, type) => {
   let participants = Participant.getVoted(scorecardUuid);
@@ -49,4 +60,4 @@ const _getVotedParticipantByType = (scorecardUuid, type) => {
   return participants.length;
 }
 
-export { getVotingInfos, hasVoting };
+export { getVotingInfos, hasVoting, getVotingParticipants };

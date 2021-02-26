@@ -26,7 +26,7 @@ class DownloadButton extends Component {
           <Text style={[styles.buttonLabelStyle, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]}>
             {this.props.label}
           </Text>
-          <Icon name="download" style={[{right: 0, position: 'absolute'}, this.props.disabled ? {color: 'gray'} : {}]} />
+          <Icon name="download" style={[{right: 10, position: 'absolute'}, this.props.disabled ? {color: 'gray'} : {}]} />
         </Button>
       </View>
     );
