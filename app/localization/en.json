@@ -228,5 +228,6 @@
   "averageScoreByGroup": "Average score by group",
   "thereIsNoVotingYet": "There is no voting yet",
   "conductedDate": "Conducted date",
-  "primarySchool": "Primary school"
+  "primarySchool": "Primary school",
+  "votedParticipantInformation": "Voted participant information"
 }

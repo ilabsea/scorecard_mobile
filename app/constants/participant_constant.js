@@ -1,0 +1,1 @@
+export const participantTypes = ['female', 'disability', 'minority', 'poor', 'youth'];

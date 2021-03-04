@@ -114,7 +114,7 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   showVotingDetail = (indicator) => {
-    const votingInfos = getVotingInfos(indicator.scorecard_uuid, indicator.indicator_id);
+    const votingInfos = getVotingInfos(this.props.scorecard.uuid, indicator.indicator_id);
 
     this.setState({
       modalVisible: true,
