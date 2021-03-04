@@ -229,5 +229,6 @@
   "thereIsNoVotingYet": "There is no voting yet",
   "conductedDate": "Conducted date",
   "primarySchool": "Primary school",
-  "votedParticipantInformation": "Voted participant information"
+  "votedParticipantInformation": "Voted participant information",
+  "addNew": "Add new"
 }
