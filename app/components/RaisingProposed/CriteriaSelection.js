@@ -85,25 +85,9 @@ class CriteriaSelection extends Component {
     }, () => { this.props.selectIndicator(this.state); });
   }
 
-  selectedCriteriaBoxStyle = (indicator) => {
-    if (indicator.isSelected || (this.state.customIndicator != null && this.state.customIndicator.uuid == indicator.uuid))
-      return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
-
-    return {};
-  }
-
   updateAudioState = (indicatorId, audioPlayer) => {
     this.setState({playingIndicatorId: indicatorId});
     this.audioPlayer = audioPlayer;
-  }
-
-  getIndicatorName = (indicator) => {
-    const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, indicator.uuid, 'text');
-
-    if (languageIndicator != undefined)
-      return languageIndicator.content != '' ? languageIndicator.content : indicator.name.split(":").pop();
-
-    return indicator.name.split(":").pop();
   }
 
   _renderIndicatorWithTourTip = (indicator, index) => {

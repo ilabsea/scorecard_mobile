@@ -1,6 +1,6 @@
 'use strict';
 
-import scorecardProgress from '../jsons/scorecardProgress';
+import scorecardProgress from '../../jsons/scorecardProgress';
 
 class Scorecard {
   get isInLastPhase() {
