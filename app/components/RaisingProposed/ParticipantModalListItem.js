@@ -10,6 +10,8 @@ import ActionButton from '../ActionButton';
 import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
 
+import participantHelper from '../../helpers/participant_helper';
+
 export default class ParticipantModalListItem extends Component {
   static contextType = LocalizationContext;
 
@@ -24,7 +26,7 @@ export default class ParticipantModalListItem extends Component {
       return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 16}} />);
     }
 
-    const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
+    const gender = participantHelper.getGenderIconLabel(participant.gender);
     return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 16}} color="black" />);
   };
 
