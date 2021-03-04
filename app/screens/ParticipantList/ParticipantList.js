@@ -11,7 +11,6 @@ import realm from '../../db/schema';
 
 import {LocalizationContext} from '../../components/Translations';
 import ParticipantListItem from '../../components/ParticipantList/ParticipantListItem';
-import ParticipantCountLabel from '../../components/ParticipantList/ParticipantCountLabel';
 import BottomButton from '../../components/BottomButton';
 import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
@@ -88,9 +87,13 @@ class ParticipantList extends Component {
 
     return (
       <View style={{flexDirection: 'row', marginBottom: 20}}>
-        <Text style={{fontSize: 20, fontFamily: FontFamily.title, flex: 1}}>
-          {translations.participantList}
-        </Text>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <Text style={{fontSize: 20, fontFamily: FontFamily.title}}>
+            {translations.participantList}
+          </Text>
+
+          <Text style={{fontSize: 22, fontWeight: 'bold', marginLeft: 5}}>({ this.props.participants.length })</Text>
+        </View>
 
         <OutlinedButton
           icon="plus"
@@ -121,12 +124,6 @@ class ParticipantList extends Component {
           </ScrollView>
 
           <View style={{padding: 20}}>
-            <ParticipantCountLabel
-              customContainerStyle={{paddingVertical: 10}}
-              totalParticipant={this.totalParticipant}
-              addedParticipant={this.props.participants.length}
-            />
-
             <BottomButton
               label={translations.next}
               onPress={() => this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}

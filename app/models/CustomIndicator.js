@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const CustomIndicator = (() => {
   return {
+    find,
     getAll,
     update,
     deleteAll,
