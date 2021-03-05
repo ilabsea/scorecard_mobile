@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
-import {Provider, Portal} from 'react-native-paper';
-import {Icon} from 'native-base';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
+import {View, Text} from 'react-native';
+import {Portal} from 'react-native-paper';
+import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 
 import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
@@ -16,9 +15,11 @@ import {saveCriteria} from '../../actions/criteriaListAction';
 import { CUSTOM } from '../../utils/variable';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+import TourTipButton from '../../components/TourTipButton';
 
 import IndicatorService from '../../services/indicator_service';
 
+const WalkableView = walkthroughable(View);
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
 
@@ -33,6 +34,7 @@ class CreateNewIndicator extends Component {
       unselectedIndicators: [],
       participant_uuid: this.props.route.params.participant_uuid,
       customIndicator: null,
+      showTourTip: false,
     };
   }
 
@@ -44,19 +46,24 @@ class CreateNewIndicator extends Component {
     this._updateIndicatorList();
   }
 
-  selectIndicator = () => {
+  selectIndicator = (criteriaSelectionState) => {
     this.setState({
-      isModalVisible: this.indicatorSelectionRef.current.state.isModalVisible,
-      selectedIndicators: this.indicatorSelectionRef.current.state.selectedIndicators,
-      unselectedIndicators: this.indicatorSelectionRef.current.state.unselectedIndicators,
-      isValid: this.indicatorSelectionRef.current.state.selectedIndicators.length > 0 ? true : false,
+      isModalVisible: criteriaSelectionState.isModalVisible,
+      selectedIndicators: criteriaSelectionState.selectedIndicators,
+      unselectedIndicators: criteriaSelectionState.unselectedIndicators,
+      isValid: criteriaSelectionState.selectedIndicators.length > 0 ? true : false,
     });
   };
 
   closeModal = () => {
-    const otherIndicatorIndex = this.indicatorSelectionRef.current.state.indicators.length - 1;
-    this.indicatorSelectionRef.current.state.indicators[otherIndicatorIndex].isSelected = false;
-    this.setState({isModalVisible: false});
+    const otherIndicatorIndex = this.state.indicators.length - 1;
+    const newIndicators = this.state.indicators;
+    newIndicators[otherIndicatorIndex].isSelected = false;
+
+    this.setState({
+      isModalVisible: false,
+      indicators: newIndicators
+    });
   }
 
   saveCustomIndicator = (customIndicator, customLanguageIndicator) => {
@@ -142,8 +149,18 @@ class CreateNewIndicator extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{padding: 20}}>
-        <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
+      <View style={{padding: 20, paddingHorizontal: 0}}>
+        { this.state.showTourTip &&
+          <CopilotStep text={translations.clickOnSaveButtonToContinue} order={1} name="finishButton">
+            <WalkableView>
+              <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
+            </WalkableView>
+          </CopilotStep>
+        }
+
+        { !this.state.showTourTip &&
+          <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
+        }
       </View>
     );
   };
@@ -179,27 +196,31 @@ class CreateNewIndicator extends Component {
     });
   }
 
+  startNextTourTip = () => {
+    this.setState({ showTourTip: true });
+    this.props.start();
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
-      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20, paddingBottom: 28}} keyboardShouldPersistTaps='handled'>
-          { this._renderParticipant() }
-          <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
-            {translations['chooseProposedCriteria']}
-          </Text>
+      <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20, paddingBottom: 0}}>
+        { this._renderParticipant() }
+        <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
+          {translations['chooseProposedCriteria']}
+        </Text>
 
-          <CriteriaSelection
-            ref={this.indicatorSelectionRef}
-            selectIndicator={this.selectIndicator}
-            scorecardUUID={this.props.route.params.scorecard_uuid}
-            participantUUID={this.props.route.params.participant_uuid}
-            indicators={this.state.indicators}
-            selectedIndicators={this.state.selectedIndicators}
-            customIndicator={this.state.customIndicator}
-          />
-        </ScrollView>
+        <CriteriaSelection
+          ref={this.indicatorSelectionRef}
+          selectIndicator={this.selectIndicator}
+          scorecardUUID={this.props.route.params.scorecard_uuid}
+          participantUUID={this.props.route.params.participant_uuid}
+          indicators={this.state.indicators}
+          selectedIndicators={this.state.selectedIndicators}
+          customIndicator={this.state.customIndicator}
+          startNextTourTip={() => this.startNextTourTip()}
+        />
 
         { this.renderSaveButton() }
 
@@ -228,4 +249,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator);
+export default copilot({
+  overlay: 'svg',
+  animated: true,
+  verticalOffset: 24,
+  backdropColor: "rgba(31, 31, 31, 0.7)",
+  labels: {
+    finish: <TourTipButton label='finish' />
+  },
+  stepNumberComponent: () => (<View/>)
+})(connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator));

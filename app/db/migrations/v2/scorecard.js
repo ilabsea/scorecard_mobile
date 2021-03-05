@@ -1,6 +1,6 @@
 'use strict';
 
-import scorecardProgress from '../jsons/scorecardProgress';
+import scorecardProgress from '../../jsons/scorecardProgress';
 
 class Scorecard {
   get isInLastPhase() {
@@ -66,6 +66,7 @@ Scorecard.schema = {
     finished: { type: 'bool', default: false },
     downloaded_at: 'date',
     primary_school: 'string?',
+    tour_tip_shown: { type: 'bool', default: false },
   }
 }
 
