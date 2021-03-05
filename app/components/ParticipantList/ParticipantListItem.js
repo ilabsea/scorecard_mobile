@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {LocalizationContext} from '../Translations';
+import participantHelper from '../../helpers/participant_helper';
 
 class ParticipantListItem extends Component {
   static contextType = LocalizationContext;
@@ -22,7 +23,7 @@ class ParticipantListItem extends Component {
     if (participant.gender === '')
       return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
-    const gender = participant.gender === 'other' ? 'transgender' : participant.gender;
+    const gender = participantHelper.getGenderIconLabel(participant.gender);
     return <FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10}} color="black" />;
   };
 
