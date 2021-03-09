@@ -94,7 +94,8 @@ class NewScorecard extends Component {
       return;
     }
 
-    if (!this.isValid() || Scorecard.isSubmitted(this.state.code)) {
+    const isSubmitted = Scorecard.isSubmitted(this.state.code);
+    if (!this.isValid() || isSubmitted) {
       this.setState({
         visibleInfoModal: isSubmitted,
         isSubmitted: isSubmitted,
