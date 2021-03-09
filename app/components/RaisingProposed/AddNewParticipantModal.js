@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import {FontSize, FontFamily} from '../../assets/stylesheets/theme/font';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
 import uuidv4 from '../../utils/uuidv4';
+import { MALE } from '../../constants/participant_constant';
 
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
@@ -22,24 +23,23 @@ class AddNewParticipantModal extends Component {
     this.ageRef = React.createRef();
     this.state = {
       age: 0,
-      selectedGender: 'female',
-      isDisability: 'false',
-      isMinority: 'false',
-      isPoor: 'false',
-      isYouth: 'false',
+      selectedGender: MALE,
+      isDisability: false,
+      isMinority: false,
+      isPoor: false,
+      isYouth: false,
       isValidAge: false,
     };
-    this.controllers = new Array(5);
   }
 
   resetFormData = () => {
     this.setState({
       age: 0,
-      selectedGender: 'female',
-      isDisability: 'false',
-      isMinority: 'false',
-      isPoor: 'false',
-      isYouth: 'false',
+      selectedGender: MALE,
+      isDisability: false,
+      isMinority: false,
+      isPoor: false,
+      isYouth: false,
       isValidAge: false,
     });
   }
@@ -59,15 +59,11 @@ class AddNewParticipantModal extends Component {
       <ParticipantForm
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
-        containerStyle={{paddingBottom: 160, paddingTop: 5}}
-        controllers={this.controllers}
+        containerStyle={{paddingBottom: 160, paddingTop: 0}}
+        renderSmallSize={true}
       />
     );
   };
-
-  getTrueFalseValue = (value) => {
-    return value === 'false' ? false : true;
-  }
 
   save = () => {
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
@@ -75,10 +71,10 @@ class AddNewParticipantModal extends Component {
       uuid: uuidv4(),
       age: parseInt(age),
       gender: selectedGender,
-      disability: this.getTrueFalseValue(isDisability),
-      minority: this.getTrueFalseValue(isMinority),
-      poor: this.getTrueFalseValue(isPoor),
-      youth: this.getTrueFalseValue(isYouth),
+      disability: isDisability,
+      minority: isMinority,
+      poor: isPoor,
+      youth: isYouth,
       scorecard_uuid: this.props.scorecardUuid,
       order: 0,
     };
@@ -97,40 +93,31 @@ class AddNewParticipantModal extends Component {
     this.props.onClose();
   }
 
-  onTouchWithoutFeedback = () => {
-    Keyboard.dismiss();
-    this.controllers.map((controller) => {
-      controller.close();
-    });
-  }
-
   render() {
     const {translations} = this.context;
     return (
       <Portal>
         <Modal visible={this.props.visible} onDismiss={() => this.props.onDismiss()} contentContainerStyle={ styles.container }>
-          <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
-            <View style={{backgroundColor: 'white', flex: 1}}>
-              <Text style={styles.header}>{translations.addNewParticipant}</Text>
+          <View style={{backgroundColor: 'white', flex: 1}}>
+            <Text style={styles.header}>{translations.addNewParticipant}</Text>
 
-              <ScrollView style={{marginBottom: 30}}>
-                {this.renderForm()}
-              </ScrollView>
+            <ScrollView style={{marginBottom: 30}} scrollEnabled={false} showsVerticalScrollIndicator={false}>
+              {this.renderForm()}
+            </ScrollView>
 
-              <View style={styles.btnWrapper}>
-                <CloseButton
-                  onPress={() => this.closeModal()}
-                  label={translations.close}
-                />
+            <View style={styles.btnWrapper}>
+              <CloseButton
+                onPress={() => this.closeModal()}
+                label={translations.close}
+              />
 
-                <SaveButton
-                  disabled={!this.state.isValidAge}
-                  onPress={() => this.save()}
-                  label={translations.save}
-                />
-              </View>
+              <SaveButton
+                disabled={!this.state.isValidAge}
+                onPress={() => this.save()}
+                label={translations.save}
+              />
             </View>
-          </TouchableWithoutFeedback>
+          </View>
         </Modal>
       </Portal>
     );
@@ -148,7 +135,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontFamily: FontFamily.title,
-    marginBottom: 20,
+    marginBottom: 10,
     textTransform: 'capitalize',
   },
   btnWrapper: {

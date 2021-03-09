@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
+
 import {LocalizationContext} from '../Translations';
-import SelectPicker from '../SelectPicker';
 import NumericInput from '../NumericInput';
 import { getIntegerOf } from '../../utils/math';
+import uuidv4 from '../../utils/uuidv4'
+import { MALE } from '../../constants/participant_constant';
+
+import GendersCheckBox from './GendersCheckBox';
+import OptionsSelectBox from './OptionsSelectBox';
 
 class ParticipantForm extends Component {
   static contextType = LocalizationContext;
@@ -12,11 +17,11 @@ class ParticipantForm extends Component {
     this.state = {
       isUpdate: false,
       age: 0,
-      selectedGender: 'female',
-      isDisability: 'false',
-      isMinority: 'false',
-      isPoor: 'false',
-      isYouth: 'false',
+      selectedGender: MALE,
+      isDisability: false,
+      isMinority: false,
+      isPoor: false,
+      isYouth: false,
     };
   }
 
@@ -33,93 +38,80 @@ class ParticipantForm extends Component {
     this.props.updateNewState(newState);
   };
 
-  closeSelectBox = (exceptIndex) => {
-    for (let i = 0; i < this.props.controllers.length; i++) {
-      if (exceptIndex == i)
-        continue;
-
-      this.props.controllers[i].close();
+  _renderParticipantAttributes = () => {
+    const { translations } = this.context;
+    const attributes = {
+      firstRow: [
+        { iconName: 'wheelchair', fieldName: 'isDisability', isSelected: this.state.isDisability, title: translations.disability },
+        { iconName: 'users', fieldName: 'isMinority', isSelected: this.state.isMinority, title: translations.minority },
+        { iconName: 'id-card', fieldName: 'isPoor', isSelected: this.state.isPoor, title: translations.poor },,
+      ],
+      secondRow: [
+        { iconName: 'universal-access', fieldName: 'isYouth', isSelected: this.state.isYouth, title: translations.youth },
+        null,
+        null,
+      ]
     }
+
+    let doms = [];
+    for (let key in attributes) {
+      doms.push(
+        <View key={uuidv4()} style={{flexDirection: 'row', marginTop: 10, justifyContent: 'space-between'}}>
+          {
+            attributes[key].map((attribute) => {
+              if (attribute == null)
+                return (<View style={{flex: 1}} />)
+
+              return (
+                <View key={uuidv4()} style={{ marginBottom: 10, flex: 1, alignItems: 'center' }}>
+                  <OptionsSelectBox title={attribute.title}
+                    iconName={attribute.iconName}
+                    fieldName={attribute.fieldName}
+                    onChangeValue={this.onChangeValue}
+                    isSelected={attribute.isSelected}
+                    renderSmallSize={this.props.renderSmallSize}
+                  />
+                </View>
+              )
+            })
+          }
+        </View>
+      )
+    }
+
+    return doms;
   }
 
   render() {
     const {translations} = this.context;
-    const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
-    const gender = [
-      {label: translations.female, value: 'female'},
-      {label: translations.male, value: 'male'},
-      {label: translations.otherGender, value: 'other'},
-    ];
-    const choices = [
-      {label: translations.optionNo, value: 'false'},
-      {label: translations.optionYes, value: 'true'},
-    ];
+    const {age} = this.state;
 
     return (
-      <View style={this.props.containerStyle}>
-        <NumericInput
-          value={age.toString()}
-          label={`${translations['age']} *`}
-          placeholder={translations['enterAge']}
-          onChangeText={(value) => {
-            this.onChangeValue('age', value);
-            this.props.updateValidationStatus(getIntegerOf(value) > 0);
-          }}
-          isRequired={true}
-          onFocus={() => this.closeSelectBox(null)}
-        />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={this.props.containerStyle}>
+          <NumericInput
+            value={age.toString()}
+            label={`${translations['age']} *`}
+            placeholder={translations['enterAge']}
+            onChangeText={(value) => {
+              this.onChangeValue('age', value);
+              this.props.updateValidationStatus(getIntegerOf(value) > 0);
+            }}
+            isRequired={true}
+          />
 
-        <SelectPicker
-          items={gender}
-          selectedItem={selectedGender}
-          label={translations['gender']}
-          zIndex={9000}
-          onChangeItem={(text) =>
-            this.onChangeValue('selectedGender', text.value)
-          }
-          customDropDownContainerStyle={{marginTop: -10}}
-          controller={(instance) => this.props.controllers[0] = instance}
-          onOpen={() => this.closeSelectBox(0)}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isDisability}
-          label={translations['disability']}
-          zIndex={8000}
-          onChangeItem={(text) =>
-            this.onChangeValue('isDisability', text.value)
-          }
-          controller={(instance) => this.props.controllers[1] = instance}
-          onOpen={() => this.closeSelectBox(1)}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isMinority}
-          label={translations['minority']}
-          zIndex={7000}
-          onChangeItem={(text) => this.onChangeValue('isMinority', text.value)}
-          controller={(instance) => this.props.controllers[2] = instance}
-          onOpen={() => this.closeSelectBox(2)}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isPoor}
-          label={translations['poor']}
-          zIndex={6000}
-          onChangeItem={(text) => this.onChangeValue('isPoor', text.value)}
-          controller={(instance) => this.props.controllers[3] = instance}
-          onOpen={() => this.closeSelectBox(3)}
-        />
-        <SelectPicker
-          items={choices}
-          selectedItem={isYouth}
-          label={translations['youth']}
-          zIndex={5000}
-          onChangeItem={(text) => this.onChangeValue('isYouth', text.value)}
-          controller={(instance) => this.props.controllers[4] = instance}
-          onOpen={() => this.closeSelectBox(4)}
-        />
-      </View>
+          <GendersCheckBox
+            onChangeValue={this.onChangeValue}
+            selectedGender={this.state.selectedGender}
+            renderSmallSize={this.props.renderSmallSize}
+          />
+
+          <Text style={{marginTop: 15}}>
+            { translations.attributes }
+          </Text>
+          { this._renderParticipantAttributes() }
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

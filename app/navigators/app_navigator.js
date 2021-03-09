@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 
 // Screens
@@ -52,6 +52,7 @@ function AppNavigator() {
           fontFamily: FontFamily.title
         },
         headerTintColor: 'white',
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
       }}>
       <Stack.Screen
         name="Home"

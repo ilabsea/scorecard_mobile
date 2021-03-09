@@ -236,5 +236,6 @@
   "clickOnAudioIconToPlayTheSound": "Click on the audio icon to play the sound",
   "clickOnSaveButtonToContinue": "Click on 'Save' button to continue",
   "previous": "Previous",
-  "skip": "Skip"
+  "skip": "Skip",
+  "attributes": "Attributes"
 }
