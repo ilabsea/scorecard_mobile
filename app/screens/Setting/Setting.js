@@ -61,6 +61,7 @@ class Setting extends Component {
       if (value !== null) {
         setting = Object.assign(setting, JSON.parse(value))
       }
+      setting.locale = appLanguage;
 
       this.setState(setting);
     } catch (error) {

@@ -25,8 +25,8 @@ class ScorecardSubmittedContent extends Component {
     return (
       <View>
         <Text style={CustomStyle.modalTitle}>{ translations.isSubmitted }</Text>
-        <Text style={{marginTop: 10}}>
-          { translations.thisScorecardIsAlreadySubmitted }
+        <Text style={{marginTop: 10, marginBottom: 20}}>
+          { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
         </Text>
 
         <ModalConfirmationButtons

@@ -213,7 +213,7 @@
   "failedToDownloadScorecard": "Failed to download scorecard",
   "pleasePressAndHoldTheButtonToRecordAudio": "Please press and hold the button to record the audio",
   "isSubmitted": "Already submitted",
-  "thisScorecardIsAlreadySubmitted": "This scorecard is already submitted",
+  "thisScorecardIsAlreadySubmitted": "Scorecard ({0}) is already conducted and finished, please contact the program administrator for more detail",
   "continue": "Continue",
   "scorecardIsInStep": "Scorecard is in step",
   "thisScorecardIsInStep": "This scorecard is in step",
