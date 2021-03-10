@@ -10,7 +10,8 @@ const Scorecard = (() => {
     destroy,
     isSubmitted,
     isExists,
-    tourTipShown
+    tourTipShown,
+    hasUnsubmitted
   }
 
   function getAll() {
@@ -54,6 +55,11 @@ const Scorecard = (() => {
 
   function tourTipShown(uuid) {
     return find(uuid).tour_tip_shown;
+  }
+
+  function hasUnsubmitted() {
+    const scorecards = realm.objects('Scorecard').filtered(`uploaded_date == null`);
+    return scorecards.length > 0 ? true : false;
   }
 
   // Private

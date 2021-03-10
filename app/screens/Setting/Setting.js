@@ -13,17 +13,17 @@ import Loading from 'react-native-whc-loading';
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import MessageLabel from '../../components/MessageLabel';
-import TextFieldInput from '../../components/TextFieldInput';
-import SelectPicker from '../../components/SelectPicker';
+import SettingForm from '../../components/Setting/SettingForm';
+import MessageModal from '../../components/MessageModal';
 
 import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_service';
 import {handleApiResponse} from '../../services/api_service';
 import authenticationFormService from '../../services/authentication_form_service';
-import {localeDictionary} from '../../constants/locale_constant';
 import contactService from '../../services/contact_service';
 import internetConnectionService from '../../services/internet_connection_service';
+import settingHelper from '../../helpers/setting_helper';
 
 import SessionApi from '../../api/SessionApi';
 
@@ -35,100 +35,21 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      backendUrl: 'https://isaf-stg.ilabsea.org',
-      email: '',
-      password: '',
-      locales: [],
-      locale: 'km',
-      backendUrlErrorMsg: '',
-      emailErrorMsg: '',
-      passwordErrorMsg: '',
       errorMsg: '',
       messageType: '',
       isLoading: false,
       hasInternetConnection: false,
+      visibleModal: false,
     };
-    this.languageController;
+
+    this.settingFormRef = React.createRef();
   }
 
   componentDidMount = async () => {
-    const { appLanguage } = this.context;
-    let setting = { locales: this.getLocales(), locale: appLanguage };
-
-    try {
-      const value = await AsyncStorage.getItem('SETTING');
-
-      if (value !== null) {
-        setting = Object.assign(setting, JSON.parse(value))
-      }
-      setting.locale = appLanguage;
-
-      this.setState(setting);
-    } catch (error) {
-      this.setState(setting);
-    }
-
     internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
   }
-
-  getLocales = () => {
-    const {translations} = this.context;
-    let locales = translations.getAvailableLanguages();
-    return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
-  };
-
-  onChangeText = (fieldName, value) => {
-    let state = {};
-    state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = '';
-
-    this.setState(state);
-  }
-
-  renderInputForm = () => {
-    const {translations} = this.context;
-    const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
-    const backendUrlLabel = `${translations['backendUrl']} *`;
-    const emailLabel = `${translations['email']} *`;
-    const passwordLabel = `${translations['password']} *`;
-
-    return (
-      <View>
-        <TextFieldInput
-          value={backendUrl}
-          label={backendUrlLabel}
-          placeholder={translations["enterBackendUrl"]}
-          fieldName="backendUrl"
-          onChangeText={this.onChangeText}
-          message={translations[backendUrlErrorMsg]}
-          onFocus={() => this.languageController.close()}
-        />
-
-        <TextFieldInput
-          value={email}
-          label={emailLabel}
-          placeholder={translations["enterEmail"]}
-          fieldName="email"
-          onChangeText={this.onChangeText}
-          message={translations[emailErrorMsg]}
-          onFocus={() => this.languageController.close()}
-        />
-
-        <TextFieldInput
-          value={password}
-          label={passwordLabel}
-          placeholder={translations["enterPassword"]}
-          fieldName="password"
-          onChangeText={this.onChangeText}
-          message={translations[passwordErrorMsg]}
-          secureTextEntry={true}
-          onFocus={() => this.languageController.close()}
-        />
-      </View>
-    );
-  };
 
   getPickerDefaultValue = (value) => {
     if (value != '' && value != undefined)
@@ -137,41 +58,15 @@ class Setting extends Component {
     return null;
   };
 
-  changeLocale = (locale) => {
-    const {setAppLanguage} = this.context;
-    this.setState({locale: locale.value});
-    setAppLanguage(locale.value);
-  }
-
-  renderChooseLanugage = () => {
-    const {translations} = this.context;
-    const {locales, locale} = this.state;
-
-    return (
-      <SelectPicker
-        items={locales}
-        selectedItem={locale}
-        label={translations["language"]}
-        placeholder={translations["selectLanguage"]}
-        searchablePlaceholder={translations["searchForLanguage"]}
-        zIndex={6000}
-        showCustomArrow={true}
-        onChangeItem={this.changeLocale}
-        mustHasDefaultValue={true}
-        controller={(instance) => this.languageController = instance}
-        onOpen={() => Keyboard.dismiss()}
-      />
-    );
-  };
-
   isValidForm = () => {
-    const {backendUrl, email, password} = this.state;
-    this.setState({
-      errorMsg: '',
+    const {backendUrl, email, password} = this.settingFormRef.current.state;
+    this.settingFormRef.current.setState({
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
     });
+
+    this.setState({ errorMsg: '' });
 
     const backendUrlValidationMsg = validationService('backendUrl', backendUrl);
     const emailValidationMsg = validationService('email', email);
@@ -190,7 +85,7 @@ class Setting extends Component {
   }
 
   async authenticate() {
-    const { backendUrl, email, password } = this.state;
+    const { email, password } = this.settingFormRef.current.state;
     const response = await SessionApi.authenticate(email, password);
 
     handleApiResponse(response, (responseData) => {
@@ -225,16 +120,25 @@ class Setting extends Component {
       return;
     }
 
+    const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
+
+    if (!changeableSetting) {
+      this.setState({ visibleModal: true });
+      return;
+    }
+
     if (!this.isValidForm()) {
       return;
     }
 
-    AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
+    const { backendUrl, email, password, locale } = this.settingFormRef.current.state;
+
+    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
     AsyncStorage.setItem('SETTING', JSON.stringify({
-      backendUrl: this.state.backendUrl,
-      email: this.state.email,
-      password: this.state.password,
-      locale: this.state.locale
+      backendUrl: backendUrl,
+      email: email,
+      password: password,
+      locale: locale
     }));
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
@@ -290,7 +194,12 @@ class Setting extends Component {
 
   onTouchWithoutFeedback = () => {
     Keyboard.dismiss();
-    this.languageController.close();
+    this.settingFormRef.current.closeDropDown();
+  }
+
+  goToScorecardList = () => {
+    this.setState({ visibleModal: false });
+    this.props.navigation.navigate('ScorecardList');
   }
 
   render() {
@@ -307,8 +216,11 @@ class Setting extends Component {
             imageSize={40}
             indicatorColor={Color.primaryColor}
           />
-          {this.renderInputForm()}
-          {this.renderChooseLanugage()}
+
+          <SettingForm
+            ref={this.settingFormRef}
+          />
+
           {this.renderErrorMsg()}
           <ActionButton
             label={translations['save']}
@@ -316,6 +228,16 @@ class Setting extends Component {
             isDisabled={this.state.isLoading}
           />
           <Text style={{textAlign: 'center', marginTop: 10}}>{translations.version} { pkg.version }</Text>
+
+          <MessageModal
+            visible={this.state.visibleModal}
+            onDismiss={() => this.setState({visibleModal: false})}
+            title={translations.notice}
+            description={translations.scorecardRemainingMessage}
+            hasConfirmButton={true}
+            confirmButtonLabel={translations.viewDetail}
+            onPressConfirmButton={() => this.goToScorecardList()}
+          />
         </View>
       </TouchableWithoutFeedback>
     );
