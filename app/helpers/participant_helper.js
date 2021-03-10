@@ -4,6 +4,7 @@ const participantHelper = (() => {
   return {
     getGenderIconLabel,
     getItemColor,
+    isYouth,
   };
 
   function getGenderIconLabel(gender) {
@@ -22,6 +23,10 @@ const participantHelper = (() => {
       return Color.headerColor;
 
     return type == 'border' ? '#ebebeb' : 'gray';
+  }
+
+  function isYouth(age) {
+    return age >= 15 && age <= 30;
   }
 })();
 

@@ -46,9 +46,8 @@ class GendersCheckBox extends Component {
 
     return genders.map((gender) => {
       return (
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View key={uuidv4()} style={{flex: 1, alignItems: 'center'}}>
           <SelectBox
-            key={uuidv4()}
             onPress={() => this.onPress(gender)}
             selectedItem={this.state.selectedGender}
             value={gender}
