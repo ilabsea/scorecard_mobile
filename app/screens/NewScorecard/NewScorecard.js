@@ -22,19 +22,18 @@ import ScorecardInfoModal from '../../components/NewScorecard/ScorecardInfoModal
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
-import {checkConnection, handleApiResponse, getErrorType} from '../../services/api_service';
+import {checkConnection, getErrorType} from '../../services/api_service';
 import Scorecard from '../../models/Scorecard';
 
-import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
 import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
+import ScorecardService from '../../services/scorecardService';
 
 import { Icon } from 'native-base';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
-import ScorecardApi from '../../api/ScorecardApi';
 
 import { ERROR_SCORECARD } from '../../constants/error_constant';
 
@@ -131,10 +130,8 @@ class NewScorecard extends Component {
     this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
-    const scorecardApi = new ScorecardApi();
-    const response = await scorecardApi.load(code);
-
-    handleApiResponse(response, (responseData) => {
+    const scorecardService = new ScorecardService();
+    scorecardService.find(code, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
       this.refs.loading.show(false);

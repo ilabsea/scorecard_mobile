@@ -237,5 +237,6 @@
   "clickOnSaveButtonToContinue": "Click on 'Save' button to continue",
   "previous": "Previous",
   "skip": "Skip",
-  "attributes": "Attributes"
+  "attributes": "Attributes",
+  "scorecardSubmitFailed": "Scorecard submit failed"
 }

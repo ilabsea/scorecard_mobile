@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { ERROR_AUTHENTICATION, ERROR_ENDPOINT } from '../constants/error_constant';
+import authenticationHelper from '../helpers/authentication_helper';
+import authenticationService from './authentication_service';
 
 const checkConnection = (callback) => {
   setTimeout(async function () {
@@ -32,5 +34,17 @@ const getErrorType = (errorStatus) => {
   return ERROR_ENDPOINT;
 }
 
+const sendRequestToApi = async (apiRequest) => {
+  const isTokenExpired = await authenticationHelper.isTokenExpired();
+  if (isTokenExpired) {
+    authenticationService.reNewAuthToken(() => {
+      apiRequest();
+    });
+    return;
+  }
 
-export {checkConnection, handleApiResponse, getErrorType};
+  apiRequest();
+}
+
+
+export {checkConnection, handleApiResponse, getErrorType, sendRequestToApi};

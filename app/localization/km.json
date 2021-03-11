@@ -237,5 +237,6 @@
   "clickOnSaveButtonToContinue": "ចុចលើប៊ូតុង 'រក្សាទុក' ដើម្បីទៅមុខបន្ត",
   "previous": "ត្រលប់ក្រោយ",
   "skip": "រំលង",
-  "attributes": "លក្ខណៈសម្បត្តិ"
+  "attributes": "លក្ខណៈសម្បត្តិ",
+  "scorecardSubmitFailed": "បរាជ័យក្នុងការដាក់ស្នើរប័ណ្ណដាក់ពិន្ទុ"
 }
