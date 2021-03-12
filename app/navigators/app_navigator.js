@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 
-import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 
 // Screens

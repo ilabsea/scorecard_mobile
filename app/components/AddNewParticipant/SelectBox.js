@@ -4,7 +4,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
-import participantHelper from '../../helpers/participant_helper';
 
 class SelectBox extends Component {
   static contextType = LocalizationContext;
@@ -22,10 +21,6 @@ class SelectBox extends Component {
     }
   }
 
-  getColor = (type) => {
-    return participantHelper.getItemColor(this.props.isSelected, type);
-  }
-
   render() {
     const containerSize = this.props.renderSmallSize ? 90 : 140;
     const labelSize = this.props.renderSmallSize ? 12 : 16;
@@ -33,11 +28,11 @@ class SelectBox extends Component {
     return (
       <TouchableOpacity
         onPress={() => this.props.onPress()}
-        style={[styles.container, { borderColor: this.getColor('border'), width: containerSize, height: containerSize }]}
+        style={[styles.container, { borderColor: this.props.borderColor, width: containerSize, height: containerSize }]}
       >
         { this._renderCheckIcon() }
         { this.props.children }
-        <Text style={{ color: this.getColor('text'), marginTop: 5, textAlign: 'center', fontSize: labelSize }}>
+        <Text style={{ color: this.props.textColor, marginTop: 5, textAlign: 'center', fontSize: labelSize }}>
           {this.props.label}
         </Text>
       </TouchableOpacity>

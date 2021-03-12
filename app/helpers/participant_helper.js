@@ -4,6 +4,7 @@ const participantHelper = (() => {
   return {
     getGenderIconLabel,
     getItemColor,
+    getAttributes,
   };
 
   function getGenderIconLabel(gender) {
@@ -17,11 +18,27 @@ const participantHelper = (() => {
     }
   }
 
-  function getItemColor(isSelected, type) {
-    if (isSelected)
-      return Color.headerColor;
+  function getItemColor(isSelected, unSelectedColor) {
+    return isSelected ? Color.primaryColor : unSelectedColor;
+  }
 
-    return type == 'border' ? '#ebebeb' : 'gray';
+  function getAttributes(state, translations) {
+    const { isDisability, isMinority, isPoor, isYouth } = state;
+
+    const participantAttrs = {
+      firstRow: [
+        { iconName: 'wheelchair', fieldName: 'isDisability', isSelected: isDisability, title: translations.disability },
+        { iconName: 'users', fieldName: 'isMinority', isSelected: isMinority, title: translations.minority },
+        { iconName: 'id-card', fieldName: 'isPoor', isSelected: isPoor, title: translations.poor },
+      ],
+      secondRow: [
+        { iconName: 'universal-access', fieldName: 'isYouth', isSelected: isYouth, title: translations.youth },
+        null,
+        null,
+      ]
+    };
+
+    return participantAttrs;
   }
 })();
 

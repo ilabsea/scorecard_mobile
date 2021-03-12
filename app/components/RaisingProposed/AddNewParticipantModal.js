@@ -57,6 +57,7 @@ class AddNewParticipantModal extends Component {
   renderForm = () => {
     return (
       <ParticipantForm
+        isUpdate={false}
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
         containerStyle={{paddingBottom: 160, paddingTop: 0}}

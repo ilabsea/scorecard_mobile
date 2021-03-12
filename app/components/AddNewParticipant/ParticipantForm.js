@@ -4,11 +4,10 @@ import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {LocalizationContext} from '../Translations';
 import NumericInput from '../NumericInput';
 import { getIntegerOf } from '../../utils/math';
-import uuidv4 from '../../utils/uuidv4'
 import { MALE } from '../../constants/participant_constant';
 
 import GendersCheckBox from './GendersCheckBox';
-import OptionsSelectBox from './OptionsSelectBox';
+import AttributesSelectBox from './AttributesSelectBox';
 
 class ParticipantForm extends Component {
   static contextType = LocalizationContext;
@@ -38,50 +37,6 @@ class ParticipantForm extends Component {
     this.props.updateNewState(newState);
   };
 
-  _renderParticipantAttributes = () => {
-    const { translations } = this.context;
-    const attributes = {
-      firstRow: [
-        { iconName: 'wheelchair', fieldName: 'isDisability', isSelected: this.state.isDisability, title: translations.disability },
-        { iconName: 'users', fieldName: 'isMinority', isSelected: this.state.isMinority, title: translations.minority },
-        { iconName: 'id-card', fieldName: 'isPoor', isSelected: this.state.isPoor, title: translations.poor },,
-      ],
-      secondRow: [
-        { iconName: 'universal-access', fieldName: 'isYouth', isSelected: this.state.isYouth, title: translations.youth },
-        null,
-        null,
-      ]
-    }
-
-    let doms = [];
-    for (let key in attributes) {
-      doms.push(
-        <View key={uuidv4()} style={{flexDirection: 'row', marginTop: 10, justifyContent: 'space-between'}}>
-          {
-            attributes[key].map((attribute) => {
-              if (attribute == null)
-                return (<View style={{flex: 1}} />)
-
-              return (
-                <View key={uuidv4()} style={{ marginBottom: 10, flex: 1, alignItems: 'center' }}>
-                  <OptionsSelectBox title={attribute.title}
-                    iconName={attribute.iconName}
-                    fieldName={attribute.fieldName}
-                    onChangeValue={this.onChangeValue}
-                    isSelected={attribute.isSelected}
-                    renderSmallSize={this.props.renderSmallSize}
-                  />
-                </View>
-              )
-            })
-          }
-        </View>
-      )
-    }
-
-    return doms;
-  }
-
   render() {
     const {translations} = this.context;
     const {age} = this.state;
@@ -109,7 +64,12 @@ class ParticipantForm extends Component {
           <Text style={{marginTop: 15}}>
             { translations.attributes }
           </Text>
-          { this._renderParticipantAttributes() }
+
+          <AttributesSelectBox
+            onChangeValue={this.onChangeValue}
+            renderSmallSize={this.props.renderSmallSize}
+            participant={this.props.participant}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

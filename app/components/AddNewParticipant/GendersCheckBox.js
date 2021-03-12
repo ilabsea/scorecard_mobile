@@ -9,6 +9,8 @@ import participantHelper from '../../helpers/participant_helper';
 import uuidv4 from '../../utils/uuidv4'
 import { MALE, genders } from '../../constants/participant_constant';
 
+import Color from '../../themes/color';
+
 class GendersCheckBox extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -23,14 +25,13 @@ class GendersCheckBox extends Component {
     return { selectedGender: props.selectedGender };
   }
 
-  _renderGenderIcon = (gender) => {
+  _renderGenderIcon = (gender, isSelected) => {
     const iconLabel = participantHelper.getGenderIconLabel(gender);
-    const isSelected = gender == this.state.selectedGender;
     const iconsize = this.props.renderSmallSize ? 30 : 45;
 
     return (
       <FontAwesomeIcon name={iconLabel} size={iconsize} style={{paddingHorizontal: 10}}
-        color={participantHelper.getItemColor(isSelected, 'text')}
+        color={participantHelper.getItemColor(isSelected, 'gray')}
       />
     );
   }
@@ -45,6 +46,8 @@ class GendersCheckBox extends Component {
     const { translations } = this.context;
 
     return genders.map((gender) => {
+      const isSelected = (gender == this.state.selectedGender);
+
       return (
         <View style={{flex: 1, alignItems: 'center'}}>
           <SelectBox
@@ -53,10 +56,12 @@ class GendersCheckBox extends Component {
             selectedItem={this.state.selectedGender}
             value={gender}
             label={ gender == 'other' ? translations.otherGender : translations[gender] }
-            isSelected={gender === this.state.selectedGender}
+            isSelected={isSelected}
             renderSmallSize={this.props.renderSmallSize}
+            borderColor={participantHelper.getItemColor(isSelected, '#ebebeb')}
+            textColor={participantHelper.getItemColor(isSelected, 'gray')}
           >
-            {this._renderGenderIcon(gender)}
+            {this._renderGenderIcon(gender, isSelected)}
           </SelectBox>
         </View>
       )
@@ -68,7 +73,7 @@ class GendersCheckBox extends Component {
 
     return (
       <View style={{ marginTop: -14 }}>
-        <Text style={{marginBottom: 10}}>{ translations.gender }</Text>
+        <Text>{ translations.gender }</Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           { this._renderCheckBoxes() }
         </View>

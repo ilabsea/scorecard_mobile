@@ -16,6 +16,7 @@ const Color = {
   btnRemoveBgColor: '#e63636',
   listItemBorderColor: '#c1c1c1',
   cardListItemAvataBg: '#d0cdcd',
+  primaryColor: '#e4761e',
 };
 
 export default Color;
