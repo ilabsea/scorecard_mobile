@@ -16,6 +16,7 @@ import ProgressHeader from '../../components/ProgressHeader';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 import OutlinedButton from '../../components/OutlinedButton';
+import NoDataMessage from '../../components/NoDataMessage';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import Participant from '../../models/Participant';
@@ -42,27 +43,29 @@ class ParticipantList extends Component {
   }
 
   renderListHeader = () => {
-    const {translations} = this.context;
-    const tableHeads = ['gender', 'age', 'disability', 'minority', 'poor', 'youth'];
-    const doms = tableHeads.map((col, index) =>
-      <View style={styles.itemColumn} key={index}>
-        <Text style={styles.itemTitle}>{translations[col]}</Text>
-      </View>
-    )
-
-    return (
-      <View style={{flexDirection: 'row', paddingBottom: 16}}>
-        <View style={{paddingRight: 20, justifyContent: 'center', width: 60}}>
-          <Text style={styles.itemTitle}>{translations.no}</Text>
+    if (this.props.participants.length > 0) {
+      const {translations} = this.context;
+      const tableHeads = ['gender', 'age', 'disability', 'minority', 'poor', 'youth'];
+      const doms = tableHeads.map((col, index) =>
+        <View style={styles.itemColumn} key={index}>
+          <Text style={styles.itemTitle}>{translations[col]}</Text>
         </View>
+      )
 
-        { doms }
+      return (
+        <View style={{flexDirection: 'row', paddingBottom: 16}}>
+          <View style={{paddingRight: 20, justifyContent: 'center', width: 60}}>
+            <Text style={styles.itemTitle}>{translations.no}</Text>
+          </View>
 
-        <View style={{width: 60, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={styles.itemTitle}>{translations.action}</Text>
+          { doms }
+
+          <View style={{width: 60, alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={styles.itemTitle}>{translations.action}</Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 
   renderParticipantList = () => {
@@ -95,13 +98,31 @@ class ParticipantList extends Component {
           <Text style={{fontSize: 22, fontWeight: 'bold', marginLeft: 5}}>({ this.props.participants.length })</Text>
         </View>
 
-        <OutlinedButton
-          icon="plus"
-          label={translations.addNewParticipant}
-          onPress={() => this.props.navigation.navigate('AddNewParticipant', {scorecard_uuid: this.props.route.params.scorecard_uuid}) }
-        />
+        { this.props.participants.length > 0 &&
+          <OutlinedButton
+            icon="plus"
+            label={translations.addNewParticipant}
+            onPress={() => this.addNewParticipant() }
+          />
+        }
       </View>
     )
+  }
+
+  renderNoData() {
+    const { translations } = this.context;
+
+    return (
+      <NoDataMessage
+        title={translations.pleaseAddParticipant}
+        buttonLabel={translations.addNewParticipant}
+        onPress={() => this.addNewParticipant()}
+      />
+    );
+  }
+
+  addNewParticipant = () => {
+    this.props.navigation.navigate('AddNewParticipant', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 
   render() {
@@ -121,6 +142,8 @@ class ParticipantList extends Component {
             { this.renderTitleWithAddNewButton() }
             { this.renderListHeader() }
             { this.renderParticipantList() }
+
+            { this.props.participants.length == 0 && this.renderNoData() }
           </ScrollView>
 
           <View style={{padding: 20}}>
@@ -138,6 +161,7 @@ class ParticipantList extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    flexGrow: 1,
   },
   itemColumn: {
     flex: 1,

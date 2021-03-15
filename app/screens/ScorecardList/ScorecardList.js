@@ -10,6 +10,7 @@ import {
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardItem from '../../components/ScorecardItem';
 import MessageModal from '../../components/MessageModal';
+import NoDataMessage from '../../components/NoDataMessage';
 
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
@@ -69,9 +70,11 @@ class ScorecardList extends Component {
     const { translations } = this.context
 
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{fontSize: 24, fontFamily: 'Battambang-Bold'}}>{translations['noData']}</Text>
-      </View>
+      <NoDataMessage
+        title={translations.pleaseAddScorecard}
+        buttonLabel={translations.newScorecard}
+        onPress={() => this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'NewScorecard'}] })}
+      />
     );
   }
 
