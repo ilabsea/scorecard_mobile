@@ -33,6 +33,7 @@ export default class VotingCriteriaListItem extends Component {
     this.state = {
       modalVisible: false,
       votingInfos: [],
+      selectedIndicator: null,
     };
   }
 
@@ -114,11 +115,13 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   showVotingDetail = (indicator) => {
-    const votingInfos = getVotingInfos(this.props.scorecard.uuid, indicator.indicator_id);
+    const indicatorId = indicator.indicator_id || indicator.uuid;
+    const votingInfos = getVotingInfos(this.props.scorecard.uuid, indicatorId);
 
     this.setState({
       modalVisible: true,
       votingInfos: votingInfos,
+      selectedIndicator: indicator,
     })
   }
 
@@ -138,6 +141,7 @@ export default class VotingCriteriaListItem extends Component {
             votingInfos={this.state.votingInfos}
             scorecard={this.props.scorecard}
             onDismiss={() => this.setState({ modalVisible: false })}
+            indicator={this.state.selectedIndicator}
           />
         </View>
       </TouchableOpacity>

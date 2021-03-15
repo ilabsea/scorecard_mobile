@@ -229,7 +229,6 @@
   "thereIsNoVotingYet": "There is no voting yet",
   "conductedDate": "Conducted date",
   "primarySchool": "Primary school",
-  "votedParticipantInformation": "Voted participant information",
   "addNew": "Add new",
   "clickOnTheCriteriaToSelect": "Click on the criteria to select",
   "clickOnThisCardToCreateNewCriteria": "Click on this card to create new criteria",
@@ -242,5 +241,9 @@
   "notice": "Notice",
   "scorecardRemainingMessage": "There are remaining implemented scorecards and not submit yet, please submit them first",
   "pleaseAddParticipant": "Please add participant",
-  "pleaseAddScorecard": "Please add scorecard"
+  "pleaseAddScorecard": "Please add scorecard",
+  "numberOfVotedParticipant": "Number of voted participant",
+  "pax": "pax",
+  "point": "point",
+  "time": "time"
 }

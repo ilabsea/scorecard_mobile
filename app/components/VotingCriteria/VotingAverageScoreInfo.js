@@ -5,6 +5,7 @@ import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import uuidv4 from '../../utils/uuidv4';
+import { getPluralOrSingularWord } from '../../utils/translation_util';
 
 class VotingAverageScoreInfo extends Component {
   static contextType = LocalizationContext;
@@ -17,11 +18,15 @@ class VotingAverageScoreInfo extends Component {
   }
 
   listItem = (label, averageScore, type) => {
+    const { translations, appLanguage } = this.context;
+
     return (
       <View key={uuidv4()} style={{flex: 1, maxHeight: 35}}>
         <View style={{flexDirection: 'row'}}>
         <Text>{ label }</Text>
-        <Text style={{marginLeft: 10, fontWeight: 'bold'}}>({ averageScore })</Text>
+        <Text style={{marginLeft: 10, fontWeight: 'bold', marginTop: 3}}>
+          ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
+        </Text>
         </View>
       </View>
     );
