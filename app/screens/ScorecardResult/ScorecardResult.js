@@ -36,6 +36,7 @@ class ScorecardResult extends Component {
       currentCriteria: {},
       visible: false,
       visibleConfirmModal: false,
+      selectedIndicator: {},
     };
   }
 
@@ -70,17 +71,18 @@ class ScorecardResult extends Component {
         <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3]}/>
         {
           tableRows.map((criteria, index) => (
-            <ScorecardResultTableRow key={index} criteria={criteria} onPress={(fieldName) => this._handleShowModal(criteria, fieldName)}/>
+            <ScorecardResultTableRow key={index} criteria={criteria} onPress={(fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}/>
           ))
         }
       </Table>
     )
   }
 
-  _handleShowModal(criteria, fieldName) {
+  _handleShowModal(criteria, fieldName, indicator) {
     this.setState({
       currentCriteria: Object.assign({currentFieldName: fieldName}, criteria),
-      visible: true
+      visible: true,
+      selectedIndicator: indicator,
     });
   }
 
@@ -120,6 +122,7 @@ class ScorecardResult extends Component {
             visible={this.state.visible}
             criteria={this.state.currentCriteria}
             onDismiss={() => this.setState({visible: false})}
+            selectedIndicator={this.state.selectedIndicator}
           />
 
           <MessageModal
