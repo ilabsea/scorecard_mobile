@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Modal, Portal, Button } from 'react-native-paper';
+import { Modal, Portal } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import ErrorEndpointContent  from './ErrorEndpointContent';
+import ErrorRequestToServerContent  from './ErrorRequestToServerContent';
 import ErrorAuthenticationContent from './ErrorAuthenticationContent';
 import ErrorMessageContent from './ErrorMessageContent';
 import {
   ERROR_AUTHENTICATION,
   ERROR_ENDPOINT,
+  ERROR_NOT_FOUND,
 } from '../../constants/error_constant';
 
 class ErrorMessageModal extends Component {
@@ -31,8 +32,13 @@ class ErrorMessageModal extends Component {
   _renderContent = () => {
     if (this.props.errorType === ERROR_AUTHENTICATION)
       return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
-    else if (this.props.errorType === ERROR_ENDPOINT)
-      return <ErrorEndpointContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} isSubmit={this.props.isSubmit} />;
+    else if (this.props.errorType === ERROR_ENDPOINT || this.props.errorType == ERROR_NOT_FOUND)
+      return <ErrorRequestToServerContent
+                backendUrl={this.state.backendUrl}
+                onDismiss={this.props.onDismiss}
+                isSubmit={this.props.isSubmit}
+                errorType={this.props.errorType}
+              />;
 
     return <ErrorMessageContent onDismiss={this.props.onDismiss} />
   }
