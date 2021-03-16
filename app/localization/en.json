@@ -245,5 +245,7 @@
   "numberOfVotedParticipant": "Number of voted participant",
   "pax": "pax",
   "point": "point",
-  "time": "time"
+  "time": "time",
+  "returnToHomeScreen": "Return to the home screen",
+  "doYouWantToReturnToHomeScreen": "Do you want to return to the home screen?"
 }
