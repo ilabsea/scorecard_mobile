@@ -30,10 +30,15 @@ const getLabelFontSize = () => {
   return getResponsiveSize(16, 14);
 }
 
+const getIconFontSize = () => {
+  return getResponsiveSize(24, 20)
+}
+
 export {
   getResponsiveSize,
   getBigButtonWidth,
   getBigButtonHeight,
   getTitleFontSize,
   getLabelFontSize,
+  getIconFontSize,
 };

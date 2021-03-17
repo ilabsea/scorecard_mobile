@@ -22,7 +22,7 @@ class MessageModal extends Component {
           contentContainerStyle={CustomStyle.modalContainer}
         >
           <Text style={CustomStyle.modalTitle}>{this.props.title}</Text>
-          <Text stle={{marginTop: 10}}>
+          <Text style={[CustomStyle.modalContentLabel, {marginTop: 10}]}>
             { this.props.description }
           </Text>
 

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import { FontFamily } from '../assets/stylesheets/theme/font';
-import { getLabelFontSize, getTitleFontSize } from '../utils/responsive_util';
+import { getLabelFontSize, getTitleFontSize, getResponsiveSize } from '../utils/responsive_util';
 
 const CustomStyle = StyleSheet.create({
   textInputContainer: {
@@ -48,7 +48,7 @@ const CustomStyle = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'white',
     padding: 20,
-    width: '70%',
+    width: getResponsiveSize('70%', '75%'),
     marginHorizontal: 30,
     justifyContent: 'flex-start',
     alignSelf: 'center',

@@ -12,6 +12,7 @@ import ScorecardItem from '../../components/ScorecardItem';
 import MessageModal from '../../components/MessageModal';
 
 import uuidv4 from '../../utils/uuidv4';
+import { getResponsiveSize } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 
 import ScorecardService from '../../services/scorecardService';
@@ -70,7 +71,7 @@ class ScorecardList extends Component {
 
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{fontSize: 24, fontFamily: 'Battambang-Bold'}}>{translations['noData']}</Text>
+        <Text style={{fontSize: getResponsiveSize(24, 20), fontFamily: 'Battambang-Bold'}}>{translations['noData']}</Text>
       </View>
     );
   }

@@ -39,7 +39,7 @@ import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
 import styles from './styles/NewScorecardStyle';
-import { getResponsiveSize, getLabelFontSize } from '../../utils/responsive_util';
+import { getLabelFontSize, getIconFontSize } from '../../utils/responsive_util';
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -205,7 +205,7 @@ class NewScorecard extends Component {
           style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
 
           <Text style={{color: '#fff', fontSize: getLabelFontSize()}}>{translations.clickHereIfForgetCode}</Text>
-          <Icon name={'chevron-forward'} style={{color: '#fff', fontSize: getResponsiveSize(24, 20)}}/>
+          <Icon name={'chevron-forward'} style={{color: '#fff', fontSize: getIconFontSize()}}/>
         </TouchableOpacity>
       </View>
     )

@@ -1,6 +1,7 @@
 import Color from '../themes/color';
 import {StyleSheet} from 'react-native';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import { getTitleFontSize, getIconFontSize, getResponsiveSize} from '../utils/responsive_util';
 
 const ListItemStyle = StyleSheet.create({
   container: {
@@ -8,10 +9,10 @@ const ListItemStyle = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 20,
+    fontSize: getTitleFontSize(),
     fontFamily: FontFamily.title,
     color: '#3a3a3a',
-    marginBottom: 6,
+    marginBottom: getResponsiveSize(6, 8),
   },
   subTextWrapper: {
     flexDirection: 'row',
@@ -24,7 +25,7 @@ const ListItemStyle = StyleSheet.create({
     fontFamily: FontFamily.body,
   },
   subTextIcon: {
-    fontSize: 24,
+    fontSize: getIconFontSize(),
     color: Color.subText
   },
   contentWrapper: {

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -17,6 +16,7 @@ import scorecardProgress from '../db/jsons/scorecardProgress';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import styles from '../themes/scorecardListItemStyle';
 import votingCriteriaService from '../services/votingCriteriaService';
+import { getLabelFontSize, getIconFontSize } from '../utils/responsive_util';
 
 export default class ScorecardItem extends Component {
   static contextType = LocalizationContext;
@@ -91,14 +91,14 @@ export default class ScorecardItem extends Component {
 
             <View style={styles.subTextWrapper}>
               <Icon name='document-text' style={styles.subTextIcon} />
-              <Text style={styles.subText}>{translations.status}: {status}</Text>
+              <Text numberOfLines={1} style={[styles.subText, { flex: 1, paddingRight: 20 }]}>{translations.status}: {status}</Text>
             </View>
 
             <View style={{flex: 1}}></View>
 
             <View style={styles.viewDetail}>
-              <Text style={{color: Color.headerColor}}>{translations['viewDetail']}</Text>
-              <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
+              <Text style={{color: Color.headerColor, fontSize: getLabelFontSize()}}>{translations['viewDetail']}</Text>
+              <Icon name='chevron-forward-outline' style={{fontSize: getIconFontSize(), color: Color.headerColor}} />
             </View>
           </View>
         </TouchableOpacity>

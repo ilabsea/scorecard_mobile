@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 
 import ScorecardSubmittedContent from './ScorecardSubmittedContent';
 import ScorecardProgressContent from './ScorecardProgressContent';
 
-import { getResponsiveSize } from '../../utils/responsive_util';
+import CustomStyle from '../../themes/customStyle';
 
 class ScorecardInfoModal extends Component {
   _renderContent = () => {
@@ -31,23 +30,12 @@ class ScorecardInfoModal extends Component {
   render() {
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDismiss} contentContainerStyle={styles.container}>
+        <Modal visible={this.props.visible} onDismiss={this.props.onDismiss} contentContainerStyle={CustomStyle.modalContainer}>
           {this._renderContent()}
         </Modal>
       </Portal>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    marginHorizontal: 30,
-    width: getResponsiveSize('70%', '75%'),
-    justifyContent: 'flex-start',
-    alignSelf: 'center',
-  },
-});
 
 export default ScorecardInfoModal;
