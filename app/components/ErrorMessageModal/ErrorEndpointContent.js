@@ -15,7 +15,7 @@ class ErrorEndpointContent extends Component {
     return (
       <View>
         <Text style={CustomStyle.modalTitle}>{translations.scorecardDownloadFailed}</Text>
-        <Text style={{marginTop: 10}}>
+        <Text style={[CustomStyle.modalContentLabel, {marginTop: 10}]}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
           {translations.didYouEnterTheUrlCorrectly}
           {translations.ifYouKeepHavingThisProblem}

@@ -10,6 +10,7 @@ import {
   ERROR_AUTHENTICATION,
   ERROR_ENDPOINT,
 } from '../../constants/error_constant';
+import { getResponsiveSize } from '../../utils/responsive_util';
 
 class ErrorMessageModal extends Component {
   constructor(props) {
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     marginHorizontal: 30,
-    width: '60%',
+    width: getResponsiveSize('60%', '75%'),
     justifyContent: 'flex-start',
     alignSelf: 'center',
   },

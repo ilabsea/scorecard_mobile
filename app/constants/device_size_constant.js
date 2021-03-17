@@ -1,0 +1,1 @@
+export const smallMobileScreenWidth = 360;        // screen width of Xiaomi A2 lite

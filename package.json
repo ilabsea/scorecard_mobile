@@ -27,6 +27,7 @@
     "react-native": "0.63.2",
     "react-native-copilot": "^2.5.1",
     "react-native-datepicker": "^1.7.2",
+    "react-native-device-info": "^8.0.5",
     "react-native-dropdown-picker": "^3.7.0",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.8.0",

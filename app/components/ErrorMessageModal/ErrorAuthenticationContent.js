@@ -84,8 +84,8 @@ class ErrorAuthenticationContent extends Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View>
           <Text style={CustomStyle.modalTitle}>{translations.serverRequiresAuthentication}</Text>
-          <Text style={{marginTop: 10, marginBottom: 15}}>
-            {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
+          <Text style={[CustomStyle.modalContentLabel, {marginTop: 10, marginBottom: 15}]}>
+            {translations.invalidEmailOrPasswordForServer}: <Text style={[CustomStyle.modalContentLabel, {color: 'blue'}]}>{this.props.backendUrl}</Text>.
           </Text>
 
           <TextFieldInput

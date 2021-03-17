@@ -5,6 +5,8 @@ import { Modal, Portal } from 'react-native-paper';
 import ScorecardSubmittedContent from './ScorecardSubmittedContent';
 import ScorecardProgressContent from './ScorecardProgressContent';
 
+import { getResponsiveSize } from '../../utils/responsive_util';
+
 class ScorecardInfoModal extends Component {
   _renderContent = () => {
     if (this.props.isSubmitted)
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     marginHorizontal: 30,
-    width: '70%',
+    width: getResponsiveSize('70%', '75%'),
     justifyContent: 'flex-start',
     alignSelf: 'center',
   },

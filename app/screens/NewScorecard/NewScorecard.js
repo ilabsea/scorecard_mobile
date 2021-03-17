@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
@@ -20,12 +19,10 @@ import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageMo
 import ScorecardInfoModal from '../../components/NewScorecard/ScorecardInfoModal';
 
 import Color from '../../themes/color';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 import validationService from '../../services/validation_service';
 import {checkConnection, handleApiResponse, getErrorType} from '../../services/api_service';
 import Scorecard from '../../models/Scorecard';
 
-import authenticationService from '../../services/authentication_service';
 import { isDownloaded } from '../../services/scorecard_download_service';
 import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
@@ -40,6 +37,9 @@ import { ERROR_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
+
+import styles from './styles/NewScorecardStyle';
+import { getResponsiveSize, getLabelFontSize } from '../../utils/responsive_util';
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -204,8 +204,8 @@ class NewScorecard extends Component {
           onPress={() => this.props.navigation.navigate('Contact')}
           style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
 
-          <Text style={{color: '#fff'}}>{translations.clickHereIfForgetCode}</Text>
-          <Icon name={'chevron-forward'} style={{color: '#fff', fontSize: 24}}/>
+          <Text style={{color: '#fff', fontSize: getLabelFontSize()}}>{translations.clickHereIfForgetCode}</Text>
+          <Icon name={'chevron-forward'} style={{color: '#fff', fontSize: getResponsiveSize(24, 20)}}/>
         </TouchableOpacity>
       </View>
     )
@@ -241,7 +241,7 @@ class NewScorecard extends Component {
 
             <Brand/>
 
-            <View style={{width: '65%', maxWidth: 360, marginTop: 20}}>
+            <View style={styles.formContainer}>
               <TextFieldInput
                 value={code}
                 label={translations["enterScorecardCode"]}
@@ -251,13 +251,13 @@ class NewScorecard extends Component {
                 message={translations[codeMsg]}
                 maxLength={6}
                 keyboardType="number-pad"
-                customStyle={{fontSize: 22, height: 64, marginBottom: 20}}
+                customStyle={styles.textInput}
                 leftIcon="lock"
                 customIconStyle={{marginTop: 10}}
                 render={(innerProps) => (
                   <NativeTextInput
                     {...innerProps}
-                    style={{height: 64, paddingLeft: 40, fontSize: 20, fontFamily: FontFamily.body}}
+                    style={styles.textInputValue}
                   />
                 )}
                 borderColor="#03314a"
@@ -268,8 +268,8 @@ class NewScorecard extends Component {
               <ActionButton
                 onPress={() => this.joinScorecard()}
                 label={translations["join"]}
-                customButtonStyle={{marginTop: 16, height: 64}}
-                customLabelStyle={{fontSize: 20}}
+                customButtonStyle={styles.button}
+                customLabelStyle={styles.buttonLabel}
                 isDisabled={this.isDisabled()}
               />
 
@@ -298,17 +298,6 @@ class NewScorecard extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  errorLabel: {
-    color: Color.errorColor,
-  },
-  imageBg: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
-  },
-});
 
 function mapDispatchToProps(dispatch) {
   return {

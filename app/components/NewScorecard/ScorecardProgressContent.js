@@ -31,10 +31,10 @@ class ScorecardProgressContent extends Component {
         </Text>
 
         <View style={{marginTop: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
-          <Text>
+          <Text style={CustomStyle.modalContentLabel}>
             { translations.thisScorecardIsInStep }
           </Text>
-          <Text style={{ fontFamily: FontFamily.title }}> "{ translations[step.label] }"</Text>
+          <Text style={[CustomStyle.modalContentLabel, { fontFamily: FontFamily.title }]}> "{ translations[step.label] }"</Text>
         </View>
       </View>
     );

@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import { LocalizationContext } from '../../components/Translations';
 
 import {
-  StyleSheet,
   View,
   Image,
   Text,
 } from "react-native";
 
-import { FontFamily } from '../../assets/stylesheets/theme/font';
+import styles from './styles/LogosStyle';
+
+import { getResponsiveSize, getLabelFontSize } from '../../utils/responsive_util';
 
 export default class Logos extends Component {
   static contextType = LocalizationContext;
 
   buildLogo(logo, index) {
-    let height = 44;
+    let height = getResponsiveSize(44, 30);
     let width = (logo.width * height)/logo.height;
 
     return (
@@ -35,10 +36,10 @@ export default class Logos extends Component {
 
     return (
       <View style={{flexGrow:1, justifyContent: 'flex-end', padding: 20, alignItems: 'center'}}>
-        <Text style={{color: '#fff'}}>{translations.fundedBy}</Text>
-        <Image source={require('../../assets/images/home/eu.png')} style={{width: 97, height: 87, marginBottom: 30, marginTop: 10}}/>
+        <Text style={{color: '#fff', fontSize: getLabelFontSize()}}>{translations.fundedBy}</Text>
+        <Image source={require('../../assets/images/home/eu.png')} style={styles.fundedByLogo}/>
 
-        <Text style={{color: '#fff'}}>{translations.implementedBy}</Text>
+        <Text style={{color: '#fff', fontSize: getLabelFontSize()}}>{translations.implementedBy}</Text>
         <View style={{flexDirection: 'row', marginTop: 14}}>
           { logos.map((logo, index) => this.buildLogo(logo, index)) }
         </View>

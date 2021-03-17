@@ -17,7 +17,7 @@ class ErrorMessageContent extends Component {
         <Text style={CustomStyle.modalTitle}>
         { translations.scorecardNotFound }
         </Text>
-        <Text style={{marginTop: 10}}>
+        <Text style={[CustomStyle.modalContentLabel, {marginTop: 10}]}>
           { translations.scorecardIsNotExist }
         </Text>
 
