@@ -5,13 +5,14 @@ import { LocalizationContext } from '../../components/Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import pkg from '../../../package';
+import { getResponsiveSize, getLabelFontSize } from '../../utils/responsive_util';
 
 class About extends Component {
   static contextType = LocalizationContext;
 
   buildLogo(logo, index) {
-    let height = 50;
-    let width = (logo.width * 44)/height;
+    let height = getResponsiveSize(50, 35);
+    let width = (logo.width * getResponsiveSize(44, 22))/height;
 
     return (
       <TouchableOpacity style={{borderRadius: 30, padding: 6, borderWidth: 0}} key={index}
@@ -50,7 +51,9 @@ class About extends Component {
       <View style={{marginTop: 40, alignItems: 'center'}}>
         <Text style={styles.logoTitle}>គាំទ្រមូលនិធិដោយ / Funded by</Text>
         <TouchableOpacity onPress={() => {Linking.openURL('https://eeas.europa.eu/delegations/cambodia_en')}}>
-          <Image source={require('../../assets/images/home/eu.png')} style={{width: 125, height: 125, marginBottom: 50, marginTop: 10}} />
+          <Image source={require('../../assets/images/home/eu.png')}
+            style={{width: getResponsiveSize(125, 100), height: getResponsiveSize(125, 100), marginBottom: 50, marginTop: 10}}
+          />
         </TouchableOpacity>
 
         <Text style={styles.logoTitle}>អនុវត្តដោយ / Implemented by</Text>
@@ -59,7 +62,7 @@ class About extends Component {
         </View>
 
         <View style={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginTop: 26}}>
-          <Text style={{textAlign: 'center', marginTop: 10}}>{translations.version} { pkg.version }</Text>
+          <Text style={{textAlign: 'center', marginTop: 10, fontSize: getLabelFontSize()}}>{translations.version} { pkg.version }</Text>
         </View>
       </View>
     );
@@ -70,9 +73,9 @@ class About extends Component {
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>ប័ណ្ណដាក់ពិន្ទុសហគមន៍</Text>
-          <Text style={[styles.title, {marginTop: 5, fontSize: 20}]}>Community Scorecard</Text>
+          <Text style={[styles.title, {marginTop: 5, fontSize: getResponsiveSize(20, 18)}]}>Community Scorecard</Text>
 
-          <Text style={{marginTop: 50, textAlign: 'center'}}>
+          <Text style={{marginTop: 50, textAlign: 'center', fontSize: getLabelFontSize(), lineHeight: 30}}>
             កម្មវិធីប័ណ្ណដាក់ពិន្ទុឌីជីថល ត្រូវបានបង្កើតឡើងដោយមានការគាំទ្រមូលនិធិពីសហភាពអឺរ៉ុប អនុវត្តដោយអង្គការឃែរកម្ពុជា
             វិទ្យាស្ថានគោលនយោបាយនិងតស៊ូមតិ និងអង្គការ InSTEDD នៃគម្រោង “គាំទ្រការចូលរួមរបស់ប្រជាពលរដ្ឋប្រកបដោយអត្ថន័យតាមរយៈការប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថល
             ដើម្បីធ្វើឱ្យប្រសើរឡើងនូវគណនេយ្យភាពសង្គម (Ref: ISAF-II)“។ ប្រជាពលរដ្ឋ អង្គការដៃគូ និងមន្រ្តីរដ្ឋាភិបាលប្រើប្រាស់កម្មវិធីនេះដើម្បីលើកកម្ពស់ការចូលរួម និងកិច្ចជជែកពិភាក្សារបស់ពួកគេ ក្នុងការធ្វើឱ្យប្រសើរឡើងនូវសេវាសាធារណៈ។
@@ -99,11 +102,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22
   },
   logoTitle: {
-    fontSize: 18,
+    fontSize: getResponsiveSize(18, 16),
     fontFamily: FontFamily.body
   },
   title: {
-    fontSize: 25,
+    fontSize: getResponsiveSize(25, 22),
     fontFamily: FontFamily.title,
     marginTop: 30,
     textAlign: 'center',
