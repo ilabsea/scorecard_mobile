@@ -9,9 +9,9 @@ class BottomButton extends Component {
     let iconName = this.props.iconName || 'arrow-forward'
     return (
       <Button iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton} {...this.props}>
-        <View style={{width: 60}} />
+        <View style={{width: 30}} />
         <Text style={styles.labelStyle}>{this.props.label}</Text>
-        <View style={{width: 60, alignItems: 'flex-end'}}>
+        <View style={{width: 30, alignItems: 'flex-end'}}>
           <Icon name={iconName} style={{marginRight: 0, color: '#fff', fontSize: getResponsiveSize(28, 24)}} />
         </View>
       </Button>
@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     fontSize: getBottomButtonFontSize(),
     flex: 1,
     textAlign: 'center',
-    color: '#fff'
+    color: '#fff',
+    textTransform: 'uppercase',
   },
 });
 

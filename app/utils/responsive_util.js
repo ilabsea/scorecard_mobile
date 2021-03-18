@@ -39,7 +39,7 @@ const getIconFontSize = () => {
 }
 
 const getBottomButtonFontSize = () => {
-  return getResponsiveSize(20, 18);
+  return getResponsiveSize(20, 16);
 }
 
 export {

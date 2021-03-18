@@ -4,6 +4,7 @@ import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 import {LocalizationContext} from '../components/Translations';
 import Color from '../themes/color';
+import { getTitleFontSize, getSubTitleFontSize } from '../utils/responsive_util';
 class HeaderTitle extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -17,7 +18,7 @@ class HeaderTitle extends Component {
     return (
       <View>
         <Text style={styles.headline}>{translations[headline]}</Text>
-        <Text style={{fontSize: 18, color: '#2e2e2e'}}>{translations[subheading]}</Text>
+        <Text style={{fontSize: getSubTitleFontSize(), color: '#2e2e2e'}}>{translations[subheading]}</Text>
       </View>
     );
   }
@@ -26,7 +27,7 @@ class HeaderTitle extends Component {
 const styles = StyleSheet.create({
   headline: {
     color: Color.primaryColor,
-    fontSize: 20,
+    fontSize: getTitleFontSize(),
     fontFamily: FontFamily.title
   },
 });

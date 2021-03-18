@@ -161,29 +161,33 @@ class Facilitator extends Component {
             progressIndex={1}
           />
           <ScrollView contentContainerStyle={styles.container}>
-            <HeaderTitle
-              headline="facilitatorList"
-              subheading="pleaseFillInformationBelow"
-            />
-            <SelectPicker
-              items={facilitators}
-              selectedItem={this.getSelectedFacilitator(firstFacilitator)}
-              isRequire={true}
-              label={translations['facilitator']}
-              placeholder={translations['selectFacilitator']}
-              searchablePlaceholder={translations['searchForFacilitator']}
-              zIndex={8000}
-              customContainerStyle={{marginTop: 0}}
-              customLabelStyle={{zIndex: 8001, marginTop: -10}}
-              showCustomArrow={true}
-              onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
-              itemIndex={1}
-              mustHasDefaultValue={false}
-              controller={(instance) => this.controllers[0] = instance}
-              onOpen={() => this.closeSelectBox(0)}
-            />
+            <TouchableWithoutFeedback onPress={() => this.closeSelectBox(null)}>
+              <View>
+                <HeaderTitle
+                  headline="facilitatorList"
+                  subheading="pleaseFillInformationBelow"
+                />
+                <SelectPicker
+                  items={facilitators}
+                  selectedItem={this.getSelectedFacilitator(firstFacilitator)}
+                  isRequire={true}
+                  label={translations['facilitator']}
+                  placeholder={translations['selectFacilitator']}
+                  searchablePlaceholder={translations['searchForFacilitator']}
+                  zIndex={8000}
+                  customContainerStyle={{marginTop: 0}}
+                  customLabelStyle={{zIndex: 8001, marginTop: -10}}
+                  showCustomArrow={true}
+                  onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
+                  itemIndex={1}
+                  mustHasDefaultValue={false}
+                  controller={(instance) => this.controllers[0] = instance}
+                  onOpen={() => this.closeSelectBox(0)}
+                />
 
-            { this.renderOtherFacilitators() }
+                { this.renderOtherFacilitators() }
+              </View>
+            </TouchableWithoutFeedback>
           </ScrollView>
 
           { this.renderNextButton() }
@@ -199,6 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     paddingBottom: 28,
+    paddingBottom: 210,
   },
   otherFacilitatorsLabel: {
     fontSize: 18,

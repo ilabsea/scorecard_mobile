@@ -10,6 +10,7 @@ import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { LocalizationContext } from './Translations';
+import { getResponsiveSize } from '../utils/responsive_util';
 
 const badgeSize = 24;
 export default class ProgressStep extends Component {
@@ -19,8 +20,15 @@ export default class ProgressStep extends Component {
     this.state = {
       itemWidth: 0
     }
-    this.titleWidth = this.props.steps ? 120 : 145;
+    this.titleWidth = this.props.steps ? getResponsiveSize(145, 75) : getResponsiveSize(145, 90);
     this.lineWidth = this.titleWidth - 40;
+  }
+
+  getTitleFontSize() {
+    if (this.props.steps)
+      return getResponsiveSize(15, 11);
+
+    return getResponsiveSize(15, 13);
   }
 
   _renderNumber(title, index) {
@@ -41,7 +49,7 @@ export default class ProgressStep extends Component {
           { badgeIcon }
         </View>
 
-        <Text style={[styles.title, titleStyle, {width: this.titleWidth}]}>{title}</Text>
+        <Text style={[styles.title, titleStyle, {width: this.titleWidth, fontSize: this.getTitleFontSize()}]}>{title}</Text>
       </View>
     )
   }
@@ -120,7 +128,6 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 2,
     paddingHorizontal: 2,
-    fontSize: 15,
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },

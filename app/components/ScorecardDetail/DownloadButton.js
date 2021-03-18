@@ -5,6 +5,7 @@ import {ProgressBar} from 'react-native-paper';
 
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
+import { getBottomButtonFontSize, getResponsiveSize } from '../../utils/responsive_util';
 
 class DownloadButton extends Component {
   render() {
@@ -23,10 +24,13 @@ class DownloadButton extends Component {
           {...this.props}
           style={[CustomStyle.bottomButton, this.props.disabled ? {borderColor: 'gray'} : {}]}>
 
+          <View style={{width: 60}} />
           <Text style={[styles.buttonLabelStyle, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]}>
             {this.props.label}
           </Text>
-          <Icon name="download" style={[{right: 10, position: 'absolute'}, this.props.disabled ? {color: 'gray'} : {}]} />
+          <View style={{width: 60, alignItems: 'flex-end'}}>
+            <Icon name="download" style={[{ fontSize: getResponsiveSize(28, 24), marginRight: 0}, this.props.disabled ? {color: 'gray'} : {}]} />
+          </View>
         </Button>
       </View>
     );
@@ -49,7 +53,9 @@ const styles = StyleSheet.create({
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',
-    fontSize: 18,
+    fontSize: getBottomButtonFontSize(),
+    flex: 1,
+    textAlign: 'center',
   },
 });
 
