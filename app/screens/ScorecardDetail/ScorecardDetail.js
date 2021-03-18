@@ -6,6 +6,7 @@ import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
 import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
+import { getSubTitleFontSize } from '../../utils/responsive_util';
 
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
@@ -44,7 +45,7 @@ class ScorecardDetail extends Component {
         {this._renderHeader()}
 
         <ScrollView contentContainerStyle={styles.container}>
-          <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
+          <Text style={{fontSize: getSubTitleFontSize(), marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
         </ScrollView>
 

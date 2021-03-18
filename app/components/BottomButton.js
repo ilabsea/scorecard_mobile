@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, Icon, Text, View} from 'native-base';
 import CustomStyle from '../themes/customStyle';
+import { getResponsiveSize, getBottomButtonFontSize } from '../utils/responsive_util';
 
 class BottomButton extends Component {
   render() {
@@ -10,7 +11,9 @@ class BottomButton extends Component {
       <Button iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton} {...this.props}>
         <View style={{width: 60}} />
         <Text style={styles.labelStyle}>{this.props.label}</Text>
-        <Icon name={iconName} style={{marginRight: 20, color: '#fff'}} />
+        <View style={{width: 60, alignItems: 'flex-end'}}>
+          <Icon name={iconName} style={{marginRight: 0, color: '#fff', fontSize: getResponsiveSize(28, 24)}} />
+        </View>
       </Button>
     );
   }
@@ -18,7 +21,7 @@ class BottomButton extends Component {
 
 const styles = StyleSheet.create({
   labelStyle: {
-    fontSize: 20,
+    fontSize: getBottomButtonFontSize(),
     flex: 1,
     textAlign: 'center',
     color: '#fff'

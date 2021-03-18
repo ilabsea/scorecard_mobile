@@ -21,7 +21,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { connect } from 'react-redux';
 
-import { getResponsiveSize } from '../../utils/responsive_util';
+import { getResponsiveSize, getBottomButtonFontSize } from '../../utils/responsive_util';
 
 class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
@@ -117,7 +117,7 @@ class ScorecardProgress extends Component {
         onPress={() => this.submitToServer() }
         style={[styles.btn, btnStyle]}>
 
-        <Text style={{color: '#fff', fontSize: 20}}>{translations['submit']}</Text>
+        <Text style={{color: '#fff', fontSize: getBottomButtonFontSize()}}>{translations['submit']}</Text>
         { this.state.scorecard.isUploaded &&
           <Icon name={'lock-closed'}  style={{position: 'absolute', right: 6, color: '#fff'}}/>
         }

@@ -26,6 +26,10 @@ const getTitleFontSize = () => {
   return getResponsiveSize(20, 18);
 }
 
+const getSubTitleFontSize = () => {
+  return getResponsiveSize(18, 16);
+}
+
 const getLabelFontSize = () => {
   return getResponsiveSize(16, 14);
 }
@@ -34,11 +38,17 @@ const getIconFontSize = () => {
   return getResponsiveSize(24, 20)
 }
 
+const getBottomButtonFontSize = () => {
+  return getResponsiveSize(20, 18);
+}
+
 export {
   getResponsiveSize,
   getBigButtonWidth,
   getBigButtonHeight,
   getTitleFontSize,
+  getSubTitleFontSize,
   getLabelFontSize,
   getIconFontSize,
+  getBottomButtonFontSize,
 };

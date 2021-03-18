@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {TextInput} from 'react-native-paper';
 import {LocalizationContext} from '../../components/Translations';
+import { getLabelFontSize } from '../../utils/responsive_util';
 
 class DisplayScorecardInfo extends Component {
   static contextType = LocalizationContext;
@@ -40,7 +41,7 @@ class DisplayScorecardInfo extends Component {
           mode="outlined"
           value={value}
           editable={false}
-          style={{backgroundColor: 'white', width: '100%', marginTop: 20}}
+          style={{backgroundColor: 'white', width: '100%', marginTop: 20, fontSize: getLabelFontSize()}}
           key={index}
         />
       );
