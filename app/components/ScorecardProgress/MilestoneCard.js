@@ -11,6 +11,7 @@ import Color from '../../themes/color';
 import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
+import { getResponsiveSize, getLabelFontSize, getIconFontSize } from '../../utils/responsive_util';
 
 const badgeSize = 40;
 
@@ -36,20 +37,20 @@ export default class MilestoneCard extends Component {
         <View style={{flex: 1}}>
           <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
           { (index < this.props.progressIndex && !!this.props.subTitle) &&
-            <Text style={{fontSize: 14}}>{this.props.subTitle}</Text>
+            <Text style={{fontSize: getResponsiveSize(14, 12)}}>{this.props.subTitle}</Text>
           }
         </View>
 
         { (index < this.props.progressIndex || this.props.isScorecardFinished) &&
           <View style={styles.viewDetail}>
-            <Text style={{color: Color.headerColor}}>{translations['viewDetail']}</Text>
-            <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
+            <Text style={{color: Color.headerColor, fontSize: getLabelFontSize()}}>{translations['viewDetail']}</Text>
+            <Icon name='chevron-forward-outline' style={{fontSize: getIconFontSize(), color: Color.headerColor}} />
           </View>
         }
 
         { (index == this.props.progressIndex && !this.props.isScorecardFinished) &&
           <View style={styles.btnResume}>
-            <Text style={{color: '#fff', fontSize: 16}}>{translations['resume']}</Text>
+            <Text style={{color: '#fff', fontSize: getLabelFontSize()}}>{translations['resume']}</Text>
           </View>
         }
       </TouchableOpacity>
@@ -92,8 +93,8 @@ export default class MilestoneCard extends Component {
 const styles = StyleSheet.create({
   title: {
     color: '#808080',
-    fontSize: 20,
-    lineHeight: 34
+    fontSize: getResponsiveSize(20, 15),
+    lineHeight: getResponsiveSize(34, 26),
   },
   itemWrapper: {
     alignItems: 'center',
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   btnResume: {
     backgroundColor: Color.headerColor,
     height: 48,
-    width: 167,
+    width: getResponsiveSize(167, 75),
     justifyContent: 'center',
     alignItems: 'center'
   },

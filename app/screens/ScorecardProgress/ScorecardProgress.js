@@ -21,6 +21,8 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { connect } from 'react-redux';
 
+import { getResponsiveSize } from '../../utils/responsive_util';
+
 class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -155,7 +157,9 @@ class ScorecardProgress extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{padding: 20}}>
-          <Text style={{fontSize: 24, fontFamily: FontFamily.title, lineHeight: 40, marginBottom: 16}}>{ translations.step }: {this.state.scorecard.status} / 5</Text>
+          <Text style={{fontSize: getResponsiveSize(24, 20), fontFamily: FontFamily.title, lineHeight: getResponsiveSize(40, 35), marginBottom: 16}}>
+            { translations.step }: {this.state.scorecard.status} / 5
+          </Text>
 
           <VerticalProgressStep
             progressIndex={this.state.scorecard.status || 3}
