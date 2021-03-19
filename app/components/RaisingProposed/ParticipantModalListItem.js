@@ -8,7 +8,15 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from '../ActionButton';
 import Color from '../../themes/color';
-import styles from '../../themes/participantListItemStyle';
+// import styles from '../../themes/participantListItemStyle';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+
+import ParticipantListItemTabletStyles from '../../assets/stylesheets/components/tablet/ParticipantListItemStyle';
+import ParticipantListItemMobileStyles from '../../assets/stylesheets/components/mobile/ParticipantListItemStyle';
+
+const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
+
 
 import participantHelper from '../../helpers/participant_helper';
 
@@ -27,7 +35,7 @@ export default class ParticipantModalListItem extends Component {
     }
 
     const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 16}} color="black" />);
+    return (<FontAwesomeIcon name={gender} style={styles.genderIcon} color="black" />);
   };
 
   getDescription(item, translations) {
@@ -56,8 +64,8 @@ export default class ParticipantModalListItem extends Component {
 
           <View style={{flexDirection: 'row', flex: 1}}>
             { this.renderGender(item) }
-            <Text style={{marginLeft: 10}}>{translations.age}: {item.age}</Text>
-            <Text style={{marginLeft: 10, flex: 1}} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
+            <Text style={styles.itemLabel}>{translations.age}: {item.age}</Text>
+            <Text style={[styles.itemLabel, {flex: 1}]} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
           </View>
 
           <MaterialIcon name="arrow-forward-ios" color="black" />

@@ -4,12 +4,14 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { LocalizationContext } from './Translations';
+import { getResponsiveSize } from '../utils/responsive_util';
 
 const badgeSize = 24;
 export default class ProgressStep extends Component {
@@ -19,7 +21,8 @@ export default class ProgressStep extends Component {
     this.state = {
       itemWidth: 0
     }
-    this.titleWidth = this.props.steps ? 120 : 145;
+
+    this.titleWidth = this.props.steps ? getResponsiveSize(120, 75) : getResponsiveSize(145, wp('25%'));
     this.lineWidth = this.titleWidth - 40;
   }
 
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 2,
     paddingHorizontal: 2,
-    fontSize: 15,
+    fontSize: getResponsiveSize(15, hp('1.8%')),
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },

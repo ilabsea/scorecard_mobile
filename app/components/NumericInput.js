@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   messageLabel: {
     color: Color.errorColor,
     marginBottom: 10,
+    // fontSize: 14,
   },
 });
 

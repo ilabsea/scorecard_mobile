@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
@@ -19,6 +18,12 @@ import OutlinedButton from '../../components/OutlinedButton';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import Participant from '../../models/Participant';
+import { getDeviceStyle } from '../../utils/responsive_util';
+
+import ParticipantListTabletStyles from '../../assets/stylesheets/components/tablet/ParticipantListStyle';
+import ParticipantListMobileStyles from '../../assets/stylesheets/components/mobile/ParticipantListStyle';
+
+const styles = getDeviceStyle(ParticipantListTabletStyles, ParticipantListMobileStyles);
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
@@ -52,7 +57,7 @@ class ParticipantList extends Component {
 
     return (
       <View style={{flexDirection: 'row', paddingBottom: 16}}>
-        <View style={{paddingRight: 20, justifyContent: 'center', width: 60}}>
+        <View style={styles.orderNumberItem}>
           <Text style={styles.itemTitle}>{translations.no}</Text>
         </View>
 
@@ -88,17 +93,20 @@ class ParticipantList extends Component {
     return (
       <View style={{flexDirection: 'row', marginBottom: 20}}>
         <View style={{flexDirection: 'row', flex: 1}}>
-          <Text style={{fontSize: 20, fontFamily: FontFamily.title}}>
+          <Text style={styles.titleLabel}>
             {translations.participantList}
           </Text>
 
-          <Text style={{fontSize: 22, fontWeight: 'bold', marginLeft: 5}}>({ this.props.participants.length })</Text>
+          <Text style={styles.participantNumberLabel}>({ this.props.participants.length })</Text>
         </View>
 
         <OutlinedButton
           icon="plus"
           label={translations.addNewParticipant}
           onPress={() => this.props.navigation.navigate('AddNewParticipant', {scorecard_uuid: this.props.route.params.scorecard_uuid}) }
+          style={styles.addParticipantButton}
+          iconStyle={styles.buttonIconStyle}
+          labelStyle={styles.buttonLabelStyle}
         />
       </View>
     )
@@ -134,21 +142,6 @@ class ParticipantList extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  itemColumn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  itemTitle: {
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-});
 
 function mapStateToProps(state) {
   return {participants: state.participantReducer.participants};

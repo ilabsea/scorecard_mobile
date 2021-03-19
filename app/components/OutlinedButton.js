@@ -10,8 +10,8 @@ class OutlinedButton extends Component {
         {...this.props}
         bordered
         iconLeft>
-        <Icon name={this.props.icon || 'plus'} type="FontAwesome" style={{color: Color.headerColor}} />
-        <Text style={{color: Color.headerColor}}>{this.props.label}</Text>
+        <Icon name={this.props.icon || 'plus'} type="FontAwesome" style={[{color: Color.headerColor}, this.props.iconStyle]} />
+        <Text style={[{color: Color.headerColor}, this.props.labelStyle]}>{this.props.label}</Text>
       </Button>
     );
   }

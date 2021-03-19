@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import {LocalizationContext} from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
@@ -63,7 +64,7 @@ class AddNewParticipant extends Component {
         updateValidationStatus={this.updateValidationStatus}
         containerStyle={{marginTop: 10, marginBottom: 60}}
         controllers={this.controllers}
-        renderSmallSize={false}
+        renderSmallSize={!DeviceInfo.isTablet()}
       />
     );
   };
