@@ -5,6 +5,12 @@ import {LocalizationContext} from '../Translations';
 import {ParticipantCell} from '../../services/participant_service';
 import uuidv4 from '../../utils/uuidv4';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import UserTableTabletStyles from '../../assets/stylesheets/components/tablet/UserTableStyle';
+import UserTableMobileStyles from '../../assets/stylesheets/components/mobile/UserTableStyle';
+
+const styles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
+
 class UserTable extends Component {
   static contextType = LocalizationContext;
 
@@ -60,31 +66,31 @@ class UserTable extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 15,
-    backgroundColor: '#fff',
-  },
-  tableHead: {
-    height: 40,
-    backgroundColor: '#eeeeee',
-  },
-  headerText: {
-    margin: 6,
-    fontSize: 14,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  text: {
-    margin: 6,
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-  tableWrapper: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     marginTop: 15,
+//     backgroundColor: '#fff',
+//   },
+//   tableHead: {
+//     height: 40,
+//     backgroundColor: '#eeeeee',
+//   },
+//   headerText: {
+//     margin: 6,
+//     fontSize: 14,
+//     fontWeight: '700',
+//     textAlign: 'center',
+//   },
+//   text: {
+//     margin: 6,
+//     marginVertical: 10,
+//     textAlign: 'center',
+//   },
+//   tableWrapper: {
+//     flexDirection: 'row',
+//     backgroundColor: '#ffffff',
+//   },
+// });
 
 export default UserTable;

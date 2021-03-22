@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import styles from './styles/CriteriaSelectionStyle';
+// import styles from './styles/CriteriaSelectionStyle';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import IndicatorCardTabletStyles from '../../assets/stylesheets/components/tablet/IndicatorCardStyle';
+import IndicatorCardMobileStyles from '../../assets/stylesheets/components/mobile/IndicatorCardStyle';
+
+const styles = getDeviceStyle(IndicatorCardTabletStyles, IndicatorCardMobileStyles);
 
 class IndicatorCard extends Component {
 
@@ -43,7 +49,7 @@ class IndicatorCard extends Component {
           </View>
 
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left'}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
+            <Text style={styles.indicatorName} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 

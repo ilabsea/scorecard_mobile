@@ -10,6 +10,12 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ListUserTabletStyles from '../../assets/stylesheets/components/tablet/ListUserStyle';
+import ListUserMobileStyles from '../../assets/stylesheets/components/mobile/ListUserStyle';
+
+const styles = getDeviceStyle(ListUserTabletStyles, ListUserMobileStyles);
+
 class ListUser extends Component {
   static contextType = LocalizationContext;
 
@@ -77,19 +83,6 @@ class ListUser extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  headingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap'
-  },
-  headingTitle: {
-    fontSize: 20,
-    fontFamily: FontFamily.title,
-    color: '#22354c',
-  },
-});
 
 function mapStateToProps(state) {
   return {participants: state.participantReducer.participants};

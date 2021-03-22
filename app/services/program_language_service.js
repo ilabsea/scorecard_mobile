@@ -17,7 +17,7 @@ const save = async (programId, successCallback, errorCallback) => {
         const attrs = {
           uuid: uuidv4(),
           id: language.id,
-          name: language.name,
+          name: language.name || language.name_km,
           code: language.code,
           program_id: programId,
         };

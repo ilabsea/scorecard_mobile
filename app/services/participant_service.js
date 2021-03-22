@@ -5,6 +5,12 @@ import indicatorHelper from '../helpers/indicator_helper';
 import { getIndicatorShortcutName } from '../utils/indicator_util';
 import realm from '../db/schema';
 
+import { getDeviceStyle } from '../utils/responsive_util';
+import UserTableTabletStyles from '../assets/stylesheets/components/tablet/UserTableStyle';
+import UserTableMobileStyles from '../assets/stylesheets/components/mobile/UserTableStyle';
+
+const styles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
+
 class ParticipantCell {
   constructor(cellName, cellValue, buttonAction, actionLabel, labelTranslation) {
     this.cellValue = cellValue;
@@ -24,7 +30,7 @@ class ParticipantCell {
   textCell = () => {
     return (
       <View style={styles.cellContainer}>
-        <Text>{this.cellValue}</Text>
+        <Text style={styles.cellLabel}>{this.cellValue}</Text>
       </View>
     );
   };
@@ -32,7 +38,7 @@ class ParticipantCell {
   genderCell = (labelTranslation) => {
     return (
       <View style={styles.cellContainer}>
-        <Text>{this.cellValue === 'M' ? labelTranslation.male : labelTranslation.female}</Text>
+        <Text style={styles.cellLabel}>{this.cellValue === 'M' ? labelTranslation.male : labelTranslation.female}</Text>
       </View>
     );
   }
@@ -40,7 +46,7 @@ class ParticipantCell {
   booleanCell = (labelTranslation) => {
     return (
       <View style={styles.cellContainer}>
-        <Text>
+        <Text style={styles.cellLabel}>
           {this.cellValue === '' ? '' : this.cellValue ? labelTranslation.yes : labelTranslation.no}
         </Text>
       </View>
@@ -74,14 +80,9 @@ class ParticipantCell {
       <TouchableOpacity
         style={{flexDirection: 'row', alignSelf: 'center'}}
         onPress={() => this.buttonAction(this.cellValue)}>
-        <MaterialIcon name="edit" color="#e4761e" size={18} />
+        <MaterialIcon name="edit" color="#e4761e" style={styles.actionCellIcon} />
         <Text
-          style={{
-            color: '#e4761e',
-            textTransform: 'uppercase',
-            fontWeight: '700',
-            marginLeft: 4,
-          }}>
+          style={styles.actionCellLabel}>
           {this.actionLabel}
         </Text>
       </TouchableOpacity>
@@ -89,25 +90,25 @@ class ParticipantCell {
   };
 }
 
-const styles = StyleSheet.create({
-  indicatorBadge: {
-    padding: 2,
-    marginHorizontal: 2,
-  },
-  indicatorLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    backgroundColor: '#787878',
-    paddingHorizontal: 5,
-    borderRadius: 3,
-    maxWidth: 120,
-  },
-  cellContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-});
+// const styles = StyleSheet.create({
+//   indicatorBadge: {
+//     padding: 2,
+//     marginHorizontal: 2,
+//   },
+//   indicatorLabel: {
+//     color: '#ffffff',
+//     fontSize: 14,
+//     backgroundColor: '#787878',
+//     paddingHorizontal: 5,
+//     borderRadius: 3,
+//     maxWidth: 120,
+//   },
+//   cellContainer: {
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginVertical: 10,
+//   },
+// });
 
 const getRaisedParticipants = (scorecardUuid) => {
   return realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);

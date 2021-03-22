@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import CriteriaCard from './CriteriaCard';
 import {LocalizationContext} from '../Translations';
 import {Criteria} from '../../services/criteria_service';
 import { connect } from 'react-redux';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import CriteriaListTabletStyles from '../../assets/stylesheets/components/tablet/CriteriaListStyle';
+import CriteriaListMobileStyles from '../../assets/stylesheets/components/mobile/CriteriaListStyle';
+
+const styles = getDeviceStyle(CriteriaListTabletStyles, CriteriaListMobileStyles);
 
 class CriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -41,31 +47,6 @@ class CriteriaList extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  headingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headingTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    flex: 1,
-    color: '#22354c',
-  },
-  viewAllLabel: {
-    textTransform: 'uppercase',
-    color: '#e4761e',
-    fontWeight: 'bold',
-  },
-  criteriaCardContainer: {
-    backgroundColor: 'white',
-    borderRadius: 2,
-    flexDirection: 'row',
-    marginRight: 15,
-    elevation: 3,
-  },
-});
 
 function mapStateToProps(state) {
   return {
