@@ -1,8 +1,6 @@
 import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
-import RNFS from 'react-native-fs';
-import AsyncStorage from '@react-native-community/async-storage';
 import { getErrorType } from './api_service';
 import votingCriteriaService from './votingCriteriaService';
 import proposedCriteriaService from './proposedCriteriaService';
@@ -15,6 +13,7 @@ import Participant from '../models/Participant';
 import Rating from '../models/Rating';
 
 import BaseModelService from './baseModelService';
+import { handleApiResponse, sendRequestToApi } from './api_service';
 
 class ScorecardService extends BaseModelService {
 
@@ -41,7 +40,7 @@ class ScorecardService extends BaseModelService {
     if (!this.scorecard || !this.scorecard.isInLastPhase) { return; }
 
     try {
-      this.uploadCustomIndicator(0, indicators, callback, errorCallback);
+      sendRequestToApi(() => this.uploadCustomIndicator(0, indicators, callback, errorCallback));
     } catch (error) {
       console.log(error);
     }
@@ -239,6 +238,21 @@ class ScorecardService extends BaseModelService {
     CustomIndicator.deleteAll(scorecardUuid);
     votingCriteriaService.deleteVotingCriteria(scorecardUuid);
     proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
+  }
+
+  find = async (scorecardUuid, successCallback, failedCallback) => {
+    sendRequestToApi(() => this._findScorecard(scorecardUuid, successCallback, failedCallback));
+  }
+
+  // private method
+  _findScorecard = async (scorecardUuid, successCallback, failedCallback) => {
+    const response = await this.scorecardApi.load(scorecardUuid);
+
+    handleApiResponse(response, (responseData) => {
+      successCallback(responseData);
+    }, (error) => {
+      failedCallback(error);
+    });
   }
 }
 

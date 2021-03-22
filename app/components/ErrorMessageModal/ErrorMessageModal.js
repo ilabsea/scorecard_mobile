@@ -32,7 +32,7 @@ class ErrorMessageModal extends Component {
     if (this.props.errorType === ERROR_AUTHENTICATION)
       return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
     else if (this.props.errorType === ERROR_ENDPOINT)
-      return <ErrorEndpointContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />;
+      return <ErrorEndpointContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} isSubmit={this.props.isSubmit} />;
 
     return <ErrorMessageContent onDismiss={this.props.onDismiss} />
   }
