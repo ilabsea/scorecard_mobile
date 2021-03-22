@@ -33,25 +33,32 @@ const scorecardPreferenceService = (() => {
     return isScorecardDownloaded(scorecardUuid) || isFinishDownloaded;
   }
 
-  function loadProgramLanguage(scorecard, callback) {
+  function loadProgramLanguage(scorecard, appLanguage, callback) {
     const programId = scorecard.program_id;
 
     if (!isProgramLanguageExist(programId)) {
       saveProgramLanguage(programId,
         (languages) => {
-          _initProgramLanguage(languages, scorecard, callback);
+          _initProgramLanguage(languages, scorecard, appLanguage, callback);
         },
         this.errorCallback
       );
     }
     else {
       const locales = getAllProgramLanguage(programId);
-      _initProgramLanguage(locales, scorecard, callback);
+      _initProgramLanguage(locales, scorecard, appLanguage, callback);
     }
   }
 
-  function _initProgramLanguage(locales, scorecard, callback) {
-    const languagesPickerFormat = locales.map((locale) => ({value: locale.code, label: locale.name}));
+  function _initProgramLanguage(locales, scorecard, appLanguage, callback) {
+    const languagesPickerFormat = locales.map((locale) => (
+      {
+        value: locale.code,
+        label: appLanguage == 'en' ? locale.name_en : locale.name_km,
+      }
+    ));
+    
+
     const audioLocale = _getDefaultLocaleValue(languagesPickerFormat, scorecard, 'audio');
 
     const languageSet = {
@@ -76,7 +83,6 @@ const scorecardPreferenceService = (() => {
     return defaultValue;
   }
 
-  // function isSelectLocaleDisabled(scorecardUuid) {
   function hasScorecardDownload(scorecardUuid) {
     const scorecardDownload = findScorecardDownload(scorecardUuid);
     return scorecardDownload ? true : false;

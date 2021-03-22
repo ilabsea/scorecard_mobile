@@ -50,11 +50,13 @@ class ScorecardPreference extends Component {
   }
 
   componentDidMount() {
+    const { appLanguage } = this.context;
+
     internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
 
-    scorecardPreferenceService.loadProgramLanguage(this.state.scorecard,
+    scorecardPreferenceService.loadProgramLanguage(this.state.scorecard, appLanguage,
       (languageSet) => {
         this.setState({
           languages: languageSet.languages,

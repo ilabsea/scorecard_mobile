@@ -63,7 +63,7 @@ const Scorecard = (() => {
       uuid: response.uuid,
       unit_type: response.unit_type_name,
       facility_id: response.facility_id,
-      facility: response.facility.name,
+      facility: response.facility != null ? JSON.stringify(response.facility) : '',
       facility_code: response.facility.code,
       scorecard_type: response.scorecard_type,
       name: response.name,
