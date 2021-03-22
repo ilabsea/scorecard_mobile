@@ -245,5 +245,7 @@
   "numberOfVotedParticipant": "ចំនួនអ្នកដាក់ពិន្ទុសរុប",
   "pax": "នាក់",
   "point": "ពិន្ទុ",
-  "time": "ដង"
+  "time": "ដង",
+  "returnToHomeScreen": "ត្រលប់ទៅទំព័រដើម",
+  "doYouWantToReturnToHomeScreen": "តើអ្នកពិតជាចង់ត្រលប់ទៅទំព័រដើម?"
 }
