@@ -14,6 +14,7 @@ class VotingParticipantInfo extends Component {
   static contextType = LocalizationContext;
 
   _renderSummaryItem(votingScore, participantType, index) {
+    const { translations } = this.context;
     let doms = [];
 
     if (votingScore > 0) {
@@ -22,7 +23,7 @@ class VotingParticipantInfo extends Component {
           style={{flexDirection: 'row'}}
         >
           <Text style={{ fontSize: 13 }}>{ participantType }</Text>
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}> ({ votingScore })</Text>
+          <Text style={{fontSize: 14, fontWeight: 'bold'}}> ({ votingScore } {translations.pax})</Text>
 
           { index < participantTypes.length -1 &&
             <Text key={uuidv4()} style={{marginTop: -3}}> | </Text>
@@ -59,7 +60,7 @@ class VotingParticipantInfo extends Component {
     return (
       <View style={{marginBottom: 40}}>
         <Text style={{marginBottom: 5, fontFamily: FontFamily.title, fontSize: 18}}>
-          { translations.votedParticipantInformation } ({Participant.getVoted(this.props.scorecard.uuid).length}): 
+          { translations.numberOfVotedParticipant }: {Participant.getVoted(this.props.scorecard.uuid).length} {translations.pax} 
         </Text>
         <View style={{flexDirection: 'row', paddingHorizontal: 10}}>
           {this._renderVotingInformation()}

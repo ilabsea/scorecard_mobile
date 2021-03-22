@@ -41,8 +41,8 @@ class VotingInfoModal extends Component {
           onDismiss={this.props.onDismiss}
           contentContainerStyle={[CustomStyle.modalContainer, { width: '90%' }]}
         >
-          <Text style={CustomStyle.modalTitle}>
-            { translations.votingDetail }
+          <Text numberOfLines={1} style={CustomStyle.modalTitle}>
+            { this.props.indicator && this.props.indicator.content }
           </Text>
 
           {this._renderContent()}

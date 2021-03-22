@@ -95,7 +95,7 @@ class ParticipantList extends Component {
             {translations.participantList}
           </Text>
 
-          <Text style={{fontSize: 22, fontWeight: 'bold', marginLeft: 5}}>({ this.props.participants.length })</Text>
+          <Text style={{fontSize: 22, fontWeight: 'bold', marginLeft: 5}}>({ this.props.participants.length } { translations.pax })</Text>
         </View>
 
         { this.props.participants.length > 0 &&

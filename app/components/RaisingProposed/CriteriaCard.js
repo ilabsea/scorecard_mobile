@@ -3,8 +3,11 @@ import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import IndicatorService from '../../services/indicator_service';
+import {LocalizationContext} from '../Translations';
 
 class CriteriaCard extends Component {
+  static contextType = LocalizationContext;
+
   renderCriteriaImage = () => {
     const indicatorService = new IndicatorService();
     const indicator = this.props.criteria.indicatorable_type === 'predefined' ? indicatorService.find(this.props.criteria.indicatorable_id) : null;
@@ -18,6 +21,7 @@ class CriteriaCard extends Component {
   }
 
   render() {
+    const {translations} = this.context;
     const {criteria, criteriaName, index} = this.props;
     return (
       <View key={index} style={styles.criteriaCardContainer}>
@@ -34,7 +38,7 @@ class CriteriaCard extends Component {
           <Text numberOfLines={1} style={styles.criteriaLabel}>{criteriaName}</Text>
           <View style={{flexDirection: 'row', marginTop: 12}}>
             <MaterialIcon name="person" size={18} color="#7f7f7f" />
-            <Text style={styles.criteriaValue}>{criteria.raised_count}</Text>
+            <Text style={styles.criteriaValue}>{criteria.raised_count} {translations.pax}</Text>
           </View>
         </View>
       </View>
