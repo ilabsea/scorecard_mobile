@@ -240,5 +240,7 @@
   "attributes": "Attributes",
   "scorecardSubmitFailed": "Scorecard submit failed",
   "notice": "Notice",
-  "scorecardRemainingMessage": "There are remaining implemented scorecards and not submit yet, please submit them first"
+  "scorecardRemainingMessage": "There are remaining implemented scorecards and not submit yet, please submit them first",
+  "pleaseAddParticipant": "Please add participant",
+  "pleaseAddScorecard": "Please add scorecard"
 }

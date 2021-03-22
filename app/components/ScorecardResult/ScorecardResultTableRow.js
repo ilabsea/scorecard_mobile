@@ -24,7 +24,7 @@ export default class ScorecardResultTableRow extends Component {
     const { translations } = this.context;
 
     return (
-      <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)}>
+      <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)} style={{alignItems: 'center'}}>
         <View style={styles.btn}>
           <Text style={styles.btnText}>{ translations.addText }</Text>
         </View>

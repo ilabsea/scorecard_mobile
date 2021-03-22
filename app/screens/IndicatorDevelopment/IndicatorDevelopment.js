@@ -14,6 +14,7 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
 import SelectedCriteriaItem from '../../components/IndicatorDevelopment/SelectedCriteriaItem';
+import NoDataMessage from '../../components/NoDataMessage';
 
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
@@ -84,13 +85,12 @@ class IndicatorDevelopment extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{alignItems: 'center', marginTop: 30}}>
-        <Icon name={'document-outline'} style={{fontSize: 100, color: "#e1e0e1"}} />
-        <Text style={{fontSize: 24, marginVertical: 10}}>{translations.pleaseAddCriteria}</Text>
-        <View>
-          { this._renderBtnAddCriteria() }
-        </View>
-      </View>
+      <NoDataMessage
+        title={translations.pleaseAddCriteria}
+        buttonLabel={translations.criteria}
+        onPress={() => this.setState({visibleModal: true}) }
+        customContainerStyle={{marginTop: -30}}
+      />
     );
   }
 
@@ -134,7 +134,7 @@ class IndicatorDevelopment extends Component {
       <View style={{flex: 1}}>
         { this._renderHeader() }
 
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Tip screenName={'IndicatorDevelopment'}/>
 
           { this._renderContent() }
@@ -180,7 +180,7 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    flex: 1,
+    flexGrow: 1,
   },
   h1: {
     fontSize: 24,

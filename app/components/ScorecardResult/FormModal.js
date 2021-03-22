@@ -112,6 +112,13 @@ const FormModal = (props) => {
     });
   }
 
+  function _renderIndicatorName() {
+    if (selectedIndicator)
+      return selectedIndicator.content ? selectedIndicator.content : selectedIndicator.name;
+
+    return '';
+  }
+
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
@@ -120,9 +127,7 @@ const FormModal = (props) => {
             <View style={{flexDirection: 'row', marginBottom: 20}}>
               <View style={{flex: 1, paddingRight: 35}}>
                 <Text numberOfLines={1} style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 10}}>
-                  { selectedIndicator &&
-                    selectedIndicator.content || selectedIndicator.name
-                  }
+                  { _renderIndicatorName() }
                 </Text>
                 <Text>{translations.insert}{translations[criteria.currentFieldName]}</Text>
               </View>
