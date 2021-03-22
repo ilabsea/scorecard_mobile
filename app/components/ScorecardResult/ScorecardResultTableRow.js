@@ -16,15 +16,15 @@ import indicatorHelper from '../../helpers/indicator_helper';
 export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
 
-  onPress = (fieldName) => {
-    !!this.props.onPress && this.props.onPress(fieldName);
+  onPress = (fieldName, indicator) => {
+    !!this.props.onPress && this.props.onPress(fieldName, indicator);
   }
 
-  btnAdd = (fieldName) => {
+  btnAdd = (fieldName, indicator) => {
     const { translations } = this.context;
 
     return (
-      <TouchableOpacity onPress={() => this.onPress(fieldName)}>
+      <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)}>
         <View style={styles.btn}>
           <Text style={styles.btnText}>{ translations.addText }</Text>
         </View>
@@ -32,10 +32,10 @@ export default class ScorecardResultTableRow extends Component {
     );
   }
 
-  renderEditText = (fieldName) => {
+  renderEditText = (fieldName, indicator) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => this.onPress(fieldName)} style={styles.btnEdit}>
+        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)} style={styles.btnEdit}>
           <Text style={{color: '#fff', marginRight: 6}}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
           <Icon name={'pen'} type="FontAwesome5" style={{color: '#fff', fontSize: 14}}/>
         </TouchableOpacity>
@@ -43,12 +43,12 @@ export default class ScorecardResultTableRow extends Component {
     )
   }
 
-  renderCell = (fieldName) => {
+  renderCell = (fieldName, indicator) => {
     if (!this.props.criteria[fieldName]) {
-      return this.btnAdd(fieldName);
+      return this.btnAdd(fieldName, indicator);
     }
 
-    return this.renderEditText(fieldName);
+    return this.renderEditText(fieldName, indicator);
   }
 
   _renderTextCell = (text, flexNum) => (
@@ -68,7 +68,7 @@ export default class ScorecardResultTableRow extends Component {
         { this._renderTextCell(indicator.content || indicator.name, 4) }
         { this._renderMedian() }
         { editableFields.map((fieldName, index) => (
-          <Cell key={index} data={this.renderCell(fieldName)} textStyle={styles.text} style={{flex: 3}}/>
+          <Cell key={index} data={this.renderCell(fieldName, indicator)} textStyle={styles.text} style={{flex: 3}}/>
         ))}
       </TableWrapper>
     )

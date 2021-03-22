@@ -26,7 +26,7 @@ import realm from '../../db/schema';
 const FormModal = (props) => {
   const dispatch = useDispatch();
   const { translations } = useContext(LocalizationContext);
-  const { criteria, visible } = props;
+  const { criteria, visible, selectedIndicator } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
 
@@ -117,10 +117,15 @@ const FormModal = (props) => {
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{flex: 1, backgroundColor: 'white'}}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 20, flex: 1}}>
-                {translations.insert}{translations[criteria.currentFieldName]}
-              </Text>
+            <View style={{flexDirection: 'row', marginBottom: 20}}>
+              <View style={{flex: 1, paddingRight: 35}}>
+                <Text numberOfLines={1} style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 10}}>
+                  { selectedIndicator &&
+                    selectedIndicator.content || selectedIndicator.name
+                  }
+                </Text>
+                <Text>{translations.insert}{translations[criteria.currentFieldName]}</Text>
+              </View>
 
               <OutlinedButton
                 icon='plus'
