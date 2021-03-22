@@ -6,6 +6,7 @@ import NumericInput from '../NumericInput';
 import { getIntegerOf } from '../../utils/math';
 import uuidv4 from '../../utils/uuidv4'
 import { MALE } from '../../constants/participant_constant';
+import participantHelper from '../../helpers/participant_helper';
 
 import GendersCheckBox from './GendersCheckBox';
 import OptionsSelectBox from './OptionsSelectBox';
@@ -35,6 +36,13 @@ class ParticipantForm extends Component {
     const newState = {};
     newState[fieldName] = value;
     this.setState(newState);
+
+    if (fieldName == 'age') {
+      const isYouth = participantHelper.isYouth(value);
+      newState['isYouth'] = isYouth;
+      this.setState({ isYouth: isYouth });
+    }
+
     this.props.updateNewState(newState);
   };
 
@@ -60,11 +68,12 @@ class ParticipantForm extends Component {
           {
             attributes[key].map((attribute) => {
               if (attribute == null)
-                return (<View style={{flex: 1}} />)
+                return (<View key={uuidv4()} style={{flex: 1}} />)
 
               return (
                 <View key={uuidv4()} style={{ marginBottom: 10, flex: 1, alignItems: 'center' }}>
-                  <OptionsSelectBox title={attribute.title}
+                  <OptionsSelectBox
+                    title={attribute.title}
                     iconName={attribute.iconName}
                     fieldName={attribute.fieldName}
                     onChangeValue={this.onChangeValue}

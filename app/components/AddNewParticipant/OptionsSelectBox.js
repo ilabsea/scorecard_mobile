@@ -19,7 +19,8 @@ class OptionsSelectBox extends Component {
   }
 
   onPress = () => {
-    this.props.onChangeValue(this.props.fieldName, !this.state.isSelected);
+    if (this.props.fieldName != 'isYouth')
+      this.props.onChangeValue(this.props.fieldName, !this.state.isSelected);
   }
 
   render() {
