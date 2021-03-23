@@ -3,13 +3,18 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'native-base';
 import OutlinedButton from './OutlinedButton';
 
+import { getDeviceStyle } from '../utils/responsive_util';
+import NoDataMessageTabletStyles from './styles/tablet/NoDataMessageStyle';
+import NoDataMessageMobileStyles from './styles/mobile/NoDataMessageStyle';
+
+const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
 
 class NoDataMessage extends Component {
   render() {
     return (
       <View style={[styles.container, this.props.customContainerStyle]}>
-        <Icon name={'document-outline'} style={{fontSize: 100, color: "#e1e0e1"}} />
-        <Text style={{fontSize: 24, marginVertical: 10}}>{this.props.title}</Text>
+        <Icon name={'document-outline'} style={responsiveStyles.icon} />
+        <Text style={responsiveStyles.label}>{this.props.title}</Text>
         <View>
           <OutlinedButton
             icon="plus"

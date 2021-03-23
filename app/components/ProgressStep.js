@@ -4,12 +4,30 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { LocalizationContext } from './Translations';
+import { getResponsiveSize } from '../utils/responsive_util';
+
+import { getDeviceStyle } from '../utils/responsive_util';
+import
+  ProgressStepTabletStyles,
+  {
+    mdTabletTitleWidth,
+    smTabletTitleWidth,
+  } from './styles/tablet/ProgressStepStyle';
+import
+  ProgressStepMobileStyles,
+  {
+    mdMobileTitleWidth,
+    smMobileTitleWidth,
+  } from './styles/mobile/ProgressStepStyle';
+
+const responsiveStyles = getDeviceStyle(ProgressStepTabletStyles, ProgressStepMobileStyles);
 
 const badgeSize = 24;
 export default class ProgressStep extends Component {
@@ -19,7 +37,7 @@ export default class ProgressStep extends Component {
     this.state = {
       itemWidth: 0
     }
-    this.titleWidth = this.props.steps ? 120 : 145;
+    this.titleWidth = this.props.steps ? getResponsiveSize(smTabletTitleWidth, smMobileTitleWidth) : getResponsiveSize(mdTabletTitleWidth, mdMobileTitleWidth);
     this.lineWidth = this.titleWidth - 40;
   }
 
@@ -41,7 +59,7 @@ export default class ProgressStep extends Component {
           { badgeIcon }
         </View>
 
-        <Text style={[styles.title, titleStyle, {width: this.titleWidth}]}>{title}</Text>
+        <Text style={[responsiveStyles.title, titleStyle, {width: this.titleWidth}]}>{title}</Text>
       </View>
     )
   }
@@ -116,12 +134,5 @@ const styles = StyleSheet.create({
     borderRadius: badgeSize / 2,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  title: {
-    paddingTop: 2,
-    paddingHorizontal: 2,
-    fontSize: 15,
-    textAlign: 'center',
-    color: Color.horizontalLineColor,
   },
 });

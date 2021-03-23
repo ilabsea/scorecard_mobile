@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {LocalizationContext} from '../Translations';
 import participantHelper from '../../helpers/participant_helper';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ParticipantListItemTabletStyles from './styles/tablet/ParticipantListItemStyle';
+import ParticipantListItemMobileStyles from './styles/mobile/ParticipantListItemStyle';
+
+const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
 class ParticipantListItem extends Component {
   static contextType = LocalizationContext;
@@ -24,7 +30,7 @@ class ParticipantListItem extends Component {
       return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
     const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return <FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10}} color="black" />;
+    return <FontAwesomeIcon name={gender} size={25} style={styles.iconStyle} color="black" />;
   };
 
   getAge = (participant) => {
@@ -38,9 +44,9 @@ class ParticipantListItem extends Component {
     if (participant === undefined) return <Text style={styles.emptyLabel}>---</Text>;
 
     if (!participant[fieldName])
-      return <MaterialIcon name="cancel" size={25} color="#a52b2b" />;
+      return <MaterialIcon name="cancel" size={25} color="#a52b2b" style={styles.iconStyle} />;
 
-    return <MaterialIcon name="check-circle" size={25} color="#4a76f3" />;
+    return <MaterialIcon name="check-circle" size={25} color="#4a76f3" style={styles.iconStyle} />;
   }
 
   editParticipant = (index) => {
@@ -53,8 +59,8 @@ class ParticipantListItem extends Component {
     const {index, participant} = this.props;
     return (
       <TouchableOpacity>
-        <View style={{flexDirection: 'row', flex: 1, paddingTop: 20, paddingBottom: 5, borderWidth: 0}}>
-          <View style={{borderWidth: 0, width: 60}}>
+        <View style={styles.itemContainer}>
+          <View style={styles.orderNumberColumn}>
             {this.renderParticipantNumber(participant, index)}
           </View>
           <View style={styles.itemColumn}>
@@ -62,7 +68,7 @@ class ParticipantListItem extends Component {
           </View>
           <View style={styles.itemColumn}>
             <View style={styles.itemValueContainer}>
-              <Text style={{fontSize: 18}}>{this.getAge(participant)}</Text>
+              <Text style={styles.ageLabel}>{this.getAge(participant)}</Text>
             </View>
           </View>
           <View style={styles.itemColumn}>
@@ -88,7 +94,7 @@ class ParticipantListItem extends Component {
           <TouchableOpacity style={{width: 60, alignItems: 'center', paddingTop: 0}}
             onPress={() => this.editParticipant(index)}>
             <MaterialIcon name="edit" size={25} color="#e4761e" />
-            <Text style={{color: '#e4761e'}}>{translations.edit}</Text>
+            <Text style={styles.editLabel}>{translations.edit}</Text>
           </TouchableOpacity>
         </View>
         <View style={{borderBottomWidth: 1, borderBottomColor: '#b9b9b9', flex: 1}} />
@@ -96,36 +102,5 @@ class ParticipantListItem extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  itemColumn: {
-    flex: 1,
-    height: 60,
-    alignItems: 'center',
-  },
-  itemValueContainer: {
-    paddingTop: 10,
-  },
-  numberContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'gray',
-  },
-  numberLabel: {
-    fontWeight: '700',
-    fontSize: 18,
-    color: 'white',
-    margin: 0,
-    padding: 0,
-    textAlign: 'center',
-  },
-  emptyLabel: {
-    fontSize: 18,
-    textAlign: 'center',
-  }
-});
 
 export default ParticipantListItem;
