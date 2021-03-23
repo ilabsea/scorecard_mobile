@@ -20,7 +20,7 @@ import NoDataMessage from '../../components/NoDataMessage';
 
 import Participant from '../../models/Participant';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPaddingTop } from '../../utils/responsive_util';
 import ParticipantListTabletStyles from './styles/tablet/ParticipantListStyle';
 import ParticipantListMobileStyles from './styles/mobile/ParticipantListStyle';
 
@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flexGrow: 1,
+    paddingTop: containerPaddingTop,
   },
   itemColumn: {
     flex: 1,

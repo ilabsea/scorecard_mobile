@@ -6,13 +6,39 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import participantHelper from '../../helpers/participant_helper';
 
+import {
+  mdTabletContainerSize,
+  smTabletContainerSize,
+  mdTabletLabelSize,
+  smTabletLabelSize,
+  mdTabletCheckIconSize,
+  smTabletCheckIconSize,
+} from './styles/tablet/SelectBoxStyle';
+import {
+  mdMobileContainerSize,
+  smMobileContainerSize,
+  mdMobileLabelSize,
+  smMobileLabelSize,
+  mdMobileCheckIconSize,
+  smMobileCheckIconSize,
+} from './styles/mobile/SelectBoxStyle';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+
+const mdContainerSize = getDeviceStyle(mdTabletContainerSize, mdMobileContainerSize);
+const smContainerSize = getDeviceStyle(smTabletContainerSize, smMobileContainerSize);
+const mdLabelSize = getDeviceStyle(mdTabletLabelSize, mdMobileLabelSize);
+const smLabelSize = getDeviceStyle(smTabletLabelSize, smMobileLabelSize);
+const mdCheckIconSize = getDeviceStyle(mdTabletCheckIconSize, mdMobileCheckIconSize);
+const smCheckIconSize = getDeviceStyle(smTabletCheckIconSize, smMobileCheckIconSize);
+
 class SelectBox extends Component {
   static contextType = LocalizationContext;
 
   _renderCheckIcon = () => {
     if (this.props.isSelected) {
-      const iconSize = this.props.renderSmallSize ? 30 : 60;
-      const topPosition = this.props.renderSmallSize ? -5 : -10;
+      const iconSize = this.props.renderSmallSize ? smCheckIconSize : mdCheckIconSize;
+      const topPosition = this.props.renderSmallSize ? -5 : getDeviceStyle(-10, 0);
 
       return (
         <MaterialIcon name='check' size={iconSize} color={Color.headerColor}
@@ -27,8 +53,8 @@ class SelectBox extends Component {
   }
 
   render() {
-    const containerSize = this.props.renderSmallSize ? 90 : 140;
-    const labelSize = this.props.renderSmallSize ? 12 : 16;
+    const containerSize = this.props.renderSmallSize ? smContainerSize : mdContainerSize;
+    const labelSize = this.props.renderSmallSize ? smLabelSize : mdLabelSize;
 
     return (
       <TouchableOpacity
@@ -47,8 +73,6 @@ class SelectBox extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: 140,
-    height: 140,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 4,

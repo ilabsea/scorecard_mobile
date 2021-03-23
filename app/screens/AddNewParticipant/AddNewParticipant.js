@@ -12,6 +12,8 @@ import {getParticipantInfo, saveParticipantInfo} from '../../services/participan
 
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
+
+import { containerPaddingTop } from '../../utils/responsive_util';
 class AddNewParticipant extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -132,6 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     paddingBottom: 28,
+    paddingTop: containerPaddingTop,
   },
   buttonContainer: {
     padding: 20

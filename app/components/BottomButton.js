@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
 import {Button, Icon, Text, View} from 'native-base';
 import CustomStyle from '../themes/customStyle';
 
@@ -13,7 +12,7 @@ class BottomButton extends Component {
   render() {
     let iconName = this.props.iconName || 'arrow-forward'
     return (
-      <Button iconRight full primary onPress={() => this.props.onPress()} style={CustomStyle.bottomButton} {...this.props}>
+      <Button iconRight full primary onPress={() => this.props.onPress()} style={[CustomStyle.bottomButton, styles.buttonContainer]} {...this.props}>
         <View style={{width: 40}} />
         <Text style={styles.buttonLabel}>{this.props.label}</Text>
         <View style={{width: 40, alignItems: 'flex-end'}}>

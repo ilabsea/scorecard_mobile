@@ -1,0 +1,1 @@
+export const smallMobileHeight = 697;

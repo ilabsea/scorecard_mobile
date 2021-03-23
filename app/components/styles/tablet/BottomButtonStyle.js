@@ -9,6 +9,9 @@ const BottomButtonStyles = StyleSheet.create({
   },
   buttonIcon: {
     color: '#fff'
+  },
+  buttonContainer: {
+    height: 50
   }
 });
 
