@@ -17,10 +17,14 @@ import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 import OutlinedButton from '../../components/OutlinedButton';
 import NoDataMessage from '../../components/NoDataMessage';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import Participant from '../../models/Participant';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ParticipantListTabletStyles from './styles/tablet/ParticipantListStyle';
+import ParticipantListMobileStyles from './styles/mobile/ParticipantListStyle';
+
+const responsiveStyles = getDeviceStyle(ParticipantListTabletStyles, ParticipantListMobileStyles);
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
 
@@ -48,20 +52,20 @@ class ParticipantList extends Component {
       const tableHeads = ['gender', 'age', 'disability', 'minority', 'poor', 'youth'];
       const doms = tableHeads.map((col, index) =>
         <View style={styles.itemColumn} key={index}>
-          <Text style={styles.itemTitle}>{translations[col]}</Text>
+          <Text style={responsiveStyles.itemTitle}>{translations[col]}</Text>
         </View>
       )
 
       return (
         <View style={{flexDirection: 'row', paddingBottom: 16}}>
-          <View style={{paddingRight: 20, justifyContent: 'center', width: 60}}>
-            <Text style={styles.itemTitle}>{translations.no}</Text>
+          <View style={responsiveStyles.orderNumberHeaderContainer}>
+            <Text style={responsiveStyles.itemTitle}>{translations.no}</Text>
           </View>
 
           { doms }
 
           <View style={{width: 60, alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={styles.itemTitle}>{translations.action}</Text>
+            <Text style={responsiveStyles.itemTitle}>{translations.action}</Text>
           </View>
         </View>
       );
@@ -91,11 +95,13 @@ class ParticipantList extends Component {
     return (
       <View style={{flexDirection: 'row', marginBottom: 20}}>
         <View style={{flexDirection: 'row', flex: 1}}>
-          <Text style={{fontSize: 20, fontFamily: FontFamily.title}}>
+          <Text style={responsiveStyles.titleLabel}>
             {translations.participantList}
           </Text>
 
-          <Text style={{fontSize: 22, fontWeight: 'bold', marginLeft: 5}}>({ this.props.participants.length } { translations.pax })</Text>
+          <Text style={responsiveStyles.participantNumberLabel}>
+            ({ this.props.participants.length } { translations.pax })
+          </Text>
         </View>
 
         { this.props.participants.length > 0 &&
@@ -167,10 +173,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  itemTitle: {
-    fontWeight: '700',
-    textAlign: 'center',
   },
 });
 
