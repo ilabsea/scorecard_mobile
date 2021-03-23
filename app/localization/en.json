@@ -198,7 +198,7 @@
   "doYouWantToFinishTheScorecard": "Do you want to finish this scorecard?",
   "ok": "OK",
   "version": "Version",
-  "didYouEnterTheUrlCorrectly": "Did you enter the URL correctly?",
+  "didYouEnterTheUrlCorrectly": "Did you enter the URL correctly? ",
   "ifYouKeepHavingThisProblem": "If you keep having this problem, report it to the person who asked you to collect data.",
   "pleaseAddCriteria": "Please add criterias",
   "raisedTimes": "Raised times",
@@ -213,7 +213,7 @@
   "failedToDownloadScorecard": "Failed to download scorecard",
   "pleasePressAndHoldTheButtonToRecordAudio": "Please press and hold the button to record the audio",
   "isSubmitted": "Already submitted",
-  "thisScorecardIsAlreadySubmitted": "Scorecard ({0}) is already conducted and finished, please contact the program administrator for more detail",
+  "thisScorecardIsAlreadySubmitted": "Scorecard ({0}) is already conducted and finished, please contact the program administrator for more detail.",
   "continue": "Continue",
   "scorecardIsInStep": "Scorecard is in step",
   "thisScorecardIsInStep": "This scorecard is in step",
@@ -247,5 +247,9 @@
   "point": "point",
   "time": "time",
   "returnToHomeScreen": "Return to the home screen",
-  "doYouWantToReturnToHomeScreen": "Do you want to return to the home screen?"
+  "doYouWantToReturnToHomeScreen": "Do you want to return to the home screen?",
+  "fullStopSign": ".",
+  "scorecardSubmitFailed": "Scorecard submit failed",
+  "cannotSubmitThisScorecard": "Unable to submit scoring card, the reason may be due to",
+  "scorecardDeletedPleaseContactAdministrator": "or this scorecard is deleted in the server. Please contact the program administrator for more detail."
 }

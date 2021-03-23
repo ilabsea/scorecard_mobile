@@ -198,7 +198,7 @@
   "doYouWantToFinishTheScorecard": "តើអ្នកពិតជាចង់បញ្ចប់ប័ណ្ណដាក់ពិន្ទុនេះមែនទេ?",
   "ok": "យល់ព្រម",
   "version": "កំណែ",
-  "didYouEnterTheUrlCorrectly": "តើអ្នកបានបញ្ចូល URL ត្រឹមត្រូវទេ?",
+  "didYouEnterTheUrlCorrectly": "តើអ្នកបានបញ្ចូល URL ត្រឹមត្រូវទេ? ",
   "ifYouKeepHavingThisProblem": "ប្រសិនបើអ្នកនៅតែជួបប្រទះបញ្ហានេះសូមរាយការណ៍ទៅកាន់អ្នកដែលស្នើសុំឱ្យអ្នកប្រមូលទិន្នន័យ។",
   "pleaseAddCriteria": "សូម​ជ្រើស​រើស​លក្ខណៈវិនិច្ឆ័យ",
   "raisedTimes": "ចំនួនដងដែលបានស្នើឡើង",
@@ -213,7 +213,7 @@
   "failedToDownloadScorecard": "បរាជ័យក្នុងការទាញយកប័ណ្ណដាក់ពិន្ទុ",
   "pleasePressAndHoldTheButtonToRecordAudio": "សូមចុចនិងសង្កត់លើប៊ូតុងដើម្បីថតសម្លេង",
   "isSubmitted": "បានបញ្ចប់ការអនុវត្តហើយ",
-  "thisScorecardIsAlreadySubmitted": "ប័ណ្ណដាក់ពិន្ទុ({0})ត្រូវបានបញ្ចប់ការអនុវត្តហើយ សូមទាក់ទងអ្នកគ្រប់គ្រងកម្មវិធីសម្រាប់ព័ត៌មានលម្អិត",
+  "thisScorecardIsAlreadySubmitted": "ប័ណ្ណដាក់ពិន្ទុ ({0}) ត្រូវបានបញ្ចប់ការអនុវត្តហើយ សូមទាក់ទងអ្នកគ្រប់គ្រងកម្មវិធីសម្រាប់ព័ត៌មានលម្អិត។",
   "continue": "បន្ត",
   "scorecardIsInStep": "ប័ណ្ណដាក់ពិន្ទុកំពុងនៅក្នុងជំហ៊ាន",
   "thisScorecardIsInStep": "ប័ណ្ណដាក់ពិន្ទុនេះកំពុងនៅក្នុងជំហ៊ាន",
@@ -247,5 +247,9 @@
   "point": "ពិន្ទុ",
   "time": "ដង",
   "returnToHomeScreen": "ត្រលប់ទៅទំព័រដើម",
-  "doYouWantToReturnToHomeScreen": "តើអ្នកពិតជាចង់ត្រលប់ទៅទំព័រដើម?"
+  "doYouWantToReturnToHomeScreen": "តើអ្នកពិតជាចង់ត្រលប់ទៅទំព័រដើម?",
+  "fullStopSign": "។",
+  "scorecardSubmitFailed": "បរាជ័យក្នុងការដាក់ស្នើប័ណ្ណដាក់ពិន្ទុ",
+  "cannotSubmitThisScorecard": "មិនអាចធ្វើការដាក់ស្នើប័ណ្ណដាក់ពិន្ទុបានទេ ព្រោះអាចបណ្ដាលមកពី",
+  "scorecardDeletedPleaseContactAdministrator": "ឬប័ណ្ណដាក់ពិន្ទុនេះត្រូវបានលុបនៅក្នុងម៉ាសុីនមេ។ សូមទាក់ទងអ្នកគ្រប់គ្រងកម្មវិធីសម្រាប់ព័ត៌មានលម្អិ។"
 }
