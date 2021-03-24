@@ -5,6 +5,12 @@ import {LocalizationContext} from '../Translations';
 import {ParticipantCell} from '../../services/participant_service';
 import uuidv4 from '../../utils/uuidv4';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import UserTableTabletStyles from './styles/tablet/UserTableStyle';
+import UserTableMobileStyles from './styles/mobile/UserTableStyle';
+
+const responsiveStyles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
+
 class UserTable extends Component {
   static contextType = LocalizationContext;
 
@@ -42,7 +48,7 @@ class UserTable extends Component {
     return (
       <View style={styles.container} key={uuidv4()}>
         <Table borderStyle={{borderWidth: 1, borderColor: '#c1c1c1'}}>
-          <Row data={tableHead} flexArr={[1, 1, 1, 1, 3, 1]} style={styles.tableHead} textStyle={styles.headerText} />
+          <Row data={tableHead} flexArr={[1, 1, 1, 1, 3, 1]} style={styles.tableHead} textStyle={[styles.headerText, responsiveStyles.headerText]} />
           {
             tableData.map((rowData, rowIndex) => (
               <TableWrapper key={rowIndex} style={styles.tableWrapper}>

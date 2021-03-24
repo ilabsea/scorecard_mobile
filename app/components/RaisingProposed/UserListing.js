@@ -6,7 +6,6 @@ import CriteriaList from './CriteriaList';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
-import realm from '../../db/schema';
 import {Criteria} from '../../services/criteria_service';
 import {getRaisedParticipants} from '../../services/participant_service';
 import {connect} from 'react-redux';

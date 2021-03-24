@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import {Icon, Button, Text} from 'native-base';
-import { Modal, Portal, Divider } from 'react-native-paper';
+import { View, TouchableOpacity } from 'react-native';
+import {Text} from 'native-base';
+import { Divider } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import ActionButton from '../ActionButton';
-import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
 
 import participantHelper from '../../helpers/participant_helper';
+import { textLabelSize, iconSize } from '../../utils/participant_list_util';
 
 export default class ParticipantModalListItem extends Component {
   static contextType = LocalizationContext;
@@ -23,11 +21,11 @@ export default class ParticipantModalListItem extends Component {
     if (participant === undefined) return (<Text style={{marginLeft: 16}}>---</Text>);
 
     if (participant.gender === '') {
-      return (<MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 16}} />);
+      return (<MaterialIcon name="person" size={iconSize} color="#b9b9b9" style={{paddingHorizontal: 10, marginLeft: 16}} />);
     }
 
     const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return (<FontAwesomeIcon name={gender} size={25} style={{paddingHorizontal: 10, marginLeft: 16}} color="black" />);
+    return (<FontAwesomeIcon name={gender} size={iconSize} style={{paddingHorizontal: 10, marginLeft: 16}} color="black" />);
   };
 
   getDescription(item, translations) {
@@ -56,8 +54,8 @@ export default class ParticipantModalListItem extends Component {
 
           <View style={{flexDirection: 'row', flex: 1}}>
             { this.renderGender(item) }
-            <Text style={{marginLeft: 10}}>{translations.age}: {item.age}</Text>
-            <Text style={{marginLeft: 10, flex: 1}} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
+            <Text style={{marginLeft: 10, fontSize: textLabelSize}}>{translations.age}: {item.age}</Text>
+            <Text style={{marginLeft: 10, flex: 1, fontSize: textLabelSize}} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
           </View>
 
           <MaterialIcon name="arrow-forward-ios" color="black" />

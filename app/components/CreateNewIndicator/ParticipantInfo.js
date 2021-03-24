@@ -7,7 +7,6 @@ import { LocalizationContext } from '../../components/Translations';
 import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
 import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import ParticipantModalListItem from '../../components/RaisingProposed/ParticipantModalListItem';
-import Color from '../../themes/color';
 import OutlinedButton from '../OutlinedButton';
 
 export default class ParticipantInfo extends Component {

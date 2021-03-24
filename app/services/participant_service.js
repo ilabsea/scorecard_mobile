@@ -5,6 +5,12 @@ import indicatorHelper from '../helpers/indicator_helper';
 import { getIndicatorShortcutName } from '../utils/indicator_util';
 import realm from '../db/schema';
 
+import { getDeviceStyle } from '../utils/responsive_util';
+import UserTableTabletStyles from '../components/RaisingProposed/styles/tablet/UserTableStyle';
+import UserTableMobileStyles from '../components/RaisingProposed/styles/mobile/UserTableStyle';
+
+const responsiveStyles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
+
 class ParticipantCell {
   constructor(cellName, cellValue, buttonAction, actionLabel, labelTranslation) {
     this.cellValue = cellValue;
@@ -24,7 +30,7 @@ class ParticipantCell {
   textCell = () => {
     return (
       <View style={styles.cellContainer}>
-        <Text>{this.cellValue}</Text>
+        <Text style={responsiveStyles.cellLabel}>{this.cellValue}</Text>
       </View>
     );
   };
@@ -32,7 +38,7 @@ class ParticipantCell {
   genderCell = (labelTranslation) => {
     return (
       <View style={styles.cellContainer}>
-        <Text>{this.cellValue === 'M' ? labelTranslation.male : labelTranslation.female}</Text>
+        <Text style={responsiveStyles.cellLabel}>{this.cellValue === 'M' ? labelTranslation.male : labelTranslation.female}</Text>
       </View>
     );
   }
@@ -40,7 +46,7 @@ class ParticipantCell {
   booleanCell = (labelTranslation) => {
     return (
       <View style={styles.cellContainer}>
-        <Text>
+        <Text style={responsiveStyles.cellLabel}>
           {this.cellValue === '' ? '' : this.cellValue ? labelTranslation.yes : labelTranslation.no}
         </Text>
       </View>
@@ -58,7 +64,7 @@ class ParticipantCell {
       return (
         <View key={index} style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.indicatorBadge}>
-            <Text style={styles.indicatorLabel} numberOfLines={1}>
+            <Text style={[styles.indicatorLabel, responsiveStyles.indicatorLabel]} numberOfLines={1}>
               {indicator.content || indicator.name}
             </Text>
           </View>
@@ -74,14 +80,9 @@ class ParticipantCell {
       <TouchableOpacity
         style={{flexDirection: 'row', alignSelf: 'center'}}
         onPress={() => this.buttonAction(this.cellValue)}>
-        <MaterialIcon name="edit" color="#e4761e" size={18} />
+        <MaterialIcon name="edit" color="#e4761e" style={responsiveStyles.actionCellIcon} />
         <Text
-          style={{
-            color: '#e4761e',
-            textTransform: 'uppercase',
-            fontWeight: '700',
-            marginLeft: 4,
-          }}>
+          style={[styles.actionCellLabel, responsiveStyles.actionCellLabel]}>
           {this.actionLabel}
         </Text>
       </TouchableOpacity>
@@ -107,6 +108,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
   },
+  actionCellLabel: {
+    color: '#e4761e',
+    textTransform: 'uppercase',
+    fontWeight: '700',
+    marginLeft: 4,
+  }
 });
 
 const getRaisedParticipants = (scorecardUuid) => {

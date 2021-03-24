@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import {Icon, Button, Text} from 'native-base';
-import { Modal, Portal, Divider } from 'react-native-paper';
+import { View, FlatList } from 'react-native';
+import {Text} from 'native-base';
+import { Modal, Portal } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import ActionButton from '../ActionButton';
-import Color from '../../themes/color';
-import realm from '../../db/schema';
+
+import OutlinedButton from '../OutlinedButton';
+
 import styles from '../../themes/participantListItemStyle';
 import ParticipantModalListItem from './ParticipantModalListItem';
 import CloseButton from '../CloseButton';
@@ -58,12 +55,11 @@ export default class ParticipantModal extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{height: 50, alignItems: 'center'}}>
-        <Button iconLeft bordered primary onPress={() => this.props.showAddParticipantModal()} style={{alignSelf: 'flex-end'}}>
-          <Icon name='plus' type="FontAwesome" style={{color: Color.primaryButtonColor}} />
-          <Text style={[styles.buttonLabel]}>{translations.addNewParticipant}</Text>
-        </Button>
-      </View>
+      <OutlinedButton
+        icon="plus"
+        label={translations.addNewParticipant}
+        onPress={() => this.props.showAddParticipantModal() }
+      />
     );
   }
 
@@ -76,10 +72,8 @@ export default class ParticipantModal extends Component {
         <Modal visible={this.props.visible} onDismiss={() => onDismiss()} contentContainerStyle={ styles.container }>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             <Text style={styles.header}>{translations.participantList}</Text>
-
-            <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
-              {this.renderAddNewParticipantButton()}
-            </View>
+            <View style={{flex:1}} />
+            {this.renderAddNewParticipantButton()}
           </View>
 
           { !!this.props.participants.length && this.renderParticipantList() }
