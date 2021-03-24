@@ -8,6 +8,7 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
+import { normalLabelSize } from '../../utils/responsive_util';
 import realm from '../../db/schema';
 
 class VoiceRecord extends Component {
@@ -130,7 +131,7 @@ class VoiceRecord extends Component {
         </View>
         <Tooltip
           isVisible={this.state.toolTipVisible}
-          content={<Text>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
+          content={<Text style={{fontSize: normalLabelSize}}>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
           contentStyle={{width: 300, flexWrap: 'wrap', flexDirection: 'row'}}
           placement="top"
           onClose={() => this.setState({ toolTipVisible: false })}
@@ -178,7 +179,7 @@ class VoiceRecord extends Component {
             {this.renderPlayIcon()}
           </TouchableOpacity>
           <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
-            <Text>{translations['play']}</Text>
+            <Text style={{fontSize: normalLabelSize}}>{translations['play']}</Text>
             <Text>{this.getCurrentTime(this.state.playSeconds)}</Text>
           </View>
           <TouchableOpacity onPress={() => this.delete()} style={{alignSelf: 'center'}}>
@@ -194,7 +195,7 @@ class VoiceRecord extends Component {
     return (
       <View>
         <View style={{alignItems: 'center', marginBottom: 10}}>
-          <Text style={{fontSize: 16, color: '#3a3a3a'}}>
+          <Text style={{fontSize: normalLabelSize, color: '#3a3a3a'}}>
             {translations['enterNewCriteriaAsVoice']}
           </Text>
         </View>

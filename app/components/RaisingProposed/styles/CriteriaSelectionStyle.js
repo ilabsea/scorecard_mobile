@@ -1,7 +1,10 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { getDeviceStyle } from '../../../utils/responsive_util';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
+const itemHeight = getDeviceStyle(100, hp('10.5%'));
 
 const CriteriaSelectionStyles = StyleSheet.create({
   criteriaBoxContainer: {
@@ -11,7 +14,7 @@ const CriteriaSelectionStyles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 10,
     width: itemWidth,
-    height: 100,
+    height: itemHeight,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -26,7 +29,7 @@ const CriteriaSelectionStyles = StyleSheet.create({
     flex: 1,
   },
   iconContainer: {
-    width: 100,
+    width: itemHeight,
     backgroundColor: '#d0cdcd',
     justifyContent: 'center',
     alignItems: 'center',
