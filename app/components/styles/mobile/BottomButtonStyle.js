@@ -1,17 +1,21 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { xlLabelSize, lgIconSize } from '../../../constants/mobile_font_size_constant';
+import { xlLabelSize, lgLabelSize, lgIconSize, mdIconSize } from '../../../constants/mobile_font_size_constant';
+import { isShortScreenDevice } from '../../../utils/responsive_util';
 
 const BottomButtonStyles = StyleSheet.create({
   buttonLabel: {
-    fontSize: wp(xlLabelSize),
+    fontSize: isShortScreenDevice() ? wp(lgLabelSize) : wp(xlLabelSize),
     flex: 1,
     textAlign: 'center',
     color: '#fff'
   },
   buttonIcon: {
     color: '#fff',
-    fontSize: wp(lgIconSize),
+    fontSize: isShortScreenDevice() ? wp(mdIconSize) : wp(lgIconSize),
+  },
+  buttonContainer: {
+    height: isShortScreenDevice() ? 45 : 50,
   }
 });
 

@@ -11,7 +11,6 @@ import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { LocalizationContext } from './Translations';
-import { getResponsiveSize } from '../utils/responsive_util';
 
 import { getDeviceStyle } from '../utils/responsive_util';
 import
@@ -37,7 +36,7 @@ export default class ProgressStep extends Component {
     this.state = {
       itemWidth: 0
     }
-    this.titleWidth = this.props.steps ? getResponsiveSize(smTabletTitleWidth, smMobileTitleWidth) : getResponsiveSize(mdTabletTitleWidth, mdMobileTitleWidth);
+    this.titleWidth = this.props.steps ? getDeviceStyle(smTabletTitleWidth, smMobileTitleWidth) : getDeviceStyle(mdTabletTitleWidth, mdMobileTitleWidth);
     this.lineWidth = this.titleWidth - 40;
   }
 

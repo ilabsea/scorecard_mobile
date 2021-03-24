@@ -5,6 +5,16 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import SelectBox from './SelectBox';
 import participantHelper from '../../helpers/participant_helper';
 
+import {
+  mdTabletIconSize,
+  smTabletIconSize
+} from './styles/tablet/SelectBoxStyle';
+import {
+  mdMobileIconSize,
+  smMobileIconSize,
+} from './styles/mobile/SelectBoxStyle';
+import { getDeviceStyle } from '../../utils/responsive_util';
+
 class OptionsSelectBox extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +34,7 @@ class OptionsSelectBox extends Component {
   }
 
   render() {
-    const iconsize = this.props.renderSmallSize ? 22 : 45;
+    const iconsize = this.props.renderSmallSize ? getDeviceStyle(smTabletIconSize, smMobileIconSize) : getDeviceStyle(mdTabletIconSize, mdMobileIconSize);
 
     return (
       <View>

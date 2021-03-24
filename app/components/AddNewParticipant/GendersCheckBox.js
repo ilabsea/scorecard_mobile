@@ -9,6 +9,22 @@ import participantHelper from '../../helpers/participant_helper';
 import uuidv4 from '../../utils/uuidv4'
 import { MALE, genders } from '../../constants/participant_constant';
 
+import {
+  mdTabletGenderIconSize,
+  smTabletGenderIconSize,
+  tabletTitleLabelSize,
+} from './styles/tablet/SelectBoxStyle';
+import {
+  mdMobileGenderIconSize,
+  smMobileGenderIconSize,
+  mobileTitleLabelSize,
+} from './styles/mobile/SelectBoxStyle';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+
+const mdGenderIconSize= getDeviceStyle(mdTabletGenderIconSize, mdMobileGenderIconSize);
+const smGenderIconSize = getDeviceStyle(smTabletGenderIconSize, smMobileGenderIconSize);
+
 class GendersCheckBox extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -26,7 +42,7 @@ class GendersCheckBox extends Component {
   _renderGenderIcon = (gender) => {
     const iconLabel = participantHelper.getGenderIconLabel(gender);
     const isSelected = gender == this.state.selectedGender;
-    const iconsize = this.props.renderSmallSize ? 30 : 45;
+    const iconsize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
     return (
       <FontAwesomeIcon name={iconLabel} size={iconsize} style={{paddingHorizontal: 10}}
@@ -67,7 +83,9 @@ class GendersCheckBox extends Component {
 
     return (
       <View style={{ marginTop: -14 }}>
-        <Text style={{marginBottom: 10}}>{ translations.gender }</Text>
+        <Text style={{marginBottom: 10, fontSize: getDeviceStyle(tabletTitleLabelSize, mobileTitleLabelSize)}}>
+          { translations.gender }
+        </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           { this._renderCheckBoxes() }
         </View>
