@@ -8,6 +8,12 @@ import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
 import Scorecard from '../../models/Scorecard';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+
+const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+
 class ScorecardSubmittedContent extends Component {
   static contextType = LocalizationContext;
 
@@ -24,8 +30,8 @@ class ScorecardSubmittedContent extends Component {
 
     return (
       <View>
-        <Text style={CustomStyle.modalTitle}>{ translations.isSubmitted }</Text>
-        <Text style={{marginTop: 10, marginBottom: 20}}>
+        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>{ translations.isSubmitted }</Text>
+        <Text style={[{marginTop: 10, marginBottom: 20}, responsiveStyles.label]}>
           { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
         </Text>
 

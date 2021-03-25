@@ -12,6 +12,12 @@ import {
   ERROR_NOT_FOUND,
 } from '../../constants/error_constant';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ErrorMessageModalTabletStyles from './styles/tablet/ErrorMessageModalStyle';
+import ErrorMessageModalMobileStyles from './styles/mobile/ErrorMessageModalStyle';
+
+const responsiveStyles = getDeviceStyle(ErrorMessageModalTabletStyles, ErrorMessageModalMobileStyles);
+
 class ErrorMessageModal extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +38,7 @@ class ErrorMessageModal extends Component {
   _renderContent = () => {
     if (this.props.errorType === ERROR_AUTHENTICATION)
       return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
-    else if (this.props.errorType === ERROR_ENDPOINT || this.props.errorType == ERROR_NOT_FOUND)
+    else if (this.props.errorType === ERROR_ENDPOINT || (this.props.errorType == ERROR_NOT_FOUND && !this.props.isNewScorecard))
       return <ErrorRequestToServerContent
                 backendUrl={this.state.backendUrl}
                 onDismiss={this.props.onDismiss}
@@ -46,7 +52,7 @@ class ErrorMessageModal extends Component {
   render() {
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDismiss} contentContainerStyle={styles.container}>
+        <Modal visible={this.props.visible} onDismiss={this.props.onDismiss} contentContainerStyle={[styles.container, responsiveStyles.container]}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             {this._renderContent()}
           </TouchableWithoutFeedback>
@@ -61,7 +67,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     marginHorizontal: 30,
-    width: '60%',
     justifyContent: 'flex-start',
     alignSelf: 'center',
   },

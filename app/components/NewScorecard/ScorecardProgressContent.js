@@ -10,6 +10,12 @@ import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+
+const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+
 class ScorecardProgressContent extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -26,15 +32,15 @@ class ScorecardProgressContent extends Component {
 
     return (
       <View>
-        <Text style={CustomStyle.modalTitle}>
+        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
           { translations.scorecardIsInStep } {this.state.scorecard.status}/5
         </Text>
 
         <View style={{marginTop: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
-          <Text>
+          <Text style={responsiveStyles.label}>
             { translations.thisScorecardIsInStep }
           </Text>
-          <Text style={{ fontFamily: FontFamily.title }}> "{ translations[step.label] }"</Text>
+          <Text style={[{ fontFamily: FontFamily.title }, responsiveStyles.label]}> "{ translations[step.label] }"</Text>
         </View>
       </View>
     );

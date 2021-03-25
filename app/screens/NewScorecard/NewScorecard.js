@@ -7,7 +7,6 @@ import {
   Keyboard,
   ImageBackground,
   TextInput as NativeTextInput,
-  TouchableOpacity,
 } from 'react-native';
 import Loading from 'react-native-whc-loading';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -18,6 +17,7 @@ import TextFieldInput from '../../components/TextFieldInput';
 import MessageLabel from '../../components/MessageLabel';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import ScorecardInfoModal from '../../components/NewScorecard/ScorecardInfoModal';
+import ButtonForgetCode from '../../components/NewScorecard/ButtonForgetCode';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -30,8 +30,6 @@ import authenticationFormService from '../../services/authentication_form_servic
 import internetConnectionService from '../../services/internet_connection_service';
 import ScorecardService from '../../services/scorecardService';
 
-import { Icon } from 'native-base';
-
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
 
@@ -39,6 +37,12 @@ import { ERROR_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import NewScorecardTabletStyles from './styles/tablet/NewScorecardStyle';
+import NewScorecardMobileStyles from './styles/mobile/NewScorecardStyle';
+
+const responsiveStyles = getDeviceStyle(NewScorecardTabletStyles, NewScorecardMobileStyles);
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -192,22 +196,6 @@ class NewScorecard extends Component {
     }
   };
 
-  renderBtnContact() {
-    const { translations } = this.context;
-
-    return (
-      <View style={{ alignItems: 'center', marginTop: 30}}>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Contact')}
-          style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
-
-          <Text style={{color: '#fff'}}>{translations.clickHereIfForgetCode}</Text>
-          <Icon name={'chevron-forward'} style={{color: '#fff', fontSize: 24}}/>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
   isDisabled = () => {
     const codeValidationMsg = validationService('scorecardCode', this.state.code);
 
@@ -238,7 +226,7 @@ class NewScorecard extends Component {
 
             <Brand/>
 
-            <View style={{width: '65%', maxWidth: 360, marginTop: 20}}>
+            <View style={responsiveStyles.formContainer}>
               <TextFieldInput
                 value={code}
                 label={translations["enterScorecardCode"]}
@@ -248,13 +236,13 @@ class NewScorecard extends Component {
                 message={translations[codeMsg]}
                 maxLength={6}
                 keyboardType="number-pad"
-                customStyle={{fontSize: 22, height: 64, marginBottom: 20}}
+                customStyle={responsiveStyles.inputContainer}
                 leftIcon="lock"
                 customIconStyle={{marginTop: 10}}
                 render={(innerProps) => (
                   <NativeTextInput
                     {...innerProps}
-                    style={{height: 64, paddingLeft: 40, fontSize: 20, fontFamily: FontFamily.body}}
+                    style={responsiveStyles.textInput}
                   />
                 )}
                 borderColor="#03314a"
@@ -265,12 +253,12 @@ class NewScorecard extends Component {
               <ActionButton
                 onPress={() => this.joinScorecard()}
                 label={translations["join"]}
-                customButtonStyle={{marginTop: 16, height: 64}}
-                customLabelStyle={{fontSize: 20}}
+                customButtonStyle={responsiveStyles.button}
+                customLabelStyle={responsiveStyles.buttonLabel}
                 isDisabled={this.isDisabled()}
               />
 
-              { this.renderBtnContact() }
+              <ButtonForgetCode navigation={this.props.navigation} />
             </View>
 
             <Logos />
@@ -279,6 +267,7 @@ class NewScorecard extends Component {
               visible={this.state.visibleModal}
               onDismiss={() => this.setState({visibleModal: false})}
               errorType={this.state.errorType}
+              isNewScorecard={true}
             />
 
             <ScorecardInfoModal
