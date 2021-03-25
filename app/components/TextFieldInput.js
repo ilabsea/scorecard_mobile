@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-paper';
 import Color from '../themes/color';
 import validationService from '../services/validation_service';
 import {LocalizationContext} from './Translations';
-import { color } from 'react-native-reanimated';
+import { normalLabelSize } from '../utils/responsive_util';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;
@@ -84,7 +84,7 @@ class TextFieldInput extends Component {
           clearButtonMode="while-editing"
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
-          style={[{backgroundColor: 'white', width: '100%'}, customStyle]}
+          style={[{backgroundColor: 'white', width: '100%', fontSize: normalLabelSize}, customStyle]}
           theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}, fontSize: 49}}
           left={this.renderLeftIcon()}
           autoCompleteType='off'
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   messageLabel: {
     color: Color.errorColor,
     marginBottom: 10,
+    fontSize: normalLabelSize,
   }
 });
 

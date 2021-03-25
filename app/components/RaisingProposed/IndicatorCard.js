@@ -6,6 +6,7 @@ import styles from './styles/CriteriaSelectionStyle';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+import { normalLabelSize } from '../../utils/responsive_util';
 
 class IndicatorCard extends Component {
 
@@ -43,7 +44,7 @@ class IndicatorCard extends Component {
           </View>
 
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left'}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
+            <Text style={{textAlign: 'left', fontSize: normalLabelSize}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 

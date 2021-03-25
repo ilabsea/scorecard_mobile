@@ -7,7 +7,7 @@ import {
   Keyboard,
 } from 'react-native';
 
-import { Modal, TextInput} from 'react-native-paper';
+import { Modal } from 'react-native-paper';
 
 import TextFieldInput from '../TextFieldInput';
 import VoiceRecord from './VoiceRecord';
@@ -21,6 +21,8 @@ import Scorecard from '../../models/Scorecard';
 import Autocomplete from './Autocomplete';
 import { isBlank } from '../../utils/string_util';
 import indicatorHelper from '../../helpers/indicator_helper';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { modalHeadingTitleSize } from '../../utils/responsive_util';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -163,9 +165,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: 25,
+    fontSize: modalHeadingTitleSize(),
+    fontFamily: FontFamily.title,
+    marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: 'row',

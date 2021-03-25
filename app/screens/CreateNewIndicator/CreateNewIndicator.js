@@ -18,8 +18,11 @@ import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo
 import TourTipButton from '../../components/TourTipButton';
 
 import IndicatorService from '../../services/indicator_service';
+import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop } from '../../utils/responsive_util';
 
 const WalkableView = walkthroughable(View);
+const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
+
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
 
@@ -170,7 +173,7 @@ class CreateNewIndicator extends Component {
 
     return (
       <View>
-        <Text style={{fontSize: 18, color: '#2e2e2e'}}>
+        <Text style={{fontSize: headerTitleSize, color: '#2e2e2e'}}>
           {translations.selectParticipant}
         </Text>
 
@@ -205,9 +208,9 @@ class CreateNewIndicator extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20, paddingBottom: 0}}>
+      <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20, paddingBottom: 0, paddingTop: containerPaddingTop}}>
         { this._renderParticipant() }
-        <Text style={{fontSize: 18, color: '#2e2e2e', marginTop: 20}}>
+        <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
           {translations['chooseProposedCriteria']}
         </Text>
 
