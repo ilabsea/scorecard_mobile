@@ -7,6 +7,12 @@ import CloseButton from '../CloseButton';
 import { LocalizationContext } from '../Translations';
 import { ERROR_NOT_FOUND } from '../../constants/error_constant';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+
+const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+
 class ErrorRequestToServerContent extends Component {
   static contextType = LocalizationContext;
 
@@ -15,8 +21,8 @@ class ErrorRequestToServerContent extends Component {
 
     return (
       <View>
-        <Text>{translations.cannotSubmitThisScorecard}: </Text>
-        <Text>
+        <Text style={responsiveStyles.label}>{translations.cannotSubmitThisScorecard}: </Text>
+        <Text style={responsiveStyles.label}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl} </Text>
           {translations.scorecardDeletedPleaseContactAdministrator}
         </Text>
@@ -29,7 +35,7 @@ class ErrorRequestToServerContent extends Component {
 
     return (
       <View>
-        <Text style={{marginTop: 10}}>
+        <Text style={[{marginTop: 10}, responsiveStyles.label]}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>{translations.fullStopSign}
           {translations.didYouEnterTheUrlCorrectly}
           {translations.ifYouKeepHavingThisProblem}
@@ -51,7 +57,7 @@ class ErrorRequestToServerContent extends Component {
 
     return (
       <View>
-        <Text style={CustomStyle.modalTitle}>
+        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
           { this.props.isSubmit ? translations.scorecardSubmitFailed : translations.scorecardDownloadFailed }
         </Text>
 

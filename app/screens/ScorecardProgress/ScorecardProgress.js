@@ -175,6 +175,7 @@ class ScorecardProgress extends Component {
           onDismiss={() => this.setState({visibleModal: false})}
           errorType={this.state.errorType}
           isSubmit={true}
+          isNewScorecard={false}
         />
 
         <MessageModal

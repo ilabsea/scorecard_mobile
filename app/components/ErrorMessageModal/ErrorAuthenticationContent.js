@@ -10,6 +10,12 @@ import authenticationFormService from '../../services/authentication_form_servic
 
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+
+const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+
 class ErrorAuthenticationContent extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -83,8 +89,8 @@ class ErrorAuthenticationContent extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View>
-          <Text style={CustomStyle.modalTitle}>{translations.serverRequiresAuthentication}</Text>
-          <Text style={{marginTop: 10, marginBottom: 15}}>
+          <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>{translations.serverRequiresAuthentication}</Text>
+          <Text style={[{marginTop: 10, marginBottom: 15}, responsiveStyles.label]}>
             {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
           </Text>
 
@@ -108,7 +114,7 @@ class ErrorAuthenticationContent extends Component {
           />
 
           { this.state.message != '' &&
-            <Text style={{ textAlign: 'center', color: this.state.isError ? 'red' : 'green'}}>
+            <Text style={[{ textAlign: 'center', color: this.state.isError ? 'red' : 'green'}, responsiveStyles.label]}>
               {this.state.message}
             </Text>
           }

@@ -231,6 +231,7 @@ class ScorecardPreference extends Component {
             visible={this.state.visibleModal}
             onDismiss={() => this.onDismissErrorMessageModal()}
             errorType={this.state.errorType}
+            isNewScorecard={true}
           />
 
           <MessageModal
