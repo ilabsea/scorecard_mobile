@@ -5,6 +5,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IndicatorService from '../../services/indicator_service';
 import {LocalizationContext} from '../Translations';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
+import RaisingProposedMobileStyles from './styles/mobile/RaisingProposedStyle';
+
+const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
+
 class CriteriaCard extends Component {
   static contextType = LocalizationContext;
 
@@ -38,7 +44,9 @@ class CriteriaCard extends Component {
           <Text numberOfLines={1} style={styles.criteriaLabel}>{criteriaName}</Text>
           <View style={{flexDirection: 'row', marginTop: 12}}>
             <MaterialIcon name="person" size={18} color="#7f7f7f" />
-            <Text style={styles.criteriaValue}>{criteria.raised_count} {translations.pax}</Text>
+            <Text style={[styles.criteriaValue, responsiveStyles.criteriaValue]}>
+              {criteria.raised_count} {translations.pax}
+            </Text>
           </View>
         </View>
       </View>

@@ -1,18 +1,16 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { xlLabelSize, lgLabelSize, smLabelSize } from '../../../constants/mobile_font_size_constant';
 import Color from '../../../themes/color';
 import { FontFamily } from '../../../assets/stylesheets/theme/font';
-import { isShortScreenDevice } from '../../../utils/responsive_util';
+import { mobileHeadingTitleSize, mobileSubTitleSize } from '../../../utils/responsive_util';
 
 const HeaderTitleStyles = StyleSheet.create({
   headline: {
     color: Color.primaryColor,
-    fontSize: isShortScreenDevice() ? wp(lgLabelSize) : wp(xlLabelSize),
+    fontSize: mobileHeadingTitleSize(),
     fontFamily: FontFamily.title
   },
   subTitle: {
-    fontSize: isShortScreenDevice() ? wp(smLabelSize) : wp(lgLabelSize),
+    fontSize: mobileSubTitleSize(),
     color: '#2e2e2e'
   }
 });

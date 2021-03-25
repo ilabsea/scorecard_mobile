@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
-import {FontSize, FontFamily} from '../../assets/stylesheets/theme/font';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
 import uuidv4 from '../../utils/uuidv4';
 import { MALE } from '../../constants/participant_constant';
@@ -14,6 +13,9 @@ import {saveParticipantInfo} from '../../services/participant_service';
 
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
+
+import styles from '../../themes/participantListItemStyle';
+import { addNewParticipantModalHeight } from '../../utils/responsive_util';
 
 class AddNewParticipantModal extends Component {
   static contextType = LocalizationContext;
@@ -97,9 +99,12 @@ class AddNewParticipantModal extends Component {
     const {translations} = this.context;
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={() => this.props.onDismiss()} contentContainerStyle={ styles.container }>
+        <Modal visible={this.props.visible}
+          onDismiss={() => this.props.onDismiss()}
+          contentContainerStyle={[styles.container, { height: addNewParticipantModalHeight() }]}
+        >
           <View style={{backgroundColor: 'white', flex: 1}}>
-            <Text style={styles.header}>{translations.addNewParticipant}</Text>
+            <Text style={[styles.header, {marginBottom: 10}]}>{translations.addNewParticipant}</Text>
 
             <ScrollView style={{marginBottom: 30}} scrollEnabled={false} showsVerticalScrollIndicator={false}>
               {this.renderForm()}
@@ -123,30 +128,6 @@ class AddNewParticipantModal extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    height: 650,
-    marginHorizontal: 30,
-    justifyContent: 'flex-start',
-  },
-  header: {
-    fontSize: 24,
-    fontFamily: FontFamily.title,
-    marginBottom: 10,
-    textTransform: 'capitalize',
-  },
-  btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  btnSave: {
-    marginLeft: 20,
-    borderWidth: 2,
-  }
-});
 
 function mapDispatchToProps(dispatch) {
   return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};

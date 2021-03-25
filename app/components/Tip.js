@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image
 } from 'react-native';
 
@@ -16,6 +15,12 @@ import cardListItemStyle from '../themes/cardListItemStyle';
 import tips from '../db/jsons/tips';
 import TipModal from './Tip/TipModal';
 import { TouchableRipple } from 'react-native-paper';
+
+import { getDeviceStyle } from '../utils/responsive_util';
+import TipTabletStyles from './styles/tablet/TipStyle';
+import TipMobileStyles from './styles/mobile/TipStyle';
+
+const responsiveStyles = getDeviceStyle(TipTabletStyles, TipMobileStyles);
 
 export default class Tip extends Component {
   static contextType = LocalizationContext;
@@ -53,9 +58,9 @@ export default class Tip extends Component {
             { this.renderTipIcon(scorecard) }
 
             <View style={styles.contentWrapper}>
-              <Text style={[cardListItemStyle.h2, { marginBottom: 0, flex: 1 }]}>{ translations.tips }</Text>
-              <Text style={{color: Color.headerColor}}>{translations.viewTips}</Text>
-              <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
+              <Text style={[cardListItemStyle.h2, responsiveStyles.title]}>{ translations.tips }</Text>
+              <Text style={[{color: Color.headerColor}, responsiveStyles.viewDetailLabel]}>{translations.viewTips}</Text>
+              <Icon name='chevron-forward-outline' style={[{color: Color.headerColor}, responsiveStyles.viewDetailIcon]} />
             </View>
           </View>
         </TouchableRipple>

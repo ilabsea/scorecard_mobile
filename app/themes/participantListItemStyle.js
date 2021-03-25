@@ -1,6 +1,8 @@
 import Color from '../themes/color';
 import { StyleSheet } from 'react-native';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import { getDeviceStyle, modalHeadingTitleSize } from '../utils/responsive_util';
+import { numberContainerSize, numberLabelSize } from '../utils/participant_list_util';
 
 const participantListItemStyle = StyleSheet.create({
   container: {
@@ -9,9 +11,10 @@ const participantListItemStyle = StyleSheet.create({
     height: 450,
     marginHorizontal: 30,
     justifyContent: 'flex-start',
+    paddingTop: getDeviceStyle(20, 10),
   },
   header: {
-    fontSize: 24,
+    fontSize: modalHeadingTitleSize(),
     fontFamily: FontFamily.title,
     marginBottom: 20,
     textTransform: 'capitalize',
@@ -21,19 +24,20 @@ const participantListItemStyle = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   numberContainer: {
-    width: 40,
-    height: 40,
+    width: numberContainerSize,
+    height: numberContainerSize,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'gray',
+    marginTop: -4
   },
   numberLabel: {
     fontWeight: '700',
-    fontSize: 18,
+    fontSize: numberLabelSize,
     color: 'white',
     margin: 0,
-    marginTop: -4,
+    marginTop: -2,
     padding: 0,
     textAlign: 'center',
   },
@@ -50,6 +54,7 @@ const participantListItemStyle = StyleSheet.create({
     borderWidth: 0,
     paddingVertical: 16,
     alignItems: 'center',
+    paddingTop: 18,
   },
 });
 

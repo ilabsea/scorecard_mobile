@@ -4,6 +4,13 @@ import CriteriaCard from './CriteriaCard';
 import {LocalizationContext} from '../Translations';
 import {Criteria} from '../../services/criteria_service';
 import { connect } from 'react-redux';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
+import RaisingProposedMobileStyles from './styles/mobile/RaisingProposedStyle';
+
+const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
 
 class CriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -27,7 +34,7 @@ class CriteriaList extends Component {
     return (
       <View style={{marginTop: 15}}>
         <View style={styles.headingContainer}>
-          <Text style={styles.headingTitle}>{translations['listCriteria']}</Text>
+          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>{translations['listCriteria']}</Text>
         </View>
 
         <ScrollView
@@ -48,8 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headingTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     flex: 1,
     color: '#22354c',
   },

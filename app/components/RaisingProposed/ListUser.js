@@ -10,6 +10,12 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
+import RaisingProposedMobileStyles from './styles/mobile/RaisingProposedStyle';
+
+const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
+
 class ListUser extends Component {
   static contextType = LocalizationContext;
 
@@ -59,7 +65,7 @@ class ListUser extends Component {
     return (
       <View style={{marginTop: 40}}>
         <View style={styles.headingContainer}>
-          <Text style={styles.headingTitle}>{translations['listUser']}</Text>
+          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>{translations['listUser']}</Text>
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
