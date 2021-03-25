@@ -10,11 +10,17 @@ import {
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import LogosTabletStyles from './styles/tablet/LogosStyle';
+import LogosMobileStyles from './styles/mobile/LogosStyle';
+
+const responsiveStyles = getDeviceStyle(LogosTabletStyles, LogosMobileStyles);
+
 export default class Logos extends Component {
   static contextType = LocalizationContext;
 
   buildLogo(logo, index) {
-    let height = 44;
+    let height = responsiveStyles.partnerLogoHeight;
     let width = (logo.width * height)/logo.height;
 
     return (
@@ -35,11 +41,11 @@ export default class Logos extends Component {
 
     return (
       <View style={{flexGrow:1, justifyContent: 'flex-end', padding: 20, alignItems: 'center'}}>
-        <Text style={{color: '#fff'}}>{translations.fundedBy}</Text>
-        <Image source={require('../../assets/images/home/eu.png')} style={{width: 97, height: 87, marginBottom: 30, marginTop: 10}}/>
+        <Text style={[{color: '#fff'}, responsiveStyles.label]}>{translations.fundedBy}</Text>
+        <Image source={require('../../assets/images/home/eu.png')} style={responsiveStyles.euLogo}/>
 
-        <Text style={{color: '#fff'}}>{translations.implementedBy}</Text>
-        <View style={{flexDirection: 'row', marginTop: 14}}>
+        <Text style={[{color: '#fff'}, responsiveStyles.label]}>{translations.implementedBy}</Text>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
           { logos.map((logo, index) => this.buildLogo(logo, index)) }
         </View>
       </View>
