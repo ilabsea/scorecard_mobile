@@ -40,6 +40,8 @@ const containerPaddingTop = getDeviceStyle(20, 10);
 
 const normalLabelSize = getDeviceStyle(16, wp(mdLabelSize));
 
+const scrollViewPaddingBottom = getDeviceStyle(28, hp('35%'));
+
 export {
   getDeviceStyle,
   isShortScreenDevice,
@@ -49,4 +51,5 @@ export {
   addNewParticipantModalHeight,
   containerPaddingTop,
   normalLabelSize,
+  scrollViewPaddingBottom,
 };

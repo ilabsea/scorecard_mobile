@@ -7,6 +7,9 @@ import HeaderTitle from '../../components/HeaderTitle';
 import SelectPicker from '../../components/SelectPicker';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
+
+import { containerPaddingTop, scrollViewPaddingBottom } from '../../utils/responsive_util';
+
 class Facilitator extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -198,7 +201,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: 'white',
     padding: 20,
-    paddingBottom: 28,
+    paddingBottom: scrollViewPaddingBottom,
+    paddingTop: containerPaddingTop,
   },
   otherFacilitatorsLabel: {
     fontSize: 18,
