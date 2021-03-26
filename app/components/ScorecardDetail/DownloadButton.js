@@ -6,27 +6,33 @@ import {ProgressBar} from 'react-native-paper';
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import DownloadButtonTabletStyles from './styles/tablet/DownloadButtonStyle';
+import DownloadButtonMobileStyles from './styles/mobile/DownloadButtonStyle';
+
+const responsiveStyles = getDeviceStyle(DownloadButtonTabletStyles, DownloadButtonMobileStyles);
+
 class DownloadButton extends Component {
   render() {
     return (
       <View>
         { this.props.showDownloadProgress &&
           <View>
-            <Text style={styles.downloadPercentageLabel}>{Math.ceil(this.props.downloadProgress * 100)}%</Text>
-            <ProgressBar progress={this.props.downloadProgress} color={Color.headerColor} style={styles.progressBar}
+            <Text style={[styles.downloadPercentageLabel, responsiveStyles.downloadPercentageLabel]}>{Math.ceil(this.props.downloadProgress * 100)}%</Text>
+            <ProgressBar progress={this.props.downloadProgress} color={Color.headerColor} style={[styles.progressBar, responsiveStyles.progressBar]}
               visible={this.props.showDownloadProgress}
             />
           </View>
         }
 
-        <Button full bordered iconRight primary
+        <Button iconRight full bordered primary
           {...this.props}
-          style={[CustomStyle.bottomButton, this.props.disabled ? {borderColor: 'gray'} : {}]}>
+          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: 'gray'} : {}]}>
 
-          <Text style={[styles.buttonLabelStyle, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]}>
+          <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]}>
             {this.props.label}
           </Text>
-          <Icon name="download" style={[{right: 10, position: 'absolute'}, this.props.disabled ? {color: 'gray'} : {}]} />
+          <Icon name="download" style={[{right: 0, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: 'gray'} : {}]} />
         </Button>
       </View>
     );
@@ -37,19 +43,17 @@ const styles = StyleSheet.create({
   downloadPercentageLabel: {
     textAlign: 'center',
     zIndex: 1,
-    marginTop: 4,
     left: '48%',
     position: 'absolute',
     fontWeight: 'bold',
   },
   progressBar: {
-    height: 30,
     backgroundColor: '#e6e7e9',
-    marginBottom: 20,
   },
-  buttonLabelStyle: {
+  buttonLabel: {
+    flex: 1,
+    textAlign: 'center',
     textTransform: 'uppercase',
-    fontSize: 18,
   },
 });
 

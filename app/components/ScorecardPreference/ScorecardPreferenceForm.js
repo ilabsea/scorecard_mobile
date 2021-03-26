@@ -9,9 +9,14 @@ import SelectPicker from '../SelectPicker';
 import HeaderTitle from '../HeaderTitle';
 
 import Color from '../../themes/color';
-import styles from './styles/scorecardPreferenceFormStyle';
 
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ScorecardPreferenceFormTabletStyles from './styles/tablet/ScorecardPreferenceFormStyle';
+import ScorecardPreferenceFormMobileStyles from './styles/mobile/ScorecardPreferenceFormStyle';
+
+const styles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
 
 class ScorecardPreferenceForm extends Component {
   static contextType = LocalizationContext;
@@ -83,13 +88,13 @@ class ScorecardPreferenceForm extends Component {
                 borderRadius: 4,
                 alignItems: 'flex-start',
               },
+              dateText: styles.dateLabel,
             }}
             iconComponent={
               <MaterialIcon
-                size={25}
                 color={Color.inputBorderLineColor}
                 name="calendar-today"
-                style={{position: 'absolute', left: 16}}
+                style={[{position: 'absolute', left: 16}, styles.dateIcon]}
               />
             }
             onDateChange={(date) => this.changeDate(date)}

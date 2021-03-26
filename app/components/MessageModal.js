@@ -8,6 +8,15 @@ import SaveButton from './SaveButton';
 
 import CustomStyle from '../themes/customStyle';
 
+import { getDeviceStyle } from '../utils/responsive_util';
+import MessageModalTabletStyles from './styles/tablet/MessageModalStyle';
+import MessageModalMobileStyles from './styles/mobile/MessageModalStyle';
+import PopupModalTabletStyles from '../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../assets/stylesheets/mobile/PopupModalStyle';
+
+const responsiveStyles = getDeviceStyle(MessageModalTabletStyles, MessageModalMobileStyles);
+const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+
 class MessageModal extends Component {
   static contextType = LocalizationContext;
 
@@ -19,10 +28,12 @@ class MessageModal extends Component {
         <Modal
           visible={this.props.visible}
           onDismiss={this.props.onDismiss}
-          contentContainerStyle={CustomStyle.modalContainer}
+          contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.container]}
         >
-          <Text style={CustomStyle.modalTitle}>{this.props.title}</Text>
-          <Text stle={{marginTop: 10}}>
+          <Text style={[CustomStyle.modalTitle, modalStyles.headerTitle]}>
+            {this.props.title}
+          </Text>
+          <Text style={[{marginTop: 10}, modalStyles.label]}>
             { this.props.description }
           </Text>
 

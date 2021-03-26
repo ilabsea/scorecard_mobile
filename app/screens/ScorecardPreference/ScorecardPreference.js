@@ -16,6 +16,12 @@ import internetConnectionService from '../../services/internet_connection_servic
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 import Scorecard from '../../models/Scorecard';
 
+import { containerPaddingTop, getDeviceStyle } from '../../utils/responsive_util';
+import ScorecardPreferenceFormTabletStyles from '../../components/ScorecardPreference/styles/tablet/ScorecardPreferenceFormStyle';
+import ScorecardPreferenceFormMobileStyles from '../../components/ScorecardPreference/styles/mobile/ScorecardPreferenceFormStyle';
+
+const responsiveStyles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
+
 import {
   isDownloaded as isScorecardDownloaded,
   download,
@@ -210,7 +216,7 @@ class ScorecardPreference extends Component {
             onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={0}/>
 
-          <ScrollView contentContainerStyle={styles.container}>
+          <ScrollView contentContainerStyle={[styles.container, responsiveStyles.formContainer]}>
             <ScorecardPreferenceForm
               ref={this.formRef}
               languages={this.state.languages}
@@ -254,7 +260,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: 'white',
     padding: 20,
-    paddingBottom: 28,
+    paddingTop: containerPaddingTop,
   },
 });
 
