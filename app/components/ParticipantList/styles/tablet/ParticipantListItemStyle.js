@@ -48,6 +48,9 @@ const PrarticipantListItemStyles = StyleSheet.create({
   },
   editLabel: {
     color: Color.primaryButtonColor,
+  },
+  actionColumn: {
+    width: 60,
   }
 });
 

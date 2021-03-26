@@ -20,6 +20,9 @@ const PrarticipantListStyles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
   },
+  actionColumn: {
+    width: 60
+  }
 });
 
 export default PrarticipantListStyles;

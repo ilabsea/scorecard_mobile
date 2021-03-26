@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { xxlLabelSize, xlLabelSize, smLabelSize } from '../../../../constants/mobile_font_size_constant';
+import { xlLabelSize, smLabelSize } from '../../../../constants/mobile_font_size_constant';
 import { FontFamily } from '../../../../assets/stylesheets/theme/font';
 
 const PrarticipantListStyles = StyleSheet.create({
@@ -9,9 +9,10 @@ const PrarticipantListStyles = StyleSheet.create({
     fontFamily: FontFamily.title
   },
   participantNumberLabel: {
-    fontSize: wp(xxlLabelSize),
+    fontSize: wp(xlLabelSize),
     fontWeight: 'bold',
     marginLeft: 5,
+    marginTop: 3,
   },
   orderNumberHeaderContainer: {
     paddingRight: 20,
@@ -23,6 +24,9 @@ const PrarticipantListStyles = StyleSheet.create({
     textAlign: 'center',
     fontSize: wp(smLabelSize),
   },
+  actionColumn: {
+    width: 50
+  }
 });
 
 export default PrarticipantListStyles;

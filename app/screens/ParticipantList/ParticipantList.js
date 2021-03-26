@@ -64,7 +64,7 @@ class ParticipantList extends Component {
 
           { doms }
 
-          <View style={{width: 60, alignItems: 'center', justifyContent: 'center'}}>
+          <View style={[{alignItems: 'center', justifyContent: 'center'}, responsiveStyles.actionColumn]}>
             <Text style={responsiveStyles.itemTitle}>{translations.action}</Text>
           </View>
         </View>
@@ -94,7 +94,7 @@ class ParticipantList extends Component {
 
     return (
       <View style={{flexDirection: 'row', marginBottom: 20}}>
-        <View style={{flexDirection: 'row', flex: 1}}>
+        <View style={{flexDirection: 'row', flex: 1, flexWrap: 'wrap'}}>
           <Text style={responsiveStyles.titleLabel}>
             {translations.participantList}
           </Text>
@@ -167,6 +167,7 @@ class ParticipantList extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    paddingHorizontal: 14,
     flexGrow: 1,
     paddingTop: containerPaddingTop,
   },

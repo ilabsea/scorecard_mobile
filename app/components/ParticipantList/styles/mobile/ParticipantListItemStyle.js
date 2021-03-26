@@ -55,6 +55,9 @@ const PrarticipantListItemStyles = StyleSheet.create({
   editLabel: {
     color: Color.primaryButtonColor,
     fontSize: wp(smLabelSize),
+  },
+  actionColumn: {
+    width: 50,
   }
 });
 

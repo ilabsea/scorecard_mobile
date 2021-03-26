@@ -91,7 +91,7 @@ class ParticipantListItem extends Component {
               {this.renderStatusIcon(participant, 'youth')}
             </View>
           </View>
-          <TouchableOpacity style={{width: 60, alignItems: 'center', paddingTop: 0}}
+          <TouchableOpacity style={[{alignItems: 'center', paddingTop: 0}, styles.actionColumn]}
             onPress={() => this.editParticipant(index)}>
             <MaterialIcon name="edit" size={25} color="#e4761e" />
             <Text style={styles.editLabel}>{translations.edit}</Text>
