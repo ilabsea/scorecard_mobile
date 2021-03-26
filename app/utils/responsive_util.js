@@ -21,7 +21,7 @@ const mobileHeadingTitleSize = () => {
 }
 
 const mobileSubTitleSize = () => {
-  return isShortScreenDevice() ? wp(smLabelSize) : wp(lgLabelSize);
+  return isShortScreenDevice() ? wp(mdLabelSize) : wp(lgLabelSize);
 }
 
 const modalHeadingTitleSize = () => {

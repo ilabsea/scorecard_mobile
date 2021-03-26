@@ -7,6 +7,12 @@ import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorec
 import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ScorecardDetailTabletStyles from './styles/tablet/ScorecardDetailStyle';
+import ScorecardDetailMobileStyles from './styles/mobile/ScorecardDetailStyle';
+
+const responsiveStyles = getDeviceStyle(ScorecardDetailTabletStyles, ScorecardDetailMobileStyles);
+
 class ScorecardDetail extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -43,8 +49,8 @@ class ScorecardDetail extends Component {
       <Container>
         {this._renderHeader()}
 
-        <ScrollView contentContainerStyle={styles.container}>
-          <Text style={{fontSize: 18, marginBottom: -10}}>{translations.pleaseCheckScorecardDetailBelow}</Text>
+        <ScrollView contentContainerStyle={[styles.container, responsiveStyles.container]}>
+          <Text style={responsiveStyles.title}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
         </ScrollView>
 
@@ -60,7 +66,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    paddingTop: 24,
     paddingBottom: 28,
   },
   buttonContainer: {

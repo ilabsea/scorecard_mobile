@@ -184,11 +184,12 @@ class NewScorecard extends Component {
 
   renderErrorMsg = () => {
     const {errorMsg, messageType} = this.state;
+    const { translations } = this.context;
 
     if (errorMsg != '') {
       return (
         <MessageLabel
-          message={errorMsg}
+          message={translations[errorMsg]}
           type={messageType}
           customStyle={{marginTop: 10}}
         />
