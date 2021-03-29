@@ -57,7 +57,7 @@ export default class ParticipantModal extends Component {
     return (
       <OutlinedButton
         icon="plus"
-        label={translations.addNewParticipant}
+        label={translations.addNew}
         onPress={() => this.props.showAddParticipantModal() }
       />
     );

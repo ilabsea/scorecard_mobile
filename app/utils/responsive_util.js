@@ -3,7 +3,7 @@ import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { smallMobileHeight } from '../constants/screen_size_constant';
-import { xlLabelSize, lgLabelSize, mdLabelSize, smLabelSize } from '../constants/mobile_font_size_constant';
+import { xlLabelSize, lgLabelSize, mdLabelSize } from '../constants/mobile_font_size_constant';
 
 const isTablet = DeviceInfo.isTablet();
 const screenHeight = Dimensions.get('screen').height;
