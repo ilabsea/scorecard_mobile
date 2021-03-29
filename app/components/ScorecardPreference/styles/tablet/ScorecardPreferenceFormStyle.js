@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Color from '../../../themes/color';
+import Color from '../../../../themes/color';
 
 const scorecardPreferenceFormStyles = StyleSheet.create({
   inputLabel: {
@@ -14,20 +14,15 @@ const scorecardPreferenceFormStyles = StyleSheet.create({
     marginTop: 20,
     position: 'relative',
   },
-  dropDownContainerStyle: {
-    height: 50,
-    marginTop: 10,
+  dateLabel: {
+    fontSize: 16,
   },
-  dropDownPickerStyle: {
-    backgroundColor: 'white',
-    zIndex: 5000,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-    borderWidth: 2,
-    borderColor: Color.inputBorderLineColor,
+  dateIcon: {
+    fontSize: 25,
   },
+  formContainer: {
+    paddingBottom: 28,
+  }
 });
 
 export default scorecardPreferenceFormStyles;
