@@ -2,11 +2,12 @@ import { Dimensions } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import { smallMobileHeight } from '../constants/screen_size_constant';
+import { smallMobileHeight, smallWidthMobile } from '../constants/screen_size_constant';
 import { xlLabelSize, lgLabelSize, mdLabelSize } from '../constants/mobile_font_size_constant';
 
 const isTablet = DeviceInfo.isTablet();
 const screenHeight = Dimensions.get('screen').height;
+const screenWidth = Dimensions.get('screen').width;
 
 const getDeviceStyle = (tabletStyle, mobileStyle) => {
   return isTablet ? tabletStyle : mobileStyle;
@@ -14,6 +15,10 @@ const getDeviceStyle = (tabletStyle, mobileStyle) => {
 
 const isShortScreenDevice = () => {
   return screenHeight <= smallMobileHeight;
+}
+
+const isShortWidthScreen = () => {
+  return screenWidth <= smallWidthMobile;
 }
 
 const mobileHeadingTitleSize = () => {
@@ -45,6 +50,7 @@ const scrollViewPaddingBottom = getDeviceStyle(28, hp('35%'));
 export {
   getDeviceStyle,
   isShortScreenDevice,
+  isShortWidthScreen,
   mobileHeadingTitleSize,
   mobileSubTitleSize,
   modalHeadingTitleSize,

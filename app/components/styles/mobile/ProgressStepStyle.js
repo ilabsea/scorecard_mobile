@@ -14,6 +14,9 @@ const ProgressStepStyles = StyleSheet.create({
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },
+  smallTitle: {
+    fontSize: wp('3.1%'),
+  }
 });
 
 export default ProgressStepStyles;

@@ -5,8 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import { Button, Text } from 'native-base';
-import { Icon } from 'native-base';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -15,6 +14,7 @@ import BottomButton from '../../components/BottomButton';
 import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
 import SelectedCriteriaItem from '../../components/IndicatorDevelopment/SelectedCriteriaItem';
 import NoDataMessage from '../../components/NoDataMessage';
+import OutlinedButton from '../../components/OutlinedButton';
 
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
@@ -27,6 +27,12 @@ import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import IndicatorDevelopmentTabletStyles from './styles/tablet/IndicatorDevelopmentStyle';
+import IndicatorDevelopmentMobileStyles from './styles/mobile/IndicatorDevelopmentStyle';
+
+const responsiveStyles = getDeviceStyle(IndicatorDevelopmentTabletStyles, IndicatorDevelopmentMobileStyles);
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -98,13 +104,11 @@ class IndicatorDevelopment extends Component {
     const { translations } = this.context;
 
     return (
-      <Button
-        bordered
+      <OutlinedButton
+        icon="plus"
+        label={translations.criteria}
         onPress={() => this.setState({visibleModal: true}) }
-        iconLeft>
-        <Icon name={'plus'} type="FontAwesome" style={{color: Color.headerColor}} />
-        <Text style={{color: Color.headerColor}}>{translations.criteria}</Text>
-      </Button>
+      />
     )
   }
 
@@ -115,7 +119,7 @@ class IndicatorDevelopment extends Component {
     return (
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={[styles.h1, {flex: 1}]}>{ translations.indicatorDevelopment }</Text>
+          <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ translations.indicatorDevelopment }</Text>
 
           { hasData && this._renderBtnAddCriteria() }
         </View>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
-  Text,
-  ImageBackground,
+  // StyleSheet,
+  // Text,
+  // ImageBackground,
 } from 'react-native';
 
 import { Button } from 'react-native-paper';
@@ -12,15 +12,21 @@ import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { addToProposed } from '../../actions/proposedCriteriaAction';
 
 import { LocalizationContext } from '../Translations';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
+// import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import styles from '../../themes/scorecardListItemStyle';
-import PlaySound from '../VotingCriteria/PlaySound';
+// import PlaySound from '../VotingCriteria/PlaySound';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import Scorecard from '../../models/Scorecard';
 
 import CriteriaTitle from './CriteriaTitle';
 import CriteriaImage from './CriteriaImage';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import SelectedCriteriaItemTabletStyles from './styles/tablet/SelectedCriteriaItemStyle';
+import SelectedCriteriaItemMobileStyles from './styles/mobile/SelectedCriteriaItemStyle';
+
+const responsiveStyles = getDeviceStyle(SelectedCriteriaItemTabletStyles, SelectedCriteriaItemMobileStyles);
 
 class SelectedCriteriaItem extends Component {
   static contextType = LocalizationContext;
@@ -55,7 +61,7 @@ class SelectedCriteriaItem extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={[styles.listItem, styles.card, {height: 130}]}>
+      <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
         { this.renderImage() }
 
         <View style={styles.contentWrapper}>
@@ -70,7 +76,7 @@ class SelectedCriteriaItem extends Component {
           <View style={{flex: 1}}></View>
 
           <View style={styles.viewDetail}>
-            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()}>
+            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()} labelStyle={styles.buttonLabel}>
               { translations['remove'] }
             </Button>
           </View>

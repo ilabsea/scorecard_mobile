@@ -20,6 +20,9 @@ import Scorecard from '../../models/Scorecard';
 import CriteriaTitle from './CriteriaTitle';
 import CriteriaImage from './CriteriaImage';
 
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
+
 class ProposedCriteriaItem extends Component {
   static contextType = LocalizationContext;
 
@@ -60,6 +63,12 @@ class ProposedCriteriaItem extends Component {
     !!this.props.onPress && this.props.onPress(this.props.criteria, action);
   }
 
+  getListItemHeight = () => {
+    const mobileHeight = isShortScreenDevice() ? hp('15%') : hp('13%');
+
+    return getDeviceStyle(95, mobileHeight);
+  }
+
   render() {
     const { translations } = this.context;
     const getBorderColor = this.state.active ? Color.headerColor : '#ccc';
@@ -68,7 +77,7 @@ class ProposedCriteriaItem extends Component {
     return (
       <TouchableOpacity
         onPress={ () => this.handleSelected() }
-        style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: 95}]}>
+        style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight()}]}>
 
         { this.renderShortcutLabel() }
 

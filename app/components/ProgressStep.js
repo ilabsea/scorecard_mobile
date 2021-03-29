@@ -58,7 +58,9 @@ export default class ProgressStep extends Component {
           { badgeIcon }
         </View>
 
-        <Text style={[responsiveStyles.title, titleStyle, {width: this.titleWidth}]}>{title}</Text>
+        <Text style={[responsiveStyles.title, titleStyle, {width: this.titleWidth}, this.props.steps ? responsiveStyles.smallTitle : {}]}>
+          {title}
+        </Text>
       </View>
     )
   }

@@ -16,6 +16,12 @@ import SaveButton from '../SaveButton';
 import { addToSelected } from '../../actions/selectedCriteriaAction';
 import { removeFromProposed } from '../../actions/proposedCriteriaAction';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ProposedCriteriaListModalTabletStyles from './styles/tablet/ProposedCriteriaListModalStyle';
+import ProposedCriteriaListModalMobileStyles from './styles/mobile/ProposedCriteriaListModalStyle';
+
+const responsiveStyles = getDeviceStyle(ProposedCriteriaListModalTabletStyles, ProposedCriteriaListModalMobileStyles);
+
 class ProposedCriteriaModal extends Component {
   static contextType = LocalizationContext;
 
@@ -78,11 +84,11 @@ class ProposedCriteriaModal extends Component {
 
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={() => this.onDismiss()} contentContainerStyle={ styles.container }>
-          <Text style={styles.header}>{translations.criteriaList}</Text>
+        <Modal visible={this.props.visible} onDismiss={() => this.onDismiss()} contentContainerStyle={[styles.container, responsiveStyles.container]}>
+          <Text style={[styles.header, responsiveStyles.header]}>{translations.criteriaList}</Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{marginBottom: 16, flex: 1}}>{translations.pleaseSelectCriteria}</Text>
-            <Text style={{fontFamily: FontFamily.title}}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
+            <Text style={[{marginBottom: 16, flex: 1}, responsiveStyles.label]}>{translations.pleaseSelectCriteria}</Text>
+            <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.label]}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
           </View>
 
           { this._renderList() }
@@ -118,9 +124,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 20,
-    maxHeight: 650,
     marginHorizontal: 30,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   btnWrapper: {
     marginTop: 10,
@@ -128,7 +133,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   header: {
-    fontSize: 24,
     fontFamily: FontFamily.title,
     textTransform: 'capitalize'
   },
