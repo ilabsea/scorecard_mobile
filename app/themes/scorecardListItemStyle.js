@@ -1,6 +1,10 @@
 import Color from '../themes/color';
 import {StyleSheet} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+
+import { getDeviceStyle } from '../utils/responsive_util';
+import { mdLabelSize, smLabelSize } from '../constants/mobile_font_size_constant';
 
 const ListItemStyle = StyleSheet.create({
   container: {
@@ -8,7 +12,7 @@ const ListItemStyle = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 20,
+    fontSize: getDeviceStyle(20, wp(mdLabelSize)),
     fontFamily: FontFamily.title,
     color: '#3a3a3a',
     marginBottom: 6,
@@ -20,7 +24,7 @@ const ListItemStyle = StyleSheet.create({
   },
   subText: {
     marginLeft: 8,
-    fontSize: 14,
+    fontSize: getDeviceStyle(14, wp(smLabelSize)),
     fontFamily: FontFamily.body,
   },
   subTextIcon: {
@@ -33,11 +37,11 @@ const ListItemStyle = StyleSheet.create({
     flex: 1
   },
   statusIconWrapper: {
-    width: '25%',
+    width: getDeviceStyle('25%', wp('18%')),
     maxWidth: 130,
     backgroundColor: '#787878',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   listItem: {
     maxHeight: 160,
@@ -57,12 +61,15 @@ const ListItemStyle = StyleSheet.create({
     elevation: 2,
   },
   viewDetail: {
-    height: 48,
+    height: getDeviceStyle(48, 38),
     borderTopWidth: 1,
     borderTopColor: Color.borderColor,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+  },
+  buttonLabel: {
+    fontSize: getDeviceStyle(16, wp(mdLabelSize)),
   }
 });
 
