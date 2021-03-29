@@ -11,6 +11,12 @@ import CustomStyle from '../../themes/customStyle';
 
 import { hasVoting } from '../../helpers/voting_criteria_helper';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import VotingInfoTabletStyles from './styles/tablet/VotingInfoStyle';
+import VotingInfoMobileStyles from './styles/mobile/VotingInfoStyle';
+
+const responsiveStyles = getDeviceStyle(VotingInfoTabletStyles, VotingInfoMobileStyles);
+
 class VotingInfoModal extends Component {
   static contextType = LocalizationContext;
 
@@ -27,7 +33,7 @@ class VotingInfoModal extends Component {
 
     const { translations } = this.context;
     return (
-      <Text style={{paddingHorizontal: 10}}>{ translations.thereIsNoVotingYet }</Text>
+      <Text style={[{paddingHorizontal: 10}, responsiveStyles.normalText]}>{ translations.thereIsNoVotingYet }</Text>
     );
   }
 
@@ -39,7 +45,7 @@ class VotingInfoModal extends Component {
         <Modal
           visible={this.props.visible}
           onDismiss={this.props.onDismiss}
-          contentContainerStyle={[CustomStyle.modalContainer, { width: '90%' }]}
+          contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.modalContainer]}
         >
           <Text numberOfLines={1} style={CustomStyle.modalTitle}>
             { this.props.indicator && this.props.indicator.content }

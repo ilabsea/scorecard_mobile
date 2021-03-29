@@ -24,6 +24,7 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import ProgressStep from '../components/ProgressStep';
 import MessageModal from './MessageModal';
 import { LocalizationContext } from './Translations';
+import { getDeviceStyle } from '../utils/responsive_util';
 
 export default class BigHeader extends React.Component {
   static contextType = LocalizationContext;
@@ -67,7 +68,7 @@ export default class BigHeader extends React.Component {
         </View>
 
         <View style={{width: '100%'}}>
-          <View style={{marginTop: 16, alignSelf: 'center'}}>
+          <View style={{marginTop: getDeviceStyle(10, 4), alignSelf: 'center'}}>
             <ProgressStep
               steps={!!this.props.steps && this.props.steps}
               progressIndex={this.props.progressIndex || 0}/>
