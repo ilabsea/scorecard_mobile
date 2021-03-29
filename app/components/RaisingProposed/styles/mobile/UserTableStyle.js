@@ -4,7 +4,8 @@ import { smLabelSize, xsLabelSize } from '../../../../constants/mobile_font_size
 
 const UserTableStyles = StyleSheet.create({
   headerText: {
-    fontSize: wp(smLabelSize),
+    // fontSize: wp(smLabelSize),
+    fontSize: wp(xsLabelSize),
   },
   indicatorLabel: {
     fontSize: wp(xsLabelSize),
