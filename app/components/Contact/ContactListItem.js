@@ -11,8 +11,13 @@ import { LocalizationContext } from '../../components/Translations';
 import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import uuidV4 from '../../utils/uuidv4';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import styles from '../../themes/scorecardListItemStyle';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ContactListItemTabletStyles from './styles/tablet/ContactListItemStyle';
+import ContactListItemMobileStyles from './styles/mobile/ContactListItemStyle';
+
+const responsiveStyles = getDeviceStyle(ContactListItemTabletStyles, ContactListItemMobileStyles);
 
 export default class ContactListItem extends Component {
   static contextType = LocalizationContext;
@@ -20,7 +25,7 @@ export default class ContactListItem extends Component {
   renderStatusIcon(item, iconName) {
     return (
       <View style={[styles.statusIconWrapper]}>
-        <Icon name={iconName} style={{fontSize: 50, color: '#fff'}} />
+        <Icon name={iconName} style={responsiveStyles.statusIcon} />
       </View>
     )
   }
@@ -44,14 +49,14 @@ export default class ContactListItem extends Component {
 
           <View style={styles.subTextWrapper}>
             <Icon name={iconName} style={styles.subTextIcon} />
-            <Text style={styles.subText}>{contact.value}</Text>
+            <Text style={[styles.subText, responsiveStyles.subText]}>{contact.value}</Text>
           </View>
 
           <View style={{flex: 1}}></View>
 
           <View style={styles.viewDetail}>
-            <Text style={{color: Color.headerColor}}>{translations.contact}</Text>
-            <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
+            <Text style={[{color: Color.headerColor}, responsiveStyles.viewDetailLabel]}>{translations.contact}</Text>
+            <Icon name='chevron-forward-outline' style={[{color: Color.headerColor}, responsiveStyles.viewDetailIcon]} />
           </View>
         </View>
       </TouchableOpacity>
