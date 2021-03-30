@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardItem from '../../components/ScorecardItem';
@@ -19,6 +20,9 @@ import ScorecardService from '../../services/scorecardService';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 
 class ScorecardList extends Component {
   static contextType = LocalizationContext;
@@ -93,6 +97,7 @@ class ScorecardList extends Component {
     const completedStatus = '5';
     const progressScorecards = this.state.scorecards.filter(s => s.status != completedStatus);
     const completeScorecards = this.state.scorecards.filter(s => s.status == completedStatus);
+    const titleSize = getDeviceStyle(16, wp(mdLabelSize));
 
     if (!this.state.scorecards.length) {
       return this._renderNoData();
@@ -101,10 +106,10 @@ class ScorecardList extends Component {
     return (
       <ScrollView>
         <View style={{flex: 1, padding: 16}}>
-          { !!progressScorecards.length && <Text style={{marginBottom: 10}}>{translations.progressScorecards}</Text>}
+          { !!progressScorecards.length && <Text style={{marginBottom: 10, fontSize: titleSize}}>{translations.progressScorecards}</Text>}
           { this.renderList(progressScorecards) }
 
-          { !!completeScorecards.length && <Text style={{marginBottom: 10}}>{translations.completeScorecards}</Text>}
+          { !!completeScorecards.length && <Text style={{marginBottom: 10, fontSize: titleSize}}>{translations.completeScorecards}</Text>}
           { this.renderList(completeScorecards) }
 
           <MessageModal
