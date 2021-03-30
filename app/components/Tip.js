@@ -38,8 +38,8 @@ export default class Tip extends Component {
     let iconSize = 40;
 
     return (
-      <View style={[cardListItemStyle.statusIconWrapper, {width: 70}]}>
-        <Image source={require('../assets/images/tip.png')} style={{width: iconSize, height: iconSize}}/>
+      <View style={[cardListItemStyle.statusIconWrapper, responsiveStyles.tipIconContainer]}>
+        <Image source={require('../assets/images/tip.png')} style={responsiveStyles.tipIcon}/>
       </View>
     )
   }

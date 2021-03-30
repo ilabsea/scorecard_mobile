@@ -26,7 +26,7 @@ import * as participantService from '../../services/participant_service';
 import tips from '../../db/jsons/tips';
 
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import { xlLabelSize } from '../../constants/mobile_font_size_constant';
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -138,7 +138,7 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: containerPadding,
   },
   h1: {
     fontSize: getDeviceStyle(24, wp(xlLabelSize)),

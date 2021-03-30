@@ -1,19 +1,26 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { lgLabelSize, mdLabelSize, mdIconSize } from '../../../constants/mobile_font_size_constant';
-import { isShortScreenDevice } from '../../../utils/responsive_util';
+import { smLabelSize } from '../../../constants/mobile_font_size_constant';
 
 const TipStyles = StyleSheet.create({
   title: {
     marginBottom: 0,
     flex: 1,
-    fontSize: isShortScreenDevice() ? wp(mdLabelSize) : wp(lgLabelSize),
+    fontSize: wp(smLabelSize),
+    marginLeft: -8
   },
   viewDetailLabel: {
-    fontSize: wp(mdLabelSize),
+    fontSize: wp(smLabelSize),
   },
   viewDetailIcon: {
-    fontSize: wp(mdIconSize),
+    fontSize: wp('4%'),
+  },
+  tipIconContainer: {
+    width: 50,
+  },
+  tipIcon: {
+    width: 28,
+    height: 28,
   }
 });
 

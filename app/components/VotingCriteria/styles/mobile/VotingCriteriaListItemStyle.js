@@ -1,10 +1,20 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../../../themes/color';
-import { mdLabelSize, smLabelSize, mdIconSize } from '../../../../constants/mobile_font_size_constant';
+import { smLabelSize } from '../../../../constants/mobile_font_size_constant';
 import { getDeviceStyle } from '../../../../utils/responsive_util';
 
 const votingCriteriaListItemStyle = StyleSheet.create({
+  ratingItemContainer: {
+    height: 105,
+    marginBottom: 10,
+    flexDirection: 'row'
+  },
+  ratingIconContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: -8,
+  },
   ratingItem: {
     width: getDeviceStyle(50, wp('12%')),
     maxWidth: 57,
@@ -15,7 +25,7 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     paddingLeft: 6,
-    marginTop: 6
+    marginTop: 4
   },
   ratingCount: {
     fontWeight: 'bold',
@@ -27,16 +37,16 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: wp('24%'),
+    width: wp('20%'),
     borderLeftWidth: 1,
     borderColor: Color.borderColor,
   },
   medianScoreText: {
-    fontSize: wp(smLabelSize),
+    fontSize: wp('3%'),
   },
   medianText: {
     textAlign: 'center',
-    fontSize: wp(smLabelSize),
+    fontSize: wp('3%'),
     marginTop: 4,
     color: '#0404d0',
   },
@@ -51,14 +61,26 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     fontSize: 13,
     color: 'gray',
   },
+  viewMoreContainer: {
+    borderWidth: 0,
+    position: 'absolute',
+    right: 10,
+    bottom: 4,
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
   viewMoreLabel: {
-    fontSize: wp(mdLabelSize),
+    fontSize: wp(smLabelSize),
     color: Color.headerColor
   },
   viewMoreIcon: {
-    fontSize: wp(mdIconSize),
+    fontSize: wp('4.5%'),
     color: Color.headerColor,
     marginTop: 1,
+  },
+  indicatorNameLabel: {
+    paddingRight: 10,
+    fontSize: wp('3.5%')
   },
 });
 

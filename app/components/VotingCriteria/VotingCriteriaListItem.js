@@ -77,7 +77,7 @@ export default class VotingCriteriaListItem extends Component {
     let icons = ratings;
 
     return (
-      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+      <View style={styles.ratingIconContainer}>
         { icons.map(icon => this._renderRatingIcon(icon)) }
       </View>
     )
@@ -90,7 +90,7 @@ export default class VotingCriteriaListItem extends Component {
     if (!criteria.median) { return (null) }
 
     let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
-    const iconSize = getDeviceStyle(56, 45);
+    const iconSize = getDeviceStyle(56, 38);
 
     return (
       <View style={styles.resultWrapper}>
@@ -109,12 +109,13 @@ export default class VotingCriteriaListItem extends Component {
 
     return (
       <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingRight: 0, position: 'relative'}]}>
-        <Text style={[cardListItemStyle.h2, styles.capitalize, { paddingRight: 10 }]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
+        <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
+          {indicator.content || indicator.name}
+        </Text>
 
         { this._renderRatingIcons() }
 
-        {/* <View style={{borderWidth: 0, marginTop: 10, justifyContent: 'flex-end', flexDirection: 'row', marginRight: 10}}> */}
-        <View style={{borderWidth: 0, position: 'absolute', right: 10, bottom: 4, justifyContent: 'flex-end', flexDirection: 'row'}}>
+        <View style={styles.viewMoreContainer}>
           <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
           <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
         </View>
@@ -139,7 +140,7 @@ export default class VotingCriteriaListItem extends Component {
 
     return (
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
-        <View style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
+        <View style={[customStyle.card, styles.ratingItemContainer]}>
           { this._renderAvatar(scorecard, indicator) }
           { this._renderContent(indicator) }
           { this._renderMedian() }
