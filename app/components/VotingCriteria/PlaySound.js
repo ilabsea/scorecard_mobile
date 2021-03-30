@@ -100,7 +100,7 @@ class PlaySound extends Component {
   render() {
     const { children, containerStyle, filePath } = this.props;
     let btnBg = !!filePath ? Color.headerColor : '#787878';
-    let iconSize = getDeviceStyle(28, 22);
+    let iconSize = getDeviceStyle(28, 20);
 
     return (
       <TouchableOpacity

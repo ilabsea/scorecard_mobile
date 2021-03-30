@@ -59,6 +59,12 @@ const CriteriaRatingItemStyles = StyleSheet.create({
   playSoundLabel: {
     marginRight: 8,
     color: '#fff',
+  },
+  ratingPlaySoundContainer: {
+    borderRadius: 2,
+    width: '90%',
+    maxWidth: 100,
+    flexDirection: 'row',
   }
 });
 

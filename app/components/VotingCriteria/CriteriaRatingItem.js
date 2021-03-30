@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { Divider} from 'react-native-paper';
+import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
@@ -83,13 +84,15 @@ export default class CriteriaRatingItem extends Component {
             <Image source={Images[rating.image]} style={responsiveStyles.ratingIcon} />
           </View>
 
-          <Text style={responsiveStyles.ratingLabel}>{ratingLanguage.content}</Text>
+          { DeviceInfo.isTablet() &&
+            <Text style={responsiveStyles.ratingLabel}>{ratingLanguage.content}</Text>
+          }
         </TouchableOpacity>
 
         <View style={{flex: 1}}></View>
 
         <PlaySound
-          containerStyle={{borderRadius: 2, width: '90%', maxWidth: 100, flexDirection: 'row'}}
+          containerStyle={responsiveStyles.ratingPlaySoundContainer}
           filePath={ratingLanguage.local_audio}
           isLocal={true}
           onPress={() => this._onClickIcon(rating)}
@@ -99,6 +102,20 @@ export default class CriteriaRatingItem extends Component {
           <Text style={responsiveStyles.playSoundLabel}>{translations.listen}</Text>
         </PlaySound>
       </View>
+    )
+  }
+
+  _renderRatingLabel(rating, rowIndex) {
+    const { translations } = this.context;
+    const ratingLanguage = this._getLanguageRatingScale(rating.label);
+
+    return (
+      <Text style={responsiveStyles.ratingLabel}>
+        {rowIndex + 1} {ratingLanguage.content} 
+        { rowIndex < 4 &&
+          <Text style={{fontSize: 8}}> | </Text>
+        }
+      </Text>
     )
   }
 
@@ -119,6 +136,12 @@ export default class CriteriaRatingItem extends Component {
             { <PlaySound filePath={indicator.local_audio} /> }
           </View>
         </View>
+
+        { !DeviceInfo.isTablet() &&
+          <View style={{flexDirection: 'row', paddingLeft: 0, marginLeft: -4}}>
+            { ratings.map((rating, index) => this._renderRatingLabel(rating, index)) }
+          </View>
+        }
 
         <View style={responsiveStyles.ratingListContainer}>
           { ratings.map((rating, index) => this._renderRatingIcon(rating, index)) }

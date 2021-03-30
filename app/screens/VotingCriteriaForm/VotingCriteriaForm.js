@@ -93,7 +93,7 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{padding: 16}}>
+      <ScrollView style={styles.container} contentContainerStyle={{padding: 16, paddingTop: getDeviceStyle(16, 10)}}>
         { this._renderParticipant() }
 
         <Text style={responsiveStyles.title}>{translations.pleaseSelect}</Text>
