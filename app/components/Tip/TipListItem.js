@@ -10,13 +10,18 @@ import Color from '../../themes/color';
 import { Avatar } from 'react-native-paper';
 import uuidv4 from '../../utils/uuidv4';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import TipListItemTabletStyle from './styles/tablet/TipListItemStyle';
+import TipListItemMobileStyle from './styles/mobile/TipListItemStyle';
+const styles = getDeviceStyle(TipListItemTabletStyle, TipListItemMobileStyle);
+
 export default class TipListItem extends Component {
   static contextType = LocalizationContext;
 
   renderIcon(num) {
     return (
       <View style={{marginRight: 20}}>
-        <Avatar.Text size={60} label={num} style={{backgroundColor: Color.tipBgColor}} />
+        <Avatar.Text size={styles.avatarTextSize} label={num} style={{backgroundColor: Color.tipBgColor}} />
       </View>
     )
   }
@@ -30,9 +35,9 @@ export default class TipListItem extends Component {
         { this.renderIcon(number) }
 
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text style={[{flexShrink: 1}, titleStyle]}>{title}</Text>
+          <Text style={[styles.titleText, titleStyle]}>{title}</Text>
 
-          { !!subTitle && <Text style={{color: '#858796', flexShrink: 1}}>{subTitle}</Text> }
+          { !!subTitle && <Text style={styles.subTitleText}>{subTitle}</Text> }
         </View>
       </View>
     )
