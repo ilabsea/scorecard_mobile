@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';
@@ -10,7 +11,9 @@ import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
 import ScorecardStep from '../../models/ScorecardStep';
 
-const badgeSize = 40;
+import { getDeviceStyle } from '../../utils/responsive_util';
+
+const badgeSize = getDeviceStyle(40, wp('9%'));
 
 export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
   },
   line: {
     width: 2,
-    height: 60,
+    height: getDeviceStyle(60, 50),
     backgroundColor: Color.verticalLineColor,
     marginLeft: badgeSize/2,
     marginTop: -10,

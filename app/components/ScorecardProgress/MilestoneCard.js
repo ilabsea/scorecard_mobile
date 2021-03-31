@@ -12,7 +12,11 @@ import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
-const badgeSize = 40;
+import { getDeviceStyle } from '../../utils/responsive_util';
+import MilestoneCardTabletStyles from './styles/tablet/MilestoneCardStyle';
+import MilestoneCardMobileStyles from './styles/mobile/MilestoneCardStyle';
+
+const responsiveStyles = getDeviceStyle(MilestoneCardTabletStyles, MilestoneCardMobileStyles);
 
 export default class MilestoneCard extends Component {
   static contextType = LocalizationContext;
@@ -31,25 +35,25 @@ export default class MilestoneCard extends Component {
     return (
       <TouchableOpacity
         onPress={ () => isDone && onPress()}
-        style={[CustomStyle.card, styles.card, cardStyle]}>
+        style={[CustomStyle.card, responsiveStyles.card, cardStyle]}>
 
-        <View style={{flex: 1}}>
-          <Text style={[styles.title, titleStyle]}>{this.props.title}</Text>
+        <View style={responsiveStyles.cardTitleContainer}>
+          <Text style={[responsiveStyles.cardTitle, titleStyle]}>{this.props.title}</Text>
           { (index < this.props.progressIndex && !!this.props.subTitle) &&
-            <Text style={{fontSize: 14}}>{this.props.subTitle}</Text>
+            <Text style={responsiveStyles.cardSubTitle}>{this.props.subTitle}</Text>
           }
         </View>
 
         { (index < this.props.progressIndex || this.props.isScorecardFinished) &&
           <View style={styles.viewDetail}>
-            <Text style={{color: Color.headerColor}}>{translations['viewDetail']}</Text>
-            <Icon name='chevron-forward-outline' style={{fontSize: 24, color: Color.headerColor}} />
+            <Text style={responsiveStyles.viewDetailText}>{translations['viewDetail']}</Text>
+            <Icon name='chevron-forward-outline' style={responsiveStyles.viewDetailIcon} />
           </View>
         }
 
         { (index == this.props.progressIndex && !this.props.isScorecardFinished) &&
-          <View style={styles.btnResume}>
-            <Text style={{color: '#fff', fontSize: 16}}>{translations['resume']}</Text>
+          <View style={responsiveStyles.btnResume}>
+            <Text style={responsiveStyles.btnResumeText}>{translations['resume']}</Text>
           </View>
         }
       </TouchableOpacity>
@@ -70,10 +74,10 @@ export default class MilestoneCard extends Component {
   _renderBadge() {
     let isPhaseFinished = this._isPhaseFinished();
     let badgeIconStyle = isPhaseFinished ? { backgroundColor: Color.headerColor } : {};
-    let badgeIcon = isPhaseFinished ? <Icon name='checkmark' style={{fontSize: 24, color: '#fff'}} /> : <Text style={{color: '#fff', fontWeight: 'bold'}}>{this.props.index}</Text>
+    let badgeIcon = isPhaseFinished ? <Icon name='checkmark' style={responsiveStyles.badgeIcon} /> : <Text style={responsiveStyles.badgeText}>{this.props.index}</Text>
 
     return (
-      <View style={[styles.badgeIcon, badgeIconStyle]}>
+      <View style={[responsiveStyles.badgeIconContainer, badgeIconStyle]}>
         { badgeIcon }
       </View>
     )
@@ -90,43 +94,15 @@ export default class MilestoneCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    color: '#808080',
-    fontSize: 20,
-    lineHeight: 34
-  },
   itemWrapper: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     flexDirection: 'row',
     position: 'relative',
   },
-  badgeIcon: {
-    backgroundColor: '#003b5c',
-    width: badgeSize,
-    height: badgeSize,
-    borderRadius: badgeSize / 2,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   viewDetail: {
     justifyContent: 'flex-end',
     alignItems: 'center',
     flexDirection: 'row'
   },
-  btnResume: {
-    backgroundColor: Color.headerColor,
-    height: 48,
-    width: 167,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  card: {
-    marginLeft: 10,
-    height: 80,
-    alignItems: 'center',
-    flex: 1,
-    padding: 20,
-    flexDirection: 'row'
-  }
 });

@@ -8,11 +8,11 @@ const DownloadButtonStyles = StyleSheet.create({
     fontSize: isShortScreenDevice() ? wp(mdLabelSize) : wp(lgLabelSize),
   },
   progressBar: {
-    height: 25,
+    height: 20,
     marginBottom: 15,
   },
   downloadPercentageLabel: {
-    marginTop: 2,
+    fontSize: wp('3.5%')
   },
   icon: {
     fontSize: wp(lgIconSize),

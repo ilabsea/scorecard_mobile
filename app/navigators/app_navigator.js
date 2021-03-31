@@ -2,6 +2,8 @@ import React, {useContext, useEffect} from 'react';
 
 import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
 
 // Screens
 import HomeScreen from '../screens/Home/Home';
@@ -31,6 +33,8 @@ import Color from '../themes/color';
 import { LocalizationContext } from '../components/Translations';
 import SettingMenu from '../components/Home/SettingMenu';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import { getDeviceStyle } from '../utils/responsive_util';
+import { lgLabelSize } from '../constants/mobile_font_size_constant';
 
 const Stack = createStackNavigator();
 
@@ -76,6 +80,10 @@ function AppNavigator() {
         component={ScorecardProgressScreen}
         options={({route, navigation}) => ({
           title: route.params.title,
+          headerTitleStyle: {
+            fontSize: getDeviceStyle(20, wp(lgLabelSize)),
+            fontFamily: FontFamily.title,
+          }
         })}
       />
       <Stack.Screen
