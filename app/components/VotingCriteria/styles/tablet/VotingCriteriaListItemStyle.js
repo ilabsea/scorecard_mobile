@@ -1,7 +1,16 @@
 import { StyleSheet } from 'react-native';
-import Color from '../../../themes/color';
+import Color from '../../../../themes/color';
 
 const votingCriteriaListItemStyle = StyleSheet.create({
+  ratingItemContainer: {
+    height: 140,
+    marginBottom: 20,
+    flexDirection: 'row'
+  },
+  ratingIconContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   ratingItem: {
     width: '25%',
     maxWidth: 57,
@@ -27,6 +36,9 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     borderLeftWidth: 1,
     borderColor: Color.borderColor,
   },
+  medianScoreText: {
+    fontSize: 14,
+  },
   medianText: {
     textAlign: 'center',
     fontSize: 15,
@@ -43,6 +55,25 @@ const votingCriteriaListItemStyle = StyleSheet.create({
   summaryInfoLabel: {
     fontSize: 13,
     color: 'gray',
+  },
+  viewMoreContainer: {
+    borderWidth: 0,
+    position: 'absolute',
+    right: 10,
+    bottom: 4,
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
+  viewMoreLabel: {
+    fontSize: 15,
+    color: Color.headerColor
+  },
+  viewMoreIcon: {
+    fontSize: 24,
+    color: Color.headerColor,
+  },
+  indicatorNameLabel: {
+    paddingRight: 10
   }
 });
 

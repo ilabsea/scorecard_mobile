@@ -10,6 +10,13 @@ const TipStyles = StyleSheet.create({
   },
   viewDetailIcon: {
     fontSize: 24,
+  },
+  tipIconContainer: {
+    width: 70,
+  },
+  tipIcon: {
+    width: 40,
+    height: 40,
   }
 });
 

@@ -12,6 +12,8 @@ import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
 import {PLAYING, PAUSED} from '../../utils/variable';
 import votingCriteriaService from '../../services/votingCriteriaService';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+
 class PlaySound extends Component {
   constructor(props) {
     super(props);
@@ -98,6 +100,7 @@ class PlaySound extends Component {
   render() {
     const { children, containerStyle, filePath } = this.props;
     let btnBg = !!filePath ? Color.headerColor : '#787878';
+    let iconSize = getDeviceStyle(28, 20);
 
     return (
       <TouchableOpacity
@@ -105,7 +108,7 @@ class PlaySound extends Component {
         style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
 
         { children }
-        <Icon name={this.getIconName()} style={{ color: '#fff'}}/>
+        <Icon name={this.getIconName()} style={{ color: '#fff', fontSize: iconSize}}/>
       </TouchableOpacity>
     )
   }
@@ -113,8 +116,8 @@ class PlaySound extends Component {
 
 const styles = StyleSheet.create({
   btnAudio: {
-    width: 36,
-    height: 36,
+    width: getDeviceStyle(36, 30),
+    height: getDeviceStyle(36, 30),
     backgroundColor: Color.headerColor,
     alignItems: 'center',
     justifyContent: 'center',

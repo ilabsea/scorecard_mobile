@@ -6,6 +6,11 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import uuidv4 from '../../utils/uuidv4';
 import { getPluralOrSingularWord } from '../../utils/translation_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import VotingInfoTabletStyles from './styles/tablet/VotingInfoStyle';
+import VotingInfoMobileStyles from './styles/mobile/VotingInfoStyle';
+
+const responsiveStyles = getDeviceStyle(VotingInfoTabletStyles, VotingInfoMobileStyles);
 
 class VotingAverageScoreInfo extends Component {
   static contextType = LocalizationContext;
@@ -23,8 +28,8 @@ class VotingAverageScoreInfo extends Component {
     return (
       <View key={uuidv4()} style={{flex: 1, maxHeight: 35}}>
         <View style={{flexDirection: 'row'}}>
-        <Text>{ label }</Text>
-        <Text style={{marginLeft: 10, fontWeight: 'bold', marginTop: 3}}>
+        <Text style={responsiveStyles.normalText}>{ label }</Text>
+        <Text style={[{marginLeft: 10, fontWeight: 'bold', marginTop: 3}, responsiveStyles.normalText]}>
           ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
         </Text>
         </View>
@@ -62,7 +67,7 @@ class VotingAverageScoreInfo extends Component {
 
     return (
       <View>
-        <Text style={{fontFamily: FontFamily.title, fontSize: 18}}>{ translations.averageScoreByGroup }:</Text>
+        <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>{ translations.averageScoreByGroup }:</Text>
         <View style={{ flexDirection: 'row', height: 120 }}>
           { this._renderInfo('first-col') }
           { this._renderInfo('second-col') }

@@ -1,30 +1,28 @@
 import React, {Component} from 'react';
 import {
   View,
-  StyleSheet,
   Image,
   Text,
   TouchableOpacity,
-  Dimensions
 } from 'react-native';
 
 import { Divider} from 'react-native-paper';
+import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
 import Images from '../../utils/images';
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import PlaySound from './PlaySound';
 import indicatorHelper from '../../helpers/indicator_helper';
 import votingCriteriaService from '../../services/votingCriteriaService';
 
-const iconSize = 80;
-const iconWrapperSize = 98;
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-console.log("windowWidth", windowWidth);
+import { getDeviceStyle } from '../../utils/responsive_util';
+import CriteriaRatingItemTabletStyles from './styles/tablet/CriteriaRatingItemStyle';
+import CriteriaRatingItemMobileStyles from './styles/mobile/CriteriaRatingItemStyle';
+
+const responsiveStyles = getDeviceStyle(CriteriaRatingItemTabletStyles, CriteriaRatingItemMobileStyles);
 
 export default class CriteriaRatingItem extends Component {
   static contextType = LocalizationContext;
@@ -73,36 +71,51 @@ export default class CriteriaRatingItem extends Component {
 
     let activeIconStyle = rating.value == this.state.currentScore ? { borderColor: Color.headerColor } : {};
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
-    let iconSizeRatio = iconSize * 0.8;
 
     const position = `${this.props.colIndex}${rowIndex}`;
 
     return (
-      <View style={[styles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
+      <View style={[responsiveStyles.ratingWrapper, activeIconStyle, activeBgStyle]} key={uuidv4()}>
         <TouchableOpacity
           onPress={() => this._onClickIcon(rating) }
-          style={{alignItems: 'center', marginBottom: 6}}>
+          style={responsiveStyles.ratingItemContainer}>
 
-          <View style={[styles.iconWrapper]}>
-            <Image source={Images[rating.image]} style={{width: iconSizeRatio, height: iconSizeRatio, maxWidth: iconSize, maxHeight: iconSize}} />
+          <View style={[responsiveStyles.iconWrapper]}>
+            <Image source={Images[rating.image]} style={responsiveStyles.ratingIcon} />
           </View>
 
-          <Text style={{fontSize: 16, color: '#22354c', textAlign: 'center'}}>{ratingLanguage.content}</Text>
+          { DeviceInfo.isTablet() &&
+            <Text style={responsiveStyles.ratingLabel}>{ratingLanguage.content}</Text>
+          }
         </TouchableOpacity>
 
         <View style={{flex: 1}}></View>
 
         <PlaySound
-          containerStyle={{borderRadius: 2, width: '90%', maxWidth: 100, flexDirection: 'row'}}
+          containerStyle={responsiveStyles.ratingPlaySoundContainer}
           filePath={ratingLanguage.local_audio}
           isLocal={true}
           onPress={() => this._onClickIcon(rating)}
           onSavePlayingAudio={() => votingCriteriaService.savePlayingCriteriaAudio(position)}
           position={position}
         >
-          <Text style={{marginRight: 8, color: '#fff'}}>{translations.listen}</Text>
+          <Text style={responsiveStyles.playSoundLabel}>{translations.listen}</Text>
         </PlaySound>
       </View>
+    )
+  }
+
+  _renderRatingLabel(rating, rowIndex) {
+    const { translations } = this.context;
+    const ratingLanguage = this._getLanguageRatingScale(rating.label);
+
+    return (
+      <Text style={responsiveStyles.ratingLabel}>
+        {rowIndex + 1} {ratingLanguage.content} 
+        { rowIndex < 4 &&
+          <Text style={{fontSize: 8}}> | </Text>
+        }
+      </Text>
     )
   }
 
@@ -111,11 +124,11 @@ export default class CriteriaRatingItem extends Component {
     let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria, this.state.scorecard);
 
     return (
-      <View style={{marginTop: 30}}>
+      <View style={responsiveStyles.ratingIndicatorContainer}>
         <Divider/>
 
-        <View style={{flexDirection: 'row', marginTop: 30, marginRight: 40}}>
-          <Text style={{fontSize: 18, fontFamily: FontFamily.title, textTransform: 'capitalize', marginRight: 10,}} numberOfLines={1}>
+        <View style={responsiveStyles.ratingIconContainer}>
+          <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
             { indicator.content || indicator.name}
           </Text>
 
@@ -124,7 +137,13 @@ export default class CriteriaRatingItem extends Component {
           </View>
         </View>
 
-        <View style={{flexDirection: 'row', marginTop: 20, marginHorizontal: -8}}>
+        { !DeviceInfo.isTablet() &&
+          <View style={{flexDirection: 'row', paddingLeft: 0, marginLeft: -4}}>
+            { ratings.map((rating, index) => this._renderRatingLabel(rating, index)) }
+          </View>
+        }
+
+        <View style={responsiveStyles.ratingListContainer}>
           { ratings.map((rating, index) => this._renderRatingIcon(rating, index)) }
         </View>
       </View>
@@ -135,23 +154,3 @@ export default class CriteriaRatingItem extends Component {
     return (this._renderRatingIcons());
   }
 }
-
-const styles = StyleSheet.create({
-  iconWrapper: {
-    marginBottom: 10,
-    width: iconWrapperSize,
-    height: iconWrapperSize,
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  ratingWrapper: {
-    alignItems: 'center',
-    flex: 1,
-    marginHorizontal: 8,
-    borderWidth: 4,
-    borderColor: '#ebebeb',
-    paddingBottom: 10,
-    borderRadius: 10
-  }
-})

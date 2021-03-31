@@ -19,6 +19,12 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
+import { getDeviceStyle, containerPaddingTop } from '../../utils/responsive_util';
+import VotingCriteriaFormTabletStyles from './styles/tablet/VotingCriteriaFormStyle';
+import VotingCriteriaFormMobileStyles from './styles/mobile/VotingCriteriaFormStyle';
+
+const responsiveStyles = getDeviceStyle(VotingCriteriaFormTabletStyles, VotingCriteriaFormMobileStyles);
+
 class VotingCriteriaForm extends Component {
   static contextType = LocalizationContext;
 
@@ -87,10 +93,10 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{padding: 16}}>
+      <ScrollView style={styles.container} contentContainerStyle={{padding: 16, paddingTop: getDeviceStyle(16, 10)}}>
         { this._renderParticipant() }
 
-        <Text style={{marginTop: 30, marginBottom: -10, fontSize: 20}}>{translations.pleaseSelect}</Text>
+        <Text style={responsiveStyles.title}>{translations.pleaseSelect}</Text>
 
         { this._renderCriteriaRatingList() }
       </ScrollView>
@@ -114,7 +120,7 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{padding: 20}}>
+      <View style={{padding: 20, paddingTop: containerPaddingTop}}>
         <BottomButton
           onPress={() => this._submit()}
           customBackgroundColor={Color.headerColor}

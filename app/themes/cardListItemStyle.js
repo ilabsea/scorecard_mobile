@@ -1,6 +1,10 @@
 import Color from '../themes/color';
 import { StyleSheet } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../assets/stylesheets/theme/font';
+
+import { getDeviceStyle } from '../utils/responsive_util';
+import { lgLabelSize } from '../constants/mobile_font_size_constant';
 
 const cardListItemStyle = StyleSheet.create({
   container: {
@@ -14,7 +18,7 @@ const cardListItemStyle = StyleSheet.create({
     fontFamily: FontFamily.title
   },
   h2: {
-    fontSize: 20,
+    fontSize: getDeviceStyle(20, wp(lgLabelSize)),
     color: '#3a3a3a',
     marginBottom: 6,
     fontFamily: FontFamily.title

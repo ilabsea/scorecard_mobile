@@ -10,6 +10,12 @@ import uuidv4 from '../../utils/uuidv4';
 
 import { participantTypes } from '../../constants/participant_constant';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import VotingInfoTabletStyles from './styles/tablet/VotingInfoStyle';
+import VotingInfoMobileStyles from './styles/mobile/VotingInfoStyle';
+
+const responsiveStyles = getDeviceStyle(VotingInfoTabletStyles, VotingInfoMobileStyles);
+
 class VotingParticipantInfo extends Component {
   static contextType = LocalizationContext;
 
@@ -22,8 +28,8 @@ class VotingParticipantInfo extends Component {
         <View key={uuidv4()}
           style={{flexDirection: 'row'}}
         >
-          <Text style={{ fontSize: 13 }}>{ participantType }</Text>
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}> ({ votingScore } {translations.pax})</Text>
+          <Text style={responsiveStyles.participantTypeText}>{ participantType }</Text>
+          <Text style={responsiveStyles.participantNumberText}> ({ votingScore } {translations.pax})</Text>
 
           { index < participantTypes.length -1 &&
             <Text key={uuidv4()} style={{marginTop: -3}}> | </Text>
@@ -59,7 +65,7 @@ class VotingParticipantInfo extends Component {
 
     return (
       <View style={{marginBottom: 40}}>
-        <Text style={{marginBottom: 5, fontFamily: FontFamily.title, fontSize: 18}}>
+        <Text style={[{marginBottom: 5, fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.numberOfVotedParticipant }: {Participant.getVoted(this.props.scorecard.uuid).length} {translations.pax} 
         </Text>
         <View style={{flexDirection: 'row', paddingHorizontal: 10}}>

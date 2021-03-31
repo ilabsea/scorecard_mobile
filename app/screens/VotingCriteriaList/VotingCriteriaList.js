@@ -7,6 +7,7 @@ import {
 
 import { Icon, Button, Text } from 'native-base';
 import { connect } from 'react-redux';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
@@ -24,6 +25,9 @@ import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
 import tips from '../../db/jsons/tips';
 
+
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { xlLabelSize } from '../../constants/mobile_font_size_constant';
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
 
@@ -134,10 +138,10 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: containerPadding,
   },
   h1: {
-    fontSize: 24,
+    fontSize: getDeviceStyle(24, wp(xlLabelSize)),
     fontFamily: FontFamily.title,
     marginBottom: 20
   }

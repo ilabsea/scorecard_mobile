@@ -7,11 +7,9 @@ import {
   Image,
 } from 'react-native';
 
-import styles from './styles/votingCriteriaListItemStyle';
 import { LocalizationContext } from '../../components/Translations';
 import VotingInfoModal from './VotingInfoModal';
 import { Icon } from 'native-base';
-import Color from '../../themes/color';
 import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 import uuidv4 from '../../utils/uuidv4';
@@ -23,6 +21,12 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import { getVotingInfos } from '../../helpers/voting_criteria_helper';
 
 import CriteriaImage from '../IndicatorDevelopment/CriteriaImage';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import VotingCriteriaListItemTabletStyles from './styles/tablet/VotingCriteriaListItemStyle';
+import VotingCriteriaListItemMobileStyles from './styles/mobile/VotingCriteriaListItemStyle';
+
+const styles = getDeviceStyle(VotingCriteriaListItemTabletStyles, VotingCriteriaListItemMobileStyles);
 
 export default class VotingCriteriaListItem extends Component {
   static contextType = LocalizationContext;
@@ -58,9 +62,11 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   _renderRatingIcon(icon) {
+    const iconSize = getDeviceStyle(28, 20);
+
     return (
-      <View key={uuidv4()} style={[styles.ratingItem, { width: 50 }]}>
-        { this._renderIcon(icon, 28) }
+      <View key={uuidv4()} style={[styles.ratingItem]}>
+        { this._renderIcon(icon, iconSize) }
 
         <Text style={styles.ratingCount}>{this.props.criteria[icon.countMethodName]}</Text>
       </View>
@@ -71,7 +77,7 @@ export default class VotingCriteriaListItem extends Component {
     let icons = ratings;
 
     return (
-      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+      <View style={styles.ratingIconContainer}>
         { icons.map(icon => this._renderRatingIcon(icon)) }
       </View>
     )
@@ -84,13 +90,14 @@ export default class VotingCriteriaListItem extends Component {
     if (!criteria.median) { return (null) }
 
     let currentIcon = ratings.filter(x => x.value == criteria.median)[0];
+    const iconSize = getDeviceStyle(56, 38);
 
     return (
       <View style={styles.resultWrapper}>
-        <Text style={{fontSize: 14}}>{translations.score}: {criteria.median}</Text>
+        <Text style={styles.medianScoreText}>{translations.score}: {criteria.median}</Text>
 
         <View style={{alignItems: 'center'}}>
-          { this._renderIcon(currentIcon, 56) }
+          { this._renderIcon(currentIcon, iconSize) }
           <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
         </View>
       </View>
@@ -101,14 +108,16 @@ export default class VotingCriteriaListItem extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={[cardListItemStyle.contentWrapper, { padding: 10}]}>
-        <Text style={[cardListItemStyle.h2, styles.capitalize]} numberOfLines={1}>{indicator.content || indicator.name}</Text>
+      <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingRight: 0, position: 'relative'}]}>
+        <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
+          {indicator.content || indicator.name}
+        </Text>
 
         { this._renderRatingIcons() }
 
-        <View style={{borderWidth: 0, marginTop: 10, justifyContent: 'flex-end', flexDirection: 'row'}}>
-          <Text style={{fontSize: 15, color: Color.headerColor}}>{ translations.viewDetail }</Text>
-          <Icon name="chevron-forward-outline" style={{ fontSize: 24, color: Color.headerColor }}/>
+        <View style={styles.viewMoreContainer}>
+          <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
+          <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
         </View>
       </View>
     );
@@ -131,7 +140,7 @@ export default class VotingCriteriaListItem extends Component {
 
     return (
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
-        <View style={[customStyle.card, {height: 140, marginBottom: 20, flexDirection: 'row',}]}>
+        <View style={[customStyle.card, styles.ratingItemContainer]}>
           { this._renderAvatar(scorecard, indicator) }
           { this._renderContent(indicator) }
           { this._renderMedian() }
