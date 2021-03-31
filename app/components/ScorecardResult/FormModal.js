@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
-  StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
@@ -14,8 +13,6 @@ import { useDispatch } from 'react-redux';
 import { LocalizationContext } from '../Translations';
 import { getAll } from '../../actions/votingCriteriaAction';
 
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
 import OutlinedButton from '../OutlinedButton';
@@ -23,9 +20,16 @@ import ScorecardResultTextInput from './ScorecardResultTextInput';
 
 import realm from '../../db/schema';
 
+import { english } from '../../constants/locale_constant';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import FormModalTabletStyles from './styles/tablet/FormModalStyle';
+import FormModalMobileStyles from './styles/mobile/FormModalStyle';
+
+const styles = getDeviceStyle(FormModalTabletStyles, FormModalMobileStyles);
+
 const FormModal = (props) => {
   const dispatch = useDispatch();
-  const { translations } = useContext(LocalizationContext);
+  const { translations, appLanguage } = useContext(LocalizationContext);
   const { criteria, visible, selectedIndicator } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
@@ -90,7 +94,7 @@ const FormModal = (props) => {
       let fieldName = `note-${index}`;
       return (
         <View key={index} style={{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold', marginRight: 20}}>{ index + 1 }.</Text>
+          <Text style={styles.orderNumberText}>{ index + 1 }.</Text>
           <View style={{flex: 1}}>
             <ScorecardResultTextInput
               autoFocus={true}
@@ -98,14 +102,14 @@ const FormModal = (props) => {
               placeholder={translations[criteria.currentFieldName]}
               fieldName={fieldName}
               onChangeText={onChangeText}
-              customStyle={{marginTop: 0, borderWidth: 0}}/>
+              customStyle={styles.inputText}/>
           </View>
 
           <TouchableOpacity
             onPress={() => deletePoint(index)}
-            style={{marginLeft: 20}}
+            style={styles.btnRemove}
             hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-            <Icon name='trash' type="FontAwesome" style={{color: 'red', fontSize: 22}} />
+            <Icon name='trash' type="FontAwesome" style={styles.removeIcon} />
           </TouchableOpacity>
         </View>
       )
@@ -124,12 +128,17 @@ const FormModal = (props) => {
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{flex: 1, backgroundColor: 'white'}}>
-            <View style={{flexDirection: 'row', marginBottom: 20}}>
-              <View style={{flex: 1, paddingRight: 35}}>
-                <Text numberOfLines={1} style={{fontSize: 24, fontFamily: FontFamily.title, marginBottom: 10}}>
+            <View style={styles.headerContainer}>
+              <View style={styles.titleContainer}>
+                <Text numberOfLines={1} style={styles.titleText}>
                   { _renderIndicatorName() }
                 </Text>
-                <Text>{translations.insert}{translations[criteria.currentFieldName]}</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.subTitleText}>{translations.insert}</Text>
+                  <Text style={[styles.subTitleText, {textTransform: 'lowercase'}, appLanguage == english ? { marginLeft: 4 } : {}]}>
+                    {translations[criteria.currentFieldName]}
+                  </Text>
+                </View>
               </View>
 
               <OutlinedButton
@@ -158,18 +167,3 @@ const FormModal = (props) => {
 }
 
 export default FormModal;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 20,
-    minHeight: 590,
-    marginHorizontal: 30,
-    justifyContent: 'flex-start'
-  },
-  btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 20
-  },
-});
