@@ -16,7 +16,7 @@ import {
 import { HeaderBackButton } from '@react-navigation/stack';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
-import { getDeviceStyle } from '../utils/responsive_util';
+import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import BigHeaderTabletStyles from './styles/tablet/BigHeaderStyle';
 import BigHeaderMobileStyles from './styles/mobile/BigHeaderStyle';
 
@@ -36,7 +36,7 @@ export default class BigHeader extends React.Component {
           </Left>
 
           <Body>
-            <Title>{this.props.title}</Title>
+            <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{this.props.title}</Title>
           </Body>
         </View>
 
