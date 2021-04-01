@@ -84,12 +84,6 @@ class NewScorecard extends Component {
   };
 
   joinScorecard = async () => {
-    const { translations } = this.context;
-    if (!this.state.hasInternetConnection) {
-      internetConnectionService.showAlertMessage(translations.noInternetConnection,);
-      return;
-    }
-
     const isAuthenticated = await authenticationFormService.isAuthenticated();
 
     if (!isAuthenticated) {
