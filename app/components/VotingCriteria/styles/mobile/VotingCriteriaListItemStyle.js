@@ -6,7 +6,6 @@ import { getDeviceStyle } from '../../../../utils/responsive_util';
 
 const votingCriteriaListItemStyle = StyleSheet.create({
   ratingItemContainer: {
-    height: 105,
     marginBottom: 10,
     flexDirection: 'row'
   },
@@ -62,12 +61,16 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     color: 'gray',
   },
   viewMoreContainer: {
-    borderWidth: 0,
-    position: 'absolute',
-    right: 10,
-    bottom: 4,
     justifyContent: 'flex-end',
     flexDirection: 'row',
+    borderTopWidth: 1,
+    width: '100%',
+    borderTopColor: Color.borderColor,
+    paddingTop: 4,
+    alignItems: 'center',
+    marginTop: 10,
+    paddingRight: 10,
+    marginBottom: -12
   },
   viewMoreLabel: {
     fontSize: wp(smLabelSize),

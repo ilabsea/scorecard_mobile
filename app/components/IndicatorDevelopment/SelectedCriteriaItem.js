@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  // StyleSheet,
-  // Text,
-  // ImageBackground,
 } from 'react-native';
 
 import { Button } from 'react-native-paper';
@@ -12,15 +9,12 @@ import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { addToProposed } from '../../actions/proposedCriteriaAction';
 
 import { LocalizationContext } from '../Translations';
-// import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import styles from '../../themes/scorecardListItemStyle';
-// import PlaySound from '../VotingCriteria/PlaySound';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import Scorecard from '../../models/Scorecard';
 
 import CriteriaTitle from './CriteriaTitle';
-import CriteriaImage from './CriteriaImage';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SelectedCriteriaItemTabletStyles from './styles/tablet/SelectedCriteriaItemStyle';
@@ -40,18 +34,6 @@ class SelectedCriteriaItem extends Component {
     };
   }
 
-  renderImage() {
-    const { indicator } = this.state;
-
-    return (
-      <CriteriaImage
-        indicator={indicator}
-        width='100%'
-        height='100%'
-      />
-    )
-  }
-
   handleCriteria() {
     this.props.removeFromSelected(this.props.criteria);
     this.props.addToProposed(this.props.criteria);
@@ -62,15 +44,15 @@ class SelectedCriteriaItem extends Component {
 
     return (
       <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
-        { this.renderImage() }
-
-        <View style={styles.contentWrapper}>
+        <View style={[styles.contentWrapper, {paddingLeft: 0}]}>
 
           <CriteriaTitle
             title={this.state.indicator.content}
             subText={translations.raisedTimes}
             criteriaCount={this.props.criteria.count}
             indicator={this.state.indicator}
+            customSubTextStyle={{marginTop: -5}}
+            customContainerStyle={{paddingLeft: 10}}
           />
 
           <View style={{flex: 1}}></View>
