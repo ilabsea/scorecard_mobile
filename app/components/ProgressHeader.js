@@ -17,6 +17,7 @@ import {
   StyleProvider,
   Button,
 } from "native-base";
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import getTheme from '../themes/components';
 import material from '../themes/variables/material';
@@ -24,7 +25,7 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import ProgressStep from '../components/ProgressStep';
 import MessageModal from './MessageModal';
 import { LocalizationContext } from './Translations';
-import { getDeviceStyle } from '../utils/responsive_util';
+import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 
 export default class BigHeader extends React.Component {
   static contextType = LocalizationContext;
@@ -57,12 +58,12 @@ export default class BigHeader extends React.Component {
           </Left>
 
           <Body>
-            <Title>{this.props.title}</Title>
+            <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{this.props.title}</Title>
           </Body>
 
           <View>
             <Button transparent onPress={() => this.setState({ visibleModal: true })}>
-              <Icon name='home' />
+              <Icon name='home' style={{fontSize: getDeviceStyle(24, wp('6%')), marginTop: -3}} />
             </Button>
           </View>
         </View>

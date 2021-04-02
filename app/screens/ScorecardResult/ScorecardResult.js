@@ -5,6 +5,8 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
@@ -20,10 +22,13 @@ import Tip from '../../components/Tip';
 
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
+import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import Scorecard from '../../models/Scorecard';
+
+import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -78,6 +83,15 @@ class ScorecardResult extends Component {
     )
   }
 
+  _renderAccordion() {
+    return (
+      <ScorecardResultAccordion
+        criterias={this.props.criterias}
+        onPress={(criteria, fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
+      />
+    )
+  }
+
   _handleShowModal(criteria, fieldName, indicator) {
     this.setState({
       currentCriteria: Object.assign({currentFieldName: fieldName}, criteria),
@@ -107,7 +121,7 @@ class ScorecardResult extends Component {
               <Text style={styles.h1}>{ translations.scorecardResult }</Text>
             </View>
 
-            { this._renderTable() }
+            { !DeviceInfo.isTablet() ? this._renderAccordion() : this._renderTable() }
           </View>
         </ScrollView>
 
@@ -164,7 +178,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   h1: {
-    fontSize: 24,
+    fontSize: getDeviceStyle(24, mobileHeadingTitleSize()),
     fontFamily: FontFamily.title,
   },
   head: {
