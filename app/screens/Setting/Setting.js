@@ -29,6 +29,12 @@ import SessionApi from '../../api/SessionApi';
 
 import pkg from '../../../package';
 
+import { getDeviceStyle } from '../../utils/responsive_util';
+import SettingStyleTabletStyles from './styles/tablet/SettingStyle';
+import SettingStyleMobileStyles from './styles/mobile/SettingStyle';
+
+const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
+
 class Setting extends Component {
   static contextType = LocalizationContext;
 
@@ -187,7 +193,7 @@ class Setting extends Component {
       <MessageLabel
         message={translations[errorMsg]}
         type={messageType}
-        customStyle={{marginTop: 120}}
+        customStyle={responsiveStyles.messageContainer}
       />
     );
   }
@@ -226,8 +232,9 @@ class Setting extends Component {
             label={translations['save']}
             onPress={() => this.save()}
             isDisabled={this.state.isLoading}
+            customLabelStyle={responsiveStyles.textLabel}
           />
-          <Text style={{textAlign: 'center', marginTop: 10}}>{translations.version} { pkg.version }</Text>
+          <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>
 
           <MessageModal
             visible={this.state.visibleModal}
