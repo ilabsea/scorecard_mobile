@@ -17,9 +17,14 @@ import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 
 import { ProgressBar } from 'react-native-paper';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { connect } from 'react-redux';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ScorecardProgressTabletStyles from './styles/tablet/ScorecardProgressStyle';
+import ScorecardProgressMobileStyles from './styles/mobile/ScorecardProgressStyle';
+
+const responsiveStyles = getDeviceStyle(ScorecardProgressTabletStyles, ScorecardProgressMobileStyles);
 
 class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
@@ -113,11 +118,11 @@ class ScorecardProgress extends Component {
       <TouchableOpacity
         disabled={isDisable}
         onPress={() => this.submitToServer() }
-        style={[styles.btn, btnStyle]}>
+        style={[responsiveStyles.btn, btnStyle]}>
 
-        <Text style={{color: '#fff', fontSize: 20}}>{translations['submit']}</Text>
+        <Text style={responsiveStyles.btnText}>{translations['submit']}</Text>
         { this.state.scorecard.isUploaded &&
-          <Icon name={'lock-closed'}  style={{position: 'absolute', right: 6, color: '#fff'}}/>
+          <Icon name={'lock-closed'}  style={responsiveStyles.lockIcon}/>
         }
       </TouchableOpacity>
     )
@@ -127,13 +132,13 @@ class ScorecardProgress extends Component {
     if (this.state.showProgress) {
       return (
         <View>
-          <Text style={styles.uploadPercentageLabel}>
+          <Text style={responsiveStyles.uploadPercentageLabel}>
             {Math.ceil(this.state.progressPercentag * 100)}%
           </Text>
           <ProgressBar
             progress={this.state.progressPercentag}
             color={Color.headerColor}
-            style={styles.progressBar}
+            style={responsiveStyles.progressBar}
             visible={ this.state.showProgress }
           />
         </View>
@@ -154,8 +159,8 @@ class ScorecardProgress extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{padding: 20}}>
-          <Text style={{fontSize: 24, fontFamily: FontFamily.title, lineHeight: 40, marginBottom: 16}}>{ translations.step }: {this.state.scorecard.status} / 5</Text>
+        <ScrollView contentContainerStyle={responsiveStyles.container}>
+          <Text style={responsiveStyles.title}>{ translations.step }: {this.state.scorecard.status} / 5</Text>
 
           <VerticalProgressStep
             progressIndex={this.state.scorecard.status || 3}
@@ -206,14 +211,6 @@ export default connect(
 )(ScorecardProgress);
 
 const styles = StyleSheet.create({
-  btn: {
-    backgroundColor: Color.headerColor,
-    borderRadius: 8,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row'
-  },
   btnDisabled: {
     backgroundColor: Color.disabledBtnBg,
   },
@@ -230,17 +227,4 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center'
   },
-  progressBar: {
-    height: 30,
-    backgroundColor: '#e6e7e9',
-    marginBottom: 20,
-  },
-  uploadPercentageLabel: {
-    textAlign: 'center',
-    zIndex: 1,
-    marginTop: 4,
-    left: '48%',
-    position: 'absolute',
-    fontWeight: 'bold',
-  }
 })
