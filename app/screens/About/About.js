@@ -1,23 +1,32 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../../components/Translations';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import pkg from '../../../package';
+
+import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
+import AboutTabletStyles from './styles/tablet/AboutStyle';
+import AboutMobileStyles from './styles/mobile/AboutStyle';
+
+const styles = getDeviceStyle(AboutTabletStyles, AboutMobileStyles);
 
 class About extends Component {
   static contextType = LocalizationContext;
 
   buildLogo(logo, index) {
-    let height = 50;
-    let width = (logo.width * 44)/height;
+    let mobileHeight = isShortWidthScreen() ? wp('18%') : wp('15%');
+    let height = getDeviceStyle(50, mobileHeight);
+    let ratio = getDeviceStyle(44, wp('11.5%'))
+    let width = (logo.width * ratio)/height;
+    const logoMargin = getDeviceStyle(10, 4);
 
     return (
       <TouchableOpacity style={{borderRadius: 30, padding: 6, borderWidth: 0}} key={index}
         onPress={() => Linking.openURL(logo.url)}
       >
-        <Image source={logo.source} style={[{width: width, height: height}, logo.style, { marginHorizontal: 10 }]} resizeMode="contain" />
+        <Image source={logo.source} style={[{width: width, height: height, marginHorizontal: logoMargin}, logo.style]} resizeMode="contain" />
       </TouchableOpacity>
     )
   }
@@ -47,19 +56,19 @@ class About extends Component {
     ]
 
     return (
-      <View style={{marginTop: 40, alignItems: 'center'}}>
+      <View style={styles.logoContainer}>
         <Text style={styles.logoTitle}>គាំទ្រមូលនិធិដោយ / Funded by</Text>
         <TouchableOpacity onPress={() => {Linking.openURL('https://eeas.europa.eu/delegations/cambodia_en')}}>
-          <Image source={require('../../assets/images/home/eu.png')} style={{width: 125, height: 125, marginBottom: 50, marginTop: 10}} />
+          <Image source={require('../../assets/images/home/eu.png')} style={styles.euLogo} />
         </TouchableOpacity>
 
         <Text style={styles.logoTitle}>អនុវត្តដោយ / Implemented by</Text>
-        <View style={{flexDirection: 'row', marginTop: 14}}>
+        <View style={styles.implementedLogoContainer}>
           { logos.map((logo, index) => this.buildLogo(logo, index)) }
         </View>
 
         <View style={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginTop: 26}}>
-          <Text style={{textAlign: 'center', marginTop: 10}}>{translations.version} { pkg.version }</Text>
+          <Text style={styles.versionText}>{translations.version} { pkg.version }</Text>
         </View>
       </View>
     );
@@ -70,14 +79,14 @@ class About extends Component {
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>ប័ណ្ណដាក់ពិន្ទុសហគមន៍</Text>
-          <Text style={[styles.title, {marginTop: 5, fontSize: 20}]}>Community Scorecard</Text>
+          <Text style={[styles.title, styles.englishTitle]}>Community Scorecard</Text>
 
-          <Text style={{marginTop: 50, textAlign: 'center'}}>
+          <Text style={styles.khmerText}>
             កម្មវិធីប័ណ្ណដាក់ពិន្ទុឌីជីថល ត្រូវបានបង្កើតឡើងដោយមានការគាំទ្រមូលនិធិពីសហភាពអឺរ៉ុប អនុវត្តដោយអង្គការឃែរកម្ពុជា
             វិទ្យាស្ថានគោលនយោបាយនិងតស៊ូមតិ និងអង្គការ InSTEDD នៃគម្រោង “គាំទ្រការចូលរួមរបស់ប្រជាពលរដ្ឋប្រកបដោយអត្ថន័យតាមរយៈការប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថល
             ដើម្បីធ្វើឱ្យប្រសើរឡើងនូវគណនេយ្យភាពសង្គម (Ref: ISAF-II)“។ ប្រជាពលរដ្ឋ អង្គការដៃគូ និងមន្រ្តីរដ្ឋាភិបាលប្រើប្រាស់កម្មវិធីនេះដើម្បីលើកកម្ពស់ការចូលរួម និងកិច្ចជជែកពិភាក្សារបស់ពួកគេ ក្នុងការធ្វើឱ្យប្រសើរឡើងនូវសេវាសាធារណៈ។
           </Text>
-          <Text style={{marginTop: 20, textAlign: 'center'}}>
+          <Text style={styles.englishText}>
             The digitised scorecard app development is funded by the EU, implemented by CARE,
             API and InSTEDD iLab SEA under the project “supports civic engagement and improves
             social accountability by leveraging digital technologies (Re: ISAF-II)“.
@@ -91,23 +100,5 @@ class About extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    paddingHorizontal: 22
-  },
-  logoTitle: {
-    fontSize: 18,
-    fontFamily: FontFamily.body
-  },
-  title: {
-    fontSize: 25,
-    fontFamily: FontFamily.title,
-    marginTop: 30,
-    textAlign: 'center',
-  }
-});
 
 export default About;

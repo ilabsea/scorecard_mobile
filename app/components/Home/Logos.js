@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { LocalizationContext } from '../../components/Translations';
 
 import {
-  StyleSheet,
   View,
   Image,
   Text,
 } from "react-native";
-
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import LogosTabletStyles from './styles/tablet/LogosStyle';
