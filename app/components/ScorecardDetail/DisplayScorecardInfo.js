@@ -5,12 +5,18 @@ import { normalLabelSize } from '../../utils/responsive_util';
 
 class DisplayScorecardInfo extends Component {
   static contextType = LocalizationContext;
+
+  getFieldValueByLanguage = (fieldData, appLanguage) => {
+    const attrs = JSON.parse(fieldData);
+    return appLanguage == 'km' ? attrs.name_km : attrs.name_en;
+  }
+
   render() {
     const {translations, appLanguage} = this.context;
     const {scorecardDetail} = this.props;
     const renderFields = [
       {label: 'year', fieldName: 'year'},
-      {label: 'unitType', fieldName: 'unit_type'},
+      {label: 'facility', fieldName: 'facility'},
       {label: 'scorecardType', fieldName: 'scorecard_type'},
       {label: 'province', fieldName: 'province'},
       {label: 'district', fieldName: 'district'},
@@ -30,10 +36,11 @@ class DisplayScorecardInfo extends Component {
         value = translations[scorecardDetail[renderField.fieldName]]
       }
 
-      if (renderField.label == 'primarySchool') {
-        const primarySchool = JSON.parse(scorecardDetail.primary_school);
-        value = appLanguage == 'km' ? primarySchool.name_km : primarySchool.name_en;
-      }
+      if (renderField.label == 'primarySchool')
+        value = this.getFieldValueByLanguage(scorecardDetail.primary_school, appLanguage);
+
+      if (renderField.label == 'facility')
+        value = value = this.getFieldValueByLanguage(scorecardDetail.facility, appLanguage);
 
       return (
         <TextInput
