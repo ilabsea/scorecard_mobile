@@ -33,7 +33,7 @@ import Color from '../themes/color';
 import { LocalizationContext } from '../components/Translations';
 import SettingMenu from '../components/Home/SettingMenu';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
-import { getDeviceStyle } from '../utils/responsive_util';
+import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import { lgLabelSize } from '../constants/mobile_font_size_constant';
 
 const Stack = createStackNavigator();
@@ -53,7 +53,9 @@ function AppNavigator() {
           backgroundColor: Color.headerColor,
         },
         headerTitleStyle: {
-          fontFamily: FontFamily.title
+          fontFamily: FontFamily.title,
+          fontSize: getDeviceStyle(20, mobileHeadingTitleSize()),
+          marginTop: getDeviceStyle(0, 2),
         },
         headerTintColor: 'white',
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
