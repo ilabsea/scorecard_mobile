@@ -192,7 +192,7 @@ class CriteriaSelection extends Component {
         ref={ref => (this.scrollViewRef = ref)}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10}}>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10, marginTop: 10}}>
           {doms}
         </View>
       </ScrollView>

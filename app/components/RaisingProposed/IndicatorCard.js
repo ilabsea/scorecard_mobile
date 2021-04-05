@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './styles/CriteriaSelectionStyle';
@@ -36,12 +36,11 @@ class IndicatorCard extends Component {
       <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.props.selectIndicator(index)}>
-          <View style={[styles.iconContainer, iconContainerStyle]}>
-            { !isAddNewCriteriaIndex && !!indicator.local_image &&
-              <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={styles.indicatorImage} resizeMode='contain' />
-            }
-            { isAddNewCriteriaIndex && <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />}
-          </View>
+          { isAddNewCriteriaIndex && 
+            <View style={[styles.iconContainer, iconContainerStyle]}>
+              <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />
+            </View>
+          }
 
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: normalLabelSize}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>

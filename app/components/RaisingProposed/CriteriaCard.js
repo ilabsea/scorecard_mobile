@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import IndicatorService from '../../services/indicator_service';
 import {LocalizationContext} from '../Translations';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -14,32 +13,11 @@ const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProp
 class CriteriaCard extends Component {
   static contextType = LocalizationContext;
 
-  renderCriteriaImage = () => {
-    const indicatorService = new IndicatorService();
-    const indicator = this.props.criteria.indicatorable_type === 'predefined' ? indicatorService.find(this.props.criteria.indicatorable_id) : null;
-
-    if (indicator && indicator.local_image)
-      return (
-        <ImageBackground source={{uri: `file://${indicator.local_image}`}} style={{width: '100%', height: '100%'}} resizeMode='contain' />
-      );
-
-    return <View style={styles.blankContainer}/>
-  }
-
   render() {
     const {translations} = this.context;
     const {criteria, criteriaName, index} = this.props;
     return (
       <View key={index} style={styles.criteriaCardContainer}>
-        <View style={styles.iconContainer}>
-          {index === 0 &&
-            <View style={[styles.blankContainer, { justifyContent: 'center', alignItems: 'center' }]}>
-              <MaterialIcon name={criteria.shortcut} size={24} color="#787878" />
-            </View>
-          }
-
-          {index > 0 && this.renderCriteriaImage()}
-        </View>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.criteriaLabel}>{criteriaName}</Text>
           <View style={{flexDirection: 'row', marginTop: 12}}>
@@ -79,6 +57,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 15,
     width: 120,
+    height: 75,
   },
   criteriaLabel: {
     color: '#7f7f7f',

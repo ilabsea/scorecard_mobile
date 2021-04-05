@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import { LocalizationContext } from '../../components/Translations';
 import VotingInfoModal from './VotingInfoModal';
@@ -19,8 +20,6 @@ import ratings from '../../db/jsons/ratings';
 import { Median } from '../../utils/math';
 import indicatorHelper from '../../helpers/indicator_helper';
 import { getVotingInfos } from '../../helpers/voting_criteria_helper';
-
-import CriteriaImage from '../IndicatorDevelopment/CriteriaImage';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingCriteriaListItemTabletStyles from './styles/tablet/VotingCriteriaListItemStyle';
@@ -39,18 +38,6 @@ export default class VotingCriteriaListItem extends Component {
       votingInfos: [],
       selectedIndicator: null,
     };
-  }
-
-  _renderAvatar(scorecard, indicator) {
-    let bgStyle = !!indicator.local_image ? { backgroundColor: 'transparent' } : {};
-
-    return (
-      <CriteriaImage
-        indicator={indicator}
-        width='100%'
-        height='100%'
-      />
-    )
   }
 
   _renderIcon(icon, size) {
@@ -106,19 +93,27 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderContent(indicator) {
     const { translations } = this.context;
+    let containerDirectionStyle = !this.props.criteria.median && DeviceInfo.isTablet() ? { flexDirection: 'row' } : {};
+    let viewMoreContainerStyle = !this.props.criteria.median ? styles.viewMoreContainer : styles.borderedViewMoreContainer;
+    if (!DeviceInfo.isTablet())
+      viewMoreContainerStyle = styles.viewMoreContainer;
 
     return (
-      <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingRight: 0, position: 'relative'}]}>
-        <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
-          {indicator.content || indicator.name}
-        </Text>
+      <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingTop: 10, paddingBottom: 16, paddingRight: 0}, containerDirectionStyle]}>
+        <View style={{flex: 1}}>
+          <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
+            {indicator.content || indicator.name}
+          </Text>
 
-        { this._renderRatingIcons() }
-
-        <View style={styles.viewMoreContainer}>
-          <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
-          <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
+          { this._renderRatingIcons() }
         </View>
+
+        { this.props.criteria.median &&
+          <View style={viewMoreContainerStyle}>
+            <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
+            <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
+          </View>
+        }
       </View>
     );
   }
@@ -141,7 +136,6 @@ export default class VotingCriteriaListItem extends Component {
     return (
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
         <View style={[customStyle.card, styles.ratingItemContainer]}>
-          { this._renderAvatar(scorecard, indicator) }
           { this._renderContent(indicator) }
           { this._renderMedian() }
 

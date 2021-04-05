@@ -150,7 +150,7 @@ const _downloadIndicator = (scorecard, audioLocale, updateDownloadProgress, erro
         audioLocale,
       };
 
-      _downloadSuccess(options, updateDownloadProgress, errorCallback, _downloadIndicatorImage);
+      _downloadSuccess(options, updateDownloadProgress, errorCallback, downloadLangIndicatorAudio);
     },
     errorCallback
   );

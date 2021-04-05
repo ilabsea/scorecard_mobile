@@ -3,18 +3,12 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Text,
-  ImageBackground,
 } from 'react-native';
 
-import { Icon } from 'native-base';
-import { Button } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import indicatorHelper from '../../helpers/indicator_helper';
 import itemStyles from '../../themes/scorecardListItemStyle';
-import PlaySound from '../VotingCriteria/PlaySound';
 import Color from '../../themes/color';
-import CustomStyle from '../../themes/customStyle';
 import Scorecard from '../../models/Scorecard';
 
 import CriteriaTitle from './CriteriaTitle';
@@ -79,14 +73,13 @@ class ProposedCriteriaItem extends Component {
         onPress={ () => this.handleSelected() }
         style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight()}]}>
 
-        { this.renderShortcutLabel() }
-
         <CriteriaTitle
           title={this.state.indicator.content}
           subText={translations.raisedTimes}
           criteriaCount={this.props.criteria.count}
           indicator={this.state.indicator}
-          customContainerStyle={itemStyles.contentWrapper}
+          customContainerStyle={[itemStyles.contentWrapper, {paddingLeft: 10}]}
+          customSubTextStyle={{marginTop: -5}}
         />
       </TouchableOpacity>
     )

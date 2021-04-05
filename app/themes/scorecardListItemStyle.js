@@ -47,7 +47,7 @@ const ListItemStyle = StyleSheet.create({
   listItem: {
     maxHeight: 160,
     backgroundColor: '#fff',
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 4,
     flexDirection: 'row',
   },

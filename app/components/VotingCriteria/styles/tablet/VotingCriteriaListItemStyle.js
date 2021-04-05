@@ -3,9 +3,8 @@ import Color from '../../../../themes/color';
 
 const votingCriteriaListItemStyle = StyleSheet.create({
   ratingItemContainer: {
-    height: 140,
     marginBottom: 20,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   ratingIconContainer: {
     flexDirection: 'row',
@@ -21,7 +20,7 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     paddingLeft: 6,
-    marginTop: 6
+    marginTop: 6,
   },
   ratingCount: {
     fontWeight: 'bold',
@@ -57,23 +56,34 @@ const votingCriteriaListItemStyle = StyleSheet.create({
     color: 'gray',
   },
   viewMoreContainer: {
-    borderWidth: 0,
-    position: 'absolute',
-    right: 10,
-    bottom: 4,
     justifyContent: 'flex-end',
     flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 10,
+    paddingTop: 10
+  },
+  borderedViewMoreContainer: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    width: '100%',
+    borderTopColor: Color.borderColor,
+    paddingTop: 6,
+    alignItems: 'center',
+    marginTop: 10,
+    paddingRight: 10,
+    marginBottom: -10
   },
   viewMoreLabel: {
     fontSize: 15,
-    color: Color.headerColor
+    color: Color.headerColor,
   },
   viewMoreIcon: {
     fontSize: 24,
     color: Color.headerColor,
   },
   indicatorNameLabel: {
-    paddingRight: 10
+    paddingRight: 10,
   }
 });
 
