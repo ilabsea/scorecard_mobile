@@ -9,6 +9,9 @@ import { save as saveRatingScale }  from './rating_scale_service';
 
 import { LanguageIndicatorService } from './language_indicator_service';
 import { LanguageRatingScaleService } from './language_rating_scale_service';
+import ScorecardService from './scorecardService';
+
+import { DOWNLOADED } from '../constants/milestone_constant';
 
 
 const find = (scorecardUuid) => {
@@ -220,6 +223,13 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
 
     if (downloadNextPhase)
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
+    else {
+      const attrs = {
+        scorecard: { milestone: DOWNLOADED }
+      };
+      const scorecardService = new ScorecardService();
+      scorecardService.updateMilestone(scorecard.uuid, attrs, DOWNLOADED);
+    }
   }
 }
 

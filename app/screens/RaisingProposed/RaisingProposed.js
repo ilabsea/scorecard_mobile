@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
+import proposedCriteriaService from '../../services/proposedCriteriaService';
+import internetConnectionService from '../../services/internet_connection_service';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -16,12 +18,22 @@ class RaisingProposed extends Component {
   constructor(props) {
     super(props);
 
+    this.hasInternetConnection = false;
     let scorecard = Scorecard.find(props.route.params.scorecard_uuid);
 
     if (scorecard.status < 2) {
       Scorecard.update(scorecard.uuid, {status: '2'});
       props.setCurrentScorecard(scorecard);
     }
+  }
+
+  componentDidMount() {
+    internetConnectionService.watchConnection((hasConnection) => {
+      this.hasInternetConnection = hasConnection;
+    });
+
+    if (this.hasInternetConnection)
+      proposedCriteriaService.updateMilestone(this.props.route.params.scorecard_uuid);
   }
 
   render() {
