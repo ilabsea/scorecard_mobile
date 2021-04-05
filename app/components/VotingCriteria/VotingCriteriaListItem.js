@@ -108,10 +108,12 @@ export default class VotingCriteriaListItem extends Component {
           { this._renderRatingIcons() }
         </View>
 
-        <View style={viewMoreContainerStyle}>
-          <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
-          <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
-        </View>
+        { this.props.criteria.median &&
+          <View style={viewMoreContainerStyle}>
+            <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
+            <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
+          </View>
+        }
       </View>
     );
   }

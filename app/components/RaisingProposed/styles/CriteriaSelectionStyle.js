@@ -11,7 +11,7 @@ const CriteriaSelectionStyles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 2,
     flexDirection: 'row',
-    marginVertical: 10,
+    marginBottom: 10,
     marginHorizontal: 10,
     width: itemWidth,
     height: itemHeight,

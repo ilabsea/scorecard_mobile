@@ -63,12 +63,9 @@ const votingCriteriaListItemStyle = StyleSheet.create({
   viewMoreContainer: {
     justifyContent: 'flex-end',
     flexDirection: 'row',
-    borderTopWidth: 1,
     width: '100%',
-    borderTopColor: Color.borderColor,
-    paddingTop: 4,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
     paddingRight: 10,
     marginBottom: -12
   },

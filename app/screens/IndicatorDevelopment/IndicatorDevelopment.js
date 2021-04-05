@@ -118,7 +118,7 @@ class IndicatorDevelopment extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={responsiveStyles.titleContainer}>
           <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ translations.indicatorDevelopment }</Text>
 
           { hasData && this._renderBtnAddCriteria() }
