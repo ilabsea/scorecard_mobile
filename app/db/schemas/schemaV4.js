@@ -3,6 +3,8 @@ import Scorecard from '../migrations/v4/scorecard';
 import schemaHelper from '../../helpers/schema_helper';
 import { schemaNames } from '../../constants/schema_constant';
 
+import ScorecardModel from '../../models/Scorecard';
+
 const changedSchemas = [
   { label: schemaNames[0], data: Scorecard },
   { label: schemaNames[13], data: ProgramLanguage },
@@ -17,7 +19,7 @@ const schemaV4 = {
       const newObjects = newRealm.objects('Scorecard');
 
       for (let i = 0; i < oldObjects.length; i++) {
-        newObjects[i].milestone = !oldObjects[i].milestone ? '' : oldObjects[i].milestone;
+        newObjects[i].milestone = !oldObjects[i].milestone ? ScorecardModel.getMilestone(oldObjects[i]) : oldObjects[i].milestone;
       }
     }
   }
