@@ -1,4 +1,8 @@
 import realm from '../db/schema';
+import ScorecardService from './scorecardService';
+import Facilitator from '../models/Facilitator';
+import { RUNNING } from '../constants/milestone_constant';
+import Scorecard from '../models/Scorecard';
 
 const proposedCriteriaService = (() => {
   return {
@@ -8,6 +12,7 @@ const proposedCriteriaService = (() => {
     getAllDistinct,
     getProposedCriterias,
     deleteProposedCriterias,
+    updateMilestone,
   }
 
   function getAll(scorecardUuid) {
@@ -47,6 +52,22 @@ const proposedCriteriaService = (() => {
     }
   }
 
+  function updateMilestone(scorecardUuid) {
+    const scorecard = Scorecard.find(scorecardUuid);
+
+    if (scorecard.isUploaded)
+      return;
+
+    const data = {
+      scorecard: {
+        milestone: RUNNING,
+        facilitators_attributes: Facilitator.getDataForMilestone(scorecardUuid),
+      }
+    };
+
+    const scorecardService = new ScorecardService();
+    scorecardService.updateMilestone(scorecardUuid, data, RUNNING);
+  }
 })();
 
 export default proposedCriteriaService;

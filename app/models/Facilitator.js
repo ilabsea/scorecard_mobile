@@ -4,6 +4,7 @@ const Facilitator = (() => {
   return {
     getAll,
     deleteAll,
+    getDataForMilestone,
   }
 
   function getAll(scorecardUuid) {
@@ -18,6 +19,24 @@ const Facilitator = (() => {
         realm.delete(facilitators);
       });
     }
+  }
+
+  function getDataForMilestone(scorecardUuid) {
+    const facilitators = getAll(scorecardUuid);
+    let facilitatorAttrs = []
+
+    facilitators.map((facilitator) => {
+      const attrs = {
+        id: '',
+        caf_id: facilitator.id,
+        position: facilitator.position,
+        scorecard_uuid: scorecardUuid,
+      };
+
+      facilitatorAttrs.push(attrs);
+    });
+
+    return facilitatorAttrs;
   }
 })();
 

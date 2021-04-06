@@ -14,6 +14,7 @@ import Rating from '../models/Rating';
 
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
+import { RUNNING, SUBMITTED } from '../constants/milestone_constant';
 
 class ScorecardService extends BaseModelService {
 
@@ -71,6 +72,7 @@ class ScorecardService extends BaseModelService {
   // ------Step2------
   uploadScorecard(callback, errorCallback) {
     const _this = this;
+    const uploadedDate = new Date().toDateString();
     let attrs = this.scorecardAttr();
     attrs.facilitators_attributes = this.facilitatorsAttr();
     attrs.participants_attributes = this.participantsAttr();
@@ -78,11 +80,18 @@ class ScorecardService extends BaseModelService {
     attrs.voting_indicators_attributes = this.votingCriteriasAttr();
     attrs.ratings_attributes = this.ratingsAttr();
 
+    attrs.scorecard = {
+      milestone: SUBMITTED,
+      finished_date_on_app: uploadedDate,
+    };
+
+    if (this.scorecard.milestone != RUNNING)
+      attrs.scorecard.facilitators_attributes = Facilitator.getDataForMilestone(this.scorecard_uuid);
+
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
-        if (response.status == 200) {
-          Scorecard.update(_this.scorecard.uuid, { uploaded_date: new Date().toDateString() });
-        }
+        if (response.status == 200)
+          Scorecard.update(_this.scorecard.uuid, { uploaded_date: uploadedDate, milestone: SUBMITTED });
         else if (response.error)
           errorCallback(getErrorType(response.error.status));
 
@@ -93,6 +102,18 @@ class ScorecardService extends BaseModelService {
   updateProgress(callback) {
     this.progressNumber++;
     !!callback && callback( this.progressNumber / this.totalNumber );
+  }
+
+  updateMilestone(uuid, data, milestone) {
+    const scorecard = Scorecard.find(uuid);
+    if (scorecard.milestone == milestone)
+      return;
+
+    this.scorecardApi.put(uuid, data)
+      .then(function (response) {
+        if (response.status == 200)
+          Scorecard.update(uuid, { milestone: milestone });
+      });
   }
 
   // Praviate methods

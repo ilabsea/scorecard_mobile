@@ -1,5 +1,6 @@
 import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
+import { DOWNLOADED, RUNNING, SUBMITTED } from '../constants/milestone_constant';
 
 const Scorecard = (() => {
   return {
@@ -11,7 +12,8 @@ const Scorecard = (() => {
     isSubmitted,
     isExists,
     tourTipShown,
-    hasUnsubmitted
+    hasUnsubmitted,
+    getMilestone
   }
 
   function getAll() {
@@ -60,6 +62,17 @@ const Scorecard = (() => {
   function hasUnsubmitted() {
     const scorecards = realm.objects('Scorecard').filtered(`uploaded_date == null`);
     return scorecards.length > 0 ? true : false;
+  }
+
+  function getMilestone(scorecard) {
+    if (!!scorecard.uploaded_date)
+      return SUBMITTED;
+    else if (scorecard.status < 2)
+      return DOWNLOADED;
+    else if (scorecard.status >= 2 && !scorecard.uploaded_date)
+      return RUNNING;
+
+    return '';
   }
 
   // Private
