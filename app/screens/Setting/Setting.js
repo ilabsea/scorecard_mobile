@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import Loading from 'react-native-whc-loading';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
@@ -102,7 +102,6 @@ class Setting extends Component {
       authenticationFormService.clearErrorAuthentication();
       contactService.downloadContacts()
 
-      this.refs.loading.show(false);
       this.setState({isLoading: false});
       this.props.navigation.goBack();
     }, (error) => {
@@ -112,7 +111,6 @@ class Setting extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.removeItem('AUTH_TOKEN');
 
-      this.refs.loading.show(false);
       this.setState({isLoading: false});
       this.handleAuthenticateError(response);
     });
@@ -148,7 +146,6 @@ class Setting extends Component {
     }));
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
-    this.refs.loading.show();
     this.setState({isLoading: true});
     this.authenticate();
 
@@ -160,8 +157,6 @@ class Setting extends Component {
         errorMsg: translations[message],
         isLoading: false,
       });
-
-      this.refs.loading.show(false);
     });
   }
 
@@ -214,13 +209,10 @@ class Setting extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
         <View style={[styles.container]}>
-          <Loading
-            ref="loading"
-            backgroundColor='#ffffffF2'
-            borderRadius={5}
-            size={70}
-            imageSize={40}
-            indicatorColor={Color.primaryColor}
+          <Spinner
+            visible={this.state.isLoading}
+            color={Color.primaryColor}
+            overlayColor='rgba(90, 90, 90, 0.55)'
           />
 
           <SettingForm

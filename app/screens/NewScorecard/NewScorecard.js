@@ -8,7 +8,7 @@ import {
   ImageBackground,
   TextInput as NativeTextInput,
 } from 'react-native';
-import Loading from 'react-native-whc-loading';
+import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../../components/Translations';
@@ -125,14 +125,12 @@ class NewScorecard extends Component {
 
     const {code} = this.state;
     this.setState({isLoading: true});
-    this.refs.loading.show();
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
     const scorecardService = new ScorecardService();
     scorecardService.find(code, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
-      this.refs.loading.show(false);
       if (responseData === null) {
         this.setState({
           codeMsg: 'scorecardIsNotExist',
@@ -149,7 +147,6 @@ class NewScorecard extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       this.setState({isLoading: false});
       this.setErrorState(error.status);
-      this.refs.loading.show(false);
     });
 
     checkConnection((type, message) => {
@@ -158,7 +155,6 @@ class NewScorecard extends Component {
         errorMsg: message,
         isLoading: false,
       });
-      this.refs.loading.show(false);
     });
   };
 
@@ -208,13 +204,10 @@ class NewScorecard extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
           <View style={{alignItems: 'center', flex: 1}}>
-            <Loading
-              ref="loading"
-              backgroundColor="#ffffffF2"
-              borderRadius={5}
-              size={70}
-              imageSize={40}
-              indicatorColor={Color.primaryColor}
+            <Spinner
+              visible={this.state.isLoading}
+              color={Color.primaryColor}
+              overlayColor='rgba(90, 90, 90, 0.55)'
             />
 
             <View style={{flex: 3}}></View>
