@@ -13,7 +13,6 @@ const Participant = (() => {
 
   function deleteAll(scorecardUuid) {
     let participants = realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}'`);
-    console.log('participant == ', participants);
 
     if (participants.length > 0) {
       realm.write(() => {
