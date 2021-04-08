@@ -20,7 +20,7 @@ import { ProgressBar } from 'react-native-paper';
 
 import { connect } from 'react-redux';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardProgressTabletStyles from './styles/tablet/ScorecardProgressStyle';
 import ScorecardProgressMobileStyles from './styles/mobile/ScorecardProgressStyle';
 
@@ -170,7 +170,7 @@ class ScorecardProgress extends Component {
           />
         </ScrollView>
 
-        <View style={{padding: 20}}>
+        <View style={{padding: containerPadding}}>
           { this._renderProgressBar() }
           { this._renderBtnSubmit() }
         </View>

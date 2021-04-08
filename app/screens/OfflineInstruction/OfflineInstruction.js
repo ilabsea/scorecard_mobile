@@ -12,6 +12,7 @@ import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import screenInstructions from '../../db/jsons/screenInstructions';
 import TipListItem from '../../components/Tip/TipListItem';
+import { containerPadding } from '../../utils/responsive_util'
 
 export default class OfflineInstruction extends Component {
   static contextType = LocalizationContext;
@@ -75,13 +76,13 @@ export default class OfflineInstruction extends Component {
           source={ require('../../assets/images/community.png') }
           style={{flex: 1, resizeMode: "cover"}} >
 
-          <ScrollView contentContainerStyle={{flex: 1, padding: 20}}>
+          <ScrollView contentContainerStyle={{flex: 1, padding: containerPadding}}>
             { this.renderContent() }
 
           </ScrollView>
         </ImageBackground>
 
-        <View style={{padding: 20}}>
+        <View style={{padding: containerPadding}}>
           <BottomButton label={translations.next} onPress={() => this.props.navigation.navigate(this.state.screen.navigateTo, {scorecard_uuid: this.props.route.params.scorecard_uuid})} />
         </View>
       </View>

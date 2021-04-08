@@ -7,7 +7,7 @@ import { isShortScreenDevice } from '../../../../utils/responsive_util';
 
 const ScorecardProgressStyles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 15,
     paddingTop: isShortScreenDevice() ? 5 : 10,
   },
   title: {

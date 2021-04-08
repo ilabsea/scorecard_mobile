@@ -8,7 +8,7 @@ import SelectPicker from '../../components/SelectPicker';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 
-import { containerPaddingTop, scrollViewPaddingBottom } from '../../utils/responsive_util';
+import { containerPaddingTop, scrollViewPaddingBottom, containerPadding } from '../../utils/responsive_util';
 
 class Facilitator extends Component {
   static contextType = LocalizationContext;
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: 'white',
-    padding: 20,
+    padding: containerPadding,
     paddingBottom: scrollViewPaddingBottom,
     paddingTop: containerPaddingTop,
   },
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     marginBottom: -10,
   },
   buttonContainer: {
-    padding: 20
+    padding: containerPadding
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

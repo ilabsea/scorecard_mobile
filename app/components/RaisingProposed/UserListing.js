@@ -9,6 +9,7 @@ import {LocalizationContext} from '../../components/Translations';
 import {Criteria} from '../../services/criteria_service';
 import {getRaisedParticipants} from '../../services/participant_service';
 import {connect} from 'react-redux';
+import { containerPadding } from '../../utils/responsive_util';
 
 class UserListing extends Component {
   static contextType = LocalizationContext;
@@ -40,7 +41,7 @@ class UserListing extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{padding: 20, paddingBottom: 28}}>
+        <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28}}>
           <Tip screenName={'RaisingProposed'}/>
 
           <CriteriaList scorecardUUID={this.props.scorecardUUID} />
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonContainer: {
-    padding: 20
+    padding: containerPadding
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

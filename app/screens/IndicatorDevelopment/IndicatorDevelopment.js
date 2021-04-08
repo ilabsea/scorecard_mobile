@@ -28,7 +28,7 @@ import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import IndicatorDevelopmentTabletStyles from './styles/tablet/IndicatorDevelopmentStyle';
 import IndicatorDevelopmentMobileStyles from './styles/mobile/IndicatorDevelopmentStyle';
 
@@ -145,7 +145,7 @@ class IndicatorDevelopment extends Component {
         </ScrollView>
 
         { !!this.props.selectedCriterias.length &&
-          <View style={{padding: 20}}>
+          <View style={{padding: containerPadding}}>
             <BottomButton
               onPress={ () => this._submit() }
               customBackgroundColor={Color.headerColor}
@@ -183,7 +183,7 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: containerPadding,
     flexGrow: 1,
   },
   h1: {

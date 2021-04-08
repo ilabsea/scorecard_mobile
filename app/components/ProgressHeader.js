@@ -54,7 +54,7 @@ export default class BigHeader extends React.Component {
       <Header span>
         <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 8}}>
           <Left>
-            <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()}/>
+            <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
           </Left>
 
           <Body>
@@ -63,7 +63,7 @@ export default class BigHeader extends React.Component {
 
           <View>
             <Button transparent onPress={() => this.setState({ visibleModal: true })}>
-              <Icon name='home' style={{fontSize: getDeviceStyle(24, wp('6%')), marginTop: -3}} />
+              <Icon name='home' style={{fontSize: getDeviceStyle(24, wp('6%')), marginTop: -3, marginRight: getDeviceStyle(16, 0)}} />
             </Button>
           </View>
         </View>

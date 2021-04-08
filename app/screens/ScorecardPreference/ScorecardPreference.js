@@ -16,7 +16,7 @@ import internetConnectionService from '../../services/internet_connection_servic
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 import Scorecard from '../../models/Scorecard';
 
-import { containerPaddingTop, getDeviceStyle } from '../../utils/responsive_util';
+import { containerPaddingTop, getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardPreferenceFormTabletStyles from '../../components/ScorecardPreference/styles/tablet/ScorecardPreferenceFormStyle';
 import ScorecardPreferenceFormMobileStyles from '../../components/ScorecardPreference/styles/mobile/ScorecardPreferenceFormStyle';
 
@@ -227,7 +227,7 @@ class ScorecardPreference extends Component {
             />
           </ScrollView>
 
-          <View style={{padding: 20}}>
+          <View style={{padding: containerPadding}}>
             { this.renderDownloadButton() }
 
             { this.renderNextButton() }
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: 'white',
-    padding: 20,
+    padding: containerPadding,
     paddingTop: containerPaddingTop,
   },
 });

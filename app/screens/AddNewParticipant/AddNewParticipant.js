@@ -13,7 +13,7 @@ import {getParticipantInfo, saveParticipantInfo} from '../../services/participan
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
-import { containerPaddingTop } from '../../utils/responsive_util';
+import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 class AddNewParticipant extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: 'white',
-    padding: 20,
+    padding: containerPadding,
     paddingBottom: 28,
     paddingTop: containerPaddingTop,
   },
   buttonContainer: {
-    padding: 20
+    padding: containerPadding
   },
 });
 

@@ -20,7 +20,7 @@ import NoDataMessage from '../../components/NoDataMessage';
 
 import Participant from '../../models/Participant';
 
-import { getDeviceStyle, containerPaddingTop } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import ParticipantListTabletStyles from './styles/tablet/ParticipantListStyle';
 import ParticipantListMobileStyles from './styles/mobile/ParticipantListStyle';
 
@@ -152,7 +152,7 @@ class ParticipantList extends Component {
             { this.props.participants.length == 0 && this.renderNoData() }
           </ScrollView>
 
-          <View style={{padding: 20}}>
+          <View style={{padding: containerPadding}}>
             <BottomButton
               label={translations.next}
               onPress={() => this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
@@ -166,7 +166,7 @@ class ParticipantList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: containerPadding,
     paddingHorizontal: 14,
     flexGrow: 1,
     paddingTop: containerPaddingTop,

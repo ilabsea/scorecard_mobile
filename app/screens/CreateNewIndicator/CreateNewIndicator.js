@@ -18,7 +18,7 @@ import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo
 import TourTipButton from '../../components/TourTipButton';
 
 import IndicatorService from '../../services/indicator_service';
-import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop } from '../../utils/responsive_util';
+import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 
 const WalkableView = walkthroughable(View);
 const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
@@ -152,7 +152,7 @@ class CreateNewIndicator extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{padding: 20, paddingHorizontal: 0}}>
+      <View style={{padding: containerPadding, paddingHorizontal: 0}}>
         { this.state.showTourTip &&
           <CopilotStep text={translations.clickOnSaveButtonToContinue} order={1} name="finishButton">
             <WalkableView>
@@ -208,7 +208,7 @@ class CreateNewIndicator extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{flex: 1, backgroundColor: '#ffffff', padding: 20, paddingBottom: 0, paddingTop: containerPaddingTop}}>
+      <View style={{flex: 1, backgroundColor: '#ffffff', padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
         { this._renderParticipant() }
         <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
           {translations['chooseProposedCriteria']}
