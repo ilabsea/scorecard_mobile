@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import { DOWNLOADED, RUNNING, SUBMITTED } from '../constants/milestone_constant';
+import uuidv4 from '../utils/uuidv4';
 
 const Scorecard = (() => {
   return {
@@ -96,6 +97,7 @@ const Scorecard = (() => {
       program_id: response.program_id,
       downloaded_at: new Date(),
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
+      uuid_on_app: uuidv4(),
     })
   }
 })();

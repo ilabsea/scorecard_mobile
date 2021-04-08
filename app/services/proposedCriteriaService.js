@@ -1,6 +1,5 @@
 import realm from '../db/schema';
 import ScorecardService from './scorecardService';
-import Facilitator from '../models/Facilitator';
 import { RUNNING } from '../constants/milestone_constant';
 import Scorecard from '../models/Scorecard';
 
@@ -58,15 +57,8 @@ const proposedCriteriaService = (() => {
     if (scorecard.isUploaded)
       return;
 
-    const data = {
-      scorecard: {
-        milestone: RUNNING,
-        facilitators_attributes: Facilitator.getDataForMilestone(scorecardUuid),
-      }
-    };
-
     const scorecardService = new ScorecardService();
-    scorecardService.updateMilestone(scorecardUuid, data, RUNNING);
+    scorecardService.updateMilestone(scorecardUuid, null, RUNNING);
   }
 })();
 
