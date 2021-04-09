@@ -112,7 +112,6 @@ class ScorecardService extends BaseModelService {
       scorecard_progress: {
         scorecard_uuid: uuid,
         status: milestone,
-        scorecard_uuid_on_app: scorecard.uuid_on_app,
       }
     };
 
