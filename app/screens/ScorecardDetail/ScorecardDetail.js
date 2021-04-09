@@ -7,7 +7,7 @@ import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorec
 import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardDetailTabletStyles from './styles/tablet/ScorecardDetailStyle';
 import ScorecardDetailMobileStyles from './styles/mobile/ScorecardDetailStyle';
 
@@ -65,11 +65,11 @@ class ScorecardDetail extends Component {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 20,
+    padding: containerPadding,
     paddingBottom: 28,
   },
   buttonContainer: {
-    padding: 20
+    padding: containerPadding
   },
 });
 

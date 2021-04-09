@@ -28,7 +28,7 @@ import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import Scorecard from '../../models/Scorecard';
 
-import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
+import { getDeviceStyle, mobileHeadingTitleSize, containerPadding } from '../../utils/responsive_util';
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -125,7 +125,7 @@ class ScorecardResult extends Component {
           </View>
         </ScrollView>
 
-        <View style={{margin: 20}}>
+        <View style={{padding: containerPadding}}>
           <BottomButton
             onPress={() => this.setState({visibleConfirmModal: true})}
             customBackgroundColor={Color.headerColor}
@@ -174,7 +174,7 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: containerPadding,
     flex: 1
   },
   h1: {

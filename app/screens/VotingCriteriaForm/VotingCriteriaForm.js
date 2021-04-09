@@ -19,7 +19,7 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
-import { getDeviceStyle, containerPaddingTop } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import VotingCriteriaFormTabletStyles from './styles/tablet/VotingCriteriaFormStyle';
 import VotingCriteriaFormMobileStyles from './styles/mobile/VotingCriteriaFormStyle';
 
@@ -120,7 +120,7 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{padding: 20, paddingTop: containerPaddingTop}}>
+      <View style={{padding: containerPadding, paddingTop: containerPaddingTop}}>
         <BottomButton
           onPress={() => this._submit()}
           customBackgroundColor={Color.headerColor}
