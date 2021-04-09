@@ -1,7 +1,7 @@
 const validationConstant = {
   backendUrl: {
     presence: {
-      message: '^backendUrlRequireMsg',
+      message: '^serverUrlRequireMsg',
     },
   },
   email: {

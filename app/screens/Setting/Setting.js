@@ -74,9 +74,9 @@ class Setting extends Component {
 
     this.setState({ errorMsg: '' });
 
-    const backendUrlValidationMsg = validationService('backendUrl', backendUrl);
-    const emailValidationMsg = validationService('email', email);
-    const passwordValidationMsg = validationService('password', password);
+    const backendUrlValidationMsg = validationService('backendUrl', backendUrl == '' ? undefined : backendUrl);
+    const emailValidationMsg = validationService('email', email == '' ? undefined : email);
+    const passwordValidationMsg = validationService('password', password == '' ? undefined : password);
 
     this.setState({
       backendUrlErrorMsg: backendUrlValidationMsg || '',
