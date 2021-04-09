@@ -66,7 +66,7 @@ class SettingForm extends Component {
   _renderForm = () => {
     const {translations} = this.context;
     const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
-    const backendUrlLabel = `${translations['backendUrl']} *`;
+    const backendUrlLabel = `${translations['serverUrl']} *`;
     const emailLabel = `${translations['email']} *`;
     const passwordLabel = `${translations['password']} *`;
 
@@ -75,7 +75,7 @@ class SettingForm extends Component {
         <TextFieldInput
           value={backendUrl}
           label={backendUrlLabel}
-          placeholder={translations["enterBackendUrl"]}
+          placeholder={translations["enterServerUrl"]}
           fieldName="backendUrl"
           onChangeText={this.onChangeText}
           message={translations[backendUrlErrorMsg]}
@@ -90,6 +90,7 @@ class SettingForm extends Component {
           onChangeText={this.onChangeText}
           message={translations[emailErrorMsg]}
           onFocus={() => this.closeDropDown()}
+          keyboardType='email-address'
         />
 
         <TextFieldInput
@@ -129,6 +130,7 @@ class SettingForm extends Component {
         mustHasDefaultValue={true}
         controller={(instance) => this.languageController = instance}
         onOpen={() => Keyboard.dismiss()}
+        customDropDownContainerStyle={{marginTop: -5}}
       />
     );
   };
