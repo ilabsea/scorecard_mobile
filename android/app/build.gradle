@@ -197,6 +197,10 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-svg')
 
+    implementation ('com.google.firebase:firebase-analytics') {
+        exclude module: "play-services-ads-identifier"
+    }
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
