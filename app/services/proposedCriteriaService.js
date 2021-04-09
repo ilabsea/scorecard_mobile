@@ -1,7 +1,4 @@
 import realm from '../db/schema';
-import ScorecardService from './scorecardService';
-import { RUNNING } from '../constants/milestone_constant';
-import Scorecard from '../models/Scorecard';
 
 const proposedCriteriaService = (() => {
   return {
@@ -11,7 +8,6 @@ const proposedCriteriaService = (() => {
     getAllDistinct,
     getProposedCriterias,
     deleteProposedCriterias,
-    updateMilestone,
   }
 
   function getAll(scorecardUuid) {
@@ -49,16 +45,6 @@ const proposedCriteriaService = (() => {
         realm.delete(proposedCriterias);
       });
     }
-  }
-
-  function updateMilestone(scorecardUuid) {
-    const scorecard = Scorecard.find(scorecardUuid);
-
-    if (scorecard.isUploaded)
-      return;
-
-    const scorecardService = new ScorecardService();
-    scorecardService.updateMilestone(scorecardUuid, null, RUNNING);
   }
 })();
 

@@ -69,6 +69,7 @@ Scorecard.schema = {
     tour_tip_shown: { type: 'bool', default: false },
     milestone: 'string?',
     uuid_on_app: 'string?',
+    finished_date: 'string?',
   }
 }
 

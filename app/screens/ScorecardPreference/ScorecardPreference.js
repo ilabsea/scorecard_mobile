@@ -14,7 +14,9 @@ import authenticationFormService from '../../services/authentication_form_servic
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
+import ScorecardService from '../../services/scorecardService';
 import Scorecard from '../../models/Scorecard';
+import { RUNNING } from '../../constants/milestone_constant';
 
 import { containerPaddingTop, getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardPreferenceFormTabletStyles from '../../components/ScorecardPreference/styles/tablet/ScorecardPreferenceFormStyle';
@@ -83,6 +85,9 @@ class ScorecardPreference extends Component {
     this.formRef.current.closeAllSelectBox()
     const {date, textLocale, audioLocale} = this.state;
     scorecardPreferenceService.updatePreference(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
+
+    const scorecardService = new ScorecardService();
+    scorecardService.updateMilestone(this.props.route.params.scorecard_uuid, null, RUNNING);
 
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }

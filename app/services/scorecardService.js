@@ -89,7 +89,7 @@ class ScorecardService extends BaseModelService {
           Scorecard.update(_this.scorecard.uuid, { uploaded_date: uploadedDate });
           let milestoneData = {
             facilitators_attributes: Facilitator.getDataForMilestone(_this.scorecard_uuid),
-            finished_date_on_app: uploadedDate,
+            finished_date_on_app: _this.scorecard.finished_date,
           };
 
           _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED);

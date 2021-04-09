@@ -20,6 +20,7 @@ const schemaV5 = {
 
       for (let i = 0; i < oldObjects.length; i++) {
         newObjects[i].uuid_on_app = !oldObjects[i].uuid_on_app ? uuidv4() : oldObjects[i].uuid_on_app;
+        newObjects[i].finished_date = !oldObjects[i].finished_date ? '' : oldObject[i].finished_date;
       }
     }
   }
