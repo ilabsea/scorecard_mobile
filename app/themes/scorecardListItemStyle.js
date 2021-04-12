@@ -4,7 +4,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import { mdLabelSize, smLabelSize, mdIconSize } from '../constants/mobile_font_size_constant';
+import { mdLabelSize, smLabelSize } from '../constants/mobile_font_size_constant';
 
 const ListItemStyle = StyleSheet.create({
   container: {
@@ -71,7 +71,7 @@ const ListItemStyle = StyleSheet.create({
     marginTop: getDeviceStyle(0, 4)
   },
   buttonLabel: {
-    fontSize: getDeviceStyle(16, wp(mdLabelSize)),
+    fontSize: getDeviceStyle(16, wp('3.6%')),
   }
 });
 

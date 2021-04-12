@@ -106,7 +106,7 @@ class IndicatorDevelopment extends Component {
     return (
       <OutlinedButton
         icon="plus"
-        label={translations.criteria}
+        label={translations.addNew}
         onPress={() => this.setState({visibleModal: true}) }
       />
     )
