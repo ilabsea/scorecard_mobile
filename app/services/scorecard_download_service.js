@@ -224,11 +224,8 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
     if (downloadNextPhase)
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
     else {
-      const attrs = {
-        scorecard: { milestone: DOWNLOADED }
-      };
       const scorecardService = new ScorecardService();
-      scorecardService.updateMilestone(scorecard.uuid, attrs, DOWNLOADED);
+      scorecardService.updateMilestone(scorecard.uuid, null, DOWNLOADED);
     }
   }
 }

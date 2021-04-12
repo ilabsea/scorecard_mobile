@@ -66,6 +66,7 @@ class ScorecardList extends Component {
     if (scorecard.isDeleted) {
       return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
     }
+
     this.props.setCurrentScorecard(scorecard);
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});
   }

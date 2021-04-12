@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import { DOWNLOADED, RUNNING, SUBMITTED } from '../constants/milestone_constant';
+import uuidv4 from '../utils/uuidv4';
 
 const Scorecard = (() => {
   return {
