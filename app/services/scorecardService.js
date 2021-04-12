@@ -80,6 +80,7 @@ class ScorecardService extends BaseModelService {
     attrs.raised_indicators_attributes = this.proposedCriteriasAttr();
     attrs.voting_indicators_attributes = this.votingCriteriasAttr();
     attrs.ratings_attributes = this.ratingsAttr();
+    attrs.language_conducted_code = this.scorecard.audio_language_code;
 
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
