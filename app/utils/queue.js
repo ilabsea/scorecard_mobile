@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 import ScorecardService from '../services/scorecardService';
-import environment from '../config/environment';
+import { environment } from '../config/environment';
 
 export default class Queue {
   static async initWorker() {
