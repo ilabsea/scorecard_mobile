@@ -1,4 +1,5 @@
 import DeviceInfo from 'react-native-device-info';
+import Moment from 'moment';
 import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
@@ -81,6 +82,7 @@ class ScorecardService extends BaseModelService {
     attrs.voting_indicators_attributes = this.votingCriteriasAttr();
     attrs.ratings_attributes = this.ratingsAttr();
     attrs.language_conducted_code = this.scorecard.audio_language_code;
+    attrs.finished_date = Moment(this.scorecard.finished_date, 'ddd MMM DD YYYY').format('YYYY-MM-DD');
 
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
@@ -160,8 +162,16 @@ class ScorecardService extends BaseModelService {
   votingCriteriasAttr() {
     let votingCriterias = this.getJSON('VotingCriteria');
     let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action'];
+    let votingCriteriaAttr = this.getCriteriaAttr(votingCriterias, columns);
 
-    return this.getCriteriaAttr(votingCriterias, columns);
+    votingCriteriaAttr.map((votingCriteria, index) => {
+      votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : votingCriteria.strength;
+      votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : votingCriteria.weakness;
+      votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : votingCriteria.suggested_action;
+    });
+
+    return votingCriteriaAttr;
+    // return this.getCriteriaAttr(votingCriterias, columns);
   }
 
   getCriteriaAttr(criterias, columns, has_tag) {
@@ -192,7 +202,8 @@ class ScorecardService extends BaseModelService {
     let participants = Participant.getAll(this.scorecard.uuid);
 
     return {
-      conducted_date: this.scorecard.conducted_date,
+      // conducted_date: this.scorecard.conducted_date,
+      conducted_date: Moment(this.scorecard.conducted_date, "DD/MM/YYYY").format("YYYY-MM-DD"),
       number_of_caf: facilitators.length,
       number_of_participant: participants.length,
       number_of_female: participants.filter(p => p.gender == "female").length,
