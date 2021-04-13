@@ -119,7 +119,7 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   showVotingDetail = (indicator) => {
-    const indicatorId = indicator.indicator_id || indicator.uuid;
+    const indicatorId = indicatorHelper.getIndicatorId(indicator);
     const votingInfos = getVotingInfos(this.props.scorecard.uuid, indicatorId);
 
     this.setState({
