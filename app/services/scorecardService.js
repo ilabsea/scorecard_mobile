@@ -1,4 +1,5 @@
 import DeviceInfo from 'react-native-device-info';
+import Moment from 'moment';
 import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
@@ -16,7 +17,8 @@ import Rating from '../models/Rating';
 
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
-import { SUBMITTED } from '../constants/milestone_constant';
+import { SUBMITTED, RUNNING } from '../constants/milestone_constant';
+import { apiDateFormat } from '../constants/date_format_constant';
 
 class ScorecardService extends BaseModelService {
 
@@ -81,6 +83,8 @@ class ScorecardService extends BaseModelService {
     attrs.voting_indicators_attributes = this.votingCriteriasAttr();
     attrs.ratings_attributes = this.ratingsAttr();
     attrs.language_conducted_code = this.scorecard.audio_language_code;
+    attrs.finished_date = this.scorecard.finished_date ? Moment(this.scorecard.finished_date).format(apiDateFormat) : null;
+    attrs.running_date = this.scorecard.running_date ? Moment(this.scorecard.running_date).format(apiDateFormat) : null;
 
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
@@ -126,6 +130,9 @@ class ScorecardService extends BaseModelService {
     if (scorecard.milestone == milestone)
       return;
 
+    if (milestone == RUNNING)
+      Scorecard.update(uuid, { running_date: new Date() });
+
     ScorecardProgressApi.post(attrs)
       .then(function (response) {
         if (response.status == 200)
@@ -161,7 +168,14 @@ class ScorecardService extends BaseModelService {
     let votingCriterias = this.getJSON('VotingCriteria');
     let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action'];
 
-    return this.getCriteriaAttr(votingCriterias, columns);
+    let votingCriteriaAttr = this.getCriteriaAttr(votingCriterias, columns);
+    votingCriteriaAttr.map((votingCriteria, index) => {
+      votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : null;
+      votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : null;
+      votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : null;
+    });
+
+    return votingCriteriaAttr;
   }
 
   getCriteriaAttr(criterias, columns, has_tag) {
@@ -192,7 +206,7 @@ class ScorecardService extends BaseModelService {
     let participants = Participant.getAll(this.scorecard.uuid);
 
     return {
-      conducted_date: this.scorecard.conducted_date,
+      conducted_date: Moment(this.scorecard.conducted_date, 'DD/MM/YYYY').format(apiDateFormat),
       number_of_caf: facilitators.length,
       number_of_participant: participants.length,
       number_of_female: participants.filter(p => p.gender == "female").length,

@@ -102,7 +102,7 @@ class ScorecardResult extends Component {
 
   _confirmFinish() {
     this.setState({visibleConfirmModal: false});
-    Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date().toDateString()});
+    Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date()});
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
