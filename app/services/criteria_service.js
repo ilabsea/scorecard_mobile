@@ -13,7 +13,7 @@ class Criteria {
   }
 
   _getTotalRaisedCount = () => {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}'`).length;
+    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}' DISTINCT(participant_uuid)`).length;
   }
 
   _sort(arr) {
