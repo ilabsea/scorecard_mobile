@@ -62,7 +62,7 @@ class ParticipantCell {
       let indicator = indicatorHelper.getDisplayIndicator(proposedCriteria);
 
       return (
-        <View key={index} style={{flex: 1, justifyContent: 'center'}}>
+        <View key={index} style={{justifyContent: 'center', width: 'auto'}}>
           <View style={styles.indicatorBadge}>
             <Text style={[styles.indicatorLabel, responsiveStyles.indicatorLabel]} numberOfLines={1}>
               {indicator.content || indicator.name}
@@ -72,7 +72,11 @@ class ParticipantCell {
       );
     });
 
-    return doms;
+    return (
+      <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
+        { doms }
+      </View>
+    );
   };
 
   actionCell = () => {
