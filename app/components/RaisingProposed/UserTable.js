@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
 import {LocalizationContext} from '../Translations';
-import {ParticipantCell} from '../../services/participant_service';
 import uuidv4 from '../../utils/uuidv4';
+
+import TextCell from './TextCell';
+import IndicatorCell from './IndicatorCell';
+import ActionCell from './ActionCell';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import UserTableTabletStyles from './styles/tablet/UserTableStyle';
@@ -18,17 +21,46 @@ class UserTable extends Component {
     this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUUID, participant_uuid: participantUUID});
   }
 
-  getCellData = (cellData, cellIndex) => {
+  getCellComponent = (cellData, cellIndex) => {
     const { translations } = this.context;
     const tableHead = ['no', 'age', 'gender', 'disability', 'indicator', 'action'];
-    const labelTranslation = {
-      yes: translations.optionYes,
-      no: translations.optionNo,
-      male: translations.male,
-      female: translations.female,
+    const cellName = tableHead[cellIndex];
+
+    if (cellIndex < 4)
+      return this.renderTextCell(cellData, cellName);
+    else if (cellIndex == 4)
+      return (<IndicatorCell cellValue={cellData} cellName={cellName} />);
+    
+    return (<ActionCell actionLabel={translations.edit} onPress={() => this.editParticipant(cellData)} />);
+
+  }
+
+  renderTextCell(cellData, cellName) {
+    let cellValue = cellData;
+
+    if (cellName == 'gender' || cellName == 'disability')
+      cellValue = this.getTextCellLabel(cellData);
+
+    return ( <TextCell cellValue={cellValue} /> );
+  }
+
+  getTextCellLabel(cellData) {
+    const { translations } = this.context;
+
+    switch (cellData) {
+      case 'M':
+        return translations.male;
+      case 'F':
+        return translations.female;
+      case 'other':
+        return translations.otherGender;
+      case true:
+        return translations.optionYes;
+      case false:
+        return translations.optionNo;
+      default:
+        return '';
     }
-    const participantCell = new ParticipantCell(tableHead[cellIndex], cellData, this.editParticipant, translations['edit'], labelTranslation);
-    return participantCell.cellItem[tableHead[cellIndex]];
   }
 
   render() {
@@ -54,7 +86,7 @@ class UserTable extends Component {
               <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={this.getCellData(cellData, cellIndex)} textStyle={styles.text} style={{flex: (cellIndex == criteriaCellIndex ? 3 : 1)}} />
+                    <Cell key={cellIndex} data={this.getCellComponent(cellData, cellIndex)} textStyle={styles.text} style={{flex: (cellIndex == criteriaCellIndex ? 3 : 1)}} />
                   ))
                 }
               </TableWrapper>
