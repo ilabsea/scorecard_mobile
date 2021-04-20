@@ -248,7 +248,7 @@ class ScorecardPreference extends Component {
           <MessageModal
             visible={this.state.visibleConfirmModal}
             onDismiss={() => this.setState({visibleConfirmModal: false})}
-            title={translations.theScorecardContainsImagesAndAudios}
+            title={translations.theScorecardContainsAudios}
             description={translations.formatString(translations.downloadScorcardDescription, textLocaleLabel, audioLocaleLabel)}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}

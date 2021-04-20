@@ -1,5 +1,6 @@
 import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
+import RNFS from 'react-native-fs';
 
 const CustomIndicator = (() => {
   return {

@@ -101,6 +101,7 @@ class ErrorAuthenticationContent extends Component {
             fieldName="email"
             onChangeText={this.onChangeText}
             message={translations.emailErrorMsg}
+            keyboardType='email-address'
           />
 
           <TextFieldInput
