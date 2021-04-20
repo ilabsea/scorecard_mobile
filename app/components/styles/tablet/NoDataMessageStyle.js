@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const NoDataMessageStyles = StyleSheet.create({
   label: {
@@ -8,6 +8,11 @@ const NoDataMessageStyles = StyleSheet.create({
   icon: {
     fontSize: 100,
     color: "#e1e0e1"
+  },
+  messageContainer: {
+    marginTop: -(220 / 3),
+    alignItems: 'center',
+    height: 220
   }
 });
 
