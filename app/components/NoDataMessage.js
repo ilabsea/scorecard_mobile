@@ -13,14 +13,16 @@ class NoDataMessage extends Component {
   render() {
     return (
       <View style={[styles.container, this.props.customContainerStyle]}>
-        <Icon name={'document-outline'} style={responsiveStyles.icon} />
-        <Text style={responsiveStyles.label}>{this.props.title}</Text>
-        <View>
-          <OutlinedButton
-            icon="plus"
-            label={this.props.buttonLabel}
-            onPress={() => this.props.onPress() }
-          />
+        <View style={responsiveStyles.messageContainer}>
+          <Icon name={'document-outline'} style={responsiveStyles.icon} />
+          <Text style={responsiveStyles.label}>{this.props.title}</Text>
+          <View>
+            <OutlinedButton
+              icon="plus"
+              label={this.props.buttonLabel}
+              onPress={() => this.props.onPress() }
+            />
+          </View>
         </View>
       </View>
     );
