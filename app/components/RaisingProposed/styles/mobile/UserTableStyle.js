@@ -22,7 +22,12 @@ const UserTableStyles = StyleSheet.create({
   },
   actionCellLabel: {
     fontSize: wp(smLabelSize),
-  }
+  },
+  cellContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
 });
 
 export default UserTableStyles;

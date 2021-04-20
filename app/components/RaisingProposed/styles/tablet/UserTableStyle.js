@@ -18,7 +18,12 @@ const UserTableStyles = StyleSheet.create({
   },
   actionCellLabel: {
     fontSize: 16,
-  }
+  },
+  cellContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
 });
 
 export default UserTableStyles;
