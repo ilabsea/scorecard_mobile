@@ -5,7 +5,7 @@ import { xlLabelSize } from '../../../../constants/mobile_font_size_constant';
 const IndicatorDevelopmentStyles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
-    marginBottom: -15
+    marginBottom: 5
   },
   titleLabel: {
     fontSize: wp(xlLabelSize),

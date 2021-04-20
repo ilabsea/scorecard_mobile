@@ -15,7 +15,11 @@ import CriteriaTitle from './CriteriaTitle';
 import CriteriaImage from './CriteriaImage';
 
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import ProposedCriteriaItemTabletStyles from '../../styles/tablet/ProposedCriteriaItemStyle';
+import ProposedCriteriaItemMobileStyles from '../../styles/mobile/ProposedCriteriaItemStyle';
 import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
+
+const responsiveStyles = getDeviceStyle(ProposedCriteriaItemTabletStyles, ProposedCriteriaItemMobileStyles);
 
 class ProposedCriteriaItem extends Component {
   static contextType = LocalizationContext;
@@ -58,9 +62,9 @@ class ProposedCriteriaItem extends Component {
   }
 
   getListItemHeight = () => {
-    const mobileHeight = isShortScreenDevice() ? hp('15%') : hp('13%');
+    const mobileHeight = isShortScreenDevice() ? hp('13%') : hp('11.5%');
 
-    return getDeviceStyle(95, mobileHeight);
+    return getDeviceStyle(100, mobileHeight);
   }
 
   render() {
@@ -78,8 +82,10 @@ class ProposedCriteriaItem extends Component {
           subText={translations.raisedTimes}
           criteriaCount={this.props.criteria.count}
           indicator={this.state.indicator}
-          customContainerStyle={[itemStyles.contentWrapper, {paddingLeft: 10}]}
-          customSubTextStyle={{marginTop: -5}}
+          customContainerStyle={[itemStyles.contentWrapper, {paddingLeft: 10, paddingTop: 0}]}
+          customTitleStyle={responsiveStyles.titleText}
+          customSubTextStyle={responsiveStyles.subText}
+          customAudioContainerStyle={{justifyContent: 'center'}}
         />
       </TouchableOpacity>
     )

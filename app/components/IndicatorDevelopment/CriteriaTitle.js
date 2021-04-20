@@ -6,6 +6,7 @@ import { LocalizationContext } from '../Translations';
 
 import styles from '../../themes/scorecardListItemStyle';
 import { getPluralOrSingularWord } from '../../utils/translation_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class CriteriaTitle extends Component {
   static contextType = LocalizationContext;
@@ -15,14 +16,14 @@ class CriteriaTitle extends Component {
 
     return (
       <View style={[this.props.customContainerStyle, {flexDirection: 'row'}]}>
-        <View style={{flex: 1, paddingRight: 20}}>
-          <Text style={styles.title} numberOfLines={2}>{this.props.title}</Text>
+        <View style={{flex: 1, paddingRight: 20, justifyContent: 'center'}}>
+          <Text style={[styles.title, this.props.customTitleStyle]} numberOfLines={2}>{this.props.title}</Text>
           <Text style={[styles.subText, this.props.customSubTextStyle]}>
             {this.props.subText}: ({this.props.criteriaCount} { getPluralOrSingularWord(this.props.criteriaCount, translations.time, appLanguage, 's') })
           </Text>
         </View>
 
-        <View style={{paddingRight: 10, paddingBottom: 16, justifyContent: 'flex-start'}}>
+        <View style={[{paddingRight: 10}, this.props.customAudioContainerStyle]}>
           <PlaySound filePath={this.props.indicator.local_audio}/>
         </View>
       </View>

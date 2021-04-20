@@ -16,7 +16,7 @@ import Scorecard from '../../models/Scorecard';
 
 import CriteriaTitle from './CriteriaTitle';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
 import SelectedCriteriaItemTabletStyles from './styles/tablet/SelectedCriteriaItemStyle';
 import SelectedCriteriaItemMobileStyles from './styles/mobile/SelectedCriteriaItemStyle';
 
@@ -44,21 +44,21 @@ class SelectedCriteriaItem extends Component {
 
     return (
       <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
-        <View style={[styles.contentWrapper, {paddingLeft: 0}]}>
+        <View style={[styles.contentWrapper, {paddingLeft: 0, flexDirection: 'column',}]}>
 
           <CriteriaTitle
             title={this.state.indicator.content}
             subText={translations.raisedTimes}
             criteriaCount={this.props.criteria.count}
             indicator={this.state.indicator}
-            customSubTextStyle={{marginTop: -5}}
-            customContainerStyle={{paddingLeft: 10}}
+            customContainerStyle={responsiveStyles.container}
+            customTitleStyle={responsiveStyles.titleText}
+            customSubTextStyle={responsiveStyles.subText}
+            customAudioContainerStyle={{justifyContent: 'center'}}
           />
 
-          <View style={{flex: 1}}></View>
-
-          <View style={styles.viewDetail}>
-            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()} labelStyle={styles.buttonLabel}>
+          <View style={[styles.viewDetail, responsiveStyles.viewDetailContainer]}>
+            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()} labelStyle={styles.buttonLabel} style={{height: 'auto'}}>
               { translations['remove'] }
             </Button>
           </View>

@@ -1,2 +1,2 @@
-export const smallMobileHeight = 697;
+export const smallMobileHeight = 732;
 export const smallWidthMobile = 360;
