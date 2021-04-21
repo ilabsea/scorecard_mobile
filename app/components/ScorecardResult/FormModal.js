@@ -123,6 +123,9 @@ const FormModal = (props) => {
     return '';
   }
 
+  let fieldName = translations[criteria.currentFieldName] ? translations[criteria.currentFieldName].toLowerCase() : '';
+  const subTitle = `${translations.insert} ${fieldName}`;
+
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
@@ -134,10 +137,7 @@ const FormModal = (props) => {
                   { _renderIndicatorName() }
                 </Text>
                 <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.subTitleText}>{translations.insert}</Text>
-                  <Text style={[styles.subTitleText, {textTransform: 'lowercase'}, appLanguage == english ? { marginLeft: 4 } : {}]}>
-                    {translations[criteria.currentFieldName]}
-                  </Text>
+                  <Text style={styles.subTitleText}>{ subTitle }</Text>
                 </View>
               </View>
 

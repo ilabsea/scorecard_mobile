@@ -23,6 +23,7 @@ import Tip from '../../components/Tip';
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
+import scorecardResultService from '../../services/scorecard_result_service';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
@@ -127,6 +128,7 @@ class ScorecardResult extends Component {
 
         <View style={{padding: containerPadding}}>
           <BottomButton
+            disabled={!scorecardResultService.hasSwotData(this.props.criterias)}
             onPress={() => this.setState({visibleConfirmModal: true})}
             customBackgroundColor={Color.headerColor}
             iconName={'checkmark'}

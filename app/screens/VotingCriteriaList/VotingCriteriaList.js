@@ -23,6 +23,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
+import { hasVoting } from '../../helpers/voting_criteria_helper';
 import tips from '../../db/jsons/tips';
 
 
@@ -110,7 +111,9 @@ class VotingCriteriaList extends Component {
           <BottomButton
             onPress={() => this._goNext()}
             customBackgroundColor={Color.headerColor}
-            label={translations.next}/>
+            label={translations.next}
+            disabled={!hasVoting(this.state.scorecard.uuid)}
+          />
         </View>
       </View>
     )
