@@ -5,6 +5,7 @@ const Participant = (() => {
     getAll,
     deleteAll,
     getVoted,
+    getNotRaised,
   }
 
   function getAll(scorecardUuid) {
@@ -23,6 +24,10 @@ const Participant = (() => {
 
   function getVoted(scorecardUuid) {
     return realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = true`);
+  }
+
+  function getNotRaised(scorecardUuid) {
+    return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND raised=false SORT(order ASC)`)
   }
 })();
 

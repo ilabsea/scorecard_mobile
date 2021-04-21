@@ -78,7 +78,9 @@ class IndicatorService {
   getAll = (scorecardUuid) => {
     let predefinedIndicators = this._getPredefinedIndicator(scorecardUuid);
     const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`)));
-    return predefinedIndicators.concat(customIndicators);
+    predefinedIndicators = predefinedIndicators.concat(customIndicators);
+
+    return predefinedIndicators.sort((a, b) => a.name > b.name);
   }
 
   saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, errorCallback) => {

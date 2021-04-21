@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Button, Icon, Text} from 'native-base';
+import {Text} from 'native-base';
 import {LocalizationContext} from '../Translations';
 import UserTable from './UserTable';
-import realm from '../../db/schema';
 import { connect } from 'react-redux';
 import { getRaisedParticipants } from '../../services/participant_service';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+import ProposedCriteria from '../../models/ProposedCriteria';
+import Participant from '../../models/Participant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
@@ -25,7 +26,7 @@ class ListUser extends Component {
 
     for (let i=0; i<raisedParticipants.length; i++) {
       const gender = raisedParticipants[i].gender === 'female' ? 'F' : raisedParticipants[i].gender === 'male' ? 'M' : 'other';
-      const proposedCriterias = raisedParticipants[i].proposed_criterias != undefined ? raisedParticipants[i].proposed_criterias : this.getProposedCriteria(raisedParticipants[i].uuid);
+      const proposedCriterias = raisedParticipants[i].proposed_criterias != undefined ? raisedParticipants[i].proposed_criterias : ProposedCriteria.find(this.props.scorecardUUID, raisedParticipants[i].uuid);
 
       if (proposedCriterias.length === 0)
         continue;
@@ -42,10 +43,6 @@ class ListUser extends Component {
     }
     return participants;
   };
-
-  getProposedCriteria = (participantUuid) => {
-    return realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.scorecardUUID +'" AND participant_uuid = "'+ participantUuid +'"');
-  }
 
   renderUserTable = () => {
     const tableData = this.getParticipant();
@@ -69,7 +66,7 @@ class ListUser extends Component {
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
-              participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.scorecardUUID}' AND raised=false SORT(order ASC)`)}
+              participants={Participant.getNotRaised(this.props.scorecardUUID)}
               scorecard_uuid={ this.props.scorecardUUID }
               mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
               onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
