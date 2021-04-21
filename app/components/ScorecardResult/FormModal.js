@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Modal, Portal } from 'react-native-paper';
-import { Text, Icon } from 'native-base';
+import { Text, Icon, CheckBox } from 'native-base';
 import { useDispatch } from 'react-redux';
 import { LocalizationContext } from '../Translations';
 import { getAll } from '../../actions/votingCriteriaAction';
@@ -18,7 +18,7 @@ import SaveButton from '../SaveButton';
 import OutlinedButton from '../OutlinedButton';
 import ScorecardResultTextInput from './ScorecardResultTextInput';
 
-import realm from '../../db/schema';
+import VotingCriteria from '../../models/VotingCriteria';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -34,24 +34,28 @@ const FormModal = (props) => {
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [selectedActions, setSelectedActions] = useState([false]);
 
   let defaultPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [''];
+  let savedPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [];
+  let savedSelectedActions = criteria.suggested_action_status != undefined && criteria.suggested_action_status.length > 0 ? criteria.suggested_action_status : [];
 
   const onDismiss = () => {
     setHasAction(false);
     setPoints(['']);
+    setSelectedActions([false]);
     !!props.onDismiss && props.onDismiss();
   }
 
   function submit() {
-    let data = { uuid: criteria.uuid };
-    let inputtedPoints = points.filter(note => note.length > 0);
+    let data = { uuid: criteria.uuid, suggested_action_status: null };
+    let inputtedPoints = getPoints();
+    inputtedPoints = inputtedPoints.filter(note => note.length > 0);
 
     data[criteria.currentFieldName] = inputtedPoints.length == 0 ? null : JSON.stringify(inputtedPoints);
+    data['suggested_action_status'] = getSelectedActions();
 
-    realm.write(() => {
-      realm.create('VotingCriteria', data, 'modified');
-    });
+    VotingCriteria.upsert(data);
 
     dispatch(getAll(criteria.scorecard_uuid));
     setHasAction(false);
@@ -62,14 +66,23 @@ const FormModal = (props) => {
     return defaultPoints[0] == '' ? points : defaultPoints;
   }
 
+  function getSelectedActions() {
+    return savedSelectedActions.length > 0 ? savedSelectedActions : selectedActions;
+  }
+
   function addNewPoint() {
     let newPoints = getPoints();
     newPoints.push('');
-    defaultPoints = [...defaultPoints ,...newPoints];
+    savedPoints = [...savedPoints ,...newPoints];
 
     setPoints([...newPoints]);
     setHasAction(true);
     setIsDelete(false);
+
+    if (isSuggestedAction()) {
+      savedSelectedActions = getSelectedActions()
+      savedSelectedActions.push(false);
+    }
   }
 
   function deletePoint(index) {
@@ -78,11 +91,16 @@ const FormModal = (props) => {
 
     let newPoints = getPoints();
     newPoints.splice(index, 1);
-    defaultPoints = newPoints;
+    savedPoints = newPoints;
 
     setPoints([...newPoints]);
     setHasAction(true);
     setIsDelete(true);
+
+    if (isSuggestedAction()) {
+      savedSelectedActions = getSelectedActions();
+      savedSelectedActions.splice(index, 1);
+    }
   }
 
   function onChangeText(fieldName, value) {
@@ -92,17 +110,33 @@ const FormModal = (props) => {
 
     setHasAction(true);
     setIsDelete(false);
+    savedPoints = newPoints;
+
     setPoints([...newPoints]);
   }
 
   function _renderForm() {
     let renderPoints = hasAction ? points : defaultPoints;
+    // let renderPoints = savedPoints.length > 0 && points[0] == '' ? savedPoints : points;
+    let renderSelectedActions = getSelectedActions();
 
     return renderPoints.map((note, index) => {
       let fieldName = `note-${index}`;
       return (
-        <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {} ]}>
-          <Text style={[styles.orderNumberText, _getLabelMarginTop()]}>{ index + 1 }.</Text>
+        // <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {} ]}>
+        //   <Text style={[styles.orderNumberText, _getLabelMarginTop()]}>{ index + 1 }.</Text>
+        <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {}]}>
+
+          { isSuggestedAction() &&
+            <CheckBox
+              checked={renderSelectedActions[index]}
+              onPress={() => toggleCheckbox(index)}
+              color={Color.clickableColor}
+              style={{marginLeft: -10, marginRight: 20, alignItems: 'center', justifyContent: 'center', width: 23, height: 23, paddingTop: 2}}
+            />
+          }
+
+          <Text style={[styles.orderNumberText, isSuggestedAction() ? {marginLeft: 5} : {}]}>{ index + 1 }.</Text>
           <View style={{flex: 1}}>
             <ScorecardResultTextInput
               autoFocus={true}
@@ -136,6 +170,18 @@ const FormModal = (props) => {
       return selectedIndicator.content ? selectedIndicator.content : selectedIndicator.name;
 
     return '';
+  }
+
+  function isSuggestedAction() {
+    return criteria.currentFieldName == 'suggested_action';
+  }
+
+  function toggleCheckbox(index) {
+    const newSelectedActions = getSelectedActions();
+    newSelectedActions[index] = !newSelectedActions[index];
+    savedSelectedActions = newSelectedActions;
+
+    setSelectedActions([...newSelectedActions]);
   }
 
   let fieldName = translations[criteria.currentFieldName] ? translations[criteria.currentFieldName].toLowerCase() : '';

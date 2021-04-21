@@ -272,6 +272,7 @@ class ScorecardPreference extends Component {
             onDismiss={() => this.onDismissErrorMessageModal()}
             errorType={this.state.errorType}
             isNewScorecard={true}
+            scorecardUuid={this.props.route.params.scorecard_uuid}
           />
 
           <MessageModal
