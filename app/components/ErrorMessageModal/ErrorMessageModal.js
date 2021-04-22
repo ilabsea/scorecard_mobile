@@ -10,6 +10,7 @@ import {
   ERROR_AUTHENTICATION,
   ERROR_ENDPOINT,
   ERROR_NOT_FOUND,
+  ERROR_UNAUTHORIZED,
 } from '../../constants/error_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -38,13 +39,16 @@ class ErrorMessageModal extends Component {
   _renderContent = () => {
     if (this.props.errorType === ERROR_AUTHENTICATION)
       return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
-    else if (this.props.errorType === ERROR_ENDPOINT || (this.props.errorType == ERROR_NOT_FOUND && !this.props.isNewScorecard))
+    else if (this.props.errorType === ERROR_ENDPOINT ||
+      (this.props.errorType == ERROR_NOT_FOUND && !this.props.isNewScorecard) ||
+      this.props.errorType === ERROR_UNAUTHORIZED) {
       return <ErrorRequestToServerContent
                 backendUrl={this.state.backendUrl}
                 onDismiss={this.props.onDismiss}
                 isSubmit={this.props.isSubmit}
                 errorType={this.props.errorType}
               />;
+    }
 
     return <ErrorMessageContent onDismiss={this.props.onDismiss} />
   }
