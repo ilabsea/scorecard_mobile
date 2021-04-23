@@ -33,9 +33,16 @@ class MessageModal extends Component {
           <Text style={[CustomStyle.modalTitle, modalStyles.headerTitle]}>
             {this.props.title}
           </Text>
-          <Text style={[{marginTop: 10}, modalStyles.label]}>
-            { this.props.description }
-          </Text>
+
+          { !this.props.child &&
+            <Text style={[{marginTop: 10}, modalStyles.label]}>
+              { this.props.description }
+            </Text>
+          }
+
+          { this.props.child &&
+            this.props.child()
+          }
 
           <View style={CustomStyle.modalBtnWrapper}>
             <CloseButton onPress={this.props.onDismiss} label={translations.close} />

@@ -37,6 +37,8 @@ class ErrorRequestToServerContent extends Component {
       <View>
         <Text style={[{marginTop: 10}, responsiveStyles.label]}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>{translations.fullStopSign}
+        </Text>
+        <Text style={[{marginTop: 20}, responsiveStyles.label]}>
           {translations.didYouEnterTheUrlCorrectly}
           {translations.ifYouKeepHavingThisProblem}
         </Text>
