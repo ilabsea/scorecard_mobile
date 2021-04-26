@@ -2,11 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const SelectedCriteriaItemStyles = StyleSheet.create({
   itemContainer: {
-    height: 130
+    height: 140
   },
   container: {
     paddingLeft: 10,
-    flex: 1
+    flex: 1,
+    marginTop: 6,
+    justifyContent: 'center',
   },
   titleText: {
     lineHeight: 30,
@@ -18,7 +20,7 @@ const SelectedCriteriaItemStyles = StyleSheet.create({
   },
   viewDetailContainer: {
     height: 35,
-    marginTop: 10,
+    marginTop: 5,
   }
 });
 

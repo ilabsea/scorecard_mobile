@@ -4,7 +4,7 @@ import { isShortScreenDevice, isShortWidthScreen } from '../../../../utils/respo
 
 const getContainerHeight = () => {
   if (isShortWidthScreen())
-    return hp('14.5%');
+    return hp('15%');
 
   return isShortScreenDevice() ? hp('16.5%') : hp('14.5%')
 }
@@ -22,7 +22,7 @@ const SelectedCriteriaItemStyles = StyleSheet.create({
   },
   container: {
     paddingLeft: 10,
-    paddingTop: 0,
+    marginTop: 4,
     justifyContent: 'center',
     flex: 1
   },
@@ -32,7 +32,7 @@ const SelectedCriteriaItemStyles = StyleSheet.create({
   },
   subText: {
     marginTop: -6,
-    marginLeft: 0
+    marginLeft: 0,
   },
   viewDetailContainer: {
     height: 28,

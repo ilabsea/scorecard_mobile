@@ -44,7 +44,7 @@ class SelectedCriteriaItem extends Component {
 
     return (
       <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
-        <View style={[styles.contentWrapper, {paddingLeft: 0, flexDirection: 'column',}]}>
+        <View style={[styles.contentWrapper, {paddingLeft: 0, flexDirection: 'column', paddingTop: 0}]}>
 
           <CriteriaTitle
             title={this.state.indicator.content}
