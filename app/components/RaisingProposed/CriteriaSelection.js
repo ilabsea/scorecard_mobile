@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, ScrollView} from 'react-native';
 import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
+import DeviceInfo from 'react-native-device-info'
 
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
@@ -12,6 +13,8 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import TourTipButton from '../TourTipButton';
 
 import Scorecard from '../../models/Scorecard';
+
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 const WalkableView = walkthroughable(View);
 
@@ -172,7 +175,9 @@ class CriteriaSelection extends Component {
           <WalkableView>
             <View key={index} style={{flexDirection: 'row', width: '100%'}}>
               {this.indicatorCard(indicator, index)}
-              <View style={{flex: 1, marginHorizontal: 10}} />
+              { DeviceInfo.isTablet() &&
+                <View style={{flex: 1, marginHorizontal: 10}} />
+              }
             </View>
           </WalkableView>
         </CopilotStep>
@@ -192,7 +197,9 @@ class CriteriaSelection extends Component {
         ref={ref => (this.scrollViewRef = ref)}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10, marginTop: 10}}>
+        <View style={[{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10, marginTop: 10},
+          getDeviceStyle({}, { justifyContent: 'center' })]}
+        >
           {doms}
         </View>
       </ScrollView>
