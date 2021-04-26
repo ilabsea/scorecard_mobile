@@ -29,6 +29,7 @@ import { isDownloaded } from '../../services/scorecard_download_service';
 import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import ScorecardService from '../../services/scorecardService';
+import { load as loadProgramLanguage } from '../../services/program_language_service';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
@@ -130,8 +131,8 @@ class NewScorecard extends Component {
     const scorecardService = new ScorecardService();
     scorecardService.find(code, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
-      this.setState({isLoading: false});
       if (responseData === null) {
+        this.setState({isLoading: false});
         this.setState({
           codeMsg: 'scorecardIsNotExist',
           visibleModal: true,
@@ -141,7 +142,11 @@ class NewScorecard extends Component {
       else {
         this.uuid = responseData.uuid;
         Scorecard.upsert(responseData);
-        this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
+
+        loadProgramLanguage(responseData.program_id, (response) => {
+          this.setState({isLoading: false});
+          this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
+        });
       }
     }, (error) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');

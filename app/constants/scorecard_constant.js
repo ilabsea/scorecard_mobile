@@ -1,5 +1,3 @@
-import { getAll as getAllProgramLanguage } from '../services/program_language_service';
-
 // Download phases of scorecard contain indicator, language_indicator, caf,
 // rating_scale, program_language, lang_indicator_audio, lang_rating_scale_audio, and indicator_image
 const scorecardDownloadSteps = 6;

@@ -3,12 +3,9 @@ import {
   isDownloaded as isScorecardDownloaded,
 } from './scorecard_download_service';
 
-import {
-  save as saveProgramLanguage,
-  isExist as isProgramLanguageExist,
-} from './program_language_service';
-import { getAll as getAllProgramLanguage } from './program_language_service';
+import { load as loadLanguage } from './program_language_service';
 import Scorecard from '../models/Scorecard';
+import ProgramLanguage from '../models/ProgramLanguage';
 
 import { isKhmerLanguage } from '../utils/program_language_util';
 
@@ -33,21 +30,15 @@ const scorecardPreferenceService = (() => {
     return isScorecardDownloaded(scorecardUuid) || isFinishDownloaded;
   }
 
-  function loadProgramLanguage(scorecard, appLanguage, callback) {
+  function loadProgramLanguage(scorecard, appLanguage, callback, errorCallback) {
     const programId = scorecard.program_id;
 
-    if (!isProgramLanguageExist(programId)) {
-      saveProgramLanguage(programId,
-        (languages) => {
-          _initProgramLanguage(languages, scorecard, appLanguage, callback);
-        },
-        this.errorCallback
-      );
-    }
-    else {
-      const locales = getAllProgramLanguage(programId);
+    loadLanguage(programId, () => {
+      const locales = ProgramLanguage.getAll(programId);
       _initProgramLanguage(locales, scorecard, appLanguage, callback);
-    }
+    }, (error) => {
+      errorCallback(error);
+    });
   }
 
   function _initProgramLanguage(locales, scorecard, appLanguage, callback) {

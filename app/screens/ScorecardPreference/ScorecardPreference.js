@@ -71,6 +71,9 @@ class ScorecardPreference extends Component {
           textLocale: languageSet.textLocale,
           audioLocale: languageSet.audioLocale,
         });
+      },
+      (error) => {
+        this.setState({languages: []});
       }
     );
   }
@@ -159,12 +162,18 @@ class ScorecardPreference extends Component {
     });
   }
 
+  isDownloadDisabled = () => {
+    if (this.state.languages.length == 0)
+      return true;
+
+    return this.state.errorType ? false : this.state.isDownloading;
+  }
+
   renderDownloadButton = () => {
     if (this.isFullyDownloaded())
       return;
 
     const { translations } = this.context;
-    const isDisabled = this.state.errorType ? false : this.state.isDownloading;
     const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.state.scorecard.uuid);
     const label = hasScorecardDownload ? translations.resumeDownload : translations.downloadAndSave;
 
@@ -177,7 +186,7 @@ class ScorecardPreference extends Component {
         <DownloadButton
           showDownloadProgress={this.state.isDownloading}
           downloadProgress={this.state.downloadProgress}
-          disabled={isDisabled}
+          disabled={this.isDownloadDisabled()}
           onPress={() => this.showConfirmModal(hasScorecardDownload)}
           label={label}
         />
