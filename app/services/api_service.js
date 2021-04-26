@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_NOT_FOUND } from '../constants/error_constant';
+import { ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_NOT_FOUND, ERROR_UNAUTHORIZED } from '../constants/error_constant';
 import authenticationHelper from '../helpers/authentication_helper';
 import authenticationService from './authentication_service';
 
@@ -28,12 +28,17 @@ const handleApiResponse = (response, successCallback, errorCallback) => {
 }
 
 const getErrorType = (errorStatus) => {
-  if (errorStatus == 422 || errorStatus == 401)
-    return ERROR_AUTHENTICATION;
-  else if (errorStatus == 404)
-    return ERROR_NOT_FOUND;
-
-  return ERROR_ENDPOINT;
+  switch (errorStatus) {
+    case 422:
+    case 401:
+      return ERROR_AUTHENTICATION;
+    case 404:
+      return ERROR_NOT_FOUND;
+    case 403:
+      return ERROR_UNAUTHORIZED;
+    default:
+      return ERROR_ENDPOINT;
+  }
 }
 
 const sendRequestToApi = async (apiRequest) => {

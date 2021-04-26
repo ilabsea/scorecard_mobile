@@ -252,5 +252,6 @@
   "scorecardSubmitFailed": "Scorecard submit failed",
   "cannotSubmitThisScorecard": "Unable to submit scoring card, the reason may be due to",
   "scorecardDeletedPleaseContactAdministrator": "or this scorecard is deleted in the server. Please contact the program administrator for more detail.",
-  "facility": "Facility"
+  "facility": "Facility",
+  "unauthorizedScorecardMessage": "This scorecard code is invalid. Please contact to the program administrator for more detail."
 }

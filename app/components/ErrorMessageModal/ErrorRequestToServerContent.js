@@ -5,7 +5,7 @@ import CustomStyle from '../../themes/customStyle';
 import CloseButton from '../CloseButton';
 
 import { LocalizationContext } from '../Translations';
-import { ERROR_NOT_FOUND } from '../../constants/error_constant';
+import { ERROR_NOT_FOUND, ERROR_UNAUTHORIZED } from '../../constants/error_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
@@ -44,10 +44,23 @@ class ErrorRequestToServerContent extends Component {
     )
   }
 
+  _renderUnauthorizedContent() {
+    const { translations } = this.context;
+
+    return (
+      <View>
+        <Text style={[{marginTop: 10}, responsiveStyles.label]}>
+          {translations.unauthorizedScorecardMessage}
+        </Text>
+      </View>
+    );
+  }
+
   _renderContent() {
-    if (this.props.errorType == ERROR_NOT_FOUND) {
+    if (this.props.errorType == ERROR_NOT_FOUND)
       return this._renderNotFoundContent()
-    }
+    else if (this.props.errorType == ERROR_UNAUTHORIZED)
+      return this._renderUnauthorizedContent();
 
     return this._renderErrorEndpointContent();
   }
