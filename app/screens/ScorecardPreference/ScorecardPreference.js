@@ -21,8 +21,11 @@ import { RUNNING } from '../../constants/milestone_constant';
 import { containerPaddingTop, getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardPreferenceFormTabletStyles from '../../components/ScorecardPreference/styles/tablet/ScorecardPreferenceFormStyle';
 import ScorecardPreferenceFormMobileStyles from '../../components/ScorecardPreference/styles/mobile/ScorecardPreferenceFormStyle';
+import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
 
 const responsiveStyles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
+const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -207,10 +210,23 @@ class ScorecardPreference extends Component {
     });
   }
 
-  render() {
+  confirmDownloadContent = () => {
     const {translations} = this.context;
     const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.textLocale);
     const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.audioLocale);
+
+    return (
+      <View style={{marginTop: 10, marginBottom: 10}}>
+        <Text style={modalStyles.label}>{translations.downloadScorecardFirstDescription}</Text>
+        <Text style={[{ marginTop: 20 }, , modalStyles.label]}>
+          {translations.formatString(translations.downloadScorecardSecondDescription, textLocaleLabel, audioLocaleLabel)}
+        </Text>
+      </View>
+    )
+  }
+
+  render() {
+    const {translations} = this.context;
 
     return (
       <TouchableWithoutFeedback onPress={() => this.formRef.current.closeAllSelectBox()}>
@@ -249,10 +265,10 @@ class ScorecardPreference extends Component {
             visible={this.state.visibleConfirmModal}
             onDismiss={() => this.setState({visibleConfirmModal: false})}
             title={translations.theScorecardContainsAudios}
-            description={translations.formatString(translations.downloadScorcardDescription, textLocaleLabel, audioLocaleLabel)}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this.downloadScorecard()}
+            child={() => this.confirmDownloadContent()}
           />
         </View>
       </TouchableWithoutFeedback>
