@@ -75,7 +75,7 @@ class VotingCriteriaForm extends Component {
 
   _renderParticipant() {
     return (
-      <View>
+      <View style={{paddingHorizontal: getDeviceStyle(16, 10)}}>
         <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
 
         <ParticipantInfo
@@ -93,10 +93,10 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{padding: 16, paddingTop: getDeviceStyle(16, 10)}}>
+      <ScrollView style={styles.container} contentContainerStyle={{padding: 10, paddingTop: getDeviceStyle(16, 10), paddingHorizontal: 0}}>
         { this._renderParticipant() }
 
-        <Text style={responsiveStyles.title}>{translations.pleaseSelect}</Text>
+        <Text style={[{ paddingHorizontal: getDeviceStyle(16, 10) }, responsiveStyles.title]}>{translations.pleaseSelect}</Text>
 
         { this._renderCriteriaRatingList() }
       </ScrollView>

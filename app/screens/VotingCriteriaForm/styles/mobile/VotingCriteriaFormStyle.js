@@ -5,7 +5,7 @@ import { lgLabelSize } from '../../../../constants/mobile_font_size_constant';
 const VotingCriteriaFormStyles = StyleSheet.create({
   title: {
     marginTop: 10,
-    marginBottom: -8,
+    marginBottom: 5,
     fontSize: wp(lgLabelSize),
   }
 });
