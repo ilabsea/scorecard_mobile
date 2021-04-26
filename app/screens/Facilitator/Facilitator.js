@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable, Dimensions} from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import realm from '../../db/schema';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../../components/Translations';
@@ -8,7 +9,9 @@ import SelectPicker from '../../components/SelectPicker';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 
-import { containerPaddingTop, scrollViewPaddingBottom, containerPadding } from '../../utils/responsive_util';
+import { containerPaddingTop, containerPadding, getDeviceStyle } from '../../utils/responsive_util';
+
+const screenHeight = Dimensions.get('screen').height;
 
 class Facilitator extends Component {
   static contextType = LocalizationContext;
@@ -164,29 +167,33 @@ class Facilitator extends Component {
             progressIndex={1}
           />
           <ScrollView contentContainerStyle={styles.container}>
-            <HeaderTitle
-              headline="facilitatorList"
-              subheading="pleaseFillInformationBelow"
-            />
-            <SelectPicker
-              items={facilitators}
-              selectedItem={this.getSelectedFacilitator(firstFacilitator)}
-              isRequire={true}
-              label={translations['facilitator']}
-              placeholder={translations['selectFacilitator']}
-              searchablePlaceholder={translations['searchForFacilitator']}
-              zIndex={8000}
-              customContainerStyle={{marginTop: 0}}
-              customLabelStyle={{zIndex: 8001, marginTop: -10}}
-              showCustomArrow={true}
-              onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
-              itemIndex={1}
-              mustHasDefaultValue={false}
-              controller={(instance) => this.controllers[0] = instance}
-              onOpen={() => this.closeSelectBox(0)}
-            />
+            <Pressable onPress={() => this.closeSelectBox(null)}
+              style={{height: screenHeight - getDeviceStyle(hp('35%'), 100)}}
+            >
+              <HeaderTitle
+                headline="facilitatorList"
+                subheading="pleaseFillInformationBelow"
+              />
+              <SelectPicker
+                items={facilitators}
+                selectedItem={this.getSelectedFacilitator(firstFacilitator)}
+                isRequire={true}
+                label={translations['facilitator']}
+                placeholder={translations['selectFacilitator']}
+                searchablePlaceholder={translations['searchForFacilitator']}
+                zIndex={8000}
+                customContainerStyle={{marginTop: 0}}
+                customLabelStyle={{zIndex: 8001, marginTop: -10}}
+                showCustomArrow={true}
+                onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
+                itemIndex={1}
+                mustHasDefaultValue={false}
+                controller={(instance) => this.controllers[0] = instance}
+                onOpen={() => this.closeSelectBox(0)}
+              />
 
-            { this.renderOtherFacilitators() }
+              { this.renderOtherFacilitators() }
+            </Pressable>
           </ScrollView>
 
           { this.renderNextButton() }
@@ -201,7 +208,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: 'white',
     padding: containerPadding,
-    paddingBottom: scrollViewPaddingBottom,
     paddingTop: containerPaddingTop,
   },
   otherFacilitatorsLabel: {
