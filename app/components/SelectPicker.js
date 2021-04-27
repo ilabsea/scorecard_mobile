@@ -53,6 +53,7 @@ class SelectPicker extends Component {
   };
 
   render() {
+    const { translations } = this.context;
     const {
       items,
       selectedItem,
@@ -79,6 +80,7 @@ class SelectPicker extends Component {
           dropDownStyle={[{backgroundColor: 'white', zIndex: zIndex}]}
           labelStyle={{fontSize: normalLabelSize}}
           customArrowDown={() => this.dropDownArrowRight()}
+          searchableError={() => <Text style={{ fontSize: normalLabelSize }}>{ translations.noData }</Text>}
         />
       </View>
     );
