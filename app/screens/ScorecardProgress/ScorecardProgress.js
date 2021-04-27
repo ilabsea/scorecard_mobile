@@ -166,7 +166,7 @@ class ScorecardProgress extends Component {
             progressIndex={this.state.scorecard.status || 3}
             scorecard={this.state.scorecard}
             navigation={this.props.navigation}
-            showMessageModal={() => this.showMessageModal(translations.locked, translations.alreadyUploaded)}
+            showMessageModal={this.showMessageModal}
           />
         </ScrollView>
 

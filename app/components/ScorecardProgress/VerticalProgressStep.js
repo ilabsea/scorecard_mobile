@@ -21,8 +21,11 @@ export default class VerticalProgressStep extends Component {
   onPress(step) {
     const { translations } = this.context;
 
-    if (this.props.scorecard.isUploaded) {
-      this.props.showMessageModal();
+    if (this.props.scorecard.finished || this.props.scorecard.isUploaded) {
+      const title = this.props.scorecard.isUploaded ? translations.locked : translations.notEditable;
+      const description = this.props.scorecard.isUploaded ? translations.alreadyUploaded : translations.alreadyFinished;
+
+      this.props.showMessageModal(title, description);
       return;
     }
 
