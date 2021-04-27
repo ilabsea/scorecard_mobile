@@ -15,7 +15,7 @@ class CriteriaTitle extends Component {
     const {translations, appLanguage} = this.context;
 
     return (
-      <View style={[this.props.customContainerStyle, {flexDirection: 'row'}]}>
+      <View style={[this.props.customContainerStyle, {flexDirection: 'row', justifyContent: 'center'}]}>
         <View style={{flex: 1, paddingRight: 20, justifyContent: 'center'}}>
           <Text style={[styles.title, this.props.customTitleStyle]} numberOfLines={2}>{this.props.title}</Text>
           <Text style={[styles.subText, this.props.customSubTextStyle]}>
