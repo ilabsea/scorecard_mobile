@@ -6,7 +6,6 @@ import {
   Alert,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
@@ -30,6 +29,9 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle, mobileHeadingTitleSize, containerPadding } from '../../utils/responsive_util';
+import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
+import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -107,6 +109,19 @@ class ScorecardResult extends Component {
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
+  _confirmFinishContent = () => {
+    const {translations} = this.context;
+
+    return (
+      <View style={{marginTop: 10, marginBottom: 10}}>
+        <Text style={modalStyles.label}>{translations.thisScorecardWillBeLocked}</Text>
+        <Text style={[{ marginTop: 20 }, , modalStyles.label]}>
+          {translations.formatString(translations.areYouSureYouWantToFinish, this.props.route.params.scorecard_uuid)}
+        </Text>
+      </View>
+    )
+  }
+
   render() {
     const { translations } = this.context;
 
@@ -145,10 +160,10 @@ class ScorecardResult extends Component {
             visible={this.state.visibleConfirmModal}
             onDismiss={() => this.setState({visibleConfirmModal: false})}
             title={translations.finish}
-            description={translations.doYouWantToFinishTheScorecard}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this._confirmFinish()}
+            child={() => this._confirmFinishContent()}
           />
         </View>
       </View>

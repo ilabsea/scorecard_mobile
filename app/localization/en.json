@@ -195,7 +195,6 @@
   "successfullyAuthenticated": "Successfully authenticated",
   "emailOrPasswordIsIncorrect": "Email or password is incorrect",
   "cscAppCannotReachTheServerAt": "CSC app cannot reach the server at",
-  "doYouWantToFinishTheScorecard": "Do you want to finish this scorecard?",
   "ok": "OK",
   "version": "Version",
   "didYouEnterTheUrlCorrectly": "Did you enter the URL correctly? ",
@@ -256,5 +255,7 @@
   "facility": "Facility",
   "unauthorizedScorecardMessage": "This scorecard code is invalid. Please contact to the program administrator for more detail.",
   "notEditable": "Not editable",
-  "alreadyFinished": "The scorecard is not editable after clicking finish!"
+  "alreadyFinished": "The scorecard is not editable after clicking finish!",
+  "thisScorecardWillBeLocked": "This scorecard will be locked (no longer editable).",
+  "areYouSureYouWantToFinish": "Are you sure you want to finish this scorecard ({0})?"
 }
