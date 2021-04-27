@@ -121,9 +121,9 @@ export default class CriteriaRatingItem extends Component {
 
   indicatorBackgroundColor() {
     if (this.props.colIndex % 2 == 0)
-      return { backgroundColor: '#0a9eee'};
+      return { backgroundColor: 'white' };
 
-    return { backgroundColor: '#03d4fc' };
+    return { backgroundColor: '#b5b5b5' };
   }
 
   _renderRatingIcons() {

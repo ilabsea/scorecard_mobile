@@ -9,8 +9,6 @@ const CriteriaRatingItemStyles = StyleSheet.create({
   ratingIndicatorContainer: {
     paddingBottom: 20,
     paddingHorizontal: 16,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#a0a0a0',
   },
   ratingIconContainer: {
     flexDirection: 'row',
