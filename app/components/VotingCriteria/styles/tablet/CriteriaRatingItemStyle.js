@@ -7,11 +7,12 @@ let iconSizeRatio = iconSize * 0.8;
 
 const CriteriaRatingItemStyles = StyleSheet.create({
   ratingIndicatorContainer: {
-    marginTop: 30
+    paddingBottom: 20,
+    paddingHorizontal: 16,
   },
   ratingIconContainer: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 10,
     marginRight: 40,
   },
   indicatorLabel: {

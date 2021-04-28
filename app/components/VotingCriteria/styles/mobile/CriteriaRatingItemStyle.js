@@ -10,11 +10,12 @@ let iconSizeRatio = iconSize * 0.8;
 
 const CriteriaRatingItemStyles = StyleSheet.create({
   ratingIndicatorContainer: {
-    marginTop: 15
+    paddingBottom: 10,
+    paddingHorizontal: 10,
   },
   ratingIconContainer: {
     flexDirection: 'row',
-    marginTop: 15,
+    marginTop: 10,
     marginRight: 40,
   },
   indicatorLabel: {
@@ -27,7 +28,8 @@ const CriteriaRatingItemStyles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 10,
-    marginHorizontal: -8,
+    marginHorizontal: -2,
+    justifyContent: 'center'
   },
   ratingWrapper: {
     alignItems: 'center',
@@ -69,7 +71,7 @@ const CriteriaRatingItemStyles = StyleSheet.create({
   ratingLabel: {
     fontSize: isShortWidthScreen() ? 10 : 11,
     marginTop: 10,
-  },
+  }
 });
 
 export default CriteriaRatingItemStyles;

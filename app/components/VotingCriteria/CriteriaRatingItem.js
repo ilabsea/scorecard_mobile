@@ -119,14 +119,19 @@ export default class CriteriaRatingItem extends Component {
     )
   }
 
+  indicatorBackgroundColor() {
+    if (this.props.colIndex % 2 == 0)
+      return { backgroundColor: 'white' };
+
+    return { backgroundColor: '#b5b5b5' };
+  }
+
   _renderRatingIcons() {
     const { translations } = this.context;
     let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria, this.state.scorecard);
 
     return (
-      <View style={responsiveStyles.ratingIndicatorContainer}>
-        <Divider/>
-
+      <View style={[responsiveStyles.ratingIndicatorContainer, this.indicatorBackgroundColor()]}>
         <View style={responsiveStyles.ratingIconContainer}>
           <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
             { indicator.content || indicator.name}
@@ -138,7 +143,7 @@ export default class CriteriaRatingItem extends Component {
         </View>
 
         { !DeviceInfo.isTablet() &&
-          <View style={{flexDirection: 'row', paddingLeft: 0, marginLeft: -4}}>
+          <View style={{flexDirection: 'row', paddingLeft: 0, marginLeft: -2, justifyContent: 'center'}}>
             { ratings.map((rating, index) => this._renderRatingLabel(rating, index)) }
           </View>
         }
