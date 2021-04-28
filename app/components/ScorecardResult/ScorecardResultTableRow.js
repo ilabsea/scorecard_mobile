@@ -17,6 +17,9 @@ export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
 
   onPress = (fieldName, indicator) => {
+    if (this.props.isScorecardFinished)
+      return;
+
     !!this.props.onPress && this.props.onPress(fieldName, indicator);
   }
 
@@ -26,7 +29,7 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)} style={{alignItems: 'center'}}>
         <View style={styles.btn}>
-          <Text style={styles.btnText}>{ translations.addText }</Text>
+          <Text style={[styles.btnText, this.textColor('black')]}>{ translations.addText }</Text>
         </View>
       </TouchableOpacity>
     );
@@ -35,12 +38,16 @@ export default class ScorecardResultTableRow extends Component {
   renderEditText = (fieldName, indicator) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)} style={styles.btnEdit}>
-          <Text style={{color: '#fff', marginRight: 6}}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
-          <Icon name={'pen'} type="FontAwesome5" style={{color: '#fff', fontSize: 14}}/>
+        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator)} style={[styles.btnEdit, this.props.isScorecardFinished ? {backgroundColor: '#cacaca'} : {}]}>
+          <Text style={[{marginRight: 6}, this.textColor('#fff')]}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
+          <Icon name={'pen'} type="FontAwesome5" style={[{fontSize: 14}, this.textColor('#fff')]}/>
         </TouchableOpacity>
       </View>
     )
+  }
+
+  textColor = (defaultColor) => {
+    return this.props.isScorecardFinished ? { color: 'gray' } : { color: defaultColor };
   }
 
   renderCell = (fieldName, indicator) => {

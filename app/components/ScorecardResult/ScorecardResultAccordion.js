@@ -27,6 +27,9 @@ class ScorecardResultAccordion extends Component {
   }
 
   onPress = (criteria, fieldName, indicator) => {
+    if (this.props.isScorecardFinished)
+      return;
+
     !!this.props.onPress && this.props.onPress(criteria, fieldName, indicator);
   }
 
@@ -38,7 +41,7 @@ class ScorecardResultAccordion extends Component {
         <Text style={styles.itemTitleText}>{translations[fieldName]}</Text>
         <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator)} style={{alignItems: 'center', flex: 1}}>
           <View style={styles.btn}>
-            <Text style={styles.btnText}>{ translations.addText }</Text>
+            <Text style={[styles.btnText, this.textColor()]}>{ translations.addText }</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -52,13 +55,19 @@ class ScorecardResultAccordion extends Component {
       <View style={{flexDirection: 'row', marginVertical: 6}}>
         <Text style={styles.itemTitleText}>{translations[fieldName]}</Text>
         <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator)} style={styles.btnEdit}>
-            <Text style={styles.btnEditText}>{JSON.parse(criteria[fieldName]).length}</Text>
-            <Icon name={'pen'} type="FontAwesome5" style={styles.btnEditIcon}/>
+          <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator)}
+            style={[styles.btnEdit, this.props.isScorecardFinished ? {backgroundColor: '#cacaca'} : {}]}
+          >
+            <Text style={[styles.btnEditText, this.textColor()]}>{JSON.parse(criteria[fieldName]).length}</Text>
+            <Icon name={'pen'} type="FontAwesome5" style={[styles.btnEditIcon, this.textColor()]}/>
           </TouchableOpacity>
         </View>
       </View>
     )
+  }
+
+  textColor = () => {
+    return this.props.isScorecardFinished ? { color: 'gray' } : {};
   }
 
   _renderClickableItem = (criteria, fieldName, indicator) => {

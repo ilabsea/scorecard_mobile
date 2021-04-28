@@ -79,7 +79,10 @@ class ScorecardResult extends Component {
         <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3]}/>
         {
           tableRows.map((criteria, index) => (
-            <ScorecardResultTableRow key={index} criteria={criteria} onPress={(fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}/>
+            <ScorecardResultTableRow key={index} criteria={criteria}
+              onPress={(fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
+              isScorecardFinished={this.state.scorecard.finished}
+            />
           ))
         }
       </Table>
@@ -91,6 +94,7 @@ class ScorecardResult extends Component {
       <ScorecardResultAccordion
         criterias={this.props.criterias}
         onPress={(criteria, fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
+        isScorecardFinished={this.state.scorecard.finished}
       />
     )
   }
@@ -143,7 +147,7 @@ class ScorecardResult extends Component {
 
         <View style={{padding: containerPadding}}>
           <BottomButton
-            disabled={!scorecardResultService.hasSwotData(this.props.criterias)}
+            disabled={!scorecardResultService.isAllowToFinish(this.state.scorecard, this.props.criterias)}
             onPress={() => this.setState({visibleConfirmModal: true})}
             customBackgroundColor={Color.headerColor}
             iconName={'checkmark'}

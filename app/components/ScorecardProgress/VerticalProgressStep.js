@@ -12,6 +12,7 @@ import MilestoneCard from './MilestoneCard';
 import ScorecardStep from '../../models/ScorecardStep';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { SCORECARD_RESULT } from '../../constants/scorecard_step_constant';
 
 const badgeSize = getDeviceStyle(40, wp('9%'));
 
@@ -21,8 +22,8 @@ export default class VerticalProgressStep extends Component {
   onPress(step) {
     const { translations } = this.context;
 
-    if (this.props.scorecard.finished || this.props.scorecard.isUploaded) {
-      const title = this.props.scorecard.isUploaded ? translations.locked : translations.notEditable;
+    if ((this.props.scorecard.finished || this.props.scorecard.isUploaded) && step.value != SCORECARD_RESULT) {
+      const title = this.props.scorecard.isUploaded ? translations.locked : translations.scorecardIsFinished;
       const description = this.props.scorecard.isUploaded ? translations.alreadyUploaded : translations.alreadyFinished;
 
       this.props.showMessageModal(title, description);
@@ -44,6 +45,7 @@ export default class VerticalProgressStep extends Component {
         progressIndex={ this.props.progressIndex }
         onPress={() => this.onPress(step) }
         isScorecardFinished={this.props.scorecard.finished}
+        isScorecardUploaded={this.props.scorecard.isUploaded}
       />
     )
   }
