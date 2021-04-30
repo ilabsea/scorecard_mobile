@@ -7,7 +7,7 @@ const scorecardResultService = (() => {
     for (let i=0; i<criterias.length; i++) {
       const criteria = criterias[i];
 
-      if (criteria.strength || criteria.weakness || criteria.suggestedAction)
+      if (criteria.strength || criteria.weakness || criteria.suggested_action)
         return true;
     }
 
