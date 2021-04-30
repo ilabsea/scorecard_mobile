@@ -27,11 +27,15 @@ class SelectedCriteriaItem extends Component {
 
   constructor(props) {
     super(props);
-    let scorecard = Scorecard.find(props.criteria.scorecard_uuid);
+    this.scorecard = Scorecard.find(props.criteria.scorecard_uuid);
 
     this.state = {
-      indicator: indicatorHelper.getDisplayIndicator(props.criteria, scorecard)
+      indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard),
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard) };
   }
 
   handleCriteria() {
