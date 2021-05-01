@@ -258,5 +258,6 @@
   "alreadyFinished": "The scorecard is not editable after clicking finish!",
   "thisScorecardWillBeLocked": "This scorecard will be locked (no longer editable).",
   "areYouSureYouWantToFinish": "Are you sure you want to finish this scorecard({0})?",
-  "finished": "Finished"
+  "finished": "Finished",
+  "searchCriteria": "Search criteria"
 }

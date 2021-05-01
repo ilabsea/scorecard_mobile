@@ -7,6 +7,7 @@ import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import { normalLabelSize } from '../../utils/responsive_util';
+import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper'
 
 class IndicatorCard extends Component {
 
@@ -23,6 +24,11 @@ class IndicatorCard extends Component {
     if (indicator.isSelected || (this.props.customIndicator != null && this.props.customIndicator.uuid == indicator.uuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
+    for (let i = 0; i < this.props.selectedIndicators.length; i++) {
+      if (this.props.selectedIndicators[i].uuid == indicator.uuid)
+        return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
+    }
+
     return {};
   }
 
@@ -30,13 +36,13 @@ class IndicatorCard extends Component {
     const { indicator, index } = this.props;
     let displayName = this._getIndicatorName(indicator);
     let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
-    let isAddNewCriteriaIndex = index == this.props.indicators.length - 1;
+    let isAddNewCriteria = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
 
     return (
       <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.props.selectIndicator(index)}>
-          { isAddNewCriteriaIndex && 
+          { isAddNewCriteria && 
             <View style={[styles.iconContainer, iconContainerStyle]}>
               <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />
             </View>
@@ -48,7 +54,7 @@ class IndicatorCard extends Component {
         </TouchableOpacity>
 
         {/* Audio Button */}
-        { index != this.props.indicators.length - 1 &&
+        { !isAddNewCriteria &&
           this.props.children
         }
       </View>

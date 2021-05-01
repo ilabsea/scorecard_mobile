@@ -8,8 +8,8 @@ import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import IndicatorCard from './IndicatorCard';
 
-import {getLanguageIndicator} from '../../services/language_indicator_service';
 import indicatorHelper from '../../helpers/indicator_helper';
+import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import TourTipButton from '../TourTipButton';
 
 import Scorecard from '../../models/Scorecard';
@@ -66,8 +66,8 @@ class CriteriaSelection extends Component {
 
   selectIndicator = (index) => {
     let indicators = this.state.indicators;
-    let selectedIndicators = this.state.selectedIndicators;
-    let unselectedIndicators = this.state.unselectedIndicators;
+    let selectedIndicators = this.props.selectedIndicators;
+    let unselectedIndicators = this.props.unselectedIndicators;
 
     if (indicators[index].isSelected) {
       selectedIndicators = selectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
@@ -84,8 +84,8 @@ class CriteriaSelection extends Component {
       indicators,
       selectedIndicators,
       unselectedIndicators,
-      isModalVisible: index === indicators.length - 1 ? true : false,
-    }, () => { this.props.selectIndicator(this.state); });
+      isModalVisible: createNewIndicatorHelper.isAddNewIndicatorSection(index, indicators),
+    }, () => { this.props.selectIndicator(selectedIndicators, unselectedIndicators, this.state.isModalVisible); });
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
@@ -136,7 +136,7 @@ class CriteriaSelection extends Component {
   }
 
   audioButton = (indicator, index) => {
-    let isAddNewCriteriaIndex = index == this.state.indicators.length - 1;
+    let isAddNewCriteriaIndex = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.state.indicators);
 
     return (
       <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
@@ -157,6 +157,7 @@ class CriteriaSelection extends Component {
         index={index}
         scorecardUuid={this.props.scorecardUUID}
         selectIndicator={this.selectIndicator}
+        selectedIndicators={this.props.selectedIndicators}
       >
         {this._renderAudioButton(indicator, index)}
       </IndicatorCard>

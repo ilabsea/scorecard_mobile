@@ -8,6 +8,7 @@ const CustomIndicator = (() => {
     getAll,
     update,
     deleteAll,
+    filter,
   }
 
   function getAll(scorecardUuid) {
@@ -33,6 +34,10 @@ const CustomIndicator = (() => {
         realm.delete(customIndicators);
       });
     }
+  }
+
+  function filter(scorecardUuid, text) {
+    return realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS '${text}' OR tag CONTAINS '${text}')`);
   }
 
   // Private method

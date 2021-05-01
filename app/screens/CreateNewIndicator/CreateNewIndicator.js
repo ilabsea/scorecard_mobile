@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Portal} from 'react-native-paper';
 import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 
@@ -15,9 +15,11 @@ import {saveCriteria} from '../../actions/criteriaListAction';
 import { CUSTOM } from '../../utils/variable';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import TourTipButton from '../../components/TourTipButton';
 
 import IndicatorService from '../../services/indicator_service';
+import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 
 const WalkableView = walkthroughable(View);
@@ -49,12 +51,12 @@ class CreateNewIndicator extends Component {
     this._updateIndicatorList();
   }
 
-  selectIndicator = (criteriaSelectionState) => {
+  selectIndicator = (selectedIndicators, unselectedIndicators, isModalVisible) => {
     this.setState({
-      isModalVisible: criteriaSelectionState.isModalVisible,
-      selectedIndicators: criteriaSelectionState.selectedIndicators,
-      unselectedIndicators: criteriaSelectionState.unselectedIndicators,
-      isValid: criteriaSelectionState.selectedIndicators.length > 0 ? true : false,
+      selectedIndicators: selectedIndicators,
+      unselectedIndicators: unselectedIndicators,
+      isModalVisible: isModalVisible,
+      isValid: createNewIndicatorHelper.isAbleToSaveIndicator(selectedIndicators),
     });
   };
 
@@ -191,7 +193,7 @@ class CreateNewIndicator extends Component {
   _updateIndicatorList = () => {
     const { translations } = this.context;
     const indicatorService = new IndicatorService();
-    const allCriteria = indicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, this.state.participant_uuid, translations.addNewCriteria);
+    const allCriteria = indicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, this.state.participant_uuid, '', translations.addNewCriteria);
 
     this.setState({
       indicators: allCriteria.indicators,
@@ -204,39 +206,66 @@ class CreateNewIndicator extends Component {
     this.props.start();
   }
 
+  updateSearchedIndicator = (indicators, allSelectedIndicators) => {
+    const { unselectedIndicators, selectedIndicators } = this.state;
+    let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(allSelectedIndicators, selectedIndicators, unselectedIndicators);
+
+    this.setState({
+      indicators: createNewIndicatorHelper.getUpdatedIndicators(indicators, unselectedIndicators),
+      selectedIndicators: newSelectedIndicators,
+      // isValid: createNewIndicatorHelper.hasSelectedIndicator(allSelectedIndicators, newSelectedIndicators),
+      isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
+    });
+
+    // this.setState({
+    //   indicators: indicators
+    // });
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
-      <View style={{flex: 1, backgroundColor: '#ffffff', padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
-        { this._renderParticipant() }
-        <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
-          {translations['chooseProposedCriteria']}
-        </Text>
-
-        <CriteriaSelection
-          ref={this.indicatorSelectionRef}
-          selectIndicator={this.selectIndicator}
-          scorecardUUID={this.props.route.params.scorecard_uuid}
-          participantUUID={this.props.route.params.participant_uuid}
-          indicators={this.state.indicators}
-          selectedIndicators={this.state.selectedIndicators}
-          customIndicator={this.state.customIndicator}
-          startNextTourTip={() => this.startNextTourTip()}
-        />
-
-        { this.renderSaveButton() }
-
-        <Portal>
-          <AddNewIndicatorModal
-            isVisible={this.state.isModalVisible}
-            closeModal={() => this.closeModal()}
-            saveCustomIndicator={this.saveCustomIndicator}
-            participantUUID={this.props.route.params.participant_uuid}
-            scorecardUUID={this.props.route.params.scorecard_uuid}
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={{flex: 1}}>
+          <SearchableHeader
+            scorecardUuid={this.props.route.params.scorecard_uuid}
+            participantUuid={this.props.route.params.participant_uuid}
+            onBackPress={() => this.props.navigation.goBack()}
+            updateSearchedIndicator={this.updateSearchedIndicator}
           />
-        </Portal>
-      </View>
+          <View style={{flex: 1, backgroundColor: '#ffffff', padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
+            { this._renderParticipant() }
+            <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
+              {translations['chooseProposedCriteria']}
+            </Text>
+
+            <CriteriaSelection
+              ref={this.indicatorSelectionRef}
+              selectIndicator={this.selectIndicator}
+              scorecardUUID={this.props.route.params.scorecard_uuid}
+              participantUUID={this.props.route.params.participant_uuid}
+              indicators={this.state.indicators}
+              selectedIndicators={this.state.selectedIndicators}
+              unselectedIndicators={this.state.unselectedIndicators}
+              customIndicator={this.state.customIndicator}
+              startNextTourTip={() => this.startNextTourTip()}
+            />
+
+            { this.renderSaveButton() }
+
+            <Portal>
+              <AddNewIndicatorModal
+                isVisible={this.state.isModalVisible}
+                closeModal={() => this.closeModal()}
+                saveCustomIndicator={this.saveCustomIndicator}
+                participantUUID={this.props.route.params.participant_uuid}
+                scorecardUUID={this.props.route.params.scorecard_uuid}
+              />
+            </Portal>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

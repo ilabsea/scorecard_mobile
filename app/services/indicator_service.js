@@ -13,6 +13,7 @@ import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
 
 import indicatorHelper from '../helpers/indicator_helper';
+import Indicator from '../models/Indicator';
 
 class IndicatorService {
   constructor() {
@@ -118,11 +119,34 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  getIndicatorList = (scorecardUuid, participantUuid, addNewLabel) => {
-    let indicators = [];
-    const savedIndicators = this.getAll(scorecardUuid);
+  getIndicatorList = (scorecardUuid, participantUuid, searchText, addNewLabel) => {
+    let savedIndicators = [];
+    let hasAddNewIndicator = true;
     const proposedCriterias = proposedCriteriaService.getAllByParticipant(scorecardUuid, participantUuid);
 
+    if (searchText != '') {
+      savedIndicators = Indicator.filter(scorecardUuid, searchText);
+      hasAddNewIndicator = false;
+    }
+    else
+      savedIndicators = this.getAll(scorecardUuid);
+
+    return this._getIndicatorAttrs(savedIndicators, proposedCriterias, addNewLabel, hasAddNewIndicator);
+  }
+
+  find = (indicatorId) => {
+    return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
+  }
+
+  // private
+
+  _getPredefinedIndicator(scorecardUuid) {
+    const facilityId = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0].facility_id;
+    return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
+  }
+
+  _getIndicatorAttrs = (savedIndicators, proposedCriterias, addNewLabel, hasAddNewItem) => {
+    let indicators = [];
     let selectedIndicators = [];
 
     savedIndicators.map((indicator) => {
@@ -147,18 +171,11 @@ class IndicatorService {
       }
       indicators.push(attrs);
     });
-    indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
+
+    if (hasAddNewItem)
+      indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
 
     return {indicators, selectedIndicators};
-  }
-
-  find = (indicatorId) => {
-    return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
-  }
-
-  _getPredefinedIndicator(scorecardUuid) {
-    const facilityId = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0].facility_id;
-    return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
   }
 }
 
