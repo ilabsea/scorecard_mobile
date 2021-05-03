@@ -1,31 +1,25 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet,
   View,
-  Text,
 } from 'react-native';
 
 import {
-  Container,
   Header,
   Title,
   Icon,
   Left,
-  Right,
   Body,
-  Content,
-  StyleProvider,
   Button,
 } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import getTheme from '../themes/components';
-import material from '../themes/variables/material';
 import { HeaderBackButton } from '@react-navigation/stack';
 import ProgressStep from '../components/ProgressStep';
 import MessageModal from './MessageModal';
 import { LocalizationContext } from './Translations';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
+
+import Color from '../themes/color';
 
 export default class BigHeader extends React.Component {
   static contextType = LocalizationContext;
@@ -54,7 +48,7 @@ export default class BigHeader extends React.Component {
       <Header span>
         <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 8}}>
           <Left>
-            <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
+            <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
           </Left>
 
           <Body>

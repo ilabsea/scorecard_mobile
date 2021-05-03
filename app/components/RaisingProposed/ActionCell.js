@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import UserTableTabletStyles from './styles/tablet/UserTableStyle';
-import UserTableMobileStyles from './styles/mobile/UserTableStyle';
+import UserTableTabletStyles from '../../styles/tablet/UserTableComponentStyle';
+import UserTableMobileStyles from '../../styles/mobile/UserTableComponentStyle';
 
 const responsiveStyles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
 
@@ -15,7 +16,7 @@ class ActionCell extends Component {
         style={{flexDirection: 'row', alignSelf: 'center'}}
         onPress={() => this.props.onPress()}
       >
-        <MaterialIcon name="edit" color="#e4761e" style={responsiveStyles.actionCellIcon} />
+        <MaterialIcon name="edit" color={Color.primaryButtonColor} style={responsiveStyles.actionCellIcon} />
         <Text style={[styles.actionCellLabel, responsiveStyles.actionCellLabel]}>
           {this.props.actionLabel}
         </Text>
@@ -26,7 +27,7 @@ class ActionCell extends Component {
 
 const styles = StyleSheet.create({
   actionCellLabel: {
-    color: '#e4761e',
+    color: Color.primaryButtonColor,
     textTransform: 'uppercase',
     fontWeight: '700',
     marginLeft: 4,

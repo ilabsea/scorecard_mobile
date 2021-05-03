@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import UserTableTabletStyles from './styles/tablet/UserTableStyle';
-import UserTableMobileStyles from './styles/mobile/UserTableStyle';
+import UserTableTabletStyles from '../../styles/tablet/UserTableComponentStyle';
+import UserTableMobileStyles from '../../styles/mobile/UserTableComponentStyle';
 
 const responsiveStyles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
 

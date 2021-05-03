@@ -38,7 +38,7 @@ class SelectPicker extends Component {
           size={25}
           name="keyboard-arrow-down"
           style={{marginTop: -2}}
-          color="black"
+          color={Color.blackColor}
         />
       </View>
     );
@@ -77,7 +77,7 @@ class SelectPicker extends Component {
           style={styles.dropDownPickerStyle}
           itemStyle={{justifyContent: 'flex-start'}}
           dropDownMaxHeight={200}
-          dropDownStyle={[{backgroundColor: 'white', zIndex: zIndex}]}
+          dropDownStyle={[{backgroundColor: Color.whiteColor, zIndex: zIndex}]}
           labelStyle={{fontSize: normalLabelSize}}
           customArrowDown={() => this.dropDownArrowRight()}
           searchableError={() => <Text style={{ fontSize: normalLabelSize }}>{ translations.noData }</Text>}
@@ -104,7 +104,7 @@ SelectPicker.defaultProps = {
 
 const styles = StyleSheet.create({
   inputLabel: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     color: Color.inputBorderLineColor,
     fontSize: 12,
     marginLeft: 12,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   dropDownPickerStyle: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     zIndex: 5000,
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,

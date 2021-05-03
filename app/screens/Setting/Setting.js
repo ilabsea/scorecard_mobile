@@ -30,8 +30,8 @@ import SessionApi from '../../api/SessionApi';
 import pkg from '../../../package';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import SettingStyleTabletStyles from './styles/tablet/SettingStyle';
-import SettingStyleMobileStyles from './styles/mobile/SettingStyle';
+import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
+import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
@@ -245,7 +245,7 @@ class Setting extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     flex: 1,
     paddingTop: StatusBar.currentHeight || 0,
     paddingHorizontal: 16,
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dropDownPickerStyle: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     zIndex: 5000,
     elevation: 2,
     borderTopLeftRadius: 6,

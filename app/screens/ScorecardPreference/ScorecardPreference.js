@@ -19,10 +19,11 @@ import Scorecard from '../../models/Scorecard';
 import { RUNNING } from '../../constants/milestone_constant';
 
 import { containerPaddingTop, getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import ScorecardPreferenceFormTabletStyles from '../../components/ScorecardPreference/styles/tablet/ScorecardPreferenceFormStyle';
-import ScorecardPreferenceFormMobileStyles from '../../components/ScorecardPreference/styles/mobile/ScorecardPreferenceFormStyle';
-import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
-import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+import Color from '../../themes/color';
+import ScorecardPreferenceFormTabletStyles from '../../styles/tablet/ScorecardPreferenceFormComponentStyle';
+import ScorecardPreferenceFormMobileStyles from '../../styles/mobile/ScorecardPreferenceFormComponentStyle';
+import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
+import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
 const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
@@ -183,7 +184,7 @@ class ScorecardPreference extends Component {
     return (
       <View>
         { this.state.isErrorDownload &&
-          <Text style={{textAlign: 'center', marginBottom: 5, color: 'red'}}>{translations.failedToDownloadScorecard}</Text>
+          <Text style={{textAlign: 'center', marginBottom: 5, color: Color.redColor}}>{translations.failedToDownloadScorecard}</Text>
         }
 
         <DownloadButton
@@ -239,7 +240,7 @@ class ScorecardPreference extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => this.formRef.current.closeAllSelectBox()}>
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations['getStarted']}
             onBackPress={() => this.onBackPress()}
@@ -288,7 +289,7 @@ class ScorecardPreference extends Component {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     padding: containerPadding,
     paddingTop: containerPaddingTop,
   },

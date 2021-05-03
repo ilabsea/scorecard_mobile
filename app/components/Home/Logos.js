@@ -7,9 +7,10 @@ import {
   Text,
 } from "react-native";
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import LogosTabletStyles from './styles/tablet/LogosStyle';
-import LogosMobileStyles from './styles/mobile/LogosStyle';
+import LogosTabletStyles from '../../styles/tablet/LogosComponentStyle';
+import LogosMobileStyles from '../../styles/mobile/LogosComponentStyle';
 
 const responsiveStyles = getDeviceStyle(LogosTabletStyles, LogosMobileStyles);
 
@@ -21,7 +22,7 @@ export default class Logos extends Component {
     let width = (logo.width * height)/logo.height;
 
     return (
-      <View style={{backgroundColor: '#fff', borderRadius: 30, padding: 8, marginHorizontal: 10}} key={index}>
+      <View style={{backgroundColor: Color.whiteColor, borderRadius: 30, padding: 8, marginHorizontal: 10}} key={index}>
         <Image source={logo.source} style={[{width: width, height: height}, logo.style]}/>
       </View>
     )
@@ -38,10 +39,10 @@ export default class Logos extends Component {
 
     return (
       <View style={{flexGrow:1, justifyContent: 'flex-end', padding: 20, alignItems: 'center'}}>
-        <Text style={[{color: '#fff'}, responsiveStyles.label]}>{translations.fundedBy}</Text>
+        <Text style={[{color: Color.whiteColor}, responsiveStyles.label]}>{translations.fundedBy}</Text>
         <Image source={require('../../assets/images/home/eu.png')} style={responsiveStyles.euLogo}/>
 
-        <Text style={[{color: '#fff'}, responsiveStyles.label]}>{translations.implementedBy}</Text>
+        <Text style={[{color: Color.whiteColor}, responsiveStyles.label]}>{translations.implementedBy}</Text>
         <View style={{flexDirection: 'row', marginTop: 10}}>
           { logos.map((logo, index) => this.buildLogo(logo, index)) }
         </View>

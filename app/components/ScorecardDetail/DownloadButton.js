@@ -7,8 +7,8 @@ import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import DownloadButtonTabletStyles from './styles/tablet/DownloadButtonStyle';
-import DownloadButtonMobileStyles from './styles/mobile/DownloadButtonStyle';
+import DownloadButtonTabletStyles from '../../styles/tablet/DownloadButtonComponentStyle';
+import DownloadButtonMobileStyles from '../../styles/mobile/DownloadButtonComponentStyle';
 
 const responsiveStyles = getDeviceStyle(DownloadButtonTabletStyles, DownloadButtonMobileStyles);
 
@@ -27,12 +27,12 @@ class DownloadButton extends Component {
 
         <Button iconRight full bordered primary
           {...this.props}
-          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: 'gray'} : {}]}>
+          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.grayColor} : {}]}>
 
-          <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]}>
+          <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: Color.grayColor} : {color: Color.clickableColor}]}>
             {this.props.label}
           </Text>
-          <Icon name="download" style={[{right: 0, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: 'gray'} : {color: '#E2762D'}]} />
+          <Icon name="download" style={[{right: 0, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: Color.grayColor} : {color: Color.clickableColor}]} />
         </Button>
       </View>
     );
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   progressBar: {
-    backgroundColor: '#e6e7e9',
+    backgroundColor: Color.paleGrayColor,
   },
   buttonLabel: {
     flex: 1,

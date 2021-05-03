@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import realm from '../../db/schema';
 
+import Color from '../../themes/color';
+
 import {LocalizationContext} from '../../components/Translations';
 import ParticipantListItem from '../../components/ParticipantList/ParticipantListItem';
 import BottomButton from '../../components/BottomButton';
@@ -21,8 +23,8 @@ import NoDataMessage from '../../components/NoDataMessage';
 import Participant from '../../models/Participant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
-import ParticipantListTabletStyles from './styles/tablet/ParticipantListStyle';
-import ParticipantListMobileStyles from './styles/mobile/ParticipantListStyle';
+import ParticipantListTabletStyles from '../../styles/tablet/ParticipantListScreenStyle';
+import ParticipantListMobileStyles from '../../styles/mobile/ParticipantListScreenStyle';
 
 const responsiveStyles = getDeviceStyle(ParticipantListTabletStyles, ParticipantListMobileStyles);
 class ParticipantList extends Component {
@@ -136,7 +138,7 @@ class ParticipantList extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations.getStarted}
             onBackPress={() => this.props.navigation.goBack()}

@@ -18,13 +18,13 @@ import
   {
     mdTabletTitleWidth,
     smTabletTitleWidth,
-  } from './styles/tablet/ProgressStepStyle';
+  } from '../styles/tablet/ProgressStepComponentStyle';
 import
   ProgressStepMobileStyles,
   {
     mdMobileTitleWidth,
     smMobileTitleWidth,
-  } from './styles/mobile/ProgressStepStyle';
+  } from '../styles/mobile/ProgressStepComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ProgressStepTabletStyles, ProgressStepMobileStyles);
 
@@ -42,9 +42,9 @@ export default class ProgressStep extends Component {
 
   _renderNumber(title, index) {
     let isDone = this.props.progressIndex >= index;
-    let iconStyle = isDone ? {backgroundColor: '#fff'} : {};
-    let titleStyle = isDone ? { color: '#fff' } : {};
-    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: '#e4761e'}} /> : <Text style={{color: '#fff'}}>{index + 1}</Text>
+    let iconStyle = isDone ? {backgroundColor: Color.whiteColor} : {};
+    let titleStyle = isDone ? { color: Color.whiteColor } : {};
+    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: Color.headerColor}} /> : <Text style={{color: Color.whiteColor}}>{index + 1}</Text>
 
     if (index == this.props.progressIndex) {
       titleStyle['fontFamily'] = FontFamily.title;
@@ -66,7 +66,7 @@ export default class ProgressStep extends Component {
   }
 
   _renderLine(index) {
-    let lineBackgroundColor = index < this.props.progressIndex ? { backgroundColor: '#fff' } : {};
+    let lineBackgroundColor = index < this.props.progressIndex ? { backgroundColor: Color.whiteColor } : {};
     let lineStyle = {width: this.lineWidth, marginHorizontal: -(this.lineWidth/2)};
     return (
       <View style={[styles.line, lineStyle, lineBackgroundColor]} key={uuidv4()}></View>

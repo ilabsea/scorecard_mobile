@@ -75,7 +75,7 @@ class ScorecardResult extends Component {
     const tableRows = this.props.criterias;
 
     return (
-      <Table borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>
+      <Table borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
         <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3]}/>
         {
           tableRows.map((criteria, index) => (

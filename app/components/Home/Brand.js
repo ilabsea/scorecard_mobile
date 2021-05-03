@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import { LocalizationContext } from '../../components/Translations';
 
 import {
-  StyleSheet,
   View,
   Image,
-  Text,
 } from "react-native";
 
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-
 class Brand extends Component {
-  static contextType = LocalizationContext;
-
   render() {
-    const { translations } = this.context;
-
     return (
       <View style={{alignItems: 'center'}}>
         <View style={{marginTop: 40, alignItems: 'center'}}>
@@ -25,17 +16,5 @@ class Brand extends Component {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  title: {
-    fontFamily: FontFamily.title,
-    fontSize: 32,
-    color: '#fff',
-    textShadowColor: '#454444',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 1,
-  },
-});
 
 export default Brand;

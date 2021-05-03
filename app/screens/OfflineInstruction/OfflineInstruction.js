@@ -6,6 +6,8 @@ import {
   ImageBackground,
 } from 'react-native';
 
+import Color from '../../themes/color';
+
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import ProgressHeader from '../../components/ProgressHeader';
@@ -51,14 +53,14 @@ export default class OfflineInstruction extends Component {
   renderContent() {
     let doms = this.state.screen.notes.map((note, index) =>
       <TipListItem
-        titleStyle={{color: '#fff'}}
+        titleStyle={{color: Color.whiteColor}}
         key={index}
         title={note}
         number={index + 1} />
     );
 
     return (
-      <View style={{backgroundColor: '#858796', borderRadius: 10, padding: 20, paddingBottom: 0}}>
+      <View style={{backgroundColor: Color.tipContentBgColor, borderRadius: 10, padding: 20, paddingBottom: 0}}>
         {doms}
       </View>
     );

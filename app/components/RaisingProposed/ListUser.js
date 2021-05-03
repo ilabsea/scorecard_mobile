@@ -12,8 +12,8 @@ import ProposedCriteria from '../../models/ProposedCriteria';
 import Participant from '../../models/Participant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
-import RaisingProposedMobileStyles from './styles/mobile/RaisingProposedStyle';
+import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
+import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
 
 const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
 

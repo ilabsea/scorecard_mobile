@@ -40,8 +40,8 @@ import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import NewScorecardTabletStyles from './styles/tablet/NewScorecardStyle';
-import NewScorecardMobileStyles from './styles/mobile/NewScorecardStyle';
+import NewScorecardTabletStyles from '../../styles/tablet/NewScorecardScreenStyle';
+import NewScorecardMobileStyles from '../../styles/mobile/NewScorecardScreenStyle';
 
 const responsiveStyles = getDeviceStyle(NewScorecardTabletStyles, NewScorecardMobileStyles);
 
@@ -238,7 +238,7 @@ class NewScorecard extends Component {
                     style={responsiveStyles.textInput}
                   />
                 )}
-                borderColor="#03314a"
+                borderColor={Color.primaryColor}
                 hideMessage={true}
               />
               {this.renderErrorMsg()}

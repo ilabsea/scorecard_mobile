@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
+import Color from '../../themes/color';
+
 import Tip from '../Tip';
 import CriteriaList from './CriteriaList';
 import ListUser from './ListUser';
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
   buttonLabelStyle: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    color: 'white',
+    color: Color.whiteColor,
   },
 });
 

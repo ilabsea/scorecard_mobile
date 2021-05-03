@@ -20,11 +20,10 @@ import ScorecardResultTextInput from './ScorecardResultTextInput';
 
 import realm from '../../db/schema';
 
-import { english } from '../../constants/locale_constant';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import FormModalTabletStyles from './styles/tablet/FormModalStyle';
-import FormModalMobileStyles from './styles/mobile/FormModalStyle';
+import FormModalTabletStyles from '../../styles/tablet/FormModalComponentStyle';
+import FormModalMobileStyles from '../../styles/mobile/FormModalComponentStyle';
 
 const styles = getDeviceStyle(FormModalTabletStyles, FormModalMobileStyles);
 
@@ -140,7 +139,7 @@ const FormModal = (props) => {
     <Portal>
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
             <View style={styles.headerContainer}>
               <View style={styles.titleContainer}>
                 <Text numberOfLines={1} style={styles.titleText}>

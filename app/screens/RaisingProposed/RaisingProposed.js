@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View } from 'react-native';
+
+import Color from '../../themes/color';
 
 import {LocalizationContext} from '../../components/Translations';
 import UserListing from '../../components/RaisingProposed/UserListing';
@@ -28,7 +30,7 @@ class RaisingProposed extends Component {
   render() {
     const {translations} = this.context;
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
         <ProgressHeader
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}

@@ -10,9 +10,10 @@ import styles from '../../themes/participantListItemStyle';
 import participantHelper from '../../helpers/participant_helper';
 import { iconSize } from '../../utils/participant_list_util';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ParticipantModalListItemTabletStyles from './styles/tablet/ParticipantModalListItemStyle';
-import ParticipantModalListItemMobileStyles from './styles/mobile/ParticipantModalListItemStyle';
+import ParticipantModalListItemTabletStyles from '../../styles/tablet/ParticipantModalListItemComponentStyle';
+import ParticipantModalListItemMobileStyles from '../../styles/mobile/ParticipantModalListItemComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ParticipantModalListItemTabletStyles, ParticipantModalListItemMobileStyles);
 
@@ -31,7 +32,7 @@ export default class ParticipantModalListItem extends Component {
     }
 
     const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return (<FontAwesomeIcon name={gender} size={iconSize} style={responsiveStyles.genderIcon} color="black" />);
+    return (<FontAwesomeIcon name={gender} size={iconSize} style={responsiveStyles.genderIcon} color={Color.blackColor} />);
   };
 
   getDescription(item, translations) {
@@ -64,7 +65,7 @@ export default class ParticipantModalListItem extends Component {
             <Text style={[{flex: 1}, responsiveStyles.label]} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
           </View>
 
-          <MaterialIcon name="arrow-forward-ios" color="black" />
+          <MaterialIcon name="arrow-forward-ios" color={Color.blackColor} />
         </TouchableOpacity>
         <Divider />
       </View>

@@ -29,8 +29,8 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import IndicatorDevelopmentTabletStyles from './styles/tablet/IndicatorDevelopmentStyle';
-import IndicatorDevelopmentMobileStyles from './styles/mobile/IndicatorDevelopmentStyle';
+import IndicatorDevelopmentTabletStyles from '../../styles/tablet/IndicatorDevelopmentScreenStyle';
+import IndicatorDevelopmentMobileStyles from '../../styles/mobile/IndicatorDevelopmentScreenStyle';
 
 const responsiveStyles = getDeviceStyle(IndicatorDevelopmentTabletStyles, IndicatorDevelopmentMobileStyles);
 

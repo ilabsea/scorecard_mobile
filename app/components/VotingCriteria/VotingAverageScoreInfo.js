@@ -7,8 +7,8 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import uuidv4 from '../../utils/uuidv4';
 import { getPluralOrSingularWord } from '../../utils/translation_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingInfoTabletStyles from './styles/tablet/VotingInfoStyle';
-import VotingInfoMobileStyles from './styles/mobile/VotingInfoStyle';
+import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';
+import VotingInfoMobileStyles from '../../styles/mobile/VotingInfoComponentStyle';
 
 const responsiveStyles = getDeviceStyle(VotingInfoTabletStyles, VotingInfoMobileStyles);
 

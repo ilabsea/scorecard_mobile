@@ -13,8 +13,8 @@ import Color from '../../themes/color';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ScorecardPreferenceFormTabletStyles from './styles/tablet/ScorecardPreferenceFormStyle';
-import ScorecardPreferenceFormMobileStyles from './styles/mobile/ScorecardPreferenceFormStyle';
+import ScorecardPreferenceFormTabletStyles from '../../styles/tablet/ScorecardPreferenceFormComponentStyle';
+import ScorecardPreferenceFormMobileStyles from '../../styles/mobile/ScorecardPreferenceFormComponentStyle';
 
 const styles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
 

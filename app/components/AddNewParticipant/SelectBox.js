@@ -13,7 +13,7 @@ import {
   smTabletLabelSize,
   mdTabletCheckIconSize,
   smTabletCheckIconSize,
-} from './styles/tablet/SelectBoxStyle';
+} from '../../styles/tablet/SelectBoxComponentStyle';
 import {
   mdMobileContainerSize,
   smMobileContainerSize,
@@ -21,7 +21,7 @@ import {
   smMobileLabelSize,
   mdMobileCheckIconSize,
   smMobileCheckIconSize,
-} from './styles/mobile/SelectBoxStyle';
+} from '../../styles/mobile/SelectBoxComponentStyle';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 

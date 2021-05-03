@@ -15,9 +15,9 @@ import TipListItem from './TipListItem';
 import styles from '../../themes/modalStyle';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import PopupModalTabletStyle from '../../assets/stylesheets/tablet/PopupModalStyle';
-import PopupModalMobileStyle from '../../assets/stylesheets/mobile/PopupModalStyle';
-const responsiveStyles = getDeviceStyle(PopupModalTabletStyle, PopupModalMobileStyle);
+import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
+import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
+const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 export default class TipModal extends Component {
   static contextType = LocalizationContext;

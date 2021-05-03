@@ -21,8 +21,8 @@ import { ProgressBar } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import ScorecardProgressTabletStyles from './styles/tablet/ScorecardProgressStyle';
-import ScorecardProgressMobileStyles from './styles/mobile/ScorecardProgressStyle';
+import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
+import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
 
 const responsiveStyles = getDeviceStyle(ScorecardProgressTabletStyles, ScorecardProgressMobileStyles);
 

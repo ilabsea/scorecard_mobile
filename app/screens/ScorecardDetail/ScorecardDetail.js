@@ -8,8 +8,8 @@ import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import ScorecardDetailTabletStyles from './styles/tablet/ScorecardDetailStyle';
-import ScorecardDetailMobileStyles from './styles/mobile/ScorecardDetailStyle';
+import ScorecardDetailTabletStyles from '../../styles/tablet/ScorecardDetailScreenStyle';
+import ScorecardDetailMobileStyles from '../../styles/mobile/ScorecardDetailScreenStyle';
 
 const responsiveStyles = getDeviceStyle(ScorecardDetailTabletStyles, ScorecardDetailMobileStyles);
 

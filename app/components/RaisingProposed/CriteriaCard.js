@@ -4,9 +4,10 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {LocalizationContext} from '../Translations';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
-import RaisingProposedMobileStyles from './styles/mobile/RaisingProposedStyle';
+import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
+import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
 
 const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
 
@@ -34,7 +35,7 @@ class CriteriaCard extends Component {
 
 const styles = StyleSheet.create({
   criteriaCardContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     borderRadius: 2,
     flexDirection: 'row',
     marginRight: 15,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 2,
   },
   criteriaShortcut: {
-    color: '#787878',
+    color: Color.paleBlackColor,
     fontSize: 22,
     fontWeight: 'bold',
   },
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     marginTop: -4,
   },
   blankContainer: {
-    backgroundColor: '#d0cdcd',
+    backgroundColor: Color.cardListItemAvataBg,
     width: '100%',
     height: '100%',
   }

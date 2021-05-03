@@ -13,8 +13,8 @@ import { LocalizationContext } from '../Translations';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import MilestoneCardTabletStyles from './styles/tablet/MilestoneCardStyle';
-import MilestoneCardMobileStyles from './styles/mobile/MilestoneCardStyle';
+import MilestoneCardTabletStyles from '../../styles/tablet/MilestoneCardComponentStyle';
+import MilestoneCardMobileStyles from '../../styles/mobile/MilestoneCardComponentStyle';
 
 import { SCORECARD_RESULT } from '../../constants/scorecard_step_constant';
 
@@ -33,7 +33,7 @@ export default class MilestoneCard extends Component {
     let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
 
     if (index == this.props.progressIndex && !this.props.isScorecardFinished) {
-      titleStyle = { color: '#000', fontFamily: FontFamily.title };
+      titleStyle = { color: Color.blackColor, fontFamily: FontFamily.title};
     }
 
     return (

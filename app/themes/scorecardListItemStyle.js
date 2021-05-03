@@ -40,19 +40,19 @@ const ListItemStyle = StyleSheet.create({
   statusIconWrapper: {
     width: getDeviceStyle('25%', wp('18%')),
     maxWidth: 130,
-    backgroundColor: '#787878',
+    backgroundColor: Color.paleBlackColor,
     alignItems: 'center',
     justifyContent: 'center',
   },
   listItem: {
     maxHeight: 160,
-    backgroundColor: '#fff',
+    backgroundColor: Color.whiteColor,
     marginBottom: 10,
     borderRadius: 4,
     flexDirection: 'row',
   },
   card: {
-    shadowColor: "#000",
+    shadowColor: Color.blackColor,
     shadowOffset: {
       width: 0,
       height: 1,

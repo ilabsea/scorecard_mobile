@@ -3,8 +3,8 @@ import {Button, Icon, Text, View} from 'native-base';
 import CustomStyle from '../themes/customStyle';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import BottomButtonTabletStyles from './styles/tablet/BottomButtonStyle';
-import BottomButtonMobileStyles from './styles/mobile/BottomButtonStyle';
+import BottomButtonTabletStyles from '../styles/tablet/BottomButtonComponentStyle';
+import BottomButtonMobileStyles from '../styles/mobile/BottomButtonComponentStyle';
 
 const styles = getDeviceStyle(BottomButtonTabletStyles, BottomButtonMobileStyles);
 

@@ -61,7 +61,7 @@ class CriteriaSelection extends Component {
   }
 
   shortcutColor = (indicator) => {
-    return indicator.isSelected ? {color: '#ffffff'} : {};
+    return indicator.isSelected ? {color: Color.whiteColor} : {};
   }
 
   selectIndicator = (index) => {

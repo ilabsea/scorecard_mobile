@@ -13,9 +13,10 @@ import {
   ERROR_UNAUTHORIZED,
 } from '../../constants/error_constant';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ErrorMessageModalTabletStyles from './styles/tablet/ErrorMessageModalStyle';
-import ErrorMessageModalMobileStyles from './styles/mobile/ErrorMessageModalStyle';
+import ErrorMessageModalTabletStyles from '../../styles/tablet/ErrorMessageModalComponentStyle';
+import ErrorMessageModalMobileStyles from '../../styles/mobile/ErrorMessageModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ErrorMessageModalTabletStyles, ErrorMessageModalMobileStyles);
 
@@ -68,7 +69,7 @@ class ErrorMessageModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     padding: 20,
     marginHorizontal: 30,
     justifyContent: 'flex-start',

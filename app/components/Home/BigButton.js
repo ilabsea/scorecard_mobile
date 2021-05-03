@@ -8,9 +8,10 @@ import {
 import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import BigButtonTabletStyles from './styles/tablet/BigButtonStyle';
-import BigButtonMobileStyles from './styles/mobile/BigButtonStyle';
+import BigButtonTabletStyles from '../../styles/tablet/BigButtonComponentStyle';
+import BigButtonMobileStyles from '../../styles/mobile/BigButtonComponentStyle';
 
 const responsiveStyles = getDeviceStyle(BigButtonTabletStyles, BigButtonMobileStyles);
 
@@ -21,7 +22,7 @@ const BigButton = (props) => {
       style={[styles.button, responsiveStyles.button]}>
 
       <Icon name={props.icon} style={[styles.icon, responsiveStyles.icon]}/>
-      <Text style={[{ color: '#fff' }, responsiveStyles.label]}>{ props.label }</Text>
+      <Text style={[{ color: Color.whiteColor }, responsiveStyles.label]}>{ props.label }</Text>
     </TouchableOpacity>
   )
 }
@@ -34,14 +35,14 @@ BigButton.propTypes = {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#003b5c',
+    backgroundColor: Color.primaryColor,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 8,
     marginTop: 20
   },
   icon: {
-    color: '#fff',
+    color: Color.whiteColor,
   },
 });
 

@@ -8,11 +8,11 @@ import participantHelper from '../../helpers/participant_helper';
 import {
   mdTabletIconSize,
   smTabletIconSize
-} from './styles/tablet/SelectBoxStyle';
+} from '../../styles/tablet/SelectBoxComponentStyle';
 import {
   mdMobileIconSize,
   smMobileIconSize,
-} from './styles/mobile/SelectBoxStyle';
+} from '../../styles/mobile/SelectBoxComponentStyle';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 class OptionsSelectBox extends Component {

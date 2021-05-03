@@ -14,6 +14,7 @@ import {saveParticipantInfo} from '../../services/participant_service';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
+import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
 import { addNewParticipantModalHeight } from '../../utils/responsive_util';
 
@@ -103,7 +104,7 @@ class AddNewParticipantModal extends Component {
           onDismiss={() => this.props.onDismiss()}
           contentContainerStyle={[styles.container, { height: addNewParticipantModalHeight() }]}
         >
-          <View style={{backgroundColor: 'white', flex: 1}}>
+          <View style={{backgroundColor: Color.whiteColor, flex: 1}}>
             <Text style={[styles.header, {marginBottom: 10}]}>{translations.addNewParticipant}</Text>
 
             <ScrollView style={{marginBottom: 30}} scrollEnabled={false} showsVerticalScrollIndicator={false}>

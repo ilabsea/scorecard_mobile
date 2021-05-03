@@ -99,7 +99,7 @@ class PlaySound extends Component {
 
   render() {
     const { children, containerStyle, filePath } = this.props;
-    let btnBg = !!filePath ? Color.headerColor : '#787878';
+    let btnBg = !!filePath ? Color.headerColor : Color.paleBlackColor;
     let iconSize = getDeviceStyle(28, 20);
 
     return (
@@ -108,7 +108,7 @@ class PlaySound extends Component {
         style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
 
         { children }
-        <Icon name={this.getIconName()} style={{ color: '#fff', fontSize: iconSize}}/>
+        <Icon name={this.getIconName()} style={{ color: Color.whiteColor, fontSize: iconSize}}/>
       </TouchableOpacity>
     )
   }

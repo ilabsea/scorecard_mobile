@@ -13,12 +13,12 @@ import {
   mdTabletGenderIconSize,
   smTabletGenderIconSize,
   tabletTitleLabelSize,
-} from './styles/tablet/SelectBoxStyle';
+} from '../../styles/tablet/SelectBoxComponentStyle';
 import {
   mdMobileGenderIconSize,
   smMobileGenderIconSize,
   mobileTitleLabelSize,
-} from './styles/mobile/SelectBoxStyle';
+} from '../../styles/mobile/SelectBoxComponentStyle';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 

@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
 import { CUSTOM } from '../../utils/variable';
 
+import Color from '../../themes/color';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import TourTipButton from '../../components/TourTipButton';
@@ -184,7 +185,7 @@ class CreateNewIndicator extends Component {
 
     return (
       <View>
-        <Text style={{fontSize: headerTitleSize, color: '#2e2e2e'}}>
+        <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor}}>
           {translations.selectParticipant}
         </Text>
 
@@ -243,11 +244,11 @@ class CreateNewIndicator extends Component {
             updateSearchedIndicator={this.updateSearchedIndicator}
             updateSearchStatus={this.updateSearchStatus}
           />
-          <View style={{flex: 1, backgroundColor: '#ffffff', padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
+          <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
             { this._renderParticipant() }
 
             { !this.state.isSearching &&
-              <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
+              <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor, marginTop: 20}}>
                 {translations['chooseProposedCriteria']}
               </Text>
             }

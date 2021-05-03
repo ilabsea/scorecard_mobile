@@ -7,8 +7,8 @@ import { LocalizationContext } from '../../components/Translations';
 import pkg from '../../../package';
 
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
-import AboutTabletStyles from './styles/tablet/AboutStyle';
-import AboutMobileStyles from './styles/mobile/AboutStyle';
+import AboutTabletStyles from '../../styles/tablet/AboutScreenStyle';
+import AboutMobileStyles from '../../styles/mobile/AboutScreenStyle';
 
 const styles = getDeviceStyle(AboutTabletStyles, AboutMobileStyles);
 
