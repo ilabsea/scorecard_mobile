@@ -69,7 +69,7 @@ class ProposedCriteriaModal extends Component {
             maximumCriteriaAmount={this.maximumCriteriaAmount}
             criteria={item.item}/>
         }
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
       />
     )
   }
