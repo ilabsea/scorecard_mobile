@@ -7,6 +7,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import IndicatorService from '../../services/indicator_service';
+import { english } from '../../constants/locale_constant';
 
 import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
 
@@ -43,7 +44,8 @@ class SearchableHeader extends Component {
   }
 
   _renderSearchBox() {
-    const {translations} = this.context;
+    const { translations, appLanguage } = this.context;
+    const inputPaddingTop = appLanguage == english ? 10 : 12;
 
     return (
       <React.Fragment>
@@ -54,11 +56,11 @@ class SearchableHeader extends Component {
             value={this.state.query}
             onChangeText={(text) => this.onChangeSearch(text)}
             clearButtonMode='always'
-            style={styles.searchInput}
+            style={[styles.searchInput, { padingTop: inputPaddingTop } ]}
           />
 
           <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25}}>
-            <Icon name="close" style={{fontSize: 20, paddingLeft: 0, paddingRight: 0}} />
+            <Icon name="close" style={{fontSize: 20, paddingLeft: 0, paddingRight: 0, marginTop: 0}} />
           </TouchableOpacity>
         </Item>
 
@@ -105,12 +107,11 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     fontSize: getDeviceStyle(24, wp('6%')),
-    marginTop: -3,
     marginRight: getDeviceStyle(16, 0)
   },
   searchInput: {
     fontFamily: FontFamily.body,
-    fontSize: 14
+    fontSize: 14,
   }
 });
 

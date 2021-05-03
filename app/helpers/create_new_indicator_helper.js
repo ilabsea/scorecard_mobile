@@ -13,11 +13,11 @@ const createNewIndicatorHelper = (() => {
     return false;
   }
 
-  function getUpdatedIndicators(indicators, selectedIndicators) {
+  function getUpdatedIndicators(indicators, unSelectedIndicators) {
     let newIndicators = indicators;
 
-    selectedIndicators.map((selectedIndicator) => {
-      const index = indicators.findIndex((indicator) => indicator.uuid == selectedIndicator.uuid);
+    unSelectedIndicators.map((unSelectedIndicator) => {
+      const index = indicators.findIndex((indicator) => indicator.uuid == unSelectedIndicator.uuid);
 
       if (newIndicators[index])
         newIndicators[index].isSelected = false;

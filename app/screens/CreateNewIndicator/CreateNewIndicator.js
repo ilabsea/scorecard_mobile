@@ -3,7 +3,6 @@ import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Portal} from 'react-native-paper';
 import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 
-import realm from '../../db/schema';
 import {LocalizationContext} from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
 import CriteriaSelection from '../../components/RaisingProposed/CriteriaSelection';
@@ -17,6 +16,11 @@ import { CUSTOM } from '../../utils/variable';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import TourTipButton from '../../components/TourTipButton';
+
+import CustomIndicator from '../../models/CustomIndicator';
+import LanguageIndicator from '../../models/LanguageIndicator';
+import Participant from '../../models/Participant';
+import ProposedCriteria from '../../models/ProposedCriteria';
 
 import IndicatorService from '../../services/indicator_service';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
@@ -44,8 +48,7 @@ class CreateNewIndicator extends Component {
   }
 
   componentDidMount() {
-    const proposedCriterias = realm.objects('ProposedCriteria')
-      .filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "' + this.state.participant_uuid + '"');
+    const proposedCriterias = ProposedCriteria.find(this.props.route.params.scorecard_uuid, this.state.participant_uuid);
 
     this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
     this._updateIndicatorList();
@@ -76,10 +79,9 @@ class CreateNewIndicator extends Component {
     selectedIndicators.push(customIndicator);
 
     this.setState({selectedIndicators});
-    realm.write(() => {
-      realm.create('CustomIndicator', customIndicator, 'modified');
-      realm.create('LanguageIndicator', customLanguageIndicator, 'modified');
-    });
+
+    CustomIndicator.create(customIndicator);
+    LanguageIndicator.create(customLanguageIndicator);
 
     this.setState({
       isModalVisible: false,
@@ -95,11 +97,12 @@ class CreateNewIndicator extends Component {
       uuid: this.state.participant_uuid,
       raised: true,
     };
-    realm.write(() => {realm.create('Participant', participant, 'modified')});
+
+    Participant.create(participant);
   }
 
   save = () => {
-    let participants = JSON.parse(JSON.stringify(realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false)));
+    let participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.route.params.scorecard_uuid)));
     this.handleDeleteUnselectedProposedCriteria();
     this.state.selectedIndicators.map((indicator) => {
       const attrs = {
@@ -112,8 +115,9 @@ class CreateNewIndicator extends Component {
         tag: indicator.tag
       };
 
-      realm.write(() => { realm.create('ProposedCriteria', attrs, 'modified'); });
+      ProposedCriteria.create(attrs);
     });
+
     this.updateRaisedParticipant();
     this.props.saveCriteria(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
@@ -130,15 +134,13 @@ class CreateNewIndicator extends Component {
       })
     });
     deleteCriterias.map((criteria) => {
-      const proposedCriteria = realm.objects('ProposedCriteria')
-        .filtered(`indicatorable_id = '${criteria.indicatorable_id}' AND participant_uuid = '${this.props.route.params.participant_uuid}'`);
-
-      realm.write(() => { realm.delete(proposedCriteria); });
+      const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, this.props.route.params.participant_uuid);
+      ProposedCriteria.destory(proposedCriteria);
     });
   }
 
   getProposedCriteria = (participantUUID) => {
-    return JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'" AND participant_uuid = "'+ participantUUID +'"')));
+    return JSON.parse(JSON.stringify(ProposedCriteria.find(this.props.route.params.scorecard_uuid, participantUUID)));
   }
 
   getCriteriaUUID = (indicatorUUID) => {
@@ -180,7 +182,7 @@ class CreateNewIndicator extends Component {
         </Text>
 
         <ParticipantInfo
-          participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.props.route.params.scorecard_uuid}' AND raised=false SORT(order ASC)`)}
+          participants={Participant.getNotRaised(this.props.route.params.scorecard_uuid)}
           scorecard_uuid={ this.props.route.params.scorecard_uuid }
           participant_uuid={ this.props.route.params.participant_uuid }
           onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
@@ -213,13 +215,8 @@ class CreateNewIndicator extends Component {
     this.setState({
       indicators: createNewIndicatorHelper.getUpdatedIndicators(indicators, unselectedIndicators),
       selectedIndicators: newSelectedIndicators,
-      // isValid: createNewIndicatorHelper.hasSelectedIndicator(allSelectedIndicators, newSelectedIndicators),
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
     });
-
-    // this.setState({
-    //   indicators: indicators
-    // });
   }
 
   render() {

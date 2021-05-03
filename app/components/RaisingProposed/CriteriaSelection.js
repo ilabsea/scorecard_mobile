@@ -85,7 +85,9 @@ class CriteriaSelection extends Component {
       selectedIndicators,
       unselectedIndicators,
       isModalVisible: createNewIndicatorHelper.isAddNewIndicatorSection(index, indicators),
-    }, () => { this.props.selectIndicator(selectedIndicators, unselectedIndicators, this.state.isModalVisible); });
+    }, () => {
+      this.props.selectIndicator(selectedIndicators, unselectedIndicators, this.state.isModalVisible);
+    });
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
