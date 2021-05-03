@@ -160,6 +160,7 @@ class CriteriaSelection extends Component {
         scorecardUuid={this.props.scorecardUUID}
         selectIndicator={this.selectIndicator}
         selectedIndicators={this.props.selectedIndicators}
+        isSearching={this.props.isSearching}
       >
         {this._renderAudioButton(indicator, index)}
       </IndicatorCard>

@@ -102,7 +102,7 @@
   "ageMustBeNumber": "Age must be number",
   "ageMustBePositive": "Age must be positive number",
   "createNewProposedCriteria": "Create New Proposed Criteria",
-  "chooseProposedCriteria": "Choose proposed criteria",
+  "chooseProposedCriteria": "Choose proposed criteria or create new",
   "saveAndAddNew": "Save & add new",
   "saveAndGoNext": "Save​",
   "addNewCriteria": "Add New Criteria",

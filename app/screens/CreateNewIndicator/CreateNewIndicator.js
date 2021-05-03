@@ -44,6 +44,7 @@ class CreateNewIndicator extends Component {
       participant_uuid: this.props.route.params.participant_uuid,
       customIndicator: null,
       showTourTip: false,
+      isSearching: false,
     };
   }
 
@@ -155,6 +156,9 @@ class CreateNewIndicator extends Component {
   renderSaveButton = () => {
     const {translations} = this.context;
 
+    if (this.state.isSearching)
+      return;
+
     return (
       <View style={{padding: containerPadding, paddingHorizontal: 0}}>
         { this.state.showTourTip &&
@@ -174,6 +178,9 @@ class CreateNewIndicator extends Component {
 
   _renderParticipant() {
     const { translations } = this.context;
+
+    if (this.state.isSearching)
+      return;
 
     return (
       <View>
@@ -219,6 +226,10 @@ class CreateNewIndicator extends Component {
     });
   }
 
+  updateSearchStatus = (status) => {
+    this.setState({ isSearching: status });
+  }
+
   render() {
     const {translations} = this.context;
 
@@ -230,12 +241,16 @@ class CreateNewIndicator extends Component {
             participantUuid={this.props.route.params.participant_uuid}
             onBackPress={() => this.props.navigation.goBack()}
             updateSearchedIndicator={this.updateSearchedIndicator}
+            updateSearchStatus={this.updateSearchStatus}
           />
           <View style={{flex: 1, backgroundColor: '#ffffff', padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
             { this._renderParticipant() }
-            <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
-              {translations['chooseProposedCriteria']}
-            </Text>
+
+            { !this.state.isSearching &&
+              <Text style={{fontSize: headerTitleSize, color: '#2e2e2e', marginTop: 20}}>
+                {translations['chooseProposedCriteria']}
+              </Text>
+            }
 
             <CriteriaSelection
               ref={this.indicatorSelectionRef}
@@ -247,6 +262,7 @@ class CreateNewIndicator extends Component {
               unselectedIndicators={this.state.unselectedIndicators}
               customIndicator={this.state.customIndicator}
               startNextTourTip={() => this.startNextTourTip()}
+              isSearching={this.state.isSearching}
             />
 
             { this.renderSaveButton() }

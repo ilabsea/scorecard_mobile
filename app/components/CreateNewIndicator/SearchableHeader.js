@@ -4,6 +4,7 @@ import { Header, Body, Title, Left, Icon, Button, Item, Input } from 'native-bas
 import { HeaderBackButton } from '@react-navigation/stack';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import IndicatorService from '../../services/indicator_service';
@@ -23,7 +24,13 @@ class SearchableHeader extends Component {
   }
 
   _onPress() {
-    !!this.props.onBackPress && this.props.onBackPress()
+    if (!this.props.onBackPress)
+      return
+
+    if (this.state.isSearch)
+      this.cancel();
+    else
+      this.props.onBackPress();
   }
 
   onChangeSearch(text) {
@@ -40,7 +47,7 @@ class SearchableHeader extends Component {
 
   cancel() {
     this.clearSearch();
-    this.setState({ isSearch: false });
+    this.toggleSearch(false);
   }
 
   _renderSearchBox() {
@@ -49,7 +56,7 @@ class SearchableHeader extends Component {
 
     return (
       <React.Fragment>
-        <Item style={{marginRight: 4}}>
+        <Item style={{marginRight: 4, backgroundColor: Color.headerColor}}>
           <Input
             autoFocus={true}
             placeholder={ translations.searchCriteria }
@@ -57,16 +64,18 @@ class SearchableHeader extends Component {
             onChangeText={(text) => this.onChangeSearch(text)}
             clearButtonMode='always'
             style={[styles.searchInput, { padingTop: inputPaddingTop } ]}
+            placeholderTextColor='#ebebeb'
+            spellCheck={false}
+            autoCorrect={false}
+            selectionColor="#fff"
           />
 
-          <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25}}>
-            <Icon name="close" style={{fontSize: 20, paddingLeft: 0, paddingRight: 0, marginTop: 0}} />
-          </TouchableOpacity>
+          { this.state.query != '' &&
+            <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25, backgroundColor: Color.headerColor}}>
+              <Icon name="close" style={{fontSize: 25, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: 'white'}} />
+            </TouchableOpacity>
+          }
         </Item>
-
-        <Button transparent onPress={() => this.cancel()}>
-          <Text style={{color: '#fff',}}>{ translations.cancel }</Text>
-        </Button>
       </React.Fragment>
     )
   }
@@ -81,12 +90,17 @@ class SearchableHeader extends Component {
         </Body>
 
         <View style={{justifyContent: 'center'}}>
-          <Button transparent onPress={() => this.setState({ isSearch: true })}>
+          <Button transparent onPress={() => this.toggleSearch(true)}>
             <Icon name='search' style={styles.searchIcon} />
           </Button>
         </View>
       </React.Fragment>
     )
+  }
+
+  toggleSearch(status) {
+    this.setState({ isSearch: status });
+    this.props.updateSearchStatus(status);
   }
 
   render() {
@@ -111,7 +125,14 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     fontFamily: FontFamily.body,
-    fontSize: 14,
+    fontSize: getDeviceStyle(19, mobileHeadingTitleSize()),
+    color: '#fff',
+    borderWidth: 0,
+    width: '100%',
+    justifyContent: 'center',
+    marginTop: getDeviceStyle(4, 2),
+    paddingTop: 0,
+    paddingBottom: 0,
   }
 });
 

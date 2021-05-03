@@ -38,6 +38,9 @@ class IndicatorCard extends Component {
     let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
     let isAddNewCriteria = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
 
+    if (isAddNewCriteria && this.props.isSearching)
+      return <View/>;
+
     return (
       <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
