@@ -17,10 +17,11 @@ class CriteriaAudioButton extends Component {
     };
   }
 
-  componentWillReceiveProps(props) {
-    if (props.playingIndicatorId != this.props.indicator.uuid) {
-      this.setState({iconName: 'volume-medium'});
-    }
+  static getDerivedStateFromProps(props, state) {
+    if (props.playingIndicatorId != props.indicator.uuid)
+      return { iconName: 'volume-medium' }
+
+    return null;
   }
 
   hasAudio = () => {

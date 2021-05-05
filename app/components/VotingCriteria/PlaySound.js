@@ -29,14 +29,19 @@ class PlaySound extends Component {
       this.setState({playState: 'playing'});
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({playState: 'pause'});
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.playState == 'playing')
+      this.setState({ playState: 'pause' });
   }
 
   componentWillUnmount() {
     if (this.sound) this.sound.release();
     if (global.sound) global.sound.release();
     this.props.setRatingScaleAudioStatus(PAUSED);
+
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   playComplete = (success) => {

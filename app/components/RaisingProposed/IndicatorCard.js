@@ -42,7 +42,7 @@ class IndicatorCard extends Component {
       return <View/>;
 
     return (
-      <View key={index} style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
+      <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.props.selectIndicator(index)}>
           { isAddNewCriteria && 
