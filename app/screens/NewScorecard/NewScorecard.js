@@ -62,12 +62,18 @@ class NewScorecard extends Component {
       isSubmitted: false,
       hasInternetConnection: false,
     };
+
+    this.unsubscribeNetInfo;
   }
 
   componentDidMount() {
-    internetConnectionService.watchConnection((hasConnection) => {
+    this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
   isValid = () => {
