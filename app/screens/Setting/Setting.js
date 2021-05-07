@@ -217,7 +217,7 @@ class Setting extends Component {
           <Spinner
             visible={this.state.isLoading}
             color={Color.primaryColor}
-            overlayColor='rgba(90, 90, 90, 0.55)'
+            overlayColor={Color.loadingBackgroundColor}
           />
 
           <SettingForm
