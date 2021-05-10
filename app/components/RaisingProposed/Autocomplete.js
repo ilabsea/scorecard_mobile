@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     position: 'relative',
     top: 0,
-    backgroundColor: '#fff',
+    backgroundColor: Color.whiteColor,
     width: '100%',
     zIndex: 1
   },
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     top: -12,
     left: 8,
     fontSize: 12,
-    backgroundColor: '#fff',
+    backgroundColor: Color.whiteColor,
     paddingHorizontal: 4,
     color: Color.inputBorderLineColor,
   },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   disabledLayer: {
     position: 'absolute',
-    backgroundColor: '#fff',
+    backgroundColor: Color.whiteColor,
     left: 0,
     top: 0,
     right: 0,

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import { Icon } from 'native-base';
 import Color from '../../themes/color';
-import realm from '../../db/schema';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
@@ -67,12 +66,12 @@ class CriteriaAudioButton extends Component {
         { this.hasAudio() &&
           <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioButton}>
 
-            <Icon name={this.state.iconName} style={{ color: '#fff'}} />
+            <Icon name={this.state.iconName} style={{ color: Color.whiteColor}} />
           </TouchableOpacity>
         }
         { !this.hasAudio() && !this.props.isAddNewCriteria &&
           <View style={styles.noAudioIconContainer}>
-            <Icon name='volume-mute' style={{ color: '#fff'}} />
+            <Icon name='volume-mute' style={{ color: Color.whiteColor}} />
           </View>
         }
       </View>
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   noAudioIconContainer: {
-    backgroundColor: '#787878',
+    backgroundColor: Color.paleBlackColor,
     width: 36,
     height: 36,
     alignItems: 'center',

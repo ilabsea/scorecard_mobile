@@ -5,8 +5,8 @@ import {LocalizationContext} from '../components/Translations';
 
 import { getDeviceStyle } from '../utils/responsive_util';
 
-import HeaderTitleTabletStyles from './styles/tablet/HeaderTitleStyle';
-import HeaderTitleMobileStyles from './styles/mobile/HeaderTitleStyle';
+import HeaderTitleTabletStyles from '../styles/tablet/HeaderTitleComponentStyle';
+import HeaderTitleMobileStyles from '../styles/mobile/HeaderTitleComponentStyle';
 
 const styles = getDeviceStyle(HeaderTitleTabletStyles, HeaderTitleMobileStyles);
 class HeaderTitle extends Component {

@@ -5,9 +5,10 @@ import { Modal, Portal } from 'react-native-paper';
 import ScorecardSubmittedContent from './ScorecardSubmittedContent';
 import ScorecardProgressContent from './ScorecardProgressContent';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ScorecardInfoModalTabletStyles from './styles/tablet/ScorecardInfoModalStyle';
-import ScorecardInfoModalMobileStyles from './styles/mobile/ScorecardInfoModalStyle';
+import ScorecardInfoModalTabletStyles from '../../styles/tablet/ScorecardInfoModalComponentStyle';
+import ScorecardInfoModalMobileStyles from '../../styles/mobile/ScorecardInfoModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ScorecardInfoModalTabletStyles, ScorecardInfoModalMobileStyles);
 
@@ -47,7 +48,7 @@ class ScorecardInfoModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     padding: 20,
     marginHorizontal: 30,
     justifyContent: 'flex-start',

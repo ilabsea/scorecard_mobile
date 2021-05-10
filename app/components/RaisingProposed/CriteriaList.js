@@ -6,9 +6,10 @@ import {Criteria} from '../../services/criteria_service';
 import { connect } from 'react-redux';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import RaisingProposedTabletStyles from './styles/tablet/RaisingProposedStyle';
-import RaisingProposedMobileStyles from './styles/mobile/RaisingProposedStyle';
+import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
+import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
 
 const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
 
@@ -61,11 +62,11 @@ const styles = StyleSheet.create({
   },
   viewAllLabel: {
     textTransform: 'uppercase',
-    color: '#e4761e',
+    color: Color.primaryButtonColor,
     fontWeight: 'bold',
   },
   criteriaCardContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     borderRadius: 2,
     flexDirection: 'row',
     marginRight: 15,

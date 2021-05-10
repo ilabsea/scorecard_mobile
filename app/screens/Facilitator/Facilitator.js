@@ -8,6 +8,7 @@ import HeaderTitle from '../../components/HeaderTitle';
 import SelectPicker from '../../components/SelectPicker';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
+import Color from '../../themes/color';
 
 import { containerPaddingTop, containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 
@@ -159,7 +160,7 @@ class Facilitator extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => this.closeSelectBox(null)}>
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations['getStarted']}
             onBackPress={() => this.props.navigation.goBack()}
@@ -206,13 +207,13 @@ class Facilitator extends Component {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     padding: containerPadding,
     paddingTop: containerPaddingTop,
   },
   otherFacilitatorsLabel: {
     fontSize: 18,
-    color: '#2e2e2e',
+    color: Color.lightBlackColor,
     marginTop: 40,
     textTransform: 'uppercase',
     marginBottom: -10,

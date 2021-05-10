@@ -16,9 +16,10 @@ import SaveButton from '../SaveButton';
 import { addToSelected } from '../../actions/selectedCriteriaAction';
 import { removeFromProposed } from '../../actions/proposedCriteriaAction';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ProposedCriteriaListModalTabletStyles from './styles/tablet/ProposedCriteriaListModalStyle';
-import ProposedCriteriaListModalMobileStyles from './styles/mobile/ProposedCriteriaListModalStyle';
+import ProposedCriteriaListModalTabletStyles from '../../styles/tablet/ProposedCriteriaListModalComponentStyle';
+import ProposedCriteriaListModalMobileStyles from '../../styles/mobile/ProposedCriteriaListModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ProposedCriteriaListModalTabletStyles, ProposedCriteriaListModalMobileStyles);
 
@@ -122,7 +123,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ProposedCriteriaModa
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     padding: 20,
     marginHorizontal: 30,
     justifyContent: 'flex-start',

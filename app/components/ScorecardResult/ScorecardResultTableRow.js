@@ -39,8 +39,8 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
         <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={styles.btnEdit}>
-          <Text style={{color: '#fff', marginRight: 6}}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
-          <Icon name={'pen'} type="FontAwesome5" style={{color: '#fff', fontSize: 14}}/>
+          <Text style={{color: Color.whiteColor, marginRight: 6}}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
+          <Icon name={'pen'} type="FontAwesome5" style={{color: Color.whiteColor, fontSize: 14}}/>
         </TouchableOpacity>
       </View>
     )
@@ -71,7 +71,7 @@ export default class ScorecardResultTableRow extends Component {
     const indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
 
     return (
-      <TableWrapper style={styles.row} borderStyle={{borderColor: '#c1c1c1', borderWidth: 1}}>
+      <TableWrapper style={styles.row} borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
         { this._renderTextCell(indicator.content || indicator.name, 4) }
         { this._renderMedian() }
         { editableFields.map((fieldName, index) => (
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     minHeight: 80,
-    backgroundColor: '#fff'
+    backgroundColor: Color.whiteColor
   },
   btn: {
     width: '85%',
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center',
-    color: '#000',
+    color: Color.blackColor,
     fontSize: 14,
   },
   btnEdit: {

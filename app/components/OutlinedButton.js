@@ -4,8 +4,8 @@ import { Button, Icon, Text } from 'native-base';
 import Color from '../themes/color';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import OutlinedButtonTabletStyles from './styles/tablet/OutlinedButtonStyle';
-import OutlinedButtonMobileStyles from './styles/mobile/OutlinedButtonStyle';
+import OutlinedButtonTabletStyles from '../styles/tablet/OutlinedButtonComponentStyle';
+import OutlinedButtonMobileStyles from '../styles/mobile/OutlinedButtonComponentStyle';
 
 const responsiveStyles = getDeviceStyle(OutlinedButtonTabletStyles, OutlinedButtonMobileStyles);
 

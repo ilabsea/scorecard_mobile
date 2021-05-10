@@ -4,13 +4,15 @@ import {Table, TableWrapper, Row, Cell} from 'react-native-table-component';
 import {LocalizationContext} from '../Translations';
 import uuidv4 from '../../utils/uuidv4';
 
+import Color from '../../themes/color';
+
 import TextCell from './TextCell';
 import IndicatorCell from './IndicatorCell';
 import ActionCell from './ActionCell';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import UserTableTabletStyles from './styles/tablet/UserTableStyle';
-import UserTableMobileStyles from './styles/mobile/UserTableStyle';
+import UserTableTabletStyles from '../../styles/tablet/UserTableComponentStyle';
+import UserTableMobileStyles from '../../styles/mobile/UserTableComponentStyle';
 
 const responsiveStyles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
 
@@ -79,7 +81,7 @@ class UserTable extends Component {
 
     return (
       <View style={styles.container} key={uuidv4()}>
-        <Table borderStyle={{borderWidth: 1, borderColor: '#c1c1c1'}}>
+        <Table borderStyle={{borderWidth: 1, borderColor: Color.listItemBorderColor}}>
           <Row data={tableHead} flexArr={[1, 1, 1, 1, 3, 1]} style={styles.tableHead} textStyle={[styles.headerText, responsiveStyles.headerText]} />
           {
             tableData.map((rowData, rowIndex) => (
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: Color.whiteColor,
   },
   tableHead: {
     height: 40,
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
   },
   tableWrapper: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: Color.whiteColor,
   },
 });
 

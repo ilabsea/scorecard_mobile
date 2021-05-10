@@ -8,7 +8,7 @@ const ListItemStyle = StyleSheet.create({
   },
   criteria: {
     height: 36,
-    backgroundColor: '#787878',
+    backgroundColor: Color.paleBlackColor,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,

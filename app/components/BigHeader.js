@@ -15,10 +15,11 @@ import {
 
 import { HeaderBackButton } from '@react-navigation/stack';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import Color from '../themes/color';
 
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
-import BigHeaderTabletStyles from './styles/tablet/BigHeaderStyle';
-import BigHeaderMobileStyles from './styles/mobile/BigHeaderStyle';
+import BigHeaderTabletStyles from '../styles/tablet/BigHeaderComponentStyle';
+import BigHeaderMobileStyles from '../styles/mobile/BigHeaderComponentStyle';
 
 const responsiveStyles = getDeviceStyle(BigHeaderTabletStyles, BigHeaderMobileStyles);
 
@@ -32,7 +33,7 @@ export default class BigHeader extends React.Component {
       <Header span style={responsiveStyles.container}>
         <View style={{flexDirection: 'row', marginTop: 16}}>
           <Left>
-            <HeaderBackButton tintColor={"#fff"} onPress={ () => this._onPress() }/>
+            <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => this._onPress() }/>
           </Left>
 
           <Body>
@@ -42,7 +43,7 @@ export default class BigHeader extends React.Component {
 
         <View style={{width: '100%'}}>
           <View style={{margin: 16}}>
-            <Text style={[{fontFamily: FontFamily.title, color: '#fff'}, responsiveStyles.bigTitle]}>{this.props.bigTitle}</Text>
+            <Text style={[{fontFamily: FontFamily.title, color: Color.whiteColor}, responsiveStyles.bigTitle]}>{this.props.bigTitle}</Text>
           </View>
         </View>
       </Header>

@@ -11,8 +11,8 @@ import { Avatar } from 'react-native-paper';
 import uuidv4 from '../../utils/uuidv4';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import TipListItemTabletStyle from './styles/tablet/TipListItemStyle';
-import TipListItemMobileStyle from './styles/mobile/TipListItemStyle';
+import TipListItemTabletStyle from '../../styles/tablet/TipListItemComponentStyle';
+import TipListItemMobileStyle from '../../styles/mobile/TipListItemComponentStyle';
 const styles = getDeviceStyle(TipListItemTabletStyle, TipListItemMobileStyle);
 
 export default class TipListItem extends Component {

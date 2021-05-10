@@ -23,6 +23,7 @@ import { isBlank } from '../../utils/string_util';
 import indicatorHelper from '../../helpers/indicator_helper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { modalHeadingTitleSize } from '../../utils/responsive_util';
+import Color from '../../themes/color';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -160,7 +161,7 @@ class AddNewIndicatorModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     marginHorizontal: 30,
     padding: 20,
   },

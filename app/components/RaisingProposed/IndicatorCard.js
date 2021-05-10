@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import styles from './styles/CriteriaSelectionStyle';
+import styles from '../../styles/CriteriaSelectionComponentStyle';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
@@ -47,7 +47,7 @@ class IndicatorCard extends Component {
           onPress={() => this.props.selectIndicator(index)}>
           { isAddNewCriteria && 
             <View style={[styles.iconContainer, iconContainerStyle]}>
-              <MaterialIcon name="add" size={50} color={indicator.isSelected ? "#ffffff" : "#787878"} />
+              <MaterialIcon name="add" size={50} color={indicator.isSelected ? Color.whiteColor : Color.paleBlackColor} />
             </View>
           }
 

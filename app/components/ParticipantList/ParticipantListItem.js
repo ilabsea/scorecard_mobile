@@ -5,9 +5,10 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {LocalizationContext} from '../Translations';
 import participantHelper from '../../helpers/participant_helper';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ParticipantListItemTabletStyles from './styles/tablet/ParticipantListItemStyle';
-import ParticipantListItemMobileStyles from './styles/mobile/ParticipantListItemStyle';
+import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
+import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
 
 const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
@@ -21,7 +22,7 @@ class ParticipantListItem extends Component {
         </View>
       );
 
-    return <MaterialIcon name="help" size={45} color="gray" style={{marginTop: -4, marginLeft: -4}} />;
+    return <MaterialIcon name="help" size={45} color={Color.grayColor} style={{marginTop: -4, marginLeft: -4}} />;
   };
 
   renderGender = (participant) => {
@@ -30,7 +31,7 @@ class ParticipantListItem extends Component {
       return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
     const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return <FontAwesomeIcon name={gender} size={25} style={styles.iconStyle} color="black" />;
+    return <FontAwesomeIcon name={gender} size={25} style={styles.iconStyle} color={Color.blackColor} />;
   };
 
   getAge = (participant) => {
@@ -93,7 +94,7 @@ class ParticipantListItem extends Component {
           </View>
           <TouchableOpacity style={[{alignItems: 'center', paddingTop: 0}, styles.actionColumn]}
             onPress={() => this.editParticipant(index)}>
-            <MaterialIcon name="edit" size={25} color="#e4761e" />
+            <MaterialIcon name="edit" size={25} color={Color.primaryButtonColor} />
             <Text style={styles.editLabel}>{translations.edit}</Text>
           </TouchableOpacity>
         </View>

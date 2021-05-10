@@ -4,8 +4,8 @@ import { Icon } from 'native-base';
 import OutlinedButton from './OutlinedButton';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import NoDataMessageTabletStyles from './styles/tablet/NoDataMessageStyle';
-import NoDataMessageMobileStyles from './styles/mobile/NoDataMessageStyle';
+import NoDataMessageTabletStyles from '../styles/tablet/NoDataMessageComponentStyle';
+import NoDataMessageMobileStyles from '../styles/mobile/NoDataMessageComponentStyle';
 
 const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
 

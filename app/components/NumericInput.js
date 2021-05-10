@@ -42,7 +42,7 @@ class NumericInput extends Component {
         <TextInput
           { ...this.props }
           mode="outlined"
-          style={{backgroundColor: 'white', width: '100%'}}
+          style={{backgroundColor: Color.whiteColor, width: '100%'}}
           keyboardType="number-pad"
           maxLength={2}
           theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}

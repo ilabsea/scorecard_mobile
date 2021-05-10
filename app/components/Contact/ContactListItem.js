@@ -14,8 +14,8 @@ import uuidV4 from '../../utils/uuidv4';
 import styles from '../../themes/scorecardListItemStyle';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ContactListItemTabletStyles from './styles/tablet/ContactListItemStyle';
-import ContactListItemMobileStyles from './styles/mobile/ContactListItemStyle';
+import ContactListItemTabletStyles from '../../styles/tablet/ContactListItemComponentStyle';
+import ContactListItemMobileStyles from '../../styles/mobile/ContactListItemComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ContactListItemTabletStyles, ContactListItemMobileStyles);
 

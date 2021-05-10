@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import Color from '../../themes/color';
 import indicatorHelper from '../../helpers/indicator_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import UserTableTabletStyles from './styles/tablet/UserTableStyle';
-import UserTableMobileStyles from './styles/mobile/UserTableStyle';
+import UserTableTabletStyles from '../../styles/tablet/UserTableComponentStyle';
+import UserTableMobileStyles from '../../styles/mobile/UserTableComponentStyle';
 
 const responsiveStyles = getDeviceStyle(UserTableTabletStyles, UserTableMobileStyles);
 
@@ -50,9 +51,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   indicatorLabel: {
-    color: '#ffffff',
+    color: Color.whiteColor,
     fontSize: 14,
-    backgroundColor: '#787878',
+    backgroundColor: Color.paleBlackColor,
     paddingHorizontal: 5,
     borderRadius: 3,
     maxWidth: 120,

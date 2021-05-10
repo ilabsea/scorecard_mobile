@@ -17,8 +17,8 @@ import TipModal from './Tip/TipModal';
 import { TouchableRipple } from 'react-native-paper';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import TipTabletStyles from './styles/tablet/TipStyle';
-import TipMobileStyles from './styles/mobile/TipStyle';
+import TipTabletStyles from '../styles/tablet/TipComponentStyle';
+import TipMobileStyles from '../styles/mobile/TipComponentStyle';
 
 const responsiveStyles = getDeviceStyle(TipTabletStyles, TipMobileStyles);
 

@@ -3,11 +3,12 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { List, Divider } from 'react-native-paper';
 import { Icon } from 'native-base';
 
-import styles from './styles/ScorecardResultAccordionStyle';
+import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 import { LocalizationContext } from '../Translations';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import uuidv4 from '../../utils/uuidv4';
+import Color from '../../themes/color';
 
 class ScorecardResultAccordion extends Component {
   static contextType = LocalizationContext;
@@ -101,7 +102,7 @@ class ScorecardResultAccordion extends Component {
         <List.Accordion
           key={uuidv4()}
           title={indicatorName}
-          style={{ backgroundColor: '#fff', borderBottomWidth: 1, borderColor: '#ebebeb' }}
+          style={{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }}
           titleStyle={styles.titleText}
         >
           { this._renderItem(criteria, indicator) }

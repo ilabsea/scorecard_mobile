@@ -22,8 +22,8 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import { getVotingInfos } from '../../helpers/voting_criteria_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaListItemTabletStyles from './styles/tablet/VotingCriteriaListItemStyle';
-import VotingCriteriaListItemMobileStyles from './styles/mobile/VotingCriteriaListItemStyle';
+import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
+import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
 
 const styles = getDeviceStyle(VotingCriteriaListItemTabletStyles, VotingCriteriaListItemMobileStyles);
 

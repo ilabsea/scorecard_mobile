@@ -16,9 +16,9 @@ import Scorecard from '../../models/Scorecard';
 
 import CriteriaTitle from './CriteriaTitle';
 
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
-import SelectedCriteriaItemTabletStyles from './styles/tablet/SelectedCriteriaItemStyle';
-import SelectedCriteriaItemMobileStyles from './styles/mobile/SelectedCriteriaItemStyle';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import SelectedCriteriaItemTabletStyles from '../../styles/tablet/SelectedCriteriaItemComponentStyle';
+import SelectedCriteriaItemMobileStyles from '../../styles/mobile/SelectedCriteriaItemComponentStyle';
 
 const responsiveStyles = getDeviceStyle(SelectedCriteriaItemTabletStyles, SelectedCriteriaItemMobileStyles);
 

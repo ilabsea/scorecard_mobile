@@ -11,8 +11,8 @@ import uuidv4 from '../../utils/uuidv4';
 import { participantTypes } from '../../constants/participant_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingInfoTabletStyles from './styles/tablet/VotingInfoStyle';
-import VotingInfoMobileStyles from './styles/mobile/VotingInfoStyle';
+import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';
+import VotingInfoMobileStyles from '../../styles/mobile/VotingInfoComponentStyle';
 
 const responsiveStyles = getDeviceStyle(VotingInfoTabletStyles, VotingInfoMobileStyles);
 

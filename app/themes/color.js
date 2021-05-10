@@ -13,10 +13,18 @@ const Color = {
   disableCardColor: '#cdcccc',
   disabledBtnBg: '#6e6e6e',
   tipBgColor: '#efb71c',
+  tipContentBgColor: '#858796',
   btnRemoveBgColor: '#e63636',
   listItemBorderColor: '#c1c1c1',
   cardListItemAvataBg: '#d0cdcd',
-  lightGrayColor: '#b5b5b5',
+  grayColor: '#808080',
+  lightGrayColor: '#b5b5b5',          // color for disabled item
+  paleGrayColor: '#e6e7e9',
+  whiteColor: '#ffffff',
+  redColor: '#ff0000',
+  blackColor: '#000000',
+  lightBlackColor: '#2e2e2e',
+  paleBlackColor: '#787878',
 };
 
 export default Color;

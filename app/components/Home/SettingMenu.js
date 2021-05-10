@@ -3,6 +3,7 @@ import { Menu, Divider } from 'react-native-paper';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
 
 import { LocalizationContext } from '../Translations';
+import Color from '../../themes/color';
 
 class SettingMenu extends Component {
   static contextType = LocalizationContext;
@@ -27,7 +28,7 @@ class SettingMenu extends Component {
         visible={this.state.isVisible}
         onDismiss={() => this.setState({ isVisible: false })}
         anchor={
-          <AppIcon name="settings" size={20} color="white"
+          <AppIcon name="settings" size={20} color={Color.whiteColor}
             onPress={() => this.setState({ isVisible: true })}
             style={{padding: 16}}
           />

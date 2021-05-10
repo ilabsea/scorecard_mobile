@@ -20,8 +20,8 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
-import VotingCriteriaFormTabletStyles from './styles/tablet/VotingCriteriaFormStyle';
-import VotingCriteriaFormMobileStyles from './styles/mobile/VotingCriteriaFormStyle';
+import VotingCriteriaFormTabletStyles from '../../styles/tablet/VotingCriteriaFormScreenStyle';
+import VotingCriteriaFormMobileStyles from '../../styles/mobile/VotingCriteriaFormScreenStyle';
 
 const responsiveStyles = getDeviceStyle(VotingCriteriaFormTabletStyles, VotingCriteriaFormMobileStyles);
 
@@ -133,7 +133,7 @@ class VotingCriteriaForm extends Component {
 
   render() {
     return (
-      <View style={{height: '100%', backgroundColor: '#fff'}}>
+      <View style={{height: '100%', backgroundColor: Color.whiteColor}}>
         { this._renderContent() }
         { this._renderFooter() }
       </View>

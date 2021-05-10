@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import { FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, modalHeadingTitleSize } from '../utils/responsive_util';
+import Color from './color';
 
 const CustomStyle = StyleSheet.create({
   textInputContainer: {
@@ -8,12 +9,12 @@ const CustomStyle = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 16,
     marginBottom: 6,
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     width: '100%',
   },
   card: {
-    backgroundColor: '#fff',
-    shadowColor: "#000",
+    backgroundColor: Color.whiteColor,
+    shadowColor: Color.blackColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -38,12 +39,12 @@ const CustomStyle = StyleSheet.create({
   },
   indicatorShortcutLabel: {
     fontSize: 60,
-    color: '#787878',
+    color: Color.paleBlackColor,
     fontFamily: FontFamily.title,
     textTransform: 'uppercase',
   },
   modalContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     padding: 20,
     width: '70%',
     marginHorizontal: 30,

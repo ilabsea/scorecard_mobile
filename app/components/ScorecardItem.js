@@ -17,8 +17,8 @@ import styles from '../themes/scorecardListItemStyle';
 import votingCriteriaService from '../services/votingCriteriaService';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import ScorecardItemTabletStyles from './styles/tablet/ScorecardItemStyle';
-import ScorecardItemMobileStyles from './styles/mobile/ScorecardItemStyle';
+import ScorecardItemTabletStyles from '../styles/tablet/ScorecardItemComponentStyle';
+import ScorecardItemMobileStyles from '../styles/mobile/ScorecardItemComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItemMobileStyles);
 
@@ -39,9 +39,9 @@ export default class ScorecardItem extends Component {
     return (
       <View style={[styles.statusIconWrapper, wrapperStyle]}>
         <Icon name={iconName} type="FontAwesome5" style={responsiveStyles.statusIcon} />
-        { scorecard.isUploaded && <Icon name={'lock-closed'}  style={[{position: 'absolute', bottom: 6, right: 6, color: '#fff'}, responsiveStyles.lockIcon]}/> }
+        { scorecard.isUploaded && <Icon name={'lock-closed'}  style={[{position: 'absolute', bottom: 6, right: 6, color: Color.whiteColor}, responsiveStyles.lockIcon]}/> }
         { (scorecard.finished && !scorecard.isUploaded) &&
-          <Text style={{position: 'absolute', bottom: 2, fontSize: getDeviceStyle(16, 11), color: '#fff', textAlign: 'center', width: '100%'}}>
+          <Text style={{position: 'absolute', bottom: 2, fontSize: getDeviceStyle(16, 11), color: Color.whiteColor, textAlign: 'center', width: '100%'}}>
             { translations.finished }
           </Text>
         }
@@ -62,7 +62,7 @@ export default class ScorecardItem extends Component {
         onPress={() => this.deleteScorecard()}
         style={responsiveStyles.deleteContainer}
       >
-        <Text style={[{color: 'white'}, responsiveStyles.deleteLabel]}>{ translations.delete }</Text>
+        <Text style={[{color: Color.whiteColor}, responsiveStyles.deleteLabel]}>{ translations.delete }</Text>
       </RectButton>
     )
   }

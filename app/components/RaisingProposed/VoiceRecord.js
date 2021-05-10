@@ -141,7 +141,7 @@ class VoiceRecord extends Component {
             onPressOut={() => this.stopRecordVoice()}
             onPress={() => this.setState({ toolTipVisible: true })}
             style={styles.voiceRecordButton}>
-            <MaterialIcon name="mic" size={35} color="#ffffff" />
+            <MaterialIcon name="mic" size={35} color={Color.whiteColor} />
           </TouchableOpacity>
         </Tooltip>
       </View>
@@ -174,7 +174,7 @@ class VoiceRecord extends Component {
     const {translations} = this.context;
     return (
       <View style={styles.recordedVoiceContainer}>
-        <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: 'white'}}>
+        <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: Color.whiteColor}}>
           <TouchableOpacity onPress={() => this.handlePlaying()}>
             {this.renderPlayIcon()}
           </TouchableOpacity>
@@ -183,7 +183,7 @@ class VoiceRecord extends Component {
             <Text>{this.getCurrentTime(this.state.playSeconds)}</Text>
           </View>
           <TouchableOpacity onPress={() => this.delete()} style={{alignSelf: 'center'}}>
-            <MaterialIcon name="delete" size={30} color="red" />
+            <MaterialIcon name="delete" size={30} color={Color.redColor} />
           </TouchableOpacity>
         </View>
       </View>
@@ -209,7 +209,7 @@ class VoiceRecord extends Component {
 const styles = StyleSheet.create({
   recordedVoiceContainer: {
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: Color.blackColor,
     shadowOffset: {
       width: 0,
       height: 1,

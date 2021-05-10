@@ -9,10 +9,10 @@ import SaveButton from './SaveButton';
 import CustomStyle from '../themes/customStyle';
 
 import { getDeviceStyle } from '../utils/responsive_util';
-import MessageModalTabletStyles from './styles/tablet/MessageModalStyle';
-import MessageModalMobileStyles from './styles/mobile/MessageModalStyle';
-import PopupModalTabletStyles from '../assets/stylesheets/tablet/PopupModalStyle';
-import PopupModalMobileStyles from '../assets/stylesheets/mobile/PopupModalStyle';
+import MessageModalTabletStyles from '../styles/tablet/MessageModalComponentStyle';
+import MessageModalMobileStyles from '../styles/mobile/MessageModalComponentStyle';
+import PopupModalTabletStyles from '../styles/tablet/PopupModalComponentStyle';
+import PopupModalMobileStyles from '../styles/mobile/PopupModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(MessageModalTabletStyles, MessageModalMobileStyles);
 const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);

@@ -11,8 +11,8 @@ import authenticationFormService from '../../services/authentication_form_servic
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
-import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
+import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 

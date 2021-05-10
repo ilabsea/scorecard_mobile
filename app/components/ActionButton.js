@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 18,
-    color: '#fff',
+    color: Color.whiteColor,
     fontFamily: FontFamily.title
   }
 });

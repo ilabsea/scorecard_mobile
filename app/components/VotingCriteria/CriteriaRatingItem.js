@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Divider} from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../../components/Translations';
 import realm from '../../db/schema';
@@ -19,8 +18,8 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import votingCriteriaService from '../../services/votingCriteriaService';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import CriteriaRatingItemTabletStyles from './styles/tablet/CriteriaRatingItemStyle';
-import CriteriaRatingItemMobileStyles from './styles/mobile/CriteriaRatingItemStyle';
+import CriteriaRatingItemTabletStyles from '../../styles/tablet/CriteriaRatingItemComponentStyle';
+import CriteriaRatingItemMobileStyles from '../../styles/mobile/CriteriaRatingItemComponentStyle';
 
 const responsiveStyles = getDeviceStyle(CriteriaRatingItemTabletStyles, CriteriaRatingItemMobileStyles);
 
@@ -110,7 +109,7 @@ export default class CriteriaRatingItem extends Component {
     const ratingLanguage = this._getLanguageRatingScale(rating.label);
 
     return (
-      <Text style={responsiveStyles.ratingLabel}>
+      <Text key={uuidv4()} style={responsiveStyles.ratingLabel}>
         {rowIndex + 1} {ratingLanguage.content} 
         { rowIndex < 4 &&
           <Text style={{fontSize: 8}}> | </Text>
@@ -121,9 +120,9 @@ export default class CriteriaRatingItem extends Component {
 
   indicatorBackgroundColor() {
     if (this.props.colIndex % 2 == 0)
-      return { backgroundColor: 'white' };
+      return { backgroundColor: Color.whiteColor };
 
-    return { backgroundColor: '#b5b5b5' };
+    return { backgroundColor: Color.lightGrayColor };
   }
 
   _renderRatingIcons() {
