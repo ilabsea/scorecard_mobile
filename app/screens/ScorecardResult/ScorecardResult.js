@@ -29,8 +29,8 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle, mobileHeadingTitleSize, containerPadding } from '../../utils/responsive_util';
-import PopupModalTabletStyles from '../../assets/stylesheets/tablet/PopupModalStyle';
-import PopupModalMobileStyles from '../../assets/stylesheets/mobile/PopupModalStyle';
+import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
+import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
 const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 class ScorecardResult extends Component {
