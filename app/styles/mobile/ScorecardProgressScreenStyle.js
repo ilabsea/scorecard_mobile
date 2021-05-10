@@ -30,7 +30,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   },
   progressBar: {
     height: 20,
-    backgroundColor: Color.paleGray,
+    backgroundColor: Color.lightGrayColor,
     marginBottom: 15,
   },
   uploadPercentageLabel: {
