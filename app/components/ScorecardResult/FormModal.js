@@ -21,6 +21,7 @@ import ScorecardResultTextInput from './ScorecardResultTextInput';
 import realm from '../../db/schema';
 
 import { english } from '../../constants/locale_constant';
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import FormModalTabletStyles from './styles/tablet/FormModalStyle';
 import FormModalMobileStyles from './styles/mobile/FormModalStyle';
@@ -30,7 +31,7 @@ const styles = getDeviceStyle(FormModalTabletStyles, FormModalMobileStyles);
 const FormModal = (props) => {
   const dispatch = useDispatch();
   const { translations, appLanguage } = useContext(LocalizationContext);
-  const { criteria, visible, selectedIndicator } = props;
+  const { criteria, visible, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
 
@@ -71,6 +72,9 @@ const FormModal = (props) => {
   }
 
   function deletePoint(index) {
+    if (isScorecardFinished)
+      return;
+
     let newPoints = getPoints();
     newPoints.splice(index, 1);
     defaultPoints = newPoints;
@@ -93,8 +97,8 @@ const FormModal = (props) => {
     return renderPoints.map((note, index) => {
       let fieldName = `note-${index}`;
       return (
-        <View key={index} style={{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}}>
-          <Text style={styles.orderNumberText}>{ index + 1 }.</Text>
+        <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {} ]}>
+          <Text style={[styles.orderNumberText, _getLabelMarginTop()]}>{ index + 1 }.</Text>
           <View style={{flex: 1}}>
             <ScorecardResultTextInput
               autoFocus={true}
@@ -102,18 +106,24 @@ const FormModal = (props) => {
               placeholder={translations[criteria.currentFieldName]}
               fieldName={fieldName}
               onChangeText={onChangeText}
-              customStyle={styles.inputText}/>
+              customStyle={styles.inputText}
+              disabled={isScorecardFinished}
+            />
           </View>
 
           <TouchableOpacity
             onPress={() => deletePoint(index)}
             style={styles.btnRemove}
             hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-            <Icon name='trash' type="FontAwesome" style={styles.removeIcon} />
+            <Icon name='trash' type="FontAwesome" style={[styles.removeIcon, _getLabelMarginTop(), { color: isScorecardFinished ? Color.lightGrayColor : 'red' }]} />
           </TouchableOpacity>
         </View>
       )
     });
+  }
+
+  function _getLabelMarginTop() {
+    return { marginTop: isScorecardFinished ? -2 : 0 };
   }
 
   function _renderIndicatorName() {
@@ -141,11 +151,14 @@ const FormModal = (props) => {
                 </View>
               </View>
 
-              <OutlinedButton
-                icon='plus'
-                label={ translations.addNew }
-                onPress={() => addNewPoint() }
-              />
+              { !isScorecardFinished &&
+                <OutlinedButton
+                  icon='plus'
+                  label={ translations.addNew }
+                  onPress={() => addNewPoint() }
+                  disabled={isScorecardFinished}
+                />
+              }
             </View>
 
             <ScrollView
@@ -157,7 +170,7 @@ const FormModal = (props) => {
 
             <View style={styles.btnWrapper}>
               <CloseButton onPress={() => onDismiss()} label={translations.close} />
-              <SaveButton onPress={() => submit()} label={translations.save} />
+              <SaveButton onPress={() => submit()} label={translations.save} disabled={isScorecardFinished} />
             </View>
           </View>
         </TouchableWithoutFeedback>

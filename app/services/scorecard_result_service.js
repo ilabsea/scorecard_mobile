@@ -1,6 +1,7 @@
 const scorecardResultService = (() => {
   return {
     hasSwotData,
+    isAllowToFinish,
   };
 
   function hasSwotData(criterias) {
@@ -12,6 +13,13 @@ const scorecardResultService = (() => {
     }
 
     return false;
+  }
+
+  function isAllowToFinish(scorecard, criteria) {
+    if (scorecard.finished)
+      return false;
+
+    return hasSwotData(criteria);
   }
 })();
 

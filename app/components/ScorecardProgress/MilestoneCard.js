@@ -16,6 +16,8 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 import MilestoneCardTabletStyles from './styles/tablet/MilestoneCardStyle';
 import MilestoneCardMobileStyles from './styles/mobile/MilestoneCardStyle';
 
+import { SCORECARD_RESULT } from '../../constants/scorecard_step_constant';
+
 const responsiveStyles = getDeviceStyle(MilestoneCardTabletStyles, MilestoneCardMobileStyles);
 
 export default class MilestoneCard extends Component {
@@ -25,29 +27,31 @@ export default class MilestoneCard extends Component {
     const { translations } = this.context;
     const { index, onPress } = this.props;
     let isDone = this._isDone();
-    let cardStyle = isDone ? {} : { backgroundColor: Color.disableCardColor };
+    let isDisabled = this._isDisabled();
+    let cardStyle = isDisabled ? { backgroundColor: Color.disableCardColor } : {};
+    let labelStyle = isDisabled ? { color: '#626262' } : {};
     let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
 
     if (index == this.props.progressIndex && !this.props.isScorecardFinished) {
-      titleStyle = { color: '#000', fontFamily: FontFamily.title};
+      titleStyle = { color: '#000', fontFamily: FontFamily.title };
     }
 
     return (
       <TouchableOpacity
-        onPress={ () => isDone && onPress()}
+        onPress={ () => !isDisabled && onPress()}
         style={[CustomStyle.card, responsiveStyles.card, cardStyle]}>
 
         <View style={responsiveStyles.cardTitleContainer}>
           <Text style={[responsiveStyles.cardTitle, titleStyle]}>{this.props.title}</Text>
           { (index < this.props.progressIndex && !!this.props.subTitle) &&
-            <Text style={responsiveStyles.cardSubTitle}>{this.props.subTitle}</Text>
+            <Text style={[responsiveStyles.cardSubTitle, labelStyle]}>{this.props.subTitle}</Text>
           }
         </View>
 
         { (index < this.props.progressIndex || this.props.isScorecardFinished) &&
           <View style={styles.viewDetail}>
-            <Text style={responsiveStyles.viewDetailText}>{translations['viewDetail']}</Text>
-            <Icon name='chevron-forward-outline' style={responsiveStyles.viewDetailIcon} />
+            <Text style={[responsiveStyles.viewDetailText, labelStyle]}>{translations['viewDetail']}</Text>
+            <Icon name='chevron-forward-outline' style={[responsiveStyles.viewDetailIcon, labelStyle]} />
           </View>
         }
 
@@ -58,6 +62,15 @@ export default class MilestoneCard extends Component {
         }
       </TouchableOpacity>
     );
+  }
+
+  _isDisabled() {
+    if (this.props.isScorecardUploaded)
+      return true;
+    else if (this.props.isScorecardFinished)
+      return this.props.index == SCORECARD_RESULT ? false : true;
+
+    return this._isDone() ? false : true;
   }
 
   _isDone() {

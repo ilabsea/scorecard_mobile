@@ -32,6 +32,7 @@ export default class ScorecardItem extends Component {
   }
 
   renderStatusIcon(scorecard) {
+    const { translations } = this.context;
     let wrapperStyle = scorecard.isInLastPhase ? {} : { backgroundColor: Color.headerColor };
     let iconName     = scorecard.isInLastPhase ? 'check' : 'file-alt';
 
@@ -39,6 +40,11 @@ export default class ScorecardItem extends Component {
       <View style={[styles.statusIconWrapper, wrapperStyle]}>
         <Icon name={iconName} type="FontAwesome5" style={responsiveStyles.statusIcon} />
         { scorecard.isUploaded && <Icon name={'lock-closed'}  style={[{position: 'absolute', bottom: 6, right: 6, color: '#fff'}, responsiveStyles.lockIcon]}/> }
+        { (scorecard.finished && !scorecard.isUploaded) &&
+          <Text style={{position: 'absolute', bottom: 2, fontSize: getDeviceStyle(16, 11), color: '#fff', textAlign: 'center', width: '100%'}}>
+            { translations.finished }
+          </Text>
+        }
       </View>
     )
   }
