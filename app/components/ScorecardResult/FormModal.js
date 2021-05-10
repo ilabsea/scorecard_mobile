@@ -33,8 +33,9 @@ const FormModal = (props) => {
   const { criteria, visible, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
-  let defaultPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [];
+  let defaultPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [''];
 
   const onDismiss = () => {
     setHasAction(false);
@@ -68,6 +69,7 @@ const FormModal = (props) => {
 
     setPoints([...newPoints]);
     setHasAction(true);
+    setIsDelete(false);
   }
 
   function deletePoint(index) {
@@ -80,6 +82,7 @@ const FormModal = (props) => {
 
     setPoints([...newPoints]);
     setHasAction(true);
+    setIsDelete(true);
   }
 
   function onChangeText(fieldName, value) {
@@ -87,11 +90,13 @@ const FormModal = (props) => {
     let newPoints = getPoints();
     newPoints[index] = value;
 
+    setHasAction(true);
+    setIsDelete(false);
     setPoints([...newPoints]);
   }
 
   function _renderForm() {
-    let renderPoints = defaultPoints.length > 0 && points[0] == '' ? defaultPoints : points;
+    let renderPoints = hasAction ? points : defaultPoints;
 
     return renderPoints.map((note, index) => {
       let fieldName = `note-${index}`;
@@ -107,6 +112,7 @@ const FormModal = (props) => {
               onChangeText={onChangeText}
               customStyle={styles.inputText}
               disabled={isScorecardFinished}
+              isDelete={isDelete}
             />
           </View>
 
