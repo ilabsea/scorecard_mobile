@@ -26,8 +26,8 @@ class ScorecardResultAccordion extends Component {
     )
   }
 
-  onPress = (criteria, fieldName, indicator) => {
-    if (this.props.isScorecardFinished)
+  onPress = (criteria, fieldName, indicator, isAddNew) => {
+    if (isAddNew && this.props.isScorecardFinished)
       return;
 
     !!this.props.onPress && this.props.onPress(criteria, fieldName, indicator);
@@ -39,7 +39,7 @@ class ScorecardResultAccordion extends Component {
     return (
       <View style={{flexDirection: 'row', marginVertical: 16}}>
         <Text style={styles.itemTitleText}>{translations[fieldName]}</Text>
-        <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator)} style={{alignItems: 'center', flex: 1}}>
+        <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator, true)} style={{alignItems: 'center', flex: 1}}>
           <View style={styles.btn}>
             <Text style={[styles.btnText, this.textColor()]}>{ translations.addText }</Text>
           </View>
@@ -55,11 +55,11 @@ class ScorecardResultAccordion extends Component {
       <View style={{flexDirection: 'row', marginVertical: 6}}>
         <Text style={styles.itemTitleText}>{translations[fieldName]}</Text>
         <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator)}
-            style={[styles.btnEdit, this.props.isScorecardFinished ? {backgroundColor: '#cacaca'} : {}]}
+          <TouchableOpacity onPress={() => this.onPress(criteria, fieldName, indicator, false)}
+            style={styles.btnEdit}
           >
-            <Text style={[styles.btnEditText, this.textColor()]}>{JSON.parse(criteria[fieldName]).length}</Text>
-            <Icon name={'pen'} type="FontAwesome5" style={[styles.btnEditIcon, this.textColor()]}/>
+            <Text style={styles.btnEditText}>{JSON.parse(criteria[fieldName]).length}</Text>
+            <Icon name={'pen'} type="FontAwesome5" style={styles.btnEditIcon}/>
           </TouchableOpacity>
         </View>
       </View>

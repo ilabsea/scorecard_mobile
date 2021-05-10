@@ -158,6 +158,7 @@ class ScorecardResult extends Component {
             criteria={this.state.currentCriteria}
             onDismiss={() => this.setState({visible: false})}
             selectedIndicator={this.state.selectedIndicator}
+            isScorecardFinished={this.state.scorecard.finished}
           />
 
           <MessageModal
