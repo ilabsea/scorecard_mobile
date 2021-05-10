@@ -42,6 +42,10 @@ class VotingCriteriaForm extends Component {
 
   componentWillUnmount() {
     votingCriteriaService.clearPlayingCriteria();
+
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   onClickRatingIcon(criteria, rating) {

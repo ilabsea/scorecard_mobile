@@ -49,12 +49,17 @@ class Setting extends Component {
     };
 
     this.settingFormRef = React.createRef();
+    this.unsubscribeNetInfo;
   }
 
   componentDidMount = async () => {
-    internetConnectionService.watchConnection((hasConnection) => {
+    this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
   getPickerDefaultValue = (value) => {

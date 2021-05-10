@@ -58,6 +58,10 @@ class CriteriaSelection extends Component {
   componentWillUnmount() {
     if (this.audioPlayer != null)
       this.audioPlayer.release();
+
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   shortcutColor = (indicator) => {
@@ -103,12 +107,14 @@ class CriteriaSelection extends Component {
       const text = isAddNewCriteriaIndex ? translations.clickOnThisCardToCreateNewCriteria : translations.clickOnTheCriteriaToSelect;
       const order = isAddNewCriteriaIndex ? 3 : 1;
       const name = isAddNewCriteriaIndex ? 'customCriteriaCard' : 'criteriaCard';
+      const copilotKey = 'copilot-' + index;
 
       return (
         <CopilotStep
           text={text}
           order={order}
           name={name}
+          key={copilotKey}
         >
           <WalkableView>{ this.indicatorCard(indicator, index) }</WalkableView>
         </CopilotStep>
@@ -151,6 +157,8 @@ class CriteriaSelection extends Component {
   }
 
   indicatorCard = (indicator, index) => {
+    const itemKey = 'indicator-card-' + index;
+
     return (
       <IndicatorCard
         indicators={this.state.indicators}
@@ -161,6 +169,7 @@ class CriteriaSelection extends Component {
         selectIndicator={this.selectIndicator}
         selectedIndicators={this.props.selectedIndicators}
         isSearching={this.props.isSearching}
+        key={itemKey}
       >
         {this._renderAudioButton(indicator, index)}
       </IndicatorCard>
@@ -170,14 +179,17 @@ class CriteriaSelection extends Component {
   renderIndicatorItem = (indicator, index) => {
     if (index === this.state.indicators.length - 1 && this.state.indicators.length%2 != 0) {
       const { translations } = this.context;
+      const copilotKey = 'copilot-' + index;
+
       return (
         <CopilotStep
           text={translations.clickOnThisCardToCreateNewCriteria}
           order={3}
           name='customCriteriaCard'
+          key={copilotKey}
         >
           <WalkableView>
-            <View key={index} style={{flexDirection: 'row', width: '100%'}}>
+            <View style={{flexDirection: 'row', width: '100%'}}>
               {this.indicatorCard(indicator, index)}
               { DeviceInfo.isTablet() &&
                 <View style={{flex: 1, marginHorizontal: 10}} />

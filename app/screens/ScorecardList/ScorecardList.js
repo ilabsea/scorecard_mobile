@@ -45,6 +45,10 @@ class ScorecardList extends Component {
 
   componentWillUnmount() {
     this.focusListener();
+
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   renderList(scorecards) {

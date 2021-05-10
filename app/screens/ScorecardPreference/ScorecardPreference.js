@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'react-native';
 import Moment from 'moment';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
@@ -20,12 +21,9 @@ import { RUNNING } from '../../constants/milestone_constant';
 
 import { containerPaddingTop, getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import Color from '../../themes/color';
-import ScorecardPreferenceFormTabletStyles from '../../styles/tablet/ScorecardPreferenceFormComponentStyle';
-import ScorecardPreferenceFormMobileStyles from '../../styles/mobile/ScorecardPreferenceFormComponentStyle';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
 
-const responsiveStyles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
 const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 import {
@@ -58,13 +56,14 @@ class ScorecardPreference extends Component {
       visibleConfirmModal: false,
     };
 
-    this.formRef = React.createRef();;
+    this.formRef = React.createRef();
+    this.unsubscribeNetInfo;
   }
 
   componentDidMount() {
     const { appLanguage } = this.context;
 
-    internetConnectionService.watchConnection((hasConnection) => {
+    this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
 
@@ -80,6 +79,10 @@ class ScorecardPreference extends Component {
         this.setState({languages: []});
       }
     );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
   changeValue = (fieldName, value) =>  {
@@ -247,7 +250,7 @@ class ScorecardPreference extends Component {
             onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={0}/>
 
-          <ScrollView contentContainerStyle={[styles.container, responsiveStyles.formContainer]}>
+          <ScrollView contentContainerStyle={[styles.container, { paddingBottom: getDeviceStyle(28, hp('35%')) }]}>
             <ScorecardPreferenceForm
               ref={this.formRef}
               languages={this.state.languages}

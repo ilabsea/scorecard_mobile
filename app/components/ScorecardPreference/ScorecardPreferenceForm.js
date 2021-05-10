@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
 
 import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
 import HeaderTitle from '../HeaderTitle';
+import DatePicker from '../DatePicker';
 
 import Color from '../../themes/color';
 
@@ -34,11 +33,11 @@ class ScorecardPreferenceForm extends Component {
     this.audioLanguageController;
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
+  static getDerivedStateFromProps(props, state) {
+    return { 
       textLocale: props.textLocale,
       audioLocale: props.audioLocale,
-    });
+    };
   }
 
   closeAllSelectBox = () => {
@@ -67,40 +66,11 @@ class ScorecardPreferenceForm extends Component {
 
     return (
       <View style={{marginTop: 10}}>
-        <View style={styles.dropDownContainer}>
-          <Text style={[styles.inputLabel, {top: -20, zIndex: 10}]}>
-            {translations['date']}
-          </Text>
-          <DatePicker
-            style={{width: 200}}
-            date={this.state.date}
-            mode="date"
-            placeholder={translations["selectDate"]}
-            format="DD/MM/YYYY"
-            minDate={Moment().format('DD/MM/YYYY')}
-            style={{width: '100%'}}
-            customStyles={{
-              dateInput: {
-                height: 60,
-                paddingLeft: 60,
-                borderColor: Color.inputBorderLineColor,
-                borderWidth: 2,
-                borderRadius: 4,
-                alignItems: 'flex-start',
-              },
-              dateText: styles.dateLabel,
-            }}
-            iconComponent={
-              <MaterialIcon
-                color={Color.inputBorderLineColor}
-                name="calendar-today"
-                style={[{position: 'absolute', left: 16}, styles.dateIcon]}
-              />
-            }
-            onDateChange={(date) => this.changeDate(date)}
-            onOpenModal={() => this.closeAllSelectBox()}
-          />
-        </View>
+        <DatePicker
+          date={this.state.date}
+          onChangeDate={this.changeDate}
+          onOpenPicker={() => this.closeAllSelectBox()}
+        />
 
         <SelectPicker
           items={this.props.languages}
