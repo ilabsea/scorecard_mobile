@@ -183,9 +183,9 @@ function AppNavigator() {
       <Stack.Screen
         name="CreateNewIndicator"
         component={CreateNewIndicatorScreen}
-        options={{
-          title: `${translations['createNewProposedCriteria']}`,
-        }}
+        options={() => ({
+          header: () => null,
+        })}
       />
       <Stack.Screen
         name="Contact"

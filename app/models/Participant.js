@@ -6,6 +6,14 @@ const Participant = (() => {
     deleteAll,
     getVoted,
     getNotRaised,
+    create,
+    findByScorecard,
+  }
+
+  function create(data) {
+    realm.write(() => {
+      realm.create('Participant', data, 'modified');
+    });
   }
 
   function getAll(scorecardUuid) {
@@ -28,6 +36,10 @@ const Participant = (() => {
 
   function getNotRaised(scorecardUuid) {
     return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND raised=false SORT(order ASC)`)
+  }
+
+  function findByScorecard(scorecardUuid) {
+    return realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
   }
 })();
 

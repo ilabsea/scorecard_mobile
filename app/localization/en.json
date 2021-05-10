@@ -102,7 +102,7 @@
   "ageMustBeNumber": "Age must be number",
   "ageMustBePositive": "Age must be positive number",
   "createNewProposedCriteria": "Create New Proposed Criteria",
-  "chooseProposedCriteria": "Choose proposed criteria",
+  "chooseProposedCriteria": "Choose proposed criteria or create new",
   "saveAndAddNew": "Save & add new",
   "saveAndGoNext": "Save​",
   "addNewCriteria": "Add New Criteria",
@@ -258,5 +258,6 @@
   "alreadyFinished": "The scorecard is not editable after clicking finish!",
   "thisScorecardWillBeLocked": "This scorecard will be locked (no longer editable).",
   "areYouSureYouWantToFinish": "Are you sure you want to finish this scorecard({0})?",
-  "finished": "Finished"
+  "finished": "Finished",
+  "searchCriteria": "Search criteria"
 }
