@@ -31,7 +31,6 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     fontSize: 28,
   },
   swipeableContainer: {
-    backgroundColor: Color.whiteColor,
     maxHeight: 155,
     marginBottom: 20,
   },
