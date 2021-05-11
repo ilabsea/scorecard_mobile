@@ -8,7 +8,7 @@ const FormModalComponentStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
     padding: 18,
-    minHeight: 590,
+    minHeight: 530,
     marginHorizontal: 20,
     justifyContent: 'flex-start'
   },
@@ -36,15 +36,19 @@ const FormModalComponentStyles = StyleSheet.create({
   orderNumberText: {
     fontSize: wp(mdLabelSize),
     fontWeight: 'bold',
-    marginRight: 10
+    marginRight: 10,
+    paddingTop: 15,
   },
   inputText: {
     fontSize: wp(smLabelSize),
     marginTop: 0,
     borderWidth: 0,
+    height: 30,
+    paddingTop: 20
   },
   btnRemove: {
-    marginLeft: 15
+    marginLeft: 15,
+    marginTop: 15
   },
   removeIcon: {
     color: Color.redColor,
