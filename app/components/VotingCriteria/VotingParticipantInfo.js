@@ -28,8 +28,8 @@ class VotingParticipantInfo extends Component {
         <View key={uuidv4()}
           style={{flexDirection: 'row'}}
         >
-          <Text style={responsiveStyles.participantTypeText}>{ participantType }</Text>
-          <Text style={responsiveStyles.participantNumberText}> ({ votingScore } {translations.pax})</Text>
+          <Text style={responsiveStyles.normalText}>{ participantType }</Text>
+          <Text style={[responsiveStyles.normalText, { fontFamily: FontFamily.title }]}> ({ votingScore } {translations.pax})</Text>
 
           { index < participantTypes.length -1 &&
             <Text key={uuidv4()} style={{marginTop: -3}}> | </Text>
@@ -64,7 +64,7 @@ class VotingParticipantInfo extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{marginBottom: 40}}>
+      <View>
         <Text style={[{marginBottom: 5, fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.numberOfVotedParticipant }: {Participant.getVoted(this.props.scorecard.uuid).length} {translations.pax} 
         </Text>

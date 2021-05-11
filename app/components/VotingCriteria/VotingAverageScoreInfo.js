@@ -29,7 +29,7 @@ class VotingAverageScoreInfo extends Component {
       <View key={uuidv4()} style={{flex: 1, maxHeight: 35}}>
         <View style={{flexDirection: 'row'}}>
         <Text style={responsiveStyles.normalText}>{ label }</Text>
-        <Text style={[{marginLeft: 10, fontWeight: 'bold', marginTop: 3}, responsiveStyles.normalText]}>
+        <Text style={[{marginLeft: 10, fontFamily: FontFamily.title}, responsiveStyles.normalText]}>
           ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
         </Text>
         </View>
@@ -66,7 +66,7 @@ class VotingAverageScoreInfo extends Component {
     const { translations } = this.context;
 
     return (
-      <View>
+      <View style={{marginBottom: 40}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>{ translations.averageScoreByGroup }:</Text>
         <View style={{ flexDirection: 'row', height: 120 }}>
           { this._renderInfo('first-col') }

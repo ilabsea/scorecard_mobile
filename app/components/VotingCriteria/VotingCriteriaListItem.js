@@ -145,6 +145,7 @@ export default class VotingCriteriaListItem extends Component {
             scorecard={this.props.scorecard}
             onDismiss={() => this.setState({ modalVisible: false })}
             indicator={this.state.selectedIndicator}
+            criteria={this.props.criteria}
           />
         </View>
       </TouchableOpacity>
