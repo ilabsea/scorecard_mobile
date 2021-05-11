@@ -6,6 +6,7 @@ import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 import VotingParticipantInfo from './VotingParticipantInfo';
 import VotingAverageScoreInfo from './VotingAverageScoreInfo';
+import VotingMedianScoreInfo from './VotingMedianInfo';
 
 import CustomStyle from '../../themes/customStyle';
 
@@ -24,9 +25,11 @@ class VotingInfoModal extends Component {
     if (hasVoting(this.props.scorecard.uuid)) {
       return (
         <View>
-          <VotingParticipantInfo scorecard={this.props.scorecard} />
+          <VotingMedianScoreInfo criteria={this.props.criteria} />
 
           <VotingAverageScoreInfo votingInfos={this.props.votingInfos} />
+
+          <VotingParticipantInfo scorecard={this.props.scorecard} />
         </View>
       )
     }
