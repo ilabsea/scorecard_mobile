@@ -59,7 +59,7 @@ const FormModal = (props) => {
   }
 
   function getPoints() {
-    return points[0] == '' ? defaultPoints : points;
+    return defaultPoints[0] == '' ? points : defaultPoints;
   }
 
   function addNewPoint() {
