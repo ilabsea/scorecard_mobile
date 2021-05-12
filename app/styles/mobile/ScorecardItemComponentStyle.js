@@ -2,15 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { mdLabelSize, smLabelSize, xlIconSize } from '../../constants/mobile_font_size_constant';
-import { isShortScreenDevice, isShortWidthScreen } from '../../utils/responsive_util';
 import Color from '../../themes/color';
-
-const getSwipeableHeight = () => {
-  if (isShortScreenDevice())
-    return 117;
-
-  return isShortWidthScreen() ? 111 : 126;
-}
 
 const ScorecardItemComponentStyles = StyleSheet.create({
   titleContainer: {
@@ -45,15 +37,14 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     fontSize: wp('5%'),
   },
   swipeableContainer: {
-    maxHeight: getSwipeableHeight(),
     marginBottom: 12,
   },
   deleteContainer: {
     backgroundColor: Color.redColor,
-    maxHeight: getSwipeableHeight(),
     width: 70,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '92%',
   },
   deleteLabel: {
     fontSize: wp(mdLabelSize)
