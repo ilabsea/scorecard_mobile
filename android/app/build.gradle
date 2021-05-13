@@ -188,6 +188,12 @@ android {
     }
 }
 
+configurations.all {
+    exclude group: 'com.google.android.gms', module : 'play-services-ads'
+    exclude group: 'com.google.android.gms', module : 'play-services-ads-identifier'
+    exclude group: 'com.google.android.gms', module : 'play-services-ads-lite'
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
@@ -196,10 +202,6 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-svg')
-
-    implementation ('com.google.firebase:firebase-analytics') {
-        exclude module: "play-services-ads-identifier"
-    }
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
