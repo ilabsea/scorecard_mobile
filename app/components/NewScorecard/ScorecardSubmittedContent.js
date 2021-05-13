@@ -20,7 +20,7 @@ class ScorecardSubmittedContent extends Component {
   viewDetail = () => {
     const scorecard = Scorecard.find(this.props.scorecardUuid);
 
-    this.props.onDismiss();
+    this.props.onDismiss(false);           // user clicked on view detail so the auto focus on text input is false
     this.props.setCurrentScorecard(scorecard);
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});
   }
@@ -36,7 +36,7 @@ class ScorecardSubmittedContent extends Component {
         </Text>
 
         <ModalConfirmationButtons
-          onClose={() => this.props.onDismiss()}
+          onClose={() => this.props.onDismiss(true)}         // user clicked on close button, it will auto focus on the last digit input in new scorecard screen
           closeButtonLabel={translations.close}
           onConfirm={() => this.viewDetail()}
           confirmButtonLabel={translations.viewDetail}

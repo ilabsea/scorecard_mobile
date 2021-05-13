@@ -59,6 +59,7 @@ class NewScorecard extends Component {
     };
 
     this.unsubscribeNetInfo;
+    this.scorecardRef = React.createRef();
   }
 
   componentDidMount() {
@@ -182,6 +183,17 @@ class NewScorecard extends Component {
     }
   };
 
+
+  closeModal = (type, hasAutoFocus) => {
+    if (type == 'error-modal')
+      this.setState({ visibleModal: false });
+    else
+      this.setState({ visibleInfoModal: false });
+
+    if (hasAutoFocus)
+      this.scorecardRef.current.inputRef.focusField(5);
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -198,7 +210,10 @@ class NewScorecard extends Component {
             <Brand/>
 
             <View style={responsiveStyles.formContainer}>
-              <ScorecardCodeInput joinScorecard={this.joinScorecard} />
+              <ScorecardCodeInput
+                ref={this.scorecardRef}
+                joinScorecard={this.joinScorecard}
+              />
 
               {this.renderErrorMsg()}
               <ButtonForgetCode navigation={this.props.navigation} />
@@ -208,7 +223,7 @@ class NewScorecard extends Component {
 
             <ErrorMessageModal
               visible={this.state.visibleModal}
-              onDismiss={() => this.setState({visibleModal: false})}
+              onDismiss={() => this.closeModal('error-modal', true)}
               errorType={this.state.errorType}
               isNewScorecard={true}
             />
@@ -216,7 +231,7 @@ class NewScorecard extends Component {
             <ScorecardInfoModal
               visible={this.state.visibleInfoModal}
               navigation={this.props.navigation}
-              onDismiss={() => this.setState({ visibleInfoModal: false })}
+              onDismiss={(hasAutoFocus) => this.closeModal('info-modal', hasAutoFocus)}
               isSubmitted={this.state.isSubmitted}
               scorecardUuid={this.state.code}
               setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
