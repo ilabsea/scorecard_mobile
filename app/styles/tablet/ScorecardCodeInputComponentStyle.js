@@ -15,14 +15,15 @@ const ScorecardCodeInputComponentStyles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: Color.whiteColor,
-    borderRadius: 6,
+    borderRadius: 4,
     width: 55,
     height: 55,
     textAlign: 'center',
     borderColor: Color.primaryColor,
     borderWidth: 1,
     fontSize: 22,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: Color.blackColor,
   }
 });
 

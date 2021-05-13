@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard } from 'react-native';
-import OtpInputs from 'react-native-otp-inputs';
+import { View, Text } from 'react-native';
+import OTPInputView from '@twotalltotems/react-native-otp-input'
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import { LocalizationContext } from '../Translations';
@@ -19,33 +19,33 @@ class ScorecardCodeInput extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.inputRef.focus();
-    }, 50);
+      this.inputRef.focusField(0);
+    }, 5);
   }
 
-  handleChange = (code) => {
-    if (code.length == 6) {
-      Keyboard.dismiss();
-      Clipboard.setString(null);
-      this.props.joinScorecard(code);
-    }
+  onCodeFilled = (code) => {
+    Clipboard.setString(null);
+    this.props.joinScorecard(code);
   }
 
   render() {
     const {translations} = this.context;
+
     return (
       <View>
         <Text style={styles.label}>
           {translations.enterScorecardCode}
         </Text>
 
-        <OtpInputs
+        <OTPInputView
           ref={(ref) => this.inputRef = ref}
-          handleChange={(code) => this.handleChange(code)}
-          numberOfInputs={6}
-          keyboardType='number-pad'
           style={styles.container}
-          inputStyles={styles.inputContainer}
+          pinCount={6}
+          autoFocusOnLoad={true}
+          codeInputFieldStyle={styles.inputContainer}
+          onCodeFilled = {(code) => this.onCodeFilled(code)}
+          keyboardType='number-pad'
+          editable={true}
         />
       </View>
     )

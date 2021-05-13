@@ -20,7 +20,6 @@ const ScorecardCodeInputComponentStyles = StyleSheet.create({
   inputContainer: {
     backgroundColor: Color.whiteColor,
     borderRadius: 4,
-    height: 45,
     width: wp('10%'),
     height: wp('11.7%'),
     textAlign: 'center',
@@ -28,8 +27,9 @@ const ScorecardCodeInputComponentStyles = StyleSheet.create({
     borderWidth: 1,
     fontSize: wp(xxlLabelSize),
     fontWeight: 'bold',
-    justifyContent: 'center',
-    paddingBottom: 9
+    paddingTop: 0,
+    paddingBottom: 2,
+    color: Color.blackColor,
   }
 });
 

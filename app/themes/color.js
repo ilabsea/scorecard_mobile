@@ -11,7 +11,7 @@ const Color = {
   horizontalLineColor: '#f2c097',
   verticalLineColor: '#cdcccc',
   disableCardColor: '#cdcccc',
-  disabledBtnBg: '#6e6e6e',
+  disabledBtnBg: '#b5b5b5',
   tipBgColor: '#efb71c',
   tipContentBgColor: '#858796',
   btnRemoveBgColor: '#e63636',

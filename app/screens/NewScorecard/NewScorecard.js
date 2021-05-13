@@ -198,9 +198,7 @@ class NewScorecard extends Component {
             <Brand/>
 
             <View style={responsiveStyles.formContainer}>
-              <ScorecardCodeInput
-                joinScorecard={this.joinScorecard}
-              />
+              <ScorecardCodeInput joinScorecard={this.joinScorecard} />
 
               {this.renderErrorMsg()}
               <ButtonForgetCode navigation={this.props.navigation} />

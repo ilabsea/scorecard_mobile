@@ -27,12 +27,12 @@ class DownloadButton extends Component {
 
         <Button iconRight full bordered primary
           {...this.props}
-          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.grayColor} : {}]}>
+          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.disabledBtnBg} : {}]}>
 
-          <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: Color.grayColor} : {color: Color.clickableColor}]}>
+          <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: Color.disabledBtnBg} : {color: Color.clickableColor}]}>
             {this.props.label}
           </Text>
-          <Icon name="download" style={[{right: 0, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: Color.grayColor} : {color: Color.clickableColor}]} />
+          <Icon name="download" style={[{right: 0, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: Color.disabledBtnBg} : {color: Color.clickableColor}]} />
         </Button>
       </View>
     );
