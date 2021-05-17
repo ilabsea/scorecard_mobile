@@ -14,7 +14,7 @@ class ScorecardCodeInput extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    this.inputRef = null;
+    this.inputRef = React.createRef();
   }
 
   componentDidMount() {
@@ -41,7 +41,6 @@ class ScorecardCodeInput extends Component {
           ref={(ref) => this.inputRef = ref}
           style={styles.container}
           pinCount={6}
-          autoFocusOnLoad={true}
           codeInputFieldStyle={styles.inputContainer}
           onCodeFilled = {(code) => this.onCodeFilled(code)}
           keyboardType='number-pad'

@@ -226,6 +226,7 @@ class NewScorecard extends Component {
               onDismiss={() => this.closeModal('error-modal', true)}
               errorType={this.state.errorType}
               isNewScorecard={true}
+              scorecardUuid={this.state.code}
             />
 
             <ScorecardInfoModal

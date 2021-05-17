@@ -51,7 +51,7 @@ class ErrorMessageModal extends Component {
               />;
     }
 
-    return <ErrorMessageContent onDismiss={this.props.onDismiss} />
+    return <ErrorMessageContent onDismiss={this.props.onDismiss} scorecardUuid={this.props.scorecardUuid} />
   }
 
   render() {

@@ -5,6 +5,7 @@ const Color = {
   primaryButtonColor: '#e4761e',
   errorColor: 'red',
   successColor: 'green',
+  warningColor: '#ffc107',
   inputBorderLineColor: '#7a7a7a',
   borderColor: '#ccc',
   subText: '#aaa',
