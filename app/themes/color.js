@@ -5,13 +5,14 @@ const Color = {
   primaryButtonColor: '#e4761e',
   errorColor: 'red',
   successColor: 'green',
+  warningColor: '#ffc107',
   inputBorderLineColor: '#7a7a7a',
   borderColor: '#ccc',
   subText: '#aaa',
   horizontalLineColor: '#f2c097',
   verticalLineColor: '#cdcccc',
   disableCardColor: '#cdcccc',
-  disabledBtnBg: '#6e6e6e',
+  disabledBtnBg: '#b5b5b5',
   tipBgColor: '#efb71c',
   tipContentBgColor: '#858796',
   btnRemoveBgColor: '#e63636',
@@ -25,6 +26,7 @@ const Color = {
   blackColor: '#000000',
   lightBlackColor: '#2e2e2e',
   paleBlackColor: '#787878',
+  loadingBackgroundColor: 'rgba(227, 107, 51, 0.6)',
 };
 
 export default Color;

@@ -26,7 +26,7 @@
   "scorecardCodeRequireMsg": "ត្រូវ​ការ​លេខ​កូដ​របស់​ប័ណ្ណដាក់​ពិន្ទុ​",
   "scorecardCodeDigitMsg": "លេខ​កូដ​របស់​ប័ណ្ណដាក់​ពិន្ទុ​ត្រូវ​តែ​មាន​6ខ្ទង់​",
   "scorecardCodeNumberOnlyMsg": "លេខ​កូដ​របស់ប័ណ្ណ​ដាក់ពិន្ទុ​ត្រូវ​តែ​ជា​លេខ​",
-  "scorecardIsNotExist": "មិន​មាន​ប័ណ្ណ​ដាក់ពិន្ទុ​នេះ​ទេ​",
+  "scorecardIsNotExist": "មិន​មាន​ប័ណ្ណ​ដាក់ពិន្ទុ​ ({0}) នេះ​ទេ​",
   "scorecardDetail": "ព័ត៌​មាន​លម្អិត​របស់​ប័ណ្ណដាក់​ពិន្ទុ​",
   "downloadAndSave": "ទាញ​យក ​និង​រក្សា​ទុក​",
   "start": "ចាប់​ផ្ដើម​",
@@ -259,5 +259,6 @@
   "thisScorecardWillBeLocked": "ប័ណ្ណដាក់ពិន្ទុនេះនឹងត្រូវជាប់សោ (មិនអាចធ្វើការកែប្រែព័ត៌មាន)។",
   "areYouSureYouWantToFinish": "តើអ្នកពិតជាចង់បញ្ចប់ប័ណ្ណដាក់ពិន្ទុ({0})នេះ?",
   "finished": "បានបញ្ចប់",
-  "searchCriteria": "ស្វែងរក​លក្ខណៈវិនិច្ឆ័យ"
+  "searchCriteria": "ស្វែងរក​លក្ខណៈវិនិច្ឆ័យ",
+  "infoCloseLabel": "បិទ"
 }

@@ -48,7 +48,7 @@ class ScorecardProgressContent extends Component {
 
   continueScorecard = () => {
     const step = scorecardProgress[this.state.scorecard.status - 1];
-    this.props.onDismiss();
+    this.props.onDismiss(false);      // user clicked on view detail so the auto focus on text input is false
     this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.state.scorecard.local_ngo_id });
   }
 
@@ -60,7 +60,7 @@ class ScorecardProgressContent extends Component {
         { this.renderContent() }
 
         <ModalConfirmationButtons
-          onClose={() => this.props.onDismiss()}
+          onClose={() => this.props.onDismiss(true)}        // // user clicked on close button, it will auto focus on the last digit input in new scorecard screen
           closeButtonLabel={translations.close}
           onConfirm={() => this.continueScorecard()}
           confirmButtonLabel={translations.continue}

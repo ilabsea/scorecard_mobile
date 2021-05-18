@@ -28,7 +28,7 @@ const handleApiResponse = (response, successCallback, errorCallback) => {
 }
 
 const getErrorType = (errorStatus) => {
-  switch (errorStatus) {
+  switch (parseInt(errorStatus)) {
     case 422:
     case 401:
       return ERROR_AUTHENTICATION;

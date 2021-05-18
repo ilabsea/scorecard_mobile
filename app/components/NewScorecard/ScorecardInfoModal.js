@@ -17,7 +17,7 @@ class ScorecardInfoModal extends Component {
     if (this.props.isSubmitted)
       return (
         <ScorecardSubmittedContent
-          onDismiss={() => this.props.onDismiss()}
+          onDismiss={(hasAutoFocus) => this.props.onDismiss(hasAutoFocus)}
           scorecardUuid={this.props.scorecardUuid}
           navigation={this.props.navigation}
           setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
@@ -26,7 +26,7 @@ class ScorecardInfoModal extends Component {
 
     return (
       <ScorecardProgressContent
-        onDismiss={() => this.props.onDismiss()}
+        onDismiss={(hasAutoFocus) => this.props.onDismiss(hasAutoFocus)}
         scorecardUuid={this.props.scorecardUuid}
         navigation={this.props.navigation}
       />

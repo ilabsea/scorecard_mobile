@@ -3,7 +3,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const ErrorMessageModalComponentStyles = StyleSheet.create({
   container: {
-    width: wp('84%'),
+    width: wp('87%'),
     padding: 18,
   },
 });

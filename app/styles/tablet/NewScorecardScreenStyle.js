@@ -4,7 +4,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 const NewScorecardScreenStyles = StyleSheet.create({
   formContainer: {
     width: '65%',
-    maxWidth: 360,
+    maxWidth: 400,
     marginTop: 20,
   },
   inputContainer: {

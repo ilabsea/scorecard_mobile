@@ -26,7 +26,7 @@
   "scorecardCodeRequireMsg": "Scorecard code is required",
   "scorecardCodeDigitMsg": "Scorecard code must be 6 digits",
   "scorecardCodeNumberOnlyMsg": "Scorecard code must be number",
-  "scorecardIsNotExist": "This scorecard is not exist",
+  "scorecardIsNotExist": "This scorecard ({0}) is not exist",
   "scorecardDetail": "Scorecard Detail",
   "downloadAndSave": "Download & Save",
   "start": "Start",
@@ -259,5 +259,6 @@
   "thisScorecardWillBeLocked": "This scorecard will be locked (no longer editable).",
   "areYouSureYouWantToFinish": "Are you sure you want to finish this scorecard({0})?",
   "finished": "Finished",
-  "searchCriteria": "Search criteria"
+  "searchCriteria": "Search criteria",
+  "infoCloseLabel": "Close"
 }

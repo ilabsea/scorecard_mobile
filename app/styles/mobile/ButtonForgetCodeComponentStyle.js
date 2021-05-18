@@ -8,6 +8,7 @@ const ButtonForgetCodeComponentStyles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: isShortScreenDevice() ? 10 : 20,
+    marginBottom: isShortScreenDevice() ? -wp('5%') : -wp('12%')
   },
   button: {
     flexDirection: 'row',
