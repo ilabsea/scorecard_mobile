@@ -4,12 +4,14 @@ import { View, Text } from 'react-native';
 import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
+import OutlineInfoIcon from '../OutlineInfoIcon';
 
 import Scorecard from '../../models/Scorecard';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -32,9 +34,11 @@ class ScorecardProgressContent extends Component {
 
     return (
       <View>
-        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
+        {/* <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
           { translations.scorecardIsInStep } {this.state.scorecard.status}/5
-        </Text>
+        </Text> */}
+
+        <OutlineInfoIcon color={Color.warningColor} />
 
         <View style={{marginTop: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
           <Text style={responsiveStyles.label}>

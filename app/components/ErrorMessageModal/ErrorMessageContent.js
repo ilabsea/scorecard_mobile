@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
+import {
+  ERROR_SCORECARD_EXECUTED,
+  ERROR_SCORECARD_COMPLETED,
+} from '../../constants/error_constant';
 import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 import OutlineInfoIcon from '../OutlineInfoIcon';
@@ -18,6 +21,19 @@ const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobile
 class ErrorMessageContent extends Component {
   static contextType = LocalizationContext;
 
+  _renderErrorMessage() {
+    const { translations } = this.context;
+
+    switch (this.props.errorType) {
+      case ERROR_SCORECARD_EXECUTED:
+        return translations.formatString(translations.scorecardIsBeingExcuted, this.props.scorecardUuid);
+      case ERROR_SCORECARD_COMPLETED:
+        return translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid);
+      default:
+        return translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid);
+    }
+  }
+
   render() {
     const { translations } = this.context;
 
@@ -30,7 +46,7 @@ class ErrorMessageContent extends Component {
 
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={responsiveStyles.label}>
-              { translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid) }
+              { this._renderErrorMessage() }
             </Text>
           </View>
         </View>

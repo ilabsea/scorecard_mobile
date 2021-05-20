@@ -26,6 +26,7 @@ import authenticationFormService from '../../services/authentication_form_servic
 import internetConnectionService from '../../services/internet_connection_service';
 import ScorecardService from '../../services/scorecardService';
 import { load as loadProgramLanguage } from '../../services/program_language_service';
+import scorecardHelper from '../../helpers/scorecard_helper';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
@@ -135,6 +136,13 @@ class NewScorecard extends Component {
         this.setState({
           visibleModal: true,
           errorType: ERROR_SCORECARD,
+        });
+      }
+      else if (!scorecardHelper.isScorecardAvailable(responseData)) {
+        this.setState({isLoading: false});
+        this.setState({
+          visibleModal: true,
+          errorType: scorecardHelper.getScorecardErrorType(responseData),
         });
       }
       else {
