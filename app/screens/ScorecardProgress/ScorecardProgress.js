@@ -181,6 +181,7 @@ class ScorecardProgress extends Component {
           errorType={this.state.errorType}
           isSubmit={true}
           isNewScorecard={false}
+          scorecardUuid={this.state.scorecard.uuid}
         />
 
         <MessageModal

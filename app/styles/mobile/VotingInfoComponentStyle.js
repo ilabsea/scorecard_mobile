@@ -5,7 +5,7 @@ import { lgLabelSize, mdLabelSize, smLabelSize } from '../../constants/mobile_fo
 const VotingInfoComponentStyles = StyleSheet.create({
   modalContainer: {
     width: wp('90%'),
-    padding: 18,
+    padding: 14,
   },
   header: {
     fontSize: wp(lgLabelSize),

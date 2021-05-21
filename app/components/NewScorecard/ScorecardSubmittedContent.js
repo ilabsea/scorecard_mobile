@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import CustomStyle from '../../themes/customStyle';
+import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
+import OutlineInfoIcon from '../OutlineInfoIcon';
 
 import Scorecard from '../../models/Scorecard';
 
@@ -30,10 +32,19 @@ class ScorecardSubmittedContent extends Component {
 
     return (
       <View>
-        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>{ translations.isSubmitted }</Text>
-        <Text style={[{marginTop: 10, marginBottom: 20}, responsiveStyles.label]}>
-          { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{alignContent: 'center'}}>
+            <OutlineInfoIcon color={Color.warningColor} />
+          </View>
+
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
+              <Text style={responsiveStyles.label}>
+                { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
+              </Text>
+            </View>
+          </View>
+        </View>
 
         <ModalConfirmationButtons
           onClose={() => this.props.onDismiss(true)}         // user clicked on close button, it will auto focus on the last digit input in new scorecard screen

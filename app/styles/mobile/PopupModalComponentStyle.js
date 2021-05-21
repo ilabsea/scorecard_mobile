@@ -6,7 +6,7 @@ import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 const PopupModalComponentStyles = StyleSheet.create({
   headerTitle: {
     fontSize: modalHeadingTitleSize(),
-    marginBottom: 15,
+    marginBottom: 0,
   },
   label: {
     fontSize: wp(mdLabelSize),

@@ -120,7 +120,6 @@ class ScorecardList extends Component {
           <MessageModal
             visible={this.state.visibleModal}
             onDismiss={() => this.setState({visibleModal: false})}
-            title={translations.deleteScorecard}
             description={translations.doYouWantToDeleteThisScorecard}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}

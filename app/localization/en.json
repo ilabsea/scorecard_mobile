@@ -253,7 +253,7 @@
   "cannotSubmitThisScorecard": "Unable to submit scoring card, the reason may be due to",
   "scorecardDeletedPleaseContactAdministrator": "or this scorecard is deleted in the server. Please contact the program administrator for more detail.",
   "facility": "Facility",
-  "unauthorizedScorecardMessage": "This scorecard code is invalid. Please contact to the program administrator for more detail.",
+  "unauthorizedScorecardMessage": "This scorecard code({0}) is invalid. Please contact to the program administrator for more detail.",
   "scorecardIsFinished": "Scorecard is finished",
   "alreadyFinished": "The scorecard is not editable after clicking finish!",
   "thisScorecardWillBeLocked": "This scorecard will be locked (no longer editable).",

@@ -48,6 +48,7 @@ class ErrorMessageModal extends Component {
                 onDismiss={this.props.onDismiss}
                 isSubmit={this.props.isSubmit}
                 errorType={this.props.errorType}
+                scorecardUuid={this.props.scorecardUuid}
               />;
     }
 

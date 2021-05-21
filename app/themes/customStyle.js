@@ -33,7 +33,7 @@ const CustomStyle = StyleSheet.create({
     marginBottom: getDeviceStyle(20, 15),
   },
   modalBtnWrapper: {
-    marginTop: 25,
+    marginTop: 18,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },

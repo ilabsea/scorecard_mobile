@@ -31,7 +31,8 @@ const mobileSubTitleSize = () => {
 
 const modalHeadingTitleSize = () => {
   const tabletFontSize = 24;
-  const mobileFontSize = mobileHeadingTitleSize();
+  // const mobileFontSize = mobileHeadingTitleSize();
+  const mobileFontSize = wp(lgLabelSize);
 
   return getDeviceStyle(tabletFontSize, mobileFontSize);
 }

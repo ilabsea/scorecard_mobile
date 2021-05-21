@@ -34,13 +34,26 @@ class ScorecardProgressContent extends Component {
 
     return (
       <View>
-        {/* <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
-          { translations.scorecardIsInStep } {this.state.scorecard.status}/5
-        </Text> */}
+        <View style={{flexDirection: 'row'}}>
+          <View style={{alignContent: 'center'}}>
+            <OutlineInfoIcon color={Color.warningColor} />
+          </View>
 
-        <OutlineInfoIcon color={Color.warningColor} />
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
+              { translations.scorecardIsInStep } {this.state.scorecard.status}/5
+            </Text>
 
-        <View style={{marginTop: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
+            {/* <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
+              <Text style={responsiveStyles.label}>
+                { translations.thisScorecardIsInStep }
+              </Text>
+              <Text style={[{ fontFamily: FontFamily.title }, responsiveStyles.label]}> "{ translations[step.label] }"</Text>
+            </View> */}
+          </View>
+        </View>
+
+        <View style={{marginTop: 15, paddingLeft: 15, flexDirection: 'row', flexWrap: 'wrap'}}>
           <Text style={responsiveStyles.label}>
             { translations.thisScorecardIsInStep }
           </Text>
