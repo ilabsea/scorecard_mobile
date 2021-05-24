@@ -42,7 +42,7 @@ class VotingMedianInfo extends Component {
   render() {
     const { translations, appLanguage } = this.context;
     return (
-      <View style={{flexDirection: 'row', marginBottom: 40}}>
+      <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.score } : {this.props.criteria.median} { getPluralOrSingularWord(this.props.criteria.median, translations.point, appLanguage, 's') }
         </Text>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -26,13 +26,11 @@ class VotingAverageScoreInfo extends Component {
     const { translations, appLanguage } = this.context;
 
     return (
-      <View key={uuidv4()} style={{flex: 1, maxHeight: 35}}>
-        <View style={{flexDirection: 'row'}}>
+      <View key={uuidv4()} style={{flexDirection: 'row', paddingVertical: 4}}>
         <Text style={responsiveStyles.normalText}>{ label }</Text>
         <Text style={[{marginLeft: 10, fontFamily: FontFamily.title}, responsiveStyles.normalText]}>
           ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
         </Text>
-        </View>
       </View>
     );
   }
@@ -55,7 +53,7 @@ class VotingAverageScoreInfo extends Component {
 
     if (doms.length > 0) {
       return (
-        <View style={[styles.sectionContainer]}>
+        <View>
           {doms}
         </View>
       );
@@ -66,9 +64,9 @@ class VotingAverageScoreInfo extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{marginBottom: 40}}>
+      <View style={{marginBottom: 24}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>{ translations.averageScoreByGroup }:</Text>
-        <View style={{ flexDirection: 'row', height: 120 }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           { this._renderInfo('first-col') }
           { this._renderInfo('second-col') }
         </View>
@@ -76,13 +74,5 @@ class VotingAverageScoreInfo extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingTop: 15,
-  }
-});
 
 export default VotingAverageScoreInfo;
