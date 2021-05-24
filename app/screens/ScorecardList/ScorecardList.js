@@ -103,6 +103,7 @@ class ScorecardList extends Component {
     const progressScorecards = this.state.scorecards.filter(s => s.status != completedStatus);
     const completeScorecards = this.state.scorecards.filter(s => s.status == completedStatus);
     const titleSize = getDeviceStyle(16, wp(mdLabelSize));
+    const scorecardUuid = this.state.selectedScorecard ? this.state.selectedScorecard.uuid : '';
 
     if (!this.state.scorecards.length) {
       return this._renderNoData();
@@ -120,7 +121,7 @@ class ScorecardList extends Component {
           <MessageModal
             visible={this.state.visibleModal}
             onDismiss={() => this.setState({visibleModal: false})}
-            description={translations.doYouWantToDeleteThisScorecard}
+            description={translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this._confirmDelete()}

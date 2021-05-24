@@ -232,7 +232,7 @@ class ScorecardPreference extends Component {
       <View style={{marginTop: 15, marginBottom: 10, paddingHorizontal: 15}}>
         <Text style={modalStyles.label}>{translations.downloadScorecardFirstDescription}</Text>
         <Text style={[{ marginTop: 15 }, , modalStyles.label]}>
-          {translations.formatString(translations.downloadScorecardSecondDescription, textLocaleLabel, audioLocaleLabel)}
+          {translations.formatString(translations.downloadScorecardSecondDescription, this.props.route.params.scorecard_uuid, textLocaleLabel, audioLocaleLabel)}
         </Text>
       </View>
     )

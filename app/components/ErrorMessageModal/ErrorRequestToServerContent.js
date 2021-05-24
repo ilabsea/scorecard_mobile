@@ -26,7 +26,7 @@ class ErrorRequestToServerContent extends Component {
         <Text style={responsiveStyles.label}>{translations.cannotSubmitThisScorecard}: </Text>
         <Text style={responsiveStyles.label}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl} </Text>
-          {translations.scorecardDeletedPleaseContactAdministrator}
+          { translations.formatString(translations.scorecardDeletedPleaseContactAdministrator, this.props.scorecardUuid) }
         </Text>
       </View>
     );

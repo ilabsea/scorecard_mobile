@@ -118,7 +118,9 @@ class ScorecardResult extends Component {
 
     return (
       <View>
-        <Text style={modalStyles.label}>{translations.thisScorecardWillBeLocked}</Text>
+        <Text style={modalStyles.label}>
+          {translations.formatString(translations.thisScorecardWillBeLocked, this.props.route.params.scorecard_uuid)}
+        </Text>
         <Text style={[{ marginTop: 12 }, , modalStyles.label]}>
           {translations.formatString(translations.areYouSureYouWantToFinish, this.props.route.params.scorecard_uuid)}
         </Text>

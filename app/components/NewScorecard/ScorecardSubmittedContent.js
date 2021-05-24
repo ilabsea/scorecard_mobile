@@ -35,7 +35,7 @@ class ScorecardSubmittedContent extends Component {
         <View style={{flexDirection: 'row'}}>
           <OutlineInfoIcon color={Color.warningColor} />
 
-          <View style={{flex: 1, justifyContent: 'center', borderWidth: 1}}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={responsiveStyles.label}>
               { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
             </Text>
