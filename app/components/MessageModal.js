@@ -33,9 +33,7 @@ class MessageModal extends Component {
           contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.container]}
         >
           <View style={{flexDirection: 'row'}}>
-            <View style={{alignContent: 'center'}}>
-              <OutlineInfoIcon color={Color.warningColor} />
-            </View>
+            <OutlineInfoIcon color={Color.warningColor} />
 
             <View style={{flex: 1, justifyContent: 'center'}}>
               { this.props.title &&
@@ -52,15 +50,17 @@ class MessageModal extends Component {
                     { this.props.description }
                   </Text>
                 }
-
-                {/* { this.props.child &&
-                  this.props.child()
-                } */}
               </View>
+
+              { (this.props.child && this.props.renderInline) &&
+                <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
+                  { this.props.child() }
+                </View>
+              }
             </View>
           </View>
 
-          { this.props.child &&
+          { (this.props.child && !this.props.renderInline) &&
             this.props.child()
           }
 

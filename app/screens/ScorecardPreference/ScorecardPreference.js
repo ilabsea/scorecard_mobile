@@ -229,7 +229,7 @@ class ScorecardPreference extends Component {
     const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.audioLocale);
 
     return (
-      <View style={{marginTop: 15, marginBottom: 10, paddingLeft: 15}}>
+      <View style={{marginTop: 15, marginBottom: 10, paddingHorizontal: 15}}>
         <Text style={modalStyles.label}>{translations.downloadScorecardFirstDescription}</Text>
         <Text style={[{ marginTop: 15 }, , modalStyles.label]}>
           {translations.formatString(translations.downloadScorecardSecondDescription, textLocaleLabel, audioLocaleLabel)}
@@ -283,6 +283,7 @@ class ScorecardPreference extends Component {
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this.downloadScorecard()}
             child={() => this.confirmDownloadContent()}
+            renderInline={false}
           />
         </View>
       </TouchableWithoutFeedback>

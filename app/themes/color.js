@@ -6,7 +6,6 @@ const Color = {
   errorColor: 'red',
   successColor: 'green',
   warningColor: '#ffc107',
-  infoColor: '#007bff',
   inputBorderLineColor: '#7a7a7a',
   borderColor: '#ccc',
   subText: '#aaa',

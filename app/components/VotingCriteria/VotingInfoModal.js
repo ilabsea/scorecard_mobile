@@ -39,16 +39,12 @@ class VotingInfoModal extends Component {
     const { translations } = this.context;
     return (
       <View style={{flexDirection: 'row'}}>
-        <View style={{alignContent: 'center'}}>
-          <OutlineInfoIcon color={Color.warningColor} />
-        </View>
+        <OutlineInfoIcon color={Color.warningColor} />
 
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
-            <Text style={responsiveStyles.normalText}>
-              { translations.thereIsNoVotingYet }
-            </Text>
-          </View>
+          <Text style={responsiveStyles.normalText}>
+            { translations.thereIsNoVotingYet }
+          </Text>
         </View>
       </View>
     );

@@ -75,9 +75,7 @@ class ErrorRequestToServerContent extends Component {
     return (
       <View>
         <View style={{flexDirection: 'row'}}>
-          <View style={{alignContent: 'center'}}>
-            <OutlineInfoIcon color={Color.warningColor} />
-          </View>
+          <OutlineInfoIcon color={Color.warningColor} />
 
           <View style={{flex: 1, justifyContent: 'center'}}>
             { this._renderContent() }

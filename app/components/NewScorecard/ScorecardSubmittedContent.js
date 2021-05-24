@@ -33,16 +33,12 @@ class ScorecardSubmittedContent extends Component {
     return (
       <View>
         <View style={{flexDirection: 'row'}}>
-          <View style={{alignContent: 'center'}}>
-            <OutlineInfoIcon color={Color.warningColor} />
-          </View>
+          <OutlineInfoIcon color={Color.warningColor} />
 
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
-              <Text style={responsiveStyles.label}>
-                { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
-              </Text>
-            </View>
+          <View style={{flex: 1, justifyContent: 'center', borderWidth: 1}}>
+            <Text style={responsiveStyles.label}>
+              { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
+            </Text>
           </View>
         </View>
 

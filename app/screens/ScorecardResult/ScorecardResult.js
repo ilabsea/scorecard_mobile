@@ -168,6 +168,7 @@ class ScorecardResult extends Component {
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this._confirmFinish()}
             child={() => this._confirmFinishContent()}
+            renderInline={true}
           />
         </View>
       </View>

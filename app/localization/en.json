@@ -261,6 +261,6 @@
   "finished": "Finished",
   "searchCriteria": "Search criteria",
   "infoCloseLabel": "Close",
-  "scorecardIsBeingExcuted": "This scorecard({0}) is being executed by other, please contact the program officer for more detail",
+  "scorecardIsBeingExecuted": "This scorecard({0}) is being executed by other, please contact the program officer for more detail",
   "scorecardIsCompleted": "This scorecard({0}) is already completed by other, please contact the program officer for more detail"
 }

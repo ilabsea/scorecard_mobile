@@ -7,14 +7,16 @@ const scorecardHelper = (() => {
   };
 
   function isScorecardAvailable(scorecard) {
-    return scorecard.status != 'completed';
+    return !scorecard.progress || scorecard.progress == 'downloaded';
   }
 
   function getScorecardErrorType(scorecard) {
-    if (scorecard.status == 'completed')
+    if (!scorecard.progress)
+      return '';
+    else if (scorecard.progress == 'submitted')
       return ERROR_SCORECARD_COMPLETED;
 
-    return scorecard.conducted_date ? ERROR_SCORECARD_EXECUTED : '';
+    return ERROR_SCORECARD_EXECUTED;
   }
 })();
 

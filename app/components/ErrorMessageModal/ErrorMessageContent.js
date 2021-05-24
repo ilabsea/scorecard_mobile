@@ -26,7 +26,7 @@ class ErrorMessageContent extends Component {
 
     switch (this.props.errorType) {
       case ERROR_SCORECARD_EXECUTED:
-        return translations.formatString(translations.scorecardIsBeingExcuted, this.props.scorecardUuid);
+        return translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid);
       case ERROR_SCORECARD_COMPLETED:
         return translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid);
       default:
@@ -40,9 +40,7 @@ class ErrorMessageContent extends Component {
     return(
       <View>
         <View style={{ flexDirection: 'row' }}>
-          <View style={{alignContent: 'flex-start'}}>
-            <OutlineInfoIcon color={Color.warningColor} />
-          </View>
+          <OutlineInfoIcon color={Color.warningColor} />
 
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={responsiveStyles.label}>
