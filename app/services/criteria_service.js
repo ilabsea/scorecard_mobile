@@ -12,10 +12,6 @@ class Criteria {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}' AND indicatorable_id == '${indicatorId}'`).length;
   }
 
-  _getTotalRaisedCount = () => {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}' DISTINCT(participant_uuid)`).length;
-  }
-
   _sort(arr) {
     return arr.sort((a, b) => b.raised_count - a.raised_count);
   }
@@ -23,7 +19,6 @@ class Criteria {
   getCriterias = () => {
     let allCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`);
     let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}' DISTINCT(tag)`)));
-    const summaryCriteria = [{id: '', name: 'All indicator', raised_count: this._getTotalRaisedCount(), shortcut: 'view-agenda', scorecard_uuid: ''}];
 
     criterias = criterias.map(criteria => {
       let indicator = indicatorHelper.getDisplayIndicator(criteria);
@@ -34,9 +29,7 @@ class Criteria {
       return criteria;
     });
 
-    criterias = this._sort(criterias);
-
-    return [...summaryCriteria, ...criterias];
+    return this._sort(criterias);
   }
 
   getParticipantProposedCriteria = (participantUUID) => {

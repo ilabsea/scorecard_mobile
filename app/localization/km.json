@@ -87,7 +87,6 @@
   "tips": "គន្លឹះ - ជំនួយក្នុងការសម្របសម្រួល",
   "raisingProposedTipsContent": "Before the indicator rasing started, the tips here are about to reamind CAF The key questions to better facilitate the process this will help CAF get better insights from participants.",
   "viewTips": "មើលបន្ថែម",
-  "listCriteria": "តារាងលក្ខណៈវិនិច្ឆ័យ",
   "viewAll": "មើលបន្ថែម",
   "listUser": "តារាងអ្នកចូលរួម",
   "no": "លេខ​រៀង​",
@@ -265,5 +264,6 @@
   "scorecardIsCompleted": "ប័ណ្ណដាក់ពិន្ទុ({0})នេះត្រូវបានបញ្ចប់ការអនុវត្តដោយអង្គការផ្សេងហើយ សូមទាក់ទងអ្នកគ្រប់គ្រងកម្មវិធីសម្រាប់ព័ត៌មានលម្អិត។",
   "days": "ថ្ងៃ",
   "submittedScorecardWillBeRemovedIn": "ប័ណ្ណដាក់ពិន្ទុដាក់ស្នើហើយនឹងត្រូវលុបក្នុងរយៈពេល",
-  "toBeRemovedOn": "នឹងត្រូវលុបនៅថ្ងៃទី"
+  "toBeRemovedOn": "នឹងត្រូវលុបនៅថ្ងៃទី",
+  "numberOfProposedParticipant": "ចំនួនអ្នកស្នើលក្ខណៈវិនិច្ឆ័យ"
 }

@@ -5,7 +5,8 @@ const RaisingProposedComponentStyles = StyleSheet.create({
     fontSize: 20,
   },
   criteriaValue: {
-    fontSize: 20,
+    fontSize: 16,
+    marginTop: -2
   }
 });
 

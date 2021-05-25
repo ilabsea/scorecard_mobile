@@ -10,6 +10,7 @@ import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
 import {Criteria} from '../../services/criteria_service';
 import {getRaisedParticipants} from '../../services/participant_service';
+import Participant from '../../models/Participant';
 import {connect} from 'react-redux';
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { containerPadding } from '../../utils/responsive_util';
@@ -55,7 +56,10 @@ class UserListing extends Component {
         <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28}}>
           <Tip screenName={'RaisingProposed'}/>
 
-          <CriteriaList scorecardUUID={this.props.scorecardUUID} />
+          <CriteriaList scorecardUUID={this.props.scorecardUUID}
+            participants={Participant.getAll(this.props.scorecardUUID)}
+            numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUUID)}  
+          />
           <ListUser
             scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}
