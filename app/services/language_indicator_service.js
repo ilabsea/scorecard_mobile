@@ -72,14 +72,6 @@ const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
   return realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
 }
 
-const deleteLanguageIndicators = (scorecardUuid) => {
-  const langIndicators = realm.objects('LanguageIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`);
-
-  realm.write(() => {
-    realm.delete(langIndicators);
-  });
-}
-
 const find = (indicatorId, languageCode) => {
   return realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorId}' AND language_code='${languageCode}'`)[0];
 }
@@ -87,7 +79,6 @@ const find = (indicatorId, languageCode) => {
 export {
   saveLanguageIndicator,
   getLanguageIndicator,
-  deleteLanguageIndicators,
   find,
   LanguageIndicatorService,
 };

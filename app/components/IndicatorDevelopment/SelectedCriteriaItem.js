@@ -29,8 +29,6 @@ class SelectedCriteriaItem extends Component {
     super(props);
     this.scorecard = Scorecard.find(props.criteria.scorecard_uuid);
 
-    // console.log('selected criteria sc uuid === ', props.criteria.scorecard_uuid);
-
     this.state = {
       indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard),
       scorecard: this.scorecard,
@@ -38,7 +36,6 @@ class SelectedCriteriaItem extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    // return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard) };
     return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, state.scorecard) };
   }
 

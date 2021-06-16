@@ -86,8 +86,6 @@ const scorecardPreferenceService = (() => {
       audio_language_code: audioLocale,
     };
 
-    console.log('scorecard preference language == ', attrs);
-
     Scorecard.update(scorecardUuid, attrs);
   }
 })();

@@ -54,9 +54,7 @@ const App: () => React$Node = () => {
     SplashScreen.hide();
     Queue.initWorker();
 
-    // const scorecardService = new ScorecardService();
     AppState.addEventListener("change", (nextAppState) => {
-      console.log('=== app state === ', nextAppState);
       new ScorecardService().removeExpiredScorecard();
     });
   });

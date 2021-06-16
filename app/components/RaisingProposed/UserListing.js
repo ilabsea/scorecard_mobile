@@ -11,13 +11,22 @@ import {LocalizationContext} from '../../components/Translations';
 import {Criteria} from '../../services/criteria_service';
 import {getRaisedParticipants} from '../../services/participant_service';
 import {connect} from 'react-redux';
+import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { containerPadding } from '../../utils/responsive_util';
 
 class UserListing extends Component {
   static contextType = LocalizationContext;
 
   onPress = () => {
+    this.clearSelectedCriterias();
+
     this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
+  }
+
+  clearSelectedCriterias = () => {
+    this.props.selectedCriterias.map(criteria => {
+      this.props.removeFromSelected(criteria);
+    });
   }
 
   hasRaisedCriteria = () => {
@@ -75,10 +84,19 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {participants: state.participantReducer.participants};
+  return {
+    participants: state.participantReducer.participants,
+    selectedCriterias: state.selectedCriterias,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    removeFromSelected: (criteria) => dispatch(removeFromSelected(criteria)),
+  };
 }
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(UserListing);

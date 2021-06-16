@@ -24,6 +24,7 @@ import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo
 import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
 import { hasVoting } from '../../helpers/voting_criteria_helper';
+import votingCriteriaService from '../../services/votingCriteriaService';
 import tips from '../../db/jsons/tips';
 
 
@@ -37,6 +38,7 @@ class VotingCriteriaList extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
+      votingCriterias: votingCriteriaService.getAll(props.route.params.scorecard_uuid),
     };
   }
 
@@ -45,8 +47,6 @@ class VotingCriteriaList extends Component {
       Scorecard.update(this.state.scorecard.uuid, {status: '4'})
       this.props.setCurrentScorecard(this.state.scorecard);
     }
-
-    this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
   }
 
   _renderHeader() {
@@ -61,7 +61,7 @@ class VotingCriteriaList extends Component {
   }
 
   _renderList() {
-    return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index} scorecard={this.state.scorecard} />);
+    return this.state.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index} scorecard={this.state.scorecard} />);
   }
 
   _goNext() {
