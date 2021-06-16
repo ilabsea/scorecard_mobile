@@ -281,7 +281,19 @@ class ScorecardService extends BaseModelService {
     this._deleteScorecardData(scorecardUuid);
   }
 
+  removeExpiredScorecard() {
+    const scorecards = Scorecard.getSubmittedExpired();
+    console.log('Expired scorecards == ', scorecards.length);
+
+    scorecards.map(scorecard => {
+      console.log('delete scorecard == ', scorecard.uuid);
+      this._deleteScorecardData(scorecard.uuid);
+    });
+  }
+
   _deleteScorecardData = (scorecardUuid) => {
+    console.log('==== Start deleting ===== ', scorecardUuid)
+
     Participant.deleteAll(scorecardUuid);
     deleteScorecardDownload(scorecardUuid);
     Scorecard.destroy(scorecardUuid);

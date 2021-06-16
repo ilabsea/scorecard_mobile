@@ -8,6 +8,7 @@ import SelectPicker from '../SelectPicker';
 import TextFieldInput from '../TextFieldInput';
 
 import {localeDictionary} from '../../constants/locale_constant';
+import { environment } from '../../config/environment';
 
 class SettingForm extends Component {
   static contextType = LocalizationContext
@@ -31,7 +32,10 @@ class SettingForm extends Component {
 
   componentDidMount = async () => {
     const { appLanguage } = this.context;
-    let setting = { locales: this.getLocales(), locale: appLanguage };
+    let setting = {
+      locales: this.getLocales(),
+      locale: appLanguage,
+    };
 
     try {
       const value = await AsyncStorage.getItem('SETTING');
@@ -81,6 +85,7 @@ class SettingForm extends Component {
     const backendUrlLabel = `${translations['serverUrl']} *`;
     const emailLabel = `${translations['email']} *`;
     const passwordLabel = `${translations['password']} *`;
+    const removeScorecardValue = `${environment.removeScorecardDay} ${translations.days}`;
 
     return (
       <View>
@@ -115,6 +120,14 @@ class SettingForm extends Component {
           secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
           onFocus={() => this.closeDropDown()}
           right={this._renderShowPasswordIcon()}
+        />
+
+        <TextFieldInput
+          value={removeScorecardValue}
+          label={translations.submittedScorecardWillBeRemoveIn}
+          fieldName="removeScorecardDuration"
+          onChangeText={this.onChangeText}
+          disabled={true}
         />
       </View>
     )

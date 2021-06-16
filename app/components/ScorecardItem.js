@@ -15,10 +15,12 @@ import uuidV4 from '../utils/uuidv4';
 import scorecardProgress from '../db/jsons/scorecardProgress';
 import styles from '../themes/scorecardListItemStyle';
 import votingCriteriaService from '../services/votingCriteriaService';
+import scorecardHelper from '../helpers/scorecard_helper';
 
 import { getDeviceStyle } from '../utils/responsive_util';
 import ScorecardItemTabletStyles from '../styles/tablet/ScorecardItemComponentStyle';
 import ScorecardItemMobileStyles from '../styles/mobile/ScorecardItemComponentStyle';
+import { FontFamily } from '../assets/stylesheets/theme/font';
 
 const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItemMobileStyles);
 
@@ -68,7 +70,7 @@ export default class ScorecardItem extends Component {
   }
 
   render() {
-    const { translations } = this.context;
+    const { translations, appLanguage } = this.context;
     let scorecard = this.props.scorecard || {};
     let status = !!scorecard.status ? translations[scorecardProgress.filter(x => x.value == scorecard.status)[0].label] : '';
     let criteriasSize = votingCriteriaService.getAll(scorecard.uuid).length;
@@ -103,6 +105,12 @@ export default class ScorecardItem extends Component {
               <Icon name='document-text' style={styles.subTextIcon} />
               <Text style={styles.subText}>{translations.status}: {status}</Text>
             </View>
+
+            { scorecard.isUploaded &&
+              <Text style={{ fontSize: 10, color: Color.redColor, fontFamily: FontFamily.title}}>
+                {translations.thisWillScorecardWillBeRemoveIn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, appLanguage) }
+              </Text>
+            }
 
             <View style={{flex: 1}}></View>
 

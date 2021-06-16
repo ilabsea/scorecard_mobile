@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useContext, useState } from 'react';
+import { AppState } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
@@ -16,6 +17,8 @@ import configureStore from './app/store/configureStore';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
 import Color from './app/themes/color';
+
+import ScorecardService from './app/services/scorecardService';
 
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
@@ -50,6 +53,12 @@ const App: () => React$Node = () => {
     setLoading(false);
     SplashScreen.hide();
     Queue.initWorker();
+
+    // const scorecardService = new ScorecardService();
+    AppState.addEventListener("change", (nextAppState) => {
+      console.log('=== app state === ', nextAppState);
+      new ScorecardService().removeExpiredScorecard();
+    });
   });
 
   return (
