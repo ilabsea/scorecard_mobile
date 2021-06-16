@@ -31,12 +31,12 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     fontSize: 28,
   },
   swipeableContainer: {
-    maxHeight: 155,
+    maxHeight: 200,
     marginBottom: 20,
   },
   deleteContainer: {
     backgroundColor: Color.redColor,
-    maxHeight: 153,
+    maxHeight: 157,
     width: 80,
     justifyContent: 'center',
     alignItems: 'center'

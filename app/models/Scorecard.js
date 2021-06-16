@@ -2,7 +2,6 @@ import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import Moment from 'moment';
 import { DOWNLOADED, RUNNING, SUBMITTED } from '../constants/milestone_constant';
-// import uuidv4 from '../utils/uuidv4';
 import scorecardHelper from '../helpers/scorecard_helper';
 
 const Scorecard = (() => {
@@ -85,8 +84,6 @@ const Scorecard = (() => {
 
     for (let i = 0; i < scorecards.length; i++) {
       const isAbleToRemove = scorecardHelper.isExpired(scorecards[i].uploaded_date);
-
-      // console.log('is able to remove == ', isAbleToRemove)
 
       if (isAbleToRemove)
         expiredScorecards.push(scorecards[i]);

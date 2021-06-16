@@ -173,8 +173,8 @@ class ScorecardProgress extends Component {
         </ScrollView>
 
         { this.state.scorecard.isUploaded &&
-          <Text style={{ fontSize: 12, color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title}}>
-            {translations.thisWillScorecardWillBeRemoveIn}: { scorecardHelper.getTranslatedRemoveDate(this.state.scorecard.uploaded_date, appLanguage) }
+          <Text style={{ fontSize: getDeviceStyle(14, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title}}>
+            {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(this.state.scorecard.uploaded_date, appLanguage) }
           </Text>
         }
 

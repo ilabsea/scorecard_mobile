@@ -174,7 +174,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setSelectedCriterias: (criterias) => dispatch(setSelectedCriterias(criterias)),
     setProposedCriterias: (criterias) => dispatch(setProposedCriterias(criterias)),
-    setCurrentScorecard: (scorecard) => dispatch(set(scorecard))
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };
 }
 

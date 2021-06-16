@@ -74,6 +74,7 @@ export default class ScorecardItem extends Component {
     let scorecard = this.props.scorecard || {};
     let status = !!scorecard.status ? translations[scorecardProgress.filter(x => x.value == scorecard.status)[0].label] : '';
     let criteriasSize = votingCriteriaService.getAll(scorecard.uuid).length;
+    const subTextStyles = { paddingTop: getDeviceStyle(2, 1), height: getDeviceStyle(27, 23) };
 
     return (
       <Swipeable
@@ -86,7 +87,7 @@ export default class ScorecardItem extends Component {
         <TouchableOpacity
           key={uuidV4()}
           onPress={ () => this.props.onPress() }
-          style={[styles.listItem, styles.card]}>
+          style={[styles.listItem, styles.card, { maxHeight: 185 }]}>
 
           { this.renderStatusIcon(scorecard) }
 
@@ -98,17 +99,17 @@ export default class ScorecardItem extends Component {
 
             <View style={styles.subTextWrapper}>
               <Icon name='people' style={styles.subTextIcon} />
-              <Text style={styles.subText}>{translations.numberOfCriteria}: {criteriasSize}</Text>
+              <Text style={[styles.subText, subTextStyles]}>{translations.numberOfCriteria}: {criteriasSize}</Text>
             </View>
 
-            <View style={styles.subTextWrapper}>
+            <View style={[styles.subTextWrapper, { paddingVertical: getDeviceStyle(0, 2) }]}>
               <Icon name='document-text' style={styles.subTextIcon} />
-              <Text style={styles.subText}>{translations.status}: {status}</Text>
+              <Text style={[styles.subText, subTextStyles]}>{translations.status}: {status}</Text>
             </View>
 
             { scorecard.isUploaded &&
-              <Text style={{ fontSize: 10, color: Color.redColor, fontFamily: FontFamily.title}}>
-                {translations.thisWillScorecardWillBeRemoveIn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, appLanguage) }
+              <Text style={{ fontSize: getDeviceStyle(12, 10), color: Color.redColor, fontFamily: FontFamily.title, paddingTop: getDeviceStyle(4, 0)}}>
+                {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, appLanguage) }
               </Text>
             }
 

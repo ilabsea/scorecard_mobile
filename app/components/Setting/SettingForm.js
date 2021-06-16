@@ -124,7 +124,7 @@ class SettingForm extends Component {
 
         <TextFieldInput
           value={removeScorecardValue}
-          label={translations.submittedScorecardWillBeRemoveIn}
+          label={translations.submittedScorecardWillBeRemovedIn}
           fieldName="removeScorecardDuration"
           onChangeText={this.onChangeText}
           disabled={true}

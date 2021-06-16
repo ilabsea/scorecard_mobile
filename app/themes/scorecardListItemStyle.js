@@ -68,7 +68,7 @@ const ListItemStyle = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: getDeviceStyle(0, 4)
+    marginTop: getDeviceStyle(4, 2)
   },
   buttonLabel: {
     fontSize: getDeviceStyle(16, wp('3.6%')),
