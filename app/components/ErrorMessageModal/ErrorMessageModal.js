@@ -25,6 +25,7 @@ class ErrorMessageModal extends Component {
     super(props);
     this.state = {
       backendUrl: '',
+      isVisible: props.visible
     };
   }
 
@@ -59,10 +60,17 @@ class ErrorMessageModal extends Component {
             />
   }
 
+  onModalDismiss = () => {
+    if (this.props.errorType === ERROR_AUTHENTICATION)
+      return false;
+
+    return this.props.onDismiss;
+  }
+
   render() {
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDismiss} contentContainerStyle={[styles.container, responsiveStyles.container]}>
+        <Modal visible={this.props.visible} onDismiss={this.onModalDismiss()} contentContainerStyle={[styles.container, responsiveStyles.container]}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             {this._renderContent()}
           </TouchableWithoutFeedback>
