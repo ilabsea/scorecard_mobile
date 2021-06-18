@@ -60,6 +60,11 @@ class ScorecardPreferenceForm extends Component {
     this.props.changeValue('date', date);
   }
 
+  onAudioLanguageOpen = () => {
+    this.textLanguageController.close();
+    this.props.onLastSelectPickerOpen();
+  }
+
   renderForm = () => {
     const {translations} = this.context;
     const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.props.scorecard.uuid);
@@ -97,7 +102,8 @@ class ScorecardPreferenceForm extends Component {
           onChangeItem={this.changeAudioLocale}
           mustHasDefaultValue={true}
           controller={(instance) => this.audioLanguageController = instance}
-          onOpen={() => this.textLanguageController.close()}
+          onOpen={() => this.onAudioLanguageOpen()}
+          onClose={() => this.props.onLastSelectPickerClose()}
           disabled={hasScorecardDownload}
         />
       </View>

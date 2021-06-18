@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable, Dimensions} from 'react-native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable} from 'react-native';
 import realm from '../../db/schema';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../../components/Translations';
@@ -8,11 +7,10 @@ import HeaderTitle from '../../components/HeaderTitle';
 import SelectPicker from '../../components/SelectPicker';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
+
 import Color from '../../themes/color';
 
-import { containerPaddingTop, containerPadding, getDeviceStyle } from '../../utils/responsive_util';
-
-const screenHeight = Dimensions.get('screen').height;
+import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 
 class Facilitator extends Component {
   static contextType = LocalizationContext;
@@ -23,6 +21,8 @@ class Facilitator extends Component {
       facilitators: [],
       selectedFacilitators: Array.from({length: this.numberOfFacilitator}, () => null),
       isError: true,
+      containerPaddingBottom: 0,
+      openIndex: null,
     };
     this.controllers = new Array(4);
   }
@@ -39,7 +39,7 @@ class Facilitator extends Component {
     selectedFacilitators[facilitatorIndex] = facilitator;
     this.setState({
       selectedFacilitators,
-      isError: selectedFacilitators[0] === null || selectedFacilitators[1] === null,
+      isError: selectedFacilitators[0] === null || selectedFacilitators[1] === null
     });
     this.updateFacilitators();
   }
@@ -56,35 +56,47 @@ class Facilitator extends Component {
     });
   }
 
-  renderOtherFacilitators = () => {
+  renderFacilitators = () => {
     const {translations} = this.context;
-    let pickerzIndex = 8000;
-    let itemIndex = 1;
-    return Array(this.numberOfFacilitator - 1)
+    let pickerzIndex = 9000;
+    let itemIndex = 0;
+    return Array(this.numberOfFacilitator)
       .fill()
       .map((_, index) => {
         itemIndex += 1;
         pickerzIndex -= 1000;
-        const customLabelStyle = {zIndex: pickerzIndex + 1};
-        const selectedFacilitator = this.state.selectedFacilitators[index + 1];
+
         return (
           <SelectPicker
+            key={index}
             items={this.state.facilitators}
-            selectedItem={this.getSelectedFacilitator(selectedFacilitator)}
-            isRequire={index == 0}
+            selectedItem={this.getSelectedFacilitator(this.state.selectedFacilitators[index])}
+            isRequire={index == 0 || index == 1}
             label={translations['facilitator']}
             placeholder={translations['selectFacilitator']}
             searchablePlaceholder={translations['searchForFacilitator']}
             zIndex={pickerzIndex}
-            onChangeItem={(text) => this.onChangeFacilitator(text, index + 1)}
+            customContainerStyle={index == 0 ? {marginTop: 0} : {}}
+            customLabelStyle={[{zIndex: pickerzIndex + 1}, index == 0 ? { marginTop: -10 } : {}]}
+            showCustomArrow={true}
+            onChangeItem={(text) => this.onChangeFacilitator(text, index)}
             itemIndex={itemIndex}
-            key={uuidv4()}
-            controller={(instance) => this.controllers[index + 1] = instance}
-            onOpen={() => this.closeSelectBox(index + 1)}
+            mustHasDefaultValue={false}
+            controller={(instance) => this.controllers[index] = instance}
+            onOpen={() => this.closeSelectBox(index)}
+            onClose={() => this.onDropdownClose(index)}
           />
         );
       });
   };
+
+  onDropdownClose = (index) => {
+    if (index == 2 || index == 3)
+      this.setState({ openIndex: null });
+
+    if (!this.state.openIndex)
+      this.setState({ containerPaddingBottom: 0 });
+  }
 
   saveSelectedData = () => {
     this.closeSelectBox(null);
@@ -145,6 +157,13 @@ class Facilitator extends Component {
   }
 
   closeSelectBox = (exceptIndex) => {
+    if (exceptIndex == 2 || exceptIndex == 3) {
+      this.setState({
+        openIndex: exceptIndex,
+        containerPaddingBottom: 180,
+      });
+    }
+
     for (let i = 0; i < this.controllers.length; i++) {
       if (exceptIndex == i)
         continue;
@@ -155,8 +174,6 @@ class Facilitator extends Component {
 
   render() {
     const {translations} = this.context;
-    const {facilitators} = this.state;
-    const firstFacilitator = this.state.selectedFacilitators[0];
 
     return (
       <TouchableWithoutFeedback onPress={() => this.closeSelectBox(null)}>
@@ -169,31 +186,14 @@ class Facilitator extends Component {
           />
           <ScrollView contentContainerStyle={styles.container}>
             <Pressable onPress={() => this.closeSelectBox(null)}
-              style={{height: screenHeight - getDeviceStyle(hp('35%'), 100)}}
+              style={{paddingBottom: this.state.containerPaddingBottom}}
             >
               <HeaderTitle
                 headline="facilitatorList"
                 subheading="pleaseFillInformationBelow"
               />
-              <SelectPicker
-                items={facilitators}
-                selectedItem={this.getSelectedFacilitator(firstFacilitator)}
-                isRequire={true}
-                label={translations['facilitator']}
-                placeholder={translations['selectFacilitator']}
-                searchablePlaceholder={translations['searchForFacilitator']}
-                zIndex={8000}
-                customContainerStyle={{marginTop: 0}}
-                customLabelStyle={{zIndex: 8001, marginTop: -10}}
-                showCustomArrow={true}
-                onChangeItem={(text) => this.onChangeFacilitator(text, 0)}
-                itemIndex={1}
-                mustHasDefaultValue={false}
-                controller={(instance) => this.controllers[0] = instance}
-                onOpen={() => this.closeSelectBox(0)}
-              />
 
-              { this.renderOtherFacilitators() }
+              { this.renderFacilitators() }
             </Pressable>
           </ScrollView>
 
