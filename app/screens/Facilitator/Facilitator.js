@@ -4,9 +4,9 @@ import realm from '../../db/schema';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
-import SelectPicker from '../../components/SelectPicker';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
+import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 
 import Color from '../../themes/color';
 
@@ -22,9 +22,9 @@ class Facilitator extends Component {
       selectedFacilitators: Array.from({length: this.numberOfFacilitator}, () => null),
       isError: true,
       containerPaddingBottom: 0,
-      openIndex: null,
     };
-    this.controllers = new Array(4);
+
+    this.formRef = React.createRef();
   }
 
   async componentDidMount() {
@@ -56,50 +56,8 @@ class Facilitator extends Component {
     });
   }
 
-  renderFacilitators = () => {
-    const {translations} = this.context;
-    let pickerzIndex = 9000;
-    let itemIndex = 0;
-    return Array(this.numberOfFacilitator)
-      .fill()
-      .map((_, index) => {
-        itemIndex += 1;
-        pickerzIndex -= 1000;
-
-        return (
-          <SelectPicker
-            key={index}
-            items={this.state.facilitators}
-            selectedItem={this.getSelectedFacilitator(this.state.selectedFacilitators[index])}
-            isRequire={index == 0 || index == 1}
-            label={translations['facilitator']}
-            placeholder={translations['selectFacilitator']}
-            searchablePlaceholder={translations['searchForFacilitator']}
-            zIndex={pickerzIndex}
-            customContainerStyle={index == 0 ? {marginTop: 0} : {}}
-            customLabelStyle={[{zIndex: pickerzIndex + 1}, index == 0 ? { marginTop: -10 } : {}]}
-            showCustomArrow={true}
-            onChangeItem={(text) => this.onChangeFacilitator(text, index)}
-            itemIndex={itemIndex}
-            mustHasDefaultValue={false}
-            controller={(instance) => this.controllers[index] = instance}
-            onOpen={() => this.closeSelectBox(index)}
-            onClose={() => this.onDropdownClose(index)}
-          />
-        );
-      });
-  };
-
-  onDropdownClose = (index) => {
-    if (index == 2 || index == 3)
-      this.setState({ openIndex: null });
-
-    if (!this.state.openIndex)
-      this.setState({ containerPaddingBottom: 0 });
-  }
-
   saveSelectedData = () => {
-    this.closeSelectBox(null);
+    this.formRef.current.closeSelectBox(null);
     const {selectedFacilitators} = this.state;
     for(let i=0; i<selectedFacilitators.length; i++) {
       if (selectedFacilitators[i] === null)
@@ -152,31 +110,12 @@ class Facilitator extends Component {
     );
   };
 
-  getSelectedFacilitator = (facilitator) => {
-    return (facilitator != undefined && facilitator != null) ? facilitator.value : null
-  }
-
-  closeSelectBox = (exceptIndex) => {
-    if (exceptIndex == 2 || exceptIndex == 3) {
-      this.setState({
-        openIndex: exceptIndex,
-        containerPaddingBottom: 180,
-      });
-    }
-
-    for (let i = 0; i < this.controllers.length; i++) {
-      if (exceptIndex == i)
-        continue;
-
-      this.controllers[i].close();
-    }
-  }
 
   render() {
     const {translations} = this.context;
 
     return (
-      <TouchableWithoutFeedback onPress={() => this.closeSelectBox(null)}>
+      <TouchableWithoutFeedback onPress={() => this.formRef.current.closeSelectBox(null)}>
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations['getStarted']}
@@ -185,7 +124,7 @@ class Facilitator extends Component {
             progressIndex={1}
           />
           <ScrollView contentContainerStyle={styles.container}>
-            <Pressable onPress={() => this.closeSelectBox(null)}
+            <Pressable onPress={() => this.formRef.current.closeSelectBox(null)}
               style={{paddingBottom: this.state.containerPaddingBottom}}
             >
               <HeaderTitle
@@ -193,7 +132,13 @@ class Facilitator extends Component {
                 subheading="pleaseFillInformationBelow"
               />
 
-              { this.renderFacilitators() }
+              <FacilitatorForm
+                ref={this.formRef}
+                facilitators={this.state.facilitators}
+                selectedFacilitators={this.state.selectedFacilitators}
+                onChangeFacilitator={this.onChangeFacilitator}
+                updateContainerPadding={(value) => this.setState({ containerPaddingBottom: value })}
+              />
             </Pressable>
           </ScrollView>
 
