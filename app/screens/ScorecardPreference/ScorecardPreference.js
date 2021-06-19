@@ -239,6 +239,10 @@ class ScorecardPreference extends Component {
     )
   }
 
+  updateContainerPadding = (isExpand) => {
+    this.setState({ containerPaddingBottom: isExpand ? getDeviceStyle(28, hp('30%')) : 0 });
+  }
+
   render() {
     const {translations} = this.context;
 
@@ -259,8 +263,7 @@ class ScorecardPreference extends Component {
               scorecard={this.state.scorecard}
               textLocale={this.state.textLocale}
               audioLocale={this.state.audioLocale}
-              onLastSelectPickerOpen={() => this.setState({ containerPaddingBottom: getDeviceStyle(28, hp('35%')) })}
-              onLastSelectPickerClose={() => this.setState({ containerPaddingBottom: 0 })}
+              updateContainerPadding={this.updateContainerPadding}
             />
           </ScrollView>
 

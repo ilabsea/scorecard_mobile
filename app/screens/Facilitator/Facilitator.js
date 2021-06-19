@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable} from 'react-native';
-import realm from '../../db/schema';
 import uuidv4 from '../../utils/uuidv4';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
+import Facilitator from '../../models/Facilitator';
+import Caf from '../../models/Caf';
 
 import Color from '../../themes/color';
 
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 
-class Facilitator extends Component {
+class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -28,8 +29,8 @@ class Facilitator extends Component {
   }
 
   async componentDidMount() {
-    let cafs = JSON.stringify(realm.objects('Caf').filtered(`local_ngo_id == ${this.props.route.params.local_ngo_id}`));
-    cafs = JSON.parse(cafs);
+    const cafs = Caf.findByNgoId(this.props.route.params.local_ngo_id);
+
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
     this.loadSavedFacilitators();
   }
@@ -59,6 +60,7 @@ class Facilitator extends Component {
   saveSelectedData = () => {
     this.formRef.current.closeSelectBox(null);
     const {selectedFacilitators} = this.state;
+
     for(let i=0; i<selectedFacilitators.length; i++) {
       if (selectedFacilitators[i] === null)
         continue;
@@ -69,7 +71,8 @@ class Facilitator extends Component {
   };
 
   loadSavedFacilitators = () => {
-    let savedFacilitators = JSON.parse(JSON.stringify(realm.objects('Facilitator').filtered('scorecard_uuid = "' + this.props.route.params.scorecard_uuid + '"')));
+    let savedFacilitators = Facilitator.getAll(this.props.route.params.scorecard_uuid);
+
     if (savedFacilitators.length > 0) {
       let facilitators = this.state.selectedFacilitators;
       savedFacilitators.map((facilitator, index) => {
@@ -86,7 +89,7 @@ class Facilitator extends Component {
   };
 
   saveFacilitatorToLocalStorage = async (caf, index) => {
-    const facilitators = realm.objects('Facilitator').filtered(`scorecard_uuid == '${this.props.route.params.scorecard_uuid}'`);
+    const facilitators = Facilitator.getAll(this.props.route.params.scorecard_uuid);
     const attrs = {
       uuid: facilitators[index] === undefined ? uuidv4() : facilitators[index].uuid,
       id: parseInt(caf.value),
@@ -95,9 +98,7 @@ class Facilitator extends Component {
       scorecard_uuid: this.props.route.params.scorecard_uuid,
     };
 
-    realm.write(() => {
-      realm.create('Facilitator', attrs, 'modified');
-    });
+    Facilitator.create(attrs);
   };
 
   renderNextButton = () => {
@@ -172,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Facilitator;
+export default FacilitatorScreen;

@@ -3,12 +3,19 @@ import realm from '../db/schema';
 const Facilitator = (() => {
   return {
     getAll,
+    create,
     deleteAll,
     getDataForMilestone,
   }
 
   function getAll(scorecardUuid) {
     return realm.objects('Facilitator').filtered(`scorecard_uuid='${scorecardUuid}'`);
+  }
+
+  function create(data) {
+    realm.write(() => {
+      realm.create('Facilitator', data, 'modified');
+    });
   }
 
   function deleteAll(scorecardUuid) {
