@@ -19,6 +19,7 @@ import OutlinedButton from '../OutlinedButton';
 import ScorecardResultTextInput from './ScorecardResultTextInput';
 
 import VotingCriteria from '../../models/VotingCriteria';
+import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -29,7 +30,7 @@ const styles = getDeviceStyle(FormModalTabletStyles, FormModalMobileStyles);
 
 const FormModal = (props) => {
   const dispatch = useDispatch();
-  const { translations, appLanguage } = useContext(LocalizationContext);
+  const { translations } = useContext(LocalizationContext);
   const { criteria, visible, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
@@ -37,13 +38,13 @@ const FormModal = (props) => {
   const [selectedActions, setSelectedActions] = useState([false]);
 
   let defaultPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [''];
-  let savedPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [];
   let savedSelectedActions = criteria.suggested_action_status != undefined && criteria.suggested_action_status.length > 0 ? criteria.suggested_action_status : [];
 
   const onDismiss = () => {
     setHasAction(false);
     setPoints(['']);
     setSelectedActions([false]);
+    dispatch(getAll(criteria.scorecard_uuid));
     !!props.onDismiss && props.onDismiss();
   }
 
@@ -53,7 +54,7 @@ const FormModal = (props) => {
     inputtedPoints = inputtedPoints.filter(note => note.length > 0);
 
     data[criteria.currentFieldName] = inputtedPoints.length == 0 ? null : JSON.stringify(inputtedPoints);
-    data['suggested_action_status'] = getSelectedActions();
+    data['suggested_action_status'] = scorecardResultHelper.getValidSuggestedStatuses(getPoints(), getSelectedActions());
 
     VotingCriteria.upsert(data);
 
@@ -73,7 +74,7 @@ const FormModal = (props) => {
   function addNewPoint() {
     let newPoints = getPoints();
     newPoints.push('');
-    savedPoints = [...savedPoints ,...newPoints];
+    defaultPoints = [...defaultPoints, ...newPoints];
 
     setPoints([...newPoints]);
     setHasAction(true);
@@ -91,7 +92,7 @@ const FormModal = (props) => {
 
     let newPoints = getPoints();
     newPoints.splice(index, 1);
-    savedPoints = newPoints;
+    defaultPoints = newPoints;
 
     setPoints([...newPoints]);
     setHasAction(true);
@@ -110,21 +111,18 @@ const FormModal = (props) => {
 
     setHasAction(true);
     setIsDelete(false);
-    savedPoints = newPoints;
+    defaultPoints = newPoints;
 
     setPoints([...newPoints]);
   }
 
   function _renderForm() {
     let renderPoints = hasAction ? points : defaultPoints;
-    // let renderPoints = savedPoints.length > 0 && points[0] == '' ? savedPoints : points;
     let renderSelectedActions = getSelectedActions();
 
     return renderPoints.map((note, index) => {
       let fieldName = `note-${index}`;
       return (
-        // <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {} ]}>
-        //   <Text style={[styles.orderNumberText, _getLabelMarginTop()]}>{ index + 1 }.</Text>
         <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {}]}>
 
           { isSuggestedAction() &&
@@ -132,7 +130,7 @@ const FormModal = (props) => {
               checked={renderSelectedActions[index]}
               onPress={() => toggleCheckbox(index)}
               color={Color.clickableColor}
-              style={{marginLeft: -10, marginRight: 20, alignItems: 'center', justifyContent: 'center', width: 23, height: 23, paddingTop: 2}}
+              style={{marginLeft: -10, marginRight: 15, alignItems: 'center', justifyContent: 'center', width: 23, height: 23, paddingTop: 2}}
             />
           }
 

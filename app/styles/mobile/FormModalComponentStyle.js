@@ -42,7 +42,8 @@ const FormModalComponentStyles = StyleSheet.create({
     fontSize: wp(smLabelSize),
     borderWidth: 0,
     height: 30,
-    marginVertical: 10
+    marginVertical: 10,
+    paddingHorizontal: 0
   },
   btnRemove: {
     marginLeft: 15,

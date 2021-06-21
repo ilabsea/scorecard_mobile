@@ -2,10 +2,15 @@ import realm from '../db/schema';
 
 const VotingCriteria = (() => {
   return {
+    getAll,
     find,
     upsert,
     getSelectedSuggestedAction,
   };
+
+  function getAll(scorecardUuid) {
+    return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}'`);
+  }
 
   function find(scorecardUuid, indicatorId) {
     return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorId}'`)[0];
