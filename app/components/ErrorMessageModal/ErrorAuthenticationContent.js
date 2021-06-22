@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { TextInput } from 'react-native-paper';
 
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
@@ -31,6 +32,7 @@ class ErrorAuthenticationContent extends Component {
       isValidForm: false,
       message: '',
       isError: false,
+      showPasswordIcon: 'eye',
     };
   }
 
@@ -83,6 +85,16 @@ class ErrorAuthenticationContent extends Component {
     })
   }
 
+  _renderShowPasswordIcon = () => {
+    return (
+      <TextInput.Icon
+        name={this.state.showPasswordIcon}
+        color="#959595"
+        onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
+      />
+    )
+  }
+
   render() {
     const { translations } = this.context;
     const emailLabel = `${translations['email']} *`;
@@ -120,7 +132,8 @@ class ErrorAuthenticationContent extends Component {
             fieldName="password"
             onChangeText={this.onChangeText}
             message={translations.passwordErrorMsg}
-            secureTextEntry={true}
+            secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
+            right={this._renderShowPasswordIcon()}
           />
 
           { this.state.message != '' &&

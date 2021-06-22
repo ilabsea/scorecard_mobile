@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { TextInput } from 'react-native-paper';
 
 import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
@@ -22,6 +23,7 @@ class SettingForm extends Component {
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
+      showPasswordIcon: 'eye',
     };
 
     this.langugageController;
@@ -63,6 +65,16 @@ class SettingForm extends Component {
     this.setState(state);
   }
 
+  _renderShowPasswordIcon = () => {
+    return (
+      <TextInput.Icon
+        name={this.state.showPasswordIcon}
+        color="#959595"
+        onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
+      />
+    )
+  }
+
   _renderForm = () => {
     const {translations} = this.context;
     const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
@@ -100,8 +112,9 @@ class SettingForm extends Component {
           fieldName="password"
           onChangeText={this.onChangeText}
           message={translations[passwordErrorMsg]}
-          secureTextEntry={true}
+          secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
           onFocus={() => this.closeDropDown()}
+          right={this._renderShowPasswordIcon()}
         />
       </View>
     )
