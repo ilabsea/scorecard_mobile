@@ -22,42 +22,49 @@ class VotingAverageScoreInfo extends Component {
     };
   }
 
-  listItem = (label, averageScore, type) => {
-    const { translations, appLanguage } = this.context;
-
-    return (
-      <View key={uuidv4()} style={{flexDirection: 'row', paddingVertical: 4}}>
-        <Text style={responsiveStyles.normalText}>{ label }</Text>
-        <Text style={[{marginLeft: 10, fontFamily: FontFamily.title}, responsiveStyles.normalText]}>
-          ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
-        </Text>
-      </View>
-    );
-  }
-
-  _renderInfo = (type) => {
+  _renderVotingInfo = () => {
     const { translations } = this.context;
-    const labels = type == 'first-col' ? ['female', 'disability', 'minority'] : ['poor', 'youth'];
-
+    const votingInfos = this.props.votingInfos.sort((a , b) => { return b.average_score - a.average_score });
     let doms = [];
 
-    for(let i=0; i<labels.length; i++) {
-      const votingInfo = this.props.votingInfos.filter(info => info.type == labels[i])[0];
-
-      if (votingInfo.average_score > 0 ) {
+    votingInfos.map((votingInfo, index) => {
+      if (votingInfo.voting_score > 0) {
         doms.push(
-          this.listItem(translations[labels[i]], votingInfo.average_score, type)
-        );
+          this.listItem(translations[votingInfo.type], votingInfo.average_score, index)
+        )
       }
-    }
+    });
 
     if (doms.length > 0) {
       return (
         <View>
-          {doms}
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            {doms[0]}
+            {doms[1]}
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            {doms[2]}
+            {doms[3]}
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            {doms[4]}
+          </View>
         </View>
-      );
+      )
     }
+  }
+
+  listItem = (label, averageScore, index) => {
+    const { translations, appLanguage } = this.context;
+
+    return (
+      <View key={uuidv4()} style={[{flex: 1,flexDirection: 'row', paddingVertical: 4}, index % 2 == 0 ? { marginRight: 20 } : {}]}>
+        <Text style={responsiveStyles.normalText}>{ label }</Text>
+        <Text style={[{marginLeft: 6, fontFamily: FontFamily.title}, responsiveStyles.normalText]}>
+          ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
+        </Text>
+      </View>
+    );
   }
 
   render() {
@@ -66,10 +73,7 @@ class VotingAverageScoreInfo extends Component {
     return (
       <View style={{marginBottom: 24}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>{ translations.averageScoreByGroup }:</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', width: getDeviceStyle('80%', '100%')}}>
-          { this._renderInfo('first-col') }
-          { this._renderInfo('second-col') }
-        </View>
+        { this._renderVotingInfo() }
       </View>
     );
   }
