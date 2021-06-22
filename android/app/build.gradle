@@ -103,6 +103,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
+// Send enableProguardInReleaseBuilds to true to be able to generate debug file for Google Play Console
 def enableProguardInReleaseBuilds = false
 
 /**
@@ -169,6 +170,11 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+
+            // Enhable this code below to be able to generate debug file for Google Play Console
+            // ndk {
+            //     debugSymbolLevel 'SYMBOL_TABLE'
+            // }
         }
     }
 
@@ -196,10 +202,6 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-svg')
-
-    implementation ('com.google.firebase:firebase-analytics') {
-        exclude module: "play-services-ads-identifier"
-    }
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
