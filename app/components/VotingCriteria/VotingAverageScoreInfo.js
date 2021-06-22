@@ -66,7 +66,7 @@ class VotingAverageScoreInfo extends Component {
     return (
       <View style={{marginBottom: 24}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>{ translations.averageScoreByGroup }:</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', width: getDeviceStyle('80%', '100%')}}>
           { this._renderInfo('first-col') }
           { this._renderInfo('second-col') }
         </View>
