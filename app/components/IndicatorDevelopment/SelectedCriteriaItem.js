@@ -31,11 +31,12 @@ class SelectedCriteriaItem extends Component {
 
     this.state = {
       indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard),
+      scorecard: this.scorecard,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
-    return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard) };
+    return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, state.scorecard) };
   }
 
   handleCriteria() {

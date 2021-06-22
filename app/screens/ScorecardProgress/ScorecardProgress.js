@@ -15,11 +15,13 @@ import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
+import scorecardHelper from '../../helpers/scorecard_helper';
 
 import { ProgressBar } from 'react-native-paper';
 
 import { connect } from 'react-redux';
 
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
@@ -155,7 +157,7 @@ class ScorecardProgress extends Component {
   }
 
   render() {
-    const { translations } = this.context;
+    const { translations, appLanguage } = this.context;
 
     return (
       <View style={{flex: 1}}>
@@ -169,6 +171,12 @@ class ScorecardProgress extends Component {
             showMessageModal={this.showMessageModal}
           />
         </ScrollView>
+
+        { this.state.scorecard.isUploaded &&
+          <Text style={{ fontSize: getDeviceStyle(14, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title}}>
+            {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(this.state.scorecard.uploaded_date, appLanguage) }
+          </Text>
+        }
 
         <View style={{padding: containerPadding}}>
           { this._renderProgressBar() }

@@ -262,5 +262,8 @@
   "searchCriteria": "Search criteria",
   "infoCloseLabel": "Close",
   "scorecardIsBeingExecuted": "This scorecard({0}) is being executed by other, please contact the program officer for more detail",
-  "scorecardIsCompleted": "This scorecard({0}) is already completed by other, please contact the program officer for more detail"
+  "scorecardIsCompleted": "This scorecard({0}) is already completed by other, please contact the program officer for more detail",
+  "days": "days",
+  "submittedScorecardWillBeRemovedIn": "Submitted scorecard will be removed in",
+  "toBeRemovedOn": "To be removed on"
 }

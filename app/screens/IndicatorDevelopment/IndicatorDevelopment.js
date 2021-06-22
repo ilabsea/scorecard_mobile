@@ -79,7 +79,9 @@ class IndicatorDevelopment extends Component {
   }
 
   _renderSelectedCriterias() {
-    let doms = this.props.selectedCriterias.map((criteria, index) => <SelectedCriteriaItem criteria={criteria} key={index}/>);
+    let selectedCriterias = this.props.selectedCriterias.filter(criteria => criteria.scorecard_uuid == this.props.route.params.scorecard_uuid);
+    let doms = selectedCriterias.map((criteria, index) => <SelectedCriteriaItem criteria={criteria} key={index}/>);
+
     return (
       <View>
         {doms}

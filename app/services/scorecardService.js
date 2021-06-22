@@ -14,6 +14,7 @@ import CustomIndicator from '../models/CustomIndicator';
 import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
 import Rating from '../models/Rating';
+import LanguageIndicator from '../models/LanguageIndicator';
 
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
@@ -281,6 +282,14 @@ class ScorecardService extends BaseModelService {
     this._deleteScorecardData(scorecardUuid);
   }
 
+  removeExpiredScorecard() {
+    const scorecards = Scorecard.getSubmittedExpired();
+
+    scorecards.map(scorecard => {
+      this._deleteScorecardData(scorecard.uuid);
+    });
+  }
+
   _deleteScorecardData = (scorecardUuid) => {
     Participant.deleteAll(scorecardUuid);
     deleteScorecardDownload(scorecardUuid);
@@ -288,6 +297,7 @@ class ScorecardService extends BaseModelService {
     Facilitator.deleteAll(scorecardUuid);
     Rating.deleteAll(scorecardUuid);
     CustomIndicator.deleteAll(scorecardUuid);
+    LanguageIndicator.deleteAll(scorecardUuid);
     votingCriteriaService.deleteVotingCriteria(scorecardUuid);
     proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
   }
