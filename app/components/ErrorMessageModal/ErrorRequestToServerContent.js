@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import CustomStyle from '../../themes/customStyle';
+import Color from '../../themes/color';
 import CloseButton from '../CloseButton';
 
 import { LocalizationContext } from '../Translations';
+import OutlineInfoIcon from '../OutlineInfoIcon';
 import { ERROR_NOT_FOUND, ERROR_UNAUTHORIZED } from '../../constants/error_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -24,7 +26,7 @@ class ErrorRequestToServerContent extends Component {
         <Text style={responsiveStyles.label}>{translations.cannotSubmitThisScorecard}: </Text>
         <Text style={responsiveStyles.label}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl} </Text>
-          {translations.scorecardDeletedPleaseContactAdministrator}
+          { translations.formatString(translations.scorecardDeletedPleaseContactAdministrator, this.props.scorecardUuid) }
         </Text>
       </View>
     );
@@ -35,10 +37,10 @@ class ErrorRequestToServerContent extends Component {
 
     return (
       <View>
-        <Text style={[{marginTop: 10}, responsiveStyles.label]}>
+        <Text style={responsiveStyles.label}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>{translations.fullStopSign}
         </Text>
-        <Text style={[{marginTop: 20}, responsiveStyles.label]}>
+        <Text style={[{marginTop: 10}, responsiveStyles.label]}>
           {translations.didYouEnterTheUrlCorrectly}
           {translations.ifYouKeepHavingThisProblem}
         </Text>
@@ -51,8 +53,8 @@ class ErrorRequestToServerContent extends Component {
 
     return (
       <View>
-        <Text style={[{marginTop: 10}, responsiveStyles.label]}>
-          {translations.unauthorizedScorecardMessage}
+        <Text style={responsiveStyles.label}>
+          { translations.formatString(translations.unauthorizedScorecardMessage, this.props.scorecardUuid) }
         </Text>
       </View>
     );
@@ -72,13 +74,15 @@ class ErrorRequestToServerContent extends Component {
 
     return (
       <View>
-        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
-          { this.props.isSubmit ? translations.scorecardSubmitFailed : translations.scorecardDownloadFailed }
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <OutlineInfoIcon color={Color.warningColor} />
 
-        { this._renderContent() }
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            { this._renderContent() }
+          </View>
+        </View>
 
-        <View style={CustomStyle.modalBtnWrapper}>
+        <View style={[CustomStyle.modalBtnWrapper, { marginTop: 8 }]}>
           <CloseButton onPress={this.props.onDismiss} label={translations.close} />
         </View>
       </View>

@@ -117,9 +117,11 @@ class ScorecardResult extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{marginTop: 10, marginBottom: 10}}>
-        <Text style={modalStyles.label}>{translations.thisScorecardWillBeLocked}</Text>
-        <Text style={[{ marginTop: 20 }, , modalStyles.label]}>
+      <View>
+        <Text style={modalStyles.label}>
+          {translations.formatString(translations.thisScorecardWillBeLocked, this.props.route.params.scorecard_uuid)}
+        </Text>
+        <Text style={[{ marginTop: 12 }, , modalStyles.label]}>
           {translations.formatString(translations.areYouSureYouWantToFinish, this.props.route.params.scorecard_uuid)}
         </Text>
       </View>
@@ -164,11 +166,11 @@ class ScorecardResult extends Component {
           <MessageModal
             visible={this.state.visibleConfirmModal}
             onDismiss={() => this.setState({visibleConfirmModal: false})}
-            title={translations.finish}
             hasConfirmButton={true}
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this._confirmFinish()}
             child={() => this._confirmFinishContent()}
+            renderInline={true}
           />
         </View>
       </View>

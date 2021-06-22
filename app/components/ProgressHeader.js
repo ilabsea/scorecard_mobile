@@ -73,7 +73,6 @@ export default class BigHeader extends React.Component {
         <MessageModal
           visible={this.state.visibleModal}
           onDismiss={() => this.setState({visibleModal: false})}
-          title={translations.returnToHomeScreen}
           description={translations.doYouWantToReturnToHomeScreen}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}

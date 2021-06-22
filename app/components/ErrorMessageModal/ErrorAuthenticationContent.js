@@ -3,8 +3,10 @@ import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import CustomStyle from '../../themes/customStyle';
+import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../TextFieldInput';
+import OutlineInfoIcon from '../OutlineInfoIcon';
 import authenticationService from '../../services/authentication_service';
 import authenticationFormService from '../../services/authentication_form_service';
 
@@ -88,11 +90,18 @@ class ErrorAuthenticationContent extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View>
-          <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>{translations.serverRequiresAuthentication}</Text>
-          <Text style={[{marginTop: 10, marginBottom: 15}, responsiveStyles.label]}>
-            {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
-          </Text>
+        <View style={{borderWidth: 0, margin: 0}}>
+          <View style={{flexDirection: 'row'}}>
+            <OutlineInfoIcon color={Color.warningColor} />
+
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
+                <Text style={[{ marginBottom: 15 }, responsiveStyles.label]}>
+                  {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
+                </Text>
+              </View>
+            </View>
+          </View>
 
           <TextFieldInput
             value={this.state.email}
@@ -115,7 +124,7 @@ class ErrorAuthenticationContent extends Component {
           />
 
           { this.state.message != '' &&
-            <Text style={[{ textAlign: 'center', color: this.state.isError ? 'red' : 'green'}, responsiveStyles.label]}>
+            <Text style={[{ textAlign: 'center', marginTop: -10, color: this.state.isError ? 'red' : 'green'}, responsiveStyles.label]}>
               {this.state.message}
             </Text>
           }

@@ -229,10 +229,10 @@ class ScorecardPreference extends Component {
     const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.audioLocale);
 
     return (
-      <View style={{marginTop: 10, marginBottom: 10}}>
+      <View style={{marginTop: 15, marginBottom: 10, paddingHorizontal: 15}}>
         <Text style={modalStyles.label}>{translations.downloadScorecardFirstDescription}</Text>
-        <Text style={[{ marginTop: 20 }, , modalStyles.label]}>
-          {translations.formatString(translations.downloadScorecardSecondDescription, textLocaleLabel, audioLocaleLabel)}
+        <Text style={[{ marginTop: 15 }, , modalStyles.label]}>
+          {translations.formatString(translations.downloadScorecardSecondDescription, this.props.route.params.scorecard_uuid, textLocaleLabel, audioLocaleLabel)}
         </Text>
       </View>
     )
@@ -272,6 +272,7 @@ class ScorecardPreference extends Component {
             onDismiss={() => this.onDismissErrorMessageModal()}
             errorType={this.state.errorType}
             isNewScorecard={true}
+            scorecardUuid={this.state.scorecard.uuid}
           />
 
           <MessageModal
@@ -282,6 +283,7 @@ class ScorecardPreference extends Component {
             confirmButtonLabel={translations.ok}
             onPressConfirmButton={() => this.downloadScorecard()}
             child={() => this.confirmDownloadContent()}
+            renderInline={false}
           />
         </View>
       </TouchableWithoutFeedback>

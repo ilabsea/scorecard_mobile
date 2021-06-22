@@ -4,12 +4,14 @@ import { View, Text } from 'react-native';
 import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
+import OutlineInfoIcon from '../OutlineInfoIcon';
 
 import Scorecard from '../../models/Scorecard';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -32,15 +34,21 @@ class ScorecardProgressContent extends Component {
 
     return (
       <View>
-        <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
-          { translations.scorecardIsInStep } {this.state.scorecard.status}/5
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <OutlineInfoIcon color={Color.warningColor} />
 
-        <View style={{marginTop: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <Text style={[CustomStyle.modalTitle, responsiveStyles.headerTitle]}>
+              { translations.scorecardIsInStep }
+            </Text>
+          </View>
+        </View>
+
+        <View style={{marginTop: 15, paddingHorizontal: 22, flexDirection: 'row'}}>
           <Text style={responsiveStyles.label}>
-            { translations.thisScorecardIsInStep }
+            {translations.formatString(translations.thisScorecardIsInStep, this.props.scorecardUuid)}
+            <Text style={[{ fontFamily: FontFamily.title }, responsiveStyles.label]}> "{ translations[step.label] }"</Text>
           </Text>
-          <Text style={[{ fontFamily: FontFamily.title }, responsiveStyles.label]}> "{ translations[step.label] }"</Text>
         </View>
       </View>
     );

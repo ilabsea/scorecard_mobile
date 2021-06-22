@@ -236,7 +236,6 @@ class Setting extends Component {
           <MessageModal
             visible={this.state.visibleModal}
             onDismiss={() => this.setState({visibleModal: false})}
-            title={translations.notice}
             description={translations.scorecardRemainingMessage}
             hasConfirmButton={true}
             confirmButtonLabel={translations.viewDetail}
