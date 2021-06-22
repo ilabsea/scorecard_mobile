@@ -15,6 +15,8 @@ import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
 import Rating from '../models/Rating';
 
+import { getSuggestedActionAttrs } from '../helpers/voting_criteria_helper';
+
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
 import { SUBMITTED, RUNNING } from '../constants/milestone_constant';
@@ -77,14 +79,6 @@ class ScorecardService extends BaseModelService {
   async uploadScorecard(callback, errorCallback) {
     const _this = this;
     let attrs = this.scorecardAttr();
-    attrs.facilitators_attributes = this.facilitatorsAttr();
-    attrs.participants_attributes = this.participantsAttr();
-    attrs.raised_indicators_attributes = this.proposedCriteriasAttr();
-    attrs.voting_indicators_attributes = this.votingCriteriasAttr();
-    attrs.ratings_attributes = this.ratingsAttr();
-    attrs.language_conducted_code = this.scorecard.audio_language_code;
-    attrs.finished_date = this.scorecard.finished_date ? Moment(this.scorecard.finished_date).format(apiDateFormat) : null;
-    attrs.running_date = this.scorecard.running_date ? Moment(this.scorecard.running_date).format(apiDateFormat) : null;
 
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
@@ -214,6 +208,15 @@ class ScorecardService extends BaseModelService {
       number_of_ethnic_minority: participants.filter(p => !!p.minority).length,
       number_of_youth: participants.filter(p => !!p.youth).length,
       number_of_id_poor: participants.filter(p => !!p.poor).length,
+      facilitators_attributes: this.facilitatorsAttr(),
+      participants_attributes: this.participantsAttr(),
+      raised_indicators_attributes: this.proposedCriteriasAttr(),
+      voting_indicators_attributes: this.votingCriteriasAttr(),
+      ratings_attributes: this.ratingsAttr(),
+      language_conducted_code: this.scorecard.audio_language_code,
+      finished_date: this.scorecard.finished_date ? Moment(this.scorecard.finished_date).format(apiDateFormat) : null,
+      running_date: this.scorecard.running_date ? Moment(this.scorecard.running_date).format(apiDateFormat) : null,
+      suggested_actions_attributes: getSuggestedActionAttrs(this.scorecard_uuid),
     }
   }
 

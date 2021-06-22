@@ -49,12 +49,14 @@ const FormModal = (props) => {
   }
 
   function submit() {
-    let data = { uuid: criteria.uuid, suggested_action_status: null };
+    let data = { uuid: criteria.uuid };
     let inputtedPoints = getPoints();
     inputtedPoints = inputtedPoints.filter(note => note.length > 0);
 
     data[criteria.currentFieldName] = inputtedPoints.length == 0 ? null : JSON.stringify(inputtedPoints);
-    data['suggested_action_status'] = scorecardResultHelper.getValidSuggestedStatuses(getPoints(), getSelectedActions());
+
+    if (isSuggestedAction())
+      data['suggested_action_status'] = scorecardResultHelper.getValidSuggestedStatuses(getPoints(), getSelectedActions());
 
     VotingCriteria.upsert(data);
 
