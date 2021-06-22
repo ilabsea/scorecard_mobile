@@ -54,6 +54,7 @@ class ScorecardPreference extends Component {
       isDownloadAudio: false,
       hasInternetConnection: false,
       visibleConfirmModal: false,
+      containerPaddingBottom: 0,
     };
 
     this.formRef = React.createRef();
@@ -238,6 +239,10 @@ class ScorecardPreference extends Component {
     )
   }
 
+  updateContainerPadding = (isExpand) => {
+    this.setState({ containerPaddingBottom: isExpand ? getDeviceStyle(28, hp('30%')) : 0 });
+  }
+
   render() {
     const {translations} = this.context;
 
@@ -250,7 +255,7 @@ class ScorecardPreference extends Component {
             onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={0}/>
 
-          <ScrollView contentContainerStyle={[styles.container, { paddingBottom: getDeviceStyle(28, hp('35%')) }]}>
+          <ScrollView contentContainerStyle={[styles.container, { paddingBottom: this.state.containerPaddingBottom }]}>
             <ScorecardPreferenceForm
               ref={this.formRef}
               languages={this.state.languages}
@@ -258,6 +263,7 @@ class ScorecardPreference extends Component {
               scorecard={this.state.scorecard}
               textLocale={this.state.textLocale}
               audioLocale={this.state.audioLocale}
+              updateContainerPadding={this.updateContainerPadding}
             />
           </ScrollView>
 

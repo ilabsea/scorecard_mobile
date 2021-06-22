@@ -11,7 +11,7 @@ import Color from '../../themes/color';
 
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
 import ScorecardPreferenceFormTabletStyles from '../../styles/tablet/ScorecardPreferenceFormComponentStyle';
 import ScorecardPreferenceFormMobileStyles from '../../styles/mobile/ScorecardPreferenceFormComponentStyle';
 
@@ -27,6 +27,7 @@ class ScorecardPreferenceForm extends Component {
       date: props.scorecard.conducted_date || Moment().format('DD/MM/YYYY'),
       textLocale: props.scorecard.text_language_code || '',
       audioLocale: props.scorecard.audio_language_code || '',
+      openDropDownType: null,
     };
 
     this.textLanguageController;
@@ -60,6 +61,25 @@ class ScorecardPreferenceForm extends Component {
     this.props.changeValue('date', date);
   }
 
+  onTextLanguageOpen = () => {
+    this.setState({ openDropDownType: 'text' });
+    this.audioLanguageController.close();
+
+    if (isShortScreenDevice())
+      this.props.updateContainerPadding(true);
+  }
+
+  onAudioLanguageOpen = () => {
+    this.setState({ openDropDownType: 'audio' });
+    this.textLanguageController.close();
+    this.props.updateContainerPadding(true);
+  }
+
+  onCloseDropDown = (type) => {
+    if (type == this.state.openDropDownType)
+      this.props.updateContainerPadding(false);
+  }
+
   renderForm = () => {
     const {translations} = this.context;
     const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.props.scorecard.uuid);
@@ -83,7 +103,8 @@ class ScorecardPreferenceForm extends Component {
           customDropDownContainerStyle={{marginTop: 30}}
           mustHasDefaultValue={true}
           controller={(instance) => this.textLanguageController = instance}
-          onOpen={() => this.audioLanguageController.close()}
+          onOpen={() => this.onTextLanguageOpen()}
+          onClose={() => this.onCloseDropDown('text')}
           disabled={hasScorecardDownload}
         />
 
@@ -97,7 +118,8 @@ class ScorecardPreferenceForm extends Component {
           onChangeItem={this.changeAudioLocale}
           mustHasDefaultValue={true}
           controller={(instance) => this.audioLanguageController = instance}
-          onOpen={() => this.textLanguageController.close()}
+          onOpen={() => this.onAudioLanguageOpen()}
+          onClose={() => this.onCloseDropDown('audio')}
           disabled={hasScorecardDownload}
         />
       </View>
