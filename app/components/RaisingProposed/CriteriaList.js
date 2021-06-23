@@ -21,12 +21,9 @@ class CriteriaList extends Component {
   }
 
   renderCriteriaList = () => {
-    const {translations} = this.context;
-
     const criterias = this.criteria.getCriterias();
     return criterias.map((criteria, index) => {
-      const criteriaName = index === 0 ? translations['allCriteria'] : criteria.name;
-      return (<CriteriaCard criteria={criteria} criteriaName={criteriaName} index={index} key={index} />);
+      return (<CriteriaCard criteria={criteria} criteriaName={criteria.name} index={index} key={index} />);
     });
   }
 
@@ -35,7 +32,9 @@ class CriteriaList extends Component {
     return (
       <View style={{marginTop: 15}}>
         <View style={styles.headingContainer}>
-          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>{translations['listCriteria']}</Text>
+          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
+            { translations.numberOfProposedParticipant }: { this.props.numberOfProposedParticipant }/{ this.props.participants.length } {translations.pax}
+          </Text>
         </View>
 
         <ScrollView

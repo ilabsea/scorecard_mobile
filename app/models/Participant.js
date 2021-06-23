@@ -8,6 +8,7 @@ const Participant = (() => {
     getNotRaised,
     create,
     findByScorecard,
+    getNumberOfProposedParticipant,
   }
 
   function create(data) {
@@ -40,6 +41,10 @@ const Participant = (() => {
 
   function findByScorecard(scorecardUuid) {
     return realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
+  }
+
+  function getNumberOfProposedParticipant(scorecardUuid) {
+    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
   }
 })();
 

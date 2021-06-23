@@ -22,7 +22,7 @@ const isShortWidthScreen = () => {
 }
 
 const mobileHeadingTitleSize = () => {
-  return isShortScreenDevice() ? wp(lgLabelSize) : wp(xlLabelSize);
+  return isShortScreenDevice() ? wp(lgLabelSize) : wp('4.4%');
 }
 
 const mobileSubTitleSize = () => {
