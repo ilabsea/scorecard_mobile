@@ -37,18 +37,17 @@ const FormModalComponentStyles = StyleSheet.create({
     fontSize: wp(mdLabelSize),
     fontWeight: 'bold',
     marginRight: 10,
-    paddingTop: 15,
   },
   inputText: {
     fontSize: wp(smLabelSize),
-    marginTop: 0,
     borderWidth: 0,
     height: 30,
-    paddingTop: 20
+    marginVertical: 10,
+    paddingHorizontal: 0
   },
   btnRemove: {
     marginLeft: 15,
-    marginTop: 15
+    marginTop: 0
   },
   removeIcon: {
     color: Color.redColor,

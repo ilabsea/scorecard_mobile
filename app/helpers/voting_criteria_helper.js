@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import Rating from '../models/Rating';
 import Participant from '../models/Participant'
+import VotingCriteria from '../models/VotingCriteria';
 import { roundUpHalf } from '../utils/math';
 import { participantTypes } from '../constants/participant_constant';
 
@@ -48,6 +49,28 @@ const getVotingParticipants = (scorecardUuid) => {
   return participantInfos;
 }
 
+const getSuggestedActionAttrs = (scorecardUuid) => {
+  const votingCriterias = VotingCriteria.getAll(scorecardUuid);
+  let suggestedActionAttrs = [];
+
+  votingCriterias.map(votingCriteria => {
+    const suggestedActions = JSON.parse(votingCriteria.suggested_action);
+
+    suggestedActions.map((suggestedAction, index) => {
+      const attrs = {
+        voting_indicator_uuid: votingCriteria.uuid,
+        scorecard_uuid: scorecardUuid,
+        content: suggestedAction,
+        selected: votingCriteria.suggested_action_status[index],
+      }
+
+      suggestedActionAttrs.push(attrs);
+    });
+  });
+
+  return suggestedActionAttrs;
+}
+
 // Private
 const _getVotedParticipantByType = (scorecardUuid, type) => {
   let participants = Participant.getVoted(scorecardUuid);
@@ -60,4 +83,4 @@ const _getVotedParticipantByType = (scorecardUuid, type) => {
   return participants.length;
 }
 
-export { getVotingInfos, hasVoting, getVotingParticipants };
+export { getVotingInfos, hasVoting, getVotingParticipants, getSuggestedActionAttrs };
