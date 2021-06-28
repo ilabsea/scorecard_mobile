@@ -94,6 +94,7 @@ class ScorecardList extends Component {
     this.setState({
       visibleModal: false,
       scorecards: Scorecard.getAll(),
+      selectedScorecard: null,
     });
   }
 
