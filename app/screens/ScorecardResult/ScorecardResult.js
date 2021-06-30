@@ -18,10 +18,12 @@ import BottomButton from '../../components/BottomButton';
 import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
+import OutlinedButton from '../../components/OutlinedButton';
 
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
+import ImagePicker from '../../components/ImagePicker';
 import scorecardResultService from '../../services/scorecard_result_service';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
@@ -45,6 +47,7 @@ class ScorecardResult extends Component {
       visible: false,
       visibleConfirmModal: false,
       selectedIndicator: {},
+      imagePickerVisible: false,
     };
   }
 
@@ -140,7 +143,14 @@ class ScorecardResult extends Component {
             <Tip screenName={'ScorecardResult'}/>
 
             <View style={{flexDirection: 'row', marginBottom: 20}}>
-              <Text style={styles.h1}>{ translations.scorecardResult }</Text>
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={styles.h1}>{ translations.scorecardResult }</Text>
+              </View>
+              <OutlinedButton
+                icon="image"
+                label="បន្ថែមរូបភាព"
+                onPress={() => this.setState({ imagePickerVisible: true }) }
+              />
             </View>
 
             { !DeviceInfo.isTablet() ? this._renderAccordion() : this._renderTable() }
@@ -171,6 +181,11 @@ class ScorecardResult extends Component {
             onPressConfirmButton={() => this._confirmFinish()}
             child={() => this._confirmFinishContent()}
             renderInline={true}
+          />
+
+          <ImagePicker
+            modalVisible={this.state.imagePickerVisible}
+            closeModal={() => this.setState({ imagePickerVisible: false })}
           />
         </View>
       </View>
