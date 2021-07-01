@@ -15,4 +15,5 @@ export const schemaNames = [
   'ProgramLanguage',
   'ScorecardDownload',
   'Contact',
+  'ScorecardImage',
 ];

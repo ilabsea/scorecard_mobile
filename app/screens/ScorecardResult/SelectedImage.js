@@ -28,13 +28,11 @@ class SelectedImage extends Component {
 
   render() {
     const images = [
-      require('../../assets/images/rating/very_good.png'),
-      require('../../assets/images/rating/very_good.png'),
-      require('../../assets/images/rating/very_good.png'),
-      require('../../assets/images/rating/good.png'),
-      require('../../assets/images/rating/acceptable.png'),
-      require('../../assets/images/rating/bad.png'),
-      require('../../assets/images/rating/very_bad.png'),
+      { uri: 'file:///storage/emulated/0/Android/data/org.instedd.ilabsea.community_scorecard/files/Pictures/adbc6483-27b3-41bb-ad39-41c2a8f9e7f1.jpg' },
+      { uri: 'file:///storage/emulated/0/Android/data/org.instedd.ilabsea.community_scorecard/files/Pictures/adbc6483-27b3-41bb-ad39-41c2a8f9e7f1.jpg' },
+      { uri: 'file:///storage/emulated/0/Android/data/org.instedd.ilabsea.community_scorecard/files/Pictures/adbc6483-27b3-41bb-ad39-41c2a8f9e7f1.jpg' },
+      { uri: 'file:///storage/emulated/0/Android/data/org.instedd.ilabsea.community_scorecard/files/Pictures/adbc6483-27b3-41bb-ad39-41c2a8f9e7f1.jpg' },
+      { uri: 'file:///storage/emulated/0/Android/data/org.instedd.ilabsea.community_scorecard/files/Pictures/582930df-c8b2-4704-8de7-01004348d1a8.jpg' },
     ]
 
 

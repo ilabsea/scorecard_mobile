@@ -23,7 +23,7 @@ import OutlinedButton from '../../components/OutlinedButton';
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
-import ImagePicker from '../../components/ImagePicker';
+import ImageSelector from '../../components/ImageSelector';
 import scorecardResultService from '../../services/scorecard_result_service';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
@@ -199,7 +199,7 @@ class ScorecardResult extends Component {
             renderInline={true}
           />
 
-          <ImagePicker
+          <ImageSelector
             modalVisible={this.state.imagePickerVisible}
             closeModal={() => this.setState({ imagePickerVisible: false })}
           />
