@@ -34,15 +34,15 @@ class ImagePicker extends Component {
         <View>
           <TouchableOpacity onPress={() => this.openImagePicker()} style={[styles.button, { marginTop: 10 }]}>
             <View style={{width: 'auto', backgroundColor: Color.lightGrayColor, borderRadius: 40, padding: 6}}>
-              <Icon name="image" size={22} color='black' />
+              <Icon name="image" size={22} color={Color.lightBlackColor} />
             </View>
-            <Text style={{marginLeft: 16, fontSize: 16, fontWeight: '600'}}>Upload image</Text>
+            <Text style={{marginLeft: 16, fontSize: 16, fontWeight: '600'}}>ជ្រើសរើសរូបភាព</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.openCamera()} style={styles.button}>
             <View style={{backgroundColor: Color.lightGrayColor, borderRadius: 40, padding: 5}}>
-              <Icon name="camera-alt" size={22} color='black' />
+              <Icon name="camera-alt" size={22} color={Color.lightBlackColor} />
             </View>
-            <Text style={{marginLeft: 16, fontSize: 16, fontWeight: '600'}}>Take photo</Text>
+            <Text style={{marginLeft: 16, fontSize: 16, fontWeight: '600'}}>ថតរូប</Text>
           </TouchableOpacity>
         </View>
       </BottomHalfModal>

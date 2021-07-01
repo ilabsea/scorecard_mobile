@@ -20,6 +20,7 @@ import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriter
 import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
+import SelectedImageScreen from '../screens/ScorecardResult/SelectedImage';
 import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
 import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticipant';
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
@@ -228,6 +229,13 @@ function AppNavigator() {
         options={({navigation}) => ({
           header: () => null,
         })}
+      />
+      <Stack.Screen
+        name="SelectedImage"
+        component={SelectedImageScreen}
+        options={{
+          title: 'រូបភាពដែលបានជ្រើសរើស',
+        }}
       />
     </Stack.Navigator>
   );

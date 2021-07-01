@@ -3,11 +3,11 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Alert,
+  TouchableOpacity,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import { Icon, Text } from 'native-base';
+import { Icon, Text, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
@@ -147,11 +147,27 @@ class ScorecardResult extends Component {
                 <Text style={styles.h1}>{ translations.scorecardResult }</Text>
               </View>
               <OutlinedButton
-                icon="image"
+                icon="plus"
                 label="បន្ថែមរូបភាព"
                 onPress={() => this.setState({ imagePickerVisible: true }) }
               />
             </View>
+
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectedImage')}
+              style={{marginBottom: 25, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 100, paddingTop: 0, borderWidth: 0, alignSelf: 'flex-end'}}
+            >
+              <Icon name='image' type="FontAwesome"
+                style={[{color: Color.clickableColor, fontSize: 16, marginRight: 10, marginTop: -4}]}
+              />
+              <Text style={{fontSize: 12, color: Color.clickableColor}}>មើលរូបភាព</Text>
+            </TouchableOpacity>
+
+            {/* <Button primary width={120} style={{paddingLeft: 0, paddingRight: 0, justifyContent: 'flex-start', marginBottom: 20, alignSelf: 'flex-end'}}>
+              <Icon name='image' type="FontAwesome"
+                style={[{color: Color.whiteColor, fontSize: 16, marginTop: -2, borderWidth: 0}]}
+              />
+              <Text style={{fontSize: 12, color: 'white', borderWidth: 0, textAlign: 'left'}}>មើលរូបភាព</Text>
+            </Button> */}
 
             { !DeviceInfo.isTablet() ? this._renderAccordion() : this._renderTable() }
           </View>
