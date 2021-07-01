@@ -26,8 +26,8 @@ class BaseApi {
     this.cancelTokenSource.cancel();
   }
 
-  static request = async (options) => {
-    const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
+  static request = async (options, endpoint) => {
+    const endpointUrl = endpoint || await AsyncStorage.getItem('ENDPOINT_URL');
     const apiUrl = endpointUrl + options.url;
 
     try {

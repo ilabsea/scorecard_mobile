@@ -24,6 +24,7 @@ import { LocalizationProvider, LocalizationContext } from './app/components/Tran
 import { NavigationContainer } from '@react-navigation/native';
 
 import Queue from './app/utils/queue';
+import MobileTokenService from './app/services/mobile_token_service';
 
 Sentry.init({
   dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
@@ -53,6 +54,7 @@ const App: () => React$Node = () => {
     setLoading(false);
     SplashScreen.hide();
     Queue.initWorker();
+    MobileTokenService.handleSyncingToken();
 
     AppState.addEventListener("change", (nextAppState) => {
       new ScorecardService().removeExpiredScorecard();
