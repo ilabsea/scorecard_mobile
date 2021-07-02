@@ -3,11 +3,10 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import { Icon, Text, Button } from 'native-base';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
@@ -23,7 +22,6 @@ import OutlinedButton from '../../components/OutlinedButton';
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
-import ImageSelector from '../../components/ImageSelector';
 import scorecardResultService from '../../services/scorecard_result_service';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
@@ -47,7 +45,6 @@ class ScorecardResult extends Component {
       visible: false,
       visibleConfirmModal: false,
       selectedIndicator: {},
-      imagePickerVisible: false,
     };
   }
 
@@ -147,27 +144,11 @@ class ScorecardResult extends Component {
                 <Text style={styles.h1}>{ translations.scorecardResult }</Text>
               </View>
               <OutlinedButton
-                icon="plus"
-                label="បន្ថែមរូបភាព"
-                onPress={() => this.setState({ imagePickerVisible: true }) }
+                icon="image"
+                label={translations.viewImage}
+                onPress={() => this.props.navigation.navigate('SelectedImage', { scorecard_uuid: this.props.route.params.scorecard_uuid }) }
               />
             </View>
-
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectedImage')}
-              style={{marginBottom: 25, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 100, paddingTop: 0, borderWidth: 0, alignSelf: 'flex-end'}}
-            >
-              <Icon name='image' type="FontAwesome"
-                style={[{color: Color.clickableColor, fontSize: 16, marginRight: 10, marginTop: -4}]}
-              />
-              <Text style={{fontSize: 12, color: Color.clickableColor}}>មើលរូបភាព</Text>
-            </TouchableOpacity>
-
-            {/* <Button primary width={120} style={{paddingLeft: 0, paddingRight: 0, justifyContent: 'flex-start', marginBottom: 20, alignSelf: 'flex-end'}}>
-              <Icon name='image' type="FontAwesome"
-                style={[{color: Color.whiteColor, fontSize: 16, marginTop: -2, borderWidth: 0}]}
-              />
-              <Text style={{fontSize: 12, color: 'white', borderWidth: 0, textAlign: 'left'}}>មើលរូបភាព</Text>
-            </Button> */}
 
             { !DeviceInfo.isTablet() ? this._renderAccordion() : this._renderTable() }
           </View>
@@ -197,11 +178,6 @@ class ScorecardResult extends Component {
             onPressConfirmButton={() => this._confirmFinish()}
             child={() => this._confirmFinishContent()}
             renderInline={true}
-          />
-
-          <ImageSelector
-            modalVisible={this.state.imagePickerVisible}
-            closeModal={() => this.setState({ imagePickerVisible: false })}
           />
         </View>
       </View>
