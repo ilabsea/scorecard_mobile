@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, PermissionsAndroid, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -39,46 +39,26 @@ class ImageSelector extends Component {
     })
   }
 
-  checkPermission() {
-    if (Platform.OS !== 'android') {
-      return Promise.resolve(true);
-    }
-
-    const rationale = {
-      'title': 'ការអនុញ្ញាតប្រើកាមេរ៉ា',
-      'message': 'កម្មវិធីនេះ សុំសិទ្ធិចូលប្រើកាមេរ៉ារបស់អ្នក ដូច្នេះទើបអ្នកអាចថតរូបបាន។'
-    };
-
-    return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, rationale)
-      .then(result => {
-        return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
-      });
-  }
-
   openCamera() {
     this.props.closeModal();
 
-    this.checkPermission().then(hasPermission => {
-      if (hasPermission) {
-        ImagePicker.openCamera({
-          mediaType: 'photo',
-          compressImageQuality: 0.8,
-        }).then(image => {
-          scorecardReferenceService.add(this.props.scorecardUuid, image);
+    ImagePicker.openCamera({
+      mediaType: 'photo',
+      compressImageQuality: 0.8,
+    }).then(image => {
+      scorecardReferenceService.add(this.props.scorecardUuid, image);
 
-          if (this.props.selectImageSuccess)
-            this.props.selectImageSuccess(ScorecardReference.findByScorecard(this.props.scorecardUuid));
-        })
-        .catch(error => {
-          console.log('take photo error = ', error)
-        })
-      }
-    });
+      if (this.props.selectImageSuccess)
+        this.props.selectImageSuccess(ScorecardReference.findByScorecard(this.props.scorecardUuid));
+    })
+    .catch(error => {
+      console.log('take photo error = ', error)
+    })
   }
 
   render() {
     const { translations } = this.context;
-    const modalHeight = getDeviceStyle(screenHeight / 7, isShortScreenDevice() ? hp('22%') : hp('21%'))
+    const modalHeight = getDeviceStyle(screenHeight / 7, isShortScreenDevice() ? hp('22%') : hp('20.5%'))
 
     return (
       <BottomHalfModal

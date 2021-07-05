@@ -98,7 +98,7 @@ class SelectedImage extends Component {
 
   render() {
     const { translations } = this.context;
-    const listContainerPadding = getDeviceStyle(8, isShortWidthScreen() ? wp('3.3') : wp('3.8%'));
+    const listContainerPadding = getDeviceStyle(wp('5%'), isShortWidthScreen() ? wp('3.3%') : wp('3.8%'));
 
     return (
       <View style={{flex: 1}}>
