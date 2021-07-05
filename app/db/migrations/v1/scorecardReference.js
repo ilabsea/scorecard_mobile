@@ -1,13 +1,14 @@
 'use strict';
 
-const ScorecardImageSchema = {
-  name: 'ScorecardImage',
+const ScorecardReferenceSchema = {
+  name: 'ScorecardReference',
   primaryKey: 'uuid',
   properties: {
     uuid: 'string',
     scorecard_uuid: 'string',
     image_path: 'string',
+    order: 'int'
   }
 }
 
-export default ScorecardImageSchema;
+export default ScorecardReferenceSchema;

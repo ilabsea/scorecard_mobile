@@ -8,8 +8,8 @@ import Color from '../themes/color';
 import { LocalizationContext } from './Translations';
 import BottomHalfModal from './BottomHalfModal';
 
-import ScorecardImage from '../models/ScorecardImage';
-import scorecardImageService from '../services/scorecard_image_service';
+import ScorecardReference from '../models/ScorecardReference';
+import scorecardReferenceService from '../services/scorecard_reference_service';
 import { getDeviceStyle, isShortScreenDevice } from '../utils/responsive_util';
 
 const screenHeight = Dimensions.get('screen').height;
@@ -28,11 +28,11 @@ class ImageSelector extends Component {
       compressImageQuality: 0.8,
     }).then(images => {
       images.map(image => {
-        scorecardImageService.add(this.props.scorecardUuid, image);
+        scorecardReferenceService.add(this.props.scorecardUuid, image);
       });
 
       if (this.props.selectImageSuccess)
-        this.props.selectImageSuccess(ScorecardImage.findByScorecard(this.props.scorecardUuid));
+        this.props.selectImageSuccess(ScorecardReference.findByScorecard(this.props.scorecardUuid));
     })
     .catch(error => {
       console.log('select image error == ', error);
@@ -51,7 +51,6 @@ class ImageSelector extends Component {
 
     return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, rationale)
       .then(result => {
-        console.log('permission result == ', result);
         return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
       });
   }
@@ -62,15 +61,13 @@ class ImageSelector extends Component {
     this.checkPermission().then(hasPermission => {
       if (hasPermission) {
         ImagePicker.openCamera({
-          width: 640,
-          height: 320,
           mediaType: 'photo',
           compressImageQuality: 0.8,
         }).then(image => {
-          scorecardImageService.add(this.props.scorecardUuid, image);
+          scorecardReferenceService.add(this.props.scorecardUuid, image);
 
           if (this.props.selectImageSuccess)
-            this.props.selectImageSuccess(ScorecardImage.findByScorecard(this.props.scorecardUuid));
+            this.props.selectImageSuccess(ScorecardReference.findByScorecard(this.props.scorecardUuid));
         })
         .catch(error => {
           console.log('take photo error = ', error)

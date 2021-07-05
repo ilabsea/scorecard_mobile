@@ -62,17 +62,19 @@ class SelectedImageHeader extends Component {
           <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ translations.selectedImage }</Title>
         </Body>
 
-        <Right>
-          { this.props.hasDeleteButton ?
-              <Button transparent onPress={() => this.setState({ visibleModal: true })}>
-                <Icon name='trash' style={{fontSize: getDeviceStyle(24, wp('6%')), marginTop: -3, marginRight: getDeviceStyle(16, 0)}} />
+        { !this.props.isScorecardFinished &&
+          <Right>
+            { this.props.hasDeleteButton ?
+                <Button transparent onPress={() => this.setState({ visibleModal: true })}>
+                  <Icon name='trash' style={{fontSize: getDeviceStyle(24, wp('6%')), marginTop: -3, marginRight: getDeviceStyle(16, 0)}} />
+                </Button>
+              :
+              <Button transparent onPress={() => this.props.openImagePicker()}>
+                <Icon name='add' style={{fontSize: getDeviceStyle(24, wp('8%')), marginTop: -3, marginRight: getDeviceStyle(16, 0)}} />
               </Button>
-            :
-            <Button transparent onPress={() => this.props.openImagePicker()}>
-              <Icon name='add' style={{fontSize: getDeviceStyle(24, wp('8%')), marginTop: -3, marginRight: getDeviceStyle(16, 0)}} />
-            </Button>
-          }
-        </Right>
+            }
+          </Right>
+        }
 
         <MessageModal
           visible={this.state.visibleModal}

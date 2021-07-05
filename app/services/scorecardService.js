@@ -8,6 +8,7 @@ import { getErrorType } from './api_service';
 import votingCriteriaService from './votingCriteriaService';
 import proposedCriteriaService from './proposedCriteriaService';
 import { deleteScorecardDownload } from './scorecard_download_service';
+import scorecardReferenceService from './scorecard_reference_service';
 
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
@@ -15,6 +16,7 @@ import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
 import Rating from '../models/Rating';
 import LanguageIndicator from '../models/LanguageIndicator';
+import ScorecardReference from '../models/ScorecardReference';
 
 import { getSuggestedActionAttrs } from '../helpers/voting_criteria_helper';
 
@@ -43,15 +45,19 @@ class ScorecardService extends BaseModelService {
     this.customIndicators = CustomIndicator.getAll(uuid);
     this.progressNumber = 0;
     let indicators = this.customIndicators.filter(x => !x.id_from_server);
-    this.totalNumber = indicators.length + 1;
+    this.totalNumber = indicators.length + ScorecardReference.findByScorecard(uuid).length + 1;
 
     if (!this.scorecard || !this.scorecard.isInLastPhase) { return; }
-
-    try {
-      sendRequestToApi(() => this.uploadCustomIndicator(0, indicators, callback, errorCallback));
-    } catch (error) {
-      console.log(error);
-    }
+    
+    scorecardReferenceService.upload(uuid, () => { this.updateProgress(callback) }, () => {
+      try {
+        sendRequestToApi(() => this.uploadCustomIndicator(0, indicators, callback, errorCallback));
+      } catch (error) {
+        console.log(error);
+      }
+    }, (errorType) => {
+      errorCallback(errorType);
+    });
   }
 
   // ------Step1------

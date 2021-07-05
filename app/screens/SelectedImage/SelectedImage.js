@@ -4,13 +4,14 @@ import { Icon } from 'native-base';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import Color from '../../themes/color';
-import ScorecardImage from '../../models/ScorecardImage';
+import ScorecardReference from '../../models/ScorecardReference';
+import Scorecard from '../../models/Scorecard';
 
 import { LocalizationContext } from '../../components/Translations';
 import SelectedImageHeader from '../../components/SelectedImage/SelectedImageHeader';
 import ImageSelector from '../../components/ImageSelector';
 
-import scorecardImageService from '../../services/scorecard_image_service';
+import scorecardReferenceService from '../../services/scorecard_reference_service';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
 import NoDataMessageTabletStyles from '../../styles/tablet/NoDataMessageComponentStyle';
 import NoDataMessageMobileStyles from '../../styles/mobile/NoDataMessageComponentStyle';
@@ -23,13 +24,17 @@ class SelectedImage extends Component {
     super(props);
 
     this.state = {
-      scorecardImages: ScorecardImage.findByScorecard(props.route.params.scorecard_uuid),
+      scorecard: Scorecard.find(props.route.params.scorecard_uuid),
+      scorecardImages: ScorecardReference.findByScorecard(props.route.params.scorecard_uuid),
       selectedImages: [],
       imagePickerVisible: false,
     }
   }
 
   toggleSelectImage(imagePath) {
+    if (this.state.scorecard.finished)
+      return;
+
     let selectedImages = this.state.selectedImages;
 
     if (!this.isSelected(imagePath))
@@ -83,7 +88,7 @@ class SelectedImage extends Component {
   }
 
   confirmDelete() {
-    scorecardImageService.remove(this.props.route.params.scorecard_uuid, this.state.selectedImages, (scorecardImages) => {
+    scorecardReferenceService.remove(this.props.route.params.scorecard_uuid, this.state.selectedImages, (scorecardImages) => {
       this.setState({
         scorecardImages: scorecardImages,
         selectedImages: []
@@ -102,6 +107,7 @@ class SelectedImage extends Component {
           hasDeleteButton={this.state.selectedImages.length > 0}
           confirmDelete={() => this.confirmDelete()}
           openImagePicker={() => this.setState({ imagePickerVisible: true })}
+          isScorecardFinished={this.state.scorecard.finished}
         />
 
         { this.state.scorecardImages.length == 0 &&
