@@ -101,7 +101,6 @@ class AddNewParticipantModal extends Component {
     return (
       <Portal>
         <Modal visible={this.props.visible}
-          onDismiss={() => this.props.onDismiss()}
           contentContainerStyle={[styles.container, { height: addNewParticipantModalHeight() }]}
         >
           <View style={{backgroundColor: Color.whiteColor, flex: 1}}>

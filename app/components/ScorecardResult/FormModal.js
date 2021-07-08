@@ -189,7 +189,7 @@ const FormModal = (props) => {
 
   return (
     <Portal>
-      <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={ styles.container }>
+      <Modal visible={visible} contentContainerStyle={ styles.container }>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
             <View style={styles.headerContainer}>
