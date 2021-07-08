@@ -16,7 +16,10 @@ class LanguageRatingScaleService {
       phase: langRatingScaleAudioPhase,
     };
 
-    downloadAudio(0, options, successCallback, errorCallback, this._saveLocalAudioToLangRatingScale);
+    if (langRatingScales.length > 0)
+      downloadAudio(0, options, successCallback, errorCallback, this._saveLocalAudioToLangRatingScale);
+    else
+      successCallback(true, langRatingScaleAudioPhase, null);
   }
 
   _saveLocalAudioToLangRatingScale = (langRatingScale, localAudioFilePath, callbackDownload) => {

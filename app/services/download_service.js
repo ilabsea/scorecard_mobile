@@ -13,7 +13,7 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
   const eachFilePercentage = getEachAudioFilePercentage(items.length);
 
   if (index === items.length) {
-    successCallback(true, phase, null);
+    successCallback(true, phase, eachFilePercentage);
     return;
   }
 
@@ -32,10 +32,8 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
       downloadAudio(index + 1, options, successCallback, errorCallback, storeAudioUrl);
     })
   }
-  else {
-    successCallback(false, phase, eachFilePercentage);
+  else
     downloadAudio(index + 1, options, successCallback, errorCallback, storeAudioUrl);
-  }
 }
 
 async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDownload) {
