@@ -26,7 +26,7 @@ class Home extends Component {
 
           <BigButton
             onPress={() => this.props.navigation.navigate('NewScorecard')}
-            label={ translations['newScorecard'] }
+            label={ translations.startScorecard }
             icon={'add-circle-sharp'}
           />
 
