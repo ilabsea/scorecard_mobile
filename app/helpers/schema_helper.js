@@ -14,6 +14,7 @@ import RatingScaleSchema from '../db/migrations/v1/ratingScale';
 import ProgramLanguageSchema from '../db/migrations/v1/programLanguage';
 import ScorecardDownloadSchema from '../db/migrations/v1/scorecardDownload';
 import ContactSchema from '../db/migrations/v1/contact';
+import ScorecardReferenceSchema from '../db/migrations/v1/scorecardReference';
 
 import { schemaNames } from '../constants/schema_constant';
 
@@ -43,6 +44,7 @@ const schemaHelper = (() => {
       ProgramLanguageSchema,
       ScorecardDownloadSchema,
       ContactSchema,
+      ScorecardReferenceSchema,
     ];
 
     changedSchemas.map((schema) => {

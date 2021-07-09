@@ -3,11 +3,10 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Alert,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import { Icon, Text } from 'native-base';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
@@ -18,6 +17,7 @@ import BottomButton from '../../components/BottomButton';
 import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
+import OutlinedButton from '../../components/OutlinedButton';
 
 import { Table, TableWrapper, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
@@ -140,7 +140,14 @@ class ScorecardResult extends Component {
             <Tip screenName={'ScorecardResult'}/>
 
             <View style={{flexDirection: 'row', marginBottom: 20}}>
-              <Text style={styles.h1}>{ translations.scorecardResult }</Text>
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={styles.h1}>{ translations.scorecardResult }</Text>
+              </View>
+              <OutlinedButton
+                icon="image"
+                label={translations.viewImage}
+                onPress={() => this.props.navigation.navigate('SelectedImage', { scorecard_uuid: this.props.route.params.scorecard_uuid }) }
+              />
             </View>
 
             { !DeviceInfo.isTablet() ? this._renderAccordion() : this._renderTable() }

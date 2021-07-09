@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="remove"/> -->
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
 
@@ -17,7 +18,8 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:screenOrientation="landscape"
-      android:theme="@style/AppTheme">
+      android:theme="@style/AppTheme"
+      android:requestLegacyExternalStorage="true">
 
       <meta-data
         android:name="com.google.firebase.messaging.default_notification_icon"

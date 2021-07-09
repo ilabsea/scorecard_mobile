@@ -25,6 +25,7 @@ import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticip
 import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
+import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
 
@@ -226,6 +227,13 @@ function AppNavigator() {
         name="OfflineScorecardResult"
         component={OfflineInstructionScreen}
         options={({navigation}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="SelectedImage"
+        component={SelectedImageScreen}
+        options={({navigator}) => ({
           header: () => null,
         })}
       />
