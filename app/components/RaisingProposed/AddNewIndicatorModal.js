@@ -118,7 +118,6 @@ class AddNewIndicatorModal extends Component {
     return (
       <Modal
         visible={this.props.isVisible}
-        onDismiss={() => this.props.closeModal()}
         contentContainerStyle={styles.container}>
 
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
