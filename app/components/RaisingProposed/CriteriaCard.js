@@ -5,6 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {LocalizationContext} from '../Translations';
 
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
 import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
@@ -21,7 +22,7 @@ class CriteriaCard extends Component {
       <View key={index} style={styles.criteriaCardContainer}>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.criteriaLabel}>{criteriaName}</Text>
-          <View style={{flexDirection: 'row', marginTop: 12}}>
+          <View style={{flexDirection: 'row', marginTop: 8}}>
             <MaterialIcon name="person" size={18} color="#7f7f7f" />
             <Text style={[styles.criteriaValue, responsiveStyles.criteriaValue]}>
               {criteria.raised_count} {translations.pax}
@@ -63,14 +64,15 @@ const styles = StyleSheet.create({
   criteriaLabel: {
     color: '#7f7f7f',
     fontSize: 12,
-    fontWeight: 'bold',
     marginTop: 12,
+    fontFamily: FontFamily.title
   },
   criteriaValue: {
     marginLeft: 10,
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: -4,
+    fontFamily: FontFamily.body,
   },
   blankContainer: {
     backgroundColor: Color.cardListItemAvataBg,

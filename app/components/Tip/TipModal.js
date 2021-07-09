@@ -45,7 +45,7 @@ export default class TipModal extends Component {
           contentContainerStyle={ [styles.container, { minHeight: modalHeight, marginHorizontal: marginHorizontalSize, padding: containerPadding}] }
         >
           <ScrollView style={{flex: 1}}>
-            <Text style={[styles.title, responsiveStyles.headerTitle]}>{ this.props.tip.title }</Text>
+            <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10 }]}>{ this.props.tip.title }</Text>
 
             { this.renderTips() }
           </ScrollView>

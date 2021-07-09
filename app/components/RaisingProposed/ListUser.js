@@ -60,7 +60,7 @@ class ListUser extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{marginTop: 40}}>
+      <View style={{marginTop: 18}}>
         <View style={styles.headingContainer}>
           <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>{translations['listUser']}</Text>
 

@@ -5,6 +5,7 @@ import {LocalizationContext} from '../Translations';
 import uuidv4 from '../../utils/uuidv4';
 
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import TextCell from './TextCell';
 import IndicatorCell from './IndicatorCell';
@@ -111,10 +112,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#eeeeee',
   },
   headerText: {
-    margin: 6,
+    marginVertical: 6,
+    marginHorizontal: 2,
+    fontFamily: FontFamily.title,
     fontSize: 14,
-    fontWeight: '700',
     textAlign: 'center',
+    lineHeight: 18,
+    paddingTop: getDeviceStyle(8, 2)
   },
   text: {
     margin: 6,

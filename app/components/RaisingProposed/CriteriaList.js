@@ -30,7 +30,7 @@ class CriteriaList extends Component {
   render() {
     const {translations} = this.context;
     return (
-      <View style={{marginTop: 15}}>
+      <View>
         <View style={styles.headingContainer}>
           <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
             { translations.numberOfProposedParticipant }: { this.props.numberOfProposedParticipant }/{ this.props.participants.length } {translations.pax}
@@ -40,7 +40,7 @@ class CriteriaList extends Component {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{flexDirection: 'row', paddingBottom: 6, marginTop: 20}}
+          contentContainerStyle={{flexDirection: 'row', paddingBottom: 6, marginTop: 10, borderWidth: 1}}
         >
           {this.renderCriteriaList()}
         </ScrollView>
