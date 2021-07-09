@@ -19,7 +19,7 @@ import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 import OutlinedButton from '../../components/OutlinedButton';
 
-import { Table, TableWrapper, Row} from 'react-native-table-component';
+import { Table, Row} from 'react-native-table-component';
 import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
 import scorecardResultService from '../../services/scorecard_result_service';
@@ -76,7 +76,7 @@ class ScorecardResult extends Component {
 
     return (
       <Table borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
-        <Row data={tableHead} style={styles.head} textStyle={[styles.text]} flexArr={[4, 2, 3, 3, 3]}/>
+        <Row data={tableHead} style={styles.head} textStyle={styles.text} flexArr={[4, 2, 3, 3, 3]} />
         {
           tableRows.map((criteria, index) => (
             <ScorecardResultTableRow key={index} criteria={criteria}

@@ -25,11 +25,20 @@ export default class ScorecardResultTableRow extends Component {
 
   btnAdd = (fieldName, indicator) => {
     const { translations } = this.context;
+    let color = 'black';
+
+    if (fieldName == 'suggested_action' && !this.props.criteria['suggested_action'])
+      color = Color.redColor;
 
     return (
       <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, true)} style={{alignItems: 'center'}}>
-        <View style={styles.btn}>
-          <Text style={[styles.btnText, this.textColor('black')]}>{ translations.addText }</Text>
+        <View style={[styles.btn, { flexDirection: 'row' }]}>
+          <Text style={styles.btnText}>
+            { translations.addText }
+          </Text>
+          { fieldName == 'suggested_action' &&
+            <Text style={[{fontSize: 18}, this.textColor(color)]}> *</Text>
+          }
         </View>
       </TouchableOpacity>
     );
@@ -58,8 +67,19 @@ export default class ScorecardResultTableRow extends Component {
     return this.renderEditText(fieldName, indicator);
   }
 
+  indicatorText(text) {
+    return (
+      <View style={{ paddingHorizontal: 2}}>
+        <Text style={[styles.text]}>
+          {text}
+          <Text style={[{ fontSize: 18 }, !this.props.criteria['suggested_action'] ? { color: Color.redColor } : {}]}> *</Text>
+        </Text>
+      </View>
+    )
+  }
+
   _renderTextCell = (text, flexNum) => (
-    <Cell data={text} textStyle={styles.text} style={{flex: flexNum}}/>
+    <Cell data={this.indicatorText(text)} textStyle={styles.text} style={{flex: flexNum}}/>
   );
 
   _renderMedian = () => (
@@ -98,7 +118,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: '85%',
-    maxWidth: 90,
+    maxWidth: 102,
     height: 34,
     backgroundColor: '#cacaca',
     borderRadius: 4,
