@@ -37,7 +37,7 @@ export default class ScorecardResultTableRow extends Component {
             { translations.addText }
           </Text>
           { fieldName == 'suggested_action' &&
-            <Text style={[{fontSize: 14}, this.textColor(color)]}> *</Text>
+            <Text style={[{fontSize: 18}, this.textColor(color)]}> *</Text>
           }
         </View>
       </TouchableOpacity>
@@ -72,7 +72,7 @@ export default class ScorecardResultTableRow extends Component {
       <View style={{ paddingHorizontal: 2}}>
         <Text style={[styles.text]}>
           {text}
-          <Text style={!this.props.criteria['suggested_action'] ? { color: Color.redColor } : {}}>*</Text>
+          <Text style={[{ fontSize: 18 }, !this.props.criteria['suggested_action'] ? { color: Color.redColor } : {}]}> *</Text>
         </Text>
       </View>
     )
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: '85%',
-    maxWidth: 90,
+    maxWidth: 102,
     height: 34,
     backgroundColor: '#cacaca',
     borderRadius: 4,
