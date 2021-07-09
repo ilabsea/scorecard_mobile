@@ -7,6 +7,7 @@ import App from './App';
 import {name as appName} from './app.json';
 import { setCustomText } from 'react-native-global-props';
 import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
+import messaging from '@react-native-firebase/messaging';
 
 const customTextProps = {
   style: {
@@ -17,5 +18,13 @@ const customTextProps = {
 };
 
 setCustomText(customTextProps);
+
+messaging().onMessage(async remoteMessage => {
+  console.log('Message handled in the onMessage!=========', remoteMessage);
+});
+
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Message handled in the background!=========', remoteMessage);
+});
 
 AppRegistry.registerComponent(appName, () => App);

@@ -32,6 +32,7 @@ import pkg from '../../../package';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
 import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
+import MobileTokenService from '../../services/mobile_token_service';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
@@ -103,6 +104,7 @@ class Setting extends Component {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
       AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
+      MobileTokenService.updateToken(responseData.program_id);
 
       authenticationFormService.clearErrorAuthentication();
       contactService.downloadContacts()
