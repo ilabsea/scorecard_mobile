@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
-  StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
@@ -253,7 +252,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
     flex: 1,
-    paddingTop: StatusBar.currentHeight || 0,
+    paddingTop: 16,
     paddingHorizontal: 16,
   },
   inputLabel: {
