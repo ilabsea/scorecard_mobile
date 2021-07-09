@@ -9,7 +9,7 @@ const smMobileTitleWidth = 75;
 const ProgressStepComponentStyles = StyleSheet.create({
   title: {
     paddingTop: 2,
-    paddingHorizontal: 2,
+    paddingHorizontal: 4,
     fontSize: wp(smLabelSize),
     textAlign: 'center',
     color: Color.horizontalLineColor,
