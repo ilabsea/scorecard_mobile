@@ -128,7 +128,7 @@ function AppNavigator() {
         name="NewScorecard"
         component={NewScorecardScreen}
         options={{
-          title: `${translations['newScorecard']}`,
+          title: `${translations.startScorecard}`,
           headerTitleAlign: 'center',
         }}
       />

@@ -81,7 +81,7 @@ class ScorecardList extends Component {
     return (
       <NoDataMessage
         title={translations.pleaseAddScorecard}
-        buttonLabel={translations.newScorecard}
+        buttonLabel={translations.startScorecard}
         onPress={() => this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'NewScorecard'}] })}
       />
     );
