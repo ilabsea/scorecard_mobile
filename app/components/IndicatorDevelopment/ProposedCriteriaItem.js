@@ -18,6 +18,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import ProposedCriteriaItemTabletStyles from '../../styles/tablet/ProposedCriteriaItemStyle';
 import ProposedCriteriaItemMobileStyles from '../../styles/mobile/ProposedCriteriaItemStyle';
 import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const responsiveStyles = getDeviceStyle(ProposedCriteriaItemTabletStyles, ProposedCriteriaItemMobileStyles);
 
@@ -75,7 +76,7 @@ class ProposedCriteriaItem extends Component {
     return (
       <TouchableOpacity
         onPress={ () => this.handleSelected() }
-        style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight()}]}>
+        style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight(), borderRadius: cardBorderRadius}]}>
 
         <CriteriaTitle
           title={this.state.indicator.content}

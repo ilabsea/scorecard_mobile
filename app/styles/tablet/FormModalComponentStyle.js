@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
+import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 const FormModalComponentStyles = StyleSheet.create({
   container: {
@@ -8,7 +9,8 @@ const FormModalComponentStyles = StyleSheet.create({
     padding: 20,
     minHeight: 590,
     marginHorizontal: 30,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    borderRadius: modalBorderRadius
   },
   btnWrapper: {
     flexDirection: 'row',

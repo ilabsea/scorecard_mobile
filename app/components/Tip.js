@@ -16,6 +16,7 @@ import tips from '../db/jsons/tips';
 import TipModal from './Tip/TipModal';
 import { TouchableRipple } from 'react-native-paper';
 
+import { cardBorderRadius } from '../constants/border_radius_constant';
 import { getDeviceStyle } from '../utils/responsive_util';
 import TipTabletStyles from '../styles/tablet/TipComponentStyle';
 import TipMobileStyles from '../styles/mobile/TipComponentStyle';
@@ -52,7 +53,7 @@ export default class Tip extends Component {
       <View>
         <TouchableRipple
           onPress={ () => this.setState({visibleModal: true}) }
-          style={[customStyle.card, {marginBottom: 16}]}>
+          style={[customStyle.card, {marginBottom: 16, borderRadius: cardBorderRadius}]}>
 
           <View style={{flexDirection: 'row'}}>
             { this.renderTipIcon(scorecard) }

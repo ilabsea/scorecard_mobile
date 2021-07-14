@@ -3,6 +3,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import { lgLabelSize, xlLabelSize, mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 const ProposedcriteriaListModalComponentStyles = StyleSheet.create({
   container: {
@@ -10,6 +11,7 @@ const ProposedcriteriaListModalComponentStyles = StyleSheet.create({
     alignSelf: 'center',
     padding: 18,
     maxHeight: hp('85%'),
+    borderRadius: modalBorderRadius
   },
   header: {
     fontSize: isShortScreenDevice() ? wp(lgLabelSize) : wp(xlLabelSize),

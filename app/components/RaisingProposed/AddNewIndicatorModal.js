@@ -24,6 +24,7 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { modalHeadingTitleSize } from '../../utils/responsive_util';
 import Color from '../../themes/color';
+import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     marginHorizontal: 30,
     padding: 20,
+    borderRadius: modalBorderRadius
   },
   header: {
     fontSize: modalHeadingTitleSize(),

@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const votingCriteriaListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
     marginBottom: 20,
     flexDirection: 'row',
+    borderRadius: cardBorderRadius
   },
   ratingIconContainer: {
     flexDirection: 'row',

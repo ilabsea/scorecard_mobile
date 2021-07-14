@@ -3,6 +3,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 const FormModalComponentStyles = StyleSheet.create({
   container: {
@@ -10,7 +11,8 @@ const FormModalComponentStyles = StyleSheet.create({
     padding: 18,
     minHeight: 530,
     marginHorizontal: 20,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    borderRadius: modalBorderRadius
   },
   btnWrapper: {
     flexDirection: 'row',

@@ -4,6 +4,7 @@ import {Button} from 'react-native-paper';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 import Color from '../themes/color';
+import { buttonBorderRadius } from '../constants/border_radius_constant';
 class ActionButton extends Component {
   backgroundColor = () => {
     const {isDisabled, customBackgroundColor} = this.props;
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     width: '100%',
-    borderRadius: 8,
+    borderRadius: buttonBorderRadius,
     elevation: 0,
     justifyContent: 'center',
   },

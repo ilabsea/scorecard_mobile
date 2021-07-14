@@ -12,6 +12,7 @@ import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import uuidV4 from '../../utils/uuidv4';
 import styles from '../../themes/scorecardListItemStyle';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ContactListItemTabletStyles from '../../styles/tablet/ContactListItemComponentStyle';
@@ -24,7 +25,7 @@ export default class ContactListItem extends Component {
 
   renderStatusIcon(item, iconName) {
     return (
-      <View style={[styles.statusIconWrapper]}>
+      <View style={[styles.statusIconWrapper, { borderTopLeftRadius: cardBorderRadius, borderBottomLeftRadius: cardBorderRadius }]}>
         <Icon name={iconName} style={responsiveStyles.statusIcon} />
       </View>
     )

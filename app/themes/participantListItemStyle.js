@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, modalHeadingTitleSize } from '../utils/responsive_util';
 import { numberContainerSize, numberLabelSize } from '../utils/participant_list_util';
+import { modalBorderRadius } from '../constants/border_radius_constant';
 
 const participantListItemStyle = StyleSheet.create({
   container: {
@@ -12,6 +13,7 @@ const participantListItemStyle = StyleSheet.create({
     marginHorizontal: 30,
     justifyContent: 'flex-start',
     paddingTop: getDeviceStyle(20, 10),
+    borderRadius: modalBorderRadius
   },
   header: {
     fontSize: modalHeadingTitleSize(),

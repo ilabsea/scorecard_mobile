@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import { FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, modalHeadingTitleSize } from '../utils/responsive_util';
 import Color from './color';
+import { modalBorderRadius } from '../constants/border_radius_constant';
 
 const CustomStyle = StyleSheet.create({
   textInputContainer: {
@@ -50,6 +51,7 @@ const CustomStyle = StyleSheet.create({
     marginHorizontal: 30,
     justifyContent: 'flex-start',
     alignSelf: 'center',
+    borderRadius: modalBorderRadius
   }
 });
 
