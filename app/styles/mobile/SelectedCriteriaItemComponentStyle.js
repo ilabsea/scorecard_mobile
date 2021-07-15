@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { isShortScreenDevice, isShortWidthScreen } from '../../utils/responsive_util';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const getContainerHeight = () => {
   if (isShortWidthScreen())
@@ -19,6 +20,7 @@ const titlePaddingTop = () => {
 const SelectedCriteriaItemComponentStyles = StyleSheet.create({
   itemContainer: {
     height: getContainerHeight(),
+    borderRadius: cardBorderRadius
   },
   container: {
     paddingLeft: 10,

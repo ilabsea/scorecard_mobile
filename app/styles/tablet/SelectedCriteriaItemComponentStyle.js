@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const SelectedCriteriaItemComponentStyles = StyleSheet.create({
   itemContainer: {
-    height: 140
+    height: 140,
+    borderRadius: cardBorderRadius
   },
   container: {
     paddingLeft: 10,

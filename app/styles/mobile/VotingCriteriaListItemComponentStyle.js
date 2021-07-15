@@ -3,11 +3,13 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const votingCriteriaListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
     marginBottom: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderRadius: cardBorderRadius
   },
   ratingIconContainer: {
     flexDirection: 'row',

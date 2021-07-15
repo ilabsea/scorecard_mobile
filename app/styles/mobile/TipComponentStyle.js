@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { smLabelSize } from '../../constants/mobile_font_size_constant';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const TipComponentStyles = StyleSheet.create({
   title: {
@@ -17,6 +18,8 @@ const TipComponentStyles = StyleSheet.create({
   },
   tipIconContainer: {
     width: 50,
+    borderTopLeftRadius: cardBorderRadius,
+    borderBottomLeftRadius: cardBorderRadius
   },
   tipIcon: {
     width: 28,

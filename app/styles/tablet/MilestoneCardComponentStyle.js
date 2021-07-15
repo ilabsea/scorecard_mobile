@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
 
 export const badgeSize = 40;
 
@@ -27,7 +28,8 @@ const MilestoneCardComponentStyles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     padding: 20,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderRadius: cardBorderRadius
   },
   cardTitleContainer: {
     flex: 1,
@@ -53,7 +55,8 @@ const MilestoneCardComponentStyles = StyleSheet.create({
     height: 48,
     width: 167,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: buttonBorderRadius
   },
   btnResumeText: {
     color: Color.whiteColor,

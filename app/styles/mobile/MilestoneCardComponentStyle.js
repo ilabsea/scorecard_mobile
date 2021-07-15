@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { mdLabelSize, smLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
+import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
 
 export const badgeSize = wp('9%');
 
@@ -29,7 +30,8 @@ const MilestoneCardComponentStyles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     padding: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderRadius: cardBorderRadius
   },
   cardTitleContainer: {
     flex: 1,
@@ -56,7 +58,8 @@ const MilestoneCardComponentStyles = StyleSheet.create({
     height: 48,
     width: wp('18%'),
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: buttonBorderRadius
   },
   btnResumeText: {
     color: Color.whiteColor,

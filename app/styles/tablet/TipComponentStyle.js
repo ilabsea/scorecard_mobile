@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const TipComponentStyles = StyleSheet.create({
   title: {
@@ -13,6 +14,8 @@ const TipComponentStyles = StyleSheet.create({
   },
   tipIconContainer: {
     width: 70,
+    borderTopLeftRadius: cardBorderRadius,
+    borderBottomLeftRadius: cardBorderRadius
   },
   tipIcon: {
     width: 40,
