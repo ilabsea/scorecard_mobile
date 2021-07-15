@@ -2,7 +2,6 @@ import { ERROR_SCORECARD_COMPLETED, ERROR_SCORECARD_EXECUTED } from '../constant
 import Moment from 'moment';
 import moment from "moment/min/moment-with-locales";
 import { environment } from '../config/environment';
-// import { SCORECARD_RESULT } from '../constants/scorecard_step_constant';
 import { selfAssessment } from '../constants/scorecard_constant';
 import Color from '../themes/color';
 
@@ -15,7 +14,6 @@ const scorecardHelper = (() => {
     isExpired,
     getTranslatedRemoveDate,
     getStatusIcon,
-    getSortedSubmittedScorecard,
     iconColor,
     iconBorderColor,
   };
@@ -53,10 +51,6 @@ const scorecardHelper = (() => {
       return 'check';
 
     return 'hourglass-half';
-  }
-
-  function getSortedSubmittedScorecard(scorecards) {
-    return scorecards.sort((a, b) => (a.isUploaded === b.isUploaded) ? 0 : a.isUploaded ? 1 : -1);
   }
 
   function iconColor(scorecard) {

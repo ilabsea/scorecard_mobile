@@ -92,6 +92,18 @@ const Scorecard = (() => {
     return expiredScorecards;
   }
 
+  function getProvinces() {
+    const scorecards = getAll();
+
+    const data = [
+      { group: 'A', name: 'SD' }, 
+      { group: 'B', name: 'FI' }, 
+      { group: 'A', name: 'MM' },
+      { group: 'B', name: 'CO'}
+    ];
+    const unique = [...new Set(data.map(item => item.group))];
+  }
+
   // Private
 
   function _buildData(response) {

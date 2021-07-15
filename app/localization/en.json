@@ -274,5 +274,6 @@
   "takePhoto": "Take photo",
   "viewImage": "View image",
   "noImageIsSelected": "No image is selected",
-  "submittedScorecards": "Submitted scorecards"
+  "submittedScorecards": "Submitted scorecards",
+  "filterScorecard": "Filter scorecard"
 }

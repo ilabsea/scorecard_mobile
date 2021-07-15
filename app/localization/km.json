@@ -274,5 +274,6 @@
   "takePhoto": "ថតរូប",
   "viewImage": "មើលរូបភាព",
   "noImageIsSelected": "មិនមានរូបភាពត្រូវបានជ្រើសរើស",
-  "submittedScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលបានដាក់ស្នើរួច"
+  "submittedScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលបានដាក់ស្នើរួច",
+  "filterScorecard": "ស្វែងរកប័ណ្ណដាក់ពិន្ទុ"
 }
