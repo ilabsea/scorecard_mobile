@@ -1,7 +1,7 @@
 import realm from '../db/schema';
 import { getEachPhasePercentage } from '../utils/scorecard_detail_util';
 
-import { scorecardDownloadPhases } from '../constants/scorecard_constant';
+import { scorecardDownloadPhases, languageIndicatorPhase } from '../constants/scorecard_constant';
 
 import IndicatorService from './indicator_service';
 import { save as saveCaf } from './caf_service';
@@ -34,7 +34,8 @@ const _create = (scorecardUuid, phase) => {
   });
 }
 
-const _update = (scorecard, phase, updateDownloadProgress) => {
+const _update = (options, updateDownloadProgress) => {
+  const { scorecard, phase, isDownloaded, downloadPercentage } = options;
   const scorecardDownload = find(scorecard.uuid);
 
   if (scorecardDownload === undefined) {
@@ -49,12 +50,13 @@ const _update = (scorecard, phase, updateDownloadProgress) => {
     return;
   }
 
-  downloadPhases[phase] = 'downloaded';
+  if (isDownloaded)
+    downloadPhases[phase] = 'downloaded';
 
   const attrs = {
     scorecard_uuid: scorecard.uuid,
     step: JSON.stringify(downloadPhases),
-    download_percentage: _getUpdatedDownloadPercentage(scorecardDownload.download_percentage),
+    download_percentage: _getUpdatedDownloadPercentage(scorecardDownload.download_percentage, phase, downloadPercentage),
     finished: _isAllPhaseDownloaded(downloadPhases),
   };
 
@@ -87,9 +89,18 @@ const getDownloadPercentage = (scorecardUuid) => {
   return scorecardDownload.download_percentage;
 }
 
-const _getUpdatedDownloadPercentage = (currentDownloadPercentage) => {
+const _getUpdatedDownloadPercentage = (currentDownloadPercentage, phase, downloadPercentage) => {
   if (currentDownloadPercentage >= 1)
     return 1;
+
+  if (downloadPercentage && downloadPercentage > 0) {
+    const newPercentage = currentDownloadPercentage + downloadPercentage;
+
+    if (newPercentage > getEachPhasePercentage * phase)
+      return getEachPhasePercentage * phase;
+
+    return newPercentage;
+  }
 
   return currentDownloadPercentage + getEachPhasePercentage();
 }
@@ -119,6 +130,7 @@ const download = (scorecard, audioLocale, updateDownloadProgress, errorCallback)
         phase,
         scorecard,
         audioLocale,
+        downloadPercentage: 0,
       };
 
       _downloadSuccess(options, updateDownloadProgress, errorCallback, _downloadRatingScale);
@@ -135,6 +147,7 @@ const _downloadRatingScale = (scorecard, audioLocale, updateDownloadProgress, er
         phase,
         scorecard,
         audioLocale,
+        downloadPercentage: 0,
       };
 
       _downloadSuccess(options, updateDownloadProgress, errorCallback, _downloadIndicator);
@@ -153,7 +166,10 @@ const _downloadIndicator = (scorecard, audioLocale, updateDownloadProgress, erro
         audioLocale,
       };
 
-      _downloadSuccess(options, updateDownloadProgress, errorCallback, downloadLangIndicatorAudio);
+      if (phase == languageIndicatorPhase)
+        _downloadSuccess(options, updateDownloadProgress, errorCallback, downloadLangIndicatorAudio);
+      else
+        _downloadSuccess(options, updateDownloadProgress, errorCallback, null);
     },
     errorCallback
   );
@@ -209,21 +225,21 @@ const _downloadLangRatingScaleAudio = (scorecard, audioLocale, updateDownloadPro
         downloadPercentage,
       };
 
-      _downloadSuccess(options, updateDownloadProgress, errorCallback, null);
+      _downloadSuccess(options, updateDownloadProgress, errorCallback, 'finished');
     },
     errorCallback
   );
 }
 
 const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downloadNextPhase) => {
-  const { isDownloaded, scorecard, phase, audioLocale } = options;
+  const { isDownloaded, scorecard, audioLocale } = options;
+
+  _update(options, updateDownloadProgress);
 
   if (isDownloaded) {
-    _update(scorecard, phase, updateDownloadProgress);
-
-    if (downloadNextPhase)
+    if (downloadNextPhase && downloadNextPhase != 'finished')
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
-    else {
+    else if (downloadNextPhase == 'finished') {
       const scorecardService = new ScorecardService();
       scorecardService.updateMilestone(scorecard.uuid, null, DOWNLOADED);
     }

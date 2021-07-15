@@ -67,7 +67,7 @@ class CriteriaAudioButton extends Component {
         { this.hasAudio() &&
           <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioButton}>
 
-            <Icon name={this.state.iconName} style={{ color: Color.whiteColor}} />
+            <Icon name={this.state.iconName} style={[{ color: Color.whiteColor}, this.state.iconName == 'pause' ? { marginLeft: 1 } : {}]} />
           </TouchableOpacity>
         }
         { !this.hasAudio() && !this.props.isAddNewCriteria &&

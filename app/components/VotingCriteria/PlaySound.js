@@ -113,7 +113,7 @@ class PlaySound extends Component {
         style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
 
         { children }
-        <Icon name={this.getIconName()} style={{ color: Color.whiteColor, fontSize: iconSize}}/>
+        <Icon name={this.getIconName()} style={[{ color: Color.whiteColor, fontSize: iconSize}, this.getIconName() == 'pause' ? {marginLeft: 1} : {}]}/>
       </TouchableOpacity>
     )
   }

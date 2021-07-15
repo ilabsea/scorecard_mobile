@@ -16,7 +16,10 @@ class LanguageIndicatorService {
       phase: langIndicatorAudioPhase,
     };
 
-    downloadAudio(0, options, successCallback, errorCallback, this._saveLocalAudioToLangIndicator);
+    if (langIndicators.length > 0)
+      downloadAudio(0, options, successCallback, errorCallback, this._saveLocalAudioToLangIndicator);
+    else
+      successCallback(true, langIndicatorAudioPhase, null);
   }
 
   stopDownload = () => {
