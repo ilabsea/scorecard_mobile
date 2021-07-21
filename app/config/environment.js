@@ -3,5 +3,5 @@ export const environment = {
   type: 'development',
   validDay: 30,
   defaultLanguage: 'km',
-  removeScorecardDay: 30,
+  removeScorecardDay: 90,
 };

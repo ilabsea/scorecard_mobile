@@ -7,6 +7,8 @@ import {
   Alert,
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-community/async-storage';
+import Moment from 'moment';
 
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardItem from '../../components/ScorecardItem';
@@ -23,6 +25,9 @@ import { set } from '../../actions/currentScorecardAction';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { SELECTED_FILTERS } from '../../constants/main_constant';
+import scorecardFilterService from '../../services/scorecard_filter_service';
+import scorecardHelper from '../../helpers/scorecard_helper';
 
 class ScorecardList extends Component {
   static contextType = LocalizationContext;
@@ -40,13 +45,23 @@ class ScorecardList extends Component {
   }
 
   componentDidMount() {
-    this.focusListener = this.props.navigation.addListener("focus", () => {
-      this.setState({ scorecards: Scorecard.getAll() });
+    this.focusListener = this.props.navigation.addListener("focus", async () => {
+      let selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
+      selectedFilters = JSON.parse(selectedFilters);
+      let scorecards = [];
+
+      if (selectedFilters)
+        scorecards = await scorecardFilterService.getFilteredScorecards(selectedFilters);
+      else
+        scorecards = Scorecard.getAll();
+
+      this.setState({ scorecards });
     });
   }
 
   componentWillUnmount() {
     this.focusListener();
+    AsyncStorage.removeItem(SELECTED_FILTERS);
 
     this.setState = (state, callback) => {
       return;
@@ -66,12 +81,35 @@ class ScorecardList extends Component {
     ));
   }
 
-  renderScorecardList(scorecards) {
+  renderProgressScorecards(scorecards) {
     return (
       <View key={uuidv4()}>
         { this.renderList(scorecards) }
       </View>
     )
+  }
+
+  renderScorecardDate(date) {
+    return (
+      <View key={uuidv4()} style={{backgroundColor: '#eee', paddingHorizontal: 16, paddingVertical: 5}}>
+        <Text style={{fontSize: 14}}>{ Moment(date, 'DD/MM/YYYY').format('MMM DD, YYYY') }</Text>
+      </View>
+    )
+  }
+
+  renderFinishedScorecards(finishedScorecards) {
+    const { appLanguage } = this.context;
+
+    let doms = [];
+
+    for (let i = 0; i<finishedScorecards.length; i++) {
+      const date = scorecardHelper.getTranslatedDate(finishedScorecards[i].date, appLanguage);
+
+      doms.push(this.renderSectionTitle(date));
+      doms.push(<View key={uuidv4()}>{this.renderList(finishedScorecards[i].scorecards)}</View>);
+    }
+
+    return doms;
   }
 
   onPress(scorecard) {
@@ -112,7 +150,7 @@ class ScorecardList extends Component {
     const titleSize = getDeviceStyle(16, wp(mdLabelSize));
 
     return (
-      <View style={{backgroundColor: '#eee', paddingHorizontal: 16, paddingVertical: 10}}>
+      <View key={uuidv4()} style={{backgroundColor: '#eee', paddingHorizontal: 16, paddingVertical: 10}}>
         <Text style={{fontSize: titleSize}}>
           { title }
         </Text>
@@ -120,11 +158,22 @@ class ScorecardList extends Component {
     )
   }
 
+  getStickyIndices(finishedScorecards) {
+    let indices = [0];
+
+    finishedScorecards.map((scorecard, index) => {
+      indices.push((index+1) * 2)
+    });
+
+    return indices;
+  }
+
   render() {
     const { translations } = this.context;
-    const progressScorecards = this.state.scorecards.filter(s => !s.finished);
-    const finishedScorecards = this.state.scorecards.filter(s => (s.finished && !s.isUploaded));
-    const submittedScorecards = this.state.scorecards.filter(s => s.isUploaded)
+    const progressScorecards = this.state.scorecards.filter(s => !s.finished); 
+    let finishedScorecards = this.state.scorecards.filter(s => s.finished);
+    finishedScorecards = scorecardHelper.getGroupedByDate(finishedScorecards);
+
     const scorecardUuid = this.state.selectedScorecard ? this.state.selectedScorecard.uuid : '';
 
     if (!this.state.scorecards.length) {
@@ -133,15 +182,11 @@ class ScorecardList extends Component {
 
     return (
       <View>
-        <ScrollView contentContainerStyle={{backgroundColor: '#eee', flexGrow: 1, paddingBottom: 20}} stickyHeaderIndices={[0, 2, 4]}>
+        <ScrollView contentContainerStyle={{backgroundColor: '#eee', flexGrow: 1, paddingBottom: 590}} stickyHeaderIndices={this.getStickyIndices(finishedScorecards)}>
           { !!progressScorecards.length && this.renderSectionTitle(translations.progressScorecards) }
-          { this.renderScorecardList(progressScorecards) }
+          { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
 
-          { !!finishedScorecards.length && this.renderSectionTitle(translations.completeScorecards) }
-          { this.renderScorecardList(finishedScorecards) }
-
-          { !!submittedScorecards.length && this.renderSectionTitle(translations.submittedScorecards) }
-          { this.renderScorecardList(submittedScorecards) }
+          { this.renderFinishedScorecards(finishedScorecards) }
         </ScrollView>
 
         <MessageModal

@@ -26,6 +26,8 @@ class LocationSearchBox extends Component {
             clearButtonMode='always'
             style={[styles.searchInput, !!this.props.searchedLocation ? { marginRight: 10 } : {}]}
             onChangeText={(text) => this.props.onChangeText(text)}
+            onFocus={() => this.props.updateFocusStatus(true)}
+            onBlur={() => this.props.updateFocusStatus(false)}
           />
         </Item>
 
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     paddingHorizontal: 16,
     paddingVertical: 10,
+    paddingBottom: 12,
     borderBottomWidth: 0.5,
     borderBottomColor: Color.paleGrayColor,
     flexDirection: 'row',

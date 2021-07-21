@@ -34,7 +34,7 @@ import FilterScorecardScreen from '../screens/FilterScorecard/FilterScorecard';
 import Color from '../themes/color';
 import { LocalizationContext } from '../components/Translations';
 import SettingMenu from '../components/Home/SettingMenu';
-import FilterButton from '../components/ScorecardList/FilterButton';
+import HeaderRightButton from '../components/HeaderRightButton';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import { lgLabelSize } from '../constants/mobile_font_size_constant';
@@ -79,7 +79,7 @@ function AppNavigator() {
         options={({navigation}) => ({
           title: translations.scorecardList,
           headerRight: () => (
-            <FilterButton navigation={navigation} />
+            <HeaderRightButton onPress={() => navigation.navigate('FilterScorecardScreen')} icon='sliders' />
           ),
         })}
       />
@@ -245,9 +245,9 @@ function AppNavigator() {
       <Stack.Screen
         name="FilterScorecardScreen"
         component={FilterScorecardScreen}
-        options={{
-          title: translations.filterScorecard,
-        }}
+        options={({navigator}) => ({
+          header: () => null,
+        })}
       />
     </Stack.Navigator>
   );

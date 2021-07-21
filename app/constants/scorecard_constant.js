@@ -29,8 +29,8 @@ const scorecardStatuses = [
 ];
 
 const scorecardTypes = [
-  { label: 'self_assessment', value: 'self-assessment'},
-  { label: 'community_scorecard', value: 'community-scorecard'}
+  { label: 'self_assessment', value: 'self_assessment'},
+  { label: 'community_scorecard', value: 'community_scorecard'}
 ];
 
 export {

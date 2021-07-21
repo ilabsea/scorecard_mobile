@@ -2,7 +2,7 @@ import { ERROR_SCORECARD_COMPLETED, ERROR_SCORECARD_EXECUTED } from '../constant
 import Moment from 'moment';
 import moment from "moment/min/moment-with-locales";
 import { environment } from '../config/environment';
-import { selfAssessment } from '../constants/scorecard_constant';
+import { scorecardStatuses, selfAssessment } from '../constants/scorecard_constant';
 import Color from '../themes/color';
 import Scorecard from '../models/Scorecard';
 
@@ -18,6 +18,8 @@ const scorecardHelper = (() => {
     iconColor,
     iconBorderColor,
     getScorecardLocations,
+    getGroupedByDate,
+    getTranslatedDate
   };
 
   function isScorecardAvailable(scorecard) {
@@ -84,6 +86,40 @@ const scorecardHelper = (() => {
     newProvinces = newProvinces.sort((a, b) => a.label > b.label)
 
     return newProvinces;
+  }
+
+  function getGroupedByDate(scorecards) {
+    let newScorecards = {};
+    scorecards.map(scorecard => {
+      const date = scorecard.conducted_date;
+
+      if (!newScorecards[date])
+        newScorecards[date] = [];
+
+      newScorecards[date].push(scorecard);
+    });
+
+    let groupedScorecards = Object.keys(newScorecards).map(date => {
+      return {
+        date: Moment(date.toString(), 'DD/MM/YYYY').format('DD/MM/YYYY'),
+        scorecards: newScorecards[date]
+      }
+    })
+
+    groupedScorecards.sort((a, b) => {
+      const newDateA = Moment(a.date, 'DD/MM/YYYY');
+      const newDateB = Moment(b.date, 'DD/MM/YYYY');
+
+      return Moment(newDateA).isAfter(newDateB) ? -1 : 1;
+    })
+
+    return groupedScorecards;
+  }
+
+  function getTranslatedDate(date, locale) {
+    const translatedDate = Moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    return moment(translatedDate).locale(locale).format('MMM DD, YYYY');
   }
 })();
 

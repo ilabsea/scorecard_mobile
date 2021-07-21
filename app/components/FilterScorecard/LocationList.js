@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Divider } from 'react-native-paper';
 import AppIcon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import uuidv4 from '../../utils/uuidv4';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
+import locationHelper from '../../helpers/location_helper';
+import { LocalizationContext } from '../Translations';
+import { SELECTED_FILTERS } from '../../constants/main_constant';
 
 class LocationList extends Component {
+  static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
 
@@ -18,6 +25,25 @@ class LocationList extends Component {
       locations: this.scorecardLocations
     }
   }
+
+  async componentDidMount() {
+    let selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
+    selectedFilters = JSON.parse(selectedFilters);
+
+    if (selectedFilters && !!selectedFilters.provinces.length) {
+      let locations = this.state.locations;
+
+      locations.map(location => {
+        selectedFilters.provinces.map(province => {
+          if (location.label == province)
+            location.isSelected = true;
+        })
+      });
+
+      this.setState({ locations: this.getSortedLocation(locations) });
+    }
+  }
+
 
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.searchedLocation != this.props.searchedLocation) {
@@ -58,13 +84,17 @@ class LocationList extends Component {
   }
 
   renderList() {
+    const { appLanguage } = this.context;
+
     return this.state.locations.map((location, index) => {
       return (
         <View key={uuidv4()}>
           <TouchableOpacity onPress={() => this.onSelectItem(location.label)}
             style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
           >
-            <Text style={{flex: 1}}>{ location.label }</Text>
+            <Text style={{flex: 1, fontSize: 14, textTransform: 'capitalize'}}>
+              { locationHelper.getProvinceName(location.label, appLanguage) }
+            </Text>
 
             { location.isSelected &&
               <AppIcon name='check-circle' size={24} color={Color.successColor} />

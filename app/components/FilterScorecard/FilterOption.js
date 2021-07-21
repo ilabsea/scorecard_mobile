@@ -47,7 +47,7 @@ class FilterOption extends Component {
 
     return (
       <View style={this.props.containerStyle}>
-        <Text style={{paddingHorizontal: 16, paddingVertical: 3, fontSize: titleSize, fontFamily: FontFamily.title}}>
+        <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: titleSize, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
           { this.props.title }
         </Text>
         <View style={{backgroundColor: Color.whiteColor}}>
