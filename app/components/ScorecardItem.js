@@ -8,6 +8,7 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton } from 'react-native-gesture-handler';
 import AppIcon from 'react-native-vector-icons/FontAwesome';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../components/Translations';
 import Color from '../themes/color';
@@ -36,7 +37,7 @@ export default class ScorecardItem extends Component {
     const icon = scorecardHelper.getStatusIcon(scorecard);
 
     return (
-      <View style={{borderWidth: 1.2, width: 35, height: 35, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderColor: scorecardHelper.scorecardTypeColor(scorecard)}}>
+      <View style={{borderWidth: 1.2, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderColor: scorecardHelper.scorecardTypeColor(scorecard)}}>
         <AppIcon name={icon} size={20} color={scorecardHelper.iconColor(scorecard)} />
       </View>
     )
@@ -58,6 +59,15 @@ export default class ScorecardItem extends Component {
         <Text style={[{color: Color.whiteColor}, responsiveStyles.deleteLabel]}>{ translations.delete }</Text>
       </RectButton>
     )
+  }
+
+  conductedDate(scorecard) {
+    const { appLanguage } = this.context;
+
+    if (!scorecard.conducted_date)
+      return '';
+
+    return scorecardHelper.getTranslatedDate(scorecard.conducted_date, appLanguage, 'MMM DD');
   }
 
   render() {
@@ -87,7 +97,16 @@ export default class ScorecardItem extends Component {
 
             <View style={{flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
               <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: -4}} />
-              <Text numberOfLines={1} style={[styles.subText, { marginLeft: 0, color: Color.grayColor}]}>{scorecard.province} {scorecard.district} {scorecard.commune}</Text>
+              <View style={{flex: 3, borderWidth: 0, flexDirection: 'row'}}>
+                {/* <Text numberOfLines={1} style={[styles.subText, { marginLeft: 0, color: Color.grayColor}]}>{scorecard.province} {scorecard.district} {scorecard.commune}</Text> */}
+
+
+                <Text style={[styles.subText, { marginLeft: 0, color: Color.grayColor, marginRight: 0}]}>{scorecard.province}</Text>
+                <Text numberOfLines={1} style={[styles.subText, {width: wp('10%'), margin: 0, color: Color.grayColor, borderWidth: 0, marginRight: 0 }]}>{scorecard.district}</Text>
+                <Text style={[styles.subText, { margin: 0, color: Color.grayColor, marginLeft: 2}]}>{scorecard.district}</Text>
+              </View>
+
+              {/* <Text style={[styles.subText, { flex: 1, borderWidth: 1, textAlign: 'right' }]}>{ this.conductedDate(scorecard) }</Text> */}
             </View>
 
             { scorecard.isUploaded &&

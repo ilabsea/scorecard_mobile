@@ -280,5 +280,6 @@
   "in_progress": "In progress",
   "submitted": "Submitted",
   "scorecardLocation": "Scorecard location",
-  "apply": "Apply"
+  "apply": "Apply",
+  "reset": "Reset"
 }

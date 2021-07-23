@@ -79,7 +79,7 @@ function AppNavigator() {
         options={({navigation}) => ({
           title: translations.scorecardList,
           headerRight: () => (
-            <HeaderRightButton onPress={() => navigation.navigate('FilterScorecardScreen')} icon='sliders' />
+            <HeaderRightButton navigation={navigation} onPress={() => navigation.navigate('FilterScorecardScreen')} icon='sliders' />
           ),
         })}
       />

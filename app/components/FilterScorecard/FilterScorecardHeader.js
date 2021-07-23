@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-
 import { Header, Title, Left, Right, Body, Button } from "native-base";
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { HeaderBackButton } from '@react-navigation/stack';
-import AppIcon from 'react-native-vector-icons/FontAwesome';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
@@ -29,11 +26,9 @@ class FilterScorecardHeader extends Component {
           <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ translations.filterScorecard }</Title>
         </Body>
 
-        <Right>
-          <Button transparent onPress={() => this.props.resetFilter()}>
-            <AppIcon name='undo' size={20} color={Color.whiteColor} style={{padding: 16, borderWidth: 0, paddingRight: 0}} />
-          </Button>
-        </Right>
+        <Button transparent onPress={() => this.props.resetFilter()} style={{borderWidth: 1, padding: 0}}>
+          <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ translations.reset }</Title>
+        </Button>
       </Header>
     )
   }

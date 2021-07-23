@@ -110,7 +110,7 @@ class ScorecardList extends Component {
     let doms = [];
 
     for (let i = 0; i<finishedScorecards.length; i++) {
-      const date = scorecardHelper.getTranslatedDate(finishedScorecards[i].date, appLanguage);
+      const date = scorecardHelper.getTranslatedDate(finishedScorecards[i].date, appLanguage, 'MMM DD, YYYY');
 
       doms.push(this.renderSectionTitle(date));
       doms.push(<View key={uuidv4()}>{this.renderList(finishedScorecards[i].scorecards)}</View>);

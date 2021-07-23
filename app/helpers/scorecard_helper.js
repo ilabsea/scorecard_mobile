@@ -68,9 +68,9 @@ const scorecardHelper = (() => {
 
   function scorecardTypeColor(scorecard) {
     if (scorecard.scorecard_type == selfAssessment)
-      return Color.lightBlueColor;
+      return Color.selfAssessmentColor;
 
-    return Color.clickableColor;
+    return Color.communityScorecardColor;
   }
 
   function getScorecardLocations() {
@@ -116,10 +116,10 @@ const scorecardHelper = (() => {
     return groupedScorecards;
   }
 
-  function getTranslatedDate(date, locale) {
+  function getTranslatedDate(date, locale, format) {
     const translatedDate = Moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
-    return moment(translatedDate).locale(locale).format('MMM DD, YYYY');
+    return moment(translatedDate).locale(locale).format(format);
   }
 })();
 
