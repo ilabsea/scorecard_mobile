@@ -15,6 +15,7 @@ import ScorecardItem from '../../components/ScorecardItem';
 import MessageModal from '../../components/MessageModal';
 import NoDataMessage from '../../components/NoDataMessage';
 
+import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
 
@@ -41,11 +42,14 @@ class ScorecardList extends Component {
       scorecards: Scorecard.getAll(),
       secPosition: 0,
       stickyHeaderIndex: 0,
+      isLoading: false,
     }
   }
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener("focus", async () => {
+      this.setState({ isLoading: true });
+
       let selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
       selectedFilters = JSON.parse(selectedFilters);
       let scorecards = [];
@@ -55,7 +59,10 @@ class ScorecardList extends Component {
       else
         scorecards = Scorecard.getAll();
 
-      this.setState({ scorecards });
+      this.setState({
+        scorecards: scorecards,
+        isLoading: false,
+      });
     });
   }
 
@@ -91,7 +98,7 @@ class ScorecardList extends Component {
 
   renderScorecardDate(date) {
     return (
-      <View key={uuidv4()} style={{backgroundColor: '#eee', paddingHorizontal: 16, paddingVertical: 5}}>
+      <View key={uuidv4()} style={{paddingHorizontal: 16, paddingVertical: 5}}>
         <Text style={{fontSize: 14}}>{ Moment(date, 'DD/MM/YYYY').format('MMM DD, YYYY') }</Text>
       </View>
     )
@@ -150,7 +157,7 @@ class ScorecardList extends Component {
     const titleSize = getDeviceStyle(16, wp(mdLabelSize));
 
     return (
-      <View key={uuidv4()} style={{backgroundColor: '#eee', paddingHorizontal: 16, paddingVertical: 10}}>
+      <View key={uuidv4()} style={{paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#f2f2f2'}}>
         <Text style={{fontSize: titleSize}}>
           { title }
         </Text>
@@ -181,13 +188,15 @@ class ScorecardList extends Component {
     }
 
     return (
-      <View>
-        <ScrollView contentContainerStyle={{backgroundColor: '#eee', flexGrow: 1, paddingBottom: 590}} stickyHeaderIndices={this.getStickyIndices(finishedScorecards)}>
-          { !!progressScorecards.length && this.renderSectionTitle(translations.progressScorecards) }
-          { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
+      <View style={{flex: 1}}>
+        { !this.state.isLoading &&
+          <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={this.getStickyIndices(finishedScorecards)}>
+            { !!progressScorecards.length && this.renderSectionTitle(translations.progressScorecards) }
+            { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
 
-          { this.renderFinishedScorecards(finishedScorecards) }
-        </ScrollView>
+            { this.renderFinishedScorecards(finishedScorecards) }
+          </ScrollView>
+        }
 
         <MessageModal
           visible={this.state.visibleModal}

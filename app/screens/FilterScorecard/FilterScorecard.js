@@ -32,6 +32,7 @@ class FilterScorecard extends Component {
       selectedTypes: [],
       selectedProvinces: [],
       isSearchBoxFocused: false,
+      isReset: false,
     }
   }
 
@@ -48,10 +49,12 @@ class FilterScorecard extends Component {
   }
 
   onChangeSearch(text) {
-    _this.setState({ searchedProvince: text });
+    _this.setState({ searchedProvince: text, isReset: false });
   }
 
   onSelectItem(type, value) {
+    _this.setState({isReset: false});
+
     if (type == 'scorecard-status')
       _this.setState({ selectedStatuses: _this.getSelectedItem(_this.state.selectedStatuses, value) });
     else if (type == 'scorecard-type')
@@ -77,17 +80,19 @@ class FilterScorecard extends Component {
 
     if (!!selectedStatuses.length || !!selectedTypes.length || !!selectedProvinces.length)
       AsyncStorage.setItem(SELECTED_FILTERS, JSON.stringify(selectedFilters));
+    else
+      AsyncStorage.removeItem(SELECTED_FILTERS);
 
     this.props.navigation.goBack();
   }
 
   resetFilter() {
-    AsyncStorage.removeItem(SELECTED_FILTERS);
-
     this.setState({
+      searchedProvince: '',
       selectedStatuses: [],
       selectedTypes: [],
       selectedProvinces: [],
+      isReset: true,
     });
   }
 
@@ -102,7 +107,7 @@ class FilterScorecard extends Component {
           resetFilter={() => this.resetFilter()}
         />
 
-        <ScrollView contentContainerStyle={{flexGrow: 1, backgroundColor: '#eee', paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }}
+        <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }}
           stickyHeaderIndices={[3]}
         >
           <FilterOption options={scorecardStatuses} title={translations.status}
@@ -131,10 +136,12 @@ class FilterScorecard extends Component {
             searchedLocation={this.state.searchedProvince}
             selectedItems={this.state.selectedProvinces}
             onSelectItem={this.onSelectItem}
+            isReset={this.state.isReset}
+            updateIsReset={() => this.setState({isReset: false})}
           />
         </ScrollView>
 
-        <View style={{padding: containerPadding, backgroundColor: Color.whiteColor, borderTopWidth: 0.5, borderTopColor: Color.paleGrayColor}}>
+        <View style={{padding: containerPadding}}>
           <BottomButton
             customBackgroundColor={Color.headerColor}
             iconName='none'

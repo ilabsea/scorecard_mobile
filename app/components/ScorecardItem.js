@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton } from 'react-native-gesture-handler';
-import { Divider } from 'react-native-paper';
 import AppIcon from 'react-native-vector-icons/FontAwesome';
 
 import { LocalizationContext } from '../components/Translations';
@@ -37,7 +36,7 @@ export default class ScorecardItem extends Component {
     const icon = scorecardHelper.getStatusIcon(scorecard);
 
     return (
-      <View style={{borderWidth: 1.2, width: 35, height: 35, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderColor: scorecardHelper.iconBorderColor(scorecard)}}>
+      <View style={{borderWidth: 1.2, width: 35, height: 35, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderColor: scorecardHelper.scorecardTypeColor(scorecard)}}>
         <AppIcon name={icon} size={20} color={scorecardHelper.iconColor(scorecard)} />
       </View>
     )
@@ -76,7 +75,7 @@ export default class ScorecardItem extends Component {
         renderRightActions={this.renderDeleteAction}
       >
         <TouchableOpacity onPress={this.props.onPress}
-          style={{height: 70, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, backgroundColor: Color.whiteColor}}
+          style={responsiveStyles.itemContainer}
         >
           {this.renderStatusIcon(scorecard)}
 
@@ -86,19 +85,18 @@ export default class ScorecardItem extends Component {
               <Text style={[styles.subText, subTextStyles, {marginTop: 2}]}>{translations.numberOfCriteria}: {criteriasSize}</Text>
             </View>
 
-            <View style={{flexDirection: 'row', paddingRight: 10, alignItems: 'center'}}>
+            <View style={{flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
               <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: -4}} />
               <Text numberOfLines={1} style={[styles.subText, { marginLeft: 0, color: Color.grayColor}]}>{scorecard.province} {scorecard.district} {scorecard.commune}</Text>
             </View>
 
             { scorecard.isUploaded &&
-              <Text style={{ fontSize: getDeviceStyle(12, 10), color: Color.redColor, fontFamily: FontFamily.title, paddingTop: getDeviceStyle(4, 0)}}>
+              <Text style={{ fontSize: getDeviceStyle(12, 10), color: Color.redColor, fontFamily: FontFamily.title}}>
                 {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, appLanguage) }
               </Text>
             }
           </View>
         </TouchableOpacity>
-        <Divider style={{backgroundColor: '#b3b3b3'}} />
       </Swipeable>
     )
   }

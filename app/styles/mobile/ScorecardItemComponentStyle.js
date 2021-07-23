@@ -5,6 +5,15 @@ import { mdLabelSize, smLabelSize, xlIconSize } from '../../constants/mobile_fon
 import Color from '../../themes/color';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
+  itemContainer: {
+    height: 70,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: Color.whiteColor,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Color.paleGrayColor,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -16,7 +16,7 @@ const scorecardHelper = (() => {
     getTranslatedRemoveDate,
     getStatusIcon,
     iconColor,
-    iconBorderColor,
+    scorecardTypeColor,
     getScorecardLocations,
     getGroupedByDate,
     getTranslatedDate
@@ -63,10 +63,10 @@ const scorecardHelper = (() => {
     else if (scorecard.finished)
       return Color.successColor;
 
-    return Color.clickableColor;
+    return scorecardTypeColor(scorecard);
   }
 
-  function iconBorderColor(scorecard) {
+  function scorecardTypeColor(scorecard) {
     if (scorecard.scorecard_type == selfAssessment)
       return Color.lightBlueColor;
 

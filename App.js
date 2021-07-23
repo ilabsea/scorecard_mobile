@@ -25,6 +25,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Queue from './app/utils/queue';
 import MobileTokenService from './app/services/mobile_token_service';
+import { SELECTED_FILTERS } from './app/constants/main_constant';
 
 Sentry.init({
   dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
@@ -59,6 +60,8 @@ const App: () => React$Node = () => {
     AppState.addEventListener("change", (nextAppState) => {
       new ScorecardService().removeExpiredScorecard();
     });
+
+    AsyncStorage.removeItem(SELECTED_FILTERS);
   });
 
   return (

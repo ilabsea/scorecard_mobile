@@ -3,6 +3,15 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
+  itemContainer: {
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: Color.whiteColor,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Color.paleGrayColor,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',

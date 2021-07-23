@@ -7,7 +7,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { LocalizationContext } from '../../components/Translations';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import uuidv4 from '../../utils/uuidv4';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 
@@ -30,7 +30,7 @@ class FilterOption extends Component {
           <TouchableOpacity onPress={() => this.props.onSelectItem(this.props.type, option.value)}
             style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
           >
-            <Text style={{flex: 1, fontSize: 14}}>{ translations[option.label] }</Text>
+            <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize))}}>{ translations[option.label] }</Text>
 
             { this.isSelected(option.value) &&
               <AppIcon name='check-circle' size={24} color={Color.successColor} />
@@ -43,11 +43,9 @@ class FilterOption extends Component {
   }
 
   render() {
-    const titleSize = getDeviceStyle(16, wp(mdLabelSize));
-
     return (
       <View style={this.props.containerStyle}>
-        <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: titleSize, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
+        <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
           { this.props.title }
         </Text>
         <View style={{backgroundColor: Color.whiteColor}}>
