@@ -6,7 +6,7 @@ import Color from '../../themes/color';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
   itemContainer: {
-    height: 70,
+    height: wp('20%'),
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
@@ -54,6 +54,22 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   },
   deleteLabel: {
     fontSize: wp(mdLabelSize)
+  },
+  locationLabel: {
+    fontSize: wp('3.2%'),
+    marginLeft: 4,
+    color: Color.grayColor,
+    marginRight: 0,
+    marginLeft: 0,
+    fontFamily: FontFamily.body,
+  },
+  iconBorder: {
+    borderWidth: 1.2,
+    width: 42,
+    height: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30, 
   }
 });
 

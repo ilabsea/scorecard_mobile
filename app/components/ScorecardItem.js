@@ -4,6 +4,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton } from 'react-native-gesture-handler';
@@ -22,6 +23,8 @@ import ScorecardItemTabletStyles from '../styles/tablet/ScorecardItemComponentSt
 import ScorecardItemMobileStyles from '../styles/mobile/ScorecardItemComponentStyle';
 import { FontFamily } from '../assets/stylesheets/theme/font';
 
+import { smLabelSize, xsLabelSize } from '../constants/mobile_font_size_constant';
+
 const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItemMobileStyles);
 
 export default class ScorecardItem extends Component {
@@ -37,7 +40,7 @@ export default class ScorecardItem extends Component {
     const icon = scorecardHelper.getStatusIcon(scorecard);
 
     return (
-      <View style={{borderWidth: 1.2, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderColor: scorecardHelper.scorecardTypeColor(scorecard)}}>
+      <View style={[responsiveStyles.iconBorder, {borderColor: scorecardHelper.scorecardTypeColor(scorecard)}]}>
         <AppIcon name={icon} size={20} color={scorecardHelper.iconColor(scorecard)} />
       </View>
     )
@@ -61,23 +64,42 @@ export default class ScorecardItem extends Component {
     )
   }
 
-  conductedDate(scorecard) {
-    const { appLanguage } = this.context;
+  getDistrictWidth(scorecard) {
+    const screenWidth = Dimensions.get('screen').width;
+    const pixelPerCharacter = wp('2%');
+    const locationWidth = (scorecard.province.length + scorecard.commune.length + scorecard.district.length) * pixelPerCharacter;
 
-    if (!scorecard.conducted_date)
-      return '';
+    if (locationWidth > (screenWidth - getDeviceStyle(67, 59)))
+      return scorecard.district.length * wp('1%');
 
-    return scorecardHelper.getTranslatedDate(scorecard.conducted_date, appLanguage, 'MMM DD');
+    return scorecard.district.length * wp('2%');
+  }
+
+  renderConductedDateAndRemoveDate(scorecard) {
+    const {translations, appLanguage} = this.context
+
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <Text style={{ textAlign: 'left', color: Color.grayColor, fontSize: getDeviceStyle(14, wp(smLabelSize)), marginLeft: 0 }}>
+          { !!scorecard.conducted_date ? scorecardHelper.getTranslatedDate(scorecard.conducted_date, appLanguage, 'DD MMM') : '' }
+        </Text>
+
+        { scorecard.isUploaded &&
+          <Text style={{ flex: 1, fontSize: getDeviceStyle(14, wp(xsLabelSize)), color: Color.redColor, fontFamily: FontFamily.body, textAlign: 'right', marginTop: 2}}>
+            {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, appLanguage) }
+          </Text>
+        }
+      </View>
+    )
   }
 
   render() {
-    const { translations, appLanguage } = this.context;
+    const { translations } = this.context;
     let scorecard = this.props.scorecard || {};
     let criteriasSize = votingCriteriaService.getAll(scorecard.uuid).length;
     const subTextStyles = { paddingTop: getDeviceStyle(2, 1), height: getDeviceStyle(27, 23) };
 
     return (
-
       <Swipeable
         ref={ref => { this.itemRef = ref }}
         key={uuidV4()}
@@ -91,28 +113,23 @@ export default class ScorecardItem extends Component {
 
           <View style={{flex: 1, marginLeft: 15}}>
             <View style={{flexDirection: 'row'}}>
-              <Text style={[{fontSize: 14, flex: 1}]}>{ scorecard.uuid }</Text>
+              <Text style={[{fontSize: getDeviceStyle(15, 14), flex: 1}]}>{ scorecard.uuid }</Text>
               <Text style={[styles.subText, subTextStyles, {marginTop: 2}]}>{translations.numberOfCriteria}: {criteriasSize}</Text>
             </View>
 
             <View style={{flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
               <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: -4}} />
               <View style={{flex: 3, borderWidth: 0, flexDirection: 'row'}}>
-                {/* <Text numberOfLines={1} style={[styles.subText, { marginLeft: 0, color: Color.grayColor}]}>{scorecard.province} {scorecard.district} {scorecard.commune}</Text> */}
-
-
-                <Text style={[styles.subText, { marginLeft: 0, color: Color.grayColor, marginRight: 0}]}>{scorecard.province}</Text>
-                <Text numberOfLines={1} style={[styles.subText, {width: wp('10%'), margin: 0, color: Color.grayColor, borderWidth: 0, marginRight: 0 }]}>{scorecard.district}</Text>
-                <Text style={[styles.subText, { margin: 0, color: Color.grayColor, marginLeft: 2}]}>{scorecard.district}</Text>
+                <Text style={responsiveStyles.locationLabel}>{scorecard.commune}, </Text>
+                <Text numberOfLines={1} style={[responsiveStyles.locationLabel, {maxWidth: this.getDistrictWidth(scorecard)}]}>
+                  {scorecard.district}
+                </Text>
+                <Text style={responsiveStyles.locationLabel}>, {scorecard.province}</Text>
               </View>
-
-              {/* <Text style={[styles.subText, { flex: 1, borderWidth: 1, textAlign: 'right' }]}>{ this.conductedDate(scorecard) }</Text> */}
             </View>
 
-            { scorecard.isUploaded &&
-              <Text style={{ fontSize: getDeviceStyle(12, 10), color: Color.redColor, fontFamily: FontFamily.title}}>
-                {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, appLanguage) }
-              </Text>
+            { scorecard.conducted_date &&
+              this.renderConductedDateAndRemoveDate(scorecard)
             }
           </View>
         </TouchableOpacity>

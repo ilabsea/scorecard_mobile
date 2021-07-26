@@ -96,9 +96,51 @@ class FilterScorecard extends Component {
     });
   }
 
+  renderFilterOptions() {
+    const { translations } = this.context;
+
+    return (
+      <React.Fragment>
+        <FilterOption options={scorecardStatuses} title={translations.status}
+          selectedItems={this.state.selectedStatuses}
+          type='scorecard-status'
+          onSelectItem={this.onSelectItem}
+        />
+        <FilterOption options={scorecardTypes} title={translations.scorecardType}
+          selectedItems={this.state.selectedTypes}
+          type='scorecard-type'
+          onSelectItem={this.onSelectItem}
+          containerStyle={{ marginTop: 20 }}
+        />
+      </React.Fragment>
+    )
+  }
+
+  renderLocationSearchBox() {
+    return (
+      <LocationSearchBox
+        searchedLocation={this.state.searchedProvince}
+        onChangeText={this.onChangeSearch}
+        onClearSearch={() => this.setState({ searchedProvince: '' })}
+        updateFocusStatus={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
+      />
+    )
+  }
+
+  renderLocationList() {
+    return (
+      <LocationList
+        searchedLocation={this.state.searchedProvince}
+        selectedItems={this.state.selectedProvinces}
+        onSelectItem={this.onSelectItem}
+        isReset={this.state.isReset}
+        updateIsReset={() => this.setState({isReset: false})}
+      />
+    )
+  }
+
   render() {
     const { translations } = this.context;
-    const titleSize = getDeviceStyle(16, wp(mdLabelSize));
 
     return (
       <View style={{flex: 1}}>
@@ -107,38 +149,15 @@ class FilterScorecard extends Component {
           resetFilter={() => this.resetFilter()}
         />
 
-        <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }}
-          stickyHeaderIndices={[3]}
-        >
-          <FilterOption options={scorecardStatuses} title={translations.status}
-            selectedItems={this.state.selectedStatuses}
-            type='scorecard-status'
-            onSelectItem={this.onSelectItem}
-          />
-          <FilterOption options={scorecardTypes} title={translations.scorecardType}
-            selectedItems={this.state.selectedTypes}
-            type='scorecard-type'
-            onSelectItem={this.onSelectItem}
-            containerStyle={{ marginTop: 20 }}
-          />
+        <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }} stickyHeaderIndices={[2]}>
+          { this.renderFilterOptions() }
 
-          <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: titleSize, marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
+          <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
             { translations.scorecardLocation }
           </Text>
-          <LocationSearchBox
-            searchedLocation={this.state.searchedProvince}
-            onChangeText={this.onChangeSearch}
-            onClearSearch={() => this.setState({ searchedProvince: '' })}
-            updateFocusStatus={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
-          />
 
-          <LocationList
-            searchedLocation={this.state.searchedProvince}
-            selectedItems={this.state.selectedProvinces}
-            onSelectItem={this.onSelectItem}
-            isReset={this.state.isReset}
-            updateIsReset={() => this.setState({isReset: false})}
-          />
+          { this.renderLocationSearchBox() }
+          { this.renderLocationList() }
         </ScrollView>
 
         <View style={{padding: containerPadding}}>

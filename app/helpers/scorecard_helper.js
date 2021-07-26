@@ -88,10 +88,11 @@ const scorecardHelper = (() => {
     return newProvinces;
   }
 
+  // Group the scorecard by month and year
   function getGroupedByDate(scorecards) {
     let newScorecards = {};
     scorecards.map(scorecard => {
-      const date = scorecard.conducted_date;
+      const date = Moment(scorecard.conducted_date, 'DD/MM/YYYY').format('MMM YYYY');
 
       if (!newScorecards[date])
         newScorecards[date] = [];
@@ -100,26 +101,31 @@ const scorecardHelper = (() => {
     });
 
     let groupedScorecards = Object.keys(newScorecards).map(date => {
+      const conductedDate = newScorecards[date][0].conducted_date;
+
       return {
-        date: Moment(date.toString(), 'DD/MM/YYYY').format('DD/MM/YYYY'),
-        scorecards: newScorecards[date]
+        date: Moment(conductedDate.toString(), 'DD/MM/YYYY').format('DD/MM/YYYY'),
+        scorecards: _sortByDate(newScorecards[date], 'conducted_date')
       }
     })
 
-    groupedScorecards.sort((a, b) => {
-      const newDateA = Moment(a.date, 'DD/MM/YYYY');
-      const newDateB = Moment(b.date, 'DD/MM/YYYY');
-
-      return Moment(newDateA).isAfter(newDateB) ? -1 : 1;
-    })
-
-    return groupedScorecards;
+    return _sortByDate(groupedScorecards, 'date')
   }
 
   function getTranslatedDate(date, locale, format) {
     const translatedDate = Moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
     return moment(translatedDate).locale(locale).format(format);
+  }
+
+  //private method
+  function _sortByDate(items, fieldName) {
+    return items.sort((a, b) => {
+      const newDateA = Moment(a[fieldName], 'DD/MM/YYYY');
+      const newDateB = Moment(b[fieldName], 'DD/MM/YYYY');
+
+      return Moment(newDateA).isAfter(newDateB) ? -1 : 1;
+    });
   }
 })();
 

@@ -48,6 +48,22 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   },
   deleteLabel: {
     fontSize: 16
+  },
+  locationLabel: {
+    fontSize: 14,
+    marginLeft: 4,
+    color: Color.grayColor,
+    marginRight: 0,
+    marginLeft: 0,
+    fontFamily: FontFamily.body,
+  },
+  iconBorder: {
+    borderWidth: 1.2,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30, 
   }
 });
 
