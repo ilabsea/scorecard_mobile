@@ -97,23 +97,27 @@ const Scorecard = (() => {
   function _buildData(response) {
     return ({
       uuid: response.uuid,
-      unit_type: response.unit_type_name,
+      unit_type: _getStringValue(response.unit_type_name),
       facility_id: response.facility_id,
       facility: response.facility != null ? JSON.stringify(response.facility) : '',
-      facility_code: response.facility.code,
-      scorecard_type: response.scorecard_type,
-      name: response.name,
-      description: response.description,
+      facility_code: _getStringValue(response.facility.code),
+      scorecard_type: _getStringValue(response.scorecard_type),
+      name: _getStringValue(response.name),
+      description: _getStringValue(response.description),
       year: response.year,
-      local_ngo_name: response.local_ngo_name,
+      local_ngo_name: _getStringValue(response.local_ngo_name),
       local_ngo_id: response.local_ngo_id,
-      province: response.province,
-      district: response.district,
-      commune: response.commune,
+      province: _getStringValue(response.province),
+      district: _getStringValue(response.district),
+      commune: _getStringValue(response.commune),
       program_id: response.program_id,
       downloaded_at: new Date(),
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
     })
+  }
+
+  function _getStringValue(value) {
+    return !!value ? value : '';
   }
 })();
 
