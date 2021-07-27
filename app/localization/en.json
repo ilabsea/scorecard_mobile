@@ -282,5 +282,10 @@
   "scorecardLocation": "Scorecard location",
   "apply": "Apply",
   "reset": "Reset",
-  "scorecardCriteria": "Criteria"
+  "scorecardCriteria": "Criteria",
+  "yr": "yr",
+  "raisedParticipant": "Raised participant",
+  "raisedCriteria": "Criteria",
+  "noOfParticipant": "No. of participant",
+  "numberOfRaisedParticipant": "Raised participant {0} pax"
 }

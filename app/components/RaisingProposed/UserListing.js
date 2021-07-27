@@ -56,13 +56,15 @@ class UserListing extends Component {
         <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28}}>
           <Tip screenName={'RaisingProposed'}/>
 
-          <CriteriaList scorecardUUID={this.props.scorecardUUID}
+          {/* <CriteriaList scorecardUUID={this.props.scorecardUUID}
             participants={Participant.getAll(this.props.scorecardUUID)}
             numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUUID)}  
-          />
+          /> */}
           <ListUser
             scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}
+            numberOfParticipant={Participant.getAll(this.props.scorecardUUID).length}
+            numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUUID)}
           />
         </ScrollView>
 

@@ -30,7 +30,7 @@ class RaisingProposed extends Component {
   render() {
     const {translations} = this.context;
     return (
-      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+      <View style={{flex: 1}}>
         <ProgressHeader
           title={translations['getStarted']}
           onBackPress={() => this.props.navigation.goBack()}
