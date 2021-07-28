@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import Accordion from '../RaisingProposed/Accordion';
+import Accordion from '../Accordion';
 
 import { Criteria } from '../../services/criteria_service';
 import uuidv4 from '../../utils/uuidv4';

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
 
-import Color from '../../themes/color';
-import uuidv4 from '../../utils/uuidv4';
+import Color from '../themes/color';
+import uuidv4 from '../utils/uuidv4';
 
 class Accordion extends Component {
   constructor(props) {

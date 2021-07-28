@@ -5,7 +5,7 @@ import { Icon } from 'native-base';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
-import Accordion from '../RaisingProposed/Accordion';
+import Accordion from '../Accordion';
 import Color from '../../themes/color';
 
 import ProposedCriteria from '../../models/ProposedCriteria';
