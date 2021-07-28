@@ -4,7 +4,6 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 import Color from '../../themes/color';
 
 import Tip from '../Tip';
-import CriteriaList from './CriteriaList';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
@@ -56,10 +55,6 @@ class UserListing extends Component {
         <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28}}>
           <Tip screenName={'RaisingProposed'}/>
 
-          {/* <CriteriaList scorecardUUID={this.props.scorecardUUID}
-            participants={Participant.getAll(this.props.scorecardUUID)}
-            numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUUID)}  
-          /> */}
           <ListUser
             scorecardUUID={this.props.scorecardUUID}
             navigation={this.props.navigation}

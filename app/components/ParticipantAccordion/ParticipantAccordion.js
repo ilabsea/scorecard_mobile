@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { List, Divider } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 import { Icon } from 'native-base';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
@@ -15,90 +14,72 @@ import participantHelper from '../../helpers/participant_helper';
 import uuidv4 from '../../utils/uuidv4';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
+import listItemStyles from '../../themes/participantListItemStyle';
 import ParticipantAccordionMobileStyles from '../../styles/mobile/ParticipantAccordionComponentStyle';
 import ParticipantAccordionTabletStyles from '../../styles/tablet/ParticipantAccordionComponentStyle';
 
 const styles = getDeviceStyle(ParticipantAccordionTabletStyles, ParticipantAccordionMobileStyles);
-
-const participantFields = ['order', 'gender', 'age', 'disability', 'minority', 'poor', 'youth'];
-
 let _this = null;
 
 class ParticipantAccordion extends Component {
   static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
     _this = this;
 
     this.state = {
-      participants: [],
-      accordionStatuses: [],
+      participants: []
     }
   }
 
   componentDidMount() {
     const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
-
-    this.setState({
-      participants: raisedParticipants,
-      accordionStatuses: new Array(raisedParticipants.length)
-    })
+    this.setState({ participants: raisedParticipants})
   }
 
   renderOrderNumber(order) {
     return (
-      <View style={styles.orderNumberContainer}>
-        <Text style={{fontWeight: 'bold', color: Color.whiteColor, marginTop: -2}}>{order}</Text>
+      <View style={[listItemStyles.numberContainer, { marginTop: 1 }]}>
+        <Text style={listItemStyles.numberLabel}>{order}</Text>
       </View>
     )
   }
 
   renderGender(gender) {
-    const iconName = participantHelper.getGenderIconLabel(gender);
-
     return (
-      <View style={{width: 30, marginLeft: 5, alignItems: 'center', justifyContent: 'center'}}>
-        <FontAwesomeIcon name={iconName} size={20} color={Color.blackColor} />
+      <View style={styles.genderIconContainer}>
+        <FontAwesomeIcon name={participantHelper.getGenderIconLabel(gender)} size={20} color={Color.blackColor} />
       </View>
     )
   }
 
   renderBooleanData(data, fieldName) {
-    const { translations } = this.context;
-
-    if (data) {
-      switch (fieldName) {
-        case participantFields[3]:
-          return `${translations.disability}   `;
-        case participantFields[4]:
-          return `${translations.minority}   `;
-        case participantFields[5]:
-          return `${translations.poor}   `;
-        case participantFields[6]:
-          return translations.youth;
-
-        return '';
-      }
-    }
+    return !!data ? `${this.context.translations[fieldName]}  ` : '';
   }
 
   renderTitleText(participant) {
     const { translations } = _this.context;
 
     return (
-      <View style={{flexDirection: 'row', width: wp('70%')}}>
+      <View style={styles.accordionItemContainer}>
         { _this.renderOrderNumber(participant.order + 1) }
         { _this.renderGender(participant.gender) }
         <Text style={styles.titleText}>{ participant.age }{translations.yr}</Text>
-        <Text style={[styles.titleText, { flex: 1, marginRight: 0}]} numberOfLines={1}>
-          { _this.renderBooleanData(participant.disability, participantFields[3]) }
-          { _this.renderBooleanData(participant.minority, participantFields[4]) }
-          { _this.renderBooleanData(participant.poor, participantFields[5]) }
-          { _this.renderBooleanData(participant.youth, participantFields[6]) }
+        <Text style={[styles.titleText, { flex: 1, marginLeft: 0}]} numberOfLines={1}>
+          { _this.getParticipantInfo(participant) }
         </Text>
       </View>
     )
+  }
+
+  getParticipantInfo(participant) {
+    const fields = ['disability', 'minority', 'poor', 'youth'];
+    let info = '';
+    fields.map(type => {
+      info += _this.renderBooleanData(participant[type], type);
+    });
+
+    return info;
   }
 
   renderCriterias(criterias) {

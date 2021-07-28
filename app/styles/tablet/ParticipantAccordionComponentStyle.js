@@ -1,44 +1,45 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
+const labelFontSize = 16;
+
 const ParticipantAccordionComponentStyles = StyleSheet.create({
-  orderNumberContainer: {
-    backgroundColor: Color.lightGrayColor,
-    width: 30,
-    height: 30,
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 3
+  accordionItemContainer: {
+    flexDirection: 'row',
+    width: wp('75%')
   },
   titleText: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     marginTop: 5,
-    marginHorizontal: 5
+    marginHorizontal: 8
   },
   itemTitleText: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     flex: 1,
     fontFamily: FontFamily.title
   },
   itemValueText: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     flex: 1,
   },
   editButton: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     color: Color.clickableColor,
   },
   btnEditIcon: {
     color: Color.clickableColor,
-    // fontSize: wp('2.5%'),
-    fontSize: 15,
+    fontSize: labelFontSize,
     marginRight: 5,
     alignSelf: 'center',
     marginTop: -2
+  },
+  genderIconContainer: {
+    width: 30,
+    marginLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

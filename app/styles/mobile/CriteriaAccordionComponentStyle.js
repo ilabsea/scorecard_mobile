@@ -1,14 +1,20 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
-import { smLabelSize } from '../../constants/mobile_font_size_constant';
+import { smLabelSize, xsLabelSize } from '../../constants/mobile_font_size_constant';
+import { isShortWidthScreen } from '../../utils/responsive_util';
 
 const CriteriaAccordionComponentStyles = StyleSheet.create({
+  accordionItemContainer: {
+    width: isShortWidthScreen() ? wp('71%') : wp('75%'),
+    height: wp('12.5%'),
+    justifyContent: 'center',
+  },
   titleLabel: {
-    fontSize: 14
+    fontSize: wp(smLabelSize)
   },
   subTitleLabel: {
-    fontSize: 12,
+    fontSize: wp(xsLabelSize),
     color: Color.grayColor,
     marginTop: 2
   },
@@ -17,27 +23,12 @@ const CriteriaAccordionComponentStyles = StyleSheet.create({
     backgroundColor: Color.accordionContentBgColor,
     paddingHorizontal: 20,
     paddingTop: 15,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   contentTitleLabel: {
-    fontSize: wp(smLabelSize)
+    fontSize: wp(smLabelSize),
+    marginTop: -1
   },
-  participantNumberContainer: {
-    width: 25,
-    height: 25,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.lightGrayColor,
-    marginLeft: 6,
-    marginBottom: 10
-  },
-  participantNumberLabel: {
-    color: Color.whiteColor,
-    margin: 0,
-    marginLeft: -1,
-    marginTop: 1
-  }
 });
 
 export default CriteriaAccordionComponentStyles;

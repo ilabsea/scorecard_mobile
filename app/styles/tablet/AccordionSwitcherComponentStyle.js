@@ -1,8 +1,5 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-
-import { mobileHeadingTitleSize } from '../../utils/responsive_util';
-import { xlLabelSize, lgLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 
 const AccordionSwitcherComponentStyles = StyleSheet.create({
@@ -10,13 +7,13 @@ const AccordionSwitcherComponentStyles = StyleSheet.create({
     paddingVertical: 6,
     borderWidth: 1,
     borderColor: Color.clickableColor,
-    width: 115,
+    width: wp('24%')
   },
   activeBtn: {
     backgroundColor: Color.clickableColor
   },
   btnText: {
-    fontSize: 14,
+    fontSize: 16,
     color: Color.clickableColor,
     textAlign: 'center'
   },

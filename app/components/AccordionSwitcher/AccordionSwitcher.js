@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
+import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import AccordionSwitcherTabletStyles from '../../styles/tablet/AccordionSwitcherComponentStyle';
 import AccordionSwitcherMobileStyles from '../../styles/mobile/AccordionSwitcherComponentStyle';
 
 const responsiveStyles = getDeviceStyle(AccordionSwitcherTabletStyles, AccordionSwitcherMobileStyles);
 
-const LEFT = 'left';
-const RIGHT = 'right';
-
 class AccordionSwitcher extends Component {
-  isActive(side) {
-    return this.props.activeSide == side;
+  renderButton(buttonStyle, side, label) {
+    const isActive = this.props.activeSide == side;
+
+    return (
+      <TouchableOpacity onPress={() => side == ACCORDION_LEFT ? this.props.onPressLeft() : this.props.onPressRight()}
+        style={[responsiveStyles.filterBtn, buttonStyle, isActive ? responsiveStyles.activeBtn : {}]}
+      >
+        <Text style={[responsiveStyles.btnText, isActive ? responsiveStyles.activeText : {}]}>{ label }</Text>
+      </TouchableOpacity>
+    )
   }
 
   render() {
     return (
       <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => this.props.onPressLeft()}
-          style={[responsiveStyles.filterBtn, responsiveStyles.btnLeft, this.isActive(LEFT) ? responsiveStyles.activeBtn : {}]}
-        >
-          <Text style={[responsiveStyles.btnText, this.isActive(LEFT) ? responsiveStyles.activeText : {}]}>{ this.props.leftLabel }</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.onPressRight()}
-          style={[responsiveStyles.filterBtn, responsiveStyles.btnRight, this.isActive(RIGHT) ? responsiveStyles.activeBtn : {}]}
-        >
-          <Text style={[responsiveStyles.btnText, this.isActive(RIGHT) ? responsiveStyles.activeText : {}]}>{ this.props.rightLabel }</Text>
-        </TouchableOpacity>
+        { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel) }
+        { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel) }
       </View>
     )
   }

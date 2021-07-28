@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { List, Divider } from 'react-native-paper';
+import { View } from 'react-native';
+import { List } from 'react-native-paper';
 
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';

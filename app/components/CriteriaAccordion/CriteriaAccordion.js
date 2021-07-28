@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import Accordion from '../RaisingProposed/Accordion';
@@ -11,6 +10,7 @@ import participantHelper from '../../helpers/participant_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 
+import listItemStyles from '../../themes/participantListItemStyle';
 import CriteriaAccordionMobileStyles from '../../styles/mobile/CriteriaAccordionComponentStyle';
 import CriteriaAccordionTabletStyles from '../../styles/tablet/CriteriaAccordionComponentStyle';
 
@@ -39,7 +39,7 @@ class CriteriaAccordion extends Component {
     const participantOrderNumbers = participantHelper.getParticipantByIndicator(_this.props.scorecardUuid, criteria.indicatorable_id);
 
     return (
-      <View style={{borderWidth: 0, width: wp('70%'), justifyContent: 'center'}}>
+      <View style={styles.accordionItemContainer}>
         <Text numberOfLines={2} style={styles.titleLabel}>{ criteria.name }</Text>
         <Text style={styles.subTitleLabel}>
           { translations.formatString(translations.numberOfRaisedParticipant, participantOrderNumbers.length) }
@@ -56,7 +56,7 @@ class CriteriaAccordion extends Component {
       <View style={styles.contentContainer}>
         <Text style={styles.contentTitleLabel}>{ translations.noOfParticipant }:</Text>
 
-        <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end'}}>
+        <View style={{flex: 1, marginTop: 2, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end'}}>
           { _this.renderParticipantOrderNumbers(participantOrderNumbers) }
         </View>
       </View>
@@ -66,8 +66,8 @@ class CriteriaAccordion extends Component {
   renderParticipantOrderNumbers(participantOrderNumbers) {
     return participantOrderNumbers.map(orderNumber => {
       return (
-        <View key={uuidv4()} style={styles.participantNumberContainer}>
-          <Text style={styles.participantNumberLabel}>{ orderNumber }</Text>
+        <View key={uuidv4()} style={[listItemStyles.numberContainer, { marginLeft: 6, marginBottom: 10 }]}>
+          <Text style={listItemStyles.numberLabel}>{ orderNumber }</Text>
         </View>
       )
     });
