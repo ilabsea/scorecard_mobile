@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
 import AppIcon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -18,10 +18,9 @@ import { SELECTED_FILTERS } from '../../constants/main_constant';
 class LocationList extends Component {
   static contextType = LocalizationContext;
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
-
-    this.scorecardLocations = scorecardHelper.getScorecardLocations();
+    this.scorecardLocations = scorecardHelper.getScorecardLocations(context.appLanguage);
 
     this.state = {
       locations: this.scorecardLocations
@@ -42,7 +41,7 @@ class LocationList extends Component {
         })
       });
 
-      this.setState({ locations: this.getSortedLocation(locations) });
+      this.setState({ locations: locationHelper.getSortedLocation(locations, this.context.appLanguage) });
     }
   }
 
@@ -51,12 +50,12 @@ class LocationList extends Component {
 
     if (this.props.isReset) {
       this.props.updateIsReset();
-      this.setState({ locations: scorecardHelper.getScorecardLocations() })
+      this.setState({ locations: scorecardHelper.getScorecardLocations(appLanguage) })
       return;
     }
 
     if(prevProps.searchedLocation != this.props.searchedLocation) {
-      const newLocations = this.props.searchedLocation == '' ? this.getSortedLocation(this.scorecardLocations)
+      const newLocations = this.props.searchedLocation == '' ? locationHelper.getSortedLocation(this.scorecardLocations, appLanguage)
                           : this.scorecardLocations.filter(item => {
                             const label = locationHelper.getProvinceName(item.label, appLanguage).toLowerCase();
                             return label.includes(this.props.searchedLocation.toLowerCase())
@@ -67,7 +66,7 @@ class LocationList extends Component {
   }
 
   onSelectItem(value) {
-    this.props.onSelectItem('locations', value);
+    this.props.onSelectItem(value);
     let locations = this.state.locations;
 
     this.state.locations.map((location, index) => {
@@ -75,28 +74,10 @@ class LocationList extends Component {
         locations[index].isSelected = !locations[index].isSelected;
     });
 
-    this.setState({ locations: this.getSortedLocation(locations) });
-  }
-
-  getSortedLocation(locations) {
-    if (!this.hasSelectedLocation(locations))
-      return locations.sort((a, b) => a.label > b.label);
-
-    return locations.sort((a, b) => (a.isSelected == b.isSelected) ? 0 : b.isSelected ? 1 : -1);
-  }
-
-  hasSelectedLocation(locations) {
-    for (let i = 0; i < locations.length; i++) {
-      if (locations[i].isSelected)
-        return true;
-    }
-
-    return false;
+    this.setState({ locations: locationHelper.getSortedLocation(locations, this.context.appLanguage) });
   }
 
   renderList() {
-    const { appLanguage } = this.context;
-
     return this.state.locations.map((location, index) => {
       return (
         <View key={uuidv4()}>
@@ -104,12 +85,10 @@ class LocationList extends Component {
             style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
           >
             <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize)), textTransform: 'capitalize'}}>
-              { locationHelper.getProvinceName(location.label, appLanguage) }
+              { locationHelper.getProvinceName(location.label, this.context.appLanguage) }
             </Text>
 
-            { location.isSelected &&
-              <AppIcon name='check-circle' size={24} color={Color.successColor} />
-            }
+            { location.isSelected && <AppIcon name='check-circle' size={24} color={Color.successColor} /> }
           </TouchableOpacity>
           { index < this.state.locations.length - 1 && <Divider style={{backgroundColor: '#b3b3b3'}} /> }
         </View>

@@ -16,12 +16,12 @@ import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 import { scorecardStatuses, scorecardTypes } from '../../constants/scorecard_constant';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
+import scorecardFilterService from '../../services/scorecard_filter_service';
 
 let _this = null;
 
 class FilterScorecard extends Component {
   static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
     _this = this;
@@ -48,21 +48,6 @@ class FilterScorecard extends Component {
       });
   }
 
-  onChangeSearch(text) {
-    _this.setState({ searchedProvince: text, isReset: false });
-  }
-
-  onSelectItem(type, value) {
-    _this.setState({isReset: false});
-
-    if (type == 'scorecard-status')
-      _this.setState({ selectedStatuses: _this.getSelectedItem(_this.state.selectedStatuses, value) });
-    else if (type == 'scorecard-type')
-      _this.setState({ selectedTypes: _this.getSelectedItem(_this.state.selectedTypes, value) });
-    else
-      _this.setState({ selectedProvinces: _this.getSelectedItem(_this.state.selectedProvinces, value) });
-  }
-
   getSelectedItem(selectedItems, value) {
     if (selectedItems.includes(value))
       return selectedItems.filter(item => item != value);
@@ -70,19 +55,10 @@ class FilterScorecard extends Component {
     return [...selectedItems, value];
   }
 
-  async applyFilter() {
+  applyFilter() {
     const { selectedStatuses, selectedTypes, selectedProvinces } = this.state;
-    const selectedFilters = {
-      statuses: this.state.selectedStatuses,
-      types: this.state.selectedTypes,
-      provinces: this.state.selectedProvinces,
-    };
 
-    if (!!selectedStatuses.length || !!selectedTypes.length || !!selectedProvinces.length)
-      AsyncStorage.setItem(SELECTED_FILTERS, JSON.stringify(selectedFilters));
-    else
-      AsyncStorage.removeItem(SELECTED_FILTERS);
-
+    scorecardFilterService.saveSelectedFilter(selectedStatuses, selectedTypes, selectedProvinces);
     this.props.navigation.goBack();
   }
 
@@ -103,13 +79,11 @@ class FilterScorecard extends Component {
       <React.Fragment>
         <FilterOption options={scorecardStatuses} title={translations.status}
           selectedItems={this.state.selectedStatuses}
-          type='scorecard-status'
-          onSelectItem={this.onSelectItem}
+          onSelectItem={(value) => this.setState({ selectedStatuses: _this.getSelectedItem(_this.state.selectedStatuses, value), isReset: false })}
         />
         <FilterOption options={scorecardTypes} title={translations.scorecardType}
           selectedItems={this.state.selectedTypes}
-          type='scorecard-type'
-          onSelectItem={this.onSelectItem}
+          onSelectItem={(value) => this.setState({ selectedTypes: _this.getSelectedItem(_this.state.selectedTypes, value), isReset: false })}
           containerStyle={{ marginTop: 20 }}
         />
       </React.Fragment>
@@ -120,7 +94,7 @@ class FilterScorecard extends Component {
     return (
       <LocationSearchBox
         searchedLocation={this.state.searchedProvince}
-        onChangeText={this.onChangeSearch}
+        onChangeText={(text) => this.setState({ searchedProvince: text, isReset: false })}
         onClearSearch={() => this.setState({ searchedProvince: '' })}
         updateFocusStatus={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
       />
@@ -132,7 +106,7 @@ class FilterScorecard extends Component {
       <LocationList
         searchedLocation={this.state.searchedProvince}
         selectedItems={this.state.selectedProvinces}
-        onSelectItem={this.onSelectItem}
+        onSelectItem={(value) => this.setState({ selectedProvinces: _this.getSelectedItem(_this.state.selectedProvinces, value), isReset: false })}
         isReset={this.state.isReset}
         updateIsReset={() => this.setState({isReset: false})}
       />
@@ -144,10 +118,7 @@ class FilterScorecard extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <FilterScorecardHeader
-          onBackPress={() => this.props.navigation.goBack()}
-          resetFilter={() => this.resetFilter()}
-        />
+        <FilterScorecardHeader onBackPress={() => this.props.navigation.goBack()} resetFilter={() => this.resetFilter()} />
 
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }} stickyHeaderIndices={[2]}>
           { this.renderFilterOptions() }

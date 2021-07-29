@@ -2,9 +2,11 @@ import { ERROR_SCORECARD_COMPLETED, ERROR_SCORECARD_EXECUTED } from '../constant
 import Moment from 'moment';
 import moment from "moment/min/moment-with-locales";
 import { environment } from '../config/environment';
-import { scorecardStatuses, selfAssessment } from '../constants/scorecard_constant';
+import { selfAssessment } from '../constants/scorecard_constant';
+import { DOWNLOADED, RUNNING, FINISHED } from '../constants/milestone_constant';
 import Color from '../themes/color';
 import Scorecard from '../models/Scorecard';
+import locationHelper from '../helpers/location_helper';
 
 const DATE_FORMAT = 'ddd MMM DD YYYY';
 
@@ -14,25 +16,28 @@ const scorecardHelper = (() => {
     getScorecardErrorType,
     isExpired,
     getTranslatedRemoveDate,
-    getStatusIcon,
-    iconColor,
+    getScorecardIcon,
     scorecardTypeColor,
     getScorecardLocations,
     getGroupedByDate,
-    getTranslatedDate
+    getTranslatedDate,
+    updateFinishedMilestone,
   };
 
   function isScorecardAvailable(scorecard) {
-    return !scorecard.progress || scorecard.progress == 'downloaded';
+    return !scorecard.progress || scorecard.progress == DOWNLOADED;
   }
 
   function getScorecardErrorType(scorecard) {
     if (!scorecard.progress)
       return '';
-    else if (scorecard.progress == 'submitted')
-      return ERROR_SCORECARD_COMPLETED;
 
-    return ERROR_SCORECARD_EXECUTED;
+    const errorTypes = {
+      submitted: ERROR_SCORECARD_COMPLETED,
+      default: ERROR_SCORECARD_EXECUTED
+    };
+
+    return errorTypes[scorecard.progress] || errorTypes.default;
   }
 
   function isExpired(uploadedDate) {
@@ -48,32 +53,21 @@ const scorecardHelper = (() => {
     return moment(expiredDate).locale(locale).format('LL');
   }
 
-  function getStatusIcon(scorecard) {
-    if (scorecard.isUploaded)
-      return 'lock';
-    else if (scorecard.finished)
-      return 'check';
+  function getScorecardIcon(scorecard) {
+    const milestoneIcons = {
+      finished: { name: 'check', color: Color.successColor },
+      submitted: { name: 'lock', color: Color.lightGrayColor },
+      default: { name: 'hourglass-half', color: scorecardTypeColor(scorecard) }
+    };
 
-    return 'hourglass-half';
-  }
-
-  function iconColor(scorecard) {
-    if (scorecard.isUploaded)
-      return Color.lightGrayColor;
-    else if (scorecard.finished)
-      return Color.successColor;
-
-    return scorecardTypeColor(scorecard);
+    return milestoneIcons[scorecard.milestone] || milestoneIcons.default;
   }
 
   function scorecardTypeColor(scorecard) {
-    if (scorecard.scorecard_type == selfAssessment)
-      return Color.selfAssessmentColor;
-
-    return Color.communityScorecardColor;
+    return scorecard.scorecard_type == selfAssessment ? Color.selfAssessmentColor : Color.communityScorecardColor;
   }
 
-  function getScorecardLocations() {
+  function getScorecardLocations(appLanguage) {
     const provinces = Scorecard.getAllProvinces();
     let newProvinces = [];
 
@@ -83,9 +77,13 @@ const scorecardHelper = (() => {
       newProvinces.push(item);
     });
 
-    newProvinces = newProvinces.sort((a, b) => a.label > b.label)
-
+    newProvinces = newProvinces.sort((a, b) => locationHelper.getProvinceName(a.label, appLanguage) > locationHelper.getProvinceName(b.label, appLanguage))
     return newProvinces;
+  }
+
+  function updateFinishedMilestone(scorecard) {
+    if (scorecard.isFinished && scorecard.milestone == RUNNING)
+      Scorecard.update(scorecard.uuid, { milestone: FINISHED });
   }
 
   // Group the scorecard by month and year

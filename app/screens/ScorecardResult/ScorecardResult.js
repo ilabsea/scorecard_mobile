@@ -28,6 +28,7 @@ import FormModal from '../../components/ScorecardResult/FormModal';
 import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import Scorecard from '../../models/Scorecard';
 
+import { FINISHED } from '../../constants/milestone_constant';
 import { getDeviceStyle, mobileHeadingTitleSize, containerPadding } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -109,7 +110,7 @@ class ScorecardResult extends Component {
 
   _confirmFinish() {
     this.setState({visibleConfirmModal: false});
-    Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date()});
+    Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 

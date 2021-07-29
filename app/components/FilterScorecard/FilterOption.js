@@ -27,7 +27,7 @@ class FilterOption extends Component {
     return this.props.options.map((option, index) => {
       return (
         <View key={uuidv4()}>
-          <TouchableOpacity onPress={() => this.props.onSelectItem(this.props.type, option.value)}
+          <TouchableOpacity onPress={() => this.props.onSelectItem(option.value)}
             style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
           >
             <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize))}}>{ translations[option.label] }</Text>

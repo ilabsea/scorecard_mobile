@@ -1,12 +1,15 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
 import { getUniqueScorecards } from '../utils/scorecard_util';
+import { SELECTED_FILTERS } from '../constants/main_constant';
 
 const SCORECARD_TYPE = 'scorecard-type';
 const PROVINCE = 'province';
 
 const scorecardFilterService = (() => {
   return {
-    getFilteredScorecards
+    getFilteredScorecards,
+    saveSelectedFilter,
   }
 
   async function getFilteredScorecards(options) {
@@ -14,33 +17,42 @@ const scorecardFilterService = (() => {
     let filteredScorecards = [];
     let scorecards = Scorecard.getAll();
 
-    if (!!statuses.length)
-      filteredScorecards = await [...filteredScorecards, ..._getScorecardByStatuses(scorecards, statuses)];
-    if (!!types.length) {
-      scorecards = !!filteredScorecards.length ? filteredScorecards : scorecards
-      filteredScorecards = await _getScorecards(scorecards, SCORECARD_TYPE, types);
-    }
-    if (!!provinces.length) {
-      scorecards = !!filteredScorecards.length ? filteredScorecards : scorecards
-      filteredScorecards = await _getScorecards(scorecards, PROVINCE, provinces);
-    }
+    filteredScorecards = await [...filteredScorecards, ..._getScorecardByStatuses(scorecards, statuses)];
+    filteredScorecards = await _getScorecards(filteredScorecards, SCORECARD_TYPE, types);        // Filter scorecard by scorecard type
+    filteredScorecards = await _getScorecards(filteredScorecards, PROVINCE, provinces);          // Filter scorecard by scorecard location
 
     return getUniqueScorecards(filteredScorecards);
   }
 
+  function saveSelectedFilter(selectedStatuses, selectedTypes, selectedProvinces) {
+    const selectedFilters = {
+      statuses: selectedStatuses,
+      types: selectedTypes,
+      provinces: selectedProvinces,
+    };
+
+    if (!!selectedStatuses.length || !!selectedTypes.length || !!selectedProvinces.length) {
+      AsyncStorage.setItem(SELECTED_FILTERS, JSON.stringify(selectedFilters));
+      return;
+    }
+
+    AsyncStorage.removeItem(SELECTED_FILTERS);
+  }
+
   // private method
   function _getScorecardByStatuses(scorecards, statuses) {
+    if (!statuses.length)
+      return scorecards;
+
     let filteredScorecards = [];
+    const scorecardStatus = {
+      'finished': scorecards.filter(scorecard => (scorecard.finished && !scorecard.isUploaded)),
+      'submitted': scorecards.filter(scorecard => scorecard.isUploaded),
+      'default': scorecards.filter(scorecard => (!scorecard.isUploaded && !scorecard.finished)),
+    };
 
     statuses.map(status => {
-      let results = null;
-
-      if (status == 'finished')
-        results = scorecards.filter(scorecard => (scorecard.finished && !scorecard.isUploaded));
-      else if (status == 'submitted')
-        results = scorecards.filter(scorecard => scorecard.isUploaded);
-      else
-        results = scorecards.filter(scorecard => (!scorecard.isUploaded && !scorecard.finished));
+      const results = scorecardStatus[status] || scorecardStatus['default'];
 
       filteredScorecards = [...filteredScorecards, ...results]
     });
@@ -49,15 +61,13 @@ const scorecardFilterService = (() => {
   }
 
   function _getScorecards(scorecards, type, filterItems) {
+    if (!filterItems.length)
+      return scorecards;
+
     let filteredScorecards = [];
 
     filterItems.map(item => {
-      const results = scorecards.filter(scorecard => {
-        if (type == SCORECARD_TYPE)
-          return scorecard.scorecard_type == item;
-
-        return scorecard.province == item;
-      });
+      const results = scorecards.filter(scorecard =>  type == SCORECARD_TYPE ? scorecard.scorecard_type == item : scorecard.province == item);
 
       filteredScorecards = [...filteredScorecards, ...results]
     });

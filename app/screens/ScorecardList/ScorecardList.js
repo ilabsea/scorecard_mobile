@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import {
   View,
   Text,
@@ -8,16 +7,15 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
-import Moment from 'moment';
 
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardItem from '../../components/ScorecardItem';
 import MessageModal from '../../components/MessageModal';
 import NoDataMessage from '../../components/NoDataMessage';
+import ListSectionTitle from '../../components/ListSectionTitle';
 
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
-
 import ScorecardService from '../../services/scorecardService';
 
 import { connect } from 'react-redux';
@@ -28,10 +26,10 @@ import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
 import scorecardFilterService from '../../services/scorecard_filter_service';
 import scorecardHelper from '../../helpers/scorecard_helper';
+import { getListStickyIndices } from '../../utils/scorecard_util';
 
 class ScorecardList extends Component {
   static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
 
@@ -39,29 +37,29 @@ class ScorecardList extends Component {
       visibleModal: false,
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
-      secPosition: 0,
-      stickyHeaderIndex: 0,
       isLoading: false,
     }
   }
 
   componentDidMount() {
+    this.updateMilestone();
     this.focusListener = this.props.navigation.addListener("focus", async () => {
       this.setState({ isLoading: true });
 
       let selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
       selectedFilters = JSON.parse(selectedFilters);
-      let scorecards = [];
-
-      if (selectedFilters)
-        scorecards = await scorecardFilterService.getFilteredScorecards(selectedFilters);
-      else
-        scorecards = Scorecard.getAll();
+      const scorecards = selectedFilters ? await scorecardFilterService.getFilteredScorecards(selectedFilters) : Scorecard.getAll();
 
       this.setState({
         scorecards: scorecards,
         isLoading: false,
       });
+    });
+  }
+
+  updateMilestone() {
+    this.state.scorecards.map(scorecard => {
+      scorecardHelper.updateFinishedMilestone(scorecard);
     });
   }
 
@@ -74,13 +72,11 @@ class ScorecardList extends Component {
     };
   }
 
-  renderList(scorecards) {
-    return (scorecards.map((scorecard, index) => (
-        <ScorecardItem
-          key={uuidv4()}
+  renderScorecardItems(scorecards) {
+    return (scorecards.map(scorecard => (
+        <ScorecardItem key={uuidv4()}
           onPress={() => this.onPress(scorecard)}
           scorecard={scorecard}
-          index={index}
           showDeleteModal={() => this.setState({ visibleModal: true, selectedScorecard: scorecard })}
         />
       )
@@ -90,29 +86,19 @@ class ScorecardList extends Component {
   renderProgressScorecards(scorecards) {
     return (
       <View key={uuidv4()}>
-        { this.renderList(scorecards) }
-      </View>
-    )
-  }
-
-  renderScorecardDate(date) {
-    return (
-      <View key={uuidv4()} style={{paddingHorizontal: 16, paddingVertical: 5}}>
-        <Text style={{fontSize: 14}}>{ Moment(date, 'DD/MM/YYYY').format('MMM DD, YYYY') }</Text>
+        { this.renderScorecardItems(scorecards) }
       </View>
     )
   }
 
   renderFinishedScorecards(finishedScorecards) {
-    const { appLanguage } = this.context;
-
     let doms = [];
 
     for (let i = 0; i<finishedScorecards.length; i++) {
-      const date = scorecardHelper.getTranslatedDate(finishedScorecards[i].date, appLanguage, 'MMM YYYY');
+      const date = scorecardHelper.getTranslatedDate(finishedScorecards[i].date, this.context.appLanguage, 'MMM YYYY');
 
-      doms.push(this.renderSectionTitle(date));
-      doms.push(<View key={uuidv4()}>{this.renderList(finishedScorecards[i].scorecards)}</View>);
+      doms.push(<ListSectionTitle title={date} key={uuidv4()} />)
+      doms.push(<View key={uuidv4()}>{this.renderScorecardItems(finishedScorecards[i].scorecards)}</View>);
     }
 
     return doms;
@@ -121,9 +107,8 @@ class ScorecardList extends Component {
   onPress(scorecard) {
     const { translations } = this.context
 
-    if (scorecard.isDeleted) {
+    if (scorecard.isDeleted)
       return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
-    }
 
     this.props.setCurrentScorecard(scorecard);
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});
@@ -152,47 +137,22 @@ class ScorecardList extends Component {
     });
   }
 
-  renderSectionTitle(title) {
-    const titleSize = getDeviceStyle(16, wp(mdLabelSize));
-
-    return (
-      <View key={uuidv4()} style={{paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#f2f2f2'}}>
-        <Text style={{fontSize: titleSize}}>
-          { title }
-        </Text>
-      </View>
-    )
-  }
-
-  getStickyIndices(finishedScorecards) {
-    let indices = [0];
-
-    finishedScorecards.map((scorecard, index) => {
-      indices.push((index+1) * 2)
-    });
-
-    return indices;
-  }
-
   render() {
     const { translations } = this.context;
     const progressScorecards = this.state.scorecards.filter(s => !s.finished); 
     let finishedScorecards = this.state.scorecards.filter(s => s.finished);
     finishedScorecards = scorecardHelper.getGroupedByDate(finishedScorecards);
-
     const scorecardUuid = this.state.selectedScorecard ? this.state.selectedScorecard.uuid : '';
 
-    if (!this.state.scorecards.length) {
+    if (!this.state.scorecards.length)
       return this._renderNoData();
-    }
 
     return (
       <View style={{flex: 1}}>
         { !this.state.isLoading &&
-          <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={this.getStickyIndices(finishedScorecards)}>
-            { !!progressScorecards.length && this.renderSectionTitle(translations.progressScorecards) }
+          <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={getListStickyIndices(finishedScorecards)}>
+            { !!progressScorecards.length && <ListSectionTitle title={translations.progressScorecards} /> }
             { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
-
             { this.renderFinishedScorecards(finishedScorecards) }
           </ScrollView>
         }
