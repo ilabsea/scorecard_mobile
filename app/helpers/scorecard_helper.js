@@ -82,7 +82,7 @@ const scorecardHelper = (() => {
   }
 
   function updateFinishedMilestone(scorecard) {
-    if (scorecard.isFinished && scorecard.milestone == RUNNING)
+    if (scorecard.finished && scorecard.milestone == RUNNING)
       Scorecard.update(scorecard.uuid, { milestone: FINISHED });
   }
 

@@ -72,6 +72,13 @@ class FilterScorecard extends Component {
     });
   }
 
+  onSelectItem(selectedItems) {
+    let options = selectedItems;
+    options.isReset = false;
+
+    this.setState(options);
+  }
+
   renderFilterOptions() {
     const { translations } = this.context;
 
@@ -79,11 +86,11 @@ class FilterScorecard extends Component {
       <React.Fragment>
         <FilterOption options={scorecardStatuses} title={translations.status}
           selectedItems={this.state.selectedStatuses}
-          onSelectItem={(value) => this.setState({ selectedStatuses: _this.getSelectedItem(_this.state.selectedStatuses, value), isReset: false })}
+          onSelectItem={(value) => this.onSelectItem({selectedStatuses: _this.getSelectedItem(_this.state.selectedStatuses, value)})}
         />
         <FilterOption options={scorecardTypes} title={translations.scorecardType}
           selectedItems={this.state.selectedTypes}
-          onSelectItem={(value) => this.setState({ selectedTypes: _this.getSelectedItem(_this.state.selectedTypes, value), isReset: false })}
+          onSelectItem={(value) => this.onSelectItem({selectedTypes: _this.getSelectedItem(_this.state.selectedTypes, value)})}
           containerStyle={{ marginTop: 20 }}
         />
       </React.Fragment>
@@ -106,7 +113,7 @@ class FilterScorecard extends Component {
       <LocationList
         searchedLocation={this.state.searchedProvince}
         selectedItems={this.state.selectedProvinces}
-        onSelectItem={(value) => this.setState({ selectedProvinces: _this.getSelectedItem(_this.state.selectedProvinces, value), isReset: false })}
+        onSelectItem={(value) => this.onSelectItem({selectedProvinces: _this.getSelectedItem(_this.state.selectedProvinces, value)})}
         isReset={this.state.isReset}
         updateIsReset={() => this.setState({isReset: false})}
       />

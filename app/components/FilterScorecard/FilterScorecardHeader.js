@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { Header, Title, Left, Right, Body, Button } from "native-base";
-import { HeaderBackButton } from '@react-navigation/stack';
+import { Title, Button } from "native-base";
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
+import NavigationHeader from '../NavigationHeader';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
 
 class FilterScorecardHeader extends Component {
@@ -13,23 +13,25 @@ class FilterScorecardHeader extends Component {
     !!this.props.onBackPress && this.props.onBackPress()
   }
 
+  renderRightButton() {
+    return (
+      <Button transparent onPress={() => this.props.resetFilter()} style={{padding: 0}}>
+        <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ this.context.translations.reset }</Title>
+      </Button>
+    )
+  }
+
   render() {
     const { translations } = this.context;
 
     return (
-      <Header style={{alignItems: 'center'}}>
-        <Left>
-          <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
-        </Left>
-
-        <Body style={{flex: 2}}>
-          <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ translations.filterScorecard }</Title>
-        </Body>
-
-        <Button transparent onPress={() => this.props.resetFilter()} style={{borderWidth: 1, padding: 0}}>
-          <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ translations.reset }</Title>
-        </Button>
-      </Header>
+      <NavigationHeader
+        title={translations.filterScorecard}
+        bodyStyle={{flex: 1, paddingLeft: wp('2%')}}
+        rightComponent={() => this.renderRightButton()}
+        rightButtonStyle={{ maxWidth: wp('34%') }}
+        onBackPress={() => this._onPress()}
+      />
     )
   }
 }
