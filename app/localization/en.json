@@ -281,5 +281,6 @@
   "submitted": "Submitted",
   "scorecardLocation": "Scorecard location",
   "apply": "Apply",
-  "reset": "Reset"
+  "reset": "Reset",
+  "scorecardCriteria": "Criteria"
 }

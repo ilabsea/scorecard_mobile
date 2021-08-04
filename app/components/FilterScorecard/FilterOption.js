@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
-import AppIcon from 'react-native-vector-icons/FontAwesome';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import { LocalizationContext } from '../../components/Translations';
+import { LocalizationContext } from '../Translations';
+import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -32,9 +32,7 @@ class FilterOption extends Component {
           >
             <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize))}}>{ translations[option.label] }</Text>
 
-            { this.isSelected(option.value) &&
-              <AppIcon name='check-circle' size={24} color={Color.successColor} />
-            }
+            { this.isSelected(option.value) && <FilterScorecardCheckIcon /> }
           </TouchableOpacity>
           { index < this.props.options.length - 1 && <Divider style={{backgroundColor: '#b3b3b3'}} /> }
         </View>

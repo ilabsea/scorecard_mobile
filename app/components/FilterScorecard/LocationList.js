@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
-import AppIcon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
@@ -17,7 +17,6 @@ import { SELECTED_FILTERS } from '../../constants/main_constant';
 
 class LocationList extends Component {
   static contextType = LocalizationContext;
-
   constructor(props, context) {
     super(props);
     this.scorecardLocations = scorecardHelper.getScorecardLocations(context.appLanguage);
@@ -88,7 +87,7 @@ class LocationList extends Component {
               { locationHelper.getProvinceName(location.label, this.context.appLanguage) }
             </Text>
 
-            { location.isSelected && <AppIcon name='check-circle' size={24} color={Color.successColor} /> }
+            { location.isSelected && <FilterScorecardCheckIcon /> }
           </TouchableOpacity>
           { index < this.state.locations.length - 1 && <Divider style={{backgroundColor: '#b3b3b3'}} /> }
         </View>

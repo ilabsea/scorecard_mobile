@@ -9,7 +9,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../../components/Translations';
-import ScorecardItem from '../../components/ScorecardItem';
+import ScorecardListItem from '../../components/ScorecardList/ScorecardListItem';
 import MessageModal from '../../components/MessageModal';
 import NoDataMessage from '../../components/NoDataMessage';
 import ListSectionTitle from '../../components/ListSectionTitle';
@@ -74,7 +74,7 @@ class ScorecardList extends Component {
 
   renderScorecardItems(scorecards) {
     return (scorecards.map(scorecard => (
-        <ScorecardItem key={uuidv4()}
+        <ScorecardListItem key={uuidv4()}
           onPress={() => this.onPress(scorecard)}
           scorecard={scorecard}
           showDeleteModal={() => this.setState({ visibleModal: true, selectedScorecard: scorecard })}

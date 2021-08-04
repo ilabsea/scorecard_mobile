@@ -4,17 +4,16 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../../components/Translations';
-import FilterOption from '../../components/FilterScorecard/FilterOption';
 import LocationSearchBox from '../../components/FilterScorecard/LocationSearchBox';
 import LocationList from '../../components/FilterScorecard/LocationList';
 import FilterScorecardHeader from '../../components/FilterScorecard/FilterScorecardHeader';
-import BottomButton from '../../components/BottomButton';
+import FilterScorecardStatusAndTypeOptions from '../../components/FilterScorecard/FilterScorecardStatusAndTypeOptions';
+import FilterScorecardApplyButton from '../../components/FilterScorecard/FilterScorecardApplyButton';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
-import { scorecardStatuses, scorecardTypes } from '../../constants/scorecard_constant';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
 import scorecardFilterService from '../../services/scorecard_filter_service';
 
@@ -76,24 +75,17 @@ class FilterScorecard extends Component {
     let options = selectedItems;
     options.isReset = false;
 
-    this.setState(options);
+    _this.setState(options);
   }
 
-  renderFilterOptions() {
-    const { translations } = this.context;
-
+  renderScorecardStatusAndTypeOptions() {
     return (
-      <React.Fragment>
-        <FilterOption options={scorecardStatuses} title={translations.status}
-          selectedItems={this.state.selectedStatuses}
-          onSelectItem={(value) => this.onSelectItem({selectedStatuses: _this.getSelectedItem(_this.state.selectedStatuses, value)})}
-        />
-        <FilterOption options={scorecardTypes} title={translations.scorecardType}
-          selectedItems={this.state.selectedTypes}
-          onSelectItem={(value) => this.onSelectItem({selectedTypes: _this.getSelectedItem(_this.state.selectedTypes, value)})}
-          containerStyle={{ marginTop: 20 }}
-        />
-      </React.Fragment>
+      <FilterScorecardStatusAndTypeOptions
+        selectedStatuses={this.state.selectedStatuses}
+        selectedTypes={this.state.selectedTypes}
+        onSelectItem={this.onSelectItem}
+        getSelectedItem={this.getSelectedItem}
+      />
     )
   }
 
@@ -126,9 +118,8 @@ class FilterScorecard extends Component {
     return (
       <View style={{flex: 1}}>
         <FilterScorecardHeader onBackPress={() => this.props.navigation.goBack()} resetFilter={() => this.resetFilter()} />
-
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }} stickyHeaderIndices={[2]}>
-          { this.renderFilterOptions() }
+          { this.renderScorecardStatusAndTypeOptions() }
 
           <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
             { translations.scorecardLocation }
@@ -138,14 +129,7 @@ class FilterScorecard extends Component {
           { this.renderLocationList() }
         </ScrollView>
 
-        <View style={{padding: containerPadding}}>
-          <BottomButton
-            customBackgroundColor={Color.headerColor}
-            iconName='none'
-            label={translations.apply}
-            onPress={() => this.applyFilter()}
-          />
-        </View>
+        <FilterScorecardApplyButton applyFilter={() => this.applyFilter()} />
       </View>
     )
   }

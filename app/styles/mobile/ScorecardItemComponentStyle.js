@@ -65,8 +65,8 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   },
   iconBorder: {
     borderWidth: 1.2,
-    width: 42,
-    height: 42,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30, 
