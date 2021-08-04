@@ -14,13 +14,22 @@ import ParticipantAccordionTabletStyles from '../../styles/tablet/ParticipantAcc
 
 const styles = getDeviceStyle(ParticipantAccordionTabletStyles, ParticipantAccordionMobileStyles);
 
-let _this = null;
-
 class ParticipantAccordionContent extends Component {
   static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-    _this = this;
+
+  renderContentTitle() {
+    const { translations } = this.context;
+
+    return (
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 20}}>
+        <Text style={styles.itemTitleText}>{translations.indicatorDevelopment}</Text>
+
+        <TouchableOpacity onPress={() => this.editParticipant()} style={{flexDirection: 'row'}}>
+          <Icon name={'pen'} type="FontAwesome5" style={styles.btnEditIcon}/>
+          <Text style={styles.editButton}>{translations.edit}</Text>
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   renderCriterias() {
@@ -41,18 +50,9 @@ class ParticipantAccordionContent extends Component {
   }
 
   render() {
-    const { translations } = this.context;
-
     return (
       <View key={uuidv4()} style={{paddingHorizontal: 20, paddingVertical: 10, backgroundColor: Color.accordionContentBgColor}}>
-        <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 20}}>
-          <Text style={styles.itemTitleText}>{translations.indicatorDevelopment}</Text>
-
-          <TouchableOpacity onPress={() => this.editParticipant()} style={{flexDirection: 'row'}}>
-            <Icon name={'pen'} type="FontAwesome5" style={styles.btnEditIcon}/>
-            <Text style={styles.editButton}>{translations.edit}</Text>
-          </TouchableOpacity>
-        </View>
+        {this.renderContentTitle()}
 
         {this.renderCriterias()}
       </View>
