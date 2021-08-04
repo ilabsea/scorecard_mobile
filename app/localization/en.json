@@ -287,5 +287,6 @@
   "raisedParticipant": "Raised participant",
   "raisedCriteria": "Criteria",
   "noOfParticipant": "No. of participant",
-  "numberOfRaisedParticipant": "Raised participant {0} pax"
+  "numberOfRaisedParticipant": "Raised participant {0} pax",
+  "numberOfParticipant": "Participant"
 }

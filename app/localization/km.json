@@ -287,5 +287,6 @@
   "raisedParticipant": "អ្នកស្នើ",
   "raisedCriteria": "លក្ខណៈវិនិច្ឆ័យ",
   "noOfParticipant": "លេខកូដអ្នកស្នើ",
-  "numberOfRaisedParticipant": "ចំនួនអ្នកស្នើ {0} នាក់"
+  "numberOfRaisedParticipant": "ចំនួនអ្នកស្នើ {0} នាក់",
+  "numberOfParticipant": "ចំនួនអ្នកចូលរូម"
 }

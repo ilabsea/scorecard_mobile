@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { lgLabelSize, smLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+import { numberContainerSize } from '../../utils/participant_list_util';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
@@ -26,22 +27,20 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     paddingTop: 10,
   },
   numberContainer: {
-    width: wp('8%'),
-    height: wp('8%'),
+    width: numberContainerSize,
+    height: numberContainerSize,
+    marginTop: 4,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Color.grayColor,
   },
   numberLabel: {
-    fontWeight: '700',
     fontSize: wp(lgLabelSize),
     color: Color.whiteColor,
     margin: 0,
     padding: 0,
     textAlign: 'center',
-    marginTop: -2,
-    textAlign: 'center'
   },
   emptyLabel: {
     fontSize: 18,

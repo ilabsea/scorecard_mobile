@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text} from 'native-base';
-import {LocalizationContext} from '../Translations';
 
+import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
 import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
 import CriteriaAccordion from '../CriteriaAccordion/CriteriaAccordion';
@@ -40,11 +40,13 @@ class ListUser extends Component {
 
     return (
       <AccordionSwitcher
+        scorecardUuid={this.props.scorecardUUID}
         leftLabel={ translations.raisedParticipant }
         rightLabel={ translations.raisedCriteria }
         activeSide={activeSide}
         onPressLeft={() => this.setState({ accordionType: 'participant' })}
         onPressRight={() => this.setState({ accordionType: 'criteria' })}
+        numberOfProposedParticipant={this.props.numberOfProposedParticipant}
       />
     )
   }
@@ -56,7 +58,7 @@ class ListUser extends Component {
       <View>
         <View style={styles.headingContainer}>
           <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
-            { translations.participant }: { this.props.numberOfProposedParticipant }/{ this.props.numberOfParticipant } {translations.pax}
+            { translations.numberOfParticipant }: { this.props.numberOfParticipant } {translations.pax}
           </Text>
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
