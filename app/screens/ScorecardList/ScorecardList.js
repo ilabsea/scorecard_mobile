@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Alert,
-} from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { View, ScrollView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -21,8 +15,6 @@ import ScorecardService from '../../services/scorecardService';
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
 import scorecardFilterService from '../../services/scorecard_filter_service';
 import scorecardHelper from '../../helpers/scorecard_helper';
@@ -150,7 +142,7 @@ class ScorecardList extends Component {
     return (
       <View style={{flex: 1}}>
         { !this.state.isLoading &&
-          <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={getListStickyIndices(finishedScorecards)}>
+          <ScrollView contetnContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={getListStickyIndices(finishedScorecards)}>
             { !!progressScorecards.length && <ListSectionTitle title={translations.progressScorecards} /> }
             { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
             { this.renderFinishedScorecards(finishedScorecards) }

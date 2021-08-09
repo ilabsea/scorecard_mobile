@@ -13,13 +13,14 @@ const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItem
 class ScorecardListIcon extends Component {
   render() {
     const icon = scorecardHelper.getScorecardIcon(this.props.scorecard);
+    const scorecardColor = scorecardHelper.scorecardTypeColor(this.props.scorecard);
 
     return (
-      <View style={[responsiveStyles.iconBorder, {borderColor: scorecardHelper.scorecardTypeColor(this.props.scorecard)}]}>
+      <View style={[responsiveStyles.iconBorder, {borderColor: scorecardColor}]}>
         { icon.name == 'check' ?
-          <MaterialIcon name='check' size={24} color={icon.color} />
+          <MaterialIcon name='check' size={24} color={scorecardColor} />
         :
-          <AppIcon name={icon.name} size={20} color={icon.color} />
+          <AppIcon name={icon.name} size={20} color={scorecardColor} />
         }
       </View>
     )
