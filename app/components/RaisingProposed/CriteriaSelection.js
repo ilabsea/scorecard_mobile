@@ -10,6 +10,7 @@ import IndicatorCard from './IndicatorCard';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
+import criteriaHelper from '../../helpers/criteria_helper';
 import TourTipButton from '../TourTipButton';
 
 import Scorecard from '../../models/Scorecard';
@@ -43,7 +44,7 @@ class CriteriaSelection extends Component {
   }
 
   componentDidMount() {
-    if (!Scorecard.tourTipShown(this.props.scorecardUUID)) {
+    if (criteriaHelper.allowTourTip(this.props.scorecardUUID)) {
       const _this = this;
       this.props.start(false, this.scrollViewRef);
 
