@@ -37,7 +37,7 @@ const modalHeadingTitleSize = () => {
 }
 
 const addNewParticipantModalHeight = () => {
-  const mobileModalHeight = isShortScreenDevice() ? hp('94%') : hp('82%');
+  const mobileModalHeight = isShortScreenDevice() ? hp('94%') : hp('84%');
   return getDeviceStyle(650, mobileModalHeight);
 }
 

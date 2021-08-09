@@ -3,6 +3,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { mobileHeadingTitleSize } from '../../utils/responsive_util';
 import { xlLabelSize, lgLabelSize } from '../../constants/mobile_font_size_constant';
+import Color from '../../themes/color';
 
 const RaisingProposedComponentStyles = StyleSheet.create({
   headingTitle: {
@@ -11,7 +12,7 @@ const RaisingProposedComponentStyles = StyleSheet.create({
   criteriaValue: {
     fontSize: wp(lgLabelSize),
     marginTop: -1
-  },
+  }
 });
 
 export default RaisingProposedComponentStyles;

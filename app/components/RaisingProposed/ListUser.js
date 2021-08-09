@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text} from 'native-base';
+
 import {LocalizationContext} from '../Translations';
-import UserTable from './UserTable';
+import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
+import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
+import CriteriaAccordion from '../CriteriaAccordion/CriteriaAccordion';
+
 import { connect } from 'react-redux';
-import { getRaisedParticipants } from '../../services/participant_service';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
-import ProposedCriteria from '../../models/ProposedCriteria';
 import Participant from '../../models/Participant';
+import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
@@ -19,50 +22,44 @@ const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProp
 
 class ListUser extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
 
-  getParticipant = () => {
-    const raisedParticipants = getRaisedParticipants(this.props.scorecardUUID);
-    let participants = [];
-
-    for (let i=0; i<raisedParticipants.length; i++) {
-      const gender = raisedParticipants[i].gender === 'female' ? 'F' : raisedParticipants[i].gender === 'male' ? 'M' : 'other';
-      const proposedCriterias = raisedParticipants[i].proposed_criterias != undefined ? raisedParticipants[i].proposed_criterias : ProposedCriteria.find(this.props.scorecardUUID, raisedParticipants[i].uuid);
-
-      if (proposedCriterias.length === 0)
-        continue;
-
-      const attrs = [
-        i + 1,
-        raisedParticipants[i].age,
-        gender,
-        raisedParticipants[i].disability,
-        proposedCriterias,
-        raisedParticipants[i].uuid,
-      ];
-      participants.push(attrs);
+    this.state = {
+      accordionType: 'participant'
     }
-    return participants;
-  };
-
-  renderUserTable = () => {
-    const tableData = this.getParticipant();
-
-    return (
-      <UserTable tableData={tableData} scorecardUUID={this.props.scorecardUUID} navigation={this.props.navigation} />
-    );
-  };
+  }
 
   _goToCreateNewIndicator(participant_uuid) {
     this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUUID, participant_uuid: participant_uuid});
+  }
+
+  renderAccordionSwitcher() {
+    const { translations } =  this.context;
+    const activeSide = this.state.accordionType == 'criteria' ? ACCORDION_RIGHT : ACCORDION_LEFT;
+
+    return (
+      <AccordionSwitcher
+        scorecardUuid={this.props.scorecardUUID}
+        leftLabel={ translations.raisedParticipant }
+        rightLabel={ translations.raisedCriteria }
+        activeSide={activeSide}
+        onPressLeft={() => this.setState({ accordionType: 'participant' })}
+        onPressRight={() => this.setState({ accordionType: 'criteria' })}
+        numberOfProposedParticipant={this.props.numberOfProposedParticipant}
+      />
+    )
   }
 
   render() {
     const {translations} = this.context;
 
     return (
-      <View style={{marginTop: 18}}>
+      <View>
         <View style={styles.headingContainer}>
-          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>{translations['listUser']}</Text>
+          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
+            { translations.numberOfParticipant }: { this.props.numberOfParticipant } {translations.pax}
+          </Text>
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
@@ -75,7 +72,13 @@ class ListUser extends Component {
           </View>
         </View>
 
-        { this.renderUserTable() }
+        { this.renderAccordionSwitcher() }
+
+        { this.state.accordionType == 'participant' ?
+          <ParticipantAccordion scorecardUuid={this.props.scorecardUUID} navigation={this.props.navigation} />
+          :
+          <CriteriaAccordion scorecardUuid={this.props.scorecardUUID} />
+        }
       </View>
     );
   }

@@ -5,6 +5,7 @@ const ProposedCriteria = (() => {
     find,
     create,
     findByParticipant,
+    findByIndicator,
     destory,
   };
 
@@ -20,6 +21,10 @@ const ProposedCriteria = (() => {
 
   function findByParticipant(indicatorId, participantUuid) {
     return realm.objects('ProposedCriteria').filtered(`indicatorable_id = '${indicatorId}' AND participant_uuid = '${participantUuid}'`);
+  }
+
+  function findByIndicator(scorecardUuid, indicatorableId) {
+    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`);
   }
 
   function destory(proposedCriteria) {

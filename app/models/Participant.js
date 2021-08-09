@@ -2,6 +2,7 @@ import realm from '../db/schema';
 
 const Participant = (() => {
   return {
+    find,
     getAll,
     deleteAll,
     getVoted,
@@ -9,6 +10,10 @@ const Participant = (() => {
     create,
     findByScorecard,
     getNumberOfProposedParticipant,
+  }
+
+  function find(uuid) {
+    return realm.objects('Participant').filtered(`uuid == '${uuid}'`)[0];
   }
 
   function create(data) {

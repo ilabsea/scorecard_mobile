@@ -30,6 +30,7 @@ const Color = {
   selfAssessmentColor: '#31c0c7',
   communityScorecardColor: '#f29522',
   lightGreenColor: '#52c72c',
+  accordionContentBgColor: '#fbf9ed',
 };
 
 export default Color;

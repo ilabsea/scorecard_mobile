@@ -35,13 +35,11 @@ const participantListItemStyle = StyleSheet.create({
     marginTop: -4
   },
   numberLabel: {
-    fontWeight: '700',
     fontSize: numberLabelSize,
     color: 'white',
     margin: 0,
-    marginTop: -2,
     padding: 0,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   button: {
     paddingLeft: 15,

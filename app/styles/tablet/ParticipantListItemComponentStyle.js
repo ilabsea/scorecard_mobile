@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { numberContainerSize } from '../../utils/participant_list_util';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
@@ -21,15 +22,15 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     paddingTop: 10,
   },
   numberContainer: {
-    width: 40,
-    height: 40,
+    width: numberContainerSize,
+    height: numberContainerSize,
+    marginTop: 5,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Color.grayColor,
   },
   numberLabel: {
-    fontWeight: '700',
     fontSize: 18,
     color: Color.whiteColor,
     margin: 0,
