@@ -28,11 +28,13 @@ import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
+import FilterScorecardScreen from '../screens/FilterScorecard/FilterScorecard';
 
 // Util and components
 import Color from '../themes/color';
 import { LocalizationContext } from '../components/Translations';
 import SettingMenu from '../components/Home/SettingMenu';
+import HeaderRightButton from '../components/HeaderRightButton';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import { lgLabelSize } from '../constants/mobile_font_size_constant';
@@ -74,9 +76,12 @@ function AppNavigator() {
       <Stack.Screen
         name="ScorecardList"
         component={ScorecardListScreen}
-        options={{
-          headerTitle: `${translations['scorecardList']}`,
-        }}
+        options={({navigation}) => ({
+          title: translations.scorecardList,
+          headerRight: () => (
+            <HeaderRightButton navigation={navigation} onPress={() => navigation.navigate('FilterScorecardScreen')} icon='sliders' />
+          ),
+        })}
       />
       <Stack.Screen
         name="ScorecardProgress"
@@ -233,6 +238,13 @@ function AppNavigator() {
       <Stack.Screen
         name="SelectedImage"
         component={SelectedImageScreen}
+        options={({navigator}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="FilterScorecardScreen"
+        component={FilterScorecardScreen}
         options={({navigator}) => ({
           header: () => null,
         })}

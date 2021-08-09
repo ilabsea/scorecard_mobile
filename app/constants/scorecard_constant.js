@@ -19,6 +19,20 @@ const scorecardDownloadPhases = {
   6: 'failed',
 }
 
+const selfAssessment = 'self_assessment';
+const commnunityScorecard =  'community_scorecard';
+
+const scorecardStatuses = [
+  { label: 'in_progress', value: 'in-progress' },
+  { label: 'finished', value: 'finished' },
+  { label: 'submitted', value: 'submitted' }
+];
+
+const scorecardTypes = [
+  { label: 'self_assessment', value: 'self_assessment'},
+  { label: 'community_scorecard', value: 'community_scorecard'}
+];
+
 export {
   scorecardDownloadPhases,
   indicatorPhase,
@@ -29,4 +43,8 @@ export {
   langRatingScaleAudioPhase,
   indicatorImagePhase,
   scorecardDownloadSteps,
+  selfAssessment,
+  commnunityScorecard,
+  scorecardStatuses,
+  scorecardTypes,
 };

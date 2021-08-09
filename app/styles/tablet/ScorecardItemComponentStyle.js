@@ -3,6 +3,15 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
+  itemContainer: {
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: Color.whiteColor,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Color.paleGrayColor,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -30,10 +39,6 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   lockIcon: {
     fontSize: 28,
   },
-  swipeableContainer: {
-    maxHeight: 200,
-    marginBottom: 20,
-  },
   deleteContainer: {
     backgroundColor: Color.redColor,
     maxHeight: 157,
@@ -43,6 +48,22 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   },
   deleteLabel: {
     fontSize: 16
+  },
+  locationLabel: {
+    fontSize: 14,
+    marginLeft: 4,
+    color: Color.grayColor,
+    marginRight: 0,
+    marginLeft: 0,
+    fontFamily: FontFamily.body,
+  },
+  iconBorder: {
+    borderWidth: 1.2,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30, 
   }
 });
 

@@ -176,7 +176,7 @@
   "finishAndNext": "Finish and go next",
   "clickToPlayVoice": "Click to play voice",
   "audio": "audio",
-  "self_assessment": "Sefl assessment",
+  "self_assessment": "Self assessment",
   "community_scorecard": "Community scorecard",
   "contact": "Contact",
   "contact_number": "Contact number",
@@ -273,5 +273,14 @@
   "chooseImage": "Choose image",
   "takePhoto": "Take photo",
   "viewImage": "View image",
-  "noImageIsSelected": "No image is selected"
+  "noImageIsSelected": "No image is selected",
+  "submittedScorecards": "Submitted scorecards",
+  "filterScorecard": "Filter scorecard",
+  "searchLocation": "Search location",
+  "in_progress": "In progress",
+  "submitted": "Submitted",
+  "scorecardLocation": "Scorecard location",
+  "apply": "Apply",
+  "reset": "Reset",
+  "scorecardCriteria": "Criteria"
 }

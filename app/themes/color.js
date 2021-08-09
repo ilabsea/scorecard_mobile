@@ -27,6 +27,9 @@ const Color = {
   lightBlackColor: '#2e2e2e',
   paleBlackColor: '#787878',
   loadingBackgroundColor: 'rgba(227, 107, 51, 0.6)',
+  selfAssessmentColor: '#31c0c7',
+  communityScorecardColor: '#f29522',
+  lightGreenColor: '#52c72c',
 };
 
 export default Color;

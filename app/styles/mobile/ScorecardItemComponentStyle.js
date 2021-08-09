@@ -5,6 +5,15 @@ import { mdLabelSize, smLabelSize, xlIconSize } from '../../constants/mobile_fon
 import Color from '../../themes/color';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
+  itemContainer: {
+    height: wp('20%'),
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: Color.whiteColor,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Color.paleGrayColor,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -36,18 +45,31 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   lockIcon: {
     fontSize: wp('5%'),
   },
-  swipeableContainer: {
-    marginBottom: 12,
-  },
   deleteContainer: {
     backgroundColor: Color.redColor,
     width: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '92%',
+    height: '100%'
   },
   deleteLabel: {
     fontSize: wp(mdLabelSize)
+  },
+  locationLabel: {
+    fontSize: wp('3.2%'),
+    marginLeft: 4,
+    color: Color.grayColor,
+    marginRight: 0,
+    marginLeft: 0,
+    fontFamily: FontFamily.body,
+  },
+  iconBorder: {
+    borderWidth: 1.2,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30, 
   }
 });
 
