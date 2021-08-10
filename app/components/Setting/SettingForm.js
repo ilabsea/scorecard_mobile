@@ -108,6 +108,7 @@ class SettingForm extends Component {
           message={translations[emailErrorMsg]}
           onFocus={() => this.closeDropDown()}
           keyboardType='email-address'
+          caretHidden={false}
         />
 
         <TextFieldInput

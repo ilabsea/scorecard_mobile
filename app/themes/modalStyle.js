@@ -1,6 +1,7 @@
 import Color from '../themes/color';
 import { StyleSheet } from 'react-native';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
+import { modalBorderRadius } from '../constants/border_radius_constant';
 
 const modalStyle = StyleSheet.create({
   container: {
@@ -9,6 +10,7 @@ const modalStyle = StyleSheet.create({
     minHeight: "50%",
     marginHorizontal: 30,
     justifyContent: 'flex-start',
+    borderRadius: modalBorderRadius
   },
   btnActionWrapper: {
     marginTop: 20,

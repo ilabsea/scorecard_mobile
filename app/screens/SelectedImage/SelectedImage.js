@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import { Icon } from 'native-base';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import Color from '../../themes/color';
@@ -64,12 +64,8 @@ class SelectedImage extends Component {
         style={[styles.imageContainer, isSelected ? {borderColor: Color.clickableColor} : {}]}
       >
         { isSelected &&
-          <View style={{backgroundColor: Color.whiteColor, position: 'absolute', right: 0, top: 2, zIndex: 10, borderRadius: 60, height: 20}}>
-            <Icon
-              name="check-circle"
-              type="FontAwesome"
-              style={{color: Color.clickableColor, fontSize: 26, marginTop: -3}}
-            />
+          <View style={{backgroundColor: Color.clickableColor, position: 'absolute', right: 0, top: 0, zIndex: 10, borderRadius: 60, height: 20, width: 20, justifyContent: 'center'}}>
+            <MaterialIcon name='check' size={20} color={Color.whiteColor} />
           </View>
         }
 
