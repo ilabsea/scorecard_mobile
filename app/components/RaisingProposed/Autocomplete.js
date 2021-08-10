@@ -13,6 +13,7 @@ import { LocalizationContext } from '../Translations';
 import { Chip } from 'react-native-paper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { normalLabelSize } from '../../utils/responsive_util';
+import uuidv4 from '../../utils/uuidv4';
 
 class Autocomplete extends Component {
   static contextType = LocalizationContext;
@@ -39,6 +40,7 @@ class Autocomplete extends Component {
           this.onChangeText(item);
           Keyboard.dismiss();
         }}
+        key={uuidv4()}
         style={styles.listItem}>
         <Text>{item}</Text>
       </TouchableOpacity>
@@ -89,7 +91,7 @@ class Autocomplete extends Component {
           onBlur={() => this.setState({showDropdown: false, tag: this.state.value, focusing: false})}
           placeholder={this.props.placeholder || this.props.label}
           placeholderTextColor={Color.inputBorderLineColor}
-          style={{flex: 1, fontSize: normalLabelSize, fontFamily: FontFamily.body}}
+          style={{flex: 1, fontSize: normalLabelSize, fontFamily: FontFamily.body, color: Color.blackColor}}
           ref={(input) => { this.tagInput = input;}}
         />
 

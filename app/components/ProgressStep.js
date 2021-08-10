@@ -44,7 +44,7 @@ export default class ProgressStep extends Component {
     let isDone = this.props.progressIndex >= index;
     let iconStyle = isDone ? {backgroundColor: Color.whiteColor} : {};
     let titleStyle = isDone ? { color: Color.whiteColor } : {};
-    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: Color.headerColor}} /> : <Text style={{color: Color.whiteColor}}>{index + 1}</Text>
+    let badgeIcon = isDone ? <Icon name='checkmark' style={{fontSize: 24, color: Color.headerColor}} /> : <Text style={{color: Color.whiteColor, marginTop: -2}}>{index + 1}</Text>
 
     if (index == this.props.progressIndex) {
       titleStyle['fontFamily'] = FontFamily.title;
