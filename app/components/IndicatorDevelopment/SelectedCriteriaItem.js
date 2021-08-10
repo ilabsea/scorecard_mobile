@@ -63,7 +63,9 @@ class SelectedCriteriaItem extends Component {
           />
 
           <View style={[styles.viewDetail, responsiveStyles.viewDetailContainer]}>
-            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()} labelStyle={styles.buttonLabel} style={{height: 'auto'}}>
+            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()}
+              labelStyle={[styles.buttonLabel, { marginTop: getDeviceStyle(6, 8) }]} style={{height: 40}}
+            >
               { translations['remove'] }
             </Button>
           </View>
