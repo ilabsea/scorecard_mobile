@@ -4,4 +4,5 @@ export const environment = {
   validDay: 30,
   defaultLanguage: 'km',
   removeScorecardDay: 90,
+  enableTourTip: false
 };
