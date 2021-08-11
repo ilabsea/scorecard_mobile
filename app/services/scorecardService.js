@@ -48,7 +48,7 @@ class ScorecardService extends BaseModelService {
     this.totalNumber = indicators.length + ScorecardReference.findByScorecard(uuid).length + 1;
 
     if (!this.scorecard || !this.scorecard.isInLastPhase) { return; }
-    
+
     scorecardReferenceService.upload(uuid, () => { this.updateProgress(callback) }, () => {
       try {
         sendRequestToApi(() => this.uploadCustomIndicator(0, indicators, callback, errorCallback));
@@ -174,6 +174,7 @@ class ScorecardService extends BaseModelService {
       votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : null;
       votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : null;
       votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : null;
+      votingCriteriaAttr[index].suggested_actions_attributes = getSuggestedActionAttrs(this.scorecard_uuid, votingCriteria.uuid);
     });
 
     return votingCriteriaAttr;
@@ -223,7 +224,6 @@ class ScorecardService extends BaseModelService {
       language_conducted_code: this.scorecard.audio_language_code,
       finished_date: this.scorecard.finished_date ? Moment(this.scorecard.finished_date).format(apiDateFormat) : null,
       running_date: this.scorecard.running_date ? Moment(this.scorecard.running_date).format(apiDateFormat) : null,
-      suggested_actions_attributes: getSuggestedActionAttrs(this.scorecard_uuid),
     }
   }
 
