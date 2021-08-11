@@ -51,8 +51,7 @@ class SearchableHeader extends Component {
   }
 
   _renderSearchBox() {
-    const { translations, appLanguage } = this.context;
-    const inputPaddingTop = appLanguage == english ? 10 : 12;
+    const { translations } = this.context;
 
     return (
       <React.Fragment>
@@ -63,7 +62,7 @@ class SearchableHeader extends Component {
             value={this.state.query}
             onChangeText={(text) => this.onChangeSearch(text)}
             clearButtonMode='always'
-            style={[styles.searchInput, { padingTop: inputPaddingTop } ]}
+            style={styles.searchInput}
             placeholderTextColor='#ebebeb'
             spellCheck={false}
             autoCorrect={false}
