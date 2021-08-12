@@ -6,7 +6,7 @@ import { isShortWidthScreen } from '../../utils/responsive_util';
 
 const CriteriaAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
-    width: isShortWidthScreen() ? wp('71%') : wp('75%'),
+    width: isShortWidthScreen() ? wp('71%') : wp('73%'),
     height: wp('12.5%'),
     justifyContent: 'center',
   },
