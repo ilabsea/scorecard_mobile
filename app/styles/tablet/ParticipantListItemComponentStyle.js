@@ -36,7 +36,6 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     margin: 0,
     padding: 0,
     textAlign: 'center',
-    marginTop: -2
   },
   emptyLabel: {
     fontSize: 18,

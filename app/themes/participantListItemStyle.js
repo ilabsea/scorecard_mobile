@@ -40,7 +40,7 @@ const participantListItemStyle = StyleSheet.create({
     margin: 0,
     padding: 0,
     textAlign: 'center',
-    marginTop: -1
+    marginTop: getDeviceStyle(0, -1)
   },
   button: {
     paddingLeft: 15,
