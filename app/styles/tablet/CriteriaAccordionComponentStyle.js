@@ -6,7 +6,7 @@ const labelFontSize = 16;
 
 const CriteriaAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
-    width: wp('75%'),
+    width: wp('73%'),
     height: wp('8.8%'),
     justifyContent: 'center',
   },

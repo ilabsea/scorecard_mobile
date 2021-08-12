@@ -3,12 +3,11 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { smLabelSize, xsLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { isShortWidthScreen } from '../../utils/responsive_util';
 
 const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
     flexDirection: 'row',
-    width: isShortWidthScreen() ? wp('71%') : wp('75%')
+    width: wp('71%'),
   },
   titleText: {
     fontSize: wp(smLabelSize),
