@@ -49,23 +49,21 @@ const getVotingParticipants = (scorecardUuid) => {
   return participantInfos;
 }
 
-const getSuggestedActionAttrs = (scorecardUuid) => {
-  const votingCriterias = VotingCriteria.getAll(scorecardUuid);
+const getSuggestedActionAttrs = (scorecardUuid, votingCriteriaUuid) => {
+  const votingCriteria = VotingCriteria.findByUuid(votingCriteriaUuid);
   let suggestedActionAttrs = [];
 
-  votingCriterias.map(votingCriteria => {
-    const suggestedActions = JSON.parse(votingCriteria.suggested_action);
+  const suggestedActions = JSON.parse(votingCriteria.suggested_action);
 
-    suggestedActions.map((suggestedAction, index) => {
-      const attrs = {
-        voting_indicator_uuid: votingCriteria.uuid,
-        scorecard_uuid: scorecardUuid,
-        content: suggestedAction,
-        selected: votingCriteria.suggested_action_status[index],
-      }
+  suggestedActions.map((suggestedAction, index) => {
+    const attrs = {
+      voting_indicator_uuid: votingCriteria.uuid,
+      scorecard_uuid: scorecardUuid,
+      content: suggestedAction,
+      selected: votingCriteria.suggested_action_status[index],
+    }
 
-      suggestedActionAttrs.push(attrs);
-    });
+    suggestedActionAttrs.push(attrs);
   });
 
   return suggestedActionAttrs;

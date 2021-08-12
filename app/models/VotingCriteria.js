@@ -4,6 +4,7 @@ const VotingCriteria = (() => {
   return {
     getAll,
     find,
+    findByUuid,
     upsert,
     getSelectedSuggestedAction,
   };
@@ -14,6 +15,10 @@ const VotingCriteria = (() => {
 
   function find(scorecardUuid, indicatorId) {
     return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorId}'`)[0];
+  }
+
+  function findByUuid(votingCriteriaUuid) {
+    return realm.objects('VotingCriteria').filtered(`uuid = '${votingCriteriaUuid}'`)[0];
   }
 
   function upsert(data) {
