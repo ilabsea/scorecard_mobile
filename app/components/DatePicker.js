@@ -75,11 +75,6 @@ class DatePicker extends Component {
         display="default"
         minimumDate={new Date()}
         onChange={(data) => this.onChange(data)}
-        customStyles={{
-          btnTextConfirm: {
-            color: 'green'
-          }
-        }}
       />
     )
   }
