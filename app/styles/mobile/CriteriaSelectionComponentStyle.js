@@ -1,12 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { getDeviceStyle } from '../utils/responsive_util';
-import Color from '../themes/color';
-import { cardBorderRadius } from '../constants/border_radius_constant';
+import { isShortScreenDevice } from '../../utils/responsive_util';
+import Color from '../../themes/color';
+import { cardBorderRadius } from '../../constants/border_radius_constant';
 
 const windowWidth = Math.floor(Dimensions.get('window').width);
 const itemWidth = windowWidth >= 550 ? (windowWidth - 60) / 2 : (windowWidth - 40);
-const itemHeight = getDeviceStyle(100, hp('10.5%'));
+const itemHeight = isShortScreenDevice() ? hp('13%') : hp('11.5%');
 
 const CriteriaSelectionComponentStyles = StyleSheet.create({
   criteriaBoxContainer: {

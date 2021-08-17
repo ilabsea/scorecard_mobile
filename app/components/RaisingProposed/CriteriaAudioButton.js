@@ -65,13 +65,13 @@ class CriteriaAudioButton extends Component {
     return (
       <View style={{justifyContent: 'center'}}>
         { this.hasAudio() &&
-          <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioButton}>
+          <TouchableOpacity onPress={() => this.handlePlayAudio()} style={[styles.playAudioBtn, { backgroundColor: Color.primaryButtonColor }]}>
 
             <Icon name={this.state.iconName} style={[{ color: Color.whiteColor}, this.state.iconName == 'pause' ? { marginLeft: 1 } : {}]} />
           </TouchableOpacity>
         }
         { !this.hasAudio() && !this.props.isAddNewCriteria &&
-          <View style={styles.noAudioIconContainer}>
+          <View style={[styles.playAudioBtn, { backgroundColor: Color.paleBlackColor }]}>
             <Icon name='volume-mute' style={{ color: Color.whiteColor}} />
           </View>
         }
@@ -81,26 +81,15 @@ class CriteriaAudioButton extends Component {
 }
 
 const styles = StyleSheet.create({
-  playAudioButton: {
-    height: 36,
+  playAudioBtn: {
     width: 36,
+    height: 36,
     alignSelf: 'center',
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color.primaryButtonColor,
+    justifyContent: 'center',
     borderRadius: 20,
     marginRight: 14,
-    marginLeft: 10,
   },
-  noAudioIconContainer: {
-    backgroundColor: Color.paleBlackColor,
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 18,
-    marginRight: 10,
-  }
 });
 
 export default CriteriaAudioButton;

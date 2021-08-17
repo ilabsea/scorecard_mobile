@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-
-import styles from '../../styles/CriteriaSelectionComponentStyle';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import { normalLabelSize } from '../../utils/responsive_util';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper'
+
+import { getDeviceStyle } from '../../utils/responsive_util';
+import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
+import CriteriaSelectionMobileStyle from '../../styles/mobile/CriteriaSelectionComponentStyle';
+
+const styles = getDeviceStyle(CriteriaSelectionTabletStyle, CriteriaSelectionMobileStyle);
 
 class IndicatorCard extends Component {
 
