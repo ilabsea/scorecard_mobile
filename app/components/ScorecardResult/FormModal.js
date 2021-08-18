@@ -129,9 +129,10 @@ const FormModal = (props) => {
 
           { isSuggestedAction() &&
             <CheckBox
+              disabled={isScorecardFinished}
               checked={renderSelectedActions[index]}
               onPress={() => toggleCheckbox(index)}
-              color={Color.clickableColor}
+              color={isScorecardFinished ? Color.grayColor : Color.clickableColor}
               style={{marginLeft: -10, marginRight: 15, alignItems: 'center', justifyContent: 'center', width: 23, height: 23}}
             />
           }
