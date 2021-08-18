@@ -12,6 +12,9 @@ const RaisingProposedComponentStyles = StyleSheet.create({
   criteriaValue: {
     fontSize: wp(lgLabelSize),
     marginTop: -1
+  },
+  noDataContainer: {
+    marginTop: -wp('45%')
   }
 });
 

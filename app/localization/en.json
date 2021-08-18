@@ -288,5 +288,6 @@
   "raisedCriteria": "Criteria",
   "noOfParticipant": "No. of participant",
   "numberOfRaisedParticipant": "Raised participant {0} pax",
-  "numberOfParticipant": "Participant"
+  "numberOfParticipant": "Participant",
+  "pleaseProposeCriteria": "Please propose criteria"
 }

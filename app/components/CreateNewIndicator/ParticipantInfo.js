@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, TouchableOppacity } from 'react-native';
+import { View } from 'react-native';
 
 import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
@@ -18,32 +18,38 @@ export default class ParticipantInfo extends Component {
     this.state = {
       participants: props.participants || [],
       participantVisible: false,
-      addParticiantVisible: false,
+      addParticipantVisible: false,
       currentParticipant: realm.objects('Participant').filtered(`uuid == '${props.participant_uuid}'`)[0],
     };
+  }
+
+  componentDidUpdate() {
+    if (!this.state.participantVisible && this.props.visibleModal)
+      this.setState({ participantVisible: this.props.visibleModal })
   }
 
   _renderParticipant() {
     const { translations } = this.context;
     const { mode } = this.props;
 
-    if (!!mode && mode.type == 'button') {
+    if (!mode) {
       return (
-        <OutlinedButton
-          icon={mode.iconName || 'plus'}
-          label={mode.label}
+        <ParticipantModalListItem
+          participant={this.state.currentParticipant}
+          translations={translations}
           onPress={() => this.setState({participantVisible: true}) }
         />
       )
     }
 
-    return (
-      <ParticipantModalListItem
-        participant={this.state.currentParticipant}
-        translations={translations}
+    return this.props.buttonVisible ? 
+      <OutlinedButton
+        icon={mode.iconName || 'plus'}
+        label={mode.label}
         onPress={() => this.setState({participantVisible: true}) }
       />
-    )
+      :
+      <View/>;
   }
 
   _showAddParticipantModal = () => {
@@ -83,6 +89,15 @@ export default class ParticipantInfo extends Component {
     !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
   }
 
+  onDismissModal() {
+    this.setState({
+      participantVisible: false,
+      addParticipantVisible: false,
+    });
+
+    !!this.props.closeModal && this.props.closeModal();
+  }
+
   render() {
     return (
       <View>
@@ -93,14 +108,14 @@ export default class ParticipantInfo extends Component {
           visible={this.state.participantVisible}
           scorecardUuid={this.props.scorecard_uuid}
           navigation={this.props.navigation}
-          onDismiss={() => this.setState({participantVisible: false})}
+          onDismiss={() => this.onDismissModal()}
           showAddParticipantModal={() => this._showAddParticipantModal()}
           onPressItem={(participant) => this._onPressItem(participant) }
         />
 
         <AddNewParticiantModal
           visible={ this.state.addParticipantVisible }
-          onDismiss={ () => this.setState({addParticipantVisible: false}) }
+          onDismiss={() => this.onDismissModal()}
           onClose={ () => this._hideAddParticipantModal() }
           scorecardUuid={ this.props.scorecard_uuid }
           navigation={ this.props.navigation }

@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { containerPadding } from '../../utils/responsive_util';
 
-class UserListing extends Component {
+class ProposeCriteriaContent extends Component {
   static contextType = LocalizationContext;
 
   onPress = () => {
@@ -52,7 +52,7 @@ class UserListing extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28}}>
+        <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28, flexGrow: 1}}>
           <Tip screenName={'RaisingProposed'}/>
 
           <ListUser
@@ -100,4 +100,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(UserListing);
+)(ProposeCriteriaContent);
