@@ -15,7 +15,9 @@ class NavigationHeader extends Component {
         </Left>
 
         <Body style={[{flex: 2, paddingLeft: wp('10%')}, this.props.bodyStyle]}>
-          <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ this.props.title }</Title>
+          <Title style={[{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}, this.props.titleStyle]}>
+            { this.props.title }
+          </Title>
         </Body>
 
         <Right style={[{maxWidth: wp('14%')}, this.props.rightButtonStyle]}>

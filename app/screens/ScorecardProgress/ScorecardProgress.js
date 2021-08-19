@@ -13,6 +13,7 @@ import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageMo
 import MessageModal from '../../components/MessageModal';
 import ScorecardProgressTitle from '../../components/ScorecardProgress/ScorecardProgressTitle';
 import ScorecardProgressSubmitButton from '../../components/ScorecardProgress/ScorecardProgressSubmitButton';
+import ScorecardProgressHeader from '../../components/ScorecardProgress/ScorecardProgressHeader';
 
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
@@ -20,9 +21,7 @@ import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 
 import { connect } from 'react-redux';
-
-// import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
 
@@ -113,13 +112,13 @@ class ScorecardProgress extends Component {
   }
 
   render() {
-    const { translations, appLanguage } = this.context;
-
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={responsiveStyles.container}>
-          {/* <Text style={responsiveStyles.title}>{ translations.step }: {this.state.scorecard.status} / 5</Text> */}
+        <ScorecardProgressHeader progressIndex={this.state.scorecard.status}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
 
+        <ScrollView contentContainerStyle={responsiveStyles.container}>
           <ScorecardProgressTitle scorecard={this.state.scorecard} />
 
           <VerticalProgressStep
