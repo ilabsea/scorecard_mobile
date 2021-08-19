@@ -87,7 +87,7 @@ function AppNavigator() {
         name="ScorecardProgress"
         component={ScorecardProgressScreen}
         options={({route, navigation}) => ({
-          title: route.params.title,
+          title: translations.scorecardDetail,
           headerTitleStyle: {
             fontSize: getDeviceStyle(20, wp(lgLabelSize)),
             fontFamily: FontFamily.title,
