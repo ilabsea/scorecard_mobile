@@ -49,6 +49,10 @@ const scrollViewPaddingBottom = getDeviceStyle(28, hp('35%'));
 
 const containerPadding = getDeviceStyle(20, 15);
 
+const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('4%') : wp('1%'));
+
+const navigationBackButtonFlex = 0.22;
+
 export {
   getDeviceStyle,
   isShortScreenDevice,
@@ -61,4 +65,6 @@ export {
   normalLabelSize,
   scrollViewPaddingBottom,
   containerPadding,
+  navigationTitlePaddingLeft,
+  navigationBackButtonFlex,
 };

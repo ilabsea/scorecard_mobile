@@ -17,7 +17,6 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   subTitle: {
     fontSize: 12,
     color: 'gray',
-    marginLeft: 10
   },
   btn: {
     backgroundColor: Color.headerColor,
