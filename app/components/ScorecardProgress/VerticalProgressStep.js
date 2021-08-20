@@ -59,7 +59,7 @@ export default class VerticalProgressStep extends Component {
   getScorecardSetupSubTitle(step) {
     const { translations } = this.context;
 
-    return `${translations.conductedDate}: ${step.subTitle}`;
+    return `${translations.numberOfParticipant}: ${step.subTitle} ${translations.pax}`;
   }
 
   getProposedCriteriaSubTitle(step) {

@@ -3,6 +3,7 @@ import proposedCriteriaService from '../services/proposedCriteriaService';
 import votingCriteriaService from '../services/votingCriteriaService';
 import moment from "moment/min/moment-with-locales";
 import AsyncStorage from '@react-native-community/async-storage';
+import Participant from './Participant';
 
 class ScorecardStep {
   constructor() {
@@ -35,12 +36,7 @@ class ScorecardStep {
   }
 
   getScorecardSetupSubTitle(scorecard) {
-    if (scorecard.conducted_date == null)
-      return '';
-
-    let date = scorecard.conducted_date.split('/').reverse().join('-');
-
-    return moment(date).locale(this.locale).format('LL');
+    return Participant.findByScorecard(scorecard.uuid).length;
   }
 
   getProposedCriteriaSubTitle(scorecard) {
