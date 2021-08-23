@@ -18,7 +18,7 @@ class ScorecardProgressHeader extends Component {
       <React.Fragment>
         <NavigationHeader
           title={translations.scorecardDetail}
-          rightComponent={() => <ScorecardProgressCircle progressIndex={this.props.progressIndex}/>}
+          rightComponent={() => <ScorecardProgressCircle scorecard={this.props.scorecard}/>}
           onBackPress={() => this._onPress()}
           rightButtonStyle={{marginRight: 6}}
         />

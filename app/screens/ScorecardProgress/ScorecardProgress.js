@@ -114,7 +114,8 @@ class ScorecardProgress extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScorecardProgressHeader progressIndex={this.state.scorecard.status}
+        <ScorecardProgressHeader
+          scorecard={this.state.scorecard}
           onBackPress={() => this.props.navigation.goBack()}
         />
 
