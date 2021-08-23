@@ -64,6 +64,17 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30, 
+  },
+  removeDateIcon: {
+    marginTop: 4,
+    marginRight: 4
+  },
+  removeDateLabel: {
+    fontSize: 13,
+    color: Color.redColor,
+    fontFamily: FontFamily.body,
+    textAlign: 'right',
+    marginTop: 2
   }
 });
 

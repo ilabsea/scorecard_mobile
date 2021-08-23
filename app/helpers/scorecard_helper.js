@@ -50,7 +50,7 @@ const scorecardHelper = (() => {
     let expiredDate = Moment(uploadedDate, DATE_FORMAT).add(environment.removeScorecardDay, 'days');
     expiredDate = Moment(expiredDate).format('YYYY-MM-DD');
 
-    return moment(expiredDate).locale(locale).format('LL');
+    return moment(expiredDate).locale(locale).format('DD MMM');
   }
 
   function getScorecardIcon(scorecard) {
