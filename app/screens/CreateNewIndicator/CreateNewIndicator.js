@@ -195,6 +195,7 @@ class CreateNewIndicator extends Component {
           participant_uuid={ this.props.route.params.participant_uuid }
           onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
           navigation={this.props.navigation}
+          buttonVisible={false}
         />
       </View>
     )

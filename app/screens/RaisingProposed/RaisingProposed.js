@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import Color from '../../themes/color';
 
 import {LocalizationContext} from '../../components/Translations';
-import UserListing from '../../components/RaisingProposed/UserListing';
+import ProposeCriteriaContent from '../../components/RaisingProposed/ProposeCriteriaContent';
 import ProgressHeader from '../../components/ProgressHeader';
 
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ class RaisingProposed extends Component {
           onPressHome={() => this.props.navigation.popToTop()}
           progressIndex={3}
         />
-        <UserListing
+        <ProposeCriteriaContent
           scorecardUUID={this.props.route.params.scorecard_uuid}
           navigation={this.props.navigation}
         />

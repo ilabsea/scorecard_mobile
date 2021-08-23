@@ -84,6 +84,7 @@ class VotingCriteriaList extends Component {
             participants={ participantService.getUnvoted(this.state.scorecard.uuid) }
             scorecard_uuid={ this.state.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
+            buttonVisible={true}
             onPressItem={(participant) => this._goToVotingForm(participant.uuid)}
             onPressCreateParticipant={(participant) => this._goToVotingForm(participant.uuid)}
             navigation={this.props.navigation}/>
