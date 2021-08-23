@@ -38,7 +38,7 @@ class RaisingProposed extends Component {
           progressIndex={3}
         />
         <ProposeCriteriaContent
-          scorecardUUID={this.props.route.params.scorecard_uuid}
+          scorecardUuid={this.props.route.params.scorecard_uuid}
           navigation={this.props.navigation}
         />
       </View>
