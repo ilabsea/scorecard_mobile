@@ -24,9 +24,12 @@ class ScorecardListInfo extends Component {
   renderRemoveDate(scorecard) {
     if (scorecard.isUploaded) {
       return (
-        <Text style={{ fontSize: getDeviceStyle(14, wp(xsLabelSize)), color: Color.redColor, fontFamily: FontFamily.body, marginTop: 2}}>
-          {this.context.translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, this.context.appLanguage) }
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <AppIcon name='calendar-times-o' size={14} color={Color.redColor} style={responsiveStyles.removeDateIcon} />
+          <Text style={responsiveStyles.removeDateLabel}>
+            { scorecardHelper.getTranslatedRemoveDate(scorecard.uploaded_date, this.context.appLanguage) }
+          </Text>
+        </View>
       )
     }
   }
@@ -42,7 +45,7 @@ class ScorecardListInfo extends Component {
 
   renderScorecardLocation(scorecard) {
     return (
-      <View style={{flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
+      <View style={{flex: 1, flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
         <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: -4}} />
         <View style={{flex: 3, borderWidth: 0, flexDirection: 'row'}}>
           <Text style={responsiveStyles.locationLabel}>{scorecard.commune}, </Text>
@@ -63,17 +66,18 @@ class ScorecardListInfo extends Component {
     return (
       <View style={{flex: 1, marginLeft: 15}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={[{fontSize: getDeviceStyle(15, 14)}]}>{ scorecard.uuid }</Text>
+          <Text style={[{fontSize: getDeviceStyle(15, 14), marginTop: 2}]}>{ scorecard.uuid }</Text>
           <Text style={[styles.subText, subTextStyles, {marginTop: getDeviceStyle(0, 2), color: Color.grayColor}]}>
-            {this.context.translations.scorecardCriteria}: {criteriasSize}
+            ({this.context.translations.scorecardCriteria}: {criteriasSize})
           </Text>
 
           { this.renderConductedDate(scorecard) }
         </View>
 
-        { this.renderScorecardLocation(scorecard) }
-
-        { this.renderRemoveDate(scorecard) }
+        <View style={{flexDirection: 'row'}}>
+          { this.renderScorecardLocation(scorecard) }
+          { this.renderRemoveDate(scorecard) }
+        </View>
       </View>
     )
   }

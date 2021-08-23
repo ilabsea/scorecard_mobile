@@ -11,15 +11,14 @@ class HeaderRightButton extends Component {
     super(props);
 
     this.state = {
-      iconColor: Color.whiteColor
+      hasSelectedFilter: false,
     }
   }
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener("focus", async () => {
       const selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
-
-      this.setState({ iconColor: selectedFilters ? Color.primaryColor : Color.whiteColor });
+      this.setState({ hasSelectedFilter: selectedFilters });
     });
   }
   
@@ -29,8 +28,12 @@ class HeaderRightButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.props.onPress()}>
-        <AppIcon name={this.props.icon} size={20} color={this.state.iconColor} style={{padding: 16}} />
+      <TouchableOpacity onPress={() => this.props.onPress()} style={{position: 'relative'}}>
+        <AppIcon name={this.props.icon} size={20} color={Color.whiteColor} style={{padding: 16}} />
+
+        { this.state.hasSelectedFilter &&
+          <View style={{width: 11, height: 11, borderRadius: 14, backgroundColor: '#7e390e', position: 'absolute', top: 13, right: 9}} />
+        }
       </TouchableOpacity>
     )
   }

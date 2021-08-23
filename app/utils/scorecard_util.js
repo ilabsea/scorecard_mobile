@@ -24,5 +24,5 @@ export const getDistrictWidth = (scorecard) => {
   if (locationWidth > (screenWidth - getDeviceStyle(67, 59)))
     return scorecard.district.length * wp('1%');
 
-  return scorecard.district.length * wp('2%');
+  return getDeviceStyle(scorecard.district.length * wp('5%'), scorecard.district.length * wp('1.8%'));
 }
