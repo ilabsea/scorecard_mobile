@@ -4,7 +4,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
-import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
+import { getDeviceStyle, mobileHeadingTitleSize, isShortWidthScreen } from '../../utils/responsive_util';
 
 class FilterScorecardHeader extends Component {
   static contextType = LocalizationContext;
@@ -23,13 +23,14 @@ class FilterScorecardHeader extends Component {
 
   render() {
     const { translations } = this.context;
+    const mobileBodyPaddingLeft = isShortWidthScreen() ? wp('8%') : wp('4%');
 
     return (
       <NavigationHeader
         title={translations.filterScorecard}
-        bodyStyle={{flex: 1, paddingLeft: wp('2%')}}
         rightComponent={() => this.renderRightButton()}
-        rightButtonStyle={{ maxWidth: wp('34%') }}
+        rightButtonStyle={{ alignSelf: 'center', maxWidth: wp('34%'), marginRight: -6 }}
+        bodyStyle={{flex: getDeviceStyle(2, 1), paddingLeft: getDeviceStyle(wp('1.5%'), mobileBodyPaddingLeft)}}
         onBackPress={() => this._onPress()}
       />
     )

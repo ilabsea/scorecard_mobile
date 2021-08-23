@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import {
-  Header,
-  Title,
-  Left,
-  Body,
-} from "native-base";
+import { Header, Left, Right } from "native-base";
 
 import { HeaderBackButton } from '@react-navigation/stack';
 import ProgressStep from '../components/ProgressStep';
 import MessageModal from './MessageModal';
 import HeaderIconButton from './HeaderIconButton';
+import NavigationHeaderBody from './NavigationHeaderBody';
+
 import { LocalizationContext } from './Translations';
-import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
+import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
 
 import Color from '../themes/color';
+import { FontFamily } from '../assets/stylesheets/theme/font';
 
 export default class BigHeader extends React.Component {
   static contextType = LocalizationContext;
@@ -42,18 +41,16 @@ export default class BigHeader extends React.Component {
 
     return (
       <Header span>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 8}}>
-          <Left>
-            <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
+        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
+          <Left style={{flex: navigationBackButtonFlex}}>
+            <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this._onPress()} style={{ marginLeft: 0 }} />
           </Left>
 
-          <Body>
-            <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{this.props.title}</Title>
-          </Body>
+          <NavigationHeaderBody title={this.props.title} />
 
-          <View>
+          <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, -6)}}>
             <HeaderIconButton onPress={() => this.setState({ visibleModal: true })} icon='home' />
-          </View>
+          </Right>
         </View>
 
         <View style={{width: '100%'}}>

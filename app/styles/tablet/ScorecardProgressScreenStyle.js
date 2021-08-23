@@ -4,13 +4,15 @@ import Color from '../../themes/color';
 
 const ScorecardProgressScreenStyles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
+    paddingTop: 10
   },
   title: {
     fontSize: 24,
     fontFamily: FontFamily.title,
-    lineHeight: 40,
-    marginBottom: 16
+  },
+  subTitle: {
+    color: 'gray',
   },
   btn: {
     backgroundColor: Color.headerColor,

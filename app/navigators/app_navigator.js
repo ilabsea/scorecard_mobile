@@ -86,12 +86,8 @@ function AppNavigator() {
       <Stack.Screen
         name="ScorecardProgress"
         component={ScorecardProgressScreen}
-        options={({route, navigation}) => ({
-          title: route.params.title,
-          headerTitleStyle: {
-            fontSize: getDeviceStyle(20, wp(lgLabelSize)),
-            fontFamily: FontFamily.title,
-          }
+        options={({navigator}) => ({
+          header: () => null,
         })}
       />
       <Stack.Screen

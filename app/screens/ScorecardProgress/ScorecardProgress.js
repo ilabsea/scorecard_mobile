@@ -11,18 +11,17 @@ import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import MessageModal from '../../components/MessageModal';
+import ScorecardProgressTitle from '../../components/ScorecardProgress/ScorecardProgressTitle';
+import ScorecardProgressSubmitButton from '../../components/ScorecardProgress/ScorecardProgressSubmitButton';
+import ScorecardProgressHeader from '../../components/ScorecardProgress/ScorecardProgressHeader';
+
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
-import scorecardHelper from '../../helpers/scorecard_helper';
-
-import { ProgressBar } from 'react-native-paper';
 
 import { connect } from 'react-redux';
-
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
 
@@ -104,50 +103,6 @@ class ScorecardProgress extends Component {
     });
   }
 
-  _isButtonDisable = () => {
-    if (this.state.showProgress || this.state.scorecard.isUploaded || !this.state.scorecard.finished)
-      return true;
-
-    return false;
-  }
-
-  _renderBtnSubmit() {
-    const { translations } = this.context
-    let isDisable = this._isButtonDisable();
-    let btnStyle = isDisable ? styles.btnDisabled : { backgroundColor: Color.headerColor };
-
-    return (
-      <TouchableOpacity
-        disabled={isDisable}
-        onPress={() => this.submitToServer() }
-        style={[responsiveStyles.btn, btnStyle]}>
-
-        <Text style={responsiveStyles.btnText}>{translations['submit']}</Text>
-        { this.state.scorecard.isUploaded &&
-          <Icon name={'lock-closed'}  style={responsiveStyles.lockIcon}/>
-        }
-      </TouchableOpacity>
-    )
-  }
-
-  _renderProgressBar() {
-    if (this.state.showProgress) {
-      return (
-        <View>
-          <Text style={responsiveStyles.uploadPercentageLabel}>
-            {Math.ceil(this.state.progressPercentag * 100)}%
-          </Text>
-          <ProgressBar
-            progress={this.state.progressPercentag}
-            color={Color.headerColor}
-            style={responsiveStyles.progressBar}
-            visible={ this.state.showProgress }
-          />
-        </View>
-      );
-    }
-  }
-
   showMessageModal = (title, description) => {
     this.setState({
       visibleMessageModal: true,
@@ -157,12 +112,15 @@ class ScorecardProgress extends Component {
   }
 
   render() {
-    const { translations, appLanguage } = this.context;
-
     return (
       <View style={{flex: 1}}>
+        <ScorecardProgressHeader
+          scorecard={this.state.scorecard}
+          onBackPress={() => this.props.navigation.goBack()}
+        />
+
         <ScrollView contentContainerStyle={responsiveStyles.container}>
-          <Text style={responsiveStyles.title}>{ translations.step }: {this.state.scorecard.status} / 5</Text>
+          <ScorecardProgressTitle scorecard={this.state.scorecard} />
 
           <VerticalProgressStep
             progressIndex={this.state.scorecard.status || 3}
@@ -172,16 +130,12 @@ class ScorecardProgress extends Component {
           />
         </ScrollView>
 
-        { this.state.scorecard.isUploaded &&
-          <Text style={{ fontSize: getDeviceStyle(14, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title}}>
-            {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(this.state.scorecard.uploaded_date, appLanguage) }
-          </Text>
-        }
-
-        <View style={{padding: containerPadding}}>
-          { this._renderProgressBar() }
-          { this._renderBtnSubmit() }
-        </View>
+        <ScorecardProgressSubmitButton
+          scorecard={this.state.scorecard}
+          progressPercentag={this.state.progressPercentag}
+          showProgress={this.state.showProgress}
+          submitToServer={() => this.submitToServer()}
+        />
 
         <ErrorMessageModal
           visible={this.state.visibleModal}

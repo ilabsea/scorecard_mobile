@@ -29,8 +29,8 @@ export default class MilestoneCard extends Component {
     let isDone = this._isDone();
     let isDisabled = this._isDisabled();
     let cardStyle = isDisabled ? { backgroundColor: Color.disableCardColor } : {};
-    let labelStyle = isDisabled ? { color: '#626262' } : {};
-    let titleStyle = isDone ? { color: '#626262', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
+    let labelStyle = isDisabled ? { color: '#5b5b5b' } : {};
+    let titleStyle = isDone ? { color: '#5b5b5b', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
 
     if (index == this.props.progressIndex && !this.props.isScorecardFinished) {
       titleStyle = { color: Color.blackColor, fontFamily: FontFamily.title};

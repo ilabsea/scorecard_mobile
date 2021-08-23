@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Header, Body, Title, Left, Icon, Button, Item, Input } from 'native-base';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Header, Body, Title, Left, Right, Icon, Button, Item, Input } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
@@ -8,9 +8,8 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import IndicatorService from '../../services/indicator_service';
-import { english } from '../../constants/locale_constant';
 
-import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
+import { getDeviceStyle, mobileHeadingTitleSize, isShortWidthScreen, navigationBackButtonFlex } from '../../utils/responsive_util';
 
 class SearchableHeader extends Component {
   static contextType = LocalizationContext;
@@ -52,10 +51,11 @@ class SearchableHeader extends Component {
 
   _renderSearchBox() {
     const { translations } = this.context;
+    const mobileMarginLeft = isShortWidthScreen() ? -6 : -16;
 
     return (
       <React.Fragment>
-        <Item style={{marginRight: 4, backgroundColor: Color.headerColor}}>
+        <Item style={{marginLeft: getDeviceStyle(-wp('10%'), mobileMarginLeft), marginRight: 4, backgroundColor: Color.headerColor}}>
           <Input
             autoFocus={true}
             placeholder={ translations.searchCriteria }
@@ -70,7 +70,7 @@ class SearchableHeader extends Component {
           />
 
           { this.state.query != '' &&
-            <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25, backgroundColor: Color.headerColor}}>
+            <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25, backgroundColor: Color.headerColor, marginRight: -6}}>
               <Icon name="close" style={{fontSize: 25, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: 'white'}} />
             </TouchableOpacity>
           }
@@ -81,18 +81,19 @@ class SearchableHeader extends Component {
 
   _renderTitle() {
     const {translations} = this.context;
+    const mobileBodyPaddingLeft = isShortWidthScreen() ? wp('4%') : wp('1%');
 
     return (
       <React.Fragment>
-        <Body style={{justifyContent: 'center'}}>
+        <Body style={{flex: getDeviceStyle(2, 1), paddingLeft: getDeviceStyle(wp('1.4%'), mobileBodyPaddingLeft)}}>
           <Title style={styles.titleLabel}>{ translations.createNewProposedCriteria }</Title>
         </Body>
 
-        <View style={{justifyContent: 'center'}}>
+        <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, -6), alignItems: 'center'}}>
           <Button transparent onPress={() => this.toggleSearch(true)}>
             <Icon name='search' style={styles.searchIcon} />
           </Button>
-        </View>
+        </Right>
       </React.Fragment>
     )
   }
@@ -105,7 +106,7 @@ class SearchableHeader extends Component {
   render() {
     return (
       <Header searchBar>
-        <Left style={{justifyContent: 'center'}}>
+        <Left style={{flex: navigationBackButtonFlex, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
           <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
         </Left>
         { !this.state.isSearch ? this._renderTitle() : this._renderSearchBox() }
@@ -116,7 +117,8 @@ class SearchableHeader extends Component {
 
 const styles = StyleSheet.create({
   titleLabel: {
-    fontSize: getDeviceStyle(19, mobileHeadingTitleSize())
+    fontSize: getDeviceStyle(19, mobileHeadingTitleSize()),
+    fontFamily: FontFamily.title
   },
   searchIcon: {
     fontSize: getDeviceStyle(24, wp('6%')),

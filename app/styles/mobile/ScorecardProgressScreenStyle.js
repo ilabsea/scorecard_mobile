@@ -13,8 +13,10 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   title: {
     fontSize: wp(lgLabelSize),
     fontFamily: FontFamily.title,
-    lineHeight: 40,
-    marginBottom: isShortScreenDevice() ? 0 : 5,
+  },
+  subTitle: {
+    fontSize: 12,
+    color: Color.grayColor,
   },
   btn: {
     backgroundColor: Color.headerColor,

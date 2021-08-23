@@ -44,6 +44,7 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   cardSubTitle: {
     fontSize: wp(smLabelSize),
+    color: Color.grayColor
   },
   viewDetailText: {
     fontSize: wp(smLabelSize),

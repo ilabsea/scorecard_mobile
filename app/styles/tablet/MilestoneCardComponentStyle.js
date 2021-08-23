@@ -41,6 +41,7 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   cardSubTitle: {
     fontSize: 14,
+    color: Color.grayColor
   },
   viewDetailText: {
     fontSize: 16,
