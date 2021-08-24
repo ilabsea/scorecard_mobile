@@ -37,6 +37,10 @@ const votingCriteriaService = (() => {
       !selectedCriterias.filter(sc => sc.indicatorable_id == criteria.indicatorable_id && sc.indicatorable_type == criteria.indicatorable_type).length
     )
 
+    archiveCriterias.map(votingCriteria => {
+      Rating.destory(scorecardUuid, votingCriteria.uuid);
+    });
+
     realm.write(() => {
       realm.delete(archiveCriterias);
     });

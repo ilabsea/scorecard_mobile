@@ -6,6 +6,8 @@ const Rating = (() => {
     deleteAll,
     findByVotingCriteriaAndParticipant,
     getAll,
+    destory,
+    findByVotingCriteria,
   }
 
   function create(data) {
@@ -30,6 +32,20 @@ const Rating = (() => {
 
   function getAll(scorecardUuid) {
     return realm.objects('Rating').filtered(`scorecard_uuid == '${scorecardUuid}'`);
+  }
+
+  function destory(scorecardUuid, votingCriteriaUuid) {
+    const rating = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}' AND voting_criteria_uuid = '${votingCriteriaUuid}'`)[0];
+
+    if (rating) {
+      realm.write(() => {
+        realm.delete(rating);
+      });
+    }
+  }
+
+  function findByVotingCriteria(votingCriteriaUuid) {
+    return realm.objects('Rating').filtered(`voting_criteria_uuid == '${votingCriteriaUuid}'`)[0];
   }
 })();
 
