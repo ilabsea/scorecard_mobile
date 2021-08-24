@@ -12,7 +12,7 @@ import VotingMedianScoreInfo from './VotingMedianInfo';
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
-import { hasVoting } from '../../helpers/voting_criteria_helper';
+import { isVotingCriteriaRated } from '../../helpers/voting_criteria_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';
@@ -24,7 +24,7 @@ class VotingInfoModal extends Component {
   static contextType = LocalizationContext;
 
   _renderContent() {
-    if (hasVoting(this.props.scorecard.uuid)) {
+    if (isVotingCriteriaRated(this.props.criteria.uuid)) {
       return (
         <View>
           <VotingMedianScoreInfo criteria={this.props.criteria} />
@@ -51,7 +51,7 @@ class VotingInfoModal extends Component {
   }
 
   getModalWidth() {
-    if (!hasVoting(this.props.scorecard.uuid))
+    if (!isVotingCriteriaRated(this.props.criteria.uuid))
       return getDeviceStyle('60%', '90%');
 
     return '90%'
@@ -67,7 +67,7 @@ class VotingInfoModal extends Component {
           onDismiss={this.props.onDismiss}
           contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.modalContainer, { width: this.getModalWidth() } ]}
         >
-          { hasVoting(this.props.scorecard.uuid) &&
+          { isVotingCriteriaRated(this.props.criteria.uuid) &&
             <Text numberOfLines={1} style={CustomStyle.modalTitle}>
               { this.props.indicator && this.props.indicator.content }
             </Text>

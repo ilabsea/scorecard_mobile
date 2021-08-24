@@ -36,7 +36,14 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
 }
 
 const hasVoting = (scorecardUuid) => {
-  return Rating.getAll(scorecardUuid).length > 0 ? true : false;
+  const votingCriterias = VotingCriteria.getAll(scorecardUuid);
+
+  for (let i = 0; i < votingCriterias.length; i++) {
+    if (!Rating.findByVotingCriteria(votingCriterias[i].uuid))
+      return false;
+  }
+
+  return true;
 }
 
 const getVotingParticipants = (scorecardUuid) => {
@@ -69,6 +76,10 @@ const getSuggestedActionAttrs = (scorecardUuid, votingCriteriaUuid) => {
   return suggestedActionAttrs;
 }
 
+const isVotingCriteriaRated = (votingCriteriaUuid) => {
+  return Rating.findByVotingCriteria(votingCriteriaUuid) ? true : false;
+}
+
 // Private
 const _getVotedParticipantByType = (scorecardUuid, type) => {
   let participants = Participant.getVoted(scorecardUuid);
@@ -81,4 +92,4 @@ const _getVotedParticipantByType = (scorecardUuid, type) => {
   return participants.length;
 }
 
-export { getVotingInfos, hasVoting, getVotingParticipants, getSuggestedActionAttrs };
+export { getVotingInfos, hasVoting, getVotingParticipants, getSuggestedActionAttrs, isVotingCriteriaRated };
