@@ -20,7 +20,7 @@ class ProposeCriteriaContent extends Component {
   onPress = () => {
     this.clearSelectedCriterias();
 
-    this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUUID});
+    this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
   }
 
   clearSelectedCriterias = () => {
@@ -30,8 +30,8 @@ class ProposeCriteriaContent extends Component {
   }
 
   hasRaisedCriteria = () => {
-    const raisedParticipants = getRaisedParticipants(this.props.scorecardUUID);
-    const criteria = new Criteria(this.props.scorecardUUID);
+    const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
+    const criteria = new Criteria(this.props.scorecardUuid);
     return criteria.hasRaisedCritria(raisedParticipants)
   }
 
@@ -56,10 +56,10 @@ class ProposeCriteriaContent extends Component {
           <Tip screenName={'RaisingProposed'}/>
 
           <ListUser
-            scorecardUUID={this.props.scorecardUUID}
+            scorecardUuid={this.props.scorecardUuid}
             navigation={this.props.navigation}
-            numberOfParticipant={Participant.getAll(this.props.scorecardUUID).length}
-            numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUUID)}
+            numberOfParticipant={Participant.getAll(this.props.scorecardUuid).length}
+            numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
           />
         </ScrollView>
 

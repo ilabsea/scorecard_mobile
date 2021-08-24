@@ -27,7 +27,7 @@ class ProposedCriteriaAccordions extends Component {
 
     return (
       <AccordionSwitcher
-        scorecardUuid={this.props.scorecardUUID}
+        scorecardUuid={this.props.scorecardUuid}
         leftLabel={ translations.raisedParticipant }
         rightLabel={ translations.raisedCriteria }
         activeSide={activeSide}

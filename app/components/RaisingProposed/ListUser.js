@@ -29,12 +29,12 @@ class ListUser extends Component {
   }
 
   _goToCreateNewIndicator(participant_uuid) {
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUUID, participant_uuid: participant_uuid});
+    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid});
   }
 
   render() {
     const {translations} = this.context;
-    const raisedParticipants = getRaisedParticipants(this.props.scorecardUUID);
+    const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
 
     return (
       <View>
@@ -45,8 +45,8 @@ class ListUser extends Component {
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
-              participants={Participant.getNotRaised(this.props.scorecardUUID)}
-              scorecard_uuid={ this.props.scorecardUUID }
+              participants={Participant.getNotRaised(this.props.scorecardUuid)}
+              scorecard_uuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
               onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
@@ -59,7 +59,7 @@ class ListUser extends Component {
         </View>
 
         <ProposedCriteriaAccordions
-          scorecardUuid={this.props.scorecardUUID}
+          scorecardUuid={this.props.scorecardUuid}
           raisedParticipants={raisedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
           navigation={this.props.navigation}
