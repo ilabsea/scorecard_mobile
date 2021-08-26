@@ -1,5 +1,3 @@
-import realm from '../db/schema';
-
 const selectedCriteriaReducer = (state=[], action) => {
   switch(action.type) {
     case 'SET_SELECTED_CRITERIAS':
@@ -7,7 +5,7 @@ const selectedCriteriaReducer = (state=[], action) => {
     case 'ADD_TO_SELECTED':
       return [...state, action.payload];
     case 'REMOVE_FROM_SELECTED':
-      return state.filter(critera => critera.tag != action.payload.tag);
+      return state.filter(critera => critera.indicatorable_id != action.payload.indicatorable_id);
     default:
       return state;
   }

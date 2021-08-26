@@ -10,6 +10,7 @@ const votingCriteriaService = (() => {
     submitVoting,
     getAll,
     getSelectedTags,
+    getSelectedIndicatorableIds,
     create,
     filterByTag,
     submitCriterias,
@@ -29,6 +30,10 @@ const votingCriteriaService = (() => {
 
   function getSelectedTags(scorecardUuid) {
     return getAll(scorecardUuid).map(x => x.tag);
+  }
+
+  function getSelectedIndicatorableIds(scorecardUuid) {
+    return getAll(scorecardUuid).map(x => x.indicatorable_id);
   }
 
   function cleanArchiveCriterias(scorecardUuid, selectedCriterias) {
