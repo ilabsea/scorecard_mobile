@@ -11,6 +11,10 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     fontSize: 24,
     fontFamily: FontFamily.title,
   },
+  facilityCode: {
+    color: Color.grayColor,
+    marginBottom: 6
+  },
   subTitle: {
     color: 'gray',
   },

@@ -16,13 +16,15 @@ class ScorecardProgressTitle extends Component {
   static contextType = LocalizationContext;
 
   renderScorecardLocation() {
-    return `${this.props.scorecard.commune},  ${this.props.scorecard.district}, ${this.props.scorecard.province}`;
+    const primarySchool = this.props.scorecard.primary_school ? `${JSON.parse(this.props.scorecard.primary_school).name_en}, ` : '';
+
+    return `${primarySchool}${this.props.scorecard.commune},  ${this.props.scorecard.district}, ${this.props.scorecard.province}`;
   }
 
   renderConductedDate() {
     if (this.props.scorecard.conducted_date)
       return (
-        <Text style={[responsiveStyles.subTitle, { flex: 1, textAlign: 'right', marginLeft: 10, marginBottom: 2 }]}>
+        <Text style={[responsiveStyles.subTitle, { flex: 1, textAlign: 'right', marginLeft: 10 }]}>
           { !!this.props.scorecard.conducted_date ? scorecardHelper.getTranslatedDate(this.props.scorecard.conducted_date, this.context.appLanguage, 'DD MMM YYYY') : '' }
         </Text>
       )
@@ -31,7 +33,8 @@ class ScorecardProgressTitle extends Component {
   render() {
     return (
       <View style={{marginBottom: 15}}>
-        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+        <View style={{flexDirection: 'row', alignItems: 'flex-end', marginBottom: 4}}>
+          <Text style={responsiveStyles.facilityCode}>{ this.props.scorecard.facility_code }: </Text>
           <Text style={responsiveStyles.title}>
             { this.props.scorecard.uuid }
           </Text>
