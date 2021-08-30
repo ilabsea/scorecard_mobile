@@ -52,10 +52,10 @@ class IndicatorDevelopment extends Component {
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 
-    let selectedTags = votingCriteriaService.getSelectedTags(this.state.scorecard.uuid);
+    let selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
     let proposedCriterias = proposedCriteriaService.getProposedCriterias(this.state.scorecard.uuid);
-    let selectedCriterias = proposedCriterias.filter(x => selectedTags.includes(x.tag));
-    proposedCriterias = proposedCriterias.filter(x => !selectedTags.includes(x.tag));
+    let selectedCriterias = proposedCriterias.filter(x => selectedIndicatorableIds.includes(x.indicatorable_id));
+    proposedCriterias = proposedCriterias.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
 
     this.props.setSelectedCriterias(selectedCriterias);
     this.props.setProposedCriterias(proposedCriterias);

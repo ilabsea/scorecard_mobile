@@ -18,11 +18,11 @@ class Criteria {
 
   getCriterias = () => {
     let allCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`);
-    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}' DISTINCT(tag)`)));
+    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`)));
 
     criterias = criterias.map(criteria => {
       let indicator = indicatorHelper.getDisplayIndicator(criteria);
-      criteria.raised_count = allCriterias.filter(x => x.tag == criteria.tag).length;
+      criteria.raised_count = allCriterias.filter(x => x.indicatorable_id == criteria.indicatorable_id).length;
       criteria.name = indicator.name || indicator.content;
       criteria.shortcut = getIndicatorShortcutName(criteria.name);
 
