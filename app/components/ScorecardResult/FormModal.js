@@ -1,22 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ScrollView,
-} from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import { Modal, Portal } from 'react-native-paper';
-import { Text, Icon, CheckBox } from 'native-base';
 import { useDispatch } from 'react-redux';
-import { LocalizationContext } from '../Translations';
 import { getAll } from '../../actions/votingCriteriaAction';
 
-import CloseButton from '../CloseButton';
-import SaveButton from '../SaveButton';
-import OutlinedButton from '../OutlinedButton';
-import ScorecardResultTextInput from './ScorecardResultTextInput';
+import ScorecardResultModalTitle from './ScorecardResultModalTitle';
+import ScorecardResultModalList from './ScorecardResultModalList';
+import ScorecardResultModalButtons from './ScorecardResultModalButtons';
 
 import VotingCriteria from '../../models/VotingCriteria';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
@@ -30,7 +21,6 @@ const styles = getDeviceStyle(FormModalTabletStyles, FormModalMobileStyles);
 
 const FormModal = (props) => {
   const dispatch = useDispatch();
-  const { translations } = useContext(LocalizationContext);
   const { criteria, visible, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
@@ -118,61 +108,6 @@ const FormModal = (props) => {
     setPoints([...newPoints]);
   }
 
-  function _renderForm() {
-    let renderPoints = hasAction ? points : defaultPoints;
-    let renderSelectedActions = getSelectedActions();
-
-    return renderPoints.map((note, index) => {
-      let fieldName = `note-${index}`;
-      return (
-        <View key={index} style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {}]}>
-
-          { isSuggestedAction() &&
-            <CheckBox
-              disabled={isScorecardFinished}
-              checked={renderSelectedActions[index]}
-              onPress={() => toggleCheckbox(index)}
-              color={isScorecardFinished ? Color.grayColor : Color.clickableColor}
-              style={{marginLeft: -10, marginRight: 15, alignItems: 'center', justifyContent: 'center', width: 23, height: 23}}
-            />
-          }
-
-          <Text style={[styles.orderNumberText, isSuggestedAction() ? {marginLeft: 5} : {}]}>{ index + 1 }.</Text>
-          <View style={{flex: 1}}>
-            <ScorecardResultTextInput
-              autoFocus={true}
-              value={note}
-              placeholder={translations[criteria.currentFieldName]}
-              fieldName={fieldName}
-              onChangeText={onChangeText}
-              customStyle={styles.inputText}
-              disabled={isScorecardFinished}
-              isDelete={isDelete}
-            />
-          </View>
-
-          <TouchableOpacity
-            onPress={() => deletePoint(index)}
-            style={styles.btnRemove}
-            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-            <Icon name='trash' type="FontAwesome" style={[styles.removeIcon, _getLabelMarginTop(), { color: isScorecardFinished ? Color.lightGrayColor : 'red' }]} />
-          </TouchableOpacity>
-        </View>
-      )
-    });
-  }
-
-  function _getLabelMarginTop() {
-    return { marginTop: isScorecardFinished ? -2 : 0 };
-  }
-
-  function _renderIndicatorName() {
-    if (selectedIndicator)
-      return selectedIndicator.content ? selectedIndicator.content : selectedIndicator.name;
-
-    return '';
-  }
-
   function isSuggestedAction() {
     return criteria.currentFieldName == 'suggested_action';
   }
@@ -185,45 +120,32 @@ const FormModal = (props) => {
     setSelectedActions([...newSelectedActions]);
   }
 
-  let fieldName = translations[criteria.currentFieldName] ? translations[criteria.currentFieldName].toLowerCase() : '';
-  const subTitle = `${translations.insert} ${fieldName}`;
-
   return (
     <Portal>
       <Modal visible={visible} contentContainerStyle={ styles.container }>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
-            <View style={styles.headerContainer}>
-              <View style={styles.titleContainer}>
-                <Text numberOfLines={1} style={styles.titleText}>
-                  { _renderIndicatorName() }
-                </Text>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.subTitleText}>{ subTitle }</Text>
-                </View>
-              </View>
+            <ScorecardResultModalTitle
+              selectedIndicator={selectedIndicator}
+              addNewPoint={() => addNewPoint()}
+              isScorecardFinished={isScorecardFinished}
+              criteria={criteria}
+            />
 
-              { !isScorecardFinished &&
-                <OutlinedButton
-                  icon='plus'
-                  label={ translations.addNew }
-                  onPress={() => addNewPoint() }
-                  disabled={isScorecardFinished}
-                />
-              }
-            </View>
+            <ScorecardResultModalList
+              hasAction={hasAction}
+              points={points}
+              defaultPoints={defaultPoints}
+              renderSelectedActions={getSelectedActions()}
+              isScorecardFinished={isScorecardFinished}
+              criteria={criteria}
+              isDelete={isDelete}
+              toggleCheckbox={toggleCheckbox}
+              onChangeText={onChangeText}
+              deletePoint={deletePoint}
+            />
 
-            <ScrollView
-              contentContainerStyle={{paddingTop: 0, paddingBottom: 20}}
-              showsVerticalScrollIndicator={false}
-            >
-              { _renderForm() }
-            </ScrollView>
-
-            <View style={styles.btnWrapper}>
-              <CloseButton onPress={() => onDismiss()} label={translations.close} />
-              <SaveButton onPress={() => submit()} label={translations.save} disabled={isScorecardFinished} />
-            </View>
+            <ScorecardResultModalButtons submit={() => submit()} dismiss={() => onDismiss()} disabled={isScorecardFinished} />
           </View>
         </TouchableWithoutFeedback>
       </Modal>
