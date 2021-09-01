@@ -59,6 +59,7 @@ class SelectedImageHeader extends Component {
       <React.Fragment>
         <NavigationHeader
           title={translations.selectedImage}
+          bodyStyle={{flex: 1, paddingLeft: wp('2%')}}
           rightComponent={() => this.renderRightButton()}
           onBackPress={() => this._onPress()}
         />

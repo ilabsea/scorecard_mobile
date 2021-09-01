@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import Color from '../../themes/color';

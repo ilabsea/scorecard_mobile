@@ -58,7 +58,7 @@ class ImageSelector extends Component {
 
   render() {
     const { translations } = this.context;
-    const modalHeight = getDeviceStyle(screenHeight / 7, isShortScreenDevice() ? hp('22%') : hp('20.5%'))
+    const modalHeight = getDeviceStyle(screenHeight / 7.5, isShortScreenDevice() ? hp('22%') : hp('20.5%'))
 
     return (
       <BottomHalfModal
