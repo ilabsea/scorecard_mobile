@@ -33,8 +33,9 @@ class Autocomplete extends Component {
 
     if (!data || !data.length || !this.state.showDropdown) { return }
 
-    let doms = data.map(item =>
+    let doms = data.map((item, index) =>
       <TouchableOpacity
+        key={index}
         onPress={() => {
           this.onChangeText(item);
           Keyboard.dismiss();
