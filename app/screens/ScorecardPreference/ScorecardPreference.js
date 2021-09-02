@@ -1,30 +1,18 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import {View, TouchableWithoutFeedback} from 'react-native';
 import Moment from 'moment';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../../components/Translations';
-import BottomButton from '../../components/BottomButton';
-import DownloadButton from '../../components/ScorecardDetail/DownloadButton';
 import ProgressHeader from '../../components/ProgressHeader';
-import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
-import MessageModal from '../../components/MessageModal';
 import ScorecardPreferenceForm from '../../components/ScorecardPreference/ScorecardPreferenceForm';
+import ScorecardPreferenceButtons from '../../components/ScorecardPreference/ScorecardPreferenceButtons';
+import ScorecardPreferenceModals from '../../components/ScorecardPreference/ScorecardPreferenceModals';
 
-import authenticationFormService from '../../services/authentication_form_service';
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
-import ScorecardService from '../../services/scorecardService';
 import Scorecard from '../../models/Scorecard';
-import { RUNNING } from '../../constants/milestone_constant';
-
-import { containerPaddingTop, getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import Color from '../../themes/color';
-import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
-import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
-
-const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -32,6 +20,8 @@ import {
   stopDownload,
   getDownloadPercentage,
 } from '../../services/scorecard_download_service';
+
+let _this = null;
 
 class ScorecardPreference extends Component {
   static contextType = LocalizationContext;
@@ -54,9 +44,9 @@ class ScorecardPreference extends Component {
       isDownloadAudio: false,
       hasInternetConnection: false,
       visibleConfirmModal: false,
-      containerPaddingBottom: 0,
     };
 
+    _this = this;
     this.formRef = React.createRef();
     this.unsubscribeNetInfo;
   }
@@ -95,31 +85,11 @@ class ScorecardPreference extends Component {
   saveSelectedData = () => {
     this.formRef.current.closeAllSelectBox()
     const {date, textLocale, audioLocale} = this.state;
-    scorecardPreferenceService.updatePreference(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
-
-    const scorecardService = new ScorecardService();
-    scorecardService.updateMilestone(this.props.route.params.scorecard_uuid, null, RUNNING);
-
+    scorecardPreferenceService.saveSelectedData(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }
 
-  isFullyDownloaded = () => {
-    return scorecardPreferenceService.isFullyDownloaded(this.props.route.params.scorecard_uuid, this.state.isFinishDownloaded);
-  }
-
-  showConfirmModal = async (hasScorecardDownload) => {
-    const { translations } = this.context;
-    const isAuthenticated = await authenticationFormService.isAuthenticated();
-
-    if (!this.state.hasInternetConnection) {
-      internetConnectionService.showAlertMessage(translations.noInternetConnection);
-      return;
-    }
-    else if (!isAuthenticated) {
-      this.errorCallback('422');
-      return;
-    }
-
+  showConfirmModal = (hasScorecardDownload) => {
     if (hasScorecardDownload)
       this.downloadScorecard();
     else
@@ -172,140 +142,89 @@ class ScorecardPreference extends Component {
     });
   }
 
-  isDownloadDisabled = () => {
-    if (this.state.languages.length == 0)
-      return true;
-
-    return this.state.errorType ? false : this.state.isDownloading;
-  }
-
-  renderDownloadButton = () => {
-    if (this.isFullyDownloaded())
-      return;
-
-    const { translations } = this.context;
-    const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.state.scorecard.uuid);
-    const label = hasScorecardDownload ? translations.resumeDownload : translations.downloadAndSave;
-
-    return (
-      <View>
-        { this.state.isErrorDownload &&
-          <Text style={{textAlign: 'center', marginBottom: 5, color: Color.redColor}}>{translations.failedToDownloadScorecard}</Text>
-        }
-
-        <DownloadButton
-          showDownloadProgress={this.state.isDownloading}
-          downloadProgress={this.state.downloadProgress}
-          disabled={this.isDownloadDisabled()}
-          onPress={() => this.showConfirmModal(hasScorecardDownload)}
-          label={label}
-        />
-      </View>
-    );
-  };
-
-  renderNextButton = () => {
-    const {translations} = this.context;
-    if (this.isFullyDownloaded()) {
-      return (
-        <BottomButton label={translations.next} onPress={() => this.saveSelectedData()} />
-      );
-    }
-  };
-
   onBackPress = () => {
     stopDownload();
     this.props.navigation.goBack();
   }
 
-  onDismissErrorMessageModal = () => {
-    this.setState({
-      visibleModal: false,
-      isErrorDownload: false,
-      errorType: null,
-    });
+  onDismissModal(type) {
+    const modalState = {
+      message_modal: { visibleConfirmModal: false },
+      error_modal: {
+        visibleModal: false,
+        isErrorDownload: false,
+        errorType: null,
+      }
+    };
+
+    _this.setState(modalState[type]);
   }
 
-  confirmDownloadContent = () => {
-    const {translations} = this.context;
-    const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.textLocale);
-    const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.audioLocale);
-
+  renderBottomButtons() {
     return (
-      <View style={{marginTop: 15, marginBottom: 10, paddingHorizontal: 15}}>
-        <Text style={modalStyles.label}>{translations.downloadScorecardFirstDescription}</Text>
-        <Text style={[{ marginTop: 15 }, , modalStyles.label]}>
-          {translations.formatString(translations.downloadScorecardSecondDescription, this.props.route.params.scorecard_uuid, textLocaleLabel, audioLocaleLabel)}
-        </Text>
-      </View>
+      <ScorecardPreferenceButtons
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        isFinishDownloaded={this.state.isFinishDownloaded}
+        languages={this.state.languages}
+        errorType={this.state.errorType}
+        isDownloading={this.state.isDownloading}
+        isErrorDownload={this.state.isErrorDownload}
+        downloadProgress={this.state.downloadProgress}
+        showConfirmModal={this.showConfirmModal}
+        saveSelectedData={() => this.saveSelectedData()}
+        hasInternetConnection={this.state.hasInternetConnection}
+        errorCallback={this.errorCallback}
+      />
     )
   }
 
-  updateContainerPadding = (isExpand) => {
-    this.setState({ containerPaddingBottom: isExpand ? getDeviceStyle(28, hp('30%')) : 0 });
+  renderModals() {
+    return (
+      <ScorecardPreferenceModals
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        languages={this.state.languages}
+        selectedLanguage={{text_locale: this.state.textLocale, audio_locale: this.state.audioLocale}}
+        visibleModal={this.state.visibleModal}
+        visibleConfirmModal={this.state.visibleConfirmModal}
+        errorType={this.state.errorType}
+        onDismissModal={this.onDismissModal}
+        downloadScorecard={() => this.downloadScorecard()}
+      />
+    )
+  }
+
+  renderForm() {
+    return (
+      <ScorecardPreferenceForm
+        ref={this.formRef}
+        languages={this.state.languages}
+        changeValue={this.changeValue}
+        scorecard={this.state.scorecard}
+        textLocale={this.state.textLocale}
+        audioLocale={this.state.audioLocale}
+      />
+    )
   }
 
   render() {
-    const {translations} = this.context;
-
     return (
       <TouchableWithoutFeedback onPress={() => this.formRef.current.closeAllSelectBox()}>
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
-            title={translations['getStarted']}
+            title={this.context.translations['getStarted']}
             onBackPress={() => this.onBackPress()}
             onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={0}/>
 
-          <ScrollView contentContainerStyle={[styles.container, { paddingBottom: this.state.containerPaddingBottom }]}>
-            <ScorecardPreferenceForm
-              ref={this.formRef}
-              languages={this.state.languages}
-              changeValue={this.changeValue}
-              scorecard={this.state.scorecard}
-              textLocale={this.state.textLocale}
-              audioLocale={this.state.audioLocale}
-              updateContainerPadding={this.updateContainerPadding}
-            />
-          </ScrollView>
+          { this.renderForm() }
 
-          <View style={{padding: containerPadding}}>
-            { this.renderDownloadButton() }
+          { this.renderBottomButtons() }
 
-            { this.renderNextButton() }
-          </View>
-
-          <ErrorMessageModal
-            visible={this.state.visibleModal}
-            onDismiss={() => this.onDismissErrorMessageModal()}
-            errorType={this.state.errorType}
-            isNewScorecard={true}
-            scorecardUuid={this.props.route.params.scorecard_uuid}
-          />
-
-          <MessageModal
-            visible={this.state.visibleConfirmModal}
-            onDismiss={() => this.setState({visibleConfirmModal: false})}
-            title={translations.theScorecardContainsAudios}
-            hasConfirmButton={true}
-            confirmButtonLabel={translations.ok}
-            onPressConfirmButton={() => this.downloadScorecard()}
-            child={() => this.confirmDownloadContent()}
-            renderInline={false}
-          />
+          { this.renderModals() }
         </View>
       </TouchableWithoutFeedback>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: Color.whiteColor,
-    padding: containerPadding,
-    paddingTop: containerPaddingTop,
-  },
-});
 
 export default ScorecardPreference;

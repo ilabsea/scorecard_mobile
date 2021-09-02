@@ -61,6 +61,7 @@ class NewScorecard extends Component {
 
     this.unsubscribeNetInfo;
     this.scorecardRef = React.createRef();
+    this.componentIsUnmount = false;
   }
 
   componentDidMount() {
@@ -70,6 +71,7 @@ class NewScorecard extends Component {
   }
 
   componentWillUnmount() {
+    this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
@@ -132,15 +134,15 @@ class NewScorecard extends Component {
     scorecardService.find(code, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (responseData === null) {
-        this.setState({isLoading: false});
         this.setState({
+          isLoading: false,
           visibleModal: true,
           errorType: ERROR_SCORECARD,
         });
       }
       else if (!scorecardHelper.isScorecardAvailable(responseData)) {
-        this.setState({isLoading: false});
         this.setState({
+          isLoading: false,
           visibleModal: true,
           errorType: scorecardHelper.getScorecardErrorType(responseData),
         });
@@ -161,11 +163,12 @@ class NewScorecard extends Component {
     });
 
     checkConnection((type, message) => {
-      this.setState({
-        messageType: type,
-        errorMsg: message,
-        isLoading: false,
-      });
+      if (!this.componentIsUnmount)
+        this.setState({
+          messageType: type,
+          errorMsg: message,
+          isLoading: false,
+        });
     });
   };
 

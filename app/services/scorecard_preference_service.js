@@ -2,12 +2,14 @@ import {
   find as findScorecardDownload,
   isDownloaded as isScorecardDownloaded,
 } from './scorecard_download_service';
+import ScorecardService from './scorecardService';
 
 import { load as loadLanguage } from './program_language_service';
 import Scorecard from '../models/Scorecard';
 import ProgramLanguage from '../models/ProgramLanguage';
 
 import { isKhmerLanguage } from '../utils/program_language_util';
+import { RUNNING } from '../constants/milestone_constant';
 
 const scorecardPreferenceService = (() => {
   return {
@@ -16,6 +18,7 @@ const scorecardPreferenceService = (() => {
     loadProgramLanguage,
     hasScorecardDownload,
     updatePreference,
+    saveSelectedData,
   };
 
   function getLocaleLabel(languages, languageCode) {
@@ -87,6 +90,13 @@ const scorecardPreferenceService = (() => {
     };
 
     Scorecard.update(scorecardUuid, attrs);
+  }
+
+  function saveSelectedData(scorecardUuid, date, textLocale, audioLocale) {
+    updatePreference(scorecardUuid, date, textLocale, audioLocale);
+
+    const scorecardService = new ScorecardService();
+    scorecardService.updateMilestone(scorecardUuid, null, RUNNING);
   }
 })();
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Moment from 'moment';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
@@ -8,17 +9,14 @@ import HeaderTitle from '../HeaderTitle';
 import DatePicker from '../DatePicker';
 
 import Color from '../../themes/color';
-
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
-
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
-import ScorecardPreferenceFormTabletStyles from '../../styles/tablet/ScorecardPreferenceFormComponentStyle';
-import ScorecardPreferenceFormMobileStyles from '../../styles/mobile/ScorecardPreferenceFormComponentStyle';
-
-const styles = getDeviceStyle(ScorecardPreferenceFormTabletStyles, ScorecardPreferenceFormMobileStyles);
+import { isShortScreenDevice, containerPadding, containerPaddingTop, getDeviceStyle } from '../../utils/responsive_util';
 
 class ScorecardPreferenceForm extends Component {
   static contextType = LocalizationContext;
+  state = {
+    containerPaddingBottom: 0
+  }
 
   constructor(props) {
     super(props);
@@ -35,10 +33,13 @@ class ScorecardPreferenceForm extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    return { 
-      textLocale: props.textLocale,
-      audioLocale: props.audioLocale,
-    };
+    if (props.textLocale != state.textLocale || props.audioLocale != state.audioLocale)
+      return { 
+        textLocale: props.textLocale,
+        audioLocale: props.audioLocale,
+      };
+
+    return {};
   }
 
   closeAllSelectBox = () => {
@@ -61,23 +62,27 @@ class ScorecardPreferenceForm extends Component {
     this.props.changeValue('date', date);
   }
 
+  updateContainerPadding = (isExpand) => {
+    this.setState({ containerPaddingBottom: isExpand ? getDeviceStyle(28, hp('30%')) : 0 });
+  }
+  
   onTextLanguageOpen = () => {
     this.setState({ openDropDownType: 'text' });
     this.audioLanguageController.close();
 
     if (isShortScreenDevice())
-      this.props.updateContainerPadding(true);
+      this.updateContainerPadding(true);
   }
 
   onAudioLanguageOpen = () => {
     this.setState({ openDropDownType: 'audio' });
     this.textLanguageController.close();
-    this.props.updateContainerPadding(true);
+    this.updateContainerPadding(true);
   }
 
   onCloseDropDown = (type) => {
     if (type == this.state.openDropDownType)
-      this.props.updateContainerPadding(false);
+      this.updateContainerPadding(false);
   }
 
   renderForm = () => {
@@ -128,16 +133,22 @@ class ScorecardPreferenceForm extends Component {
 
   render() {
     return (
-      <View>
-        <HeaderTitle
-          headline="scorecardPreference"
-          subheading="pleaseFillInformationBelow"
-        />
+      <ScrollView contentContainerStyle={[styles.container, { paddingBottom: this.state.containerPaddingBottom }]}>
+        <HeaderTitle headline="scorecardPreference" subheading="pleaseFillInformationBelow" />
 
         {this.renderForm()}
-      </View>
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: Color.whiteColor,
+    padding: containerPadding,
+    paddingTop: containerPaddingTop,
+  },
+});
 
 export default ScorecardPreferenceForm;
