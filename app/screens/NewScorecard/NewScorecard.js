@@ -173,6 +173,7 @@ class NewScorecard extends Component {
         isSubmitted={this.state.isSubmitted}
         navigation={this.props.navigation}
         closeModal={this.closeModal}
+        setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
       />
     )
   }
