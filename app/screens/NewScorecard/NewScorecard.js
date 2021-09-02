@@ -10,37 +10,22 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../../components/Translations';
-import MessageLabel from '../../components/MessageLabel';
-import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
-import ScorecardInfoModal from '../../components/NewScorecard/ScorecardInfoModal';
-import ButtonForgetCode from '../../components/NewScorecard/ButtonForgetCode';
-import ScorecardCodeInput from '../../components/NewScorecard/ScorecardCodeInput';
+import NewScorecardForm from '../../components/NewScorecard/NewScorecardForm';
+import NewScorecardModals from '../../components/NewScorecard/NewScorecardModals';
 
 import Color from '../../themes/color';
-import validationService from '../../services/validation_service';
 import {checkConnection, getErrorType} from '../../services/api_service';
 import Scorecard from '../../models/Scorecard';
 
-import { isDownloaded } from '../../services/scorecard_download_service';
 import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
-import ScorecardService from '../../services/scorecardService';
-import { load as loadProgramLanguage } from '../../services/program_language_service';
-import scorecardHelper from '../../helpers/scorecard_helper';
+import newScorecardService from '../../services/new_scorecard_service';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
 
-import { ERROR_SCORECARD } from '../../constants/error_constant';
-
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
-
-import { getDeviceStyle } from '../../utils/responsive_util';
-import NewScorecardTabletStyles from '../../styles/tablet/NewScorecardScreenStyle';
-import NewScorecardMobileStyles from '../../styles/mobile/NewScorecardScreenStyle';
-
-const responsiveStyles = getDeviceStyle(NewScorecardTabletStyles, NewScorecardMobileStyles);
 
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
@@ -75,20 +60,10 @@ class NewScorecard extends Component {
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  isValid = () => {
-    this.setState({ errorMsg: '', });
-    const {code} = this.state;
-    const codeValidationMsg = validationService('scorecardCode', code);
-
-    if (codeValidationMsg != null)
-      return false;
-
-    return true;
-  };
-
   joinScorecard = async (code) => {
     this.setState({ code });
     const isAuthenticated = await authenticationFormService.isAuthenticated();
+    this.setState({ errorMsg: '' });
 
     if (!isAuthenticated) {
       this.setErrorState('422');
@@ -96,7 +71,7 @@ class NewScorecard extends Component {
     }
 
     const isSubmitted = Scorecard.isSubmitted(code);
-    if (!this.isValid() || isSubmitted) {
+    if (!newScorecardService.isValidScorecard(code) || isSubmitted) {
       this.setState({
         visibleInfoModal: isSubmitted,
         isSubmitted: isSubmitted,
@@ -106,61 +81,30 @@ class NewScorecard extends Component {
     }
 
     if (Scorecard.isExists(code)) {
-      AsyncStorage.setItem('SELECTED_SCORECARD_UUID', code);
-
-      if (!isDownloaded(code)) {
+      newScorecardService.handleExistedScorecard(code, () => {
         this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: code});
-        return;
-      }
-
-      this.setState({
-        visibleInfoModal: true,
-        isSubmitted: false,
-      });
-
+      }, () => {
+        this.setState({
+          visibleInfoModal: true,
+          isSubmitted: false,
+        });
+      })
       return;
     }
 
     if (!this.state.hasInternetConnection) {
-      const { translations } = this.context;
-      internetConnectionService.showAlertMessage(translations.noInternetConnection);
+      internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection);
       return;
     }
 
     this.setState({isLoading: true});
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
-    const scorecardService = new ScorecardService();
-    scorecardService.find(code, (responseData) => {
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      if (responseData === null) {
-        this.setState({
-          isLoading: false,
-          visibleModal: true,
-          errorType: ERROR_SCORECARD,
-        });
-      }
-      else if (!scorecardHelper.isScorecardAvailable(responseData)) {
-        this.setState({
-          isLoading: false,
-          visibleModal: true,
-          errorType: scorecardHelper.getScorecardErrorType(responseData),
-        });
-      }
-      else {
-        this.uuid = responseData.uuid;
-        Scorecard.upsert(responseData);
-
-        loadProgramLanguage(responseData.program_id, (response) => {
-          this.setState({isLoading: false});
-          this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.uuid});
-        });
-      }
-    }, (error) => {
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      this.setState({isLoading: false});
-      this.setErrorState(error.status);
-    });
+    newScorecardService.joinScorecard(code,
+      (errorType) => this.handleErrorScorecard(errorType),
+      () => this.handleJoinScorecardSuccess(),
+      (error) => this.handleJoinScorecardError(error)
+    );
 
     checkConnection((type, message) => {
       if (!this.componentIsUnmount)
@@ -172,6 +116,24 @@ class NewScorecard extends Component {
     });
   };
 
+  handleErrorScorecard(errorType) {
+    this.setState({
+      isLoading: false,
+      visibleModal: true,
+      errorType: errorType,
+    });
+  }
+
+  handleJoinScorecardSuccess() {
+    this.setState({isLoading: false});
+    this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.state.code});
+  }
+
+  handleJoinScorecardError(error) {
+    this.setState({isLoading: false});
+    this.setErrorState(error.status);
+  }
+
   setErrorState = (error) => {
     this.setState({
       visibleModal: true,
@@ -179,30 +141,40 @@ class NewScorecard extends Component {
     });
   }
 
-  renderErrorMsg = () => {
-    const {errorMsg, messageType} = this.state;
-    const { translations } = this.context;
-
-    if (errorMsg != '') {
-      return (
-        <MessageLabel
-          message={translations[errorMsg]}
-          type={messageType}
-          customStyle={{marginTop: 10}}
-        />
-      );
-    }
-  };
-
-
-  closeModal = (type, hasAutoFocus) => {
-    if (type == 'error-modal')
-      this.setState({ visibleModal: false });
-    else
-      this.setState({ visibleInfoModal: false });
+  closeModal = (hasAutoFocus) => {
+    this.setState({
+      visibleModal: false,
+      visibleInfoModal: false,
+    });
 
     if (hasAutoFocus)
       this.scorecardRef.current.inputRef.focusField(5);
+  }
+
+  renderForm() {
+    return (
+      <NewScorecardForm
+        scorecardRef={this.scorecardRef}
+        errorMsg={this.state.errorMsg}
+        messageType={this.state.messageType}
+        joinScorecard={this.joinScorecard}
+        navigation={this.props.navigation}
+      />
+    )
+  }
+
+  renderModals() {
+    return (
+      <NewScorecardModals
+        visibleErrorModal={this.state.visibleModal}
+        visibleInfoModal={this.state.visibleInfoModal}
+        scorecardUuid={this.state.code}
+        errorType={this.state.errorType}
+        isSubmitted={this.state.isSubmitted}
+        navigation={this.props.navigation}
+        closeModal={this.closeModal}
+      />
+    )
   }
 
   render() {
@@ -219,35 +191,9 @@ class NewScorecard extends Component {
             <View style={{flex: 3}}></View>
 
             <Brand/>
-
-            <View style={responsiveStyles.formContainer}>
-              <ScorecardCodeInput
-                ref={this.scorecardRef}
-                joinScorecard={this.joinScorecard}
-              />
-
-              {this.renderErrorMsg()}
-              <ButtonForgetCode navigation={this.props.navigation} />
-            </View>
-
+            { this.renderForm() }
             <Logos />
-
-            <ErrorMessageModal
-              visible={this.state.visibleModal}
-              onDismiss={() => this.closeModal('error-modal', true)}
-              errorType={this.state.errorType}
-              isNewScorecard={true}
-              scorecardUuid={this.state.code}
-            />
-
-            <ScorecardInfoModal
-              visible={this.state.visibleInfoModal}
-              navigation={this.props.navigation}
-              onDismiss={(hasAutoFocus) => this.closeModal('info-modal', hasAutoFocus)}
-              isSubmitted={this.state.isSubmitted}
-              scorecardUuid={this.state.code}
-              setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
-            />
+            { this.renderModals() }
           </View>
         </ImageBackground>
       </TouchableWithoutFeedback>
