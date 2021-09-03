@@ -50,6 +50,7 @@ class Setting extends Component {
 
     this.settingFormRef = React.createRef();
     this.unsubscribeNetInfo;
+    this.componentIsUnmount = false;
   }
 
   componentDidMount = async () => {
@@ -59,6 +60,7 @@ class Setting extends Component {
   }
 
   componentWillUnmount() {
+    this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
@@ -156,13 +158,14 @@ class Setting extends Component {
     this.authenticate();
 
     checkConnection((type, message) => {
-      const { translations } = this.context;
-
-      this.setState({
-        messageType: type,
-        errorMsg: translations[message],
-        isLoading: false,
-      });
+      if (!this.componentIsUnmount) {
+        const { translations } = this.context;
+        this.setState({
+          messageType: type,
+          errorMsg: translations[message],
+          isLoading: false,
+        });
+      }
     });
   }
 
