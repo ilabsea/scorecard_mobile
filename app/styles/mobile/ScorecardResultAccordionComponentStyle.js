@@ -46,6 +46,11 @@ const ScorecardResultAccordionComponentStyles = StyleSheet.create({
   btnEditIcon: {
     color: Color.whiteColor,
     fontSize: wp('2.5%'),
+  },
+  warningLabel: {
+    fontSize: wp(smLabelSize),
+    color: Color.redColor,
+    textAlign: 'right'
   }
 });
 

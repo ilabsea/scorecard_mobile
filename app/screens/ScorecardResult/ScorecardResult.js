@@ -14,25 +14,23 @@ import { set } from '../../actions/currentScorecardAction';
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
-import MessageModal from '../../components/MessageModal';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
-import OutlinedButton from '../../components/OutlinedButton';
 
-import { Table, Row} from 'react-native-table-component';
-import ScorecardResultTableRow from '../../components/ScorecardResult/ScorecardResultTableRow';
+import ScorecardResultTitle from '../../components/ScorecardResult/ScorecardResultTitle';
+import ScorecardResultTable from '../../components/ScorecardResult/ScorecardResultTable';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
 import scorecardResultService from '../../services/scorecard_result_service';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import Scorecard from '../../models/Scorecard';
 
-import { FINISHED } from '../../constants/milestone_constant';
-import { getDeviceStyle, mobileHeadingTitleSize, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
 const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+
+let _this = null;
 
 class ScorecardResult extends Component {
   static contextType = LocalizationContext;
@@ -44,9 +42,9 @@ class ScorecardResult extends Component {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
       currentCriteria: {},
       visible: false,
-      visibleConfirmModal: false,
       selectedIndicator: {},
     };
+    _this = this;
   }
 
   componentDidMount() {
@@ -70,23 +68,12 @@ class ScorecardResult extends Component {
   }
 
   _renderTable() {
-    const { translations } = this.context;
-    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'suggested_action'];
-    tableHead = tableHead.map(x => translations[x]);
-    const tableRows = this.props.criterias;
-
     return (
-      <Table borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
-        <Row data={tableHead} style={styles.head} textStyle={styles.text} flexArr={[4, 2, 3, 3, 3]} />
-        {
-          tableRows.map((criteria, index) => (
-            <ScorecardResultTableRow key={index} criteria={criteria}
-              onPress={(fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
-              isScorecardFinished={this.state.scorecard.finished}
-            />
-          ))
-        }
-      </Table>
+      <ScorecardResultTable
+        scorecard={this.state.scorecard}
+        criterias={this.props.criterias}
+        handleShowModal={this._handleShowModal}
+      />
     )
   }
 
@@ -101,16 +88,15 @@ class ScorecardResult extends Component {
   }
 
   _handleShowModal(criteria, fieldName, indicator) {
-    this.setState({
+    _this.setState({
       currentCriteria: Object.assign({currentFieldName: fieldName}, criteria),
       visible: true,
       selectedIndicator: indicator,
     });
   }
 
-  _confirmFinish() {
-    this.setState({visibleConfirmModal: false});
-    Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
+  saveDraft() {
+    // Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
@@ -140,16 +126,7 @@ class ScorecardResult extends Component {
           <View style={styles.container}>
             <Tip screenName={'ScorecardResult'}/>
 
-            <View style={{flexDirection: 'row', marginBottom: 20}}>
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text style={styles.h1}>{ translations.scorecardResult }</Text>
-              </View>
-              <OutlinedButton
-                icon="image"
-                label={translations.viewImage}
-                onPress={() => this.props.navigation.navigate('SelectedImage', { scorecard_uuid: this.props.route.params.scorecard_uuid }) }
-              />
-            </View>
+            <ScorecardResultTitle scorecardUuid={this.props.route.params.scorecard_uuid} navigation={this.props.navigation} />
 
             { !DeviceInfo.isTablet() ? this._renderAccordion() : this._renderTable() }
           </View>
@@ -157,11 +134,11 @@ class ScorecardResult extends Component {
 
         <View style={{padding: containerPadding}}>
           <BottomButton
-            disabled={!scorecardResultService.isAllowToFinish(this.state.scorecard, this.props.criterias)}
-            onPress={() => this.setState({visibleConfirmModal: true})}
+            disabled={!scorecardResultService.isAllowToSaveDraft(this.state.scorecard, this.props.criterias)}
+            onPress={() => this.saveDraft()}
             customBackgroundColor={Color.headerColor}
-            iconName={'checkmark'}
-            label={translations.finish}/>
+            iconName={'none'}
+            label={translations.saveDraft}/>
 
           <FormModal
             visible={this.state.visible}
@@ -169,16 +146,6 @@ class ScorecardResult extends Component {
             onDismiss={() => this.setState({visible: false})}
             selectedIndicator={this.state.selectedIndicator}
             isScorecardFinished={this.state.scorecard.finished}
-          />
-
-          <MessageModal
-            visible={this.state.visibleConfirmModal}
-            onDismiss={() => this.setState({visibleConfirmModal: false})}
-            hasConfirmButton={true}
-            confirmButtonLabel={translations.ok}
-            onPressConfirmButton={() => this._confirmFinish()}
-            child={() => this._confirmFinishContent()}
-            renderInline={true}
           />
         </View>
       </View>
@@ -208,19 +175,5 @@ const styles = StyleSheet.create({
   container: {
     padding: containerPadding,
     flex: 1
-  },
-  h1: {
-    fontSize: getDeviceStyle(24, mobileHeadingTitleSize()),
-    fontFamily: FontFamily.title,
-  },
-  head: {
-    minHeight: 64,
-    backgroundColor: '#eee',
-  },
-  text: {
-    margin: 6,
-    textAlign: 'center',
-    fontFamily: FontFamily.title,
-    fontSize: 18
   },
 })

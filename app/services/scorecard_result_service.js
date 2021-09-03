@@ -1,9 +1,9 @@
 const scorecardResultService = (() => {
   return {
-    isAllowToFinish,
+    isAllowToSaveDraft
   };
 
-  function isAllowToFinish(scorecard, criterias) {
+  function isAllowToSaveDraft(scorecard, criterias) {
     if (scorecard.finished)
       return false;
 
