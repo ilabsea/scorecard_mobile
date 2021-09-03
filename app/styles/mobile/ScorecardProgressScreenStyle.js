@@ -13,6 +13,12 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   title: {
     fontSize: wp(lgLabelSize),
     fontFamily: FontFamily.title,
+    paddingBottom: 0,
+    marginBottom: -wp('0.9%')
+  },
+  facilityCode: {
+    fontSize: 12,
+    color: Color.grayColor,
   },
   subTitle: {
     fontSize: 12,

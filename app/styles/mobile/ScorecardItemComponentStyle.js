@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { mdLabelSize, smLabelSize, xlIconSize, xsLabelSize } from '../../constants/mobile_font_size_constant';
+import { mdLabelSize, smLabelSize, xlIconSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+
+const subTitleFontSize = 12;
 
 const ScorecardItemComponentStyles = StyleSheet.create({
   itemContainer: {
@@ -56,7 +58,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     fontSize: wp(mdLabelSize)
   },
   locationLabel: {
-    fontSize: wp('3.2%'),
+    fontSize: subTitleFontSize,
     marginLeft: 4,
     color: Color.grayColor,
     marginRight: 0,
@@ -72,11 +74,11 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     borderRadius: 30, 
   },
   removeDateIcon: {
-    marginTop: 3,
+    marginTop: 5,
     marginRight: 4
   },
   removeDateLabel: {
-    fontSize: wp(xsLabelSize),
+    fontSize: subTitleFontSize,
     color: Color.redColor,
     fontFamily: FontFamily.body,
     textAlign: 'right',
