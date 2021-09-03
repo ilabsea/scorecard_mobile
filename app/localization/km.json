@@ -57,7 +57,7 @@
   "facilitator": "អ្នក​សម្រប​សម្រួលទី",
   "otherFacilitators": "អ្នក​សម្រប​សម្រួល​",
   "facilitatorCannotDuplicate": "មិន​អាច​ជ្រើស​រើស​អ្នក​សម្រប​សម្រួល​ស្ទួន​",
-  "facilitatorLeadRequirMsg": "ត្រូវ​ការ​អ្នក​ដឹក​នាំ​សម្រប​សម្រួល​",
+  "facilitatorLeadRequireMsg": "ត្រូវ​ការ​អ្នក​ដឹក​នាំ​សម្រប​សម្រួល​",
   "otherFacilitatorRequireMsg": "ត្រូវ​ការ​អ្នក​សម្រប​សម្រួល​ផ្សេងៗ​",
   "scorecardList": "សកម្មភាពប័ណ្ណដាក់ពិន្ទុ",
   "noData": "មិនមានព័ត៌មានសម្រាប់បង្ហាញ",
