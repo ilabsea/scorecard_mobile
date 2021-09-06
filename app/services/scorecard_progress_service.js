@@ -25,12 +25,18 @@ const scorecardProgressService = (() => {
   }
 
   function getProgressMessage(criterias, scorecard) {
-    if (scorecard.status < VOTING)
-      return 'pleaseCompleteAllTheSteps'
-    else if (!_isAllCriteriaVoted(criterias, scorecard.uuid))
-      return 'allCriteriaMustBeVoted';
+    let message = '';
+    if (scorecard.finished)
+      return '';
 
-    return !isAllowToFinish(scorecard) ? 'allCriteriaMustHaveSuggestedAction' : '';
+    if (scorecard.status < VOTING)
+      message = 'pleaseCompleteAllTheSteps';
+    else if (!_isAllCriteriaVoted(criterias, scorecard.uuid))
+      message = 'allCriteriaMustBeVoted';
+    else if (!isAllowToFinish(scorecard))
+      message = 'allCriteriaMustHaveSuggestedAction';
+
+    return message;
   }
 
   // private method
@@ -38,8 +44,6 @@ const scorecardProgressService = (() => {
     let votingCriterias = criterias.length > 0 ? criterias : votingCriteriaService.getAll(scorecardUuid);
 
     for (let i=0; i<votingCriterias.length; i++) {
-      console.log(`voting criteria ${i} = ${votingCriterias[i]}`)
-
       if (!votingCriterias[i].median)
         return false;
     }

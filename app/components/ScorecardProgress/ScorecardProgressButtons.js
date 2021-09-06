@@ -35,8 +35,6 @@ class ScorecardProgressButtons extends Component {
   }
 
   renderMessage() {
-    console.log('criterias == ', this.props.criterias)
-
     const { translations, appLanguage } = this.context;
     let message = '';
     if (this.props.scorecard.isUploaded)

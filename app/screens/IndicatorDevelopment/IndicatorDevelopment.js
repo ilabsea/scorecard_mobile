@@ -23,6 +23,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
+import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
@@ -73,7 +74,9 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias);
+    votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias, (savedCriterias) => {
+      this.props.setVotingCriterias(savedCriterias);
+    });
 
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
@@ -175,6 +178,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedCriterias: (criterias) => dispatch(setSelectedCriterias(criterias)),
     setProposedCriterias: (criterias) => dispatch(setProposedCriterias(criterias)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+    setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
   };
 }
 
