@@ -241,7 +241,7 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
     else if (downloadNextPhase == 'finished') {
       const scorecardService = new ScorecardService();
-      scorecardService.updateMilestone(scorecard.uuid, null, DOWNLOADED);
+      scorecardService.updateMilestone(scorecard.uuid, null, DOWNLOADED, null);
     }
   }
 }

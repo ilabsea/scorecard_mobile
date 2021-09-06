@@ -22,7 +22,7 @@ import { getSuggestedActionAttrs } from '../helpers/voting_criteria_helper';
 
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
-import { SUBMITTED, RUNNING } from '../constants/milestone_constant';
+import { SUBMITTED, RUNNING, RENEWED } from '../constants/milestone_constant';
 import { apiDateFormat } from '../constants/date_format_constant';
 
 class ScorecardService extends BaseModelService {
@@ -98,7 +98,7 @@ class ScorecardService extends BaseModelService {
             finished_date: _this.scorecard.finished_date,
           };
 
-          _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED);
+          _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED, null);
         }
         else if (response.error)
           errorCallback(getErrorType(response.error.status));
@@ -112,7 +112,7 @@ class ScorecardService extends BaseModelService {
     !!callback && callback( this.progressNumber / this.totalNumber );
   }
 
-  async updateMilestone(uuid, data, milestone) {
+  async updateMilestone(uuid, data, milestone, callback) {
     const scorecard = Scorecard.find(uuid);
     let attrs = {
       scorecard_progress: {
@@ -128,7 +128,7 @@ class ScorecardService extends BaseModelService {
     if (data)
       attrs = {...attrs, ...data};
 
-    if (scorecard.milestone == milestone)
+    if (scorecard.milestone != RENEWED && (scorecard.milestone == milestone))
       return;
 
     if (milestone == RUNNING)
@@ -138,6 +138,8 @@ class ScorecardService extends BaseModelService {
       .then(function (response) {
         if (response.status == 200)
           Scorecard.update(uuid, { milestone: milestone });
+
+        callback && callback();
       });
   }
 
@@ -282,13 +284,16 @@ class ScorecardService extends BaseModelService {
   }
 
   // --------------------New scorecard---------------------
-  delete(scorecardUuid) {
+  delete(scorecardUuid, callback) {
     const scorecard = Scorecard.find(scorecardUuid);
 
     if (scorecard.isUploaded)
       return;
 
-    this._deleteScorecardData(scorecardUuid);
+    this.updateMilestone(scorecardUuid, null, RENEWED, () => {
+      this._deleteScorecardData(scorecardUuid);
+      callback && callback();
+    })
   }
 
   removeExpiredScorecard() {
