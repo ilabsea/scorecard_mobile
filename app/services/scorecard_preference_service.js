@@ -96,7 +96,7 @@ const scorecardPreferenceService = (() => {
     updatePreference(scorecardUuid, date, textLocale, audioLocale);
 
     const scorecardService = new ScorecardService();
-    scorecardService.updateMilestone(scorecardUuid, null, RUNNING);
+    scorecardService.updateMilestone(scorecardUuid, null, RUNNING, null);
   }
 })();
 

@@ -120,12 +120,12 @@ class ScorecardList extends Component {
 
   _confirmDelete() {
     const scorecardService = new ScorecardService();
-    scorecardService.delete(this.state.selectedScorecard.uuid);
-
-    this.setState({
-      visibleModal: false,
-      scorecards: Scorecard.getAll(),
-      selectedScorecard: null,
+    scorecardService.delete(this.state.selectedScorecard.uuid, () => {
+      this.setState({
+        visibleModal: false,
+        scorecards: Scorecard.getAll(),
+        selectedScorecard: null,
+      });
     });
   }
 

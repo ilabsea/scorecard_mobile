@@ -3,7 +3,7 @@ import Moment from 'moment';
 import moment from "moment/min/moment-with-locales";
 import { environment } from '../config/environment';
 import { selfAssessment } from '../constants/scorecard_constant';
-import { DOWNLOADED, RUNNING, FINISHED } from '../constants/milestone_constant';
+import { DOWNLOADED, RUNNING, FINISHED, RENEWED } from '../constants/milestone_constant';
 import Color from '../themes/color';
 import Scorecard from '../models/Scorecard';
 import locationHelper from '../helpers/location_helper';
@@ -25,7 +25,7 @@ const scorecardHelper = (() => {
   };
 
   function isScorecardAvailable(scorecard) {
-    return !scorecard.progress || scorecard.progress == DOWNLOADED;
+    return !scorecard.progress || scorecard.progress == DOWNLOADED || scorecard.progress == RENEWED;
   }
 
   function getScorecardErrorType(scorecard) {
