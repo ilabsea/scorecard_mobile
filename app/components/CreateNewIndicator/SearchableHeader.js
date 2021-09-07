@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+// import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Header, Body, Title, Left, Right, Icon, Button, Item, Input } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+// import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+import CreateNewIndicatorSearchTitle from './CreateNewIndicatorSearchTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
-import Color from '../../themes/color';
+// import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
+// import { FontFamily } from '../../assets/stylesheets/theme/font';
 import IndicatorService from '../../services/indicator_service';
 
 import { getDeviceStyle, mobileHeadingTitleSize, isShortWidthScreen, navigationBackButtonFlex } from '../../utils/responsive_util';
@@ -86,25 +87,27 @@ class SearchableHeader extends Component {
     //       }
     //     </Item>
     //   </React.Fragment>
-    )
+    // )
   }
 
   _renderTitle() {
-    const {translations} = this.context;
-    const mobileBodyPaddingLeft = isShortWidthScreen() ? wp('4%') : wp('1%');
+    // const {translations} = this.context;
+    // const mobileBodyPaddingLeft = isShortWidthScreen() ? wp('4%') : wp('1%');
 
     return (
-      <React.Fragment>
-        <Body style={{flex: getDeviceStyle(2, 1), paddingLeft: getDeviceStyle(wp('1.4%'), mobileBodyPaddingLeft)}}>
-          <Title style={styles.titleLabel}>{ translations.createNewProposedCriteria }</Title>
-        </Body>
+      <CreateNewIndicatorSearchTitle toggleSearch={() => this.toggleSearch(true)} />
 
-        <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, -6), alignItems: 'center'}}>
-          <Button transparent onPress={() => this.toggleSearch(true)}>
-            <Icon name='search' style={styles.searchIcon} />
-          </Button>
-        </Right>
-      </React.Fragment>
+      // <React.Fragment>
+      //   <Body style={{flex: getDeviceStyle(2, 1), paddingLeft: getDeviceStyle(wp('1.4%'), mobileBodyPaddingLeft)}}>
+      //     <Title style={styles.titleLabel}>{ translations.createNewProposedCriteria }</Title>
+      //   </Body>
+
+      //   <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, -6), alignItems: 'center'}}>
+      //     <Button transparent onPress={() => this.toggleSearch(true)}>
+      //       <Icon name='search' style={styles.searchIcon} />
+      //     </Button>
+      //   </Right>
+      // </React.Fragment>
     )
   }
 
@@ -125,26 +128,26 @@ class SearchableHeader extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  titleLabel: {
-    fontSize: getDeviceStyle(19, mobileHeadingTitleSize()),
-    fontFamily: FontFamily.title
-  },
-  searchIcon: {
-    fontSize: getDeviceStyle(24, wp('6%')),
-    marginRight: getDeviceStyle(16, 0)
-  },
-  searchInput: {
-    fontFamily: FontFamily.body,
-    fontSize: getDeviceStyle(19, mobileHeadingTitleSize()),
-    color: '#fff',
-    borderWidth: 0,
-    width: '100%',
-    justifyContent: 'center',
-    marginTop: getDeviceStyle(4, 2),
-    paddingTop: 0,
-    paddingBottom: 0,
-  }
-});
+// const styles = StyleSheet.create({
+  // titleLabel: {
+  //   fontSize: getDeviceStyle(19, mobileHeadingTitleSize()),
+  //   fontFamily: FontFamily.title
+  // },
+  // searchIcon: {
+  //   fontSize: getDeviceStyle(24, wp('6%')),
+  //   marginRight: getDeviceStyle(16, 0)
+  // },
+  // searchInput: {
+  //   fontFamily: FontFamily.body,
+  //   fontSize: getDeviceStyle(19, mobileHeadingTitleSize()),
+  //   color: '#fff',
+  //   borderWidth: 0,
+  //   width: '100%',
+  //   justifyContent: 'center',
+  //   marginTop: getDeviceStyle(4, 2),
+  //   paddingTop: 0,
+  //   paddingBottom: 0,
+  // }
+// });
 
 export default SearchableHeader;
