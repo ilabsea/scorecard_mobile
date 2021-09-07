@@ -1,6 +1,9 @@
+import Color from '../themes/color';
+
 const scorecardResultHelper = (() => {
   return {
     getValidSuggestedStatuses,
+    btnTextColor,
   };
 
   function getValidSuggestedStatuses(points, selectedActions) {
@@ -12,6 +15,10 @@ const scorecardResultHelper = (() => {
     });
 
     return validSuggestedActions;
+  }
+
+  function btnTextColor(isScorecardFinished, criteria, defaultColor) {
+    return (isScorecardFinished || !criteria.median) ? { color: Color.grayColor } : { color: defaultColor };
   }
 })();
 

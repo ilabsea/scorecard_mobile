@@ -12,12 +12,13 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { TableWrapper, Cell } from 'react-native-table-component';
 import indicatorHelper from '../../helpers/indicator_helper';
+import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 
 export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
 
   onPress = (fieldName, indicator, isAddNew) => {
-    if (isAddNew && this.props.isScorecardFinished)
+    if (!this.props.criteria.median|| (isAddNew && this.props.isScorecardFinished))
       return;
 
     !!this.props.onPress && this.props.onPress(fieldName, indicator);
@@ -25,7 +26,7 @@ export default class ScorecardResultTableRow extends Component {
 
   btnAdd = (fieldName, indicator) => {
     const { translations } = this.context;
-    let color = 'black';
+    let color = Color.blackColor;
 
     if (fieldName == 'suggested_action' && !this.props.criteria['suggested_action'])
       color = Color.redColor;
@@ -33,11 +34,11 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, true)} style={{alignItems: 'center'}}>
         <View style={[styles.btn, { flexDirection: 'row' }]}>
-          <Text style={styles.btnText}>
+          <Text style={[styles.btnText, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, Color.blackColor)]}>
             { translations.addText }
           </Text>
           { fieldName == 'suggested_action' &&
-            <Text style={[{fontSize: 18}, this.textColor(color)]}> *</Text>
+            <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, color)]}> *</Text>
           }
         </View>
       </TouchableOpacity>
@@ -53,10 +54,6 @@ export default class ScorecardResultTableRow extends Component {
         </TouchableOpacity>
       </View>
     )
-  }
-
-  textColor = (defaultColor) => {
-    return this.props.isScorecardFinished ? { color: 'gray' } : { color: defaultColor };
   }
 
   renderCell = (fieldName, indicator) => {
@@ -82,9 +79,11 @@ export default class ScorecardResultTableRow extends Component {
     <Cell data={this.indicatorText(text)} textStyle={styles.text} style={{flex: flexNum}}/>
   );
 
-  _renderMedian = () => (
-    <Cell data={this.props.criteria.median} style={{flex: 2, alignItems: 'center'}}/>
-  )
+  _renderMedian = () => {
+    const textLabel = this.props.criteria.median ? this.props.criteria.median : this.context.translations.notVoted;
+
+    return <Cell data={textLabel} style={{flex: 2, alignItems: 'center'}} textStyle={!this.props.criteria.median ? { fontSize: 14, color: Color.redColor } : {}} />
+  }
 
   render() {
     const editableFields = ['strength',  'weakness', 'suggested_action'];

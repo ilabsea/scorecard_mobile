@@ -16,12 +16,7 @@ const scorecardProgressService = (() => {
     if (votingCriterias.length == 0)
       return false;
 
-    for (let i=0; i<votingCriterias.length; i++) {
-      if (!votingCriterias[i].suggested_action)
-        return false;
-    }
-
-    return true;
+    return votingCriterias.filter(criteria => !criteria.suggested_action).length > 0 ? false : true;
   }
 
   function getProgressMessage(criterias, scorecard) {
@@ -43,12 +38,7 @@ const scorecardProgressService = (() => {
   function _isAllCriteriaVoted(criterias, scorecardUuid) {
     let votingCriterias = criterias.length > 0 ? criterias : votingCriteriaService.getAll(scorecardUuid);
 
-    for (let i=0; i<votingCriterias.length; i++) {
-      if (!votingCriterias[i].median)
-        return false;
-    }
-
-    return true;
+    return votingCriterias.filter(criteria => !criteria.median).length > 0 ? false : true;
   }
 })();
 

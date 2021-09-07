@@ -14,7 +14,7 @@ class ScorecardResultAccordionSwotItems extends Component {
         <ScorecardResultAccordionFieldLabel criteria={criteria} fieldName={fieldName} isRequired={this.props.isRequired} />
 
         { !criteria[fieldName] ?
-          <ScorecardResultAccordionAddButton criteria={criteria} fieldName={fieldName} indicator={indicator} onPress={this.props.onPress} />
+          <ScorecardResultAccordionAddButton criteria={criteria} fieldName={fieldName} indicator={indicator} onPress={this.props.onPress} isScorecardFinished={this.props.isScorecardFinished} />
         :
           <ScorecardResultAccordionEditButton criteria={criteria} fieldName={fieldName} indicator={indicator} onPress={this.props.onPress} />
         }

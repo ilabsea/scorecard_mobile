@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 
-import { LocalizationContext } from '../../components/Translations';
+import { LocalizationContext } from '../Translations';
 import BottomButton from '../BottomButton';
 import ScorecardProgressSubmitButton from './ScorecardProgressSubmitButton';
+import ScorecardProgressConfirmFinishContent from './ScorecardProgressConfirmFinishContent';
+import MessageModal from '../MessageModal';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -16,9 +18,13 @@ import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 
 class ScorecardProgressButtons extends Component {
   static contextType = LocalizationContext;
+  state = {
+    visibleConfirmModal: false,
+  };
 
   finishScorecard() {
     Scorecard.update(this.props.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
+    this.setState({ visibleConfirmModal: false });
     this.props.updateScorecard();
   }
 
@@ -26,10 +32,21 @@ class ScorecardProgressButtons extends Component {
     return (
       <BottomButton
         disabled={!scorecardProgressService.isAllowToFinish(this.props.scorecard)}
-        onPress={() => this.finishScorecard()}
+        onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
         label={this.context.translations.finish}
+      />
+    )
+  }
+
+  renderBtnSubmit() {
+    return (
+      <ScorecardProgressSubmitButton
+        scorecard={this.props.scorecard}
+        submitToServer={() => this.props.submitToServer()}
+        progressPercentag={this.props.progressPercentag}
+        showProgress={this.props.showProgress}
       />
     )
   }
@@ -43,9 +60,23 @@ class ScorecardProgressButtons extends Component {
       message = translations[scorecardProgressService.getProgressMessage(this.props.criterias, this.props.scorecard)];
 
     return (
-      <Text style={{ fontSize: getDeviceStyle(14, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title}}>
+      <Text style={{ fontSize: getDeviceStyle(15, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title, paddingTop: 5}}>
         { message }
       </Text>
+    )
+  }
+
+  renderConfirmModal() {
+    return (
+      <MessageModal
+        visible={this.state.visibleConfirmModal}
+        onDismiss={() => this.setState({visibleConfirmModal: false})}
+        hasConfirmButton={true}
+        confirmButtonLabel={this.context.translations.ok}
+        onPressConfirmButton={() => this.finishScorecard()}
+        child={() => <ScorecardProgressConfirmFinishContent scorecardUuid={this.props.scorecard.uuid} />}
+        renderInline={true}
+      />
     )
   }
 
@@ -53,19 +84,12 @@ class ScorecardProgressButtons extends Component {
     return (
       <React.Fragment>
         { this.renderMessage() }
-
         <View style={{padding: containerPadding}}>
           { !this.props.scorecard.finished && this.renderBtnFinish() }
 
-          { this.props.scorecard.finished &&
-            <ScorecardProgressSubmitButton
-              scorecard={this.props.scorecard}
-              submitToServer={() => this.props.submitToServer()}
-              progressPercentag={this.props.progressPercentag}
-              showProgress={this.props.showProgress}
-            />
-          }
+          { this.props.scorecard.finished && this.renderBtnSubmit() }
         </View>
+        { this.renderConfirmModal() }
       </React.Fragment>
     )
   }

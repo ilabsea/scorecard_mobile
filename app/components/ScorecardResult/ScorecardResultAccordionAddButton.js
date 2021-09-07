@@ -3,14 +3,11 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
+import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 
 class ScorecardResultAccordionAddButton extends Component {
   static contextType = LocalizationContext;
-
-  textColor = () => {
-    return (this.props.isScorecardFinished || !this.props.criteria.median) ? { color: Color.grayColor } : {};
-  }
 
   onPress() {
     const { criteria, fieldName, indicator } = this.props;
@@ -25,7 +22,9 @@ class ScorecardResultAccordionAddButton extends Component {
     return (
       <TouchableOpacity onPress={() => this.onPress()} style={{alignItems: 'center'}}>
         <View style={styles.btn}>
-          <Text style={[styles.btnText, this.textColor()]}>{ this.context.translations.addText }</Text>
+          <Text style={[styles.btnText, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, Color.blackColor)]}>
+            { this.context.translations.addText }
+          </Text>
         </View>
       </TouchableOpacity>
     );
