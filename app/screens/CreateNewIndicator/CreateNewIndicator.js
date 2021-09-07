@@ -14,7 +14,7 @@ import {saveCriteria} from '../../actions/criteriaListAction';
 import { CUSTOM } from '../../utils/variable';
 
 import Color from '../../themes/color';
-import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+import CreateNewIndicatorParticipantInfo from '../../components/CreateNewIndicator/CreateNewIndicatorParticipantInfo';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import TourTipButton from '../../components/TourTipButton';
 
@@ -178,26 +178,16 @@ class CreateNewIndicator extends Component {
   };
 
   _renderParticipant() {
-    const { translations } = this.context;
-
     if (this.state.isSearching)
       return;
 
     return (
-      <View>
-        <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor}}>
-          {translations.selectParticipant}
-        </Text>
-
-        <ParticipantInfo
-          participants={Participant.getNotRaised(this.props.route.params.scorecard_uuid)}
-          scorecard_uuid={ this.props.route.params.scorecard_uuid }
-          participant_uuid={ this.props.route.params.participant_uuid }
-          onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
-          navigation={this.props.navigation}
-          buttonVisible={false}
-        />
-      </View>
+      <CreateNewIndicatorParticipantInfo
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        participantUuid={this.props.route.params.participant_uuid}
+        onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
+        navigation={this.props.navigation}
+      />
     )
   }
 

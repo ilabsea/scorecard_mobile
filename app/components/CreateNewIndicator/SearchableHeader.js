@@ -4,6 +4,7 @@ import { Header, Body, Title, Left, Right, Icon, Button, Item, Input } from 'nat
 import { HeaderBackButton } from '@react-navigation/stack';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -40,42 +41,51 @@ class SearchableHeader extends Component {
     this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
   }
 
-  clearSearch() {
-    this.onChangeSearch('');
-  }
+  // clearSearch() {
+  //   this.onChangeSearch('');
+  // }
 
   cancel() {
-    this.clearSearch();
+    // this.clearSearch();
+    this.onChangeSearch('');
     this.toggleSearch(false);
   }
 
   _renderSearchBox() {
-    const { translations } = this.context;
-    const mobileMarginLeft = isShortWidthScreen() ? -6 : -16;
-
     return (
-      <React.Fragment>
-        <Item style={{marginLeft: getDeviceStyle(-wp('10%'), mobileMarginLeft), marginRight: 4, backgroundColor: Color.headerColor}}>
-          <Input
-            autoFocus={true}
-            placeholder={ translations.searchCriteria }
-            value={this.state.query}
-            onChangeText={(text) => this.onChangeSearch(text)}
-            clearButtonMode='always'
-            style={styles.searchInput}
-            placeholderTextColor='#ebebeb'
-            spellCheck={false}
-            autoCorrect={false}
-            selectionColor="#fff"
-          />
+      <CreateNewIndicatorSearchInput
+        query={this.state.query}
+        onChangeSearch={(text) => this.onChangeSearch(text)}
+        clearSearch={() => this.onChangeSearch('')}
+      />
+    )
 
-          { this.state.query != '' &&
-            <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25, backgroundColor: Color.headerColor, marginRight: -6}}>
-              <Icon name="close" style={{fontSize: 25, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: 'white'}} />
-            </TouchableOpacity>
-          }
-        </Item>
-      </React.Fragment>
+    // const { translations } = this.context;
+    // const mobileMarginLeft = isShortWidthScreen() ? -6 : -16;
+
+    // return (
+    //   <React.Fragment>
+    //     <Item style={{marginLeft: getDeviceStyle(-wp('10%'), mobileMarginLeft), marginRight: 4, backgroundColor: Color.headerColor}}>
+    //       <Input
+    //         autoFocus={true}
+    //         placeholder={ translations.searchCriteria }
+    //         value={this.state.query}
+    //         onChangeText={(text) => this.onChangeSearch(text)}
+    //         clearButtonMode='always'
+    //         style={styles.searchInput}
+    //         placeholderTextColor='#ebebeb'
+    //         spellCheck={false}
+    //         autoCorrect={false}
+    //         selectionColor="#fff"
+    //       />
+
+    //       { this.state.query != '' &&
+    //         <TouchableOpacity onPress={() => this.clearSearch()} style={{width: 25, backgroundColor: Color.headerColor, marginRight: -6}}>
+    //           <Icon name="close" style={{fontSize: 25, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: 'white'}} />
+    //         </TouchableOpacity>
+    //       }
+    //     </Item>
+    //   </React.Fragment>
     )
   }
 
