@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 
-import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import scorecardResultHelper from '../../helpers/scorecard_result_helper';
+import ScorecardResultAddButton from './ScorecardResultAddButton';
 import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 
 class ScorecardResultAccordionAddButton extends Component {
@@ -20,13 +18,13 @@ class ScorecardResultAccordionAddButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.onPress()} style={{alignItems: 'center'}}>
-        <View style={styles.btn}>
-          <Text style={[styles.btnText, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, Color.blackColor)]}>
-            { this.context.translations.addText }
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <ScorecardResultAddButton
+        onPress={() => this.onPress()}
+        btnStyle={styles.btn}
+        textStyle={styles.btnText}
+        isScorecardFinished={this.props.isScorecardFinished}
+        criteria={this.props.criteria}
+      />
     );
   }
 }

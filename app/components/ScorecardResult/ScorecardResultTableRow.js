@@ -10,6 +10,7 @@ import { Icon } from 'native-base';
 import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
+import ScorecardResultAddButton from './ScorecardResultAddButton';
 import { TableWrapper, Cell } from 'react-native-table-component';
 import indicatorHelper from '../../helpers/indicator_helper';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
@@ -25,23 +26,23 @@ export default class ScorecardResultTableRow extends Component {
   }
 
   btnAdd = (fieldName, indicator) => {
-    const { translations } = this.context;
     let color = Color.blackColor;
 
     if (fieldName == 'suggested_action' && !this.props.criteria['suggested_action'])
       color = Color.redColor;
 
     return (
-      <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, true)} style={{alignItems: 'center'}}>
-        <View style={[styles.btn, { flexDirection: 'row' }]}>
-          <Text style={[styles.btnText, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, Color.blackColor)]}>
-            { translations.addText }
-          </Text>
-          { fieldName == 'suggested_action' &&
-            <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, color)]}> *</Text>
-          }
-        </View>
-      </TouchableOpacity>
+      <ScorecardResultAddButton
+        onPress={() => this.onPress(fieldName, indicator, true)}
+        btnStyle={styles.btn}
+        textStyle={styles.btnText}
+        isScorecardFinished={this.props.isScorecardFinished}
+        criteria={this.props.criteria}
+      >
+        { fieldName == 'suggested_action' &&
+          <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, color)]}> *</Text>
+        }
+      </ScorecardResultAddButton>
     );
   }
 
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 6,
+    flexDirection: 'row',
   },
   btnText: {
     textAlign: 'center',
