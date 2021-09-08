@@ -48,10 +48,10 @@ class CriteriaAudioButton extends Component {
   handlePlayAudio = () => {
     if (this.timeout) clearInterval(this.timeout);
     if (this.props.audioPlayer === null)
-      this._audioPlayer = new AudioPlayer(this.audioFile);
+      this._audioPlayer = new AudioPlayer(this.audioFile, true);
     else if (this.props.audioPlayer.audioFile != this.audioFile) {
       this.props.audioPlayer.release();
-      this._audioPlayer = new AudioPlayer(this.audioFile);
+      this._audioPlayer = new AudioPlayer(this.audioFile, true);
     }
     else if (this.props.audioPlayer.audioFile === this.audioFile)
       this._audioPlayer.handlePlay();

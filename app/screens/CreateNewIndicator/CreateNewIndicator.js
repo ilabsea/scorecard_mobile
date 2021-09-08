@@ -26,6 +26,7 @@ import ProposedCriteria from '../../models/ProposedCriteria';
 import IndicatorService from '../../services/indicator_service';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import customIndicatorService from '../../services/custom_indicator_service';
 
 const WalkableView = walkthroughable(View);
 const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
@@ -47,6 +48,7 @@ class CreateNewIndicator extends Component {
       showTourTip: false,
       isSearching: false,
       isEdit: false,
+      selectedCustomIndicator: null,
     };
   }
 
@@ -63,6 +65,7 @@ class CreateNewIndicator extends Component {
       unselectedIndicators: unselectedIndicators,
       isModalVisible: isModalVisible,
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(selectedIndicators),
+      selectedCustomIndicator: null,
     });
   };
 
@@ -73,20 +76,31 @@ class CreateNewIndicator extends Component {
 
     this.setState({
       isModalVisible: false,
-      indicators: newIndicators
+      indicators: newIndicators,
+      selectedCustomIndicator: null,
     });
   }
 
-  saveCustomIndicator = (customIndicator, customLanguageIndicator) => {
+  updateCustomIndicator() {
+    console.log('finish update indicator === ')
+
+    this.setState({
+      isModalVisible: false,
+      indicators: customIndicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, ''),
+      // indicators: CustomIndicator.getAll(this.props.route.params.scorecard_uuid),
+      // indicators: customIndicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, ''),
+      selectedCustomIndicator: null,
+    });
+  }
+
+  saveCustomIndicator = (customIndicator) => {
     let selectedIndicators = this.state.selectedIndicators;
     selectedIndicators.push(customIndicator);
 
-    this.setState({selectedIndicators});
-
-    CustomIndicator.create(customIndicator);
-    LanguageIndicator.create(customLanguageIndicator);
+    // this.setState({selectedIndicators});
 
     this.setState({
+      selectedIndicators: selectedIndicators,
       isModalVisible: false,
       isValid: true,
       customIndicator: customIndicator,
@@ -206,8 +220,10 @@ class CreateNewIndicator extends Component {
         isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
       });
     }
-    else
+    else {
+      console.log('custom indicator == ', indicators.length)
       this.setState({ indicators: indicators });
+    }
   }
 
   updateEditStatus(isEdit) {
@@ -249,11 +265,21 @@ class CreateNewIndicator extends Component {
     )
   }
 
+  editCustomIndicator(customIndicator) {
+    Keyboard.dismiss();
+    this.setState({
+      isModalVisible: true,
+      selectedCustomIndicator: customIndicator
+    });
+  }
+
   renderCustomIndicatorList() {
     return (
       <RaisingProposedCustomIndicatorList
         scorecardUuid={this.props.route.params.scorecard_uuid}
         indicators={this.state.indicators}
+        editCustomIndicator={(indicator) => this.editCustomIndicator(indicator)}
+        selectedCustomIndicator={this.state.selectedCustomIndicator}
       />
     )
   }
@@ -288,6 +314,9 @@ class CreateNewIndicator extends Component {
                 saveCustomIndicator={this.saveCustomIndicator}
                 participantUUID={this.props.route.params.participant_uuid}
                 scorecardUUID={this.props.route.params.scorecard_uuid}
+                selectedCustomIndicator={this.state.selectedCustomIndicator}
+                isEdit={this.state.isEdit}
+                updateCustomIndicator={() => this.updateCustomIndicator()}
               />
             </Portal>
           </View>

@@ -28,6 +28,17 @@ class Autocomplete extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.defaultValue != state.defaultValue) {
+      return {
+        value: props.defaultValue,
+        tag: props.defaultValue,
+      }
+    }
+
+    return null;
+  }
+
   renderList = () => {
     const { data } = this.props;
 

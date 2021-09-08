@@ -1,37 +1,59 @@
+import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
+import LanguageIndicator from '../models/LanguageIndicator';
+import uuidv4 from '../utils/uuidv4';
+import { CUSTOM } from '../utils/variable';
 
 const customIndicatorService = (() => {
   return {
     getIndicatorList,
+    createNewIndicator,
+    updateIndicator,
   }
 
   function getIndicatorList(scorecardUuid, searchText) {
-    const customIndicators = searchText != '' ? CustomIndicator.filter(scorecardUuid, searchText) : CustomIndicator.getAll(scorecardUuid);
-    return customIndicators.sort((a, b) => a.name > b.name);
+    let customIndicators = searchText ? CustomIndicator.filter(scorecardUuid, searchText) : CustomIndicator.getAll(scorecardUuid);
 
-    // return this._getIndicatorAttrs(customIndicators);
+    return customIndicators.length > 0
+      ? JSON.parse(JSON.stringify(customIndicators)).sort((a, b) => a.name > b.name)
+      : customIndicators;
   }
 
-  // private method
-  // function _getFormattedAttrs(customIndicators) {
-  //   let indicators = [];
+  function createNewIndicator(scorecardUuid, indicator, callback) {
+    const customIndicator = {
+      uuid: uuidv4(),
+      name: indicator.name,
+      local_audio: indicator.audio,
+      scorecard_uuid: scorecardUuid,
+      tag: indicator.tag
+    };
 
-  //   customIndicators.map((indicator) => {
-  //     let attrs = {
-  //       uuid: indicator.id || indicator.uuid,
-  //       name: indicator.name,
-  //       shortcut: getIndicatorShortcutName(indicator.name),
-  //       isSelected: false,
-  //       tag: indicator.tag,
-  //       type: !!indicator.id ? PREDEFINED : CUSTOM,
-  //       local_image: indicator.local_image,
-  //     };
+    const scorecard = Scorecard.find(scorecardUuid);
+    const customLanguageIndicator = {
+      id: uuidv4(),
+      content: indicator.name,
+      language_code: scorecard.audio_language_code,
+      local_audio: indicator.audio,
+      scorecard_uuid: scorecardUuid,
+      indicator_id: customIndicator.uuid,
+      type: CUSTOM,
+    };
 
-  //     indicators.push(attrs);
-  //   });
+    CustomIndicator.create(customIndicator);
+    LanguageIndicator.create(customLanguageIndicator);
+    callback(customIndicator);
+  }
 
-  //   return indicators;
-  // }
+  function updateIndicator(customIndicatorUuid, newIndicator) {
+    CustomIndicator.update(customIndicatorUuid, newIndicator);
+    const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
+
+    const newLanguageIndicator = {
+      content: newIndicator.name,
+      local_audio: newIndicator.audio,
+    }
+    LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
+  }
 })();
 
 export default customIndicatorService;

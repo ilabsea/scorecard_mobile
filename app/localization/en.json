@@ -293,5 +293,6 @@
   "notVoted": "Not voted",
   "allCriteriaMustBeVoted": "All criteria must be voted",
   "allCriteriaMustHaveSuggestedAction": "All criteria must have suggested action",
-  "pleaseCompleteAllTheSteps": "Please complete all the steps"
+  "pleaseCompleteAllTheSteps": "Please complete all the steps",
+  "editCriteria": "Edit Criteria"
 }

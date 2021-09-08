@@ -3,7 +3,6 @@ import {View, ScrollView} from 'react-native';
 import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 import DeviceInfo from 'react-native-device-info'
 
-import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import IndicatorCard from './IndicatorCard';

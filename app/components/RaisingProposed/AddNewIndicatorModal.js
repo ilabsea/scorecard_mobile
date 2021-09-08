@@ -9,18 +9,12 @@ import {
 
 import { Modal } from 'react-native-paper';
 
-import TextFieldInput from '../TextFieldInput';
 import VoiceRecord from './VoiceRecord';
-import uuidv4 from '../../utils/uuidv4';
 import { LocalizationContext } from '../Translations';
-import { CUSTOM } from '../../utils/variable';
-import CloseButton from '../CloseButton';
-import SaveButton from '../SaveButton';
+import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
+import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
 
-import Scorecard from '../../models/Scorecard';
-import Autocomplete from './Autocomplete';
-import { isBlank } from '../../utils/string_util';
-import indicatorHelper from '../../helpers/indicator_helper';
+import customIndicatorService from '../../services/custom_indicator_service';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { modalHeadingTitleSize } from '../../utils/responsive_util';
 import Color from '../../themes/color';
@@ -37,15 +31,16 @@ class AddNewIndicatorModal extends Component {
       tag: '',
       audio: null,
     };
-
-    this.tags = indicatorHelper.getTags(props.scorecardUUID);
   }
 
-  isValid = () => {
-    if (isBlank(this.state.name))
-      return false;
-
-    return true;
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.isEdit && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
+      this.setState({
+        name: this.props.selectedCustomIndicator.name,
+        tag: this.props.selectedCustomIndicator.tag,
+        audio: this.props.selectedCustomIndicator.local_audio,
+      });
+    }
   }
 
   cancel = () => {
@@ -58,26 +53,23 @@ class AddNewIndicatorModal extends Component {
   }
 
   save = () => {
-    const customIndicator = {
-      uuid: uuidv4(),
+    const indicator = {
       name: this.state.name,
-      local_audio: this.state.audio,
-      scorecard_uuid: this.props.scorecardUUID,
-      tag: this.state.tag
+      tag: this.state.tag,
+      audio: this.state.audio,
     };
 
-    const scorecard = Scorecard.find(this.props.scorecardUUID);
-    const customLanguageIndicator = {
-      id: uuidv4(),
-      content: this.state.name,
-      language_code: scorecard.audio_language_code,
-      local_audio: this.state.audio,
-      scorecard_uuid: this.props.scorecardUUID,
-      indicator_id: customIndicator.uuid,
-      type: CUSTOM,
-    };
+    if (this.props.isEdit) {
+      customIndicatorService.updateIndicator(this.props.selectedCustomIndicator.uuid, indicator);
+      this.props.updateCustomIndicator();
+    }
+    else {
+      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator,
+        (customIndicator) => {
+          this.props.saveCustomIndicator(customIndicator);
+      });
+    }
 
-    this.props.saveCustomIndicator(customIndicator, customLanguageIndicator);
     this.setState({
       name: '',
       tag: '',
@@ -89,69 +81,45 @@ class AddNewIndicatorModal extends Component {
     this.setState({audio: filename});
   }
 
-  renderButton = () => {
-    const {translations} = this.context;
-    return (
-      <View style={styles.buttonContainer}>
-        <CloseButton onPress={() => this.cancel()} label={translations.close} />
-        <SaveButton
-          onPress={() => this.save()}
-          label={translations.save}
-          disabled={!this.isValid()}
-        />
-      </View>
-    )
+  renderButtons = () => {
+    return <AddNewIndicatorModalButtons name={this.state.name} save={() => this.save()} cancel={() => this.cancel()} />
   }
 
-  _filterData = (query) => {
-    if (query === '') {
-      return [];
-    }
-
-    let PATTERN = new RegExp(`${query.trim()}`, 'i');
-    return this.tags.filter(str => PATTERN.test(str));
+  renderTextInputs() {
+    return (
+      <AddNewIndicatorModalTextInputs
+        name={this.state.name}
+        tag={this.state.tag}
+        isEdit={this.props.isEdit}
+        scorecardUuid={this.props.scorecardUUID}
+        onChangeName={(text) => this.setState({name: text})}
+        onChangeTag={(text) => this.setState({tag: text})}
+      />
+    )
   }
 
   render() {
     const {translations} = this.context;
-    const data = this._filterData(this.state.tag);
 
     return (
-      <Modal
-        visible={this.props.isVisible}
-        contentContainerStyle={styles.container}>
-
+      <Modal visible={this.props.isVisible} contentContainerStyle={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View>
-            <Text style={styles.header}>{translations['addNewCriteria']}</Text>
+            <Text style={styles.header}>
+              { this.props.isEdit ? translations.editCriteria : translations.addNewCriteria }
+            </Text>
 
-            <TextFieldInput
-              value={this.state.name}
-              isRequire={true}
-              label={translations['criteriaName']}
-              placeholder={translations['enterCriteriaName']}
-              fieldName="criteriaName"
-              onChangeText={(fieldName, text) => this.setState({name: text})}
-            />
-
-            <Autocomplete
-              autoCapitalize="none"
-              autoCorrect={false}
-              label={translations['enterTag']}
-              data={data}
-              value={this.state.tag}
-              onChangeText={(text) => this.setState({tag: text})}
-              style={{marginBottom: 24}}
-            />
+            { this.renderTextInputs() }
 
             <VoiceRecord
               participantUUID={this.props.participantUUID}
               scorecardUUID={this.props.scorecardUUID}
               finishRecord={this.finishRecord}
+              audioFilePath={this.state.audio}
               deleteAudio={() => this.setState({audio: null})}
             />
 
-            {this.renderButton()}
+            {this.renderButtons()}
           </View>
         </TouchableWithoutFeedback>
       </Modal>
@@ -170,11 +138,6 @@ const styles = StyleSheet.create({
     fontSize: modalHeadingTitleSize(),
     fontFamily: FontFamily.title,
     marginBottom: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 126,
   },
 });
 

@@ -37,6 +37,19 @@ class VoiceRecord extends Component {
     this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}_${customIndicators.length + 1}.mp3`;            // Ex: abc123def_277403_2.mp3
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (!this.state.recorder && !this.audioPlayer && this.props.audioFilePath) {
+  //     this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
+
+  //     setTimeout(() => {
+  //       this.setState({
+  //         isRecordButtonVisible: false,
+  //         playSeconds: this.audioPlayer.getDuration(),
+  //       });
+  //     }, 100);
+  //   }
+  // }
+
   checkPermission = () => {
     const rationale = {
       'title': 'Microphone Permission',
@@ -95,7 +108,7 @@ class VoiceRecord extends Component {
 
   handlePlaying = () => {
     if (this.audioPlayer === null)
-      this.audioPlayer = new AudioPlayer(this.recorder.fsPath);
+      this.audioPlayer = new AudioPlayer(this.recorder.fsPath, true);
     else
       this.audioPlayer.handlePlay();
 
