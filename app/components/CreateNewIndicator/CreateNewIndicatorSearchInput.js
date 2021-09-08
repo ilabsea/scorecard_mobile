@@ -4,7 +4,7 @@ import { Icon, Item, Input } from 'native-base';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import createNewIndicatorSearchInputTabletStyles from '../../styles/tablet/CreateNewIndicatorSearchInputComponentStyle';
 import createNewIndicatorSearchInputMobileStyles from '../../styles/mobile/CreateNewIndicatorSearchInputComponentStyle';
 const styles = getDeviceStyle(createNewIndicatorSearchInputTabletStyles, createNewIndicatorSearchInputMobileStyles);
@@ -13,11 +13,9 @@ class CreateNewIndicatorSearchInput extends Component {
   static contextType = LocalizationContext;
 
   render() {
-    const mobileMarginLeft = isShortWidthScreen() ? -6 : -16;
-
     return (
       <React.Fragment>
-        <Item style={{marginLeft: getDeviceStyle(-wp('10%'), mobileMarginLeft), marginRight: 4, backgroundColor: Color.headerColor}}>
+        <Item style={styles.container}>
           <Input
             autoFocus={true}
             placeholder={ this.context.translations.searchCriteria }

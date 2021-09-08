@@ -46,6 +46,7 @@ class CreateNewIndicator extends Component {
       customIndicator: null,
       showTourTip: false,
       isSearching: false,
+      isEdit: false,
     };
   }
 
@@ -218,8 +219,34 @@ class CreateNewIndicator extends Component {
     });
   }
 
-  updateSearchStatus = (status) => {
-    this.setState({ isSearching: status });
+  renderSearchableHeader() {
+    return (
+      <SearchableHeader
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        participantUuid={this.props.route.params.participant_uuid}
+        onBackPress={() => this.props.navigation.goBack()}
+        updateSearchedIndicator={this.updateSearchedIndicator}
+        updateSearchStatus={(status) => this.setState({ isSearching: status })}
+        updateIsEditStatus={(status) => this.setState({ isEdit: status })}
+      />
+    )
+  }
+
+  renderCriteriaList() {
+    return (
+      <CriteriaSelection
+        ref={this.indicatorSelectionRef}
+        selectIndicator={this.selectIndicator}
+        scorecardUUID={this.props.route.params.scorecard_uuid}
+        participantUUID={this.props.route.params.participant_uuid}
+        indicators={this.state.indicators}
+        selectedIndicators={this.state.selectedIndicators}
+        unselectedIndicators={this.state.unselectedIndicators}
+        customIndicator={this.state.customIndicator}
+        startNextTourTip={() => this.startNextTourTip()}
+        isSearching={this.state.isSearching}
+      />
+    )
   }
 
   render() {
@@ -228,13 +255,7 @@ class CreateNewIndicator extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
-          <SearchableHeader
-            scorecardUuid={this.props.route.params.scorecard_uuid}
-            participantUuid={this.props.route.params.participant_uuid}
-            onBackPress={() => this.props.navigation.goBack()}
-            updateSearchedIndicator={this.updateSearchedIndicator}
-            updateSearchStatus={this.updateSearchStatus}
-          />
+          { this.renderSearchableHeader() }
           <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
             { this._renderParticipant() }
 
@@ -244,18 +265,7 @@ class CreateNewIndicator extends Component {
               </Text>
             }
 
-            <CriteriaSelection
-              ref={this.indicatorSelectionRef}
-              selectIndicator={this.selectIndicator}
-              scorecardUUID={this.props.route.params.scorecard_uuid}
-              participantUUID={this.props.route.params.participant_uuid}
-              indicators={this.state.indicators}
-              selectedIndicators={this.state.selectedIndicators}
-              unselectedIndicators={this.state.unselectedIndicators}
-              customIndicator={this.state.customIndicator}
-              startNextTourTip={() => this.startNextTourTip()}
-              isSearching={this.state.isSearching}
-            />
+            { this.renderCriteriaList() }
 
             { this.renderSaveButton() }
 

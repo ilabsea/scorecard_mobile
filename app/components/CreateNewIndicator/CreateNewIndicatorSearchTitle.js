@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Body, Title, Right, Icon, Button } from 'native-base';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { TouchableOpacity } from 'react-native';
+import { Body, Title, Right, Icon } from 'native-base';
 
 import { LocalizationContext } from '../Translations';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -21,9 +21,13 @@ class CreateNewIndicatorSearchTitle extends Component {
         </Body>
 
         <Right style={styles.right}>
-          <Button transparent onPress={() => this.props.toggleSearch()}>
+          <TouchableOpacity style={styles.btn} onPress={() => this.props.toggleSearch(true)}>
+            <Icon name={'pen'} type="FontAwesome5" style={styles.editIcon}/>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btn} onPress={() => this.props.toggleSearch(false)}>
             <Icon name='search' style={styles.searchIcon} />
-          </Button>
+          </TouchableOpacity>
         </Right>
       </React.Fragment>
     )
