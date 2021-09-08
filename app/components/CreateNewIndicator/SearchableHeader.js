@@ -6,6 +6,7 @@ import CreateNewIndicatorSearchTitle from './CreateNewIndicatorSearchTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
 import { LocalizationContext } from '../Translations';
 import IndicatorService from '../../services/indicator_service';
+import customIndicatorService from '../../services/custom_indicator_service';
 
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
 
@@ -30,16 +31,23 @@ class SearchableHeader extends Component {
       this.props.onBackPress();
   }
 
-  onChangeSearch(text) {
-    const { translations } = this.context;
+  onChangeSearch(text, isCancel) {
     this.setState({ query: text });
-    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, this.props.participantUuid, text, translations.addNewCriteria);
 
-    this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
+    if (!this.props.isEdit || isCancel) {
+      const { translations } = this.context;
+      const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, this.props.participantUuid, text, translations.addNewCriteria);
+
+      this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
+    }
+    else {
+      const allIndicator = customIndicatorService.getIndicatorList(this.props.scorecardUuid, text);
+      this.props.updateSearchedIndicator(allIndicator, []);
+    }
   }
 
   cancel() {
-    this.onChangeSearch('');
+    this.onChangeSearch('', true);
     this.toggleSearch(false, false);
   }
 
@@ -47,8 +55,8 @@ class SearchableHeader extends Component {
     return (
       <CreateNewIndicatorSearchInput
         query={this.state.query}
-        onChangeSearch={(text) => this.onChangeSearch(text)}
-        clearSearch={() => this.onChangeSearch('')}
+        onChangeSearch={(text) => this.onChangeSearch(text, false)}
+        clearSearch={() => this.onChangeSearch('', false)}
       />
     )
   }

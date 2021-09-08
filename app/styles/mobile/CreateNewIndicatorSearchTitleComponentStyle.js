@@ -17,17 +17,15 @@ const CreateNewIndicatorSearchTitleStyles = StyleSheet.create({
   },
   right: {
     maxWidth: wp('14%'),
-    marginRight: -6,
     alignItems: 'center',
     flexDirection: 'row',
+    alignSelf: 'center'
   },
   btn: {
-    borderWidth: 0,
     width: 35,
     height: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 5
   },
   searchIcon: {
     fontSize: wp('6%'),

@@ -65,25 +65,9 @@ class CriteriaSelection extends Component {
     };
   }
 
-  shortcutColor = (indicator) => {
-    return indicator.isSelected ? {color: Color.whiteColor} : {};
-  }
-
   selectIndicator = (index) => {
-    let indicators = this.state.indicators;
-    let selectedIndicators = this.props.selectedIndicators;
-    let unselectedIndicators = this.props.unselectedIndicators;
-
-    if (indicators[index].isSelected) {
-      selectedIndicators = selectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
-      unselectedIndicators.push(indicators[index]);
-    }
-    else if (indicators[index].uuid != '') {
-      selectedIndicators.push(indicators[index]);
-      unselectedIndicators = unselectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
-    }
-
-    indicators[index].isSelected = !indicators[index].isSelected;
+    const indicatorSelection = createNewIndicatorHelper.getIndicatorSelection(index, this.state.indicators, this.props.selectedIndicators, this.props.unselectedIndicators);
+    const { indicators, selectedIndicators, unselectedIndicators } = indicatorSelection;
 
     this.setState({
       indicators,

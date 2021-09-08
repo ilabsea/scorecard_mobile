@@ -21,7 +21,7 @@ class CreateNewIndicatorSearchTitle extends Component {
         </Body>
 
         <Right style={styles.right}>
-          <TouchableOpacity style={styles.btn} onPress={() => this.props.toggleSearch(true)}>
+          <TouchableOpacity style={[styles.btn, { marginRight: 5 }]} onPress={() => this.props.toggleSearch(true)}>
             <Icon name={'pen'} type="FontAwesome5" style={styles.editIcon}/>
           </TouchableOpacity>
 
