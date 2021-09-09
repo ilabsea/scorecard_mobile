@@ -1,6 +1,7 @@
 import uuidv4 from '../utils/uuidv4';
 import ProposedCriteria from '../models/ProposedCriteria';
 
+
 const createNewIndicatorHelper = (() => {
   return {
     isAddNewIndicatorSection,
@@ -9,6 +10,7 @@ const createNewIndicatorHelper = (() => {
     getNewSelectedIndicators,
     getCriteriaUuid,
     getIndicatorSelection,
+    getUpdatedSelectedIndicators,
   };
 
   function isAddNewIndicatorSection(index, indicators) {
@@ -73,6 +75,18 @@ const createNewIndicatorHelper = (() => {
       selectedIndicators: newSelectedIndicators,
       unselectedIndicators: newUnselectedIndicators
     }
+  }
+
+  function getUpdatedSelectedIndicators(selectedIndicators, updatedIndicator) {
+    if (selectedIndicators.length == 0)
+      return [];
+
+    const index = selectedIndicators.findIndex(item => item.uuid == updatedIndicator.uuid);
+    let updatedSelectedIndicators = selectedIndicators;
+    updatedSelectedIndicators[index].name = updatedIndicator.name;
+    updatedSelectedIndicators[index].tag = updatedIndicator.tag;
+
+    return updatedSelectedIndicators;
   }
 })();
 

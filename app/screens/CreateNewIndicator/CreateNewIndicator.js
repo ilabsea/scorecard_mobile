@@ -53,7 +53,6 @@ class CreateNewIndicator extends Component {
 
   componentDidMount() {
     const proposedCriterias = ProposedCriteria.find(this.props.route.params.scorecard_uuid, this.state.participant_uuid);
-
     this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
     this._updateIndicatorList();
   }
@@ -80,12 +79,16 @@ class CreateNewIndicator extends Component {
     });
   }
 
-  updateCustomIndicator() {
+  updateCustomIndicator(customIndicator) {
     this.setState({
       isModalVisible: false,
       indicators: customIndicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, ''),
       selectedCustomIndicator: null,
+      selectedIndicators: createNewIndicatorHelper.getUpdatedSelectedIndicators(this.state.selectedIndicators, customIndicator),
     });
+
+    const participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.route.params.scorecard_uuid)));
+    this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 
   saveCustomIndicator = (customIndicator) => {
@@ -307,7 +310,7 @@ class CreateNewIndicator extends Component {
                 scorecardUUID={this.props.route.params.scorecard_uuid}
                 selectedCustomIndicator={this.state.selectedCustomIndicator}
                 isEdit={this.state.isEdit}
-                updateCustomIndicator={() => this.updateCustomIndicator()}
+                updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
               />
             </Portal>
           </View>

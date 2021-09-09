@@ -1,6 +1,7 @@
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
 import LanguageIndicator from '../models/LanguageIndicator';
+import proposedCriteriaService from './proposed_criteria_service';
 import uuidv4 from '../utils/uuidv4';
 import { CUSTOM } from '../utils/variable';
 
@@ -44,7 +45,7 @@ const customIndicatorService = (() => {
     callback(customIndicator);
   }
 
-  function updateIndicator(customIndicatorUuid, newIndicator) {
+  function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid) {
     CustomIndicator.update(customIndicatorUuid, newIndicator);
     const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
 
@@ -53,6 +54,7 @@ const customIndicatorService = (() => {
       local_audio: newIndicator.local_audio,
     }
     LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
+    proposedCriteriaService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
   }
 })();
 

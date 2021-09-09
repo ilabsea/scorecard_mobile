@@ -4,6 +4,7 @@ const ProposedCriteria = (() => {
   return {
     find,
     create,
+    update,
     findByParticipant,
     findByIndicator,
     destory,
@@ -17,6 +18,12 @@ const ProposedCriteria = (() => {
     realm.write(() => {
       realm.create('ProposedCriteria', data, 'modified');
     });
+  }
+
+  function update(uuid, params) {
+    realm.write(() => {
+      realm.create('ProposedCriteria', Object.assign(params, {uuid: uuid}), 'modified');
+    })
   }
 
   function findByParticipant(indicatorId, participantUuid) {

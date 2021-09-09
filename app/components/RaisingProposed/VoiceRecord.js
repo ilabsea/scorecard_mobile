@@ -39,7 +39,9 @@ class VoiceRecord extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.isComponentUnmount && !this.state.recorder && !this.audioPlayer && this.props.audioFilePath) {
+    if (!this.isComponentUnmount && !this.state.recorder && !this.audioPlayer && this.props.isEdit && this.props.audioFilePath) {
+      console.log('== show default audio === ', this.props.audioFilePath)
+
       this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
 
       setTimeout(() => {

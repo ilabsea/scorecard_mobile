@@ -66,8 +66,8 @@ class AddNewIndicatorModal extends Component {
     };
 
     if (this.props.isEdit) {
-      customIndicatorService.updateIndicator(this.props.selectedCustomIndicator.uuid, indicator);
-      this.props.updateCustomIndicator();
+      customIndicatorService.updateIndicator(this.props.selectedCustomIndicator.uuid, indicator, this.props.scorecardUUID);
+      this.props.updateCustomIndicator(indicator);
     }
     else {
       customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator,
