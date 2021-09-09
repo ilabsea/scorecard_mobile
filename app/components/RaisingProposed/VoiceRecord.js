@@ -29,6 +29,7 @@ class VoiceRecord extends Component {
       hasPermission: false,
       toolTipVisible: false,
     };
+    this.isComponentUnmount = false;
   }
 
   componentDidMount() {
@@ -37,18 +38,23 @@ class VoiceRecord extends Component {
     this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}_${customIndicators.length + 1}.mp3`;            // Ex: abc123def_277403_2.mp3
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (!this.state.recorder && !this.audioPlayer && this.props.audioFilePath) {
-  //     this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.isComponentUnmount && !this.state.recorder && !this.audioPlayer && this.props.audioFilePath) {
+      this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
 
-  //     setTimeout(() => {
-  //       this.setState({
-  //         isRecordButtonVisible: false,
-  //         playSeconds: this.audioPlayer.getDuration(),
-  //       });
-  //     }, 100);
-  //   }
-  // }
+      setTimeout(() => {
+        this.setState({
+          isRecordButtonVisible: false,
+          playSeconds: this.audioPlayer.getDuration(),
+          recordDuration: this.audioPlayer.getDuration(),
+        });
+      }, 100);
+    }
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmount = true;
+  }
 
   checkPermission = () => {
     const rationale = {
@@ -109,6 +115,8 @@ class VoiceRecord extends Component {
   handlePlaying = () => {
     if (this.audioPlayer === null)
       this.audioPlayer = new AudioPlayer(this.recorder.fsPath, true);
+    else if (this.audioPlayer && this.props.isEdit)
+      this.audioPlayer.play();
     else
       this.audioPlayer.handlePlay();
 
@@ -162,10 +170,11 @@ class VoiceRecord extends Component {
   };
 
   delete = () => {
-    this.recorder.destroy();
-    this.recorder =  null;
-    if (this.audioPlayer != null)
-      this.audioPlayer.release();
+    if (this.recorder) {
+      this.recorder.destroy();
+      this.recorder =  null;
+    }
+    this.audioPlayer && this.audioPlayer.release();
 
     this.audioPlayer = null;
     this.setState({

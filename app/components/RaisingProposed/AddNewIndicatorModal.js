@@ -31,16 +31,22 @@ class AddNewIndicatorModal extends Component {
       tag: '',
       audio: null,
     };
+
+    this.isComponentUnmount = false;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.isEdit && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
+    if (!this.isComponentUnmount && this.props.isEdit && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
       this.setState({
         name: this.props.selectedCustomIndicator.name,
         tag: this.props.selectedCustomIndicator.tag,
         audio: this.props.selectedCustomIndicator.local_audio,
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmount = true;
   }
 
   cancel = () => {
@@ -56,7 +62,7 @@ class AddNewIndicatorModal extends Component {
     const indicator = {
       name: this.state.name,
       tag: this.state.tag,
-      audio: this.state.audio,
+      local_audio: this.state.audio,
     };
 
     if (this.props.isEdit) {
@@ -117,6 +123,7 @@ class AddNewIndicatorModal extends Component {
               finishRecord={this.finishRecord}
               audioFilePath={this.state.audio}
               deleteAudio={() => this.setState({audio: null})}
+              isEdit={this.props.isEdit}
             />
 
             {this.renderButtons()}

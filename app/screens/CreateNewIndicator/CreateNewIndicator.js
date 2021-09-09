@@ -19,7 +19,6 @@ import SearchableHeader from '../../components/CreateNewIndicator/SearchableHead
 import TourTipButton from '../../components/TourTipButton';
 
 import CustomIndicator from '../../models/CustomIndicator';
-import LanguageIndicator from '../../models/LanguageIndicator';
 import Participant from '../../models/Participant';
 import ProposedCriteria from '../../models/ProposedCriteria';
 
@@ -82,13 +81,9 @@ class CreateNewIndicator extends Component {
   }
 
   updateCustomIndicator() {
-    console.log('finish update indicator === ')
-
     this.setState({
       isModalVisible: false,
       indicators: customIndicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, ''),
-      // indicators: CustomIndicator.getAll(this.props.route.params.scorecard_uuid),
-      // indicators: customIndicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, ''),
       selectedCustomIndicator: null,
     });
   }
@@ -96,8 +91,6 @@ class CreateNewIndicator extends Component {
   saveCustomIndicator = (customIndicator) => {
     let selectedIndicators = this.state.selectedIndicators;
     selectedIndicators.push(customIndicator);
-
-    // this.setState({selectedIndicators});
 
     this.setState({
       selectedIndicators: selectedIndicators,
@@ -220,10 +213,8 @@ class CreateNewIndicator extends Component {
         isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
       });
     }
-    else {
-      console.log('custom indicator == ', indicators.length)
+    else
       this.setState({ indicators: indicators });
-    }
   }
 
   updateEditStatus(isEdit) {

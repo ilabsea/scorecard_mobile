@@ -14,11 +14,7 @@ class RaisingProposedCustomIndicatorList extends Component {
 
     this.audioPlayer = null;
     this.state = {
-      isModalVisible: false,
       playingIndicatorId: null,
-      audioIcon: 'play-arrow',
-      customIndicator: null,
-      selectedIndicators: [],
     };
 
     this.scrollViewRef = React.createRef();
@@ -40,11 +36,6 @@ class RaisingProposedCustomIndicatorList extends Component {
     );
   }
 
-  selectIndicator(indicator) {
-    this.setState({ selectedIndicators: [indicator] });
-    this.props.editCustomIndicator(indicator);
-  }
-
   renderIndicatorItems = () => {
     return this.props.indicators.map((indicator, index) => {
       const itemKey = 'indicator-card-' + index;
@@ -53,11 +44,11 @@ class RaisingProposedCustomIndicatorList extends Component {
         <IndicatorCard
           indicators={this.props.indicators}
           indicator={indicator}
-          customIndicator={this.state.customIndicator}
+          customIndicator={null}
           index={index}
           scorecardUuid={this.props.scorecardUuid}
-          selectIndicator={() => this.selectIndicator(indicator)}
-          selectedIndicators={this.state.selectedIndicators}
+          selectIndicator={() => this.props.editCustomIndicator(indicator)}
+          selectedIndicators={this.props.selectedCustomIndicator ? [this.props.selectedCustomIndicator] : []}
           isSearching={this.props.isSearching}
           key={itemKey}
         >

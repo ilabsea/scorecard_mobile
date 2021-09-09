@@ -23,7 +23,7 @@ const customIndicatorService = (() => {
     const customIndicator = {
       uuid: uuidv4(),
       name: indicator.name,
-      local_audio: indicator.audio,
+      local_audio: indicator.local_audio,
       scorecard_uuid: scorecardUuid,
       tag: indicator.tag
     };
@@ -33,7 +33,7 @@ const customIndicatorService = (() => {
       id: uuidv4(),
       content: indicator.name,
       language_code: scorecard.audio_language_code,
-      local_audio: indicator.audio,
+      local_audio: indicator.local_audio,
       scorecard_uuid: scorecardUuid,
       indicator_id: customIndicator.uuid,
       type: CUSTOM,
@@ -50,7 +50,7 @@ const customIndicatorService = (() => {
 
     const newLanguageIndicator = {
       content: newIndicator.name,
-      local_audio: newIndicator.audio,
+      local_audio: newIndicator.local_audio,
     }
     LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
   }
