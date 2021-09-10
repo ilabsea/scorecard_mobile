@@ -27,6 +27,8 @@ class SearchableHeader extends Component {
 
     if (this.state.isSearch)
       this.cancel();
+    else if (this.props.isEdit)
+      this.props.updateIsEditStatus(false);
     else
       this.props.onBackPress();
   }
@@ -48,7 +50,7 @@ class SearchableHeader extends Component {
 
   cancel() {
     this.onChangeSearch('', true);
-    this.toggleSearch(false, false);
+    this.toggleSearch(false);
   }
 
   _renderSearchBox() {
@@ -62,13 +64,18 @@ class SearchableHeader extends Component {
   }
 
   _renderTitle() {
-    return <CreateNewIndicatorSearchTitle toggleSearch={(isEdit) => this.toggleSearch(true, isEdit)} />
+    return (
+      <CreateNewIndicatorSearchTitle
+        isEdit={this.props.isEdit}
+        toggleSearch={() => this.toggleSearch(true)}
+        editIndicator={() => this.props.updateIsEditStatus(true)}
+      />
+    )
   }
 
-  toggleSearch(status, isEdit) {
+  toggleSearch(status) {
     this.setState({ isSearch: status });
     this.props.updateSearchStatus(status);
-    this.props.updateIsEditStatus(isEdit);
   }
 
   render() {

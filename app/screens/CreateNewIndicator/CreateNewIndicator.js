@@ -176,7 +176,7 @@ class CreateNewIndicator extends Component {
   };
 
   _renderParticipant() {
-    if (this.state.isSearching)
+    if (this.state.isSearching || this.state.isEdit)
       return;
 
     return (
@@ -288,7 +288,7 @@ class CreateNewIndicator extends Component {
           <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
             { this._renderParticipant() }
 
-            { !this.state.isSearching &&
+            { (!this.state.isSearching && !this.state.isEdit) &&
               <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor, marginTop: 20}}>
                 {translations['chooseProposedCriteria']}
               </Text>

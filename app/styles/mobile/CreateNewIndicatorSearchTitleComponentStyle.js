@@ -27,6 +27,9 @@ const CreateNewIndicatorSearchTitleStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  btnEdit: {
+    marginRight: 5,
+  },
   searchIcon: {
     fontSize: wp('6%'),
     marginRight: 0,

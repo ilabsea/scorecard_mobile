@@ -290,9 +290,6 @@
   "numberOfRaisedParticipant": "Raised participant {0} pax",
   "numberOfParticipant": "Participant",
   "pleaseProposeCriteria": "Please propose criteria",
-  "notVoted": "Not voted",
-  "allCriteriaMustBeVoted": "All criteria must be voted",
-  "allCriteriaMustHaveSuggestedAction": "All criteria must have suggested action",
-  "pleaseCompleteAllTheSteps": "Please complete all the steps",
-  "editCriteria": "Edit Criteria"
+  "editCriteria": "Edit Criteria",
+  "editCustomIndicator": "Edit Custom Indicator"
 }
