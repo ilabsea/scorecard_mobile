@@ -36,7 +36,7 @@ class AddNewIndicatorModal extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.isComponentUnmount && this.props.isEdit && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
+    if (!this.isComponentUnmount && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
       this.setState({
         name: this.props.selectedCustomIndicator.name,
         tag: this.props.selectedCustomIndicator.tag,
@@ -66,7 +66,8 @@ class AddNewIndicatorModal extends Component {
     };
 
     if (this.props.isEdit) {
-      customIndicatorService.updateIndicator(this.props.selectedCustomIndicator.uuid, indicator, this.props.scorecardUUID);
+      const { uuid, local_audio } = this.props.selectedCustomIndicator
+      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
       this.props.updateCustomIndicator(indicator);
     }
     else {

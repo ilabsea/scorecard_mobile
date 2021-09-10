@@ -36,6 +36,11 @@ class RaisingProposedCustomIndicatorList extends Component {
     );
   }
 
+  selectIndicator(indicator) {
+    this.state.audioPlayer = null;
+    this.props.editCustomIndicator(indicator)
+  }
+
   renderIndicatorItems = () => {
     return this.props.indicators.map((indicator, index) => {
       const itemKey = 'indicator-card-' + index;
@@ -47,7 +52,7 @@ class RaisingProposedCustomIndicatorList extends Component {
           customIndicator={null}
           index={index}
           scorecardUuid={this.props.scorecardUuid}
-          selectIndicator={() => this.props.editCustomIndicator(indicator)}
+          selectIndicator={() => this.selectIndicator(indicator)}
           selectedIndicators={this.props.selectedCustomIndicator ? [this.props.selectedCustomIndicator] : []}
           isSearching={this.props.isSearching}
           key={itemKey}

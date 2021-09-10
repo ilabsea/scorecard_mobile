@@ -45,7 +45,7 @@ const customIndicatorService = (() => {
     callback(customIndicator);
   }
 
-  function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid) {
+  function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {
     CustomIndicator.update(customIndicatorUuid, newIndicator);
     const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
 
@@ -55,6 +55,9 @@ const customIndicatorService = (() => {
     }
     LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
     proposedCriteriaService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
+
+    if (previousAudio && previousAudio != newIndicator.local_audio)
+      CustomIndicator.deleteFile(previousAudio);
   }
 })();
 

@@ -82,6 +82,9 @@ const createNewIndicatorHelper = (() => {
       return [];
 
     const index = selectedIndicators.findIndex(item => item.uuid == updatedIndicator.uuid);
+    if (index == -1)
+      return selectedIndicators;
+
     let updatedSelectedIndicators = selectedIndicators;
     updatedSelectedIndicators[index].name = updatedIndicator.name;
     updatedSelectedIndicators[index].tag = updatedIndicator.tag;

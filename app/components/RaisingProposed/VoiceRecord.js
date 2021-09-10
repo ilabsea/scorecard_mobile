@@ -9,7 +9,7 @@ import {LocalizationContext} from '../Translations';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
 import { normalLabelSize } from '../../utils/responsive_util';
-import realm from '../../db/schema';
+import uuidv4 from '../../utils/uuidv4';
 
 class VoiceRecord extends Component {
   static contextType = LocalizationContext;
@@ -28,34 +28,34 @@ class VoiceRecord extends Component {
       playSeconds: 0,
       hasPermission: false,
       toolTipVisible: false,
+      isAudioEdited: false,
     };
     this.isComponentUnmount = false;
   }
 
   componentDidMount() {
     this.checkPermission();
-    const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid == '${this.props.scorecardUUID}'`);
-    this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}_${customIndicators.length + 1}.mp3`;            // Ex: abc123def_277403_2.mp3
+    this.filename = `${this.props.scorecardUUID}_${uuidv4()}.mp3`;                // Ex: 24595e3a-9054-4767-9a63-881be34a2b56_277403.mp3
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.isComponentUnmount && !this.state.recorder && !this.audioPlayer && this.props.isEdit && this.props.audioFilePath) {
-      console.log('== show default audio === ', this.props.audioFilePath)
-
+  componentDidUpdate() {
+    // Allow to update the state only when component is not unmount and the audio is not get edited yet (remove or record new audio)
+    // and the audioPlayer is null and the custom indicator has audio file (this.props.audioFilePath)
+    if (!this.isComponentUnmount && !this.state.isAudioEdited && !this.audioPlayer && this.props.audioFilePath) {
       this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
-
       setTimeout(() => {
         this.setState({
           isRecordButtonVisible: false,
           playSeconds: this.audioPlayer.getDuration(),
           recordDuration: this.audioPlayer.getDuration(),
         });
-      }, 100);
+      }, 250);
     }
   }
 
   componentWillUnmount() {
     this.isComponentUnmount = true;
+    this.audioPlayer && this.audioPlayer.release();
   }
 
   checkPermission = () => {
@@ -71,6 +71,7 @@ class VoiceRecord extends Component {
   recordVoice = () => {
     if (!this.state.hasPermission) return;
 
+    this.setState({ isAudioEdited: true });
     this.recorder = new Recorder(this.filename, {format: 'mp3'});
     this.recorder.prepare(() => {
       this.recorder.record(() => {
@@ -99,7 +100,7 @@ class VoiceRecord extends Component {
   countPlaySeconds = () => {
     const _this = this;
     _this.playInterval = setInterval(() => {
-      if (_this.audioPlayer != null) {
+      if (_this.audioPlayer != null && !this.state.isComponentUnmount) {
         _this.audioPlayer.sound.getCurrentTime((seconds, isPlaying) => {
           this.setState({playSeconds: Math.ceil(seconds)});
           if (Math.ceil(seconds) === _this.state.recordDuration) {
@@ -185,6 +186,7 @@ class VoiceRecord extends Component {
       isPlaying: false,
       recordDuration: 0,
       playSeconds: 0,
+      isAudioEdited: true,
     });
     this.props.deleteAudio();
   };
