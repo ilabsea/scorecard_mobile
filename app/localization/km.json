@@ -291,5 +291,6 @@
   "numberOfParticipant": "ចំនួនអ្នកចូលរូម",
   "pleaseProposeCriteria": "សូមធ្វើការបំផុសលក្ខណៈវិនិច្ឆ័យ",
   "editCriteria": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",
-  "editCustomIndicator": "កែប្រែលក្ខណៈវិនិច្ឆ័យ"
+  "editCustomCriteria": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",
+  "noCustomCriteria": "មិនមានលក្ខណៈវិនិច្ឆ័យ"
 }

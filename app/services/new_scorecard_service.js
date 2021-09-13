@@ -34,16 +34,16 @@ const newScorecardService = (() => {
 
     scorecardService.find(scorecardUuid, (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
-      // if (responseData === null || !scorecardHelper.isScorecardAvailable(responseData)) {
-      //   const errorType = responseData === null ? ERROR_SCORECARD : scorecardHelper.getScorecardErrorType(responseData);
-      //   errorScorecardCallback(errorType);
-      // }
-      // else {
+      if (responseData === null || !scorecardHelper.isScorecardAvailable(responseData)) {
+        const errorType = responseData === null ? ERROR_SCORECARD : scorecardHelper.getScorecardErrorType(responseData);
+        errorScorecardCallback(errorType);
+      }
+      else {
         Scorecard.upsert(responseData);
         loadProgramLanguage(responseData.program_id, (response) => {
           successCallback();
         });
-      // }
+      }
     }, (error) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       errorCallback(error);

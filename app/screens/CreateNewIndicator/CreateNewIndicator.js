@@ -11,7 +11,6 @@ import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicat
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
-import { CUSTOM } from '../../utils/variable';
 
 import Color from '../../themes/color';
 import CreateNewIndicatorParticipantInfo from '../../components/CreateNewIndicator/CreateNewIndicatorParticipantInfo';
@@ -105,51 +104,17 @@ class CreateNewIndicator extends Component {
     this._updateIndicatorList();
   }
 
-  updateRaisedParticipant = () => {
-    const participant = {
-      uuid: this.state.participant_uuid,
-      raised: true,
-    };
-
-    Participant.create(participant);
-  }
-
   save = () => {
-    let participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.route.params.scorecard_uuid)));
-    this.handleDeleteUnselectedProposedCriteria();
-    this.state.selectedIndicators.map((indicator) => {
-      const attrs = {
-        uuid: createNewIndicatorHelper.getCriteriaUuid(this.props.route.params.scorecard_uuid, indicator.uuid, this.props.route.params.participant_uuid),
-        scorecard_uuid: this.props.route.params.scorecard_uuid.toString(),
-        indicatorable_id: indicator.uuid.toString(),
-        indicatorable_type: indicator.type || CUSTOM,
-        indicatorable_name: indicator.name,
-        participant_uuid: this.state.participant_uuid,
-        tag: indicator.tag
-      };
+    const { scorecard_uuid, participant_uuid } = this.props.route.params;
+    let participants = JSON.parse(JSON.stringify(Participant.findByScorecard(scorecard_uuid)));
 
-      ProposedCriteria.create(attrs);
-    });
+    createNewIndicatorHelper.deleteUnselectedProposedIndicator(scorecard_uuid, participant_uuid, this.state.unselectedIndicators);
+    createNewIndicatorHelper.createNewProposedIndicator(scorecard_uuid, participant_uuid, this.state.selectedIndicators);
+    Participant.create({ uuid: this.state.participant_uuid, raised: true });
 
-    this.updateRaisedParticipant();
-    this.props.saveCriteria(this.props.route.params.scorecard_uuid);
-    this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
+    this.props.saveCriteria(scorecard_uuid);
+    this.props.saveParticipant(participants, scorecard_uuid);
     this.props.navigation.goBack();
-  }
-
-  handleDeleteUnselectedProposedCriteria = () => {
-    const proposedCriterias = ProposedCriteria.find(this.props.route.params.scorecard_uuid, this.props.route.params.participant_uuid);
-    let deleteCriterias = [];
-    proposedCriterias.map((criteria) => {
-      this.state.unselectedIndicators.map((indicator) => {
-        if (indicator.uuid == criteria.indicatorable_id)
-          deleteCriterias.push(criteria);
-      })
-    });
-    deleteCriterias.map((criteria) => {
-      const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, this.props.route.params.participant_uuid);
-      ProposedCriteria.destory(proposedCriteria);
-    });
   }
 
   renderSaveButton = () => {
@@ -206,18 +171,14 @@ class CreateNewIndicator extends Component {
   }
 
   updateSearchedIndicator = (indicators, allSelectedIndicators) => {
-    if (!this.state.isEdit) {
-      const { unselectedIndicators, selectedIndicators } = this.state;
-      let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(allSelectedIndicators, selectedIndicators, unselectedIndicators);
+    const { unselectedIndicators, selectedIndicators } = this.state;
+    let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(allSelectedIndicators, selectedIndicators, unselectedIndicators);
 
-      this.setState({
-        indicators: createNewIndicatorHelper.getUpdatedIndicators(indicators, unselectedIndicators),
-        selectedIndicators: newSelectedIndicators,
-        isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
-      });
-    }
-    else
-      this.setState({ indicators: indicators });
+    this.setState({
+      indicators: createNewIndicatorHelper.getUpdatedIndicators(indicators, unselectedIndicators),
+      selectedIndicators: newSelectedIndicators,
+      isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
+    });
   }
 
   updateEditStatus(isEdit) {
@@ -294,10 +255,7 @@ class CreateNewIndicator extends Component {
               </Text>
             }
 
-            { !this.state.isEdit
-              ? this.renderCriteriaList()
-              : this.renderCustomIndicatorList()
-            }
+            { !this.state.isEdit ? this.renderCriteriaList() : this.renderCustomIndicatorList() }
 
             { this.renderSaveButton() }
 

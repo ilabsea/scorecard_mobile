@@ -37,8 +37,8 @@ class VoiceRecord extends Component {
   }
 
   componentDidUpdate() {
-    // Allow to update the state only when component is not unmount and the audio is not get edited yet (remove or record new audio)
-    // and the audioPlayer is null and the custom indicator has audio file (this.props.audioFilePath)
+    // Allow to update the state (in componentDidUpdate) only when the component is not unmount and the audio is not edited yet (by remove or record new audio)
+    // and the audioPlayer must be null and the custom indicator needs to have audio file (this.props.audioFilePath)
     if (!this.isComponentUnmount && !this.state.isAudioEdited && !this.audioPlayer && this.props.audioFilePath) {
       this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
       setTimeout(() => {

@@ -2,43 +2,44 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { mobileHeadingTitleSize, isShortWidthScreen } from '../../utils/responsive_util';
 
-const CreateNewIndicatorSearchTitleStyles = StyleSheet.create({
+const mobileBodyPaddingLeft = isShortWidthScreen() ? wp('4%') : wp('1%');
+
+const CreateNewIndicatorTitleStyles = StyleSheet.create({
   body: {
-    flex: 2,
-    paddingLeft: wp('1.4%'),
+    flex: 1,
+    paddingLeft: mobileBodyPaddingLeft,
   },
   titleLabel: {
-    fontSize: 19,
-    fontFamily: FontFamily.title
+    fontSize: mobileHeadingTitleSize(),
+    fontFamily: FontFamily.title,
   },
   right: {
     maxWidth: wp('14%'),
     alignItems: 'center',
     flexDirection: 'row',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   btn: {
-    borderWidth: 0,
     width: 35,
     height: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 5,
   },
   btnEdit: {
-    marginRight: 10,
+    marginRight: 5,
   },
   searchIcon: {
-    fontSize: 24,
+    fontSize: wp('6%'),
     marginRight: 0,
     color: Color.whiteColor,
   },
   editIcon: {
-    fontSize: 20,
+    fontSize: wp('4.8%'),
     marginRight: 0,
     color: Color.whiteColor,
   }
 });
 
-export default CreateNewIndicatorSearchTitleStyles;
+export default CreateNewIndicatorTitleStyles;

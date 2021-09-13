@@ -56,7 +56,8 @@ const customIndicatorService = (() => {
     LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
     proposedCriteriaService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
 
-    if (previousAudio && previousAudio != newIndicator.local_audio)
+    // Delete the existing audio file if user record new audio for custom indicator
+    if (previousAudio && (previousAudio != newIndicator.local_audio))
       CustomIndicator.deleteFile(previousAudio);
   }
 })();

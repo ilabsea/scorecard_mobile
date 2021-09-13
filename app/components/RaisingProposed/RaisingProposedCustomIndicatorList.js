@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import { Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import IndicatorCard from './IndicatorCard';
+import RaisingProposedScrollView from './RaisingProposedScrollView';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import NoDataMessageTabletStyles from '../../styles/tablet/NoDataMessageComponentStyle';
+import NoDataMessageMobileStyles from '../../styles/mobile/NoDataMessageComponentStyle';
+
+const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
 
 class RaisingProposedCustomIndicatorList extends Component {
   static contextType = LocalizationContext;
@@ -16,8 +21,6 @@ class RaisingProposedCustomIndicatorList extends Component {
     this.state = {
       playingIndicatorId: null,
     };
-
-    this.scrollViewRef = React.createRef();
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
@@ -66,22 +69,17 @@ class RaisingProposedCustomIndicatorList extends Component {
 
   renderInidcatorList() {
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 28}} keyboardShouldPersistTaps='handled'
-        ref={ref => (this.scrollViewRef = ref)}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10, marginTop: 10},
-          getDeviceStyle({}, { justifyContent: 'center' })]}
-        >
-          { this.renderIndicatorItems() }
-        </View>
-      </ScrollView>
+      <RaisingProposedScrollView>
+        { this.renderIndicatorItems() }
+      </RaisingProposedScrollView>
     )
   }
 
   renderEmptyMessage() {
     return (
-      <Text style={{textAlign: 'center'}}>មិនមានលក្ខណៈវិនិច្ឆ័យ</Text>
+      <Text style={[responsiveStyles.label, {textAlign: 'center', marginTop: 0}]}>
+        { this.context.translations.noCustomCriteria }
+      </Text>
     )
   }
 

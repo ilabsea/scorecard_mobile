@@ -14,6 +14,7 @@ import { Chip } from 'react-native-paper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { normalLabelSize } from '../../utils/responsive_util';
 
+let _this = null;
 class Autocomplete extends Component {
   static contextType = LocalizationContext;
 
@@ -26,10 +27,13 @@ class Autocomplete extends Component {
       tag: '',
       focusing: false,
     };
+
+    this.isComponentUnmount = false;
+    _this = this;
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.defaultValue != state.defaultValue) {
+    if (!_this.isComponentUnmount && (props.defaultValue != state.defaultValue)) {
       return {
         value: props.defaultValue,
         tag: props.defaultValue,
@@ -37,6 +41,10 @@ class Autocomplete extends Component {
     }
 
     return null;
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmount = true;
   }
 
   renderList = () => {
@@ -82,7 +90,9 @@ class Autocomplete extends Component {
             this.setState({tag: '', focusing: true});
             this.tagInput.focus();
           }}
-          textStyle={{fontSize: normalLabelSize}}>
+          textStyle={{fontSize: normalLabelSize, paddingTop: 4}}
+          style={{ marginTop: 8, marginBottom: 2}}
+        >
           {this.state.tag}
         </Chip>
       </View>

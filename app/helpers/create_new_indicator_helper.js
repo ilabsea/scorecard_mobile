@@ -1,6 +1,6 @@
 import uuidv4 from '../utils/uuidv4';
 import ProposedCriteria from '../models/ProposedCriteria';
-
+import { CUSTOM } from '../utils/variable';
 
 const createNewIndicatorHelper = (() => {
   return {
@@ -11,6 +11,8 @@ const createNewIndicatorHelper = (() => {
     getCriteriaUuid,
     getIndicatorSelection,
     getUpdatedSelectedIndicators,
+    createNewProposedIndicator,
+    deleteUnselectedProposedIndicator,
   };
 
   function isAddNewIndicatorSection(index, indicators) {
@@ -90,6 +92,37 @@ const createNewIndicatorHelper = (() => {
     updatedSelectedIndicators[index].tag = updatedIndicator.tag;
 
     return updatedSelectedIndicators;
+  }
+
+  function createNewProposedIndicator(scorecardUuid, participantUuid, selectedIndicators) {
+    selectedIndicators.map((indicator) => {
+      const attrs = {
+        uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
+        scorecard_uuid: scorecardUuid.toString(),
+        indicatorable_id: indicator.uuid.toString(),
+        indicatorable_type: indicator.type || CUSTOM,
+        indicatorable_name: indicator.name,
+        participant_uuid: participantUuid,
+        tag: indicator.tag
+      };
+
+      ProposedCriteria.create(attrs);
+    });
+  }
+
+  function deleteUnselectedProposedIndicator(scorecardUuid, participantUuid, unselectedIndicators) {
+    const proposedCriterias = ProposedCriteria.find(scorecardUuid, participantUuid);
+    let deleteCriterias = [];
+    proposedCriterias.map((criteria) => {
+      unselectedIndicators.map((indicator) => {
+        if (indicator.uuid == criteria.indicatorable_id)
+          deleteCriterias.push(criteria);
+      })
+    });
+    deleteCriterias.map((criteria) => {
+      const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, participantUuid);
+      ProposedCriteria.destory(proposedCriteria);
+    });
   }
 })();
 

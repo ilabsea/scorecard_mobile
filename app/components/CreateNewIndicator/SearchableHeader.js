@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header, Left } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack';
 
-import CreateNewIndicatorSearchTitle from './CreateNewIndicatorSearchTitle';
+import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
 import { LocalizationContext } from '../Translations';
 import IndicatorService from '../../services/indicator_service';
@@ -33,23 +33,16 @@ class SearchableHeader extends Component {
       this.props.onBackPress();
   }
 
-  onChangeSearch(text, isCancel) {
+  onChangeSearch(text) {
+    const { translations } = this.context;
     this.setState({ query: text });
+    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, this.props.participantUuid, text, translations.addNewCriteria);
 
-    if (!this.props.isEdit || isCancel) {
-      const { translations } = this.context;
-      const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, this.props.participantUuid, text, translations.addNewCriteria);
-
-      this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
-    }
-    else {
-      const allIndicator = customIndicatorService.getIndicatorList(this.props.scorecardUuid, text);
-      this.props.updateSearchedIndicator(allIndicator, []);
-    }
+    this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
   }
 
   cancel() {
-    this.onChangeSearch('', true);
+    this.onChangeSearch('');
     this.toggleSearch(false);
   }
 
@@ -57,15 +50,15 @@ class SearchableHeader extends Component {
     return (
       <CreateNewIndicatorSearchInput
         query={this.state.query}
-        onChangeSearch={(text) => this.onChangeSearch(text, false)}
-        clearSearch={() => this.onChangeSearch('', false)}
+        onChangeSearch={(text) => this.onChangeSearch(text)}
+        clearSearch={() => this.onChangeSearch('')}
       />
     )
   }
 
   _renderTitle() {
     return (
-      <CreateNewIndicatorSearchTitle
+      <CreateNewIndicatorTitle
         isEdit={this.props.isEdit}
         toggleSearch={() => this.toggleSearch(true)}
         editIndicator={() => this.props.updateIsEditStatus(true)}

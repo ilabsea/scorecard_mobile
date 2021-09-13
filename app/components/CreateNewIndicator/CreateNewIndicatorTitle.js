@@ -4,11 +4,11 @@ import { Body, Title, Right, Icon } from 'native-base';
 
 import { LocalizationContext } from '../Translations';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import createNewIndicatorSearchTitleTabletStyles from '../../styles/tablet/CreateNewIndicatorSearchTitleComponentStyle';
-import createNewIndicatorSearchTitleMobileStyles from '../../styles/mobile/CreateNewIndicatorSearchTitleComponentStyle';
-const styles = getDeviceStyle(createNewIndicatorSearchTitleTabletStyles, createNewIndicatorSearchTitleMobileStyles);
+import createNewIndicatorTitleTabletStyles from '../../styles/tablet/CreateNewIndicatorTitleComponentStyle';
+import createNewIndicatorTitleMobileStyles from '../../styles/mobile/CreateNewIndicatorTitleComponentStyle';
+const styles = getDeviceStyle(createNewIndicatorTitleTabletStyles, createNewIndicatorTitleMobileStyles);
 
-class CreateNewIndicatorSearchTitle extends Component {
+class CreateNewIndicatorTitle extends Component {
   static contextType = LocalizationContext;
 
   renderRightButtons() {
@@ -33,7 +33,7 @@ class CreateNewIndicatorSearchTitle extends Component {
       <React.Fragment>
         <Body style={styles.body}>
           <Title style={styles.titleLabel}>
-            { this.props.isEdit ? this.context.translations.editCustomIndicator : this.context.translations.createNewProposedCriteria }
+            { this.props.isEdit ? this.context.translations.editCustomCriteria : this.context.translations.createNewProposedCriteria }
           </Title>
         </Body>
 
@@ -43,4 +43,4 @@ class CreateNewIndicatorSearchTitle extends Component {
   }
 }
 
-export default CreateNewIndicatorSearchTitle;
+export default CreateNewIndicatorTitle;

@@ -268,7 +268,7 @@
   "toBeRemovedOn": "To be removed on",
   "numberOfProposedParticipant": "Number of proposed participant",
   "doYouWantToRemoveTheImage": "Do you want to remove the selected image?",
-  "selectedImage": "selectedImage",
+  "selectedImage": "Selected Image",
   "addImage": "Add image",
   "chooseImage": "Choose image",
   "takePhoto": "Take photo",
@@ -291,5 +291,6 @@
   "numberOfParticipant": "Participant",
   "pleaseProposeCriteria": "Please propose criteria",
   "editCriteria": "Edit Criteria",
-  "editCustomIndicator": "Edit Custom Indicator"
+  "editCustomCriteria": "Edit Custom Criteria",
+  "noCustomCriteria": "No custom Criteria"
 }
