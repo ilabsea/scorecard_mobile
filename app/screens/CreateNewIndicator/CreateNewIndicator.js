@@ -155,7 +155,7 @@ class CreateNewIndicator extends Component {
   renderSaveButton = () => {
     const {translations} = this.context;
 
-    if (this.state.isSearching)
+    if (this.state.isSearching || this.state.isEdit)
       return;
 
     return (

@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, PermissionsAndroid} from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {View, Text, PermissionsAndroid} from 'react-native';
 import {Recorder} from '@react-native-community/audio-toolkit';
-import Tooltip from 'react-native-walkthrough-tooltip';
 
-import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
+import RecordedAudioCard from './RecordedAudioCard';
+import RecordAudioButton from './RecordAudioButton';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
 import { normalLabelSize } from '../../utils/responsive_util';
@@ -27,7 +26,6 @@ class VoiceRecord extends Component {
       recordDuration: 0,
       playSeconds: 0,
       hasPermission: false,
-      toolTipVisible: false,
       isAudioEdited: false,
     };
     this.isComponentUnmount = false;
@@ -131,45 +129,15 @@ class VoiceRecord extends Component {
       clearInterval(this.playInterval);
   };
 
-  getCurrentTime = (duration) => {
-    let date = new Date(null);
-    date.setSeconds(duration);
-    return date.toISOString().substr(11, 8);
-  };
-
-  renderRecordTime = () => {
-    return (
-      <Text style={{fontWeight: 'bold', fontSize: 18}}>
-        {this.getCurrentTime(this.state.recordDuration)}
-      </Text>
-    );
-  };
-
   renderRecordButton = () => {
-    const { translations } = this.context;
-
     return (
-      <View>
-        <View style={{alignItems: 'center'}}>
-          {this.state.isRecording && this.renderRecordTime()}
-        </View>
-        <Tooltip
-          isVisible={this.state.toolTipVisible}
-          content={<Text style={{fontSize: normalLabelSize}}>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
-          contentStyle={{width: 300, flexWrap: 'wrap', flexDirection: 'row'}}
-          placement="top"
-          onClose={() => this.setState({ toolTipVisible: false })}
-        >
-          <TouchableOpacity
-            onLongPress={() => this.recordVoice()}
-            onPressOut={() => this.stopRecordVoice()}
-            onPress={() => this.setState({ toolTipVisible: true })}
-            style={styles.voiceRecordButton}>
-            <MaterialIcon name="mic" size={35} color={Color.whiteColor} />
-          </TouchableOpacity>
-        </Tooltip>
-      </View>
-    );
+      <RecordAudioButton
+        recordDuration={this.state.recordDuration}
+        isRecording={this.state.isRecording}
+        recordVoice={() => this.recordVoice()}
+        stopRecordVoice={() => this.stopRecordVoice()}
+      />
+    )
   };
 
   delete = () => {
@@ -191,29 +159,15 @@ class VoiceRecord extends Component {
     this.props.deleteAudio();
   };
 
-  renderPlayIcon = () => {
-    let iconName = this.state.isPlaying ? 'pause-circle-filled' : 'play-circle-filled';
-    return (<MaterialIcon name={iconName} size={50} color={Color.primaryButtonColor} />)
-  }
-
-  renderRecordedVoice = () => {
-    const {translations} = this.context;
+  renderRecordedAudio = () => {
     return (
-      <View style={styles.recordedVoiceContainer}>
-        <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: Color.whiteColor}}>
-          <TouchableOpacity onPress={() => this.handlePlaying()}>
-            {this.renderPlayIcon()}
-          </TouchableOpacity>
-          <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
-            <Text style={{fontSize: normalLabelSize}}>{translations['play']}</Text>
-            <Text>{this.getCurrentTime(this.state.playSeconds)}</Text>
-          </View>
-          <TouchableOpacity onPress={() => this.delete()} style={{alignSelf: 'center'}}>
-            <MaterialIcon name="delete" size={30} color={Color.redColor} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+      <RecordedAudioCard
+        isPlaying={this.state.isPlaying}
+        playSeconds={this.state.playSeconds}
+        handlePlaying={() => this.handlePlaying()}
+        delete={() => this.delete()}
+      />
+    )
   };
 
   render() {
@@ -226,34 +180,10 @@ class VoiceRecord extends Component {
           </Text>
         </View>
         {this.state.isRecordButtonVisible && this.renderRecordButton()}
-        {!this.state.isRecordButtonVisible && this.renderRecordedVoice()}
+        {!this.state.isRecordButtonVisible && this.renderRecordedAudio()}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  recordedVoiceContainer: {
-    borderRadius: 8,
-    shadowColor: Color.blackColor,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  },
-  voiceRecordButton: {
-    backgroundColor: Color.primaryButtonColor,
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-});
 
 export default VoiceRecord;
