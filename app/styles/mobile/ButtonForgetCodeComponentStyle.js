@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import Color from '../../themes/color';
 
 const ButtonForgetCodeComponentStyles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: isShortScreenDevice() ? 10 : 20,
-    marginBottom: isShortScreenDevice() ? -wp('5%') : -wp('12%')
+    marginTop: isShortScreenDevice() ? 5 : 10,
+    marginBottom: isShortScreenDevice() ? -wp('3%') : -wp('12%')
   },
   button: {
     flexDirection: 'row',
@@ -18,10 +18,10 @@ const ButtonForgetCodeComponentStyles = StyleSheet.create({
   },
   icon: {
     color: Color.whiteColor,
-    fontSize: wp('5.2%'),
+    fontSize: isShortScreenDevice() ? wp('4.5%') : wp('5.2%'),
   },
   label: {
-    fontSize: wp(mdLabelSize),
+    fontSize: isShortScreenDevice() ? wp(smLabelSize) : wp(mdLabelSize),
   }
 });
 

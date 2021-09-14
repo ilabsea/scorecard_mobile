@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import Color from '../../themes/color';
 
 const NewScorecardScreenStyles = StyleSheet.create({
   formContainer: {
@@ -25,6 +26,19 @@ const NewScorecardScreenStyles = StyleSheet.create({
   buttonLabel: {
     fontSize: 20
   },
+  retryLink: {
+    width: 180,
+    alignSelf: 'center',
+    marginTop: 5,
+    flexDirection: 'row'
+  },
+  messageLabel: {
+    fontSize: 16,
+  },
+  rejoinLink: {
+    color: Color.whiteColor,
+    textAlign: 'center'
+  }
 });
 
 export default NewScorecardScreenStyles;
