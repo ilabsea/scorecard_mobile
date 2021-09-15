@@ -49,6 +49,8 @@ export default class BigHeader extends React.Component {
           <NavigationHeaderBody title={this.props.title} />
 
           <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, -6)}}>
+            { !!this.props.rightButton && this.props.rightButton }
+
             <HeaderIconButton onPress={() => this.setState({ visibleModal: true })} icon='home' />
           </Right>
         </View>

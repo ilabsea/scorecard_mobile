@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable} from 'react-native';
-import uuidv4 from '../../utils/uuidv4';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
 import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
-import Facilitator from '../../models/Facilitator';
+import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';
 import Caf from '../../models/Caf';
+import facilitatorService from '../../services/facilitator_service';
 
 import Color from '../../themes/color';
 
@@ -23,16 +24,27 @@ class FacilitatorScreen extends Component {
       selectedFacilitators: Array.from({length: this.numberOfFacilitator}, () => null),
       isError: true,
       containerPaddingBottom: 0,
+      isLoading: false,
     };
 
     this.formRef = React.createRef();
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadFacilitators();
+  }
+
+  loadFacilitators() {
     const cafs = Caf.findByNgoId(this.props.route.params.local_ngo_id);
 
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
-    this.loadSavedFacilitators();
+
+    facilitatorService.loadedSavedFacilitators(this.props.route.params.scorecard_uuid, this.state.selectedFacilitators, (facilitators) => {
+      this.setState({
+        selectedFacilitators: facilitators,
+        isError: false,
+      }, () => {this.updateFacilitators()});
+    });
   }
 
   onChangeFacilitator = (facilitator, facilitatorIndex) => {
@@ -59,46 +71,9 @@ class FacilitatorScreen extends Component {
 
   saveSelectedData = () => {
     this.formRef.current.closeSelectBox(null);
-    const {selectedFacilitators} = this.state;
+    facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
 
-    for(let i=0; i<selectedFacilitators.length; i++) {
-      if (selectedFacilitators[i] === null)
-        continue;
-
-      this.saveFacilitatorToLocalStorage(selectedFacilitators[i], i);
-    }
     this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
-  };
-
-  loadSavedFacilitators = () => {
-    let savedFacilitators = Facilitator.getAll(this.props.route.params.scorecard_uuid);
-
-    if (savedFacilitators.length > 0) {
-      let facilitators = this.state.selectedFacilitators;
-      savedFacilitators.map((facilitator, index) => {
-        facilitators[index] = {
-          lable: facilitator.name,
-          value: facilitator.id,
-        }
-      });
-      this.setState({
-        selectedFacilitators: facilitators,
-        isError: false,
-      }, () => {this.updateFacilitators();});
-    }
-  };
-
-  saveFacilitatorToLocalStorage = async (caf, index) => {
-    const facilitators = Facilitator.getAll(this.props.route.params.scorecard_uuid);
-    const attrs = {
-      uuid: facilitators[index] === undefined ? uuidv4() : facilitators[index].uuid,
-      id: parseInt(caf.value),
-      name: caf.label,
-      position: index === 0 ? 'lead' : 'other',
-      scorecard_uuid: this.props.route.params.scorecard_uuid,
-    };
-
-    Facilitator.create(attrs);
   };
 
   renderNextButton = () => {
@@ -123,8 +98,20 @@ class FacilitatorScreen extends Component {
             onBackPress={() => this.props.navigation.goBack()}
             onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={1}
+            rightButton={
+              <FacilitatorReloadButton localNgoId={this.props.route.params.local_ngo_id}
+                reloadFacilitators={() => this.loadFacilitators()}
+                updateLoadingStatus={(status) => this.setState({ isLoading: status })}
+              />
+            }
           />
           <ScrollView contentContainerStyle={styles.container}>
+            <Spinner
+              visible={this.state.isLoading}
+              color={Color.primaryColor}
+              overlayColor={Color.loadingBackgroundColor}
+            />
+
             <Pressable onPress={() => this.formRef.current.closeSelectBox(null)}
               style={{paddingBottom: this.state.containerPaddingBottom}}
             >
