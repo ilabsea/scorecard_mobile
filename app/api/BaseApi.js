@@ -62,7 +62,7 @@ class BaseApi {
       authorization = authToken;
 
     return {
-      Accept: 'applcation/json',
+      Accept: 'application/json',
       Authorization: `Token ${authorization}`,
     };
   }

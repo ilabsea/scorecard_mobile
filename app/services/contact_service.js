@@ -1,33 +1,32 @@
-import realm from '../db/schema';
 import ContactApi from '../api/ContactApi';
+import Contact from '../models/Contact';
 
 const contactService = (() => {
   const contactApi = new ContactApi();
 
   return {
     getAll,
-    downloadContacts
+    downloadContacts,
   }
 
   function getAll() {
-    return realm.objects('Contact');
+    const contacts = JSON.parse(JSON.stringify(Contact.getAll()));
+    return contacts.sort((a, b) => (a.contact_type < b.contact_type) ? 1 : ((b.contact_type < a.contact_type) ? -1 : 0));
   }
 
-  function downloadContacts() {
+  function downloadContacts(callback) {
     contactApi.load().then(function (response) {
       if (response.status != 200) { return; }
 
-      let contacts = realm.objects('Contact');
       let data = response.data;
+      Contact.deleteAll();
 
-      realm.write(() => {
-        realm.delete(contacts);
+      data.map(item => {
+        Contact.create(item);
+      });
 
-        for(let i=0; i<data.length; i++) {
-          realm.create('Contact', data[i], 'modified');
-        }
-      })
-    });
+      callback && callback();
+    })
   }
 })();
 
