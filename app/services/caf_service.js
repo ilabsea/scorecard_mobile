@@ -20,6 +20,8 @@ const loadCaf = async (localNgoId, successCallback, errorCallback) => {
   handleApiResponse(response, (cafs) => {
     let savedCount = 0;
 
+    Caf.deleteByLngoId(localNgoId);
+
     cafs.map((caf) => {
       const cafSet = {
         id: caf.id,

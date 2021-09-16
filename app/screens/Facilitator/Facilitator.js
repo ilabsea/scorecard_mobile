@@ -35,11 +35,11 @@ class FacilitatorScreen extends Component {
   }
 
   loadFacilitators() {
-    const cafs = Caf.findByNgoId(this.props.route.params.local_ngo_id);
+    const cafs = Caf.findByLngoId(this.props.route.params.local_ngo_id);
 
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
 
-    facilitatorService.loadedSavedFacilitators(this.props.route.params.scorecard_uuid, this.state.selectedFacilitators, (facilitators) => {
+    facilitatorService.loadSavedFacilitators(this.props.route.params.scorecard_uuid, (facilitators) => {
       this.setState({
         selectedFacilitators: facilitators,
         isError: false,

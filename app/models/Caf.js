@@ -3,7 +3,9 @@ import realm from '../db/schema';
 const Caf = (() => {
   return {
     create,
-    findByNgoId
+    findByLngoId,
+    findById,
+    deleteByLngoId,
   };
 
   function create(data, callback) {
@@ -13,8 +15,20 @@ const Caf = (() => {
     });
   }
 
-  function findByNgoId(ngoId) {
-    return realm.objects('Caf').filtered(`local_ngo_id == ${ngoId}`)
+  function findByLngoId(lngoId) {
+    return realm.objects('Caf').filtered(`local_ngo_id == ${lngoId}`)
+  }
+
+  function findById(id) {
+    return realm.objects('Caf').filtered(`id = ${id}`)[0];
+  }
+
+  function deleteByLngoId(lngoId) {
+    const cafs = findByLngoId(lngoId);
+
+    realm.write(() => {
+      realm.delete(cafs);
+    });
   }
 })();
 

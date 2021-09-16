@@ -1,23 +1,34 @@
 import Facilitator from '../models/Facilitator';
+import Caf from '../models/Caf';
 import uuidv4 from '../utils/uuidv4';
 
 const facilitatorService = (() => {
   return {
-    loadedSavedFacilitators,
+    loadSavedFacilitators,
     saveSelectedFacilitators,
   }
 
-  function loadedSavedFacilitators(scorecardUuid, selectedFacilitators, callback) {
+  function loadSavedFacilitators(scorecardUuid, callback) {
     let savedFacilitators = Facilitator.getAll(scorecardUuid);
 
     if (savedFacilitators.length > 0) {
-      let facilitators = selectedFacilitators;
-      savedFacilitators.map((facilitator, index) => {
-        facilitators[index] = {
-          lable: facilitator.name,
-          value: facilitator.id,
+      let facilitators = [];
+      let deleteFacilitators = [];
+
+      savedFacilitators.map(facilitator => {
+        if (!Caf.findById(facilitator.id))
+          deleteFacilitators.push(facilitator);
+        else {
+          facilitators.push({
+            label: facilitator.name,
+            value: facilitator.id,
+          })
         }
       });
+
+      deleteFacilitators.map(facilitator => {
+        Facilitator.deleteById(facilitator.id);
+      })
 
       callback(facilitators);
     }

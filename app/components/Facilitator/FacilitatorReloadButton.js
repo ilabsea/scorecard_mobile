@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import NetInfo from '@react-native-community/netinfo';
 import { loadCaf } from '../../services/caf_service';
+import internetConnectionService from '../../services/internet_connection_service';
+import { LocalizationContext } from '../Translations'
 
 class FacilitatorReloadButton extends Component {
-  fetchFaciliators() {
-    console.log('local ngo id == ', this.props.localNgoId);
-    this.props.updateLoadingStatus(true);
+  static contextType = LocalizationContext;
 
-    loadCaf(this.props.localNgoId, (res, phase) => {
-      console.log('== finish reload caf ===')
-      this.props.reloadFacilitators();
-      this.props.updateLoadingStatus(false);
-    }, (error) => {
-      this.props.updateLoadingStatus(false);
+  fetchFaciliators() {
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        this.props.updateLoadingStatus(true);
+        loadCaf(this.props.localNgoId, (res, phase) => {
+          this.props.reloadFacilitators();
+          this.props.updateLoadingStatus(false);
+        }, (error) => {
+          this.props.updateLoadingStatus(false);
+        });
+      }
+      else
+        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection);
     });
   }
 

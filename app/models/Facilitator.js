@@ -6,6 +6,7 @@ const Facilitator = (() => {
     create,
     deleteAll,
     getDataForMilestone,
+    deleteById,
   }
 
   function getAll(scorecardUuid) {
@@ -44,6 +45,16 @@ const Facilitator = (() => {
     });
 
     return facilitatorAttrs;
+  }
+
+  function deleteById(id) {
+    const facilitator = realm.objects('Facilitator').filtered(`id = ${id}`);
+
+    if (facilitator) {
+      realm.write(() => {
+        realm.delete(facilitator);
+      });
+    }
   }
 })();
 
