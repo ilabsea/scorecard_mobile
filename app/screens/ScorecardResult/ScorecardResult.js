@@ -95,8 +95,7 @@ class ScorecardResult extends Component {
     });
   }
 
-  saveDraft() {
-    // Scorecard.update(this.state.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
+  save() {
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
@@ -134,11 +133,11 @@ class ScorecardResult extends Component {
 
         <View style={{padding: containerPadding}}>
           <BottomButton
-            disabled={!scorecardResultService.isAllowToSaveDraft(this.state.scorecard, this.props.criterias)}
-            onPress={() => this.saveDraft()}
+            disabled={!scorecardResultService.isSaveAble(this.state.scorecard)}
+            onPress={() => this.save()}
             customBackgroundColor={Color.headerColor}
             iconName={'none'}
-            label={translations.saveDraft}/>
+            label={translations.save}/>
 
           <FormModal
             visible={this.state.visible}

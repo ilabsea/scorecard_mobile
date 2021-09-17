@@ -1,15 +1,18 @@
+import VotingCriteria from '../models/VotingCriteria';
+
 const scorecardResultService = (() => {
   return {
-    isAllowToSaveDraft
+    isSaveAble
   };
 
-  function isAllowToSaveDraft(scorecard, criterias) {
+  function isSaveAble(scorecard) {
     if (scorecard.finished)
       return false;
 
+    const criterias = VotingCriteria.getAll(scorecard.uuid);
     for (let i=0; i<criterias.length; i++) {
       const criteria = criterias[i];
-
+  
       if (!criteria.suggested_action)
         return false;
     }
