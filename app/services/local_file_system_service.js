@@ -32,4 +32,8 @@ const readAllFiles = (callback) => {
     })
 }
 
-export {downloadFileFromUrl, isFileExist, readAllFiles};
+const deleteFile = (fileName) => {
+  RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${fileName}`);
+}
+
+export {downloadFileFromUrl, isFileExist, readAllFiles, deleteFile};

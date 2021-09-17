@@ -9,6 +9,7 @@ import votingCriteriaService from './votingCriteriaService';
 import proposedCriteriaService from './proposedCriteriaService';
 import { deleteScorecardDownload } from './scorecard_download_service';
 import scorecardReferenceService from './scorecard_reference_service';
+import scorecardSharingService from './scorecard_sharing_service';
 
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
@@ -316,6 +317,7 @@ class ScorecardService extends BaseModelService {
     LanguageIndicator.deleteAll(scorecardUuid);
     votingCriteriaService.deleteVotingCriteria(scorecardUuid);
     proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
+    scorecardSharingService.deleteScorecardPdf(scorecardUuid);
   }
 
   find = async (scorecardUuid, successCallback, failedCallback) => {

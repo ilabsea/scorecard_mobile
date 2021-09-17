@@ -4,16 +4,20 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import NetInfo from '@react-native-community/netinfo';
 
 import { LocalizationContext } from '../Translations';
-import scorecardProgressService from '../../services/scorecard_progress_service';
+import scorecardSharingService from '../../services/scorecard_sharing_service';
 import internetConnectionService from '../../services/internet_connection_service';
 
 class ScorecardProgressShareButton extends Component {
   static contextType = LocalizationContext;
 
+  componentWillUnmount() {
+    scorecardSharingService.deleteScorecardPdf(this.props.scorecardUuid);
+  }
+
   shareSubmittedScorecard() {
      NetInfo.fetch().then(state => {
       if (state.isConnected)
-        scorecardProgressService.sharePdfFile(this.props.scorecardUuid);
+        scorecardSharingService.shareScorecardPdfFile(this.props.scorecardUuid);
       else
         internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection);
     });
