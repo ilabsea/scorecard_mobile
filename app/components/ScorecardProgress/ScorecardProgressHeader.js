@@ -13,7 +13,7 @@ class ScorecardProgressHeader extends Component {
   }
 
   renderRightComponent() {
-    return this.props.scorecard.isUploaded ? <ScorecardProgressShareButton scorecard={this.props.scorecard} /> : <ScorecardProgressCircle scorecard={this.props.scorecard}/>;
+    return this.props.scorecard.isUploaded ? <ScorecardProgressShareButton scorecardUuid={this.props.scorecard.uuid} /> : <ScorecardProgressCircle scorecard={this.props.scorecard}/>;
   }
 
   render() {

@@ -1,29 +1,21 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Share } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import RNFS from 'react-native-fs';
+import NetInfo from '@react-native-community/netinfo';
 
-import { isFileExist } from '../../services/local_file_system_service'
+import { LocalizationContext } from '../Translations';
+import scorecardProgressService from '../../services/scorecard_progress_service';
+import internetConnectionService from '../../services/internet_connection_service';
 
 class ScorecardProgressShareButton extends Component {
-  async shareSubmittedScorecard() {
-    // Download the PDF file form the api then share it via social media
+  static contextType = LocalizationContext;
 
-    // react-native-share library
-    // const shareOptions = {
-    //     // title: 'React Native Share Example',
-    //     // message: 'Check out this photo!',
-    //     url: `${RNFS.CachesDirectoryPath}/name.png`,
-    //     type: 'image/png',
-    //     // subject: 'Check out this photo!',
-    // };
-    // Share.open(shareOptions);
-
-
-    await Share.share({
-      url: `file://${RNFS.DocumentDirectoryPath}/sample1.pdf`,
-      title: `file://${RNFS.DocumentDirectoryPath}/sample1.pdf`,
-      // type: 'application/pdf'
+  shareSubmittedScorecard() {
+     NetInfo.fetch().then(state => {
+      if (state.isConnected)
+        scorecardProgressService.sharePdfFile(this.props.scorecardUuid);
+      else
+        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection);
     });
   }
 
