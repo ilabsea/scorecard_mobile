@@ -8,7 +8,7 @@ import ScorecardCodeInput from './ScorecardCodeInput';
 import MessageLabel from '../MessageLabel';
 
 import Color from '../../themes/color';
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
+import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
 import NewScorecardTabletStyles from '../../styles/tablet/NewScorecardScreenStyle';
 import NewScorecardMobileStyles from '../../styles/mobile/NewScorecardScreenStyle';
 
@@ -29,7 +29,7 @@ class NewScorecardForm extends Component {
         style={responsiveStyles.retryLink}
       >
         <Text style={[responsiveStyles.rejoinLink, responsiveStyles.messageLabel]}>{ this.context.translations.rejoinScorecard }</Text>
-        <MaterialIcon name="refresh" size={isShortScreenDevice() ? 17 : 20} color={ Color.whiteColor } style={{marginTop: 3}} />
+        <MaterialIcon name="refresh" size={getDeviceStyle(18, 17)} color={ Color.whiteColor } style={{marginTop: isShortWidthScreen() ? 2 : 3}} />
       </TouchableOpacity>
     )
   }
@@ -43,7 +43,7 @@ class NewScorecardForm extends Component {
           <MessageLabel
             message={translations[this.props.errorMsg]}
             type={this.props.messageType}
-            customStyle={[responsiveStyles.messageLabel, {marginTop: 10}]}
+            customStyle={[responsiveStyles.errorMessageLabel, {marginTop: 10}]}
           />
 
           { this.renderRetryBtn() }

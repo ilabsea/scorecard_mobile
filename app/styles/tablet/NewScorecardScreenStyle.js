@@ -27,17 +27,29 @@ const NewScorecardScreenStyles = StyleSheet.create({
     fontSize: 20
   },
   retryLink: {
-    width: 180,
     alignSelf: 'center',
     marginTop: 5,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: Color.primaryColor,
+    paddingHorizontal: 14,
+    paddingVertical: 2,
+    borderRadius: 20,
   },
   messageLabel: {
+    fontSize: 14,
+    marginRight: 2
+  },
+  errorMessageLabel: {
     fontSize: 16,
+    color: Color.errorColor,
+    textShadowColor: Color.lightBlackColor,
+    textShadowOffset: { width: 0.4, height: 0.4 },
+    textShadowRadius: 0.1,
   },
   rejoinLink: {
     color: Color.whiteColor,
-    textAlign: 'center'
+    textAlign: 'center',
   }
 });
 
