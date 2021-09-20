@@ -16,7 +16,7 @@ class SettingForm extends Component {
     super(props);
 
     this.state = {
-      backendUrl: 'https://isaf-stg.ilabsea.org',
+      backendUrl: 'https://isaf.digital-csc.org',
       email: '',
       password: '',
       locales: [],
