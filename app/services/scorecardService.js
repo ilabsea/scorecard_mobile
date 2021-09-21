@@ -98,7 +98,7 @@ class ScorecardService extends BaseModelService {
             finished_date: _this.scorecard.finished_date,
           };
 
-          _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED, null);
+          _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED, null, null);
         }
         else if (response.error)
           errorCallback(getErrorType(response.error.status));
@@ -112,7 +112,7 @@ class ScorecardService extends BaseModelService {
     !!callback && callback( this.progressNumber / this.totalNumber );
   }
 
-  async updateMilestone(uuid, data, milestone, callback) {
+  async updateMilestone(uuid, data, milestone, callback, errorCallback) {
     const scorecard = Scorecard.find(uuid);
     let attrs = {
       scorecard_progress: {
@@ -136,10 +136,12 @@ class ScorecardService extends BaseModelService {
 
     ScorecardProgressApi.post(attrs)
       .then(function (response) {
-        if (response.status == 200)
+        if (response.status == 200) {
           Scorecard.update(uuid, { milestone: milestone });
-
-        callback && callback();
+          callback && callback();
+        }
+        else
+          errorCallback();
       });
   }
 
@@ -284,7 +286,7 @@ class ScorecardService extends BaseModelService {
   }
 
   // --------------------New scorecard---------------------
-  delete(scorecardUuid, callback) {
+  delete(scorecardUuid, callback, errorCallback) {
     const scorecard = Scorecard.find(scorecardUuid);
 
     if (scorecard.isUploaded)
@@ -293,7 +295,7 @@ class ScorecardService extends BaseModelService {
     this.updateMilestone(scorecardUuid, null, RENEWED, () => {
       this._deleteScorecardData(scorecardUuid);
       callback && callback();
-    })
+    }, () => errorCallback());
   }
 
   removeExpiredScorecard() {

@@ -27,6 +27,7 @@ class ScorecardList extends Component {
 
     this.state = {
       visibleModal: false,
+      isConfirmModal: true,
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
       isLoading: false,
@@ -56,7 +57,7 @@ class ScorecardList extends Component {
   }
 
   componentWillUnmount() {
-    this.focusListener();
+    this.focusListener && this.focusListener();
     AsyncStorage.removeItem(SELECTED_FILTERS);
 
     this.setState = (state, callback) => {
@@ -126,7 +127,7 @@ class ScorecardList extends Component {
         scorecards: Scorecard.getAll(),
         selectedScorecard: null,
       });
-    });
+    }, () => { this.setState({ isConfirmModal: false })});
   }
 
   render() {
@@ -135,6 +136,9 @@ class ScorecardList extends Component {
     let finishedScorecards = this.state.scorecards.filter(s => s.finished);
     finishedScorecards = scorecardHelper.getGroupedByDate(finishedScorecards);
     const scorecardUuid = this.state.selectedScorecard ? this.state.selectedScorecard.uuid : '';
+    const modalMessage = this.state.isConfirmModal ?
+                          translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)
+                          : translations.formatString(translations.cannotDeleteThisScorecard, scorecardUuid);
 
     if (!this.state.scorecards.length)
       return this._renderNoData();
@@ -151,9 +155,9 @@ class ScorecardList extends Component {
 
         <MessageModal
           visible={this.state.visibleModal}
-          onDismiss={() => this.setState({visibleModal: false})}
-          description={translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)}
-          hasConfirmButton={true}
+          onDismiss={() => this.setState({visibleModal: false, isConfirmModal: true})}
+          description={modalMessage}
+          hasConfirmButton={this.state.isConfirmModal}
           confirmButtonLabel={translations.ok}
           onPressConfirmButton={() => this._confirmDelete()}
         />

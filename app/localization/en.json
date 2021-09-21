@@ -293,5 +293,6 @@
   "editCriteria": "Edit Criteria",
   "editCustomCriteria": "Edit Custom Criteria",
   "noCustomCriteria": "No custom Criteria",
-  "rejoinScorecard": "Rejoin Scorecard"
+  "rejoinScorecard": "Rejoin Scorecard",
+  "cannotDeleteThisScorecard": "Cannot delete this scorecard({0})?"
 }

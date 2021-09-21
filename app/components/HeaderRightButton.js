@@ -23,7 +23,7 @@ class HeaderRightButton extends Component {
   }
   
   componentWillUnmount() {
-    this.focusListener();
+    this.focusListener && this.focusListener();
   }
 
   render() {
