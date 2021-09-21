@@ -42,13 +42,11 @@ class FilterOption extends Component {
 
   render() {
     return (
-      <View style={this.props.containerStyle}>
+      <View style={[this.props.containerStyle, { backgroundColor: Color.whiteColor }]}>
         <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
           { this.props.title }
         </Text>
-        <View style={{backgroundColor: Color.whiteColor}}>
-          { this.renderOptionList() }
-        </View>
+        { this.renderOptionList() }
       </View>
     )
   }
