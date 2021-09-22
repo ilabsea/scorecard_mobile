@@ -10,6 +10,7 @@ const indicatorHelper = (() => {
     getDisplayIndicator,
     getTags,
     getIndicatorId,
+    groupIndicatorByTag,
   };
 
   function getIndicatorsState(props, state) {
@@ -65,6 +66,17 @@ const indicatorHelper = (() => {
 
   function getIndicatorId(indicator) {
     return indicator.indicator_id || indicator.id || indicator.uuid;
+  }
+
+  function groupIndicatorByTag(indicators) {
+    const groupedIndicators = indicators.reduce((prev, curr) => {
+      if(!prev[curr.tag]) prev[curr.tag] = [];
+      prev[curr.tag].push(curr);
+
+      return prev;
+    },{});
+
+    return groupedIndicators;
   }
 
   // Private

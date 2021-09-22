@@ -13,6 +13,7 @@ const createNewIndicatorHelper = (() => {
     getUpdatedSelectedIndicators,
     createNewProposedIndicator,
     deleteUnselectedProposedIndicator,
+    toggleIndicator,
   };
 
   function isAddNewIndicatorSection(index, indicators) {
@@ -123,6 +124,25 @@ const createNewIndicatorHelper = (() => {
       const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, participantUuid);
       ProposedCriteria.destroy(proposedCriteria);
     });
+  }
+
+  function toggleIndicator(index, indicators, selectedIndicators, unselectedIndicators) {
+    let newIndicators = indicators;
+    let newSelectedIndicators = selectedIndicators;
+    let newUnselectedIndicators = unselectedIndicators;
+
+    if (newIndicators[index].isSelected) {
+      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.uuid !== newIndicators[index].uuid);
+      newUnselectedIndicators.push(newIndicators[index]);
+    }
+    else if (newIndicators[index].uuid != '') {
+      newSelectedIndicators.push(newIndicators[index]);
+      newUnselectedIndicators = newUnselectedIndicators.filter((indicator) => indicator.uuid !== newIndicators[index].uuid);
+    }
+
+    newIndicators[index].isSelected = !newIndicators[index].isSelected;
+
+    return { newIndicators, newSelectedIndicators, newUnselectedIndicators }
   }
 })();
 

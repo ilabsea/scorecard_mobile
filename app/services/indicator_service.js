@@ -173,7 +173,13 @@ class IndicatorService {
     });
 
     if (hasAddNewItem)
-      indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
+      indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom', tag: 'add_new'});
+
+
+    const groupedIndicators = indicatorHelper.groupIndicatorByTag(indicators);
+    const dataSet = { indicators: groupedIndicators, selectedIndicators };
+    console.log('data set = ', dataSet)
+    // return { indicators: groupedIndicators, selectedIndicators }
 
     return {indicators, selectedIndicators};
   }
