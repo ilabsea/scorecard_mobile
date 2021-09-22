@@ -141,7 +141,7 @@ class ScorecardService extends BaseModelService {
           callback && callback();
         }
         else
-          errorCallback();
+          errorCallback(response.error);
       });
   }
 
@@ -295,7 +295,7 @@ class ScorecardService extends BaseModelService {
     this.updateMilestone(scorecardUuid, null, RENEWED, () => {
       this._deleteScorecardData(scorecardUuid);
       callback && callback();
-    }, () => errorCallback());
+    }, (res) => errorCallback(res));
   }
 
   removeExpiredScorecard() {

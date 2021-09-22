@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../../components/Translations';
 import ScorecardListItem from '../../components/ScorecardList/ScorecardListItem';
-import MessageModal from '../../components/MessageModal';
 import NoDataMessage from '../../components/NoDataMessage';
 import ListSectionTitle from '../../components/ListSectionTitle';
+import ScorecardListModals from '../../components/ScorecardList/ScorecardListModals';
 
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
@@ -31,6 +31,8 @@ class ScorecardList extends Component {
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
       isLoading: false,
+
+      visibleErrorModal: false,
     }
   }
 
@@ -127,7 +129,22 @@ class ScorecardList extends Component {
         scorecards: Scorecard.getAll(),
         selectedScorecard: null,
       });
-    }, () => { this.setState({ isConfirmModal: false })});
+    }, (error) => {
+      const isErrorUnauthorize =  error.status == '401' ? true : false;
+
+      this.setState({
+        isConfirmModal: isErrorUnauthorize,
+        visibleModal: !isErrorUnauthorize,
+        visibleErrorModal: isErrorUnauthorize,
+      });
+    });
+  }
+
+  onMessageModalDismiss() {
+    this.setState({visibleModal: false});
+    setTimeout(() => {
+      this.setState({isConfirmModal: true});
+    }, 500);
   }
 
   render() {
@@ -136,9 +153,6 @@ class ScorecardList extends Component {
     let finishedScorecards = this.state.scorecards.filter(s => s.finished);
     finishedScorecards = scorecardHelper.getGroupedByDate(finishedScorecards);
     const scorecardUuid = this.state.selectedScorecard ? this.state.selectedScorecard.uuid : '';
-    const modalMessage = this.state.isConfirmModal ?
-                          translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)
-                          : translations.formatString(translations.cannotDeleteThisScorecard, scorecardUuid);
 
     if (!this.state.scorecards.length)
       return this._renderNoData();
@@ -153,13 +167,14 @@ class ScorecardList extends Component {
           </ScrollView>
         }
 
-        <MessageModal
-          visible={this.state.visibleModal}
-          onDismiss={() => this.setState({visibleModal: false, isConfirmModal: true})}
-          description={modalMessage}
-          hasConfirmButton={this.state.isConfirmModal}
-          confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this._confirmDelete()}
+        <ScorecardListModals
+          visibleConfirmModal={this.state.visibleModal}
+          onConfirmModalDismiss={() => this.onMessageModalDismiss()}
+          visibleErrorModal={this.state.visibleErrorModal}
+          onErrorModalDismiss={() => this.setState({ visibleErrorModal: false })}
+          scorecardUuid={scorecardUuid}
+          isConfirmModal={this.state.isConfirmModal}
+          confirmDelete={() => this._confirmDelete()}
         />
       </View>
     )
