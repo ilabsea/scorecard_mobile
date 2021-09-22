@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
-import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import Color from '../../themes/color';
 
 class CriteriaSelectionItems extends Component {
   constructor(props) {
@@ -29,14 +29,11 @@ class CriteriaSelectionItems extends Component {
   }
 
   audioButton(indicator, index, tag) {
-    // let isAddNewCriteriaIndex = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
-
     return (
       <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
         playingIndicatorId={this.state.playingIndicatorId}
         updateAudioState={this.updateAudioState}
         scorecardUUID={this.props.scorecardUuid}
-        // isAddNewCriteria={isAddNewCriteriaIndex}
         isAddNewCriteria={ tag == 'add_new' }
       />
     );
@@ -47,10 +44,8 @@ class CriteriaSelectionItems extends Component {
 
     return (
       <IndicatorCard
-        // indicators={this.props.indicators}
         indicator={indicator}
         customIndicator={null}
-        index={index}
         scorecardUuid={this.props.scorecardUuid}
         selectIndicator={this.props.selectIndicator}
         selectedIndicators={this.props.selectedIndicators}
@@ -64,7 +59,6 @@ class CriteriaSelectionItems extends Component {
   }
 
   renderIndicators(indicators, tag) {
-    console.log('indicator = ', indicators[0])
     return indicators.map((indicator, index) => {
       return this.indicatorCard(indicator, index, tag);
     });
@@ -72,11 +66,11 @@ class CriteriaSelectionItems extends Component {
 
   renderGroupedIndicators() {
     let doms = [];
+    let index = 0;
 
-    // for (const [tag, indicators] of Object.entries(this.props.indicators)) {
     for (const [tag, indicators] of Object.entries(this.props.groupedIndicators)) {
       doms.push(
-        <View>
+        <View key={`${tag}-${index}`} style={{borderBottomWidth: 1, borderBottomColor: Color.borderColor, paddingBottom: 10, width: '100%'}}>
           <Text style={styles.tagTitle}>{ tag != 'add_new' ? tag : '' }</Text>
 
           <View style={{flexDirection: 'row'}}>
@@ -84,6 +78,8 @@ class CriteriaSelectionItems extends Component {
           </View>
         </View>
       );
+
+      index++;
     }
 
     return doms;

@@ -4,7 +4,6 @@ import { CUSTOM } from '../utils/variable';
 
 const createNewIndicatorHelper = (() => {
   return {
-    isAddNewIndicatorSection,
     getUpdatedIndicators,
     isAbleToSaveIndicator,
     getNewSelectedIndicators,
@@ -15,13 +14,6 @@ const createNewIndicatorHelper = (() => {
     deleteUnselectedProposedIndicator,
     toggleIndicator,
   };
-
-  function isAddNewIndicatorSection(index, indicators) {
-    if (index == indicators.length -1 && indicators[index].uuid == '')
-      return true;
-
-    return false;
-  }
 
   function getUpdatedIndicators(indicators, unSelectedIndicators) {
     let newIndicators = indicators;
@@ -126,10 +118,11 @@ const createNewIndicatorHelper = (() => {
     });
   }
 
-  function toggleIndicator(index, indicators, selectedIndicators, unselectedIndicators) {
+  function toggleIndicator(indicatorUuid, indicators, selectedIndicators, unselectedIndicators) {
     let newIndicators = indicators;
     let newSelectedIndicators = selectedIndicators;
     let newUnselectedIndicators = unselectedIndicators;
+    const index = indicators.findIndex(item => item.uuid == indicatorUuid);
 
     if (newIndicators[index].isSelected) {
       newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.uuid !== newIndicators[index].uuid);
