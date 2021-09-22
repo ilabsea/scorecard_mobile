@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { Divider } from 'react-native-paper';
 
+import { LocalizationContext } from '../Translations';
 import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { ADD_NEW } from '../../constants/main_constant';
 import Color from '../../themes/color';
+import indicatorHelper from '../../helpers/indicator_helper';
+import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 
 class CriteriaSelectionItems extends Component {
+  static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
 
@@ -34,7 +42,7 @@ class CriteriaSelectionItems extends Component {
         playingIndicatorId={this.state.playingIndicatorId}
         updateAudioState={this.updateAudioState}
         scorecardUUID={this.props.scorecardUuid}
-        isAddNewCriteria={ tag == 'add_new' }
+        isAddNewCriteria={ tag == ADD_NEW }
       />
     );
   }
@@ -51,7 +59,7 @@ class CriteriaSelectionItems extends Component {
         selectedIndicators={this.props.selectedIndicators}
         isSearching={this.props.isSearching}
         key={itemKey}
-        isAddNew={tag == 'add_new'}
+        isAddNew={tag == ADD_NEW}
       >
         {this.audioButton(indicator, index, tag)}
       </IndicatorCard>
@@ -66,28 +74,30 @@ class CriteriaSelectionItems extends Component {
 
   renderGroupedIndicators() {
     let doms = [];
-    let index = 0;
+    let indicatorTags = indicatorHelper.getSortedIndicatorTag(this.props.groupedIndicators);
 
-    for (const [tag, indicators] of Object.entries(this.props.groupedIndicators)) {
+    indicatorTags.map((tag, index) => {
+      const isAddNew = tag == ADD_NEW;
+      const indicators = this.props.groupedIndicators[tag];
+      const tagLabel = isAddNew ? '' : tag == '' ? this.context.translations.noTag : tag;
+
       doms.push(
-        <View key={`${tag}-${index}`} style={{borderBottomWidth: 1, borderBottomColor: Color.borderColor, paddingBottom: 10, width: '100%'}}>
-          <Text style={styles.tagTitle}>{ tag != 'add_new' ? tag : '' }</Text>
-
-          <View style={{flexDirection: 'row'}}>
-            { this.renderIndicators(indicators, tag) }
+        <View key={`${tag}-${index}`} style={[styles.indicatorContainer]}>
+          { !isAddNew && <Text style={styles.tagTitle}>{ tagLabel }</Text> }
+          <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 3, marginTop: isAddNew ? 20 : 0}}>
+            { !!indicators && this.renderIndicators(indicators, tag) }
           </View>
+          { !isAddNew && <Divider style={{marginTop: 12}} /> }
         </View>
       );
-
-      index++;
-    }
+    });
 
     return doms;
   }
 
   render() {
     return (
-      <View style={[styles.container, getDeviceStyle({}, { justifyContent: 'center' })]}>
+      <View style={[styles.container, getDeviceStyle({}, { justifyContent: 'center' }), {marginTop: this.props.isSearching ? -10 : 0}]}>
         { this.renderGroupedIndicators() }
       </View>
     )
@@ -98,13 +108,16 @@ const styles = StyleSheet.create({
   container: {
     flexWrap: 'wrap',
     marginHorizontal: -10,
-    marginTop: 10,
+  },
+  indicatorContainer: {
+    borderBottomColor: Color.paleGrayColor,
+    width: '100%',
   },
   tagTitle: {
     fontFamily: FontFamily.title,
-    fontSize: 18,
+    fontSize: getDeviceStyle(16, wp(mdLabelSize)),
     marginLeft: 16,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 5
   }
 });

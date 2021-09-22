@@ -12,7 +12,7 @@ const CriteriaSelectionComponentStyles = StyleSheet.create({
     borderRadius: cardBorderRadius,
     flexDirection: 'row',
     marginBottom: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     width: itemWidth,
     height: itemHeight,
     shadowColor: Color.blackColor,
@@ -23,6 +23,8 @@ const CriteriaSelectionComponentStyles = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
     elevation: 2,
+    borderWidth: 0.5,
+    borderColor: Color.paleGrayColor,
   },
   criteriaBox: {
     flexDirection: 'row',

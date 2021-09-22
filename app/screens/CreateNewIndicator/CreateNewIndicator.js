@@ -172,14 +172,15 @@ class CreateNewIndicator extends Component {
     this.props.start();
   }
 
-  updateSearchedIndicator = (indicators, allSelectedIndicators) => {
+  updateSearchedIndicator = (indicatorDataset) => {
     const { unselectedIndicators, selectedIndicators } = this.state;
-    let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(allSelectedIndicators, selectedIndicators, unselectedIndicators);
+    let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(indicatorDataset.selectedIndicators, selectedIndicators, unselectedIndicators);
 
     this.setState({
-      indicators: createNewIndicatorHelper.getUpdatedIndicators(indicators, unselectedIndicators),
+      indicators: createNewIndicatorHelper.getUpdatedIndicators(indicatorDataset.indicators, unselectedIndicators),
       selectedIndicators: newSelectedIndicators,
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
+      groupedIndicators: indicatorDataset.groupedIndicators,
     });
   }
 

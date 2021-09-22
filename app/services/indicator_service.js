@@ -9,6 +9,7 @@ import { saveLanguageIndicator } from './language_indicator_service';
 import proposedCriteriaService from './proposedCriteriaService';
 
 import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_constant';
+import { ADD_NEW } from '../constants/main_constant';
 import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
 
@@ -173,15 +174,11 @@ class IndicatorService {
     });
 
     if (hasAddNewItem)
-      indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom', tag: 'add_new'});
-
+      indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom', tag: ADD_NEW});
 
     const groupedIndicators = indicatorHelper.groupIndicatorByTag(indicators);
-    // const dataSet = { indicators: groupedIndicators, selectedIndicators };
-    // console.log('data set = ', dataSet)
-    return { indicators, selectedIndicators, groupedIndicators }
 
-    // return {indicators, selectedIndicators};
+    return { indicators, selectedIndicators, groupedIndicators }
   }
 }
 

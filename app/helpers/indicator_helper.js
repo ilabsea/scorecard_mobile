@@ -2,6 +2,7 @@ import IndicatorService from '../services/indicator_service';
 import CustomIndicator from '../models/CustomIndicator';
 import { find as findLanguageIndicator } from '../services/language_indicator_service';
 import Scorecard from '../models/Scorecard';
+import { ADD_NEW } from '../constants/main_constant';
 
 const indicatorHelper = (() => {
   return {
@@ -11,6 +12,7 @@ const indicatorHelper = (() => {
     getTags,
     getIndicatorId,
     groupIndicatorByTag,
+    getSortedIndicatorTag,
   };
 
   function getIndicatorsState(props, state) {
@@ -70,13 +72,31 @@ const indicatorHelper = (() => {
 
   function groupIndicatorByTag(indicators) {
     const groupedIndicators = indicators.reduce((prev, curr) => {
-      if(!prev[curr.tag]) prev[curr.tag] = [];
-      prev[curr.tag].push(curr);
+      const key = curr.tag == null ? '' : curr.tag;
+
+      if(!prev[key]) prev[key] = [];
+      prev[key].push(curr);
 
       return prev;
     },{});
 
     return groupedIndicators;
+  }
+
+  function getSortedIndicatorTag(groupedIndicators) {
+    let keys = Object.keys(groupedIndicators);
+    if (keys.length == 0)
+      return keys;
+
+    const noTagIndex = keys.indexOf('');
+    if (noTagIndex == -1)
+      return keys;
+
+    keys.splice(noTagIndex, 1);
+    keys.push(ADD_NEW);
+    keys[keys.length - 2] = '';
+
+    return keys;
   }
 
   // Private

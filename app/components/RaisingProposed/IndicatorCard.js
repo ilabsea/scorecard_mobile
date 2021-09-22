@@ -5,8 +5,6 @@ import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import { normalLabelSize } from '../../utils/responsive_util';
-import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper'
-
 import { getDeviceStyle } from '../../utils/responsive_util';
 import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
 import CriteriaSelectionMobileStyle from '../../styles/mobile/CriteriaSelectionComponentStyle';

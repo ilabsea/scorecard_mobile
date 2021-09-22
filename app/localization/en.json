@@ -295,5 +295,6 @@
   "noCustomCriteria": "No custom Criteria",
   "rejoinScorecard": "Rejoin Scorecard",
   "cannotDeleteThisScorecard": "Cannot delete this scorecard({0})!",
-  "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). Please contact the program administrator for more detail."
+  "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). Please contact the program administrator for more detail.",
+  "noTag": "No tag"
 }

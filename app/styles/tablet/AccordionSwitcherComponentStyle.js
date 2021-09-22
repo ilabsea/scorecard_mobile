@@ -5,12 +5,14 @@ import Color from '../../themes/color';
 const AccordionSwitcherComponentStyles = StyleSheet.create({
   filterBtn: {
     paddingVertical: 6,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: Color.clickableColor,
-    width: wp('26%')
+    width: wp('28%'),
   },
   activeBtn: {
-    backgroundColor: Color.clickableColor
+    backgroundColor: Color.clickableColor,
+    borderWidth: 0,
+    justifyContent: 'center',
   },
   btnText: {
     fontSize: 16,
@@ -22,11 +24,12 @@ const AccordionSwitcherComponentStyles = StyleSheet.create({
   },
   btnRight: {
     borderTopRightRadius: 6,
-    borderBottomRightRadius: 6
+    borderBottomRightRadius: 6,
+    borderColor: Color.clickableColor,
   },
   btnLeft: {
     borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6
+    borderBottomLeftRadius: 6,
   }
 });
 

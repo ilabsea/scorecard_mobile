@@ -26,8 +26,8 @@ class CriteriaSelection extends Component {
 
   selectIndicator = (indicatorUuid, isAddNew) => {
     const {selectedIndicators, unselectedIndicators} = this.props;
-    const newDataSet = createNewIndicatorHelper.toggleIndicator(indicatorUuid, this.state.indicators, selectedIndicators, unselectedIndicators);
-    const { newIndicators, newSelectedIndicators, newUnselectedIndicators } = newDataSet;
+    const newDataset = createNewIndicatorHelper.toggleIndicator(indicatorUuid, this.state.indicators, selectedIndicators, unselectedIndicators);
+    const { newIndicators, newSelectedIndicators, newUnselectedIndicators } = newDataset;
 
     this.setState({
       indicators: newIndicators,
