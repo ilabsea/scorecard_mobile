@@ -177,11 +177,11 @@ class IndicatorService {
 
 
     const groupedIndicators = indicatorHelper.groupIndicatorByTag(indicators);
-    const dataSet = { indicators: groupedIndicators, selectedIndicators };
-    console.log('data set = ', dataSet)
-    // return { indicators: groupedIndicators, selectedIndicators }
+    // const dataSet = { indicators: groupedIndicators, selectedIndicators };
+    // console.log('data set = ', dataSet)
+    return { indicators, selectedIndicators, groupedIndicators }
 
-    return {indicators, selectedIndicators};
+    // return {indicators, selectedIndicators};
   }
 }
 

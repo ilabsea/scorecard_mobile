@@ -41,6 +41,7 @@ class CreateNewIndicator extends Component {
       indicators: [],
       selectedIndicators: [],
       unselectedIndicators: [],
+      groupedIndicators: [],
       participant_uuid: this.props.route.params.participant_uuid,
       customIndicator: null,
       showTourTip: false,
@@ -162,6 +163,7 @@ class CreateNewIndicator extends Component {
     this.setState({
       indicators: allCriteria.indicators,
       selectIndicators: allCriteria.selectedIndicators,
+      groupedIndicators: allCriteria.groupedIndicators,
     });
   }
 

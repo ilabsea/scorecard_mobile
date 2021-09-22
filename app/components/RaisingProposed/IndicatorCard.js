@@ -25,7 +25,7 @@ class IndicatorCard extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    if (indicator.isSelected || (this.props.customIndicator != null && this.props.customIndicator.uuid == indicator.uuid))
+    if (indicator.isSelected)
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     for (let i = 0; i < this.props.selectedIndicators.length; i++) {
@@ -40,7 +40,8 @@ class IndicatorCard extends Component {
     const { indicator, index } = this.props;
     let displayName = this._getIndicatorName(indicator);
     let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
-    let isAddNewCriteria = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
+    // let isAddNewCriteria = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
+    let isAddNewCriteria = this.props.isAddNew;
 
     if (isAddNewCriteria && this.props.isSearching)
       return <View/>;

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import { View, Text, StyleSheet } from 'react-native';
 
 import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class CriteriaSelectionItems extends Component {
   constructor(props) {
@@ -21,8 +21,6 @@ class CriteriaSelectionItems extends Component {
   componentWillUnmount() {
     if (this.audioPlayer != null)
       this.audioPlayer.release();
-
-    this.setState = (state, callback) => { return; };
   }
 
   updateAudioState = (indicatorId, audioPlayer) => {
@@ -30,25 +28,26 @@ class CriteriaSelectionItems extends Component {
     this.audioPlayer = audioPlayer;
   }
 
-  audioButton(indicator, index) {
-    let isAddNewCriteriaIndex = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
+  audioButton(indicator, index, tag) {
+    // let isAddNewCriteriaIndex = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
 
     return (
       <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
         playingIndicatorId={this.state.playingIndicatorId}
         updateAudioState={this.updateAudioState}
         scorecardUUID={this.props.scorecardUuid}
-        isAddNewCriteria={isAddNewCriteriaIndex}
+        // isAddNewCriteria={isAddNewCriteriaIndex}
+        isAddNewCriteria={ tag == 'add_new' }
       />
     );
   }
 
-  indicatorCard = (indicator, index) => {
+  indicatorCard = (indicator, index, tag) => {
     const itemKey = 'indicator-card-' + index;
 
     return (
       <IndicatorCard
-        indicators={this.props.indicators}
+        // indicators={this.props.indicators}
         indicator={indicator}
         customIndicator={null}
         index={index}
@@ -57,37 +56,43 @@ class CriteriaSelectionItems extends Component {
         selectedIndicators={this.props.selectedIndicators}
         isSearching={this.props.isSearching}
         key={itemKey}
+        isAddNew={tag == 'add_new'}
       >
-        {this.audioButton(indicator, index)}
+        {this.audioButton(indicator, index, tag)}
       </IndicatorCard>
     )
   }
 
-  renderIndicatorItem(indicator, index) {
-    if (index === this.props.indicators.length - 1 && this.props.indicators.length%2 != 0) {
-      return (
-        <View key={index} style={{flexDirection: 'row', width: '100%'}}>
-          { this.indicatorCard(indicator, index) }
-          { DeviceInfo.isTablet() &&
-            <View style={{flex: 1, marginHorizontal: 10}} />
-          }
-        </View>
-      )
-    }
-
-    return this.indicatorCard(indicator, index)
+  renderIndicators(indicators, tag) {
+    console.log('indicator = ', indicators[0])
+    return indicators.map((indicator, index) => {
+      return this.indicatorCard(indicator, index, tag);
+    });
   }
 
-  renderIndicators() {
-    return this.props.indicators.map((item, index) => {
-      return this.renderIndicatorItem(item, index)
-    });
+  renderGroupedIndicators() {
+    let doms = [];
+
+    // for (const [tag, indicators] of Object.entries(this.props.indicators)) {
+    for (const [tag, indicators] of Object.entries(this.props.groupedIndicators)) {
+      doms.push(
+        <View>
+          <Text style={styles.tagTitle}>{ tag != 'add_new' ? tag : '' }</Text>
+
+          <View style={{flexDirection: 'row'}}>
+            { this.renderIndicators(indicators, tag) }
+          </View>
+        </View>
+      );
+    }
+
+    return doms;
   }
 
   render() {
     return (
       <View style={[styles.container, getDeviceStyle({}, { justifyContent: 'center' })]}>
-        { this.renderIndicators() }
+        { this.renderGroupedIndicators() }
       </View>
     )
   }
@@ -95,10 +100,16 @@ class CriteriaSelectionItems extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     flexWrap: 'wrap',
     marginHorizontal: -10,
-    marginTop: 10
+    marginTop: 10,
+  },
+  tagTitle: {
+    fontFamily: FontFamily.title,
+    fontSize: 18,
+    marginLeft: 16,
+    marginTop: 15,
+    marginBottom: 5
   }
 });
 
