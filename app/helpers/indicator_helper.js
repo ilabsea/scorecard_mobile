@@ -2,7 +2,7 @@ import IndicatorService from '../services/indicator_service';
 import CustomIndicator from '../models/CustomIndicator';
 import { find as findLanguageIndicator } from '../services/language_indicator_service';
 import Scorecard from '../models/Scorecard';
-import { ADD_NEW } from '../constants/main_constant';
+import { ADD_NEW, NO_TAG } from '../constants/main_constant';
 
 const indicatorHelper = (() => {
   return {
@@ -72,7 +72,7 @@ const indicatorHelper = (() => {
 
   function groupIndicatorByTag(indicators) {
     const groupedIndicators = indicators.reduce((prev, curr) => {
-      const key = curr.tag == null ? '' : curr.tag;
+      const key = (curr.tag == null || curr.tag == '') ? NO_TAG : curr.tag;
 
       if(!prev[key]) prev[key] = [];
       prev[key].push(curr);
@@ -88,13 +88,13 @@ const indicatorHelper = (() => {
     if (keys.length == 0)
       return keys;
 
-    const noTagIndex = keys.indexOf('');
+    const noTagIndex = keys.indexOf(NO_TAG);
     if (noTagIndex == -1)
       return keys;
 
     keys.splice(noTagIndex, 1);
     keys.push(ADD_NEW);
-    keys[keys.length - 2] = '';
+    keys[keys.length - 2] = NO_TAG;
 
     return keys;
   }

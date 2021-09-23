@@ -8,7 +8,7 @@ import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { ADD_NEW } from '../../constants/main_constant';
+import { ADD_NEW, NO_TAG } from '../../constants/main_constant';
 import Color from '../../themes/color';
 import indicatorHelper from '../../helpers/indicator_helper';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
@@ -79,7 +79,7 @@ class CriteriaSelectionItems extends Component {
     indicatorTags.map((tag, index) => {
       const isAddNew = tag == ADD_NEW;
       const indicators = this.props.groupedIndicators[tag];
-      const tagLabel = isAddNew ? '' : tag == '' ? this.context.translations.noTag : tag;
+      const tagLabel = isAddNew ? '' : tag == NO_TAG ? this.context.translations.noTag : tag;
 
       doms.push(
         <View key={`${tag}-${index}`} style={[styles.indicatorContainer]}>
