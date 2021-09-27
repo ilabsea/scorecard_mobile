@@ -174,7 +174,9 @@ class CreateNewIndicator extends Component {
 
   updateSearchedIndicator = (indicatorDataset) => {
     const { unselectedIndicators, selectedIndicators } = this.state;
-    let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(indicatorDataset.selectedIndicators, selectedIndicators, unselectedIndicators);
+    const allSelectedIndicators = indicatorDataset.selectedIndicators;
+    let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(allSelectedIndicators, selectedIndicators, unselectedIndicators);
+    // The getNewSelectedIndicators requires all selected indicators, selected indicators that are not saved yet, and unselected indicators
 
     this.setState({
       indicators: createNewIndicatorHelper.getUpdatedIndicators(indicatorDataset.indicators, unselectedIndicators),

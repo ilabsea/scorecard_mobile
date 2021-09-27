@@ -72,10 +72,12 @@ const indicatorHelper = (() => {
 
   function groupIndicatorByTag(indicators) {
     const groupedIndicators = indicators.reduce((prev, curr) => {
-      const key = (curr.tag == null || curr.tag == '') ? NO_TAG : curr.tag;
+      const tag = (curr.tag == null || curr.tag == '') ? NO_TAG : curr.tag;
 
-      if(!prev[key]) prev[key] = [];
-      prev[key].push(curr);
+      if(!prev[tag])
+        prev[tag] = [];
+
+      prev[tag].push(curr);
 
       return prev;
     },{});
@@ -84,19 +86,17 @@ const indicatorHelper = (() => {
   }
 
   function getSortedIndicatorTag(groupedIndicators) {
-    let keys = Object.keys(groupedIndicators);
-    if (keys.length == 0)
-      return keys;
+    let tags = Object.tags(groupedIndicators);
 
-    const noTagIndex = keys.indexOf(NO_TAG);
-    if (noTagIndex == -1)
-      return keys;
+    if (tags.length == 0)
+      return tags;
+    else if (tags.indexOf(NO_TAG) == -1)
+      return tags;
+  
+    tags = tags.filter(tag => tag != NO_TAG && tag != ADD_NEW);
+    tags = tags.concat([NO_TAG, ADD_NEW]);
 
-    keys.splice(noTagIndex, 1);
-    keys.push(ADD_NEW);
-    keys[keys.length - 2] = NO_TAG;
-
-    return keys;
+    return tags;
   }
 
   // Private

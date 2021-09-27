@@ -38,16 +38,15 @@ class IndicatorCard extends Component {
     const { indicator } = this.props;
     let displayName = this._getIndicatorName(indicator);
     let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
-    let isAddNewCriteria = this.props.isAddNew;
 
-    if (isAddNewCriteria && this.props.isSearching)
+    if (this.props.isAddNew && this.props.isSearching)
       return <View/>;
 
     return (
       <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.props.selectIndicator(this.props.indicator.uuid, this.props.isAddNew)}>
-          { isAddNewCriteria && 
+          { this.props.isAddNew && 
             <View style={[styles.iconContainer, iconContainerStyle]}>
               <MaterialIcon name="add" size={50} color={indicator.isSelected ? Color.whiteColor : Color.paleBlackColor} />
             </View>
@@ -59,7 +58,7 @@ class IndicatorCard extends Component {
         </TouchableOpacity>
 
         {/* Audio Button */}
-        { !isAddNewCriteria &&
+        { !this.props.isAddNew &&
           this.props.children
         }
       </View>

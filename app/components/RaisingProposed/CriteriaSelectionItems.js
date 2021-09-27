@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { View, Text } from 'react-native';
 import { Divider } from 'react-native-paper';
 
 import { LocalizationContext } from '../Translations';
 import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { ADD_NEW, NO_TAG } from '../../constants/main_constant';
-import Color from '../../themes/color';
 import indicatorHelper from '../../helpers/indicator_helper';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import CriteriaSelectionItemsTabletStyle from '../../styles/tablet/CriteriaSelectionItemsComponentStyle';
+import CriteriaSelectionItemsMobileStyle from '../../styles/mobile/CriteriaSelectionItemsComponentStyle';
+
+const styles = getDeviceStyle(CriteriaSelectionItemsTabletStyle, CriteriaSelectionItemsMobileStyle);
 
 class CriteriaSelectionItems extends Component {
   static contextType = LocalizationContext;
@@ -97,29 +97,11 @@ class CriteriaSelectionItems extends Component {
 
   render() {
     return (
-      <View style={[styles.container, getDeviceStyle({}, { justifyContent: 'center' }), {marginTop: this.props.isSearching ? -10 : 0}]}>
+      <View style={[styles.container, {marginTop: this.props.isSearching ? -10 : 0}]}>
         { this.renderGroupedIndicators() }
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexWrap: 'wrap',
-    marginHorizontal: -10,
-  },
-  indicatorContainer: {
-    borderBottomColor: Color.paleGrayColor,
-    width: '100%',
-  },
-  tagTitle: {
-    fontFamily: FontFamily.title,
-    fontSize: getDeviceStyle(16, wp(mdLabelSize)),
-    marginLeft: 16,
-    marginTop: 10,
-    marginBottom: 5
-  }
-});
 
 export default CriteriaSelectionItems;
