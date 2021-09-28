@@ -43,7 +43,7 @@ const votingCriteriaService = (() => {
     )
 
     archiveCriterias.map(votingCriteria => {
-      Rating.destory(scorecardUuid, votingCriteria.uuid);
+      Rating.destroy(scorecardUuid, votingCriteria.uuid);
     });
 
     realm.write(() => {

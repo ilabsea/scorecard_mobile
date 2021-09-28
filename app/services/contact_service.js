@@ -18,12 +18,7 @@ const contactService = (() => {
     contactApi.load().then(function (response) {
       if (response.status != 200) { return; }
 
-      let data = response.data;
       Contact.deleteAll();
-
-      data.map(item => {
-        Contact.create(item);
-      });
 
       callback && callback();
     })
