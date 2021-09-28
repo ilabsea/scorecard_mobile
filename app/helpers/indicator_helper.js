@@ -86,7 +86,7 @@ const indicatorHelper = (() => {
   }
 
   function getSortedIndicatorTag(groupedIndicators) {
-    let tags = Object.tags(groupedIndicators);
+    let tags = Object.keys(groupedIndicators);
 
     if (tags.length == 0)
       return tags;
