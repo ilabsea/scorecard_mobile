@@ -6,16 +6,13 @@ const facilitatorService = (() => {
   return {
     loadSavedFacilitators,
     saveSelectedFacilitators,
-    getUpdatedFacilitator,
   }
 
-  function loadSavedFacilitators(scorecardUuid, callback, noFacilitatorCallback) {
+  function loadSavedFacilitators(scorecardUuid, currentSelectedFacilitators, callback) {
     let savedFacilitators = Facilitator.getAll(scorecardUuid);
 
-    if (savedFacilitators.length > 0)
-      callback(getUpdatedFacilitator(savedFacilitators));
-    else
-      noFacilitatorCallback();
+    const selectedFacilitators = savedFacilitators.length > 0 ? savedFacilitators : currentSelectedFacilitators;
+    callback(_getSelectedFacilitator(selectedFacilitators));
   }
 
   function saveSelectedFacilitators(selectedFacilitators, scorecardUuid) {
@@ -27,7 +24,21 @@ const facilitatorService = (() => {
     }
   }
 
-  function getUpdatedFacilitator(selectedFacilitators) {
+  // private method
+  function _saveFacilitatorToLocalStorage(scorecardUuid, caf, index) {
+    const facilitators = Facilitator.getAll(scorecardUuid);
+    const attrs = {
+      uuid: facilitators[index] === undefined ? uuidv4() : facilitators[index].uuid,
+      id: parseInt(caf.value),
+      name: caf.label,
+      position: index === 0 ? 'lead' : 'other',
+      scorecard_uuid: scorecardUuid,
+    };
+
+    Facilitator.create(attrs);
+  }
+
+  function _getSelectedFacilitator(selectedFacilitators) {
     let facilitators = [];
     let deleteFacilitators = [];
 
@@ -55,20 +66,6 @@ const facilitatorService = (() => {
     });
 
     return facilitators;
-  }
-
-  // private method
-  function _saveFacilitatorToLocalStorage(scorecardUuid, caf, index) {
-    const facilitators = Facilitator.getAll(scorecardUuid);
-    const attrs = {
-      uuid: facilitators[index] === undefined ? uuidv4() : facilitators[index].uuid,
-      id: parseInt(caf.value),
-      name: caf.label,
-      position: index === 0 ? 'lead' : 'other',
-      scorecard_uuid: scorecardUuid,
-    };
-
-    Facilitator.create(attrs);
   }
 })();
 
