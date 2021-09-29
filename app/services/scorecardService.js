@@ -56,7 +56,7 @@ class ScorecardService extends BaseModelService {
         console.log(error);
       }
     }, (errorType) => {
-      errorCallback(errorType);
+      !!errorCallback && errorCallback(errorType);
     });
   }
 
@@ -98,10 +98,10 @@ class ScorecardService extends BaseModelService {
             finished_date: _this.scorecard.finished_date,
           };
 
-          _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED, null);
+          _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED, null, null);
         }
         else if (response.error)
-          errorCallback(getErrorType(response.error.status));
+          !!errorCallback && errorCallback(getErrorType(response.error.status));
 
         _this.updateProgress(callback);
       });
@@ -112,7 +112,7 @@ class ScorecardService extends BaseModelService {
     !!callback && callback( this.progressNumber / this.totalNumber );
   }
 
-  async updateMilestone(uuid, data, milestone, callback) {
+  async updateMilestone(uuid, data, milestone, callback, errorCallback) {
     const scorecard = Scorecard.find(uuid);
     let attrs = {
       scorecard_progress: {
@@ -136,10 +136,12 @@ class ScorecardService extends BaseModelService {
 
     ScorecardProgressApi.post(attrs)
       .then(function (response) {
-        if (response.status == 200)
+        if (response.status == 200) {
           Scorecard.update(uuid, { milestone: milestone });
-
-        callback && callback();
+          callback && callback();
+        }
+        else
+          !!errorCallback && errorCallback(response.error);
       });
   }
 
@@ -284,7 +286,7 @@ class ScorecardService extends BaseModelService {
   }
 
   // --------------------New scorecard---------------------
-  delete(scorecardUuid, callback) {
+  delete(scorecardUuid, callback, errorCallback) {
     const scorecard = Scorecard.find(scorecardUuid);
 
     if (scorecard.isUploaded)
@@ -293,7 +295,7 @@ class ScorecardService extends BaseModelService {
     this.updateMilestone(scorecardUuid, null, RENEWED, () => {
       this._deleteScorecardData(scorecardUuid);
       callback && callback();
-    })
+    }, (res) => !!errorCallback && errorCallback(res));
   }
 
   removeExpiredScorecard() {
@@ -325,9 +327,9 @@ class ScorecardService extends BaseModelService {
     const response = await this.scorecardApi.load(scorecardUuid);
 
     handleApiResponse(response, (responseData) => {
-      successCallback(responseData);
+      !!successCallback && successCallback(responseData);
     }, (error) => {
-      failedCallback(error);
+      !!failedCallback && failedCallback(error);
     });
   }
 }
