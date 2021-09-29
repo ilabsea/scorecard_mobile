@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import MobileTokenApi from '../api/MobileTokenApi';
 import uuidv4 from '../utils/uuidv4';
 
@@ -12,12 +13,16 @@ const MobileTokenService = (() => {
   }
 
   function handleSyncingToken() {
-    messaging()
-      .getToken()
-      .then(token => {
-        console.log('== firebase token == ', token)
-        return handleToken(token);
-      });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        messaging()
+          .getToken()
+          .then(token => {
+            console.log('== firebase token == ', token)
+            return handleToken(token);
+          });
+      }
+    });
 
     // // Listen to whether the token changes
     // return messaging().onTokenRefresh(token => {
