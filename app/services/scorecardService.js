@@ -56,7 +56,7 @@ class ScorecardService extends BaseModelService {
         console.log(error);
       }
     }, (errorType) => {
-      errorCallback(errorType);
+      !!errorCallback && errorCallback(errorType);
     });
   }
 
@@ -101,7 +101,7 @@ class ScorecardService extends BaseModelService {
           _this.updateMilestone(_this.scorecard_uuid, milestoneData, SUBMITTED, null, null);
         }
         else if (response.error)
-          errorCallback(getErrorType(response.error.status));
+          !!errorCallback && errorCallback(getErrorType(response.error.status));
 
         _this.updateProgress(callback);
       });
@@ -141,7 +141,7 @@ class ScorecardService extends BaseModelService {
           callback && callback();
         }
         else
-          errorCallback(response.error);
+          !!errorCallback && errorCallback(response.error);
       });
   }
 
@@ -295,7 +295,7 @@ class ScorecardService extends BaseModelService {
     this.updateMilestone(scorecardUuid, null, RENEWED, () => {
       this._deleteScorecardData(scorecardUuid);
       callback && callback();
-    }, (res) => errorCallback(res));
+    }, (res) => !!errorCallback && errorCallback(res));
   }
 
   removeExpiredScorecard() {
@@ -327,9 +327,9 @@ class ScorecardService extends BaseModelService {
     const response = await this.scorecardApi.load(scorecardUuid);
 
     handleApiResponse(response, (responseData) => {
-      successCallback(responseData);
+      !!successCallback && successCallback(responseData);
     }, (error) => {
-      failedCallback(error);
+      !!failedCallback && failedCallback(error);
     });
   }
 }
