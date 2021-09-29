@@ -292,5 +292,6 @@
   "pleaseProposeCriteria": "Please propose criteria",
   "editCriteria": "Edit Criteria",
   "editCustomCriteria": "Edit Custom Criteria",
-  "noCustomCriteria": "No custom Criteria"
+  "noCustomCriteria": "No custom Criteria",
+  "rejoinScorecard": "Rejoin Scorecard"
 }

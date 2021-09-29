@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { xlLabelSize } from '../../constants/mobile_font_size_constant';
+import { xlLabelSize, mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { isShortScreenDevice } from '../../utils/responsive_util';
+import { isShortScreenDevice, isShortWidthScreen } from '../../utils/responsive_util';
+import Color from '../../themes/color';
 
 const NewScorecardScreenStyles = StyleSheet.create({
   formContainer: {
@@ -27,6 +28,32 @@ const NewScorecardScreenStyles = StyleSheet.create({
   buttonLabel: {
     fontSize: wp(xlLabelSize),
   },
+  retryLink: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: isShortScreenDevice() ? 0 : 5,
+    flexDirection: 'row',
+    backgroundColor: Color.primaryColor,
+    paddingHorizontal: 14,
+    paddingVertical: 2,
+    borderRadius: 20,
+    marginBottom: isShortScreenDevice() ? 10 : 0,
+  },
+  messageLabel: {
+    fontSize: wp(smLabelSize),
+    marginRight: 2
+  },
+  errorMessageLabel: {
+    fontSize: isShortWidthScreen() ? wp(mdLabelSize) : isShortScreenDevice() ? wp(smLabelSize) : 16 ,
+    color: Color.errorColor,
+    textShadowColor: Color.lightBlackColor,
+    textShadowOffset: { width: 0.4, height: 0.4 },
+    textShadowRadius: 0.1
+  },
+  rejoinLink: {
+    color: Color.whiteColor,
+    textAlign: 'center',
+  }
 });
 
 export default NewScorecardScreenStyles;
