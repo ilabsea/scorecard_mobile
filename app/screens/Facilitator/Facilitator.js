@@ -44,6 +44,12 @@ class FacilitatorScreen extends Component {
         selectedFacilitators: facilitators,
         isError: false,
       }, () => {this.updateFacilitators()});
+    }, () => {
+      this.setState({
+        selectedFacilitators: facilitatorService.getUpdatedFacilitator(this.state.selectedFacilitators)
+      }, () => {
+        this.updateFacilitators();
+      });
     });
   }
 

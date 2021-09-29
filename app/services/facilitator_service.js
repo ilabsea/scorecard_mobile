@@ -6,32 +6,16 @@ const facilitatorService = (() => {
   return {
     loadSavedFacilitators,
     saveSelectedFacilitators,
+    getUpdatedFacilitator,
   }
 
-  function loadSavedFacilitators(scorecardUuid, callback) {
+  function loadSavedFacilitators(scorecardUuid, callback, noFacilitatorCallback) {
     let savedFacilitators = Facilitator.getAll(scorecardUuid);
 
-    if (savedFacilitators.length > 0) {
-      let facilitators = [];
-      let deleteFacilitators = [];
-
-      savedFacilitators.map(facilitator => {
-        if (!Caf.findById(facilitator.id))
-          deleteFacilitators.push(facilitator);
-        else {
-          facilitators.push({
-            label: facilitator.name,
-            value: facilitator.id,
-          })
-        }
-      });
-
-      deleteFacilitators.map(facilitator => {
-        Facilitator.deleteById(facilitator.id);
-      })
-
-      callback(facilitators);
-    }
+    if (savedFacilitators.length > 0)
+      callback(getUpdatedFacilitator(savedFacilitators));
+    else
+      noFacilitatorCallback();
   }
 
   function saveSelectedFacilitators(selectedFacilitators, scorecardUuid) {
@@ -41,6 +25,36 @@ const facilitatorService = (() => {
 
       _saveFacilitatorToLocalStorage(scorecardUuid, selectedFacilitators[i], i);
     }
+  }
+
+  function getUpdatedFacilitator(selectedFacilitators) {
+    let facilitators = [];
+    let deleteFacilitators = [];
+
+    for (let i = 0; i < selectedFacilitators.length; i++) {
+      const facilitator = selectedFacilitators[i];
+      if (!facilitator)
+        continue;
+
+      const facilitatorId = facilitator.id || facilitator.value;
+      if (!Caf.findById(facilitatorId))
+        deleteFacilitators.push(facilitator);
+      else {
+        facilitators.push({
+          label: facilitator.name || facilitator.label,
+          value: facilitatorId,
+        });
+      }
+    }
+
+    deleteFacilitators.map(facilitator => {
+      const facilitatorId = facilitator.id || facilitator.value;
+
+      if (Facilitator.findById(facilitatorId))
+        Facilitator.deleteById(facilitatorId);
+    });
+
+    return facilitators;
   }
 
   // private method
