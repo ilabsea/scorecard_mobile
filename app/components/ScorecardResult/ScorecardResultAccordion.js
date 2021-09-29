@@ -20,7 +20,7 @@ class ScorecardResultAccordion extends Component {
   }
 
   renderAccordionContent(criteria) {
-    return <ScorecardResultAccordionContent criteria={criteria} onPress={_this.onPress} isRequired={_this.isRequired(criteria)}  />
+    return <ScorecardResultAccordionContent criteria={criteria} onPress={_this.onPress} isRequired={_this.isRequired(criteria)} isScorecardFinished={_this.props.isScorecardFinished}  />
   }
 
   isRequired(criteria) {

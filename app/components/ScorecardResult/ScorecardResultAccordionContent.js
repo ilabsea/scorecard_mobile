@@ -14,10 +14,14 @@ class ScorecardResultAccordionContent extends Component {
   static contextType = LocalizationContext;
 
   renderMedian(criteria, fieldName) {
+    const label = criteria.median ? criteria.median : this.context.translations.notVoted;
+
     return (
       <View style={{flexDirection: 'row', marginVertical: 16}}>
         <Text style={styles.itemTitleText}>{this.context.translations[fieldName]}</Text>
-        <Text style={styles.itemValueText}>{ criteria.median }</Text>
+        <Text style={[styles.itemValueText, !criteria.median ? styles.warningLabel : {} ]}>
+          { label }
+        </Text>
       </View>
     )
   }
@@ -36,6 +40,7 @@ class ScorecardResultAccordionContent extends Component {
             <ScorecardResultAccordionSwotItems criteria={criteria} fieldName={fieldName}
               indicator={indicator} onPress={this.props.onPress}
               isRequired={this.props.isRequired}
+              isScorecardFinished={this.props.isScorecardFinished}
             />
           }
 

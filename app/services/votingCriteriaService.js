@@ -65,8 +65,9 @@ const votingCriteriaService = (() => {
     return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND indicatorable_id='${indicatorable_id}' AND indicatorable_type='${indicatorable_type}'`);
   }
 
-  function submitCriterias(scorecard_uuid, selectedCriterias) {
+  function submitCriterias(scorecard_uuid, selectedCriterias, callback) {
     cleanArchiveCriterias(scorecard_uuid, selectedCriterias);
+    let savedCriterias = [];
 
     for(let i=0; i<selectedCriterias.length; i++) {
       let criteria = selectedCriterias[i];
@@ -82,7 +83,10 @@ const votingCriteriaService = (() => {
       }
 
       create(data);
+      savedCriterias.push(data);
     }
+
+    callback(savedCriterias);
   }
 
   function submitVoting(criterias, participant_uuid) {

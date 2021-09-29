@@ -12,13 +12,14 @@ import VerticalProgressStep from '../../components/ScorecardProgress/VerticalPro
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import MessageModal from '../../components/MessageModal';
 import ScorecardProgressTitle from '../../components/ScorecardProgress/ScorecardProgressTitle';
-import ScorecardProgressSubmitButton from '../../components/ScorecardProgress/ScorecardProgressSubmitButton';
+import ScorecardProgressButtons from '../../components/ScorecardProgress/ScorecardProgressButtons';
 import ScorecardProgressHeader from '../../components/ScorecardProgress/ScorecardProgressHeader';
 
 import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
+import Scorecard from '../../models/Scorecard';
 
 import { connect } from 'react-redux';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -111,6 +112,12 @@ class ScorecardProgress extends Component {
     });
   }
 
+  updateScorecard() {
+    this.setState({
+      scorecard: Scorecard.find(this.props.currentScorecard.uuid)
+    });
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -130,11 +137,13 @@ class ScorecardProgress extends Component {
           />
         </ScrollView>
 
-        <ScorecardProgressSubmitButton
+        <ScorecardProgressButtons
           scorecard={this.state.scorecard}
           progressPercentag={this.state.progressPercentag}
           showProgress={this.state.showProgress}
+          criterias={this.props.criterias}
           submitToServer={() => this.submitToServer()}
+          updateScorecard={() => this.updateScorecard()}
         />
 
         <ErrorMessageModal
@@ -161,6 +170,7 @@ class ScorecardProgress extends Component {
 function mapStateToProps(state) {
   return {
     currentScorecard: state.currentScorecard,
+    criterias: state.votingCriterias.sort((a, b) => (a.median > b.median) ? 1 : -1),
   };
 }
 

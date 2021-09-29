@@ -3,13 +3,9 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { Icon } from 'native-base';
 import { ProgressBar } from 'react-native-paper';
 
-import { LocalizationContext } from '../../components/Translations';
-
 import Color from '../../themes/color';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-
-import scorecardHelper from '../../helpers/scorecard_helper';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { LocalizationContext } from '../Translations';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
 
@@ -36,16 +32,16 @@ class ScorecardProgressSubmitButton extends Component {
     }
   }
 
-  _isButtonDisable = () => {
+  isButtonDisable = () => {
     if (this.props.showProgress || this.props.scorecard.isUploaded || !this.props.scorecard.finished)
       return true;
 
     return false;
   }
 
-  renderBtnSubmit() {
+  renderButton() {
     const { translations } = this.context;
-    let isDisable = this._isButtonDisable();
+    let isDisable = this.isButtonDisable();
     let btnStyle = { backgroundColor: isDisable ? Color.disabledBtnBg : Color.headerColor };
 
     return (
@@ -63,20 +59,10 @@ class ScorecardProgressSubmitButton extends Component {
   }
 
   render() {
-    const { translations, appLanguage } = this.context
-
     return (
       <React.Fragment>
-        { this.props.scorecard.isUploaded &&
-          <Text style={{ fontSize: getDeviceStyle(14, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title}}>
-            {translations.toBeRemovedOn}: { scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }
-          </Text>
-        }
-
-        <View style={{padding: containerPadding}}>
-          { this.renderProgressBar() }
-          { this.renderBtnSubmit() }
-        </View>
+        { this.renderProgressBar() }
+        { this.renderButton() }
       </React.Fragment>
     )
   }

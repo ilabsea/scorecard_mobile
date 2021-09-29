@@ -18,7 +18,7 @@ class Criteria {
 
   getCriterias = () => {
     let allCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`);
-    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`)));
+    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}' DISTINCT(indicatorable_id)`)));
 
     criterias = criterias.map(criteria => {
       let indicator = indicatorHelper.getDisplayIndicator(criteria);
