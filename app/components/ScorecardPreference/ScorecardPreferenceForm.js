@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import Moment from 'moment';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
@@ -9,6 +8,7 @@ import HeaderTitle from '../HeaderTitle';
 import DatePicker from '../DatePicker';
 
 import Color from '../../themes/color';
+import { todayDate } from '../../utils/date_util';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 import { isShortScreenDevice, containerPadding, containerPaddingTop, getDeviceStyle } from '../../utils/responsive_util';
 
@@ -22,7 +22,7 @@ class ScorecardPreferenceForm extends Component {
     super(props);
 
     this.state = {
-      date: props.scorecard.conducted_date || Moment().format('DD/MM/YYYY'),
+      date: props.scorecard.conducted_date || todayDate,
       textLocale: props.scorecard.text_language_code || '',
       audioLocale: props.scorecard.audio_language_code || '',
       openDropDownType: null,
@@ -105,7 +105,8 @@ class ScorecardPreferenceForm extends Component {
           searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={6000}
           onChangeItem={this.changeTextLocale}
-          customDropDownContainerStyle={{marginTop: 30}}
+          // customDropDownContainerStyle={{marginTop: 30}}
+          customDropDownContainerStyle={{marginTop: 10}}
           mustHasDefaultValue={true}
           controller={(instance) => this.textLanguageController = instance}
           onOpen={() => this.onTextLanguageOpen()}

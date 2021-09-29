@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { mdLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
+import { mdLabelSize, smLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 
 const DatePickerComponentStyles = StyleSheet.create({
@@ -34,6 +34,10 @@ const DatePickerComponentStyles = StyleSheet.create({
   },
   icon: {
     fontSize: wp(mdIconSize),
+  },
+  messageLabel: {
+    color: Color.errorColor,
+    fontSize: wp(smLabelSize),
   }
 });
 

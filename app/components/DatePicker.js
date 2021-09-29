@@ -12,6 +12,8 @@ import { LocalizationContext } from './Translations';
 import Color from '../themes/color';
 
 import { getDeviceStyle } from '../utils/responsive_util';
+import dateHelper from '../helpers/date_helper';
+import { displayDateFormat } from '../constants/date_format_constant';
 import DatePickerTabletStyles from '../styles/tablet/DatePickerComponentStyle';
 import DatePickerFormMobileStyles from '../styles/mobile/DatePickerComponentStyle';
 
@@ -24,7 +26,7 @@ class DatePicker extends Component {
     super(props);
 
     this.state = {
-      selectedDate: Moment(props.date, 'DD/MM/YYYY').toDate(),
+      selectedDate: Moment(props.date, displayDateFormat).toDate(),
       isPickerVisible: false,
     };
   }
@@ -37,7 +39,7 @@ class DatePicker extends Component {
         isPickerVisible: false,
       });
 
-      const formattedDate = Moment(selectedDate).format('DD/MM/YYYY');
+      const formattedDate = Moment(selectedDate).format(displayDateFormat);
       this.props.onChangeDate(formattedDate);
     }
 
@@ -61,7 +63,7 @@ class DatePicker extends Component {
           style={styles.icon}
         />
 
-        <Text style={styles.dateLabel}>{ Moment(this.state.selectedDate).format('DD/MM/YYYY') }</Text>
+        <Text style={styles.dateLabel}>{ Moment(this.state.selectedDate).format(displayDateFormat) }</Text>
       </TouchableOpacity>
     )
   }
@@ -73,17 +75,26 @@ class DatePicker extends Component {
         value={this.state.selectedDate}
         mode='date'
         display="default"
-        minimumDate={new Date()}
+        minimumDate={dateHelper.getMinimumSelectedDate()}
+        maximumDate={new Date()}
         onChange={(data) => this.onChange(data)}
       />
     )
+  }
+
+  _renderInfoMessage() {
+    if (dateHelper.isBeforeCurrentDate(this.state.selectedDate)) {
+      return (
+        <Text style={styles.messageLabel}>{ this.context.translations.theSelectedDateIsInThePast }</Text>
+      )
+    }
   }
 
   render() {
     const { translations } = this.context;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { height: 90 }]}>
         <Text style={styles.label}>
           {translations.date}
         </Text>
@@ -92,6 +103,8 @@ class DatePicker extends Component {
         {this.state.isPickerVisible && (
           this._renderCalendar()
         )}
+
+        { this._renderInfoMessage() }
       </View>
     );
   }
