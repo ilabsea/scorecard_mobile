@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {View, ScrollView} from 'react-native';
+import { View } from 'react-native';
 import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 import DeviceInfo from 'react-native-device-info'
 
-import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
 import IndicatorCard from './IndicatorCard';
+import RaisingProposedScrollView from './RaisingProposedScrollView';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
@@ -14,8 +14,6 @@ import criteriaHelper from '../../helpers/criteria_helper';
 import TourTipButton from '../TourTipButton';
 
 import Scorecard from '../../models/Scorecard';
-
-import { getDeviceStyle } from '../../utils/responsive_util';
 
 const WalkableView = walkthroughable(View);
 
@@ -35,8 +33,6 @@ class CriteriaSelection extends Component {
       audioIcon: 'play-arrow',
       customIndicator: null,
     };
-
-    this.scrollViewRef = React.createRef();
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -46,8 +42,6 @@ class CriteriaSelection extends Component {
   componentDidMount() {
     if (criteriaHelper.allowTourTip(this.props.scorecardUUID)) {
       const _this = this;
-      this.props.start(false, this.scrollViewRef);
-
       Scorecard.update(this.props.scorecardUUID, { tour_tip_shown: true });
 
       this.props.copilotEvents.on("stop", () => {
@@ -65,25 +59,9 @@ class CriteriaSelection extends Component {
     };
   }
 
-  shortcutColor = (indicator) => {
-    return indicator.isSelected ? {color: Color.whiteColor} : {};
-  }
-
   selectIndicator = (index) => {
-    let indicators = this.state.indicators;
-    let selectedIndicators = this.props.selectedIndicators;
-    let unselectedIndicators = this.props.unselectedIndicators;
-
-    if (indicators[index].isSelected) {
-      selectedIndicators = selectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
-      unselectedIndicators.push(indicators[index]);
-    }
-    else if (indicators[index].uuid != '') {
-      selectedIndicators.push(indicators[index]);
-      unselectedIndicators = unselectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
-    }
-
-    indicators[index].isSelected = !indicators[index].isSelected;
+    const indicatorSelection = createNewIndicatorHelper.getIndicatorSelection(index, this.state.indicators, this.props.selectedIndicators, this.props.unselectedIndicators);
+    const { indicators, selectedIndicators, unselectedIndicators } = indicatorSelection;
 
     this.setState({
       indicators,
@@ -210,16 +188,9 @@ class CriteriaSelection extends Component {
     )
 
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 28}} keyboardShouldPersistTaps='handled'
-        ref={ref => (this.scrollViewRef = ref)}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10, marginTop: 10},
-          getDeviceStyle({}, { justifyContent: 'center' })]}
-        >
-          {doms}
-        </View>
-      </ScrollView>
+      <RaisingProposedScrollView>
+        {doms}
+      </RaisingProposedScrollView>
     )
   }
 }

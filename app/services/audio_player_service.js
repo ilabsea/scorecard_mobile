@@ -1,7 +1,7 @@
 import Sound from 'react-native-sound';
 import {PLAYING, PAUSED} from '../utils/variable';
 class AudioPlayer {
-  constructor(audioFile) {
+  constructor(audioFile, isAutoPlay) {
     this.audioFile = audioFile;
     this.playState = PLAYING;
     this.playSeconds = 0;
@@ -9,7 +9,9 @@ class AudioPlayer {
     this.sound = new Sound(audioFile, '', (error) => {
       if (error) {return console.log('failed to load the sound ', error);}
       this.duration = Math.ceil(this.sound.getDuration());
-      this.play();
+
+      if (isAutoPlay)
+        this.play();
     })
   }
 

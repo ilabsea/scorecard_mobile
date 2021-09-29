@@ -10,6 +10,7 @@ const CustomIndicator = (() => {
     deleteAll,
     filter,
     create,
+    deleteFile,
   }
 
   function getAll(scorecardUuid) {
@@ -47,17 +48,7 @@ const CustomIndicator = (() => {
     return realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS '${text}' OR tag CONTAINS '${text}')`);
   }
 
-  // Private method
-
-  function _removeAudioFiles(collection) {
-    let filePaths = collection.map(x => x.local_audio).filter(path => !!path);
-
-    for(let i=0; i<filePaths.length; i++) {
-      _deleteFile(filePaths[i]);
-    }
-  }
-
-  function _deleteFile(filePath) {
+  function deleteFile(filePath) {
     RNFS.exists(filePath)
       .then( (result) => {
         console.log("file exists: ", result);
@@ -75,6 +66,16 @@ const CustomIndicator = (() => {
       .catch((err) => {
         console.log(err.message);
       });
+  }
+
+  // Private method
+
+  function _removeAudioFiles(collection) {
+    let filePaths = collection.map(x => x.local_audio).filter(path => !!path);
+
+    for(let i=0; i<filePaths.length; i++) {
+      deleteFile(filePaths[i]);
+    }
   }
 })();
 

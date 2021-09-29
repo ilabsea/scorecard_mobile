@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, PermissionsAndroid} from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {View, Text, PermissionsAndroid} from 'react-native';
 import {Recorder} from '@react-native-community/audio-toolkit';
-import Tooltip from 'react-native-walkthrough-tooltip';
 
-import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
+import RecordedAudioCard from './RecordedAudioCard';
+import RecordAudioButton from './RecordAudioButton';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
 import { normalLabelSize } from '../../utils/responsive_util';
-import realm from '../../db/schema';
+import uuidv4 from '../../utils/uuidv4';
 
 class VoiceRecord extends Component {
   static contextType = LocalizationContext;
@@ -27,14 +26,34 @@ class VoiceRecord extends Component {
       recordDuration: 0,
       playSeconds: 0,
       hasPermission: false,
-      toolTipVisible: false,
+      isAudioEdited: false,
     };
+    this.isComponentUnmount = false;
   }
 
   componentDidMount() {
     this.checkPermission();
-    const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid == '${this.props.scorecardUUID}'`);
-    this.filename = `${this.props.participantUUID}_${this.props.scorecardUUID}_${customIndicators.length + 1}.mp3`;            // Ex: abc123def_277403_2.mp3
+    this.filename = `${this.props.scorecardUUID}_${uuidv4()}.mp3`;                // Ex: 24595e3a-9054-4767-9a63-881be34a2b56_277403.mp3
+  }
+
+  componentDidUpdate() {
+    // Allow to update the state (in componentDidUpdate) only when the component is not unmount and the audio is not edited yet (by remove or record new audio)
+    // and the audioPlayer must be null and the custom indicator needs to have audio file (this.props.audioFilePath)
+    if (!this.isComponentUnmount && !this.state.isAudioEdited && !this.audioPlayer && this.props.audioFilePath) {
+      this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
+      setTimeout(() => {
+        this.setState({
+          isRecordButtonVisible: false,
+          playSeconds: this.audioPlayer.getDuration(),
+          recordDuration: this.audioPlayer.getDuration(),
+        });
+      }, 250);
+    }
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmount = true;
+    this.audioPlayer && this.audioPlayer.release();
   }
 
   checkPermission = () => {
@@ -50,6 +69,7 @@ class VoiceRecord extends Component {
   recordVoice = () => {
     if (!this.state.hasPermission) return;
 
+    this.setState({ isAudioEdited: true });
     this.recorder = new Recorder(this.filename, {format: 'mp3'});
     this.recorder.prepare(() => {
       this.recorder.record(() => {
@@ -78,7 +98,7 @@ class VoiceRecord extends Component {
   countPlaySeconds = () => {
     const _this = this;
     _this.playInterval = setInterval(() => {
-      if (_this.audioPlayer != null) {
+      if (_this.audioPlayer != null && !this.state.isComponentUnmount) {
         _this.audioPlayer.sound.getCurrentTime((seconds, isPlaying) => {
           this.setState({playSeconds: Math.ceil(seconds)});
           if (Math.ceil(seconds) === _this.state.recordDuration) {
@@ -95,7 +115,9 @@ class VoiceRecord extends Component {
 
   handlePlaying = () => {
     if (this.audioPlayer === null)
-      this.audioPlayer = new AudioPlayer(this.recorder.fsPath);
+      this.audioPlayer = new AudioPlayer(this.recorder.fsPath, true);
+    else if (this.audioPlayer && this.props.isEdit)
+      this.audioPlayer.play();
     else
       this.audioPlayer.handlePlay();
 
@@ -107,52 +129,23 @@ class VoiceRecord extends Component {
       clearInterval(this.playInterval);
   };
 
-  getCurrentTime = (duration) => {
-    let date = new Date(null);
-    date.setSeconds(duration);
-    return date.toISOString().substr(11, 8);
-  };
-
-  renderRecordTime = () => {
-    return (
-      <Text style={{fontWeight: 'bold', fontSize: 18}}>
-        {this.getCurrentTime(this.state.recordDuration)}
-      </Text>
-    );
-  };
-
   renderRecordButton = () => {
-    const { translations } = this.context;
-
     return (
-      <View>
-        <View style={{alignItems: 'center'}}>
-          {this.state.isRecording && this.renderRecordTime()}
-        </View>
-        <Tooltip
-          isVisible={this.state.toolTipVisible}
-          content={<Text style={{fontSize: normalLabelSize}}>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
-          contentStyle={{width: 300, flexWrap: 'wrap', flexDirection: 'row'}}
-          placement="top"
-          onClose={() => this.setState({ toolTipVisible: false })}
-        >
-          <TouchableOpacity
-            onLongPress={() => this.recordVoice()}
-            onPressOut={() => this.stopRecordVoice()}
-            onPress={() => this.setState({ toolTipVisible: true })}
-            style={styles.voiceRecordButton}>
-            <MaterialIcon name="mic" size={35} color={Color.whiteColor} />
-          </TouchableOpacity>
-        </Tooltip>
-      </View>
-    );
+      <RecordAudioButton
+        recordDuration={this.state.recordDuration}
+        isRecording={this.state.isRecording}
+        recordVoice={() => this.recordVoice()}
+        stopRecordVoice={() => this.stopRecordVoice()}
+      />
+    )
   };
 
   delete = () => {
-    this.recorder.destroy();
-    this.recorder =  null;
-    if (this.audioPlayer != null)
-      this.audioPlayer.release();
+    if (this.recorder) {
+      this.recorder.destroy();
+      this.recorder =  null;
+    }
+    this.audioPlayer && this.audioPlayer.release();
 
     this.audioPlayer = null;
     this.setState({
@@ -161,33 +154,20 @@ class VoiceRecord extends Component {
       isPlaying: false,
       recordDuration: 0,
       playSeconds: 0,
+      isAudioEdited: true,
     });
     this.props.deleteAudio();
   };
 
-  renderPlayIcon = () => {
-    let iconName = this.state.isPlaying ? 'pause-circle-filled' : 'play-circle-filled';
-    return (<MaterialIcon name={iconName} size={50} color={Color.primaryButtonColor} />)
-  }
-
-  renderRecordedVoice = () => {
-    const {translations} = this.context;
+  renderRecordedAudio = () => {
     return (
-      <View style={styles.recordedVoiceContainer}>
-        <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: Color.whiteColor}}>
-          <TouchableOpacity onPress={() => this.handlePlaying()}>
-            {this.renderPlayIcon()}
-          </TouchableOpacity>
-          <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
-            <Text style={{fontSize: normalLabelSize}}>{translations['play']}</Text>
-            <Text>{this.getCurrentTime(this.state.playSeconds)}</Text>
-          </View>
-          <TouchableOpacity onPress={() => this.delete()} style={{alignSelf: 'center'}}>
-            <MaterialIcon name="delete" size={30} color={Color.redColor} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+      <RecordedAudioCard
+        isPlaying={this.state.isPlaying}
+        playSeconds={this.state.playSeconds}
+        handlePlaying={() => this.handlePlaying()}
+        delete={() => this.delete()}
+      />
+    )
   };
 
   render() {
@@ -200,34 +180,10 @@ class VoiceRecord extends Component {
           </Text>
         </View>
         {this.state.isRecordButtonVisible && this.renderRecordButton()}
-        {!this.state.isRecordButtonVisible && this.renderRecordedVoice()}
+        {!this.state.isRecordButtonVisible && this.renderRecordedAudio()}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  recordedVoiceContainer: {
-    borderRadius: 8,
-    shadowColor: Color.blackColor,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  },
-  voiceRecordButton: {
-    backgroundColor: Color.primaryButtonColor,
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-});
 
 export default VoiceRecord;

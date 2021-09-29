@@ -268,7 +268,7 @@
   "toBeRemovedOn": "To be removed on",
   "numberOfProposedParticipant": "Number of proposed participant",
   "doYouWantToRemoveTheImage": "Do you want to remove the selected image?",
-  "selectedImage": "selectedImage",
+  "selectedImage": "Selected Image",
   "addImage": "Add image",
   "chooseImage": "Choose image",
   "takePhoto": "Take photo",
@@ -290,8 +290,7 @@
   "numberOfRaisedParticipant": "Raised participant {0} pax",
   "numberOfParticipant": "Participant",
   "pleaseProposeCriteria": "Please propose criteria",
-  "notVoted": "Not voted",
-  "allCriteriaMustBeVoted": "All criteria must be voted",
-  "allCriteriaMustHaveSuggestedAction": "All criteria must have suggested action",
-  "pleaseCompleteAllTheSteps": "Please complete all the steps"
+  "editCriteria": "Edit Criteria",
+  "editCustomCriteria": "Edit Custom Criteria",
+  "noCustomCriteria": "No custom Criteria"
 }

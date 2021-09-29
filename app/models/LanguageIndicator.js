@@ -4,6 +4,8 @@ const LanguageIndicator = (() => {
   return {
     create,
     deleteAll,
+    findByIndicatorId,
+    update,
   };
 
   function create(data) {
@@ -20,6 +22,16 @@ const LanguageIndicator = (() => {
         realm.delete(languageIndicators);
       });
     }
+  }
+
+  function findByIndicatorId(indicatorId) {
+    return realm.objects('LanguageIndicator').filtered(`indicator_id = '${indicatorId}'`)[0];
+  }
+
+  function update(id, params) {
+    realm.write(() => {
+      realm.create('LanguageIndicator', Object.assign(params, {id: id}), 'modified');
+    })
   }
 })();
 
