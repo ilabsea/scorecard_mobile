@@ -20,7 +20,7 @@ class HeaderTitle extends Component {
     const {headline, subheading} = this.props;
 
     return (
-      <View>
+      <View style={this.props.customStyle}>
         <Text style={styles.headline}>{translations[headline]}</Text>
         <Text style={styles.subTitle}>{translations[subheading]}</Text>
       </View>
