@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Portal} from 'react-native-paper';
-import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 
 import {LocalizationContext} from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
@@ -15,7 +14,6 @@ import {saveCriteria} from '../../actions/criteriaListAction';
 import Color from '../../themes/color';
 import CreateNewIndicatorParticipantInfo from '../../components/CreateNewIndicator/CreateNewIndicatorParticipantInfo';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
-import TourTipButton from '../../components/TourTipButton';
 
 import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
@@ -25,8 +23,8 @@ import IndicatorService from '../../services/indicator_service';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import customIndicatorService from '../../services/custom_indicator_service';
+import proposedCriteriaService from '../../services/proposedCriteriaService';
 
-const WalkableView = walkthroughable(View);
 const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
 
 class CreateNewIndicator extends Component {
@@ -39,12 +37,11 @@ class CreateNewIndicator extends Component {
       isModalVisible: false,
       isValid: false,
       indicators: [],
-      selectedIndicators: [],
+      selectedIndicators: JSON.parse(JSON.stringify(proposedCriteriaService.getAllByParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid))),
       unselectedIndicators: [],
       groupedIndicators: [],
       participant_uuid: this.props.route.params.participant_uuid,
       customIndicator: null,
-      showTourTip: false,
       isSearching: false,
       isEdit: false,
       selectedCustomIndicator: null,
@@ -67,6 +64,7 @@ class CreateNewIndicator extends Component {
     });
   };
 
+  // Refactor to helper file
   closeModal = () => {
     const otherIndicatorIndex = this.state.indicators.length - 1;
     const newIndicators = this.state.indicators;
@@ -105,6 +103,7 @@ class CreateNewIndicator extends Component {
     this._updateIndicatorList();
   }
 
+  // Refactor to service file
   save = () => {
     const { scorecard_uuid, participant_uuid } = this.props.route.params;
     let participants = JSON.parse(JSON.stringify(Participant.findByScorecard(scorecard_uuid)));
@@ -126,17 +125,7 @@ class CreateNewIndicator extends Component {
 
     return (
       <View style={{padding: containerPadding, paddingHorizontal: 0}}>
-        { this.state.showTourTip &&
-          <CopilotStep text={translations.clickOnSaveButtonToContinue} order={1} name="finishButton">
-            <WalkableView>
-              <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
-            </WalkableView>
-          </CopilotStep>
-        }
-
-        { !this.state.showTourTip &&
-          <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
-        }
+        <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
       </View>
     );
   };
@@ -158,18 +147,13 @@ class CreateNewIndicator extends Component {
   _updateIndicatorList = () => {
     const { translations } = this.context;
     const indicatorService = new IndicatorService();
-    const allCriteria = indicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, this.state.participant_uuid, '', translations.addNewCriteria);
+    const allCriteria = indicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, '', translations.addNewCriteria, this.state.selectedIndicators);
 
     this.setState({
       indicators: allCriteria.indicators,
       selectIndicators: allCriteria.selectedIndicators,
       groupedIndicators: allCriteria.groupedIndicators,
     });
-  }
-
-  startNextTourTip = () => {
-    this.setState({ showTourTip: true });
-    this.props.start();
   }
 
   updateSearchedIndicator = (indicatorDataset) => {
@@ -188,6 +172,7 @@ class CreateNewIndicator extends Component {
 
   updateEditStatus(isEdit) {
     this.setState({ isEdit: isEdit });
+
     if (isEdit)
       this.setState({ indicators: CustomIndicator.getAll(this.props.route.params.scorecard_uuid) });
     else
@@ -218,8 +203,8 @@ class CreateNewIndicator extends Component {
         indicators={this.state.indicators}
         selectedIndicators={this.state.selectedIndicators}
         unselectedIndicators={this.state.unselectedIndicators}
+        groupedIndicators={this.state.groupedIndicators}
         customIndicator={this.state.customIndicator}
-        startNextTourTip={() => this.startNextTourTip()}
         isSearching={this.state.isSearching}
       />
     )
@@ -294,13 +279,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default copilot({
-  overlay: 'svg',
-  animated: true,
-  verticalOffset: 24,
-  backdropColor: "rgba(31, 31, 31, 0.7)",
-  labels: {
-    finish: <TourTipButton label='finish' />
-  },
-  stepNumberComponent: () => (<View/>)
-})(connect(mapStateToProps, mapDispatchToProps)(CreateNewIndicator));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateNewIndicator);

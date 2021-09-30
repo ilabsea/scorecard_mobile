@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import CriteriaAudioButton from './CriteriaAudioButton';
@@ -70,7 +70,9 @@ class RaisingProposedCustomIndicatorList extends Component {
   renderInidcatorList() {
     return (
       <RaisingProposedScrollView>
-        { this.renderIndicatorItems() }
+        <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: -7}}>
+          { this.renderIndicatorItems() }
+        </View>
       </RaisingProposedScrollView>
     )
   }

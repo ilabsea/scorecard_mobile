@@ -6,7 +6,6 @@ import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
 import { LocalizationContext } from '../Translations';
 import IndicatorService from '../../services/indicator_service';
-import customIndicatorService from '../../services/custom_indicator_service';
 
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
 

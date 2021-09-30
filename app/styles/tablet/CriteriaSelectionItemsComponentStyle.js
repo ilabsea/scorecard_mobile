@@ -5,6 +5,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 const CriteriaSelectionItemsStyles = StyleSheet.create({
   container: {
     flexWrap: 'wrap',
+    flexDirection: 'row',
     marginHorizontal: -10,
   },
   indicatorContainer: {
@@ -14,7 +15,7 @@ const CriteriaSelectionItemsStyles = StyleSheet.create({
   tagTitle: {
     fontFamily: FontFamily.title,
     fontSize: 16,
-    marginLeft: 16,
+    marginLeft: 10,
     marginTop: 10,
     marginBottom: 5
   }

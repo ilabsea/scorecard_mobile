@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import {LocalizationContext} from '../Translations';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
+import RaisingProposedScrollView from './RaisingProposedScrollView';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
@@ -55,7 +56,7 @@ class CriteriaSelection extends Component {
   render() {
     return (
       <RaisingProposedScrollView>
-        {doms}
+        { this.renderIndicators() }
       </RaisingProposedScrollView>
     )
   }

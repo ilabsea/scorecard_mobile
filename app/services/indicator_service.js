@@ -120,10 +120,9 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  getIndicatorList = (scorecardUuid, participantUuid, searchText, addNewLabel) => {
+  getIndicatorList = (scorecardUuid, searchText, addNewLabel, selectedIndicators) => {
     let savedIndicators = [];
     let hasAddNewIndicator = true;
-    const proposedCriterias = proposedCriteriaService.getAllByParticipant(scorecardUuid, participantUuid);
 
     if (searchText != '') {
       savedIndicators = Indicator.filter(scorecardUuid, searchText);
@@ -132,7 +131,7 @@ class IndicatorService {
     else
       savedIndicators = this.getAll(scorecardUuid);
 
-    return this._getIndicatorAttrs(savedIndicators, proposedCriterias, addNewLabel, hasAddNewIndicator);
+    return this._getIndicatorAttrs(savedIndicators, selectedIndicators, addNewLabel, hasAddNewIndicator);
   }
 
   find = (indicatorId) => {
@@ -150,9 +149,10 @@ class IndicatorService {
     let indicators = [];
     let selectedIndicators = [];
 
-    savedIndicators.map((indicator) => {
+    savedIndicators.map((indicator, index) => {
       let attrs = {
         uuid: indicator.id || indicator.uuid,
+        indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
         name: indicator.name,
         shortcut: getIndicatorShortcutName(indicator.name),
         isSelected: false,

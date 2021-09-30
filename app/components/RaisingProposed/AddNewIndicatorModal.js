@@ -73,7 +73,12 @@ class AddNewIndicatorModal extends Component {
     else {
       customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator,
         (customIndicator) => {
-          this.props.saveCustomIndicator(customIndicator);
+          let selectedCustomIndicator = customIndicator;
+          selectedCustomIndicator.indicatorable_id = customIndicator.uuid;
+          selectedCustomIndicator.isSelected = true;
+          selectedCustomIndicator.type = 'custom';
+
+          this.props.saveCustomIndicator(selectedCustomIndicator);
       });
     }
 

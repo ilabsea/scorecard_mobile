@@ -89,17 +89,19 @@ const createNewIndicatorHelper = (() => {
 
   function createNewProposedIndicator(scorecardUuid, participantUuid, selectedIndicators) {
     selectedIndicators.map((indicator) => {
-      const attrs = {
-        uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
-        scorecard_uuid: scorecardUuid.toString(),
-        indicatorable_id: indicator.uuid.toString(),
-        indicatorable_type: indicator.type || CUSTOM,
-        indicatorable_name: indicator.name,
-        participant_uuid: participantUuid,
-        tag: indicator.tag
-      };
+      if (ProposedCriteria.findByParticipant(indicator.indicatorable_id, participantUuid).length == 0) {
+        const attrs = {
+          uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
+          scorecard_uuid: scorecardUuid.toString(),
+          indicatorable_id: indicator.uuid.toString(),
+          indicatorable_type: indicator.type || CUSTOM,
+          indicatorable_name: indicator.name,
+          participant_uuid: participantUuid,
+          tag: indicator.tag
+        };
 
-      ProposedCriteria.create(attrs);
+        ProposedCriteria.create(attrs);
+      }
     });
   }
 
@@ -125,11 +127,13 @@ const createNewIndicatorHelper = (() => {
     const index = indicators.findIndex(item => item.uuid == indicatorUuid);
 
     if (newIndicators[index].isSelected) {
-      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.uuid !== newIndicators[index].uuid);
+      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.indicatorable_id.toString() !== newIndicators[index].uuid.toString());
       newUnselectedIndicators.push(newIndicators[index]);
     }
     else if (newIndicators[index].uuid != '') {
-      newSelectedIndicators.push(newIndicators[index]);
+      const indicator = newIndicators[index];
+      indicator['indicatorable_id'] = indicator.uuid;
+      newSelectedIndicators.push(indicator);
       newUnselectedIndicators = newUnselectedIndicators.filter((indicator) => indicator.uuid !== newIndicators[index].uuid);
     }
 

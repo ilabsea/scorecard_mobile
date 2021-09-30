@@ -17,27 +17,18 @@ const indicatorHelper = (() => {
 
   function getIndicatorsState(props, state) {
     let indicators = props.indicators;
-    let selectedIndicatorsState = state.selectedIndicators;
-    let defaultSelectedIndicators = [];
-
-    if (props.customIndicator != null) {
-      selectedIndicatorsState.push(props.customIndicator);
-    }
+    let selectedIndicatorsState = state.selectedIndicators.length > 0 ? state.selectedIndicators : props.selectedIndicators;
 
     selectedIndicatorsState.map((selectedIndicator) => {
       let index = indicators.findIndex((indicator) => {
         return indicator.uuid == selectedIndicator.uuid;
       })
 
-      if (index != -1) {
+      if (index != -1)
         indicators[index].isSelected = true;
-
-        if (!defaultSelectedIndicators.some(indicator => indicator.uuid == indicators[index].uuid))
-          defaultSelectedIndicators.push(indicators[index]);
-      }
     });
 
-    return { indicators: indicators, selectedIndicators: defaultSelectedIndicators };
+    return { indicators: indicators, selectedIndicators: selectedIndicatorsState };
   }
 
   function isExist(indicatorId) {

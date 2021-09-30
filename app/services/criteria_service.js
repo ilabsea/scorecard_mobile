@@ -1,5 +1,6 @@
 import realm from '../db/schema';
 
+import ProposedCriteria from '../models/ProposedCriteria';
 import indicatorHelper from '../helpers/indicator_helper'
 import { getIndicatorShortcutName } from '../utils/indicator_util';
 
