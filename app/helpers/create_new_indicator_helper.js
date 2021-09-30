@@ -121,7 +121,7 @@ const createNewIndicatorHelper = (() => {
     });
     deleteCriterias.map((criteria) => {
       const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, participantUuid);
-      ProposedCriteria.destory(proposedCriteria);
+      ProposedCriteria.destroy(proposedCriteria);
     });
   }
 })();

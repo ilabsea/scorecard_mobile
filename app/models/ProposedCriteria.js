@@ -7,7 +7,7 @@ const ProposedCriteria = (() => {
     update,
     findByParticipant,
     findByIndicator,
-    destory,
+    destroy,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -34,7 +34,7 @@ const ProposedCriteria = (() => {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`);
   }
 
-  function destory(proposedCriteria) {
+  function destroy(proposedCriteria) {
     realm.write(() => {
       realm.delete(proposedCriteria);
     });

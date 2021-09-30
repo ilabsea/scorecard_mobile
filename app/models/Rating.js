@@ -6,7 +6,7 @@ const Rating = (() => {
     deleteAll,
     findByVotingCriteriaAndParticipant,
     getAll,
-    destory,
+    destroy,
     findByVotingCriteria,
   }
 
@@ -34,7 +34,7 @@ const Rating = (() => {
     return realm.objects('Rating').filtered(`scorecard_uuid == '${scorecardUuid}'`);
   }
 
-  function destory(scorecardUuid, votingCriteriaUuid) {
+  function destroy(scorecardUuid, votingCriteriaUuid) {
     const rating = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}' AND voting_criteria_uuid = '${votingCriteriaUuid}'`)[0];
 
     if (rating) {

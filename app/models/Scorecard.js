@@ -44,9 +44,11 @@ const Scorecard = (() => {
   function destroy(scorecardUuid) {
     let scorecard = find(scorecardUuid);
 
-    realm.write(() => {
-      realm.delete(scorecard);
-    });
+    if (scorecard) {
+      realm.write(() => {
+        realm.delete(scorecard);
+      });
+    }
   }
 
   function isSubmitted(scorecardUuid) {
