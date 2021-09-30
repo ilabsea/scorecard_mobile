@@ -20,6 +20,7 @@ import { Icon } from 'native-base';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 import Scorecard from '../../models/Scorecard';
+import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -45,12 +46,19 @@ class ScorecardProgress extends Component {
       messageModalTitle: null,
       messageModalDescription: null,
     };
+    this.unsubscribeNetInfo;
+    this.componentIsUnmount = false;
   }
 
   componentDidMount() {
-    internetConnectionService.watchConnection((hasConnection) => {
+    this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
+  }
+
+  componentWillUnmount() {
+    this.componentIsUnmount = true;
+    this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
   _renderBtnDownload() {
@@ -92,7 +100,10 @@ class ScorecardProgress extends Component {
 
       if (progressPercentag == 1) {
         setTimeout(() => {
-          this.setState({showProgress: false});
+          this.setState({
+            showProgress: false,
+            visibleModal: false,
+          });
         }, 500);
       }
     }, (errorType) => {
@@ -102,6 +113,20 @@ class ScorecardProgress extends Component {
         showProgress: false,
       });
     });
+
+    this.checkSubmitProgress();
+  }
+
+  checkSubmitProgress() {
+    setTimeout(() => {
+      if (!this.componentIsUnmount && this.state.showProgress) {
+        this.setState({
+          showProgress: false,
+          visibleModal: true,
+          errorType: ERROR_SUBMIT_SCORECARD,
+        });
+      }
+    }, 60000);
   }
 
   showMessageModal = (title, description) => {

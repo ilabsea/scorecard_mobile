@@ -7,6 +7,7 @@ import Color from '../../themes/color';
 import {
   ERROR_SCORECARD_EXECUTED,
   ERROR_SCORECARD_COMPLETED,
+  ERROR_SUBMIT_SCORECARD,
 } from '../../constants/error_constant';
 import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
@@ -29,6 +30,8 @@ class ErrorMessageContent extends Component {
         return translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid);
       case ERROR_SCORECARD_COMPLETED:
         return translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid);
+      case ERROR_SUBMIT_SCORECARD:
+        return translations.formatString(translations.errorSubmitScorecardMessage, this.props.scorecardUuid);
       default:
         return translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid);
     }
