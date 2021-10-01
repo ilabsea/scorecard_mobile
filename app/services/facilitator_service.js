@@ -1,6 +1,7 @@
 import Facilitator from '../models/Facilitator';
 import Caf from '../models/Caf';
 import uuidv4 from '../utils/uuidv4';
+import { environment } from '../config/environment';
 
 const facilitatorService = (() => {
   return {
@@ -12,7 +13,7 @@ const facilitatorService = (() => {
     let savedFacilitators = Facilitator.getAll(scorecardUuid);
 
     const selectedFacilitators = savedFacilitators.length > 0 ? savedFacilitators : currentSelectedFacilitators;
-    callback(_getSelectedFacilitator(selectedFacilitators));
+    callback(_getSelectedFacilitator(selectedFacilitators, scorecardUuid));
   }
 
   function saveSelectedFacilitators(selectedFacilitators, scorecardUuid) {
@@ -38,8 +39,8 @@ const facilitatorService = (() => {
     Facilitator.create(attrs);
   }
 
-  function _getSelectedFacilitator(selectedFacilitators) {
-    let facilitators = [];
+  function _getSelectedFacilitator(selectedFacilitators, scorecardUuid) {
+    let facilitators = Array.from({length: environment.numberOfFacilitators}, () => null);
     let deleteFacilitators = [];
 
     for (let i = 0; i < selectedFacilitators.length; i++) {
@@ -51,18 +52,17 @@ const facilitatorService = (() => {
       if (!Caf.findById(facilitatorId))
         deleteFacilitators.push(facilitator);
       else {
-        facilitators.push({
+        facilitators[i] = {
           label: facilitator.name || facilitator.label,
           value: facilitatorId,
-        });
+        }
       }
     }
 
     deleteFacilitators.map(facilitator => {
       const facilitatorId = facilitator.id || facilitator.value;
 
-      if (Facilitator.findById(facilitatorId))
-        Facilitator.deleteById(facilitatorId);
+      Facilitator.deleteById(facilitatorId, scorecardUuid);
     });
 
     return facilitators;

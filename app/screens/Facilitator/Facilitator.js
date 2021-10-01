@@ -9,6 +9,7 @@ import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
+import { environment } from '../../config/environment';
 
 import Color from '../../themes/color';
 
@@ -18,10 +19,9 @@ class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    this.numberOfFacilitator = 4;
     this.state = {
       facilitators: [],
-      selectedFacilitators: Array.from({length: this.numberOfFacilitator}, () => null),
+      selectedFacilitators: Array.from({length: environment.numberOfFacilitators}, () => null),
       isError: true,
       containerPaddingBottom: 0,
       isLoading: false,
@@ -40,9 +40,11 @@ class FacilitatorScreen extends Component {
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
 
     facilitatorService.loadSavedFacilitators(this.props.route.params.scorecard_uuid, this.state.selectedFacilitators, (selectedFacilitators) => {
+      const sortedFacilitators = selectedFacilitators.sort((a,b) => a === null ? 1 : b === null ? -1 : 0);
+
       this.setState({
-        selectedFacilitators,
-        isError: false,
+        selectedFacilitators: sortedFacilitators,
+        isError: sortedFacilitators[0] === null || sortedFacilitators[1] === null,
       }, () => {
         this.updateFacilitators();
       });
@@ -50,10 +52,10 @@ class FacilitatorScreen extends Component {
   }
 
   onChangeFacilitator = (facilitator, facilitatorIndex) => {
-    const selectedFacilitators = this.state.selectedFacilitators;
+    let selectedFacilitators = this.state.selectedFacilitators;
     selectedFacilitators[facilitatorIndex] = facilitator;
     this.setState({
-      selectedFacilitators,
+      selectedFacilitators: selectedFacilitators,
       isError: selectedFacilitators[0] === null || selectedFacilitators[1] === null
     });
     this.updateFacilitators();
@@ -74,7 +76,6 @@ class FacilitatorScreen extends Component {
   saveSelectedData = () => {
     this.formRef.current.closeSelectBox(null);
     facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
-
     this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   };
 

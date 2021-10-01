@@ -2,17 +2,11 @@ import realm from '../db/schema';
 
 const Facilitator = (() => {
   return {
-    findById,
     getAll,
     create,
     deleteAll,
     getDataForMilestone,
     deleteById,
-  }
-
-  // id is CAF id
-  function findById(id) {
-    return realm.objects('Facilitator').filtered(`id = ${id}`)[0];
   }
 
   function getAll(scorecardUuid) {
@@ -53,8 +47,8 @@ const Facilitator = (() => {
     return facilitatorAttrs;
   }
 
-  function deleteById(id) {
-    const facilitator = realm.objects('Facilitator').filtered(`id = ${id}`);
+  function deleteById(id, scorecardUuid) {
+    const facilitator = realm.objects('Facilitator').filtered(`id = ${id} AND scorecard_uuid = '${scorecardUuid}'`);
 
     if (facilitator) {
       realm.write(() => {
