@@ -11,6 +11,7 @@ import {
   ERROR_ENDPOINT,
   ERROR_NOT_FOUND,
   ERROR_UNAUTHORIZED,
+  ERROR_UNPROCESSABLE,
 } from '../../constants/error_constant';
 
 import Color from '../../themes/color';
@@ -43,7 +44,7 @@ class ErrorMessageModal extends Component {
       return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
     else if (this.props.errorType === ERROR_ENDPOINT ||
       (this.props.errorType == ERROR_NOT_FOUND && !this.props.isNewScorecard) ||
-      this.props.errorType === ERROR_UNAUTHORIZED) {
+      this.props.errorType === ERROR_UNAUTHORIZED || this.props.errorType === ERROR_UNPROCESSABLE) {
       return <ErrorRequestToServerContent
                 backendUrl={this.state.backendUrl}
                 onDismiss={this.props.onDismiss}
