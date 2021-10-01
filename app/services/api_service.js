@@ -28,18 +28,15 @@ const handleApiResponse = (response, successCallback, errorCallback) => {
 }
 
 const getErrorType = (errorStatus) => {
-  switch (parseInt(errorStatus)) {
-    case 422:
-      return ERROR_UNPROCESSABLE;
-    case 401:
-      return ERROR_AUTHENTICATION;
-    case 404:
-      return ERROR_NOT_FOUND;
-    case 403:
-      return ERROR_UNAUTHORIZED;
-    default:
-      return ERROR_ENDPOINT;
+  const errorDictionary = {
+    401: ERROR_AUTHENTICATION,
+    403: ERROR_UNAUTHORIZED,
+    404: ERROR_NOT_FOUND,
+    422: ERROR_UNPROCESSABLE,
+    'default': ERROR_ENDPOINT
   }
+
+  return errorDictionary[errorStatus] || errorDictionary['default'];
 }
 
 const sendRequestToApi = async (apiRequest) => {
