@@ -89,8 +89,12 @@ class IndicatorService {
     const response = await indicatorApi.load(facilityId);
 
     handleApiResponse(response, (indicators) => {
-      this._saveIndicator(indicators, scorecardUuid, successCallback);
-      saveLanguageIndicator(scorecardUuid, indicators, successCallback)
+      if (!!indicators) {
+        this._saveIndicator(indicators, scorecardUuid, successCallback);
+        saveLanguageIndicator(scorecardUuid, indicators, successCallback)
+      }
+      else
+        errorCallback(0);  // error status 0 means no response (the response returns as null)
     }, (error) => {
       console.log('error download caf = ', error);
       errorCallback(error);

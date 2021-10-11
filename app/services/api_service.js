@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_NOT_FOUND, ERROR_UNAUTHORIZED, ERROR_UNPROCESSABLE } from '../constants/error_constant';
+import { ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_NOT_FOUND, ERROR_UNAUTHORIZED, ERROR_UNPROCESSABLE, ERROR_NO_RESPONSE } from '../constants/error_constant';
 import authenticationHelper from '../helpers/authentication_helper';
 import authenticationService from './authentication_service';
 
@@ -33,6 +33,7 @@ const getErrorType = (errorStatus) => {
     403: ERROR_UNAUTHORIZED,
     404: ERROR_NOT_FOUND,
     422: ERROR_UNPROCESSABLE,
+    0: ERROR_NO_RESPONSE,
     'default': ERROR_ENDPOINT
   }
 
