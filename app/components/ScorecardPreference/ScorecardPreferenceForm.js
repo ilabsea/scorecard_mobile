@@ -95,6 +95,7 @@ class ScorecardPreferenceForm extends Component {
           date={this.state.date}
           onChangeDate={this.changeDate}
           onOpenPicker={() => this.closeAllSelectBox()}
+          scorecard={this.props.scorecard}
         />
 
         <SelectPicker
@@ -105,7 +106,6 @@ class ScorecardPreferenceForm extends Component {
           searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={6000}
           onChangeItem={this.changeTextLocale}
-          // customDropDownContainerStyle={{marginTop: 30}}
           customDropDownContainerStyle={{marginTop: 10}}
           mustHasDefaultValue={true}
           controller={(instance) => this.textLanguageController = instance}

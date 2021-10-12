@@ -9,6 +9,7 @@ import Moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { LocalizationContext } from './Translations';
+import ScorecardPreferenceDatePickerMessage from './ScorecardPreference/ScorecardPreferenceDatePickerMessage';
 import Color from '../themes/color';
 
 import { getDeviceStyle } from '../utils/responsive_util';
@@ -26,7 +27,7 @@ class DatePicker extends Component {
     super(props);
 
     this.state = {
-      selectedDate: Moment(props.date, displayDateFormat).toDate(),
+      selectedDate: Moment(props.date, 'DD/MM/YYYY').utcOffset(0, true).toDate(),
       isPickerVisible: false,
     };
   }
@@ -75,26 +76,18 @@ class DatePicker extends Component {
         value={this.state.selectedDate}
         mode='date'
         display="default"
-        minimumDate={dateHelper.getMinimumSelectedDate()}
-        maximumDate={new Date()}
+        minimumDate={dateHelper.getMinimumSelectDate()}
+        maximumDate={dateHelper.getMaximumSelectDate()}
         onChange={(data) => this.onChange(data)}
       />
     )
-  }
-
-  _renderInfoMessage() {
-    if (dateHelper.isBeforeCurrentDate(this.state.selectedDate)) {
-      return (
-        <Text style={styles.messageLabel}>{ this.context.translations.theSelectedDateIsInThePast }</Text>
-      )
-    }
   }
 
   render() {
     const { translations } = this.context;
 
     return (
-      <View style={[styles.container, { height: 90 }]}>
+      <View style={styles.container}>
         <Text style={styles.label}>
           {translations.date}
         </Text>
@@ -104,7 +97,7 @@ class DatePicker extends Component {
           this._renderCalendar()
         )}
 
-        { this._renderInfoMessage() }
+        <ScorecardPreferenceDatePickerMessage selectedDate={this.state.selectedDate} scorecard={this.props.scorecard} />
       </View>
     );
   }

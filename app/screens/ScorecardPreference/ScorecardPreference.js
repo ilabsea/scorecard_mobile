@@ -11,6 +11,7 @@ import ScorecardPreferenceModals from '../../components/ScorecardPreference/Scor
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
+import scorecardSyncService from '../../services/scorecard_sync_service';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 
@@ -53,6 +54,8 @@ class ScorecardPreference extends Component {
 
   componentDidMount() {
     const { appLanguage } = this.context;
+
+    scorecardSyncService.syncPlannedDates(this.props.route.params.scorecard_uuid);
 
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });

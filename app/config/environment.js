@@ -6,5 +6,5 @@ export const environment = {
   removeScorecardDay: 90,
   enableTourTip: false,
   numberOfFacilitators: 4,
-  minimumImplementedDays: 14,
+  implementedDayRange: 14,     // days
 };

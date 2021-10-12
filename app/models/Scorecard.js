@@ -2,6 +2,7 @@ import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import Moment from 'moment';
 import { DOWNLOADED, RUNNING, SUBMITTED } from '../constants/milestone_constant';
+import { apiDateFormat } from '../constants/date_format_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
 
 const Scorecard = (() => {
@@ -123,6 +124,8 @@ const Scorecard = (() => {
       program_id: response.program_id,
       downloaded_at: new Date(),
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
+      planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
+      planned_end_date: Moment(response.planned_end_date).format(apiDateFormat)
     })
   }
 

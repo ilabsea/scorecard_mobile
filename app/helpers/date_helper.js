@@ -1,23 +1,18 @@
 import Moment from 'moment';
-import { todayDate } from '../utils/date_util';
-import { displayDateFormat } from '../constants/date_format_constant';
 import { environment } from '../config/environment';
 
 const dateHelper = (() => {
   return {
-    isBeforeCurrentDate,
-    getMinimumSelectedDate,
+    getMinimumSelectDate,
+    getMaximumSelectDate,
   }
 
-  function isBeforeCurrentDate(selectedDate) {
-    const today = Moment(todayDate, displayDateFormat);
-    const date = Moment(selectedDate, displayDateFormat);
-
-    return Moment(date).isBefore(today);
+  function getMinimumSelectDate() {
+    return Moment().subtract(environment.implementedDayRange, "days").toDate();
   }
 
-  function getMinimumSelectedDate() {
-    return Moment().subtract(environment.minimumImplementedDays, "days").toDate();
+  function getMaximumSelectDate() {
+    return Moment().add(environment.implementedDayRange, "days").toDate();
   }
 })();
 
