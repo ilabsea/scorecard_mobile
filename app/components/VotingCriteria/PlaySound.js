@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Sound from 'react-native-sound';
 import Color from '../../themes/color';
@@ -103,17 +100,20 @@ class PlaySound extends Component {
   }
 
   render() {
-    const { children, containerStyle, filePath } = this.props;
-    let btnBg = !!filePath ? Color.headerColor : Color.paleBlackColor;
-    let iconSize = getDeviceStyle(28, 20);
+    const iconSize = getDeviceStyle(28, 20);
+    const btnBg = !!this.props.filePath ? Color.headerColor : Color.paleBlackColor;
+    const btnStyles = [styles.btnAudio, { backgroundColor: btnBg }];
 
     return (
       <TouchableOpacity
-        onPress={() => this.playAudio() }
-        style={[styles.btnAudio, containerStyle, { backgroundColor: btnBg }]}>
+        onPress={() => this.playAudio()}
+        style={[!this.props.isHeader ? btnStyles : {}, this.props.containerStyle]}
+      >
+        { this.props.children }
 
-        { children }
-        <Icon name={this.getIconName()} style={[{ color: Color.whiteColor, fontSize: iconSize}, this.getIconName() == 'pause' ? {marginLeft: 1} : {}]}/>
+        <View style={this.props.isHeader ? btnStyles : {}}>
+          <Icon name={this.getIconName()} style={[{ color: Color.whiteColor, fontSize: iconSize}, this.getIconName() == 'pause' ? {marginLeft: 1} : {}]}/>
+        </View>
       </TouchableOpacity>
     )
   }
