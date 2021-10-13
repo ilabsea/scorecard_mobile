@@ -30,8 +30,8 @@ export const getLocationMaxWidth = (scorecard) => {
   locationWidth = locationWidth * pixelPerCharacter;
   const locationLength = scorecard.district.length + scorecard.commune.length + 2;           // +2 because district and commune are include , and 1 space
 
-  if (locationWidth > wp('70%'))
-    return locationLength * (scorecard.primary_school != null ? getDeviceStyle(wp('1%'), wp('0.6%')) : wp('1%'));
+  if (locationWidth > wp('70%') && scorecard.uploaded_date)
+    return locationLength * (scorecard.primary_school != null ? getDeviceStyle(wp('0.8%'), wp('0.6%')) : getDeviceStyle(wp('1%'), wp('0.8%')));
 
-  return getDeviceStyle(locationLength * wp('5%'), locationLength * wp('1%'))
+  return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1%'))
 }
