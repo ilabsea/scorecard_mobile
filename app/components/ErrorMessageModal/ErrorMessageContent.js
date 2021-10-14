@@ -24,7 +24,7 @@ class ErrorMessageContent extends Component {
       'ERROR_SCORECARD_EXECUTED': translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid),
       'ERROR_SCORECARD_COMPLETED': translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid),
       'ERROR_SUBMIT_SCORECARD': translations.formatString(translations.errorSubmitScorecardMessage, this.props.scorecardUuid),
-      'ERROR_NO_RESPONSE': translations.formatString(translations.failedToDownloadThisScorecardInformation, this.props.scorecardUuid),
+      'ERROR_DOWNLOAD_SCORECARD': translations.failedToDownloadThisScorecardInformation,
       'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
     }
 

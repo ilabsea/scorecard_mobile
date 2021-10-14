@@ -296,5 +296,5 @@
   "rejoinScorecard": "Rejoin Scorecard",
   "cannotDeleteThisScorecard": "Cannot delete this scorecard({0})!",
   "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). Please contact the program administrator for more detail.",
-  "failedToDownloadThisScorecardInformation": "Failed to download this scorecard ({0}) information."
+  "failedToDownloadThisScorecardInformation": "No internet connection or the internet connection is too slow, please double check your internet connection then try to download again."
 }

@@ -11,6 +11,7 @@ import proposedCriteriaService from './proposedCriteriaService';
 import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_constant';
 import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
+import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
 
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
@@ -94,7 +95,7 @@ class IndicatorService {
         saveLanguageIndicator(scorecardUuid, indicators, successCallback)
       }
       else
-        errorCallback(0);  // error status 0 means no response (the response returns as null)
+        errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
     }, (error) => {
       console.log('error download caf = ', error);
       errorCallback(error);
