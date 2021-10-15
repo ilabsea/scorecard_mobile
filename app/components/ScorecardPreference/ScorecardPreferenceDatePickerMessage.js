@@ -30,15 +30,10 @@ class ScorecardPreferenceDatePickerMessage extends React.Component {
     // selected date is before planned start date
     if (Moment(selectedDate).isBefore(scorecard.planned_start_date))
       message = translations.formatString(translations.selectedDateIsBeforePlannedStartDate, formattedStartDate);
+
     // selected date is after planned end date
-    else if (Moment(selectedDate).isAfter(scorecard.planned_end_date))
+    if (Moment(selectedDate).isAfter(scorecard.planned_end_date))
       message = translations.formatString(translations.selectedDateIsAfterPlannedEndDate, formattedEndDate);
-    // selected date is the same as planned end date
-    else if (Moment(selectedDate).isSame(scorecard.planned_end_date))
-      message = translations.formatString(translations.selctedDateIsTheSameAsPlannedEndDate, formattedEndDate);
-    // selected date is after planned start date and before planned end date
-    else if (Moment(selectedDate).isBetween(scorecard.planned_start_date, scorecard.planned_end_date))
-      message = translations.formatString(translations.selectedDateIsAfterPlannedStartDate, formattedStartDate);
 
     return message;
   }

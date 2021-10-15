@@ -36,7 +36,7 @@ const DatePickerComponentStyles = StyleSheet.create({
     fontSize: wp(mdIconSize),
   },
   messageLabel: {
-    color: Color.errorColor,
+    color: Color.warningColor,
     fontSize: wp(smLabelSize),
   }
 });

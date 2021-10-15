@@ -34,7 +34,7 @@ const DatePickerComponentStyles = StyleSheet.create({
     fontSize: 25,
   },
   messageLabel: {
-    color: Color.errorColor,
+    color: Color.warningColor,
     fontSize: 14,
   }
 });
