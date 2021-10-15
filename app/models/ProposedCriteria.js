@@ -7,6 +7,7 @@ const ProposedCriteria = (() => {
     update,
     findByParticipant,
     findByIndicator,
+    findByScorecard,
     destroy,
   };
 
@@ -32,6 +33,11 @@ const ProposedCriteria = (() => {
 
   function findByIndicator(scorecardUuid, indicatorableId) {
     return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`);
+  }
+
+  function findByScorecard(scorecardUuid, distinctIndicator) {
+    const query = distinctIndicator ? `scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id)` : `scorecard_uuid='${scorecardUuid}'`;
+    return realm.objects('ProposedCriteria').filtered(query);
   }
 
   function destroy(proposedCriteria) {

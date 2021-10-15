@@ -1,5 +1,3 @@
-import realm from '../db/schema';
-
 import ProposedCriteria from '../models/ProposedCriteria';
 import indicatorHelper from '../helpers/indicator_helper'
 import { getIndicatorShortcutName } from '../utils/indicator_util';
@@ -9,17 +7,13 @@ class Criteria {
     this.scorecardUUID = scorecardUUID;
   }
 
-  _getRaisedCount = (indicatorId) => {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${this.scorecardUUID}' AND indicatorable_id == '${indicatorId}'`).length;
-  }
-
   _sort(arr) {
     return arr.sort((a, b) => b.raised_count - a.raised_count);
   }
 
   getCriterias = () => {
-    let allCriterias = realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}'`);
-    let criterias = JSON.parse(JSON.stringify(realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${this.scorecardUUID}' DISTINCT(indicatorable_id)`)));
+    let allCriterias = ProposedCriteria.findByScorecard(this.scorecardUUID, false);
+    let criterias = JSON.parse(JSON.stringify(ProposedCriteria.findByScorecard(this.scorecardUUID, true)));
 
     criterias = criterias.map(criteria => {
       let indicator = indicatorHelper.getDisplayIndicator(criteria);
@@ -33,13 +27,12 @@ class Criteria {
     return this._sort(criterias);
   }
 
-  getParticipantProposedCriteria = (participantUUID) => {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${this.scorecardUUID}' AND participant_uuid = '${participantUUID}'`);
-  }
-
   hasRaisedCritria = (participants) => {
     for (let i=0; i<participants.length; i++) {
-      const proposedCriteria = participants[i].proposed_criterias != undefined ? participants[i].proposed_criterias : this.getParticipantProposedCriteria(participants[i].uuid);
+      const proposedCriteria = participants[i].proposed_criterias != undefined 
+        ? participants[i].proposed_criterias
+        : ProposedCriteria.find(this.scorecardUUID, participants[i].uuid);
+
       if (proposedCriteria.length > 0)
         return true;
     }

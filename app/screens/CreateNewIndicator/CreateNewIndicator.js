@@ -64,7 +64,6 @@ class CreateNewIndicator extends Component {
     });
   };
 
-  // Refactor to helper file
   closeModal = () => {
     const otherIndicatorIndex = this.state.indicators.length - 1;
     const newIndicators = this.state.indicators;
@@ -103,7 +102,6 @@ class CreateNewIndicator extends Component {
     this._updateIndicatorList();
   }
 
-  // Refactor to service file
   save = () => {
     const { scorecard_uuid, participant_uuid } = this.props.route.params;
     let participants = JSON.parse(JSON.stringify(Participant.findByScorecard(scorecard_uuid)));
