@@ -32,6 +32,11 @@ const DatePickerComponentStyles = StyleSheet.create({
   },
   icon: {
     fontSize: 25,
+  },
+  messageLabel: {
+    color: Color.orangeColor,
+    fontSize: 14,
+    paddingTop: 5
   }
 });
 

@@ -9,9 +9,12 @@ import Moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { LocalizationContext } from './Translations';
+import ScorecardPreferenceDatePickerMessage from './ScorecardPreference/ScorecardPreferenceDatePickerMessage';
 import Color from '../themes/color';
 
 import { getDeviceStyle } from '../utils/responsive_util';
+import dateHelper from '../helpers/date_helper';
+import { displayDateFormat } from '../constants/date_format_constant';
 import DatePickerTabletStyles from '../styles/tablet/DatePickerComponentStyle';
 import DatePickerFormMobileStyles from '../styles/mobile/DatePickerComponentStyle';
 
@@ -24,7 +27,7 @@ class DatePicker extends Component {
     super(props);
 
     this.state = {
-      selectedDate: Moment(props.date, 'DD/MM/YYYY').toDate(),
+      selectedDate: Moment(props.date, 'DD/MM/YYYY').utcOffset(0, true).toDate(),
       isPickerVisible: false,
     };
   }
@@ -37,7 +40,7 @@ class DatePicker extends Component {
         isPickerVisible: false,
       });
 
-      const formattedDate = Moment(selectedDate).format('DD/MM/YYYY');
+      const formattedDate = Moment(selectedDate).format(displayDateFormat);
       this.props.onChangeDate(formattedDate);
     }
 
@@ -61,7 +64,7 @@ class DatePicker extends Component {
           style={styles.icon}
         />
 
-        <Text style={styles.dateLabel}>{ Moment(this.state.selectedDate).format('DD/MM/YYYY') }</Text>
+        <Text style={styles.dateLabel}>{ Moment(this.state.selectedDate).format(displayDateFormat) }</Text>
       </TouchableOpacity>
     )
   }
@@ -73,7 +76,8 @@ class DatePicker extends Component {
         value={this.state.selectedDate}
         mode='date'
         display="default"
-        minimumDate={new Date()}
+        minimumDate={dateHelper.getMinimumSelectDate()}
+        maximumDate={dateHelper.getMaximumSelectDate()}
         onChange={(data) => this.onChange(data)}
       />
     )
@@ -92,6 +96,8 @@ class DatePicker extends Component {
         {this.state.isPickerVisible && (
           this._renderCalendar()
         )}
+
+        <ScorecardPreferenceDatePickerMessage selectedDate={this.state.selectedDate} scorecard={this.props.scorecard} />
       </View>
     );
   }

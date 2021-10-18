@@ -296,5 +296,7 @@
   "rejoinScorecard": "Rejoin Scorecard",
   "cannotDeleteThisScorecard": "Cannot delete this scorecard({0})!",
   "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). Please contact the program administrator for more detail.",
-  "failedToDownloadThisScorecardInformation": "No internet connection or the internet connection is too slow, please double check your internet connection then try to download again."
+  "failedToDownloadThisScorecardInformation": "No internet connection or the internet connection is too slow, please double check your internet connection then try to download again.",
+  "selectedDateIsBeforePlannedStartDate": "The selected date is before the planned start date ({0})",
+  "selectedDateIsAfterPlannedEndDate": "The selected date is after the planned end date ({0})"
 }
