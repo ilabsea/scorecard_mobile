@@ -31,6 +31,7 @@ const Color = {
   communityScorecardColor: '#f29522',
   lightGreenColor: '#52c72c',
   accordionContentBgColor: '#fbf9ed',
+  orangeColor: '#ffa500',
 };
 
 export default Color;
