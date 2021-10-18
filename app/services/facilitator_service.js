@@ -11,8 +11,10 @@ const facilitatorService = (() => {
 
   function loadSavedFacilitators(scorecardUuid, currentSelectedFacilitators, callback) {
     let savedFacilitators = Facilitator.getAll(scorecardUuid);
+    const numberOfSavedFacilitator = savedFacilitators.filter(facilitator => facilitator != null).length;
+    const numberOfCurrentSeletedFacilitator = currentSelectedFacilitators.filter(facilitator => facilitator != null).length;
+    const selectedFacilitators = numberOfSavedFacilitator > numberOfCurrentSeletedFacilitator ? savedFacilitators : currentSelectedFacilitators;
 
-    const selectedFacilitators = savedFacilitators.length > 0 ? savedFacilitators : currentSelectedFacilitators;
     callback(_getSelectedFacilitator(selectedFacilitators, scorecardUuid));
   }
 
@@ -49,8 +51,10 @@ const facilitatorService = (() => {
         continue;
 
       const facilitatorId = facilitator.id || facilitator.value;
-      if (!Caf.findById(facilitatorId))
+      if (!Caf.findById(facilitatorId)) {
         deleteFacilitators.push(facilitator);
+        facilitators[i] = null;
+      }
       else {
         facilitators[i] = {
           label: facilitator.name || facilitator.label,

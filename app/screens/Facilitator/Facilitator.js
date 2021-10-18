@@ -40,11 +40,9 @@ class FacilitatorScreen extends Component {
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
 
     facilitatorService.loadSavedFacilitators(this.props.route.params.scorecard_uuid, this.state.selectedFacilitators, (selectedFacilitators) => {
-      const sortedFacilitators = selectedFacilitators.sort((a,b) => a === null ? 1 : b === null ? -1 : 0);
-
       this.setState({
-        selectedFacilitators: sortedFacilitators,
-        isError: sortedFacilitators[0] === null || sortedFacilitators[1] === null,
+        selectedFacilitators: selectedFacilitators,
+        isError: selectedFacilitators[0] === null || selectedFacilitators[1] === null,
       }, () => {
         this.updateFacilitators();
       });
