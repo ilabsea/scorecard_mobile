@@ -24,7 +24,7 @@ class FacilitatorForm extends Component {
   closeSelectBox = (exceptIndex) => {
     if (exceptIndex == 2 || exceptIndex == 3) {
       this.setState({ openIndex: exceptIndex });
-      this.props.updateContainerPadding(180);
+      this.props.updateContainerPadding(190);
     }
 
     for (let i = 0; i < this.controllers.length; i++) {
@@ -72,6 +72,7 @@ class FacilitatorForm extends Component {
             controller={(instance) => this.controllers[index] = instance}
             onOpen={() => this.closeSelectBox(index)}
             onClose={() => this.onDropdownClose(index)}
+            searchable={true}
           />
         );
       });
