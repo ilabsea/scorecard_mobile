@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import SelectPicker from '../SelectPicker';
 import {LocalizationContext} from '../Translations';
@@ -15,6 +15,8 @@ class FacilitatorForm extends Component {
     this.state = {
       openIndex: null,
     };
+
+    this.searchRef = React.createRef();
   }
 
   getSelectedFacilitator = (facilitator) => {
@@ -41,6 +43,11 @@ class FacilitatorForm extends Component {
 
     if (!this.state.openIndex)
       this.props.updateContainerPadding(0);
+  }
+
+  onOpen(index) {
+    this.searchRef.focus();
+    this.closeSelectBox(index);
   }
 
   renderFacilitators = () => {
@@ -70,9 +77,10 @@ class FacilitatorForm extends Component {
             itemIndex={itemIndex}
             mustHasDefaultValue={false}
             controller={(instance) => this.controllers[index] = instance}
-            onOpen={() => this.closeSelectBox(index)}
+            onOpen={() => this.onOpen(index)}
             onClose={() => this.onDropdownClose(index)}
             searchable={true}
+            searchTextInputProps={{ ref: (searchInputRef) => this.searchRef = searchInputRef }}
           />
         );
       });
