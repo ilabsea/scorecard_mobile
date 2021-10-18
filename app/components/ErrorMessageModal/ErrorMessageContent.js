@@ -4,11 +4,6 @@ import { View, Text } from 'react-native';
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 
-import {
-  ERROR_SCORECARD_EXECUTED,
-  ERROR_SCORECARD_COMPLETED,
-  ERROR_SUBMIT_SCORECARD,
-} from '../../constants/error_constant';
 import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 import OutlineInfoIcon from '../OutlineInfoIcon';
@@ -25,16 +20,15 @@ class ErrorMessageContent extends Component {
   _renderErrorMessage() {
     const { translations } = this.context;
 
-    switch (this.props.errorType) {
-      case ERROR_SCORECARD_EXECUTED:
-        return translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid);
-      case ERROR_SCORECARD_COMPLETED:
-        return translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid);
-      case ERROR_SUBMIT_SCORECARD:
-        return translations.formatString(translations.errorSubmitScorecardMessage, this.props.scorecardUuid);
-      default:
-        return translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid);
+    const errorMessageDictionary = {
+      'ERROR_SCORECARD_EXECUTED': translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid),
+      'ERROR_SCORECARD_COMPLETED': translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid),
+      'ERROR_SUBMIT_SCORECARD': translations.formatString(translations.errorSubmitScorecardMessage, this.props.scorecardUuid),
+      'ERROR_DOWNLOAD_SCORECARD': translations.failedToDownloadThisScorecardInformation,
+      'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
     }
+
+    return errorMessageDictionary[this.props.errorType] || errorMessageDictionary['default'];
   }
 
   render() {
