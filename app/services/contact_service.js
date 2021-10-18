@@ -14,11 +14,18 @@ const contactService = (() => {
     return contacts.sort((a, b) => (a.contact_type < b.contact_type) ? 1 : ((b.contact_type < a.contact_type) ? -1 : 0));
   }
 
-  function downloadContacts(callback) {
+  function downloadContacts(callback, errorCallback) {
     contactApi.load().then(function (response) {
-      if (response.status != 200) { return; }
+      if (response.status != 200) {
+        errorCallback && errorCallback();
+        return;
+      }
 
       Contact.deleteAll();
+
+      response.data.map((contact) => {
+        Contact.create(contact);
+      });
 
       callback && callback();
     })
