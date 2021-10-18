@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import AppIcon from 'react-native-vector-icons/FontAwesome';
+import DeviceInfo from 'react-native-device-info'
 
 import Color from '../../themes/color';
 
@@ -48,8 +49,11 @@ class ScorecardListInfoLocation extends Component {
     if (this.props.scorecard.isUploaded) {
       return (
         <View style={{flexDirection: 'row'}}>
-          <AppIcon name='calendar-times-o' size={getDeviceStyle(13, 12)} color={Color.redColor} style={responsiveStyles.removeDateIcon} />
+          { !DeviceInfo.isTablet() &&
+            <AppIcon name='calendar-times-o' size={getDeviceStyle(13, 12)} color={Color.redColor} style={responsiveStyles.removeDateIcon} />
+          }
           <Text style={responsiveStyles.removeDateLabel}>
+            { DeviceInfo.isTablet() ? `${this.context.translations.toBeRemovedOn}: ` : '' }
             { scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, this.context.appLanguage) }
           </Text>
         </View>
