@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import SelectPicker from '../SelectPicker';
 import {LocalizationContext} from '../Translations';
+import { environment } from '../../config/environment';
 
 class FacilitatorForm extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
-    this.numberOfFacilitator = 4;
-    this.controllers = new Array(4);
+    this.controllers = new Array(environment.numberOfFacilitators);
 
     this.state = {
       openIndex: null,
+      inlineIcons: new Array(environment.numberOfFacilitators),
     };
-
-    this.searchRef = React.createRef();
   }
 
   getSelectedFacilitator = (facilitator) => {
@@ -38,6 +37,8 @@ class FacilitatorForm extends Component {
   }
 
   onDropdownClose = (index) => {
+    this.updateInlineIcons(index, false);
+
     if (index == 2 || index == 3)
       this.setState({ openIndex: null });
 
@@ -46,15 +47,22 @@ class FacilitatorForm extends Component {
   }
 
   onOpen(index) {
-    this.searchRef.focus();
+    this.updateInlineIcons(index, true);
+    !!this.searchRef && this.searchRef.focus();
     this.closeSelectBox(index);
+  }
+
+  updateInlineIcons(index, hasIcon) {
+    let inlineIcons = this.state.inlineIcons;
+    inlineIcons[index] = hasIcon ? 'search_icon' : '';
+    this.setState({ inlineIcons });
   }
 
   renderFacilitators = () => {
     const {translations} = this.context;
     let pickerzIndex = 9000;
     let itemIndex = 0;
-    return Array(this.numberOfFacilitator)
+    return Array(environment.numberOfFacilitators)
       .fill()
       .map((_, index) => {
         itemIndex += 1;
@@ -80,7 +88,11 @@ class FacilitatorForm extends Component {
             onOpen={() => this.onOpen(index)}
             onClose={() => this.onDropdownClose(index)}
             searchable={true}
-            searchTextInputProps={{ ref: (searchInputRef) => this.searchRef = searchInputRef }}
+            searchTextInputProps={{
+              ref: (searchInputRef) => this.searchRef = searchInputRef,
+              inlineImageLeft: this.state.inlineIcons[index],
+              inlineImagePadding: 6,
+            }}
           />
         );
       });
