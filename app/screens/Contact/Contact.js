@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { LocalizationContext } from '../../components/Translations';
 import ContactListItem from '../../components/Contact/ContactListItem';
+import MessageModal from '../../components/MessageModal';
 import contacts from '../../db/jsons/contacts';
 import contactService from '../../services/contact_service';
 
@@ -16,13 +17,19 @@ export default class Contact extends Component {
 
     this.state = {
       contacts: [],
+      visibleModal: false,
+      isLoading: false,
     }
   }
 
   async componentDidMount() {
-    NetInfo.fetch().then(state => {
-      let localContacts = contactService.getAll();
+    this.loadContact();
+  }
 
+  loadContact() {
+    const localContacts = contactService.getAll();
+
+    NetInfo.fetch().then(state => {
       if (localContacts.length == 0 && !state.isConnected)
         this.setState({ contacts: contacts });
       else if (localContacts.length > 0)
@@ -30,6 +37,10 @@ export default class Contact extends Component {
       else {
         contactService.downloadContacts(() => {
           this.setState({ contacts: contactService.getAll() });
+        }, () => {
+          this.setState({
+            visibleModal: true
+          });
         });
       }
     });
@@ -43,10 +54,26 @@ export default class Contact extends Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{padding: 16, flexGrow: 1}}>
+      <ScrollView contentContainerStyle={{padding: 16, flexGrow: 1}}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isLoading}
+            onRefresh={() => this.loadContact()}
+          />
+        }
+      >
         { this.state.contacts.map((item, index) =>
           <ContactListItem contact={item} key={index} onPress={(contact) => this.callOrEmailTo(contact)}/>
         )}
+
+        <MessageModal
+          visible={this.state.visibleModal}
+          onDismiss={() => this.setState({ visibleModal: false })}
+          description={this.context.translations.errorDownloadContact}
+          hasConfirmButton={false}
+          confirmButtonLabel={this.context.translations.ok}
+          onPressConfirmButton={() => this.props.confirmDelete()}
+        />
       </ScrollView>
     );
   }

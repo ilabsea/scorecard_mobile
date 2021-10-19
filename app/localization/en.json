@@ -250,7 +250,7 @@
   "doYouWantToReturnToHomeScreen": "Do you want to return to the home screen?",
   "fullStopSign": ".",
   "scorecardSubmitFailed": "Scorecard submit failed",
-  "cannotSubmitThisScorecard": "Unable to submit scoring card, the reason may be due to",
+  "cannotSubmitThisScorecard": "Unable to submit this scorecard, the reason may be due to",
   "scorecardDeletedPleaseContactAdministrator": "or this scorecard({0}) is deleted in the server. Please contact the program administrator for more detail.",
   "facility": "Facility",
   "unauthorizedScorecardMessage": "This scorecard({0}) is invalid. Please contact to the program administrator for more detail.",
@@ -294,13 +294,14 @@
   "editCustomCriteria": "Edit Custom Criteria",
   "noCustomCriteria": "No custom Criteria",
   "rejoinScorecard": "Rejoin Scorecard",
-  "cannotDeleteThisScorecard": "Cannot delete this scorecard({0})!",
-  "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). Please contact the program administrator for more detail.",
   "failedToDownloadThisScorecardInformation": "No internet connection or the internet connection is too slow, please double check your internet connection then try to download again.",
   "selectedDateIsBeforePlannedStartDate": "The selected date is before the planned start date ({0})",
   "selectedDateIsAfterPlannedEndDate": "The selected date is after the planned end date ({0})",
   "notVoted": "Not voted",
   "allCriteriaMustBeVoted": "All criteria must be voted",
   "allCriteriaMustHaveSuggestedAction": "All criteria must have suggested action",
-  "pleaseCompleteAllTheSteps": "Please complete all the steps"
+  "pleaseCompleteAllTheSteps": "Please complete all the steps",
+  "cannotDeleteThisScorecard": "Unable to delete this scorecard ({0}). It may be caused by no internet connection or the internet connection is too slow, please double check your internet connection then try to delete the scorecard again.",
+  "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to submit the scorecard again or contact the program administrator for more detail.",
+  "errorDownloadContact": "Unable to get the contact information. It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to re-download the contact information by pull down on the contact screen."
 }

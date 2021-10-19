@@ -108,7 +108,7 @@ class Setting extends Component {
       MobileTokenService.updateToken(responseData.program_id);
 
       authenticationFormService.clearErrorAuthentication();
-      contactService.downloadContacts(null);
+      contactService.downloadContacts(null, null);
 
       this.setState({isLoading: false});
       this.props.navigation.goBack();
