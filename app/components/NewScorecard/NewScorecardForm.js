@@ -59,7 +59,7 @@ class NewScorecardForm extends Component {
 
   render() {
     return (
-      <View style={responsiveStyles.formContainer}>
+      <View style={[responsiveStyles.formContainer, this.props.errorMsg != '' ? { marginBottom: getDeviceStyle(-30, 0) } : {}]}>
         <ScorecardCodeInput
           ref={this.props.scorecardRef}
           joinScorecard={this.joinScorecard}

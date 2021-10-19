@@ -4,7 +4,7 @@ import Color from '../../themes/color';
 const ButtonForgetCodeComponentStyles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 20
   },
   button: {
     flexDirection: 'row',
