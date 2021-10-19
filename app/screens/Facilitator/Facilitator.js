@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable} from 'react-native';
+import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable, KeyboardAvoidingView} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
@@ -35,7 +35,8 @@ class FacilitatorScreen extends Component {
   }
 
   loadFacilitators() {
-    const cafs = Caf.findByLngoId(this.props.route.params.local_ngo_id);
+    let cafs = Caf.findByLngoId(this.props.route.params.local_ngo_id);
+    cafs = !!cafs && JSON.parse(JSON.stringify(cafs)).sort((a, b) => a.name > b.name);
 
     this.setState({facilitators: cafs.map((caf) => ({ label: caf.name, value: caf.id.toString(), disabled: false}))});
 
@@ -106,30 +107,32 @@ class FacilitatorScreen extends Component {
               />
             }
           />
-          <ScrollView contentContainerStyle={styles.container}>
-            <Spinner
-              visible={this.state.isLoading}
-              color={Color.primaryColor}
-              overlayColor={Color.loadingBackgroundColor}
-            />
-
-            <Pressable onPress={() => this.formRef.current.closeSelectBox(null)}
-              style={{paddingBottom: this.state.containerPaddingBottom}}
-            >
-              <HeaderTitle
-                headline="facilitatorList"
-                subheading="pleaseFillInformationBelow"
+          <KeyboardAvoidingView behavior='padding' style={{flex: 1}}>
+            <ScrollView contentContainerStyle={styles.container}>
+              <Spinner
+                visible={this.state.isLoading}
+                color={Color.primaryColor}
+                overlayColor={Color.loadingBackgroundColor}
               />
 
-              <FacilitatorForm
-                ref={this.formRef}
-                facilitators={this.state.facilitators}
-                selectedFacilitators={this.state.selectedFacilitators}
-                onChangeFacilitator={this.onChangeFacilitator}
-                updateContainerPadding={(value) => this.setState({ containerPaddingBottom: value })}
-              />
-            </Pressable>
-          </ScrollView>
+              <Pressable onPress={() => this.formRef.current.closeSelectBox(null)}
+                style={{paddingBottom: this.state.containerPaddingBottom}}
+              >
+                <HeaderTitle
+                  headline="facilitatorList"
+                  subheading="pleaseFillInformationBelow"
+                />
+
+                <FacilitatorForm
+                  ref={this.formRef}
+                  facilitators={this.state.facilitators}
+                  selectedFacilitators={this.state.selectedFacilitators}
+                  onChangeFacilitator={this.onChangeFacilitator}
+                  updateContainerPadding={(value) => this.setState({ containerPaddingBottom: value })}
+                />
+              </Pressable>
+            </ScrollView>
+          </KeyboardAvoidingView>
 
           { this.renderNextButton() }
         </View>
