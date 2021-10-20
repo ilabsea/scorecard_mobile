@@ -1,6 +1,7 @@
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'react-native-fetch-blob'
 import Share from 'react-native-share';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { downloadFileFromUrl, isFileExist, deleteFile } from './local_file_system_service';
 
@@ -25,11 +26,12 @@ const scorecardSharingService = (() => {
   }
 
   // private method
-  function _downloadAndShareFile(scorecardUuid) {
+  async function _downloadAndShareFile(scorecardUuid) {
     const fileName = `${scorecardUuid}.pdf`;
+    const domain = await AsyncStorage.getItem('ENDPOINT_URL');
+    const endpoint = `${domain}/api/v1/scorecards/${scorecardUuid}.pdf`;
 
-    // To do: replace the static url with download scorecard pdf file endpoint
-    downloadFileFromUrl('http://www.africau.edu/images/default/sample.pdf', fileName, async (isSuccess, response, localFilePath) => {
+    downloadFileFromUrl(endpoint, fileName, async (isSuccess, response, localFilePath) => {
       if (isSuccess)
         _shareFile(localFilePath);
       else
