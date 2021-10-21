@@ -14,7 +14,7 @@ const CriteriaRatingItemComponentStyles = StyleSheet.create({
     paddingTop: 3
   },
   ratingIndicatorWrapper: {
-    backgroundColor: '#f9f6e3',
+    backgroundColor: Color.accordionContentBgColor,
     paddingBottom: 20,
     paddingHorizontal: 16,
     paddingTop: 8,
