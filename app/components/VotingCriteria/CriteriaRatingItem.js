@@ -90,34 +90,29 @@ export default class CriteriaRatingItem extends Component {
     )
   }
 
-  indicatorBackgroundColor() {
-    if (this.props.colIndex % 2 == 0)
-      return { backgroundColor: Color.whiteColor };
-
-    return { backgroundColor: Color.lightGrayColor };
-  }
-
   _renderRatingIcons() {
     let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria, this.state.scorecard);
 
     return (
-      <View style={[responsiveStyles.ratingIndicatorContainer, this.indicatorBackgroundColor()]}>
-        <PlaySound filePath={indicator.local_audio} isHeader={true}
-          containerStyle={responsiveStyles.ratingIconContainer}
-        >
-          <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
-            { indicator.content || indicator.name}
-          </Text>
-        </PlaySound>
+      <View style={responsiveStyles.ratingIndicatorContainer}>
+        <View style={responsiveStyles.ratingIndicatorWrapper}>
+          <PlaySound filePath={indicator.local_audio} isHeader={true}
+            containerStyle={responsiveStyles.ratingIconContainer}
+          >
+            <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
+              { indicator.content || indicator.name}
+            </Text>
+          </PlaySound>
 
-        { !DeviceInfo.isTablet() &&
-          <View style={{flexDirection: 'row', paddingLeft: 0, marginLeft: -2, justifyContent: 'center'}}>
-            { ratings.map((rating, index) => this._renderRatingLabel(rating, index)) }
+          { !DeviceInfo.isTablet() &&
+            <View style={{flexDirection: 'row', paddingLeft: 0, marginLeft: -2, justifyContent: 'center'}}>
+              { ratings.map((rating, index) => this._renderRatingLabel(rating, index)) }
+            </View>
+          }
+
+          <View style={responsiveStyles.ratingListContainer}>
+            { ratings.map((rating, index) => this._renderRatingIcon(rating, index)) }
           </View>
-        }
-
-        <View style={responsiveStyles.ratingListContainer}>
-          { ratings.map((rating, index) => this._renderRatingIcon(rating, index)) }
         </View>
       </View>
     )

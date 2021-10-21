@@ -8,8 +8,16 @@ let iconSizeRatio = iconSize * 0.8;
 
 const CriteriaRatingItemComponentStyles = StyleSheet.create({
   ratingIndicatorContainer: {
+    borderColor: Color.paleGrayColor,
+    shadowOffset: {width: 0, height: 1},
+    elevation: 1.8,
+    paddingTop: 3
+  },
+  ratingIndicatorWrapper: {
+    backgroundColor: Color.accordionContentBgColor,
     paddingBottom: 20,
     paddingHorizontal: 16,
+    paddingTop: 8,
   },
   ratingIconContainer: {
     flexDirection: 'row',
@@ -17,7 +25,7 @@ const CriteriaRatingItemComponentStyles = StyleSheet.create({
     marginRight: 40,
   },
   indicatorLabel: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: FontFamily.title,
     textTransform: 'capitalize',
     marginRight: 10,
@@ -32,7 +40,7 @@ const CriteriaRatingItemComponentStyles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 8,
     borderWidth: 4,
-    borderColor: '#ebebeb',
+    borderColor: '#d1d2d4',
     paddingBottom: 10,
     borderRadius: 10
   },

@@ -66,12 +66,16 @@ class VotingCriteriaForm extends Component {
     return (
       this.state.criterias.map((criteria, index) => {
         return (
-          <CriteriaRatingItem
-            key={criteria.uuid}
-            criteria={criteria}
-            onPress={ (rating) => this.onClickRatingIcon(criteria, rating) }
-            colIndex={index}
-          />
+          <React.Fragment key={`${criteria.uuid}_${index}`}>
+            <CriteriaRatingItem
+              key={criteria.uuid}
+              criteria={criteria}
+              onPress={ (rating) => this.onClickRatingIcon(criteria, rating) }
+              colIndex={index}
+            />
+
+            { index < this.state.criterias.length - 1 && <View style={responsiveStyles.itemSeparator} /> }
+          </React.Fragment>
         )
       })
     )
