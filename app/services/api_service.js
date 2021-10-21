@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_NOT_FOUND, ERROR_UNAUTHORIZED, ERROR_UNPROCESSABLE, ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
+import {
+  ERROR_AUTHENTICATION, ERROR_ENDPOINT, ERROR_NOT_FOUND, ERROR_UNAUTHORIZED,
+  ERROR_UNPROCESSABLE, ERROR_DOWNLOAD_SCORECARD, ERROR_SOMETHING_WENT_WRONG
+} from '../constants/error_constant';
 import authenticationHelper from '../helpers/authentication_helper';
 import authenticationService from './authentication_service';
 
@@ -34,6 +37,7 @@ const getErrorType = (errorStatus) => {
     404: ERROR_NOT_FOUND,
     422: ERROR_UNPROCESSABLE,
     'ERROR_DOWNLOAD_SCORECARD': ERROR_DOWNLOAD_SCORECARD,
+    'ERROR_SOMETHING_WENT_WRONG': ERROR_SOMETHING_WENT_WRONG,
     'default': ERROR_ENDPOINT
   }
 

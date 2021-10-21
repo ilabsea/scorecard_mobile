@@ -1,22 +1,15 @@
 import React, {Component} from 'react';
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  Text
-} from 'react-native';
+import { View, ScrollView } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { LocalizationContext } from '../../components/Translations';
 import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
-import MessageModal from '../../components/MessageModal';
 import ScorecardProgressTitle from '../../components/ScorecardProgress/ScorecardProgressTitle';
 import ScorecardProgressButtons from '../../components/ScorecardProgress/ScorecardProgressButtons';
 import ScorecardProgressHeader from '../../components/ScorecardProgress/ScorecardProgressHeader';
 
 import Color from '../../themes/color';
-import { Icon } from 'native-base';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 import Scorecard from '../../models/Scorecard';
@@ -41,10 +34,10 @@ class ScorecardProgress extends Component {
       showProgress: false,
       visibleModal: false,
       errorType: null,
-      visibleMessageModal: false,
       hasInternetConnection: false,
       messageModalTitle: null,
       messageModalDescription: null,
+      isLoading: false,
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
@@ -59,22 +52,6 @@ class ScorecardProgress extends Component {
   componentWillUnmount() {
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
-  }
-
-  _renderBtnDownload() {
-    const { translations } = this.context
-
-    return (
-      <TouchableOpacity style={[styles.btn, styles.btnOutline]}>
-        <View style={{flex: 1}}></View>
-
-        <Text style={styles.btnOutlineText}>{translations['resumeDownload']}</Text>
-
-        <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <Icon name={'cloud-download-outline'} style={{color: Color.headerColor, marginRight: 20}}/>
-        </View>
-      </TouchableOpacity>
-    )
   }
 
   async submitToServer() {
@@ -129,14 +106,6 @@ class ScorecardProgress extends Component {
     }, 60000);
   }
 
-  showMessageModal = (title, description) => {
-    this.setState({
-      visibleMessageModal: true,
-      messageModalTitle: title,
-      messageModalDescription: description,
-    });
-  }
-
   updateScorecard() {
     this.setState({
       scorecard: Scorecard.find(this.props.currentScorecard.uuid)
@@ -149,7 +118,11 @@ class ScorecardProgress extends Component {
         <ScorecardProgressHeader
           scorecard={this.state.scorecard}
           onBackPress={() => this.props.navigation.goBack()}
+          updateLoadingStatus={(status) => this.setState({isLoading: status})}
+          updateErrorMessageModal={(errorType, visibleModal) => this.setState({ errorType, visibleModal })}
         />
+
+        <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
         <ScrollView contentContainerStyle={responsiveStyles.container}>
           <ScorecardProgressTitle scorecard={this.state.scorecard} />
@@ -158,7 +131,6 @@ class ScorecardProgress extends Component {
             progressIndex={this.state.scorecard.status || 3}
             scorecard={this.state.scorecard}
             navigation={this.props.navigation}
-            showMessageModal={this.showMessageModal}
           />
         </ScrollView>
 
@@ -178,14 +150,6 @@ class ScorecardProgress extends Component {
           isSubmit={true}
           isNewScorecard={false}
           scorecardUuid={this.state.scorecard.uuid}
-        />
-
-        <MessageModal
-          visible={this.state.visibleMessageModal}
-          onDismiss={() => this.setState({visibleMessageModal: false})}
-          title={this.state.messageModalTitle}
-          description={this.state.messageModalDescription}
-          hasConfirmButton={false}
         />
       </View>
     )
@@ -207,22 +171,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ScorecardProgress);
-
-const styles = StyleSheet.create({
-  btnDisabled: {
-    backgroundColor: Color.disabledBtnBg,
-  },
-  btnOutline: {
-    backgroundColor: 'transparent',
-    borderColor: Color.headerColor,
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 20
-  },
-  btnOutlineText: {
-    color: Color.headerColor,
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: 'center'
-  },
-})
