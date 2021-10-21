@@ -5,9 +5,9 @@ import Color from '../../themes/color';
 const AccordionSwitcherComponentStyles = StyleSheet.create({
   filterBtn: {
     paddingVertical: 6,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: Color.clickableColor,
-    width: wp('26%')
+    width: wp('30%')
   },
   activeBtn: {
     backgroundColor: Color.clickableColor

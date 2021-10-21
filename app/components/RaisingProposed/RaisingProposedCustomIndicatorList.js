@@ -2,75 +2,40 @@ import React, {Component} from 'react';
 import { Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import CriteriaAudioButton from './CriteriaAudioButton';
-import IndicatorCard from './IndicatorCard';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
+import CriteriaSelectionItems from './CriteriaSelectionItems';
+
 import { getDeviceStyle } from '../../utils/responsive_util';
 import NoDataMessageTabletStyles from '../../styles/tablet/NoDataMessageComponentStyle';
 import NoDataMessageMobileStyles from '../../styles/mobile/NoDataMessageComponentStyle';
 
 const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
 
+let _this = null;
 class RaisingProposedCustomIndicatorList extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
-
-    this.audioPlayer = null;
-    this.state = {
-      playingIndicatorId: null,
-    };
+    _this = this;
   }
 
-  updateAudioState = (indicatorId, audioPlayer) => {
-    this.setState({playingIndicatorId: indicatorId});
-    this.audioPlayer = audioPlayer;
+  selectIndicator(index) {
+    const indicator = _this.props.indicators[index];
+    _this.props.editCustomIndicator(indicator);
   }
-
-  audioButton = (indicator, index) => {
-    return (
-      <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
-        playingIndicatorId={this.state.playingIndicatorId}
-        updateAudioState={this.updateAudioState}
-        scorecardUUID={this.props.scorecardUuid}
-        isAddNewCriteria={false}
-      />
-    );
-  }
-
-  selectIndicator(indicator) {
-    this.state.audioPlayer = null;
-    this.props.editCustomIndicator(indicator)
-  }
-
-  renderIndicatorItems = () => {
-    return this.props.indicators.map((indicator, index) => {
-      const itemKey = 'indicator-card-' + index;
-
-      return (
-        <IndicatorCard
-          indicators={this.props.indicators}
-          indicator={indicator}
-          customIndicator={null}
-          index={index}
-          scorecardUuid={this.props.scorecardUuid}
-          selectIndicator={() => this.selectIndicator(indicator)}
-          selectedIndicators={this.props.selectedCustomIndicator ? [this.props.selectedCustomIndicator] : []}
-          isSearching={this.props.isSearching}
-          key={itemKey}
-        >
-          {this.audioButton(indicator, index)}
-        </IndicatorCard>
-      )
-    });
-  }
-
 
   renderInidcatorList() {
     return (
       <RaisingProposedScrollView>
-        { this.renderIndicatorItems() }
+        <CriteriaSelectionItems
+          indicators={this.props.indicators}
+          selectedIndicators={this.props.selectedCustomIndicator ? [this.props.selectedCustomIndicator] : []}
+          isSearching={this.props.isSearching}
+          isEdit={true}
+          scorecardUuid={this.props.scorecardUuid}
+          selectIndicator={this.selectIndicator}
+        />
       </RaisingProposedScrollView>
     )
   }

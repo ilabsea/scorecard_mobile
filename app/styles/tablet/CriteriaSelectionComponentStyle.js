@@ -12,7 +12,7 @@ const CriteriaSelectionComponentStyles = StyleSheet.create({
     borderRadius: cardBorderRadius,
     flexDirection: 'row',
     marginBottom: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     width: itemWidth,
     height: itemHeight,
     shadowColor: Color.blackColor,

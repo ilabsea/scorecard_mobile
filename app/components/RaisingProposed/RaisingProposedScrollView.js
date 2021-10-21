@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import { ScrollView, View } from 'react-native';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { ScrollView, Pressable, Keyboard } from 'react-native';
 
 class RaisingProposedScrollView extends Component {
   render() {
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 28}}
+      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 28, marginHorizontal: -8}}
         keyboardShouldPersistTaps='handled'
         showsVerticalScrollIndicator={false}
       >
-        <View style={[{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -10, marginTop: 10},
-          getDeviceStyle({}, { justifyContent: 'center' })]}
-        >
+        <Pressable onPress={() => Keyboard.dismiss()}>
           { this.props.children }
-        </View>
+        </Pressable>
       </ScrollView>
     )
   }

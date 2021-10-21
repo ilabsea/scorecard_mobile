@@ -8,8 +8,7 @@ const AccordionSwitcherComponentStyles = StyleSheet.create({
     paddingVertical: 6,
     borderWidth: 1,
     borderColor: Color.clickableColor,
-    // width: wp('32%')
-    width: wp('34%')
+    width: wp('36%')
   },
   activeBtn: {
     backgroundColor: Color.clickableColor
