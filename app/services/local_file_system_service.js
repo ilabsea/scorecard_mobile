@@ -1,8 +1,15 @@
 import RNFS from 'react-native-fs';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const downloadFileFromUrl = async (url, filename, callback) => {
   let background = false;
+  const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
+
   let options = {
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Token ${authToken}`,
+    },
     fromUrl: url,
     toFile: `${RNFS.DocumentDirectoryPath}/${filename}`,
     background,
@@ -32,4 +39,8 @@ const readAllFiles = (callback) => {
     })
 }
 
-export {downloadFileFromUrl, isFileExist, readAllFiles};
+const deleteFile = (fileName) => {
+  RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${fileName}`);
+}
+
+export {downloadFileFromUrl, isFileExist, readAllFiles, deleteFile};

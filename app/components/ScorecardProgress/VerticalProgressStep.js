@@ -12,7 +12,6 @@ import MilestoneCard from './MilestoneCard';
 import ScorecardStep from '../../models/ScorecardStep';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import { SCORECARD_RESULT } from '../../constants/scorecard_step_constant';
 
 const badgeSize = getDeviceStyle(40, wp('9%'));
 
@@ -20,16 +19,6 @@ export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
 
   onPress(step) {
-    const { translations } = this.context;
-
-    if ((this.props.scorecard.finished || this.props.scorecard.isUploaded) && step.value != SCORECARD_RESULT) {
-      const title = this.props.scorecard.isUploaded ? translations.locked : translations.scorecardIsFinished;
-      const description = this.props.scorecard.isUploaded ? translations.alreadyUploaded : translations.alreadyFinished;
-
-      this.props.showMessageModal(title, description);
-      return;
-    }
-
     this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecard.uuid, local_ngo_id: this.props.scorecard.local_ngo_id })
   }
 

@@ -14,6 +14,9 @@ import java.util.List;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnativecommunity.rctaudiotoolkit.AudioPackage;
 
+import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =

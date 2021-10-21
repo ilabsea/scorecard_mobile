@@ -303,5 +303,6 @@
   "pleaseCompleteAllTheSteps": "Please complete all the steps",
   "cannotDeleteThisScorecard": "Unable to delete this scorecard ({0}). It may be caused by no internet connection or the internet connection is too slow, please double check your internet connection then try to delete the scorecard again.",
   "errorSubmitScorecardMessage": "Unable to submit this scorecard ({0}). It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to submit the scorecard again or contact the program administrator for more detail.",
-  "errorDownloadContact": "Unable to get the contact information. It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to re-download the contact information by pull down on the contact screen."
+  "errorDownloadContact": "Unable to get the contact information. It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to re-download the contact information by pull down on the contact screen.",
+  "somethingWentWrongPleaseTryAgain": "Something went wrong. Please check your internet connection then try again."
 }
