@@ -6,8 +6,6 @@ import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
 import { LocalizationContext } from '../Translations';
 import IndicatorService from '../../services/indicator_service';
-import customIndicatorService from '../../services/custom_indicator_service';
-
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
 
 class SearchableHeader extends Component {
@@ -36,7 +34,7 @@ class SearchableHeader extends Component {
   onChangeSearch(text) {
     const { translations } = this.context;
     this.setState({ query: text });
-    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, this.props.participantUuid, text, translations.addNewCriteria);
+    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, translations.addNewCriteria, this.props.selectedIndicators);
 
     this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
   }

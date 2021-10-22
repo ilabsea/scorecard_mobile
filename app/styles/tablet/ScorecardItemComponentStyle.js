@@ -11,6 +11,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     borderBottomWidth: 0.5,
     borderBottomColor: Color.paleGrayColor,
+    marginBottom: 0.1,
   },
   titleContainer: {
     flexDirection: 'row',

@@ -6,7 +6,6 @@ import { downloadFileFromUrl, isFileExist } from './local_file_system_service';
 import IndicatorApi from '../api/IndicatorApi';
 import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
-import proposedCriteriaService from './proposedCriteriaService';
 
 import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_constant';
 import  { getIndicatorShortcutName } from '../utils/indicator_util';
@@ -124,10 +123,9 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  getIndicatorList = (scorecardUuid, participantUuid, searchText, addNewLabel) => {
+  getIndicatorList = (scorecardUuid, searchText, addNewLabel, selectedIndicators) => {
     let savedIndicators = [];
     let hasAddNewIndicator = true;
-    const proposedCriterias = proposedCriteriaService.getAllByParticipant(scorecardUuid, participantUuid);
 
     if (searchText != '') {
       savedIndicators = Indicator.filter(scorecardUuid, searchText);
@@ -136,7 +134,7 @@ class IndicatorService {
     else
       savedIndicators = this.getAll(scorecardUuid);
 
-    return this._getIndicatorAttrs(savedIndicators, proposedCriterias, addNewLabel, hasAddNewIndicator);
+    return this._getIndicatorAttrs(savedIndicators, selectedIndicators, addNewLabel, hasAddNewIndicator);
   }
 
   find = (indicatorId) => {
@@ -157,6 +155,7 @@ class IndicatorService {
     savedIndicators.map((indicator) => {
       let attrs = {
         uuid: indicator.id || indicator.uuid,
+        indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
         name: indicator.name,
         shortcut: getIndicatorShortcutName(indicator.name),
         isSelected: false,

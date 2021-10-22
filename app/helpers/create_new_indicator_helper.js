@@ -62,11 +62,13 @@ const createNewIndicatorHelper = (() => {
     let newUnselectedIndicators = unselectedIndicators;
 
     if (indicators[index].isSelected) {
-      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
+      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.indicatorable_id !== indicators[index].indicatorable_id);
       newUnselectedIndicators.push(indicators[index]);
     }
     else if (indicators[index].uuid != '') {
-      newSelectedIndicators.push(indicators[index]);
+      const newIindicator = indicators[index];
+      newIindicator['indicatorable_id'] = newIindicator.uuid.toString();
+      newSelectedIndicators.push(newIindicator);
       newUnselectedIndicators = newUnselectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
     }
 
@@ -96,17 +98,21 @@ const createNewIndicatorHelper = (() => {
 
   function createNewProposedIndicator(scorecardUuid, participantUuid, selectedIndicators) {
     selectedIndicators.map((indicator) => {
-      const attrs = {
-        uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
-        scorecard_uuid: scorecardUuid.toString(),
-        indicatorable_id: indicator.uuid.toString(),
-        indicatorable_type: indicator.type || CUSTOM,
-        indicatorable_name: indicator.name,
-        participant_uuid: participantUuid,
-        tag: indicator.tag
-      };
+      const indicatorId = indicator.indicatorable_id || indicator.uuid;
 
-      ProposedCriteria.create(attrs);
+      if (ProposedCriteria.findByParticipant(indicatorId, participantUuid).length == 0) {
+        const attrs = {
+          uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
+          scorecard_uuid: scorecardUuid.toString(),
+          indicatorable_id: indicator.uuid.toString(),
+          indicatorable_type: indicator.type || CUSTOM,
+          indicatorable_name: indicator.name,
+          participant_uuid: participantUuid,
+          tag: indicator.tag
+        };
+
+        ProposedCriteria.create(attrs);
+      }
     });
   }
 
