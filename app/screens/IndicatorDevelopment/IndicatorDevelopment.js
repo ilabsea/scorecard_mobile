@@ -1,24 +1,15 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import { Text } from 'native-base';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
-import SelectedCriteriaItem from '../../components/IndicatorDevelopment/SelectedCriteriaItem';
-import NoDataMessage from '../../components/NoDataMessage';
-import OutlinedButton from '../../components/OutlinedButton';
+import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
 
 import Color from '../../themes/color';
-import Tip from '../../components/Tip';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 
 import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
@@ -74,6 +65,7 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
+    // console.log('selected Criterias == ', this.props.selectedCriterias)
     votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias, (savedCriterias) => {
       this.props.setVotingCriterias(savedCriterias);
     });
@@ -81,58 +73,15 @@ class IndicatorDevelopment extends Component {
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 
-  _renderSelectedCriterias() {
-    let selectedCriterias = this.props.selectedCriterias.filter(criteria => criteria.scorecard_uuid == this.props.route.params.scorecard_uuid);
-    let doms = selectedCriterias.map((criteria, index) => <SelectedCriteriaItem criteria={criteria} key={index}/>);
-
-    return (
-      <View>
-        {doms}
-      </View>
-    )
-  }
-
-  _renderNoData() {
-    const { translations } = this.context;
-
-    return (
-      <NoDataMessage
-        title={translations.pleaseAddCriteria}
-        buttonLabel={translations.criteria}
-        onPress={() => this.setState({visibleModal: true}) }
-        customContainerStyle={{marginTop: -30}}
-      />
-    );
-  }
-
-  _renderBtnAddCriteria() {
-    const { translations } = this.context;
-
-    return (
-      <OutlinedButton
-        icon="plus"
-        label={translations.addNew}
-        onPress={() => this.setState({visibleModal: true}) }
-      />
-    )
-  }
-
   _renderContent() {
-    const { translations } = this.context;
-    const hasData = !!this.props.selectedCriterias.length;
-
+    // TO DO: update selectedCriterias props only when user click button NEXT in order to prevent the user from getting the new order without updating the order of voting criterias in realm
     return (
-      <View style={{flex: 1}}>
-        <View style={responsiveStyles.titleContainer}>
-          <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ translations.indicatorDevelopment }</Text>
-
-          { hasData && this._renderBtnAddCriteria() }
-        </View>
-
-        { !hasData && this._renderNoData() }
-
-        { hasData && this._renderSelectedCriterias() }
-      </View>
+      <IndicatorDevelopmentContent
+        selectedCriterias={this.props.selectedCriterias}
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        openModal={() => this.setState({ visibleModal: true })}
+        updateSelectedCriteriasOrder={(criterias) => this.props.setSelectedCriterias(criterias)}
+      />
     )
   }
 
@@ -143,11 +92,9 @@ class IndicatorDevelopment extends Component {
       <View style={{flex: 1}}>
         { this._renderHeader() }
 
-        <ScrollView contentContainerStyle={styles.container}>
-          <Tip screenName={'IndicatorDevelopment'}/>
-
+        <View style={styles.container}>
           { this._renderContent() }
-        </ScrollView>
+        </View>
 
         { !!this.props.selectedCriterias.length &&
           <View style={{padding: containerPadding}}>
@@ -192,14 +139,4 @@ const styles = StyleSheet.create({
     padding: containerPadding,
     flexGrow: 1,
   },
-  h1: {
-    fontSize: 24,
-    fontFamily: FontFamily.title,
-    marginBottom: 20
-  },
-  listWrapper: {
-    flexDirection: 'row',
-    flex: 1,
-    marginBottom: 20
-  }
 })

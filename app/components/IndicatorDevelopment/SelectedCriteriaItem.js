@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import {
-  View,
-} from 'react-native';
-
-import { Button } from 'react-native-paper';
+import { View, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
+
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { addToProposed } from '../../actions/proposedCriteriaAction';
 
@@ -44,12 +42,23 @@ class SelectedCriteriaItem extends Component {
     this.props.addToProposed(this.props.criteria);
   }
 
+  renderRemoveButton() {
+    return (
+      <TouchableOpacity onPress={() => this.handleCriteria()} style={responsiveStyles.removeButton}>
+        <Icon name='trash' size={16} style={responsiveStyles.removeIcon} />
+        <Text style={[styles.buttonLabel, responsiveStyles.removeLabel]}>
+          { this.context.translations['remove'] }
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
     const { translations } = this.context;
 
     return (
       <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
-        <View style={[styles.contentWrapper, {paddingLeft: 0, flexDirection: 'column', paddingTop: 0}]}>
+        <View style={[responsiveStyles.listItem, this.props.isActive ? responsiveStyles.selectedItem : {}]}>
 
           <CriteriaTitle
             title={this.state.indicator.content}
@@ -60,14 +69,13 @@ class SelectedCriteriaItem extends Component {
             customTitleStyle={responsiveStyles.titleText}
             customSubTextStyle={responsiveStyles.subText}
             customAudioContainerStyle={{justifyContent: 'center'}}
+            isDraggable={this.props.isDraggable}
+            onLongPress={this.props.onLongPress}
           />
 
-          <View style={[styles.viewDetail, responsiveStyles.viewDetailContainer]}>
-            <Button color='red' icon="trash-can-outline" mode="text" onPress={() => this.handleCriteria()}
-              labelStyle={[styles.buttonLabel, { marginTop: getDeviceStyle(6, 8) }]} style={{height: 40}}
-            >
-              { translations['remove'] }
-            </Button>
+          <View style={[responsiveStyles.viewDetailContainer]}>
+            <TouchableOpacity onLongPress={() => this.props.onLongPress()} style={{flexGrow: 1, height: '100%'}} />
+            { this.renderRemoveButton() }
           </View>
         </View>
       </View>
