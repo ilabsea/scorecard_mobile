@@ -37,15 +37,17 @@ class IndicatorDevelopmentContent extends Component {
     const hasData = !!this.props.selectedCriterias.length;
 
     return (
-      <View style={{flex: 1, paddingHorizontal: containerPadding}}>
-        <IndicatorDevelopmentList
-          scorecardUuid={this.props.scorecardUuid}
-          selectedCriterias={this.props.selectedCriterias}
-          updateSelectedCriteriasOrder={this.props.updateSelectedCriteriasOrder}
-          hasData={hasData}
-          openModal={this.props.openModal}
-          renderHeader={() => this.renderHeader()}
-        />
+      <View style={{flex: 1}}>
+        <View style={{flex: 1, paddingHorizontal: containerPadding}}>
+          <IndicatorDevelopmentList
+            scorecardUuid={this.props.scorecardUuid}
+            selectedCriterias={this.props.selectedCriterias}
+            updateSelectedCriteriasOrder={this.props.updateSelectedCriteriasOrder}
+            hasData={hasData}
+            openModal={this.props.openModal}
+            renderHeader={() => this.renderHeader()}
+          />
+        </View>
 
         { !hasData && this._renderNoData() }
       </View>

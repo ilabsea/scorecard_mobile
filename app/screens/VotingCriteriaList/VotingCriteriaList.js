@@ -24,9 +24,7 @@ import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo
 import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
 import { hasVoting } from '../../helpers/voting_criteria_helper';
-import votingCriteriaService from '../../services/votingCriteriaService';
-import tips from '../../db/jsons/tips';
-
+import VotingCriteria from '../../models/VotingCriteria';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import { xlLabelSize } from '../../constants/mobile_font_size_constant';
@@ -38,7 +36,7 @@ class VotingCriteriaList extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
-      votingCriterias: votingCriteriaService.getAll(props.route.params.scorecard_uuid),
+      votingCriterias: VotingCriteria.getAll(props.route.params.scorecard_uuid),
     };
   }
 

@@ -18,6 +18,7 @@ import Participant from '../models/Participant';
 import Rating from '../models/Rating';
 import LanguageIndicator from '../models/LanguageIndicator';
 import ScorecardReference from '../models/ScorecardReference';
+import VotingCriteria from '../models/VotingCriteria';
 
 import { getSuggestedActionAttrs } from '../helpers/voting_criteria_helper';
 
@@ -171,7 +172,7 @@ class ScorecardService extends BaseModelService {
   }
 
   votingCriteriasAttr() {
-    let votingCriterias = this.getJSON('VotingCriteria');
+    let votingCriterias = JSON.parse(JSON.stringify(VotingCriteria.getAll(this.scorecard_uuid)));
     let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action'];
 
     let votingCriteriaAttr = this.getCriteriaAttr(votingCriterias, columns);

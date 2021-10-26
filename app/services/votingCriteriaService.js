@@ -4,15 +4,13 @@ import ratings from '../db/jsons/ratings';
 import uuidv4 from '../utils/uuidv4';
 import { Median } from '../utils/math';
 import Rating from '../models/Rating';
+import VotingCriteria from '../models/VotingCriteria';
 
 const votingCriteriaService = (() => {
   return {
     submitVoting,
-    getAll,
     getSelectedTags,
     getSelectedIndicatorableIds,
-    create,
-    filterByTag,
     submitCriterias,
     savePlayingCriteriaAudio,
     isPlayingCriteria,
@@ -20,24 +18,16 @@ const votingCriteriaService = (() => {
     deleteVotingCriteria,
   }
 
-  function find(uuid) {
-    return realm.objects('VotingCriteria').filtered(`uuid='${uuid}'`)[0];
-  }
-
-  function getAll(scorecardUuid) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' SORT(order ASC)`);
-  }
-
   function getSelectedTags(scorecardUuid) {
-    return getAll(scorecardUuid).map(x => x.tag);
+    return VotingCriteria.getAll(scorecardUuid).map(x => x.tag);
   }
 
   function getSelectedIndicatorableIds(scorecardUuid) {
-    return getAll(scorecardUuid).map(x => x.indicatorable_id);
+    return VotingCriteria.getAll(scorecardUuid).map(x => x.indicatorable_id);
   }
 
   function cleanArchiveCriterias(scorecardUuid, selectedCriterias) {
-    let votingCriterias = votingCriteriaService.getAll(scorecardUuid);
+    let votingCriterias = VotingCriteria.getAll(scorecardUuid);
     let archiveCriterias = votingCriterias.filter(criteria =>
       !selectedCriterias.filter(sc => sc.indicatorable_id == criteria.indicatorable_id && sc.indicatorable_type == criteria.indicatorable_type).length
     )
@@ -46,23 +36,7 @@ const votingCriteriaService = (() => {
       Rating.destroy(scorecardUuid, votingCriteria.uuid);
     });
 
-    realm.write(() => {
-      realm.delete(archiveCriterias);
-    });
-  }
-
-  function create(data) {
-    realm.write(() => {
-      realm.create('VotingCriteria', data, 'modified');
-    });
-  }
-
-  function filterByTag(scorecardUuid, tag) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND tag='${tag}'`);
-  }
-
-  function filterByIndicator(scorecardUuid, indicatorable_id, indicatorable_type) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND indicatorable_id='${indicatorable_id}' AND indicatorable_type='${indicatorable_type}'`);
+    VotingCriteria.destroy(archiveCriterias);
   }
 
   function submitCriterias(scorecard_uuid, selectedCriterias, callback) {
@@ -72,7 +46,7 @@ const votingCriteriaService = (() => {
     for(let i=0; i<selectedCriterias.length; i++) {
       const order = i+1;
       let criteria = selectedCriterias[i];
-      let obj = filterByIndicator(criteria.scorecard_uuid, criteria.indicatorable_id, criteria.indicatorable_type)[0];
+      let obj = VotingCriteria.filterByIndicator(criteria.scorecard_uuid, criteria.indicatorable_id, criteria.indicatorable_type)[0];
 
       if (!!obj && obj.order == order) { continue; }
 
@@ -85,7 +59,7 @@ const votingCriteriaService = (() => {
         order: order,
       }
 
-      create(data);
+      VotingCriteria.upsert(data);
       savedCriterias.push(data);
     }
 
@@ -99,7 +73,7 @@ const votingCriteriaService = (() => {
     }
 
     function _updateCriteria(criteria) {
-      let criteriaObj = find(criteria.uuid);
+      let criteriaObj = VotingCriteria.findByUuid(criteria.uuid);
       realm.write(() => {
         criteriaObj[_getCountMethod(criteria)] += 1;
         criteriaObj.median = _getAverageScore(criteriaObj);
@@ -148,12 +122,10 @@ const votingCriteriaService = (() => {
   }
 
   function deleteVotingCriteria(scorecardUuid) {
-    const votingCriterias = votingCriteriaService.getAll(scorecardUuid);
+    const votingCriterias = VotingCriteria.getAll(scorecardUuid);
 
     if (votingCriterias.length > 0) {
-      realm.write(() => {
-        realm.delete(votingCriterias);
-      });
+      VotingCriteria.destroy(votingCriterias);
     }
   }
 })();
