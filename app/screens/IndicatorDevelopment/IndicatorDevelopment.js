@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import { connect } from 'react-redux';
-
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
@@ -10,7 +9,6 @@ import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/Pro
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
 
 import Color from '../../themes/color';
-
 import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
@@ -19,12 +17,7 @@ import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
-
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import IndicatorDevelopmentTabletStyles from '../../styles/tablet/IndicatorDevelopmentScreenStyle';
-import IndicatorDevelopmentMobileStyles from '../../styles/mobile/IndicatorDevelopmentScreenStyle';
-
-const responsiveStyles = getDeviceStyle(IndicatorDevelopmentTabletStyles, IndicatorDevelopmentMobileStyles);
+import { containerPadding } from '../../utils/responsive_util';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -44,9 +37,18 @@ class IndicatorDevelopment extends Component {
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 
-    let selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
+    this.updateCriteriasData();
+  }
+
+  componentWillUnmount() {
+    this.updateCriteriasData()
+  }
+
+  updateCriteriasData() {
+    const selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
     let proposedCriterias = proposedCriteriaService.getProposedCriterias(this.state.scorecard.uuid);
-    let selectedCriterias = proposedCriterias.filter(x => selectedIndicatorableIds.includes(x.indicatorable_id));
+    const selectedCriterias = proposedCriteriaService.getSelectedCriterias(this.state.scorecard.uuid, selectedIndicatorableIds);
+
     proposedCriterias = proposedCriterias.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
 
     this.props.setSelectedCriterias(selectedCriterias);
@@ -65,7 +67,6 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    // console.log('selected Criterias == ', this.props.selectedCriterias)
     votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias, (savedCriterias) => {
       this.props.setVotingCriterias(savedCriterias);
     });
@@ -74,15 +75,19 @@ class IndicatorDevelopment extends Component {
   }
 
   _renderContent() {
-    // TO DO: update selectedCriterias props only when user click button NEXT in order to prevent the user from getting the new order without updating the order of voting criterias in realm
     return (
       <IndicatorDevelopmentContent
         selectedCriterias={this.props.selectedCriterias}
         scorecardUuid={this.props.route.params.scorecard_uuid}
         openModal={() => this.setState({ visibleModal: true })}
-        updateSelectedCriteriasOrder={(criterias) => this.props.setSelectedCriterias(criterias)}
+        updateSelectedCriteriasOrder={(criterias) => this.updateSelectedCriteriasOrder(criterias)}
       />
     )
+  }
+
+  updateSelectedCriteriasOrder(criterias) {
+    if (!!criterias)
+      this.props.setSelectedCriterias(criterias);
   }
 
   render() {
@@ -92,9 +97,7 @@ class IndicatorDevelopment extends Component {
       <View style={{flex: 1}}>
         { this._renderHeader() }
 
-        <View style={styles.container}>
-          { this._renderContent() }
-        </View>
+        { this._renderContent() }
 
         { !!this.props.selectedCriterias.length &&
           <View style={{padding: containerPadding}}>
@@ -133,10 +136,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IndicatorDevelopment);
-
-const styles = StyleSheet.create({
-  container: {
-    padding: containerPadding,
-    flexGrow: 1,
-  },
-})

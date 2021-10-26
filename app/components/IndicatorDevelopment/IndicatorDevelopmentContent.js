@@ -5,7 +5,7 @@ import { LocalizationContext } from '../Translations';
 import IndicatorDevelopmentContentHeader from './IndicatorDevelopmentContentHeader';
 import IndicatorDevelopmentList from './IndicatorDevelopmentList';
 import NoDataMessage from '../NoDataMessage';
-
+import { containerPadding } from '../../utils/responsive_util';
 
 class IndicatorDevelopmentContent extends Component {
   static contextType = LocalizationContext;
@@ -37,7 +37,7 @@ class IndicatorDevelopmentContent extends Component {
     const hasData = !!this.props.selectedCriterias.length;
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, paddingHorizontal: containerPadding}}>
         <IndicatorDevelopmentList
           scorecardUuid={this.props.scorecardUuid}
           selectedCriterias={this.props.selectedCriterias}

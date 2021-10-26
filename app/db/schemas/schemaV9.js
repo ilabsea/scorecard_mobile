@@ -1,6 +1,6 @@
 import ProgramLanguage from '../migrations/v3/programLanguage';
 import Scorecard from '../migrations/v8/scorecard';
-import VotingCriteria from '../migrations/v79/votingCriteria';
+import VotingCriteria from '../migrations/v9/votingCriteria';
 import schemaHelper from '../../helpers/schema_helper';
 import { schemaNames } from '../../constants/schema_constant';
 

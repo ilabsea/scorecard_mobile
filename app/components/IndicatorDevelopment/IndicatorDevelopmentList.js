@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import SelectedCriteriaItem from './SelectedCriteriaItem';
-import { LocalizationContext } from '../Translations';
 
 class IndicatorDevelopmentList extends Component {
-  static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
 

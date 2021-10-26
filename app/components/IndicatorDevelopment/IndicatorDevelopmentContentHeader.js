@@ -5,7 +5,7 @@ import Tip from '../Tip';
 import OutlinedButton from '../OutlinedButton';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import IndicatorDevelopmentTabletStyles from '../../styles/tablet/IndicatorDevelopmentScreenStyle';
 import IndicatorDevelopmentMobileStyles from '../../styles/mobile/IndicatorDevelopmentScreenStyle';
 
@@ -15,30 +15,26 @@ class IndicatorDevelopmentContentHeader extends Component {
   static contextType = LocalizationContext;
 
   _renderBtnAddCriteria() {
-    const { translations } = this.context;
-
     return (
       <OutlinedButton
         icon="plus"
-        label={translations.addNew}
+        label={this.context.translations.addNew}
         onPress={() => this.props.openModal() }
       />
     )
   }
 
   render() {
-    const { translations } = this.context;
-
     return (
-      <React.Fragment>
+      <View style={{paddingTop: containerPadding}}>
         <Tip screenName={'IndicatorDevelopment'}/>
 
-        <View style={[responsiveStyles.titleContainer, { marginBottom: 25 }]}>
-          <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ translations.indicatorDevelopment }</Text>
+        <View style={responsiveStyles.titleContainer}>
+          <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ this.context.translations.indicatorDevelopment }</Text>
 
           { this.props.hasData && this._renderBtnAddCriteria() }
         </View>
-      </React.Fragment>
+      </View>
     )
   }
 }

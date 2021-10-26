@@ -25,7 +25,7 @@ const votingCriteriaService = (() => {
   }
 
   function getAll(scorecardUuid) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}'`);
+    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' SORT(order ASC)`);
   }
 
   function getSelectedTags(scorecardUuid) {
@@ -70,16 +70,19 @@ const votingCriteriaService = (() => {
     let savedCriterias = [];
 
     for(let i=0; i<selectedCriterias.length; i++) {
+      const order = i+1;
       let criteria = selectedCriterias[i];
       let obj = filterByIndicator(criteria.scorecard_uuid, criteria.indicatorable_id, criteria.indicatorable_type)[0];
-      if (!!obj) { continue; }
+
+      if (!!obj && obj.order == order) { continue; }
 
       let data = {
-        uuid: uuidv4(),
+        uuid: !!obj ? obj.uuid : uuidv4(),
         scorecard_uuid: criteria.scorecard_uuid,
         indicatorable_id: criteria.indicatorable_id,
         indicatorable_type: criteria.indicatorable_type,
         tag: criteria.tag,
+        order: order,
       }
 
       create(data);
