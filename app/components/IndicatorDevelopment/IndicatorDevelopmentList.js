@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import SelectedCriteriaItem from './SelectedCriteriaItem';
+import IndicatorDevelopmentTooltip from './IndicatorDevelopmentTooltip';
+import { isShortScreenDevice } from '../../utils/responsive_util';
 
+let _this = null;
 class IndicatorDevelopmentList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedCriterias: props.selectedCriterias
+      selectedCriterias: props.selectedCriterias,
+      isTooltipVisible: false
     }
     this.isComponentUnmounted = false;
+    _this = this;
   }
 
   componentWillUnmount() {
@@ -22,14 +27,26 @@ class IndicatorDevelopmentList extends Component {
       this.setState({ selectedCriterias: this.props.selectedCriterias })
   }
 
-  renderItem({item, index, drag, isActive}) {
-    return (
+  renderItem(params, isTooltipVisible) {
+    const {item, index, drag, isActive} = params;
+    const selectedCriteriaItem = (
       <SelectedCriteriaItem criteria={item} key={index}
         isDraggable={true}
         onLongPress={drag}
         isActive={isActive}
       />
     )
+
+    if ((index <= 2 && !isShortScreenDevice()) || (index <= 1 && isShortScreenDevice()))
+      return (
+        <IndicatorDevelopmentTooltip index={index} isTooltipVisible={isTooltipVisible}
+          updateTooltipStatus={(status) => _this.setState({isTooltipVisible: status})}
+        >
+          {selectedCriteriaItem}
+        </IndicatorDevelopmentTooltip>
+      );
+    
+    return selectedCriteriaItem;
   }
 
   updateCriteriasOrder(data) {
@@ -45,7 +62,7 @@ class IndicatorDevelopmentList extends Component {
         data={selectedCriterias}
         onDragEnd={({ data }) => this.updateCriteriasOrder(data)}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={this.renderItem}
+        renderItem={(params) => this.renderItem(params, this.state.isTooltipVisible)}
         containerStyle={{marginHorizontal: -4}}
         ListHeaderComponent={this.props.renderHeader()}
       />
