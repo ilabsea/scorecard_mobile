@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { addToProposed } from '../../actions/proposedCriteriaAction';
@@ -31,10 +32,25 @@ class SelectedCriteriaItem extends Component {
       indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard),
       scorecard: this.scorecard,
     };
+
+    this.isComponentUnmount = false;
   }
 
   static getDerivedStateFromProps(props, state) {
     return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, state.scorecard) };
+  }
+
+  async componentDidMount() {
+    const tooltipShown = await AsyncStorage.getItem('DRAG_DROP_TOOLTIP');
+
+    setTimeout(() => {
+      if (!this.isComponentUnmount && !tooltipShown)
+        this.props.updateFirstVisitStatus(true);
+    }, 200);
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmount = true;
   }
 
   handleCriteria() {

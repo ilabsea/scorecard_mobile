@@ -2,7 +2,7 @@ import { Dimensions, PixelRatio } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import { smallMobileHeight, smallWidthMobile, XXHDPIRatio } from '../constants/screen_size_constant';
+import { smallMobileHeight, mediumMobileHeight, smallWidthMobile, XXHDPIRatio } from '../constants/screen_size_constant';
 import { xlLabelSize, lgLabelSize, mdLabelSize } from '../constants/mobile_font_size_constant';
 
 const isTablet = DeviceInfo.isTablet();
@@ -15,6 +15,10 @@ const getDeviceStyle = (tabletStyle, mobileStyle) => {
 
 const isShortScreenDevice = () => {
   return screenHeight <= smallMobileHeight;
+}
+
+const isMediumScreenDevice = () => {
+  return screenHeight <= mediumMobileHeight && !isShortScreenDevice();
 }
 
 const isShortWidthScreen = () => {
@@ -63,6 +67,7 @@ const navigationBackButtonFlex = 0.22;
 export {
   getDeviceStyle,
   isShortScreenDevice,
+  isMediumScreenDevice,
   isShortWidthScreen,
   mobileHeadingTitleSize,
   mobileSubTitleSize,

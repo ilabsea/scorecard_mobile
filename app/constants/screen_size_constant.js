@@ -1,6 +1,7 @@
 export const smallMobileHeight = 732;
 export const smallWidthMobile = 360;
-export const mediumMobileHeight = 846;
+export const mediumMobileHeight = 760;
+export const LargeMobileHeight = 846;
 export const LDPIRatio = 0.75;
 export const MDPIRatio = 1;
 export const HDPIRatio = 1.5;

@@ -10,6 +10,10 @@ import { containerPadding } from '../../utils/responsive_util';
 class IndicatorDevelopmentContent extends Component {
   static contextType = LocalizationContext;
 
+  state = {
+    headerHeight: 0,
+  }
+
   _renderNoData() {
     const { translations } = this.context;
     const top = (Dimensions.get('screen').height - 305) / 2;
@@ -37,7 +41,9 @@ class IndicatorDevelopmentContent extends Component {
     const hasData = !!this.props.selectedCriterias.length;
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}}
+        onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y })}
+      >
         <View style={{flex: 1, paddingHorizontal: containerPadding}}>
           <IndicatorDevelopmentList
             scorecardUuid={this.props.scorecardUuid}
@@ -46,6 +52,7 @@ class IndicatorDevelopmentContent extends Component {
             hasData={hasData}
             openModal={this.props.openModal}
             renderHeader={() => this.renderHeader()}
+            headerHeight={this.state.headerHeight}
           />
         </View>
 

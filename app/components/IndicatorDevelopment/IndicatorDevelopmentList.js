@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
-
+import AsyncStorage from '@react-native-community/async-storage';
 import SelectedCriteriaItem from './SelectedCriteriaItem';
-import IndicatorDevelopmentTooltip from './IndicatorDevelopmentTooltip';
-import { isShortScreenDevice } from '../../utils/responsive_util';
+import IndicatorDevelopmentInstructionModal from './IndicatorDevelopmentInstructionModal';
 
 let _this = null;
 class IndicatorDevelopmentList extends Component {
@@ -12,7 +11,7 @@ class IndicatorDevelopmentList extends Component {
 
     this.state = {
       selectedCriterias: props.selectedCriterias,
-      isTooltipVisible: false
+      isFirstVisit: false,
     }
     this.isComponentUnmounted = false;
     _this = this;
@@ -27,26 +26,22 @@ class IndicatorDevelopmentList extends Component {
       this.setState({ selectedCriterias: this.props.selectedCriterias })
   }
 
-  renderItem(params, isTooltipVisible) {
+  updateFirstVisitStatus(status, index) {
+    if (index == 0)
+      this.setState({ isFirstVisit: status });
+  }
+
+  renderItem(params) {
     const {item, index, drag, isActive} = params;
-    const selectedCriteriaItem = (
+
+    return (
       <SelectedCriteriaItem criteria={item} key={index}
         isDraggable={true}
         onLongPress={drag}
         isActive={isActive}
+        updateFirstVisitStatus={(status) => this.updateFirstVisitStatus(status, index)}
       />
     )
-
-    if ((index <= 2 && !isShortScreenDevice()) || (index <= 1 && isShortScreenDevice()))
-      return (
-        <IndicatorDevelopmentTooltip index={index} isTooltipVisible={isTooltipVisible}
-          updateTooltipStatus={(status) => _this.setState({isTooltipVisible: status})}
-        >
-          {selectedCriteriaItem}
-        </IndicatorDevelopmentTooltip>
-      );
-    
-    return selectedCriteriaItem;
   }
 
   updateCriteriasOrder(data) {
@@ -54,18 +49,31 @@ class IndicatorDevelopmentList extends Component {
     this.props.updateSelectedCriteriasOrder(data);
   }
 
+  onInstructionModalDismiss() {
+    AsyncStorage.setItem('DRAG_DROP_TOOLTIP', 'true');
+    this.setState({ isFirstVisit: false })
+  }
+
   render() {
     const selectedCriterias = this.state.selectedCriterias.filter(criteria => criteria.scorecard_uuid == this.props.scorecardUuid);
 
     return (
-      <DraggableFlatList
-        data={selectedCriterias}
-        onDragEnd={({ data }) => this.updateCriteriasOrder(data)}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={(params) => this.renderItem(params, this.state.isTooltipVisible)}
-        containerStyle={{marginHorizontal: -4}}
-        ListHeaderComponent={this.props.renderHeader()}
-      />
+      <React.Fragment>
+        <DraggableFlatList
+          data={selectedCriterias}
+          onDragEnd={({ data }) => this.updateCriteriasOrder(data)}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={(params) => this.renderItem(params)}
+          containerStyle={{marginHorizontal: -4}}
+          ListHeaderComponent={this.props.renderHeader()}
+        />
+
+        <IndicatorDevelopmentInstructionModal
+          visible={this.state.isFirstVisit}
+          onDimiss={() => this.onInstructionModalDismiss()}
+          headerHeight={this.props.headerHeight}
+        />
+      </React.Fragment>
     )
   }
 }
