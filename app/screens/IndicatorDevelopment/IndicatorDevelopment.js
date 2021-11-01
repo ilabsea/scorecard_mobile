@@ -1,25 +1,14 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { View } from 'react-native';
 
-import { Text } from 'native-base';
 import { connect } from 'react-redux';
-
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
-import SelectedCriteriaItem from '../../components/IndicatorDevelopment/SelectedCriteriaItem';
-import NoDataMessage from '../../components/NoDataMessage';
-import OutlinedButton from '../../components/OutlinedButton';
+import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
 
 import Color from '../../themes/color';
-import Tip from '../../components/Tip';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
-
 import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
@@ -28,12 +17,7 @@ import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
-
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import IndicatorDevelopmentTabletStyles from '../../styles/tablet/IndicatorDevelopmentScreenStyle';
-import IndicatorDevelopmentMobileStyles from '../../styles/mobile/IndicatorDevelopmentScreenStyle';
-
-const responsiveStyles = getDeviceStyle(IndicatorDevelopmentTabletStyles, IndicatorDevelopmentMobileStyles);
+import { containerPadding } from '../../utils/responsive_util';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -53,9 +37,18 @@ class IndicatorDevelopment extends Component {
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 
-    let selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
+    this.updateCriteriasData();
+  }
+
+  componentWillUnmount() {
+    this.updateCriteriasData()
+  }
+
+  updateCriteriasData() {
+    const selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
     let proposedCriterias = proposedCriteriaService.getProposedCriterias(this.state.scorecard.uuid);
-    let selectedCriterias = proposedCriterias.filter(x => selectedIndicatorableIds.includes(x.indicatorable_id));
+    const selectedCriterias = proposedCriteriaService.getSelectedCriterias(this.state.scorecard.uuid, selectedIndicatorableIds);
+
     proposedCriterias = proposedCriterias.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
 
     this.props.setSelectedCriterias(selectedCriterias);
@@ -81,59 +74,20 @@ class IndicatorDevelopment extends Component {
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 
-  _renderSelectedCriterias() {
-    let selectedCriterias = this.props.selectedCriterias.filter(criteria => criteria.scorecard_uuid == this.props.route.params.scorecard_uuid);
-    let doms = selectedCriterias.map((criteria, index) => <SelectedCriteriaItem criteria={criteria} key={index}/>);
-
-    return (
-      <View>
-        {doms}
-      </View>
-    )
-  }
-
-  _renderNoData() {
-    const { translations } = this.context;
-
-    return (
-      <NoDataMessage
-        title={translations.pleaseAddCriteria}
-        buttonLabel={translations.criteria}
-        onPress={() => this.setState({visibleModal: true}) }
-        customContainerStyle={{marginTop: -30}}
-      />
-    );
-  }
-
-  _renderBtnAddCriteria() {
-    const { translations } = this.context;
-
-    return (
-      <OutlinedButton
-        icon="plus"
-        label={translations.addNew}
-        onPress={() => this.setState({visibleModal: true}) }
-      />
-    )
-  }
-
   _renderContent() {
-    const { translations } = this.context;
-    const hasData = !!this.props.selectedCriterias.length;
-
     return (
-      <View style={{flex: 1}}>
-        <View style={responsiveStyles.titleContainer}>
-          <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ translations.indicatorDevelopment }</Text>
-
-          { hasData && this._renderBtnAddCriteria() }
-        </View>
-
-        { !hasData && this._renderNoData() }
-
-        { hasData && this._renderSelectedCriterias() }
-      </View>
+      <IndicatorDevelopmentContent
+        selectedCriterias={this.props.selectedCriterias}
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        openModal={() => this.setState({ visibleModal: true })}
+        updateSelectedCriteriasOrder={(criterias) => this.updateSelectedCriteriasOrder(criterias)}
+      />
     )
+  }
+
+  updateSelectedCriteriasOrder(criterias) {
+    if (!!criterias)
+      this.props.setSelectedCriterias(criterias);
   }
 
   render() {
@@ -143,11 +97,7 @@ class IndicatorDevelopment extends Component {
       <View style={{flex: 1}}>
         { this._renderHeader() }
 
-        <ScrollView contentContainerStyle={styles.container}>
-          <Tip screenName={'IndicatorDevelopment'}/>
-
-          { this._renderContent() }
-        </ScrollView>
+        { this._renderContent() }
 
         { !!this.props.selectedCriterias.length &&
           <View style={{padding: containerPadding}}>
@@ -186,20 +136,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IndicatorDevelopment);
-
-const styles = StyleSheet.create({
-  container: {
-    padding: containerPadding,
-    flexGrow: 1,
-  },
-  h1: {
-    fontSize: 24,
-    fontFamily: FontFamily.title,
-    marginBottom: 20
-  },
-  listWrapper: {
-    flexDirection: 'row',
-    flex: 1,
-    marginBottom: 20
-  }
-})

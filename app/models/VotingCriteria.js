@@ -5,12 +5,14 @@ const VotingCriteria = (() => {
     getAll,
     find,
     findByUuid,
+    filterByIndicator,
     upsert,
     getSelectedSuggestedAction,
+    destroy,
   };
 
   function getAll(scorecardUuid) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}'`);
+    return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' SORT(order ASC)`);
   }
 
   function find(scorecardUuid, indicatorId) {
@@ -19,6 +21,10 @@ const VotingCriteria = (() => {
 
   function findByUuid(votingCriteriaUuid) {
     return realm.objects('VotingCriteria').filtered(`uuid = '${votingCriteriaUuid}'`)[0];
+  }
+
+  function filterByIndicator(scorecardUuid, indicatorableId, indicatorableType) {
+    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND indicatorable_id='${indicatorableId}' AND indicatorable_type='${indicatorableType}'`);
   }
 
   function upsert(data) {
@@ -38,6 +44,14 @@ const VotingCriteria = (() => {
     });
 
     return selectedSuggestedActions;
+  }
+
+  function destroy(votingCriterias) {
+    if (votingCriterias.length > 0) {
+      realm.write(() => {
+        realm.delete(votingCriterias);
+      });
+    }
   }
 })();
 

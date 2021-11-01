@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import criteriaHelper from '../helpers/criteria_helper';
 
 const proposedCriteriaService = (() => {
   return {
@@ -8,6 +9,7 @@ const proposedCriteriaService = (() => {
     getAllDistinct,
     getProposedCriterias,
     deleteProposedCriterias,
+    getSelectedCriterias,
   }
 
   function getAll(scorecardUuid) {
@@ -45,6 +47,14 @@ const proposedCriteriaService = (() => {
         realm.delete(proposedCriterias);
       });
     }
+  }
+
+  function getSelectedCriterias(scorecardUuid, orderedIndicatorableIds) {
+    const proposedCriterias = getProposedCriterias(scorecardUuid);
+    const selectedCriterias = proposedCriterias.filter(x => orderedIndicatorableIds.includes(x.indicatorable_id));
+    const orderedCriterias = criteriaHelper.getOrderedCriterias(selectedCriterias, orderedIndicatorableIds);
+
+    return orderedCriterias.length > 0 ? orderedCriterias : selectedCriterias;
   }
 })();
 

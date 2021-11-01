@@ -16,6 +16,7 @@ import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
 import votingCriteriaService from '../../services/votingCriteriaService';
+import VotingCriteria from '../../models/VotingCriteria';
 
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 
@@ -34,7 +35,7 @@ class VotingCriteriaForm extends Component {
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
-      criterias: JSON.parse(JSON.stringify(realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecard_uuid}'`))),
+      criterias: JSON.parse(JSON.stringify(VotingCriteria.getAll(scorecard_uuid))),
       isValid: false,
       participant_uuid: props.route.params.participant_uuid,
     };

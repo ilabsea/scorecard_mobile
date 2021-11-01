@@ -1,5 +1,5 @@
-import votingCriteriaService from './votingCriteriaService';
 import { VOTING } from '../constants/scorecard_step_constant';
+import VotingCriteria from '../models/VotingCriteria';
 
 const scorecardProgressService = (() => {
   return {
@@ -11,7 +11,7 @@ const scorecardProgressService = (() => {
     if (scorecard.finished)
       return false;
 
-    const votingCriterias = votingCriteriaService.getAll(scorecard.uuid);
+    const votingCriterias = VotingCriteria.getAll(scorecard.uuid);
 
     if (votingCriterias.length == 0)
       return false;
@@ -23,7 +23,7 @@ const scorecardProgressService = (() => {
     if (scorecard.finished)
       return '';
 
-    let votingCriterias = criterias.length > 0 ? criterias : votingCriteriaService.getAll(scorecard.uuid);
+    let votingCriterias = criterias.length > 0 ? criterias : VotingCriteria.getAll(scorecard.uuid);
     const messages = [
       { label: scorecard.status < VOTING ? 'pleaseCompleteAllTheSteps' : null },
       { label: votingCriterias.filter(criteria => !criteria.median).length > 0 ? 'allCriteriaMustBeVoted' : null },
