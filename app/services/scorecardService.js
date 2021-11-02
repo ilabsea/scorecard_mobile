@@ -295,8 +295,7 @@ class ScorecardService extends BaseModelService {
       return;
 
     this.updateMilestone(scorecardUuid, null, RENEWED, () => {
-      this._deleteScorecardData(scorecardUuid);
-      callback && callback();
+      this._deleteScorecardData(scorecardUuid, callback);
     }, (res) => !!errorCallback && errorCallback(res));
   }
 
@@ -304,11 +303,11 @@ class ScorecardService extends BaseModelService {
     const scorecards = Scorecard.getSubmittedExpired();
 
     scorecards.map(scorecard => {
-      this._deleteScorecardData(scorecard.uuid);
+      this._deleteScorecardData(scorecard.uuid, null);
     });
   }
 
-  _deleteScorecardData = (scorecardUuid) => {
+  _deleteScorecardData = (scorecardUuid, callback) => {
     Participant.deleteAll(scorecardUuid);
     deleteScorecardDownload(scorecardUuid);
     Scorecard.destroy(scorecardUuid);
@@ -319,6 +318,8 @@ class ScorecardService extends BaseModelService {
     votingCriteriaService.deleteVotingCriteria(scorecardUuid);
     proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
     scorecardSharingService.deleteScorecardPdf(scorecardUuid);
+
+    callback && callback();
   }
 
   find = async (scorecardUuid, successCallback, failedCallback) => {

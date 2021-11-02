@@ -31,7 +31,6 @@ class ScorecardList extends Component {
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
       isLoading: false,
-
       visibleErrorModal: false,
     }
   }
@@ -41,12 +40,8 @@ class ScorecardList extends Component {
     this.focusListener = this.props.navigation.addListener("focus", async () => {
       this.setState({ isLoading: true });
 
-      let selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
-      selectedFilters = JSON.parse(selectedFilters);
-      const scorecards = selectedFilters ? await scorecardFilterService.getFilteredScorecards(selectedFilters) : Scorecard.getAll();
-
       this.setState({
-        scorecards: scorecards,
+        scorecards: await scorecardFilterService.getFilteredScorecards(),
         isLoading: false,
       });
     });
@@ -122,11 +117,14 @@ class ScorecardList extends Component {
   }
 
   _confirmDelete() {
+    if (!this.state.selectedScorecard)
+      return;
+
     const scorecardService = new ScorecardService();
-    scorecardService.delete(this.state.selectedScorecard.uuid, () => {
+    scorecardService.delete(this.state.selectedScorecard.uuid, async () => {
       this.setState({
         visibleModal: false,
-        scorecards: Scorecard.getAll(),
+        scorecards: await scorecardFilterService.getFilteredScorecards(),
         selectedScorecard: null,
       });
     }, (error) => {
@@ -164,6 +162,7 @@ class ScorecardList extends Component {
             { !!progressScorecards.length && <ListSectionTitle title={translations.progressScorecards} /> }
             { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
             { this.renderFinishedScorecards(finishedScorecards) }
+
           </ScrollView>
         }
 
