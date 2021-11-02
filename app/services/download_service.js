@@ -51,7 +51,7 @@ async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDown
 
   // File not found then start to download file
   else {
-    downloadFileFromUrl(audioUrl, filename,
+    downloadFileFromUrl(audioUrl, filename, false,
       (isSuccess, response, localAudioFilePath) => {
         if (isSuccess)
           storeAudioUrl(item, localAudioFilePath, callbackDownload);

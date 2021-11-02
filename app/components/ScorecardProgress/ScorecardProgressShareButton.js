@@ -10,14 +10,10 @@ import internetConnectionService from '../../services/internet_connection_servic
 class ScorecardProgressShareButton extends Component {
   static contextType = LocalizationContext;
 
-  componentWillUnmount() {
-    scorecardSharingService.deleteScorecardPdf(this.props.scorecardUuid);
-  }
-
   shareSubmittedScorecard() {
      NetInfo.fetch().then(state => {
       if (state.isConnected) {
-        scorecardSharingService.shareScorecardPdfFile(this.props.scorecardUuid, this.props.updateLoadingStatus, this.props.updateErrorMessageModal);
+        scorecardSharingService.shareScorecardPdfFile(this.props.scorecardUuid, this.props.updateLoadingStatus, this.props.updateErrorMessageModal, this.context.appLanguage);
         return;
       }
 
