@@ -12,10 +12,16 @@ const scorecardFilterService = (() => {
     saveSelectedFilter,
   }
 
-  async function getFilteredScorecards(options) {
-    const { statuses, types, provinces } = options;
-    let filteredScorecards = [];
+  async function getFilteredScorecards() {
+    let selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
     let scorecards = Scorecard.getAll();
+
+    if (!selectedFilters)
+      return scorecards;
+
+    selectedFilters = JSON.parse(selectedFilters)
+    const { statuses, types, provinces } = selectedFilters;
+    let filteredScorecards = [];
 
     filteredScorecards = await [...filteredScorecards, ..._getScorecardByStatuses(scorecards, statuses)];
     filteredScorecards = await _getScorecards(filteredScorecards, SCORECARD_TYPE, types);        // Filter scorecard by scorecard type
