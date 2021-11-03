@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import { downloadFileFromUrl } from './local_file_system_service';
 import { ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
+import { getPDFPath } from '../utils/file_util';
 
 const scorecardSharingService = (() => {
   return {
@@ -17,8 +18,7 @@ const scorecardSharingService = (() => {
     const fileName = _getFileName(scorecardUuid, appLanguage);
 
     if (await _isFileExist(fileName)) {
-      const filePath = `${RNFS.DownloadDirectoryPath}/${fileName}`;
-      _shareFile(filePath, scorecardUuid, updateErrorMessageModal);
+      _shareFile(getPDFPath(fileName), scorecardUuid, updateErrorMessageModal);
     }
     else
       _downloadAndShareFile(scorecardUuid, updateLoadingStatus, updateErrorMessageModal, appLanguage);
@@ -30,13 +30,13 @@ const scorecardSharingService = (() => {
     languages.map(async (language) => {
       const fileName = _getFileName(scorecardUuid, language);
       if (await _isFileExist(fileName))
-        RNFS.unlink(`${RNFS.DownloadDirectoryPath}/${fileName}`);
+        RNFS.unlink(getPDFPath(fileName));
     });
   }
 
   // private method
   function _getFileName(scorecardUuid, appLanguage) {
-    return `${scorecardUuid}_${appLanguage}.pdf`;
+    return `scorecard_${scorecardUuid}_${appLanguage}.pdf`;
   }
 
   async function _downloadAndShareFile(scorecardUuid, updateLoadingStatus, updateErrorMessageModal, appLanguage) {
@@ -75,7 +75,7 @@ const scorecardSharingService = (() => {
   }
 
   async function _isFileExist(fileName) {
-    const filePath = `${RNFS.DownloadDirectoryPath}/${fileName}`;
+    const filePath = getPDFPath(fileName);
     return await RNFS.exists(filePath);
   }
 })();
