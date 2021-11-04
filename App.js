@@ -18,12 +18,11 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
 import Color from './app/themes/color';
 
-import ScorecardService from './app/services/scorecardService';
+import scorecardDeleteService from './app/services/scorecard_delete_service';
 
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
 
-import Queue from './app/utils/queue';
 import MobileTokenService from './app/services/mobile_token_service';
 import { SELECTED_FILTERS } from './app/constants/main_constant';
 
@@ -54,11 +53,10 @@ const App: () => React$Node = () => {
   useEffect(() => {
     setLoading(false);
     SplashScreen.hide();
-    Queue.initWorker();
     MobileTokenService.handleSyncingToken();
 
     AppState.addEventListener("change", (nextAppState) => {
-      new ScorecardService().removeExpiredScorecard();
+      scorecardDeleteService.deleteExpiredScorecardCard();
     });
 
     AsyncStorage.removeItem(SELECTED_FILTERS);

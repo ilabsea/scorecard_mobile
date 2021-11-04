@@ -3,19 +3,13 @@ import realm from '../db/schema';
 import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import { getErrorType } from './api_service';
-import votingCriteriaService from './votingCriteriaService';
-import proposedCriteriaService from './proposedCriteriaService';
-import { deleteScorecardDownload } from './scorecard_download_service';
 import scorecardReferenceService from './scorecard_reference_service';
-import scorecardSharingService from './scorecard_sharing_service';
 import scorecardMilestoneService from './scorecard_milestone_service';
 
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
 import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
-import Rating from '../models/Rating';
-import LanguageIndicator from '../models/LanguageIndicator';
 import ScorecardReference from '../models/ScorecardReference';
 import VotingCriteria from '../models/VotingCriteria';
 
@@ -23,7 +17,7 @@ import { getSuggestedActionAttrs } from '../helpers/voting_criteria_helper';
 
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
-import { SUBMITTED, RENEWED } from '../constants/milestone_constant';
+import { SUBMITTED } from '../constants/milestone_constant';
 import { apiDateFormat } from '../constants/date_format_constant';
 
 class ScorecardService extends BaseModelService {
@@ -254,40 +248,6 @@ class ScorecardService extends BaseModelService {
   }
 
   // --------------------New scorecard---------------------
-  delete(scorecardUuid, callback, errorCallback) {
-    const scorecard = Scorecard.find(scorecardUuid);
-
-    if (scorecard.isUploaded)
-      return;
-
-    scorecardMilestoneService.updateMilestone(scorecardUuid, null, RENEWED, () => {
-      this._deleteScorecardData(scorecardUuid, callback);
-    }, (res) => !!errorCallback && errorCallback(res));
-  }
-
-  removeExpiredScorecard() {
-    const scorecards = Scorecard.getSubmittedExpired();
-
-    scorecards.map(scorecard => {
-      this._deleteScorecardData(scorecard.uuid, null);
-    });
-  }
-
-  _deleteScorecardData = (scorecardUuid, callback) => {
-    Participant.deleteAll(scorecardUuid);
-    deleteScorecardDownload(scorecardUuid);
-    Scorecard.destroy(scorecardUuid);
-    Facilitator.deleteAll(scorecardUuid);
-    Rating.deleteAll(scorecardUuid);
-    CustomIndicator.deleteAll(scorecardUuid);
-    LanguageIndicator.deleteAll(scorecardUuid);
-    votingCriteriaService.deleteVotingCriteria(scorecardUuid);
-    proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
-    scorecardSharingService.deleteScorecardPdf(scorecardUuid);
-
-    callback && callback();
-  }
-
   find = async (scorecardUuid, successCallback, failedCallback) => {
     sendRequestToApi(() => this._findScorecard(scorecardUuid, successCallback, failedCallback));
   }
