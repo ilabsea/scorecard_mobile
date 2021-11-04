@@ -26,6 +26,7 @@ import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop, containerPaddi
 import customIndicatorService from '../../services/custom_indicator_service';
 
 const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
+let _this = null;
 
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
@@ -45,6 +46,9 @@ class CreateNewIndicator extends Component {
       isEdit: false,
       selectedCustomIndicator: null,
     };
+    _this = this;
+
+    console.log('== participant uuid props == ', props.route.params.participant_uuid);
   }
 
   componentDidMount() {
@@ -102,7 +106,8 @@ class CreateNewIndicator extends Component {
   }
 
   save = () => {
-    const { scorecard_uuid, participant_uuid } = this.props.route.params;
+    const { scorecard_uuid } = this.props.route.params;
+    const { participant_uuid } = this.state;
     let participants = JSON.parse(JSON.stringify(Participant.findByScorecard(scorecard_uuid)));
 
     createNewIndicatorHelper.deleteUnselectedProposedIndicator(scorecard_uuid, participant_uuid, this.state.unselectedIndicators);
@@ -127,6 +132,16 @@ class CreateNewIndicator extends Component {
     );
   };
 
+  updateSelectedParticipant(participantUuid) {
+    _this.setState({
+      selectedIndicators: JSON.parse(JSON.stringify(proposedCriteriaService.getAllByParticipant(_this.props.route.params.scorecard_uuid, participantUuid))),
+      unselectedIndicators: [],
+      participant_uuid: participantUuid
+    }, () => {
+      _this._updateIndicatorList();
+    });
+  }
+
   _renderParticipant() {
     if (this.state.isSearching || this.state.isEdit)
       return;
@@ -137,6 +152,7 @@ class CreateNewIndicator extends Component {
         participantUuid={this.props.route.params.participant_uuid}
         onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
         navigation={this.props.navigation}
+        updateSelectedParticipant={this.updateSelectedParticipant}
       />
     )
   }
@@ -191,8 +207,8 @@ class CreateNewIndicator extends Component {
       <CriteriaSelection
         ref={this.indicatorSelectionRef}
         selectIndicator={this.selectIndicator}
-        scorecardUUID={this.props.route.params.scorecard_uuid}
-        participantUUID={this.props.route.params.participant_uuid}
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        participantUuid={this.state.participant_uuid}
         indicators={this.state.indicators}
         selectedIndicators={this.state.selectedIndicators}
         unselectedIndicators={this.state.unselectedIndicators}

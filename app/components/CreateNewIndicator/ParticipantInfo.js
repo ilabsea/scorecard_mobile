@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 
-import realm from '../../db/schema';
 import { LocalizationContext } from '../../components/Translations';
-
 import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
 import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import ParticipantModalListItem from '../../components/RaisingProposed/ParticipantModalListItem';
 import OutlinedButton from '../OutlinedButton';
+import Participant from '../../models/Participant';
 
 export default class ParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -19,13 +18,21 @@ export default class ParticipantInfo extends Component {
       participants: props.participants || [],
       participantVisible: false,
       addParticipantVisible: false,
-      currentParticipant: realm.objects('Participant').filtered(`uuid == '${props.participant_uuid}'`)[0],
+      currentParticipant: Participant.find(props.participant_uuid),
+      participantUuid: props.participant_uuid,
     };
   }
 
   componentDidUpdate() {
     if (!this.state.participantVisible && this.props.visibleModal)
       this.setState({ participantVisible: this.props.visibleModal })
+
+    if (this.state.participantUuid != this.props.participant_uuid) {
+      this.setState({ 
+        currentParticipant: Participant.find(this.props.participant_uuid),
+        participantUuid: this.props.participant_uuid
+      });
+    }
   }
 
   _renderParticipant() {
