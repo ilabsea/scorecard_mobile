@@ -1,36 +1,19 @@
-import realm from '../db/schema';
 import criteriaHelper from '../helpers/criteria_helper';
+import createNewIndicatorHelper from '../helpers/create_new_indicator_helper';
+import Participant from '../models/Participant';
+import ProposedCriteria from '../models/ProposedCriteria';
 
 const proposedCriteriaService = (() => {
   return {
-    getAll,
-    getAllDistinctTag,
-    getAllByParticipant,
-    getAllDistinct,
     getProposedCriterias,
     deleteProposedCriterias,
     getSelectedCriterias,
-  }
-
-  function getAll(scorecardUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecardUuid}'`);
-  }
-
-  function getAllByParticipant(scorecardUuid, participantUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND participant_uuid = '${participantUuid}'`);
-  }
-
-  function getAllDistinctTag(scorecardUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(tag)`);
-  }
-
-  function getAllDistinct(scorecardUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id, indicatorable_type)`);
+    saveProposedCriterias,
   }
 
   function getProposedCriterias(scorecardUuid) {
-    let allCriterias = getAll(scorecardUuid);
-    let criterias = JSON.parse(JSON.stringify(getAllDistinct(scorecardUuid)));
+    let allCriterias = ProposedCriteria.findByScorecard(scorecardUuid, false);
+    let criterias = JSON.parse(JSON.stringify(ProposedCriteria.getAllDistinct(scorecardUuid)));
 
     criterias.map(criteria =>
       criteria.count = allCriterias.filter(x => x.indicatorable_id == criteria.indicatorable_id && x.indicatorable_type == criteria.indicatorable_type ).length
@@ -40,13 +23,10 @@ const proposedCriteriaService = (() => {
   }
 
   function deleteProposedCriterias(scorecardUuid) {
-    const proposedCriterias = getAll(scorecardUuid);
+    const proposedCriterias = ProposedCriteria.findByScorecard(scorecardUuid, false);
 
-    if (proposedCriterias.length > 0) {
-      realm.write(() => {
-        realm.delete(proposedCriterias);
-      });
-    }
+    if (proposedCriterias.length > 0)
+      ProposedCriteria.destroy(proposedCriterias);
   }
 
   function getSelectedCriterias(scorecardUuid, orderedIndicatorableIds) {
@@ -55,6 +35,17 @@ const proposedCriteriaService = (() => {
     const orderedCriterias = criteriaHelper.getOrderedCriterias(selectedCriterias, orderedIndicatorableIds);
 
     return orderedCriterias.length > 0 ? orderedCriterias : selectedCriterias;
+  }
+
+  function saveProposedCriterias(params, callback) {
+    const { scorecard_uuid, participant_uuid, unselected_indicators, selected_indicators } = params;
+    const participants = JSON.parse(JSON.stringify(Participant.findByScorecard(scorecard_uuid)));
+
+    createNewIndicatorHelper.deleteUnselectedProposedIndicator(scorecard_uuid, participant_uuid, unselected_indicators);
+    createNewIndicatorHelper.createNewProposedIndicator(scorecard_uuid, participant_uuid, selected_indicators);
+    Participant.create({ uuid: participant_uuid, raised: true });
+
+    !!callback && callback(participants);
   }
 })();
 
