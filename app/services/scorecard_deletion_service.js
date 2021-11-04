@@ -13,7 +13,7 @@ import scorecardSharingService from './scorecard_sharing_service';
 
 import { RENEWED } from '../constants/milestone_constant';
 
-const scorecardDeleteService = (() => {
+const scorecardDeletionService = (() => {
   return {
     deleteScorecard,
     deleteExpiredScorecardCard,
@@ -59,4 +59,4 @@ const scorecardDeleteService = (() => {
   }
 })();
 
-export default scorecardDeleteService;
+export default scorecardDeletionService;

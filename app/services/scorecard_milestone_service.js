@@ -11,6 +11,27 @@ const scorecardMilestoneService = (() => {
   async function updateMilestone(params, data, callback, errorCallback) {
     const { scorecardUuid, milestone } = params;
     const scorecard = Scorecard.find(scorecardUuid);
+
+    if (scorecard.milestone != RENEWED && (scorecard.milestone == milestone))
+      return;
+
+    if (milestone == RUNNING)
+      Scorecard.update(scorecardUuid, { running_date: new Date() });
+
+    ScorecardProgressApi.post(await _getScoreacardAttrs(params, data))
+      .then(function (response) {
+        if (response.status == 200) {
+          Scorecard.update(scorecardUuid, { milestone: milestone });
+          callback && callback();
+        }
+        else
+          !!errorCallback && errorCallback(response.error);
+      });
+  }
+
+  // private method
+  async function _getScoreacardAttrs(params, data) {
+    const { scorecardUuid, milestone } = params;
     let attrs = {
       scorecard_progress: {
         scorecard_uuid: scorecardUuid,
@@ -25,21 +46,7 @@ const scorecardMilestoneService = (() => {
     if (data)
       attrs = {...attrs, ...data};
 
-    if (scorecard.milestone != RENEWED && (scorecard.milestone == milestone))
-      return;
-
-    if (milestone == RUNNING)
-      Scorecard.update(scorecardUuid, { running_date: new Date() });
-
-    ScorecardProgressApi.post(attrs)
-      .then(function (response) {
-        if (response.status == 200) {
-          Scorecard.update(scorecardUuid, { milestone: milestone });
-          callback && callback();
-        }
-        else
-          !!errorCallback && errorCallback(response.error);
-      });
+    return attrs;
   }
 })();
 

@@ -18,7 +18,7 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
 import Color from './app/themes/color';
 
-import scorecardDeleteService from './app/services/scorecard_delete_service';
+import scorecardDeletionService from './app/services/scorecard_deletion_service';
 
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
@@ -56,7 +56,7 @@ const App: () => React$Node = () => {
     MobileTokenService.handleSyncingToken();
 
     AppState.addEventListener("change", (nextAppState) => {
-      scorecardDeleteService.deleteExpiredScorecardCard();
+      scorecardDeletionService.deleteExpiredScorecardCard();
     });
 
     AsyncStorage.removeItem(SELECTED_FILTERS);

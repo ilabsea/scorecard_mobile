@@ -1,5 +1,5 @@
 import realm from '../db/schema';
-import scorecardDeleteService from '../services/scorecard_delete_service';
+import scorecardDeletionService from '../services/scorecard_deletion_service';
 import { environment } from '../config/environment';
 
 export default class Queue {
@@ -14,7 +14,7 @@ export default class Queue {
       let differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
       if (differenceInDays > environment.removeScorecardDay) {
-        scorecardDeleteService.deleteScorecard(scorecards[i].uuid);
+        scorecardDeletionService.deleteScorecard(scorecards[i].uuid);
       }
     }
   }
