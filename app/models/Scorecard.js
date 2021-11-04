@@ -30,9 +30,11 @@ const Scorecard = (() => {
   }
 
   function update(uuid, params={}) {
-    realm.write(() => {
-      realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
-    })
+    if (find(uuid)) {
+      realm.write(() => {
+        realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
+      })
+    }
   }
 
   function upsert(response) {
