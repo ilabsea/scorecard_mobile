@@ -93,7 +93,11 @@ class ScorecardService extends BaseModelService {
             finished_date: _this.scorecard.finished_date,
           };
 
-          scorecardMilestoneService.updateMilestone(_this.scorecard.uuid, milestoneData, SUBMITTED, null, null);
+          const params = {
+            scorecardUuid: _this.scorecard.uuid,
+            milestone: SUBMITTED
+          }
+          scorecardMilestoneService.updateMilestone(params, milestoneData);
         }
         else if (response.error)
           !!errorCallback && errorCallback(getErrorType(response.error.status));

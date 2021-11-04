@@ -25,7 +25,11 @@ const scorecardDeleteService = (() => {
     if (scorecard.isUploaded)
       return;
 
-    scorecardMilestoneService.updateMilestone(scorecardUuid, null, RENEWED, () => {
+    const params = {
+      scorecardUuid: scorecardUuid,
+      milestone: RENEWED,
+    }
+    scorecardMilestoneService.updateMilestone(params, null, () => {
       _deleteScorecardData(scorecardUuid, callback);
     }, (res) => !!errorCallback && errorCallback(res));
   }

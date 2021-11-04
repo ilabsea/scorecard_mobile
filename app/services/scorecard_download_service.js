@@ -239,8 +239,13 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
   if (isDownloaded) {
     if (downloadNextPhase && downloadNextPhase != 'finished')
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
-    else if (downloadNextPhase == 'finished')
-      scorecardMilestoneService.updateMilestone(scorecard.uuid, null, DOWNLOADED, null, null);
+    else if (downloadNextPhase == 'finished') {
+      const params = {
+        scorecardUuid: scorecard.uuid,
+        milestone: DOWNLOADED
+      }
+      scorecardMilestoneService.updateMilestone(params);
+    }
   }
 }
 

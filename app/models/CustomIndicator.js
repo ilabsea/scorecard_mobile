@@ -28,9 +28,11 @@ const CustomIndicator = (() => {
   }
 
   function update(uuid, params) {
-    realm.write(() => {
-      realm.create('CustomIndicator', Object.assign(params, {uuid: uuid}), 'modified');
-    })
+    if (find(uuid)) {
+      realm.write(() => {
+        realm.create('CustomIndicator', Object.assign(params, {uuid: uuid}), 'modified');
+      })
+    }
   }
 
   function deleteAll(scorecardUuid) {

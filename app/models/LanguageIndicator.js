@@ -29,9 +29,11 @@ const LanguageIndicator = (() => {
   }
 
   function update(id, params) {
-    realm.write(() => {
-      realm.create('LanguageIndicator', Object.assign(params, {id: id}), 'modified');
-    })
+    if (realm.objects('LanguageIndicator').filtered(`id = '${id}'`)) {
+      realm.write(() => {
+        realm.create('LanguageIndicator', Object.assign(params, {id: id}), 'modified');
+      })
+    }
   }
 })();
 

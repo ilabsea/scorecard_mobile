@@ -2,7 +2,6 @@ import {
   find as findScorecardDownload,
   isDownloaded as isScorecardDownloaded,
 } from './scorecard_download_service';
-
 import { load as loadLanguage } from './program_language_service';
 import scorecardMilestoneService from './scorecard_milestone_service';
 import Scorecard from '../models/Scorecard';
@@ -94,7 +93,11 @@ const scorecardPreferenceService = (() => {
 
   function saveSelectedData(scorecardUuid, date, textLocale, audioLocale) {
     updatePreference(scorecardUuid, date, textLocale, audioLocale);
-    scorecardMilestoneService.updateMilestone(scorecardUuid, null, RUNNING, null, null);
+    const params = {
+      scorecardUuid: scorecardUuid,
+      milestone: RUNNING
+    }
+    scorecardMilestoneService.updateMilestone(params);
   }
 })();
 
