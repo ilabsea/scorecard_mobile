@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Portal} from 'react-native-paper';
 
 import {LocalizationContext} from '../../components/Translations';
-import BottomButton from '../../components/BottomButton';
-import CriteriaSelection from '../../components/RaisingProposed/CriteriaSelection';
-import RaisingProposedCustomIndicatorList from '../../components/RaisingProposed/RaisingProposedCustomIndicatorList';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
 
 import Color from '../../themes/color';
-import CreateNewIndicatorParticipantInfo from '../../components/CreateNewIndicator/CreateNewIndicatorParticipantInfo';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
+import CreateNewIndicatorContent from '../../components/CreateNewIndicator/CreateNewIndicatorContent';
+import CreateNewIndicatorSaveButton from '../../components/CreateNewIndicator/CreateNewIndicatorSaveButton';
 
 import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
@@ -22,11 +20,8 @@ import ProposedCriteria from '../../models/ProposedCriteria';
 import IndicatorService from '../../services/indicator_service';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
-import { getDeviceStyle, mobileSubTitleSize, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import customIndicatorService from '../../services/custom_indicator_service';
-
-const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
-let _this = null;
 
 class CreateNewIndicator extends Component {
   static contextType = LocalizationContext;
@@ -46,7 +41,6 @@ class CreateNewIndicator extends Component {
       isEdit: false,
       selectedCustomIndicator: null,
     };
-    _this = this;
   }
 
   componentDidMount() {
@@ -119,53 +113,32 @@ class CreateNewIndicator extends Component {
   }
 
   renderSaveButton = () => {
-    const {translations} = this.context;
-
-    if (this.state.isSearching || this.state.isEdit)
-      return;
-
-    return (
-      <View style={{padding: containerPadding, paddingHorizontal: 0}}>
-        <BottomButton disabled={!this.state.isValid} label={translations['saveAndGoNext']} onPress={() => this.save()} />
-      </View>
-    );
+    return <CreateNewIndicatorSaveButton
+              isSearching={this.state.isSearching}
+              isEdit={this.state.isEdit}
+              isValid={this.state.isValid}
+              save={() => this.save()}
+           />
   };
 
-  updateSelectedParticipant(participantUuid) {
-    _this.setState({
-      // selectedIndicators: JSON.parse(JSON.stringify(ProposedCriteria.find(_this.props.route.params.scorecard_uuid, participantUuid))),
-      selectedIndicators: [],
-      unselectedIndicators: [],
-      participantUuid: participantUuid
-    }, () => {
-      _this._updateIndicatorList();
-    });
-  }
-
-  _renderParticipant() {
-    if (this.state.isSearching || this.state.isEdit)
-      return;
-
-    return (
-      <CreateNewIndicatorParticipantInfo
-        scorecardUuid={this.props.route.params.scorecard_uuid}
-        participantUuid={this.state.participantUuid}
-        onGetParticipant={(participant) => this.setState({participantUuid: participant.uuid})}
-        navigation={this.props.navigation}
-        updateSelectedParticipant={this.updateSelectedParticipant}
-      />
-    )
+  updateSelectedParticipant(indicatorDataset) {
+    if (this.state.participantUuid != indicatorDataset.participant_uuid) {
+      this.setState({
+        isValid: false,
+        customIndicator: null,
+        unselectedIndicators: [],
+        selectedIndicators: indicatorDataset.selected_indicators,
+        indicators: indicatorDataset.indicators,
+        participantUuid: indicatorDataset.participant_uuid
+      });
+    }
   }
 
   _updateIndicatorList = () => {
     const { translations } = this.context;
-    const indicatorService = new IndicatorService();
-    const allCriteria = indicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, '', translations.addNewCriteria, this.state.selectedIndicators);
+    const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', translations.addNewCriteria, this.state.selectedIndicators);
 
-    this.setState({
-      indicators: allCriteria.indicators,
-      selectIndicators: allCriteria.selectedIndicators,
-    });
+    this.setState({ indicators: allCriteria.indicators });
   }
 
   updateSearchedIndicator = (indicators, allSelectedIndicators) => {
@@ -201,22 +174,6 @@ class CreateNewIndicator extends Component {
     )
   }
 
-  renderCriteriaList() {
-    return (
-      <CriteriaSelection
-        ref={this.indicatorSelectionRef}
-        selectIndicator={this.selectIndicator}
-        scorecardUuid={this.props.route.params.scorecard_uuid}
-        participantUuid={this.state.participantUuid}
-        indicators={this.state.indicators}
-        selectedIndicators={this.state.selectedIndicators}
-        unselectedIndicators={this.state.unselectedIndicators}
-        customIndicator={this.state.customIndicator}
-        isSearching={this.state.isSearching}
-      />
-    )
-  }
-
   editCustomIndicator(customIndicator) {
     Keyboard.dismiss();
     this.setState({
@@ -225,35 +182,32 @@ class CreateNewIndicator extends Component {
     });
   }
 
-  renderCustomIndicatorList() {
+  renderContent() {
     return (
-      <RaisingProposedCustomIndicatorList
+      <CreateNewIndicatorContent
         scorecardUuid={this.props.route.params.scorecard_uuid}
+        participantUuid={this.state.participantUuid}
         indicators={this.state.indicators}
-        editCustomIndicator={(indicator) => this.editCustomIndicator(indicator)}
+        selectedIndicators={this.state.selectedIndicators}
+        unselectedIndicators={this.state.unselectedIndicators}
+        customIndicator={this.state.customIndicator}
         selectedCustomIndicator={this.state.selectedCustomIndicator}
+        isSearching={this.state.isSearching}
+        isEdit={this.state.isEdit}
+        selectIndicator={this.selectIndicator}
+        editCustomIndicator={(indicator) => this.editCustomIndicator(indicator)}
+        updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
       />
     )
   }
 
   render() {
-    const {translations} = this.context;
-
-    // TO DO: move the content part to new component
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
           { this.renderSearchableHeader() }
           <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
-            { this._renderParticipant() }
-
-            { (!this.state.isSearching && !this.state.isEdit) &&
-              <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor, marginTop: 20}}>
-                {translations['chooseProposedCriteria']}
-              </Text>
-            }
-
-            { !this.state.isEdit ? this.renderCriteriaList() : this.renderCustomIndicatorList() }
+            { this.renderContent() }
 
             { this.renderSaveButton() }
 

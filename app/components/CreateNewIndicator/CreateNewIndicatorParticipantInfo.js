@@ -10,12 +10,8 @@ const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
 
 class CreateNewIndicatorParticipantInfo extends Component {
   static contextType = LocalizationContext;
-  state = {
-    participantUuid: this.props.participantUuid
-  }
 
   onUpdateParticipant(participantUuid) {
-    this.setState({ participantUuid });
     !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participantUuid);
   }
 
@@ -29,8 +25,7 @@ class CreateNewIndicatorParticipantInfo extends Component {
         <ParticipantInfo
           participants={Participant.getNotRaised(this.props.scorecardUuid)}
           scorecard_uuid={ this.props.scorecardUuid }
-          participant_uuid={this.state.participantUuid}
-          onGetParticipant={this.props.onGetParticipant}
+          participant_uuid={ this.props.participantUuid }
           navigation={this.props.navigation}
           buttonVisible={false}
           onPressItem={(participant) => this.onUpdateParticipant(participant.uuid)}
