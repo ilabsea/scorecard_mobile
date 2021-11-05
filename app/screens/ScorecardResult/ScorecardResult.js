@@ -154,7 +154,7 @@ class ScorecardResult extends Component {
 
 function mapStateToProps(state) {
   return {
-    criterias: state.votingCriterias.sort((a, b) => (a.median > b.median) ? 1 : -1),
+    criterias: state.votingCriterias.sort((a, b) => (a.order > b.order) ? 1 : -1),
   };
 }
 
