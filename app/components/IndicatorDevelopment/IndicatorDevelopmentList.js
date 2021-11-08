@@ -36,6 +36,7 @@ class IndicatorDevelopmentList extends Component {
 
     return (
       <SelectedCriteriaItem criteria={item} key={index}
+        order={index}
         isDraggable={true}
         onLongPress={drag}
         isActive={isActive}

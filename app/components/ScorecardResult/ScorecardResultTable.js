@@ -22,6 +22,7 @@ class ScorecardResultTable extends Component {
         {
           tableRows.map((criteria, index) => (
             <ScorecardResultTableRow key={index} criteria={criteria}
+              order={index + 1}
               onPress={(fieldName, indicator) => this.props.handleShowModal(criteria, fieldName, indicator)}
               isScorecardFinished={this.props.scorecard.finished}
             />

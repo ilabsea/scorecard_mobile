@@ -27,8 +27,8 @@ class ScorecardResultAccordion extends Component {
     return !criteria.suggested_action ? true : false;
   }
 
-  renderTitleText(criteria) {
-    return <ScorecardResultAccordionTitle criteria={criteria} isRequired={_this.isRequired(criteria)} />
+  renderTitleText(criteria, index) {
+    return <ScorecardResultAccordionTitle criteria={criteria} order={index + 1} isRequired={_this.isRequired(criteria)} />
   }
 
   render() {
