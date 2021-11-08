@@ -24,9 +24,11 @@ const ProposedCriteria = (() => {
   }
 
   function update(uuid, params) {
-    realm.write(() => {
-      realm.create('ProposedCriteria', Object.assign(params, {uuid: uuid}), 'modified');
-    })
+    if (realm.objects('ProposedCriteria').filtered(`uuid = '${uuid}'`)) {
+      realm.write(() => {
+        realm.create('ProposedCriteria', Object.assign(params, {uuid: uuid}), 'modified');
+      })
+    }
   }
 
   function findByParticipant(indicatorId, participantUuid) {

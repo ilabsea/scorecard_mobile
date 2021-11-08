@@ -10,7 +10,7 @@ import ScorecardListModals from '../../components/ScorecardList/ScorecardListMod
 
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
-import ScorecardService from '../../services/scorecardService';
+import scorecardDeletionService from '../../services/scorecard_deletion_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -120,8 +120,7 @@ class ScorecardList extends Component {
     if (!this.state.selectedScorecard)
       return;
 
-    const scorecardService = new ScorecardService();
-    scorecardService.delete(this.state.selectedScorecard.uuid, async () => {
+    scorecardDeletionService.deleteScorecard(this.state.selectedScorecard.uuid, async () => {
       this.setState({
         visibleModal: false,
         scorecards: await scorecardFilterService.getFilteredScorecards(),

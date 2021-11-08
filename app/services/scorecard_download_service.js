@@ -9,7 +9,7 @@ import { save as saveRatingScale }  from './rating_scale_service';
 
 import { LanguageIndicatorService } from './language_indicator_service';
 import { LanguageRatingScaleService } from './language_rating_scale_service';
-import ScorecardService from './scorecardService';
+import scorecardMilestoneService from './scorecard_milestone_service';
 
 import { DOWNLOADED } from '../constants/milestone_constant';
 
@@ -240,8 +240,11 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
     if (downloadNextPhase && downloadNextPhase != 'finished')
       downloadNextPhase(scorecard, audioLocale, updateDownloadProgress, errorCallback);
     else if (downloadNextPhase == 'finished') {
-      const scorecardService = new ScorecardService();
-      scorecardService.updateMilestone(scorecard.uuid, null, DOWNLOADED, null, null);
+      const params = {
+        scorecardUuid: scorecard.uuid,
+        milestone: DOWNLOADED
+      }
+      scorecardMilestoneService.updateMilestone(params);
     }
   }
 }
