@@ -17,7 +17,9 @@ import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
+import scorecardStepService from '../../services/scorecard_step_service';
 import { containerPadding } from '../../utils/responsive_util';
+import { scorecardSteps } from '../../constants/scorecard_step_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -70,7 +72,7 @@ class IndicatorDevelopment extends Component {
     votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias, (savedCriterias) => {
       this.props.setVotingCriterias(savedCriterias);
     });
-
+    scorecardStepService.recordFinishDatetime(this.state.scorecard.uuid, scorecardSteps[6]);
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 

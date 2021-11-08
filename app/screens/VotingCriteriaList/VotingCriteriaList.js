@@ -23,11 +23,13 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
+import scorecardStepService from '../../services/scorecard_step_service';
 import { hasVoting } from '../../helpers/voting_criteria_helper';
 import VotingCriteria from '../../models/VotingCriteria';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import { xlLabelSize } from '../../constants/mobile_font_size_constant';
+import { scorecardSteps } from '../../constants/scorecard_step_constant';
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
 
@@ -63,6 +65,7 @@ class VotingCriteriaList extends Component {
   }
 
   _goNext() {
+    scorecardStepService.recordFinishDatetime(this.state.scorecard.uuid, scorecardSteps[7]);
     this.props.navigation.navigate('OfflineScorecardResult', {scorecard_uuid: this.state.scorecard.uuid});
   }
 

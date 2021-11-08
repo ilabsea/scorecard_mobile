@@ -12,8 +12,10 @@ import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 import scorecardSyncService from '../../services/scorecard_sync_service';
+import scorecardStepService from '../../services/scorecard_step_service';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
+import { scorecardSteps } from '../../constants/scorecard_step_constant';
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -89,6 +91,7 @@ class ScorecardPreference extends Component {
     this.formRef.current.closeAllSelectBox()
     const {date, textLocale, audioLocale} = this.state;
     scorecardPreferenceService.saveSelectedData(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
+    scorecardStepService.recordFinishDatetime(this.props.route.params.scorecard_uuid, scorecardSteps[2]);
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }
 
@@ -133,6 +136,7 @@ class ScorecardPreference extends Component {
       });
 
       Scorecard.update(this.props.route.params.scorecard_uuid, { downloaded: true });
+      scorecardStepService.recordFinishDatetime(this.props.route.params.scorecard_uuid, scorecardSteps[1]);
     }
   }
 

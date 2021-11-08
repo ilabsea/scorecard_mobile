@@ -6,6 +6,9 @@ import { isDownloaded } from './scorecard_download_service';
 import scorecardHelper from '../helpers/scorecard_helper';
 import Scorecard from '../models/Scorecard';
 import { ERROR_SCORECARD } from '../constants/error_constant';
+import { scorecardSteps } from '../constants/scorecard_step_constant';
+
+import scorecardStepService from './scorecard_step_service';
 
 const newScorecardService = (() => {
   return {
@@ -41,6 +44,7 @@ const newScorecardService = (() => {
       else {
         Scorecard.upsert(responseData);
         loadProgramLanguage(responseData.program_id, (response) => {
+          scorecardStepService.recordFinishDatetime(scorecardUuid, scorecardSteps[0]);
           successCallback();
         });
       }

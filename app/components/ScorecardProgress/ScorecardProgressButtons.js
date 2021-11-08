@@ -12,8 +12,10 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import scorecardProgressService from '../../services/scorecard_progress_service';
+import scorecardStepService from '../../services/scorecard_step_service';
 import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/milestone_constant';
+import { scorecardSteps } from '../../constants/scorecard_step_constant';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 
 class ScorecardProgressButtons extends Component {
@@ -25,6 +27,7 @@ class ScorecardProgressButtons extends Component {
   finishScorecard() {
     Scorecard.update(this.props.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
     this.setState({ visibleConfirmModal: false });
+    scorecardStepService.recordFinishDatetime(this.props.scorecard.uuid, scorecardSteps[9]);
     this.props.updateScorecard();
   }
 
@@ -40,11 +43,16 @@ class ScorecardProgressButtons extends Component {
     )
   }
 
+  submitToServer() {
+    scorecardStepService.recordFinishDatetime(this.props.scorecard.uuid, scorecardSteps[10]);
+    this.props.submitToServer()
+  }
+
   renderBtnSubmit() {
     return (
       <ScorecardProgressSubmitButton
         scorecard={this.props.scorecard}
-        submitToServer={() => this.props.submitToServer()}
+        submitToServer={() => this.submitToServer()}
         progressPercentag={this.props.progressPercentag}
         showProgress={this.props.showProgress}
       />

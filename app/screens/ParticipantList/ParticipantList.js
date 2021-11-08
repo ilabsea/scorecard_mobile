@@ -21,6 +21,8 @@ import OutlinedButton from '../../components/OutlinedButton';
 import NoDataMessage from '../../components/NoDataMessage';
 
 import Participant from '../../models/Participant';
+import scorecardStepService from '../../services/scorecard_step_service';
+import { scorecardSteps } from '../../constants/scorecard_step_constant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import ParticipantListTabletStyles from '../../styles/tablet/ParticipantListScreenStyle';
@@ -133,6 +135,11 @@ class ParticipantList extends Component {
     this.props.navigation.navigate('AddNewParticipant', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   }
 
+  goToNextScreen() {
+    scorecardStepService.recordFinishDatetime(this.props.route.params.scorecard_uuid, scorecardSteps[4]);
+    this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid});
+  }
+
   render() {
     const {translations} = this.context;
 
@@ -157,7 +164,7 @@ class ParticipantList extends Component {
           <View style={{padding: containerPadding}}>
             <BottomButton
               label={translations.next}
-              onPress={() => this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})}
+              onPress={() => this.goToNextScreen()}
             />
           </View>
         </View>

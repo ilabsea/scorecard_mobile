@@ -21,9 +21,11 @@ import ScorecardResultTitle from '../../components/ScorecardResult/ScorecardResu
 import ScorecardResultTable from '../../components/ScorecardResult/ScorecardResultTable';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
 import scorecardResultService from '../../services/scorecard_result_service';
+import scorecardStepService from '../../services/scorecard_step_service';
 
 import FormModal from '../../components/ScorecardResult/FormModal';
 import Scorecard from '../../models/Scorecard';
+import { scorecardSteps } from '../../constants/scorecard_step_constant';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
@@ -96,6 +98,7 @@ class ScorecardResult extends Component {
   }
 
   save() {
+    scorecardStepService.recordFinishDatetime(this.props.route.params.scorecard_uuid, scorecardSteps[8]);
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
