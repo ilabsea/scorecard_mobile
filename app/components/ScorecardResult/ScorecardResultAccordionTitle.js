@@ -14,7 +14,7 @@ class ScorecardResultAccordionTitle extends Component {
 
     return (
       <View style={{flexDirection: 'row', width: wp('70%')}}>
-        <Text numberOfLines={1} style={styles.titleText}>{ indicatorName }</Text>
+        <Text numberOfLines={1} style={styles.titleText}>{this.props.order}. { indicatorName }</Text>
         <Text style={[styles.titleText, textColor]}> *</Text>
       </View>
     )

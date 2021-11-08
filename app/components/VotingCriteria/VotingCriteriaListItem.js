@@ -102,7 +102,7 @@ export default class VotingCriteriaListItem extends Component {
       <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingTop: 10, paddingBottom: 16, paddingRight: 0}, containerDirectionStyle]}>
         <View style={{flex: 1}}>
           <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
-            {indicator.content || indicator.name}
+            {this.props.criteria.order}. {indicator.content || indicator.name}
           </Text>
 
           { this._renderRatingIcons() }

@@ -100,7 +100,7 @@ export default class CriteriaRatingItem extends Component {
             containerStyle={responsiveStyles.ratingIconContainer}
           >
             <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
-              { indicator.content || indicator.name}
+              {this.props.criteria.order}. { indicator.content || indicator.name}
             </Text>
           </PlaySound>
 

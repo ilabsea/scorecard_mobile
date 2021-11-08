@@ -78,6 +78,7 @@ class SelectedCriteriaItem extends Component {
 
           <CriteriaTitle
             title={this.state.indicator.content}
+            order={this.props.order}
             subText={translations.raisedTimes}
             criteriaCount={this.props.criteria.count}
             indicator={this.state.indicator}

@@ -76,9 +76,10 @@ export default class ScorecardResultTableRow extends Component {
     )
   }
 
-  _renderTextCell = (text, flexNum) => (
-    <Cell data={this.indicatorText(text)} textStyle={styles.text} style={{flex: flexNum}}/>
-  );
+  _renderTextCell = (text, flexNum) => {
+    const label = `${this.props.order}. ${text}`;
+    return <Cell data={label} textStyle={styles.text} style={{flex: flexNum}}/>
+  };
 
   _renderMedian = () => {
     const textLabel = this.props.criteria.median ? this.props.criteria.median : this.context.translations.notVoted;
