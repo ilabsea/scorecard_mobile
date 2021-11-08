@@ -18,10 +18,14 @@ class CriteriaSelection extends Component {
       selectedIndicators: [],
       unselectedIndicators: [],
       isModalVisible: false,
+      participantUuid: props.participantUuid,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
+    if (props.participantUuid != state.participantUuid)
+      return { indicators: props.indicators, selectedIndicators: props.selectedIndicators }
+
     return indicatorHelper.getIndicatorsState(props, state)
   }
 
@@ -46,7 +50,7 @@ class CriteriaSelection extends Component {
           indicators={this.state.indicators}
           selectedIndicators={this.state.selectedIndicators}
           isSearching={this.props.isSearching}
-          scorecardUuid={this.props.scorecardUUID}
+          scorecardUuid={this.props.scorecardUuid}
           selectIndicator={this.selectIndicator}
         />
       </RaisingProposedScrollView>
