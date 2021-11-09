@@ -5,15 +5,15 @@ export const VOTING = 4;
 export const SCORECARD_RESULT = 5;
 
 export const scorecardSteps = {
-  0: 'join_scorecard_screen',
-  1: 'downloaded',
-  2: 'preference_screen',
-  3: 'facilitator_screen',
-  4: 'participant_screen',
-  5: 'proposed_criteria_screen',
-  6: 'indicator_development_screen',
-  7: 'voting_screen',
-  8: 'scorecard_result_screen',
-  9: 'finished_setup',
-  10: 'submitted',
+  0: 'join scorecard',
+  1: 'download',
+  2: 'preference screen',
+  3: 'facilitator screen',
+  4: 'participant screen',
+  5: 'proposed criteria screen',
+  6: 'indicator development screen',
+  7: 'voting screen',
+  8: 'scorecard result screen',
+  9: 'finish setup',
+  10: 'submit',
 };

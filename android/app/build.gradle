@@ -206,8 +206,7 @@ dependencies {
 
     implementation project(':react-native-share')
 
-    implementation platform('com.google.firebase:firebase-bom:29.0.0')
-    // implementation platform('com.google.firebase:firebase-bom:28.2.1')
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
 

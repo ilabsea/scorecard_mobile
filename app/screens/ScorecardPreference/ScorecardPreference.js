@@ -136,7 +136,6 @@ class ScorecardPreference extends Component {
       });
 
       Scorecard.update(this.props.route.params.scorecard_uuid, { downloaded: true });
-      scorecardStepService.recordFinishDatetime(this.props.route.params.scorecard_uuid, scorecardSteps[1]);
     }
   }
 
