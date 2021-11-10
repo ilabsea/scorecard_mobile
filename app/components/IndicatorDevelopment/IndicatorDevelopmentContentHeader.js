@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import Color from '../../themes/color';
 import Tip from '../Tip';
 import OutlinedButton from '../OutlinedButton';
 import { LocalizationContext } from '../Translations';
@@ -15,11 +16,15 @@ class IndicatorDevelopmentContentHeader extends Component {
   static contextType = LocalizationContext;
 
   _renderBtnAddCriteria() {
+    const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.clickableColor;
+
     return (
       <OutlinedButton
         icon="plus"
         label={this.context.translations.addNew}
         onPress={() => this.props.openModal() }
+        disabled={this.props.hasRating}
+        buttonColor={{color: buttonColor}}
       />
     )
   }

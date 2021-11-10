@@ -19,9 +19,9 @@ class OutlinedButton extends Component {
         style={{padding: 0}}
       >
         <Icon name={this.props.icon || 'plus'} type="FontAwesome"
-          style={[{color: Color.headerColor}, responsiveStyles.buttonIcon]}
+          style={[{color: Color.headerColor}, responsiveStyles.buttonIcon, this.props.buttonColor]}
         />
-        <Text style={[{color: Color.headerColor}, responsiveStyles.buttonLabel]}>{this.props.label}</Text>
+        <Text style={[{color: Color.headerColor}, responsiveStyles.buttonLabel, this.props.buttonColor]}>{this.props.label}</Text>
       </Button>
     );
   }
