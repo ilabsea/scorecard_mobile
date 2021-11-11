@@ -1,4 +1,5 @@
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
 
 export const getUniqueScorecards = (scorecards) => {
@@ -34,4 +35,13 @@ export const getLocationMaxWidth = (scorecard) => {
     return locationLength * (scorecard.primary_school != null ? getDeviceStyle(wp('0.8%'), wp('0.6%')) : getDeviceStyle(wp('1%'), wp('0.8%')));
 
   return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1%'))
+}
+
+export const handleScorecardCodeClipboard = async () => {
+  let copiedText = await Clipboard.getString();
+
+  if (!parseInt(copiedText)) {
+    copiedText = copiedText.slice(-6);
+    Clipboard.setString(copiedText);
+  }
 }
