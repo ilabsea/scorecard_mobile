@@ -10,9 +10,19 @@ import {
 import BigButton from '../../components/Home/BigButton';
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
+import deepLinkService from '../../services/deep_link_service';
+
+import { connect } from 'react-redux';
+import { set } from '../../actions/currentScorecardAction';
 
 class Home extends Component {
   static contextType = LocalizationContext;
+
+  componentDidMount() {
+    setTimeout(() => {
+      deepLinkService.watchIncommingDeepLink(this.props.setCurrentScorecard);
+    }, 100)
+  }
 
   render() {
     const {translations} = this.context;
@@ -52,4 +62,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Home);

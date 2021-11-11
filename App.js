@@ -10,7 +10,7 @@ import { StyleProvider } from "native-base";
 import getTheme from './app/themes/components';
 import material from './app/themes/variables/material';
 
-import AppNavigator from './app/navigators/app_navigator';
+import AppNavigator, { navigationRef } from './app/navigators/app_navigator';
 
 import configureStore from './app/store/configureStore';
 
@@ -67,7 +67,7 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <StyleProvider style={getTheme(material)}>
           <PaperProvider style={{flex: 1}} theme={theme}>
-            <NavigationContainer>
+            <NavigationContainer ref={navigationRef}>
               { !loading && <AppNavigator /> }
             </NavigationContainer>
           </PaperProvider>
