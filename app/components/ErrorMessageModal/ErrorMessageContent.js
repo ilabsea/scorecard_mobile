@@ -8,6 +8,7 @@ import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 import OutlineInfoIcon from '../OutlineInfoIcon';
 
+import { getReadableAppLanguage } from '../../utils/translation_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -18,7 +19,7 @@ class ErrorMessageContent extends Component {
   static contextType = LocalizationContext;
 
   _renderErrorMessage() {
-    const { translations } = this.context;
+    const { translations, appLanguage } = this.context;
 
     const errorMessageDictionary = {
       'ERROR_SCORECARD_EXECUTED': translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid),
@@ -26,6 +27,7 @@ class ErrorMessageContent extends Component {
       'ERROR_SUBMIT_SCORECARD': translations.formatString(translations.errorSubmitScorecardMessage, this.props.scorecardUuid),
       'ERROR_DOWNLOAD_SCORECARD': translations.failedToDownloadThisScorecardInformation,
       'ERROR_SOMETHING_WENT_WRONG': translations.somethingWentWrongPleaseTryAgain,
+      'ERROR_DOWNLOAD_PDF': translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(appLanguage)),
       'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
     }
 

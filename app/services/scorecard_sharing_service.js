@@ -5,7 +5,7 @@ import Share from 'react-native-share';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { downloadFileFromUrl } from './local_file_system_service';
-import { ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
+import { ERROR_SOMETHING_WENT_WRONG, ERROR_DOWNLOAD_PDF } from '../constants/error_constant';
 import { getPDFPath } from '../utils/file_util';
 
 const scorecardSharingService = (() => {
@@ -55,7 +55,7 @@ const scorecardSharingService = (() => {
         }
         else {
           updateLoadingStatus(false);
-          updateErrorMessageModal(ERROR_SOMETHING_WENT_WRONG, true);
+          updateErrorMessageModal(ERROR_DOWNLOAD_PDF, true);
         }
       });
     }

@@ -9,4 +9,13 @@ const getPluralOrSingularWord = (number, singularWord, appLanguage, suffix) => {
   return newWord;
 }
 
-export { getPluralOrSingularWord };
+const getReadableAppLanguage = (appLanguage) => {
+  const languageDicationary = {
+    en: 'English',
+    km: 'ខ្មែរ',
+  }
+
+  return languageDicationary[appLanguage];
+}
+
+export { getPluralOrSingularWord, getReadableAppLanguage };

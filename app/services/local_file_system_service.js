@@ -18,7 +18,8 @@ const downloadFileFromUrl = async (url, filename, isPdfFile, callback) => {
   };
 
   await RNFS.downloadFile(options).promise.then(res => {
-    callback(true, res, options.toFile);
+    const isSuccess = res.statusCode == 200 ? true : false;
+    callback(isSuccess, res, options.toFile);
   }).catch(err => {
     callback(false, err);
   });
