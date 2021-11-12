@@ -20,12 +20,16 @@ import Color from '../themes/color';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import BigHeaderTabletStyles from '../styles/tablet/BigHeaderComponentStyle';
 import BigHeaderMobileStyles from '../styles/mobile/BigHeaderComponentStyle';
+import { navigationRef } from '../navigators/app_navigator';
 
 const responsiveStyles = getDeviceStyle(BigHeaderTabletStyles, BigHeaderMobileStyles);
 
 export default class BigHeader extends React.Component {
   _onPress() {
-    !!this.props.onBackPress && this.props.onBackPress()
+    if (navigationRef.current?.canGoBack())
+      navigationRef.current?.goBack();
+    else
+      navigationRef.current?.reset({ index: 0, routes: [{ name: 'Home' }] });
   }
 
   render() {

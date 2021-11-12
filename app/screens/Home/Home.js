@@ -1,27 +1,62 @@
 import React, {Component, useContext, useEffect, useState} from 'react';
 import { LocalizationContext } from '../../components/Translations';
 
-import {
-  StyleSheet,
-  ImageBackground,
-  View,
-} from "react-native";
+import { StyleSheet, ImageBackground, View } from "react-native";
 
 import BigButton from '../../components/Home/BigButton';
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
+import HomeInfoModal from '../../components/Home/HomeInfoModal';
 import deepLinkService from '../../services/deep_link_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
+let _this = null;
+
 class Home extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      infoModalVisible: false,
+      errorType: '',
+      isLoading: false,
+      scorecardUuid: '',
+    }
+
+    _this = this;
+  };
 
   componentDidMount() {
     setTimeout(() => {
-      deepLinkService.watchIncommingDeepLink(this.props.setCurrentScorecard);
+      deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
+  }
+
+  updateModalStatus(isLoading, scorecardUuid, errorType) {
+    _this.setState({
+      infoModalVisible: true,
+      errorType,
+      isLoading,
+      scorecardUuid,
+    });
+  }
+
+  closeModal() {
+    _this.setState({
+      infoModalVisible: false,
+      errorType: '',
+      isLoading: false,
+      scorecard: null,
+    });
+  }
+
+  handleOccupiedScorecard(scorecard) {
+    _this.props.setCurrentScorecard(scorecard);
+    _this.closeModal();
+    _this.props.navigation.navigate('ScorecardProgress', { uuid: scorecard.uuid });
   }
 
   render() {
@@ -48,6 +83,14 @@ class Home extends Component {
 
           <Logos />
         </View>
+
+        <HomeInfoModal
+          visible={this.state.infoModalVisible}
+          onDismiss={() => this.setState({ infoModalVisible: false })}
+          errorType={this.state.errorType}
+          isLoading={this.state.isLoading}
+          scorecardUuid={this.state.scorecardUuid}
+        />
       </ImageBackground>
     );
   }

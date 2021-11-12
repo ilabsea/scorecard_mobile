@@ -12,6 +12,7 @@ import NavigationHeaderBody from './NavigationHeaderBody';
 
 import { LocalizationContext } from './Translations';
 import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
+import { navigationRef } from '../navigators/app_navigator';
 
 import Color from '../themes/color';
 import { FontFamily } from '../assets/stylesheets/theme/font';
@@ -28,7 +29,10 @@ export default class BigHeader extends React.Component {
   }
 
   _onPress() {
-    !!this.props.onBackPress && this.props.onBackPress()
+    if (navigationRef.current?.canGoBack())
+      navigationRef.current?.goBack();
+    else
+      navigationRef.current?.reset({ index: 0, routes: [{ name: 'Home' }] });
   }
 
   _goToHomeScreen() {

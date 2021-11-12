@@ -3,19 +3,11 @@ import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import ErrorRequestToServerContent  from './ErrorRequestToServerContent';
-import ErrorAuthenticationContent from './ErrorAuthenticationContent';
-import ErrorMessageContent from './ErrorMessageContent';
-import {
-  ERROR_AUTHENTICATION,
-  ERROR_ENDPOINT,
-  ERROR_NOT_FOUND,
-  ERROR_UNAUTHORIZED,
-  ERROR_UNPROCESSABLE,
-} from '../../constants/error_constant';
+import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { getErrorMessageContent } from '../../utils/error_message_util';
 import ErrorMessageModalTabletStyles from '../../styles/tablet/ErrorMessageModalComponentStyle';
 import ErrorMessageModalMobileStyles from '../../styles/mobile/ErrorMessageModalComponentStyle';
 
@@ -40,25 +32,15 @@ class ErrorMessageModal extends Component {
   }
 
   _renderContent = () => {
-    if (this.props.errorType === ERROR_AUTHENTICATION)
-      return <ErrorAuthenticationContent backendUrl={this.state.backendUrl} onDismiss={this.props.onDismiss} />
-    else if (this.props.errorType === ERROR_ENDPOINT ||
-      (this.props.errorType == ERROR_NOT_FOUND && !this.props.isNewScorecard) ||
-      this.props.errorType === ERROR_UNAUTHORIZED || this.props.errorType === ERROR_UNPROCESSABLE) {
-      return <ErrorRequestToServerContent
-                backendUrl={this.state.backendUrl}
-                onDismiss={this.props.onDismiss}
-                isSubmit={this.props.isSubmit}
-                errorType={this.props.errorType}
-                scorecardUuid={this.props.scorecardUuid}
-              />;
-    }
+    const params = {
+      error_type: this.props.errorType,
+      is_new_scorecard: this.props.isNewScorecard,
+      is_submit: this.props.isSubmit,
+      scorecard_uuid: this.props.scorecardUuid,
+      backend_url: this.state.backendUrl,
+    };
 
-    return <ErrorMessageContent 
-              onDismiss={this.props.onDismiss}
-              scorecardUuid={this.props.scorecardUuid}
-              errorType={this.props.errorType}
-            />
+    return getErrorMessageContent(params, this.props.onDismiss);
   }
 
   onModalDismiss = () => {

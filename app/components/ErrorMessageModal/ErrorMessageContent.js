@@ -29,6 +29,7 @@ class ErrorMessageContent extends Component {
       'ERROR_SOMETHING_WENT_WRONG': translations.somethingWentWrongPleaseTryAgain,
       'ERROR_DOWNLOAD_PDF': translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(appLanguage)),
       'ERROR_INVALID_SCORECARD_URL': translations.theUrlThatYouCopiedIsInvalid,
+      'ERROR_NETWORK_AUTHENTICATION': translations.somethingWentWrongPleaseTryAgain,
       'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
     }
 
