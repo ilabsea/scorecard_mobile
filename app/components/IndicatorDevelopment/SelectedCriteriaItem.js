@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import Color from '../../themes/color';
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { addToProposed } from '../../actions/proposedCriteriaAction';
 
@@ -59,10 +60,12 @@ class SelectedCriteriaItem extends Component {
   }
 
   renderRemoveButton() {
+    const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.clickableColor;
+
     return (
-      <TouchableOpacity onPress={() => this.handleCriteria()} style={responsiveStyles.removeButton}>
-        <Icon name='trash' size={16} style={responsiveStyles.removeIcon} />
-        <Text style={[styles.buttonLabel, responsiveStyles.removeLabel]}>
+      <TouchableOpacity onPress={() => this.handleCriteria()} style={responsiveStyles.removeButton} disabled={this.props.hasRating}>
+        <Icon name='trash' size={16} style={[responsiveStyles.removeIcon, { color: buttonColor }]} />
+        <Text style={[styles.buttonLabel, responsiveStyles.removeLabel, { color: buttonColor }]}>
           { this.context.translations['remove'] }
         </Text>
       </TouchableOpacity>

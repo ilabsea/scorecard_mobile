@@ -41,6 +41,7 @@ class IndicatorDevelopmentList extends Component {
         onLongPress={drag}
         isActive={isActive}
         updateFirstVisitStatus={(status) => this.updateFirstVisitStatus(status, index)}
+        hasRating={this.props.hasRating}
       />
     )
   }

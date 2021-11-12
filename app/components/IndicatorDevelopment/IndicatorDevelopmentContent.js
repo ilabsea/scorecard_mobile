@@ -6,12 +6,27 @@ import IndicatorDevelopmentContentHeader from './IndicatorDevelopmentContentHead
 import IndicatorDevelopmentList from './IndicatorDevelopmentList';
 import NoDataMessage from '../NoDataMessage';
 import { containerPadding } from '../../utils/responsive_util';
+import Rating from '../../models/Rating';
 
 class IndicatorDevelopmentContent extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
 
-  state = {
-    headerHeight: 0,
+    this.state = {
+      headerHeight: 0,
+      hasRating: Rating.has(props.scorecardUuid)
+    }
+  }
+
+  componentDidMount() {
+    this.focusListener = this.props.navigation.addListener("focus", async () => {
+      this.setState({ hasRating: Rating.has(this.props.scorecardUuid) });
+    });
+  }
+  
+  componentWillUnmount() {
+    this.focusListener && this.focusListener();
   }
 
   _renderNoData() {
@@ -33,6 +48,7 @@ class IndicatorDevelopmentContent extends Component {
       <IndicatorDevelopmentContentHeader
         openModal={this.props.openModal}
         hasData={!!this.props.selectedCriterias.length}
+        hasRating={this.state.hasRating}
       />
     )
   }
@@ -53,6 +69,7 @@ class IndicatorDevelopmentContent extends Component {
             openModal={this.props.openModal}
             renderHeader={() => this.renderHeader()}
             headerHeight={this.state.headerHeight}
+            hasRating={this.state.hasRating}
           />
         </View>
 

@@ -6,6 +6,7 @@ const Rating = (() => {
     deleteAll,
     findByVotingCriteriaAndParticipant,
     getAll,
+    has,
     destroy,
     findByVotingCriteria,
   }
@@ -32,6 +33,10 @@ const Rating = (() => {
 
   function getAll(scorecardUuid) {
     return realm.objects('Rating').filtered(`scorecard_uuid == '${scorecardUuid}'`);
+  }
+
+  function has(scorecardUuid) {
+    return getAll(scorecardUuid).length > 0;
   }
 
   function destroy(scorecardUuid, votingCriteriaUuid) {

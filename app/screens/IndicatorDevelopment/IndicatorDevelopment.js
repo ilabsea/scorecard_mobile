@@ -81,6 +81,7 @@ class IndicatorDevelopment extends Component {
         scorecardUuid={this.props.route.params.scorecard_uuid}
         openModal={() => this.setState({ visibleModal: true })}
         updateSelectedCriteriasOrder={(criterias) => this.updateSelectedCriteriasOrder(criterias)}
+        navigation={this.props.navigation}
       />
     )
   }
