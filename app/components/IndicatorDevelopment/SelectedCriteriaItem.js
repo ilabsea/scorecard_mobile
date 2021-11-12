@@ -60,7 +60,7 @@ class SelectedCriteriaItem extends Component {
   }
 
   renderRemoveButton() {
-    const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.clickableColor;
+    const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.redColor;
 
     return (
       <TouchableOpacity onPress={() => this.handleCriteria()} style={responsiveStyles.removeButton} disabled={this.props.hasRating}>
