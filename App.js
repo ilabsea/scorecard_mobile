@@ -60,6 +60,7 @@ const App: () => React$Node = () => {
     });
 
     AsyncStorage.removeItem(SELECTED_FILTERS);
+    AsyncStorage.removeItem('HANDLE_DEEP_LINK')
   });
 
   return (

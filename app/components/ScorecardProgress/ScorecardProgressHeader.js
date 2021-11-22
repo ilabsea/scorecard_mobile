@@ -4,12 +4,16 @@ import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
 import ScorecardProgressCircle from './ScorecardProgressCircle';
 import ScorecardProgressShareButton from './ScorecardProgressShareButton';
+import { navigationRef } from '../../navigators/app_navigator';
 
 class ScorecardProgressHeader extends Component {
   static contextType = LocalizationContext;
 
   _onPress() {
-    !!this.props.onBackPress && this.props.onBackPress()
+    if (navigationRef.current?.canGoBack())
+      navigationRef.current?.goBack();
+    else
+      navigationRef.current?.reset({ index: 0, routes: [{ name: 'Home' }] });
   }
 
   renderRightComponent() {

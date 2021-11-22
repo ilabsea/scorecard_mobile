@@ -29,12 +29,13 @@ const deepLinkService = (() => {
       _handleRedirection(initialUrl, updateModalStatus, closeModal, handleOccupiedScorecard);
     }
 
-    // const handleRedirection = (res) => _handleRedirection(res.url, updateModalStatus, closeModal, handleOccupiedScorecard);
-    // Linking.addEventListener('url', handleRedirection);
+    if (!await AsyncStorage.getItem('HANDLE_DEEP_LINK')) {
+      AsyncStorage.setItem('HANDLE_DEEP_LINK', 'true');
 
-    Linking.addEventListener('url', async (res) => {
-      _handleRedirection(res.url, updateModalStatus, closeModal, handleOccupiedScorecard);
-    })
+      Linking.addEventListener('url', (res) => {
+        _handleRedirection(res.url, updateModalStatus, closeModal, handleOccupiedScorecard);
+      })
+    }
   }
 
   //Private method
@@ -47,10 +48,7 @@ const deepLinkService = (() => {
         Clipboard.setString(url);
 
         if (!!Scorecard.find(scorecardUuid)) {
-          console.log('== scorecard already exist ====')
-
           closeModal();
-          // navigate('ScorecardDetail', {scorecard_uuid: scorecardUuid})
           navigationRef.current?.reset({ index: 0, routes: [{ name: 'ScorecardDetail', params: { scorecard_uuid: scorecardUuid } }] });
           return;
         }
@@ -59,8 +57,7 @@ const deepLinkService = (() => {
           (errorType) => updateModalStatus(false, scorecardUuid, errorType),
           () => {
             closeModal();
-            navigationRef.current?.reset({ index: 1, routes: [{ name: 'ScorecardDetail', params: { scorecard_uuid: scorecardUuid } }] });
-            // navigate('ScorecardDetail', {scorecard_uuid: scorecardUuid})
+            navigationRef.current?.reset({ index: 0, routes: [{ name: 'ScorecardDetail', params: { scorecard_uuid: scorecardUuid } }] });
           },
           (error) => updateModalStatus(false, scorecardUuid, getErrorType(error.status))
         );
@@ -72,12 +69,9 @@ const deepLinkService = (() => {
           return;
         }
 
-        console.log('== scorecard continue ====')
-
         closeModal();
         const step = scorecardProgress[scorecard.status - 1];
         navigationRef.current?.reset({ index: 0, routes: [{ name: step.routeName, params: { scorecard_uuid: scorecardUuid, local_ngo_id: scorecard.local_ngo_id } }] });
-        // navigate(step.routeName, { scorecard_uuid: scorecardUuid, local_ngo_id: scorecard.local_ngo_id });
       });
     }, 50);
   }

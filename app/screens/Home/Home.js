@@ -56,7 +56,7 @@ class Home extends Component {
   handleOccupiedScorecard(scorecard) {
     _this.props.setCurrentScorecard(scorecard);
     _this.closeModal();
-    _this.props.navigation.navigate('ScorecardProgress', { uuid: scorecard.uuid });
+    _this.props.navigation.reset({ index: 0, routes: [{ name: 'ScorecardProgress', params: { uuid: scorecard.uuid } }] });
   }
 
   render() {
