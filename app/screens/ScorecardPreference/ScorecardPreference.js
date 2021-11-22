@@ -215,7 +215,6 @@ class ScorecardPreference extends Component {
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={this.context.translations['getStarted']}
-            onBackPress={() => this.onBackPress()}
             onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={0}/>
 

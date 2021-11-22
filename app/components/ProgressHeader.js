@@ -12,7 +12,7 @@ import NavigationHeaderBody from './NavigationHeaderBody';
 
 import { LocalizationContext } from './Translations';
 import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
-import { navigationRef } from '../navigators/app_navigator';
+import { navigateBack } from '../utils/navigation_util';
 
 import Color from '../themes/color';
 import { FontFamily } from '../assets/stylesheets/theme/font';
@@ -28,13 +28,6 @@ export default class BigHeader extends React.Component {
     };
   }
 
-  _onPress() {
-    if (navigationRef.current?.canGoBack())
-      navigationRef.current?.goBack();
-    else
-      navigationRef.current?.reset({ index: 0, routes: [{ name: 'Home' }] });
-  }
-
   _goToHomeScreen() {
     this.setState({ visibleModal: false });
     !!this.props.onPressHome && this.props.onPressHome()
@@ -47,7 +40,7 @@ export default class BigHeader extends React.Component {
       <Header span>
         <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
           <Left style={{flex: navigationBackButtonFlex}}>
-            <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this._onPress()} style={{ marginLeft: 0 }} />
+            <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: 0 }} />
           </Left>
 
           <NavigationHeaderBody title={this.props.title} />
