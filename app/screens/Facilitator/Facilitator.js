@@ -97,7 +97,6 @@ class FacilitatorScreen extends Component {
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations['getStarted']}
-            onPressHome={() => this.props.navigation.popToTop()}
             progressIndex={1}
             rightButton={
               <FacilitatorReloadButton localNgoId={this.props.route.params.local_ngo_id}

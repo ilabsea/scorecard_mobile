@@ -12,7 +12,7 @@ import NavigationHeaderBody from './NavigationHeaderBody';
 
 import { LocalizationContext } from './Translations';
 import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
-import { navigateBack } from '../utils/navigation_util';
+import { navigateBack, navigateHome } from '../utils/navigation_util';
 
 import Color from '../themes/color';
 import { FontFamily } from '../assets/stylesheets/theme/font';
@@ -30,7 +30,7 @@ export default class BigHeader extends React.Component {
 
   _goToHomeScreen() {
     this.setState({ visibleModal: false });
-    !!this.props.onPressHome && this.props.onPressHome()
+    navigateHome();
   }
 
   render() {

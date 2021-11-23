@@ -33,7 +33,6 @@ class RaisingProposed extends Component {
       <View style={{flex: 1}}>
         <ProgressHeader
           title={translations['getStarted']}
-          onPressHome={() => this.props.navigation.popToTop()}
           progressIndex={3}
         />
         <ProposeCriteriaContent

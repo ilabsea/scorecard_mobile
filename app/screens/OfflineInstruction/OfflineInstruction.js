@@ -35,7 +35,6 @@ export default class OfflineInstruction extends Component {
       return (
         <ProgressHeader
           title={translations[screen.header.title]}
-          onPressHome={() => this.props.navigation.popToTop()}
           progressIndex={screen.header.progressIndex}
         />
       )

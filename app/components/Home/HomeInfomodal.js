@@ -18,9 +18,7 @@ const styles = getDeviceStyle(HomeInfoModalTabletStyles, HomeInfoModalMobileStyl
 class HomeInfoModal extends Component {
   static contextType = LocalizationContext;
 
-  state = {
-    backendUrl: '',
-  }
+  state = { backendUrl: '' }
 
   async componentDidMount() {
     const setting = await AsyncStorage.getItem('SETTING');

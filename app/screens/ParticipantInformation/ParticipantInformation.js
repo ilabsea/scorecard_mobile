@@ -169,7 +169,6 @@ class ParticipantInformation extends Component {
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <ProgressHeader
           title={translations.getStarted}
-          onPressHome={() => this.props.navigation.popToTop()}
           progressIndex={2}
         />
 
