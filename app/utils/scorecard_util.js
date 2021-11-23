@@ -1,6 +1,7 @@
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
+import { validScorecardUrls } from '../constants/url_constant';
 
 export const getUniqueScorecards = (scorecards) => {
   return scorecards.filter((scorecard, index, array) => array.findIndex(t => t.uuid == scorecard.uuid) == index);
@@ -37,11 +38,24 @@ export const getLocationMaxWidth = (scorecard) => {
   return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1%'))
 }
 
-export const handleScorecardCodeClipboard = async () => {
+export const handleScorecardCodeClipboard = async (incorrectUrlMsg) => {
   let copiedText = await Clipboard.getString();
 
-  if (!parseInt(copiedText)) {
-    copiedText = copiedText.slice(-6);
-    Clipboard.setString(copiedText);
+  if (!_isValidScorecardUrl(copiedText))
+    return;
+
+  copiedText = copiedText.slice(-6);
+  if (!parseInt(copiedText))    // if the last 6 digits contain a special character or letter
+    return;
+
+  Clipboard.setString(copiedText);
+}
+
+const _isValidScorecardUrl = (copiedText) => {
+  for(let i = 0; i < validScorecardUrls.length; i++) {
+    if (copiedText.includes(validScorecardUrls[i]))
+      return true;
   }
+
+  return false;
 }
