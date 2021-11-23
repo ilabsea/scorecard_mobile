@@ -18,6 +18,10 @@ const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobile
 class ErrorRequestToServerContent extends Component {
   static contextType = LocalizationContext;
 
+  _scorecardCode() {
+    return <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
+  }
+
   _renderNotFoundContent() {
     const { translations } = this.context;
 
@@ -26,7 +30,7 @@ class ErrorRequestToServerContent extends Component {
         <Text style={responsiveStyles.label}>{translations.cannotSubmitThisScorecard}: </Text>
         <Text style={responsiveStyles.label}>
           {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl} </Text>
-          { translations.formatString(translations.scorecardDeletedPleaseContactAdministrator, this.props.scorecardUuid) }
+          { translations.formatString(translations.scorecardDeletedPleaseContactAdministrator, this._scorecardCode()) }
         </Text>
       </View>
     );
@@ -54,7 +58,7 @@ class ErrorRequestToServerContent extends Component {
     return (
       <View>
         <Text style={responsiveStyles.label}>
-          { translations.formatString(translations.unauthorizedScorecardMessage, this.props.scorecardUuid) }
+          { translations.formatString(translations.unauthorizedScorecardMessage, this._scorecardCode()) }
         </Text>
       </View>
     );

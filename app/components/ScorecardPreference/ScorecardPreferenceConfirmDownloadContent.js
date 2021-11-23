@@ -12,6 +12,10 @@ const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyle
 class ScorecardPreferenceConfirmDownloadContent extends Component {
   static contextType = LocalizationContext;
 
+  renderBoldText(text) {
+    return <Text style={[{fontWeight: 'bold'}]}>{ text }</Text>
+  }
+
   render() {
     const {translations} = this.context;
     const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.props.languages, this.props.selectedLanguage.text_locale);
@@ -21,7 +25,7 @@ class ScorecardPreferenceConfirmDownloadContent extends Component {
       <View style={{marginTop: 15, marginBottom: 10, paddingHorizontal: 15}}>
         <Text style={modalStyles.label}>{translations.downloadScorecardFirstDescription}</Text>
         <Text style={[{ marginTop: 15 }, , modalStyles.label]}>
-          {translations.formatString(translations.downloadScorecardSecondDescription, this.props.scorecardUuid, textLocaleLabel, audioLocaleLabel)}
+          {translations.formatString(translations.downloadScorecardSecondDescription, this.renderBoldText(this.props.scorecardUuid), this.renderBoldText(textLocaleLabel), this.renderBoldText(audioLocaleLabel))}
         </Text>
       </View>
     )

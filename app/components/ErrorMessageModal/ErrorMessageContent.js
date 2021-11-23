@@ -20,18 +20,19 @@ class ErrorMessageContent extends Component {
 
   _renderErrorMessage() {
     const { translations, appLanguage } = this.context;
+    const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
 
     const errorMessageDictionary = {
-      'ERROR_SCORECARD_EXECUTED': translations.formatString(translations.scorecardIsBeingExecuted, this.props.scorecardUuid),
-      'ERROR_SCORECARD_COMPLETED': translations.formatString(translations.scorecardIsCompleted, this.props.scorecardUuid),
-      'ERROR_SUBMIT_SCORECARD': translations.formatString(translations.errorSubmitScorecardMessage, this.props.scorecardUuid),
+      'ERROR_SCORECARD_EXECUTED': translations.formatString(translations.scorecardIsBeingExecuted, scorecardCode),
+      'ERROR_SCORECARD_COMPLETED': translations.formatString(translations.scorecardIsCompleted, scorecardCode),
+      'ERROR_SUBMIT_SCORECARD': translations.formatString(translations.errorSubmitScorecardMessage, scorecardCode),
       'ERROR_DOWNLOAD_SCORECARD': translations.failedToDownloadThisScorecardInformation,
       'ERROR_SOMETHING_WENT_WRONG': translations.somethingWentWrongPleaseTryAgain,
       'ERROR_DOWNLOAD_PDF': translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(appLanguage)),
       'ERROR_INVALID_SCORECARD_URL': translations.theUrlThatYouCopiedIsInvalid,
       'ERROR_NETWORK_AUTHENTICATION': translations.somethingWentWrongPleaseTryAgain,
-      'ERROR_INCORRECT_SCORECARD_CODE': translations.formatString(translations.thisScorecardCodeIsIncorrect, this.props.scorecardUuid),
-      'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
+      'ERROR_INCORRECT_SCORECARD_CODE': translations.formatString(translations.thisScorecardCodeIsIncorrect, scorecardCode),
+      'default': translations.formatString(translations.scorecardIsNotExist, scorecardCode)
     }
 
     return errorMessageDictionary[this.props.errorType] || errorMessageDictionary['default'];

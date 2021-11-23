@@ -18,15 +18,15 @@ const deepLinkService = (() => {
   async function watchInitialURL() {
     const initialUrl = await Linking.getInitialURL();
     if (!!initialUrl)
-      AsyncStorage.setItem('INITITAL_URL', initialUrl);
+      AsyncStorage.setItem('INITIAL_URL', initialUrl);
   }
 
   async function watchIncommingDeepLink(updateModalStatus, closeModal, handleOccupiedScorecard) {
-    const initialUrl = await AsyncStorage.getItem('INITITAL_URL');
+    const initialUrl = await AsyncStorage.getItem('INITIAL_URL');
 
     // Handle redirection when the app is killed
     if (!!initialUrl) {
-      AsyncStorage.removeItem('INITITAL_URL');
+      AsyncStorage.removeItem('INITIAL_URL');
       _handleRedirection(initialUrl, updateModalStatus, closeModal, handleOccupiedScorecard);
     }
 
@@ -43,13 +43,11 @@ const deepLinkService = (() => {
   //Private method
   function _handleRedirection(url, updateModalStatus, closeModal, handleOccupiedScorecard) {
     const scorecardUuid = url.slice(-6);
-
     // If the last 6 digits include a special character or letter, shows an incorrect scorecard code message
     if (!parseInt(scorecardUuid)) {
       updateModalStatus(false, scorecardUuid.match(/\d|\./g).join(''), ERROR_INCORRECT_SCORECARD_CODE);
       return;
     }
-
     updateModalStatus(true, scorecardUuid, null);        // Show loading popup modal
 
     setTimeout(() => {
@@ -62,26 +60,29 @@ const deepLinkService = (() => {
 
         newScorecardService.joinScorecard(scorecardUuid,
           (errorType) => updateModalStatus(false, scorecardUuid, errorType),          // Error caused by the scorecard status
-          () => {
-            closeModal();
-            _redirectTo('ScorecardDetail', { scorecard_uuid: scorecardUuid });        // Join scorecard success
-          },
+          () => _joinScorecardSuccess(scorecardUuid, closeModal),
           (error) => updateModalStatus(false, scorecardUuid, getErrorType(error.status))         // Error caused by the request issue (ex: no internet connection, ...)
         );
-      }, () => {
-        // Handle redirection when scorecard is already exist in the app
-        const scorecard = Scorecard.find(scorecardUuid);
-        closeModal();
-
-        if (scorecard.isUploaded || scorecard.finished) {
-          handleOccupiedScorecard(scorecard);
-          return;
-        }
-
-        const step = scorecardProgress[scorecard.status - 1];
-        _redirectTo(step.routeName, { scorecard_uuid: scorecardUuid, local_ngo_id: scorecard.local_ngo_id });
-      });
+      }, () => _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard)); // Handle redirection when scorecard is already exist in the app
     }, 50);
+  }
+
+  function _joinScorecardSuccess(scorecardUuid, closeModal) {
+    closeModal();
+    _redirectTo('ScorecardDetail', { scorecard_uuid: scorecardUuid });
+  }
+
+  function _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard) {
+    const scorecard = Scorecard.find(scorecardUuid);
+    closeModal();
+
+    if (scorecard.isUploaded || scorecard.finished) {
+      handleOccupiedScorecard(scorecard);
+      return;
+    }
+
+    const step = scorecardProgress[scorecard.status - 1];
+    _redirectTo(step.routeName, { scorecard_uuid: scorecardUuid, local_ngo_id: scorecard.local_ngo_id });
   }
 
   function _redirectTo(screenName, params) {

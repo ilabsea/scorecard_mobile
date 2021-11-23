@@ -32,13 +32,14 @@ class HomeInfoModal extends Component {
 
   _renderSpinner() {
     const { translations } = this.context;
+    const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
 
     return (
       <View style={styles.loadingContainer}>
         <View style={styles.loadingContentWrapper}>
           <Spinner color={Color.primaryColor} style={{marginLeft: -5}} />
           <Text style={{paddingLeft: 20}} numberOfLines={1}>
-            { translations.formatString(translations.joiningTheScorecard, this.props.scorecardUuid) }
+            { translations.formatString(translations.joiningTheScorecard, scorecardCode) }
           </Text>
         </View>
       </View>
