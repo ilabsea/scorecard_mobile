@@ -11,15 +11,18 @@ import ScorecardCodeInputMobileStyles from '../../styles/mobile/ScorecardCodeInp
 
 const styles = getDeviceStyle(ScorecardCodeInputTabletStyles, ScorecardCodeInputMobileStyles);
 
+let _this = null;
+
 class ScorecardCodeInput extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
+    _this = this;
   }
 
   componentDidMount() {
-    handleScorecardCodeClipboard();
+    handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
     AppState.addEventListener('change', this._handleAppStateChange);
     setTimeout(() => {
       this.inputRef.focusField(0);
@@ -35,7 +38,7 @@ class ScorecardCodeInput extends Component {
       return;
 
     setTimeout(() => {
-      handleScorecardCodeClipboard();
+      handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
     }, 100);
   }
 

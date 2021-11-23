@@ -28,6 +28,7 @@ class ErrorMessageContent extends Component {
       'ERROR_DOWNLOAD_SCORECARD': translations.failedToDownloadThisScorecardInformation,
       'ERROR_SOMETHING_WENT_WRONG': translations.somethingWentWrongPleaseTryAgain,
       'ERROR_DOWNLOAD_PDF': translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(appLanguage)),
+      'ERROR_INVALID_SCORECARD_URL': translations.theUrlThatYouCopiedIsInvalid,
       'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
     }
 

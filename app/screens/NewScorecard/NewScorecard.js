@@ -20,6 +20,7 @@ import Scorecard from '../../models/Scorecard';
 import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import newScorecardService from '../../services/new_scorecard_service';
+import { ERROR_INVALID_SCORECARD_URL } from '../../constants/error_constant';
 
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
@@ -27,6 +28,7 @@ import Logos from '../../components/Home/Logos';
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
+let _this = null;
 class NewScorecard extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -47,6 +49,7 @@ class NewScorecard extends Component {
     this.unsubscribeNetInfo;
     this.scorecardRef = React.createRef();
     this.componentIsUnmount = false;
+    _this = this;
   }
 
   componentDidMount() {
@@ -117,7 +120,7 @@ class NewScorecard extends Component {
   };
 
   handleErrorScorecard(errorType) {
-    this.setState({
+    _this.setState({
       isLoading: false,
       visibleModal: true,
       errorType: errorType,
@@ -147,7 +150,7 @@ class NewScorecard extends Component {
       visibleInfoModal: false,
     });
 
-    if (hasAutoFocus)
+    if (hasAutoFocus && this.state.errorType != ERROR_INVALID_SCORECARD_URL)
       this.scorecardRef.current.inputRef.focusField(5);
   }
 
@@ -159,6 +162,7 @@ class NewScorecard extends Component {
         messageType={this.state.messageType}
         joinScorecard={this.joinScorecard}
         navigation={this.props.navigation}
+        handleInvalidUrl={this.handleErrorScorecard}
       />
     )
   }

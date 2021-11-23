@@ -2,6 +2,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
 import { validScorecardUrls } from '../constants/url_constant';
+import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
 
 export const getUniqueScorecards = (scorecards) => {
   return scorecards.filter((scorecard, index, array) => array.findIndex(t => t.uuid == scorecard.uuid) == index);
@@ -38,17 +39,31 @@ export const getLocationMaxWidth = (scorecard) => {
   return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1%'))
 }
 
-export const handleScorecardCodeClipboard = async (incorrectUrlMsg) => {
+export const handleScorecardCodeClipboard = async (updateErrorState) => {
   let copiedText = await Clipboard.getString();
 
-  if (!_isValidScorecardUrl(copiedText))
+  if (copiedText == 'null')
     return;
+
+  if (!_isValidScorecardUrl(copiedText)) {
+    _handelInvalidUrl(updateErrorState);
+    return;
+  }
 
   copiedText = copiedText.slice(-6);
-  if (!parseInt(copiedText))    // if the last 6 digits contain a special character or letter
+  if (!parseInt(copiedText)) {    // if the last 6 digits contain a special character or letter
+    _handelInvalidUrl(updateErrorState);
     return;
+  }
 
   Clipboard.setString(copiedText);
+}
+
+const _handelInvalidUrl = (updateErrorState) => {
+  Clipboard.setString(null);
+  setTimeout(() => {
+    updateErrorState(ERROR_INVALID_SCORECARD_URL);
+  }, 100);
 }
 
 const _isValidScorecardUrl = (copiedText) => {
