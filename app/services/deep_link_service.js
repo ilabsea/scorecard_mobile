@@ -1,11 +1,11 @@
 import { Linking } from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import newScorecardService from './new_scorecard_service';
 import { getErrorType } from './api_service';
 import Scorecard from '../models/Scorecard';
 import scorecardProgress from '../db/jsons/scorecardProgress';
+import { ERROR_INCORRECT_SCORECARD_CODE } from '../constants/error_constant';
 
 import { navigate, navigationRef } from '../navigators/app_navigator';
 
@@ -41,12 +41,15 @@ const deepLinkService = (() => {
   //Private method
   function _handleRedirection(url, updateModalStatus, closeModal, handleOccupiedScorecard) {
     const scorecardUuid = url.slice(-6);
+    if (!parseInt(scorecardUuid)) {
+      updateModalStatus(false, scorecardUuid.match(/\d|\./g).join(''), ERROR_INCORRECT_SCORECARD_CODE);
+      return;
+    }
+
     updateModalStatus(true, scorecardUuid, null);
 
     setTimeout(() => {
       newScorecardService.handleExistedScorecard(scorecardUuid, () => {
-        Clipboard.setString(url);
-
         if (!!Scorecard.find(scorecardUuid)) {
           closeModal();
           navigationRef.current?.reset({ index: 0, routes: [{ name: 'ScorecardDetail', params: { scorecard_uuid: scorecardUuid } }] });

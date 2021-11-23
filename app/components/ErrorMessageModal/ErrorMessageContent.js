@@ -30,6 +30,7 @@ class ErrorMessageContent extends Component {
       'ERROR_DOWNLOAD_PDF': translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(appLanguage)),
       'ERROR_INVALID_SCORECARD_URL': translations.theUrlThatYouCopiedIsInvalid,
       'ERROR_NETWORK_AUTHENTICATION': translations.somethingWentWrongPleaseTryAgain,
+      'ERROR_INCORRECT_SCORECARD_CODE': translations.formatString(translations.thisScorecardCodeIsIncorrect, this.props.scorecardUuid),
       'default': translations.formatString(translations.scorecardIsNotExist, this.props.scorecardUuid)
     }
 

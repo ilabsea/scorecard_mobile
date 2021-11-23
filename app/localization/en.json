@@ -307,5 +307,6 @@
   "somethingWentWrongPleaseTryAgain": "Something went wrong. Please check your internet connection then try again.",
   "thePdfFileOfThisLanguageIsNotAvailableToDownload": "The PDF file in the {0} language is not available to download. Please contact the program administrator for more detail.",
   "theUrlThatYouCopiedIsInvalid": "The URL that you copied is invalid.",
-  "joiningTheScorecard": "Joining the scorecard({0})"
+  "joiningTheScorecard": "Joining the scorecard({0})",
+  "thisScorecardCodeIsIncorrect": "This scorecard code({0}) is incorrect. Please contact the program administrator for more detail."
 }

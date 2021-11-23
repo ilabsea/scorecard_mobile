@@ -7,7 +7,7 @@ import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import { getErrorMessageContent } from '../../utils/error_message_util';
+import { getErrorMessageContent } from '../../utils/modal_error_message_util';
 import ErrorMessageModalTabletStyles from '../../styles/tablet/ErrorMessageModalComponentStyle';
 import ErrorMessageModalMobileStyles from '../../styles/mobile/ErrorMessageModalComponentStyle';
 

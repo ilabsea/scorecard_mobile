@@ -6,9 +6,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Color from '../../themes/color';
 import CustomStyle from '../../themes/customStyle';
-import { getErrorMessageContent } from '../../utils/error_message_util';
+import { getErrorMessageContent } from '../../utils/modal_error_message_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import { LocalizationContext } from '../Translations';
-import { modalBorderRadius } from '../../constants/border_radius_constant';
+
+import HomeInfoModalTabletStyles from '../../styles/tablet/HomeInfoModalComponentStyle';
+import HomeInfoModalMobileStyles from '../../styles/mobile/HomeInfoModalComponentStyle';
+
+const styles = getDeviceStyle(HomeInfoModalTabletStyles, HomeInfoModalMobileStyles);
 
 class HomeInfoModal extends Component {
   static contextType = LocalizationContext;
@@ -30,11 +35,13 @@ class HomeInfoModal extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: Color.whiteColor, width: '55%', paddingHorizontal: 20, paddingVertical: 10, borderRadius: modalBorderRadius}}>
-        <Spinner color={Color.primaryColor} style={{marginLeft: -20}} />
-        <Text style={{paddingLeft: 20}}>
-          { translations.formatString(translations.joiningTheScorecard, this.props.scorecardUuid) }
-        </Text>
+      <View style={styles.loadingContainer}>
+        <View style={styles.loadingContentWrapper}>
+          <Spinner color={Color.primaryColor} style={{marginLeft: -5}} />
+          <Text style={{paddingLeft: 20}} numberOfLines={1}>
+            { translations.formatString(translations.joiningTheScorecard, this.props.scorecardUuid) }
+          </Text>
+        </View>
       </View>
     )
   }
@@ -61,13 +68,11 @@ class HomeInfoModal extends Component {
   }
 
   render() {
-    const contentStyle = this.props.isLoading ? {alignItems: 'center'} : CustomStyle.modalContainer;
+    const contentStyle = this.props.isLoading ? {alignItems: 'center'} : [CustomStyle.modalContainer, styles.modalContentContainer];
 
     return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDismiss}
-        contentContainerStyle={contentStyle}
-        >
+        <Modal visible={this.props.visible} contentContainerStyle={contentStyle}>
           { this._renderContent() }
         </Modal>
       </Portal>
