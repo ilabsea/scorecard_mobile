@@ -4,7 +4,7 @@ import { Modal, Portal } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
-
+import { environment } from '../../config/environment';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { getErrorMessageContent } from '../../utils/modal_error_message_util';
@@ -25,7 +25,7 @@ class ErrorMessageModal extends Component {
   async componentDidMount() {
     const setting = await AsyncStorage.getItem('SETTING');
     this.setState({
-      backendUrl: setting != null ? JSON.parse(setting).backendUrl : 'https://isaf.digital-csc.org',
+      backendUrl: setting != null ? JSON.parse(setting).backendUrl : environment.defaultEndpoint,
     }, () => {
       AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
     });

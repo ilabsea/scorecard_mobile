@@ -3,7 +3,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
-const homeInfoModalStyles = StyleSheet.create({
+const homeInfoMessageModalStyles = StyleSheet.create({
   modalContentContainer: {
     width: wp('90.5%'),
     padding: 14,
@@ -22,4 +22,4 @@ const homeInfoModalStyles = StyleSheet.create({
   }
 });
 
-export default homeInfoModalStyles;
+export default homeInfoMessageModalStyles;

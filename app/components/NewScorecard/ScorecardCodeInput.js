@@ -4,6 +4,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import { LocalizationContext } from '../Translations';
+
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardCodeInputTabletStyles from '../../styles/tablet/ScorecardCodeInputComponentStyle';
 import ScorecardCodeInputMobileStyles from '../../styles/mobile/ScorecardCodeInputComponentStyle';

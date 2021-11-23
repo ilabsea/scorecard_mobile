@@ -6,7 +6,7 @@ import { StyleSheet, ImageBackground, View } from "react-native";
 import BigButton from '../../components/Home/BigButton';
 import Brand from '../../components/Home/Brand';
 import Logos from '../../components/Home/Logos';
-import HomeInfoModal from '../../components/Home/HomeInfoModal';
+import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
 import deepLinkService from '../../services/deep_link_service';
 
 import { connect } from 'react-redux';
@@ -84,7 +84,7 @@ class Home extends Component {
           <Logos />
         </View>
 
-        <HomeInfoModal
+        <HomeInfoMessageModal
           visible={this.state.infoModalVisible}
           onDismiss={() => this.setState({ infoModalVisible: false })}
           errorType={this.state.errorType}

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
-const homeInfoModalStyles = StyleSheet.create({
+const homeInfoMessageModalStyles = StyleSheet.create({
   modalContentContainer: {
     width: '65%',
   },
@@ -21,4 +21,4 @@ const homeInfoModalStyles = StyleSheet.create({
   }
 });
 
-export default homeInfoModalStyles;
+export default homeInfoMessageModalStyles;

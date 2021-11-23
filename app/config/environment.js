@@ -6,4 +6,5 @@ export const environment = {
   enableTourTip: false,
   numberOfFacilitators: 4,
   implementedDayRange: 14,     // days
+  defaultEndpoint: 'https://isaf.digital-csc.org'
 };

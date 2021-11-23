@@ -1,5 +1,4 @@
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import Clipboard from '@react-native-clipboard/clipboard';
 import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
 import { validScorecardUrls } from '../constants/url_constant';
 import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
