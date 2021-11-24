@@ -47,7 +47,27 @@
             android:pathPrefix="/scorecards"
           />
           <data
+            android:scheme="http"
+            android:host="isaf.digital-csc.org"
+            android:pathPrefix="/scorecards"
+          />
+          <data
             android:scheme="https"
+            android:host="isaf-stg.digital-csc.org"
+            android:pathPrefix="/scorecards"
+          />
+          <data
+            android:scheme="http"
+            android:host="isaf-stg.digital-csc.org"
+            android:pathPrefix="/scorecards"
+          />
+          <data
+            android:scheme="https"
+            android:host="isaf-stg.ilabsea.org"
+            android:pathPrefix="/scorecards"
+          />
+          <data
+            android:scheme="http"
             android:host="isaf-stg.ilabsea.org"
             android:pathPrefix="/scorecards"
           />
