@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Portal} from 'react-native-paper';
 
-import {LocalizationContext} from '../../components/Translations';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
@@ -11,7 +10,7 @@ import {saveCriteria} from '../../actions/criteriaListAction';
 import Color from '../../themes/color';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import CreateNewIndicatorContent from '../../components/CreateNewIndicator/CreateNewIndicatorContent';
-import CreateNewIndicatorSaveButton from '../../components/CreateNewIndicator/CreateNewIndicatorSaveButton';
+import CreateNewIndicatorBottomButton from '../../components/CreateNewIndicator/CreateNewIndicatorBottomButton';
 
 import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
@@ -24,8 +23,6 @@ import { containerPaddingTop, containerPadding } from '../../utils/responsive_ut
 import customIndicatorService from '../../services/custom_indicator_service';
 
 class CreateNewIndicator extends Component {
-  static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
     this.indicatorSelectionRef = React.createRef();
@@ -112,12 +109,17 @@ class CreateNewIndicator extends Component {
     });
   }
 
-  renderSaveButton = () => {
-    return <CreateNewIndicatorSaveButton
+  renderBottomButton = () => {
+    return <CreateNewIndicatorBottomButton
               isSearching={this.state.isSearching}
               isEdit={this.state.isEdit}
               isValid={this.state.isValid}
               save={() => this.save()}
+              stopEditing={() => this.updateEditStatus(false)}
+              stopSearching={() => this.setState({ isSearching: false })}
+              updateSearchedIndicator={this.updateSearchedIndicator}
+              scorecardUuid={this.props.route.params.scorecard_uuid}
+              selectedIndicators={this.state.selectedIndicators}
            />
   };
 
@@ -135,8 +137,7 @@ class CreateNewIndicator extends Component {
   }
 
   _updateIndicatorList = () => {
-    const { translations } = this.context;
-    const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', translations.addNewCriteria, this.state.selectedIndicators);
+    const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', this.state.selectedIndicators);
 
     this.setState({ indicators: allCriteria.indicators });
   }
@@ -170,6 +171,7 @@ class CreateNewIndicator extends Component {
         updateIsEditStatus={(isEdit) => this.updateEditStatus(isEdit)}
         isEdit={this.state.isEdit}
         selectedIndicators={this.state.selectedIndicators}
+        isSearching={this.state.isSearching}
       />
     )
   }
@@ -209,7 +211,7 @@ class CreateNewIndicator extends Component {
           <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
             { this.renderContent() }
 
-            { this.renderSaveButton() }
+            { this.renderBottomButton() }
 
             <Portal>
               <AddNewIndicatorModal
