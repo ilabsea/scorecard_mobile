@@ -80,7 +80,7 @@ class CriteriaSelection extends Component {
           />
         </RaisingProposedScrollView>
 
-        { this.renderAddNewIndicatorButton() }
+        { !this.props.isSearching && this.renderAddNewIndicatorButton() }
       </React.Fragment>
     )
   }
