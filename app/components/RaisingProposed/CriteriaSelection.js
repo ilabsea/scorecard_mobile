@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import { LayoutAnimation, UIManager } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
+import AddNewIndicatorButton from './AddNewIndicatorButton';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
@@ -17,9 +19,13 @@ class CriteriaSelection extends Component {
       indicators: props.indicators,
       selectedIndicators: [],
       unselectedIndicators: [],
-      isModalVisible: false,
       participantUuid: props.participantUuid,
+      scrollDirection: 'up',
     };
+    this.scrollOffset = 0;
+
+    if (UIManager.setLayoutAnimationEnabledExperimental)
+      UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -37,23 +43,45 @@ class CriteriaSelection extends Component {
       indicators,
       selectedIndicators,
       unselectedIndicators,
-      isModalVisible: createNewIndicatorHelper.isAddNewIndicatorSection(index, indicators),
     }, () => {
-      this.props.selectIndicator(selectedIndicators, unselectedIndicators, this.state.isModalVisible);
+      this.props.selectIndicator(selectedIndicators, unselectedIndicators, false);
     });
+  }
+
+  showAddNewIndicatorForm() {
+    this.props.selectIndicator(this.props.selectedIndicators, this.props.unselectedIndicators, true);
+  }
+
+  renderAddNewIndicatorButton() {
+    return <AddNewIndicatorButton
+             scrollDirection={this.state.scrollDirection}
+             showAddNewIndicatorForm={() => this.showAddNewIndicatorForm()}
+           />
+  }
+
+  onScroll(event) {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    this.setState({ scrollDirection: currentOffset > this.scrollOffset ? 'down' : 'up' });
+    this.scrollOffset = currentOffset;
   }
 
   render() {
     return (
-      <RaisingProposedScrollView>
-        <CriteriaSelectionItems
-          indicators={this.state.indicators}
-          selectedIndicators={this.state.selectedIndicators}
-          isSearching={this.props.isSearching}
-          scorecardUuid={this.props.scorecardUuid}
-          selectIndicator={this.selectIndicator}
-        />
-      </RaisingProposedScrollView>
+      <React.Fragment>
+        <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
+          <CriteriaSelectionItems
+            indicators={this.state.indicators}
+            selectedIndicators={this.state.selectedIndicators}
+            isSearching={this.props.isSearching}
+            scorecardUuid={this.props.scorecardUuid}
+            selectIndicator={this.selectIndicator}
+          />
+        </RaisingProposedScrollView>
+
+        { this.renderAddNewIndicatorButton() }
+      </React.Fragment>
     )
   }
 }
