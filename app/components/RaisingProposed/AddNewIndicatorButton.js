@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
+import { normalLabelSize } from '../../utils/responsive_util';
 
 class AddNewIndicatorButton extends Component {
   static contextType = LocalizationContext;
@@ -15,7 +16,7 @@ class AddNewIndicatorButton extends Component {
       >
         <Icon name='add' size={30} color={Color.whiteColor} />
         { this.props.scrollDirection == 'up' &&
-          <Text style={{color: Color.whiteColor, marginHorizontal: 6}}>{ this.context.translations.addNewCriteria }</Text>
+          <Text style={{color: Color.whiteColor, marginHorizontal: 6, fontSize: normalLabelSize}}>{ this.context.translations.addNewCriteria }</Text>
         }
       </TouchableOpacity>
     )

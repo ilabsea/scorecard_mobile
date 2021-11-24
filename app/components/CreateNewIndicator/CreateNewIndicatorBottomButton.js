@@ -19,18 +19,21 @@ class CreateNewIndicatorBottomButton extends Component {
       this.props.stopEditing();
   }
 
+  renderDoneButton() {
+    return (
+      <View style={{padding: containerPadding, paddingHorizontal: 0}}>
+        <BottomButton disabled={!this.props.isValid}
+          label={ this.context.translations.done }
+          onPress={() => this.done()}
+          iconName='none'
+        />
+      </View>
+    )
+  }
+
   render() {
-    if (this.props.isSearching || this.props.isEdit) {
-      return (
-        <View style={{padding: containerPadding, paddingHorizontal: 0}}>
-          <BottomButton disabled={!this.props.isValid}
-            label='រួចរាល់'
-            onPress={() => this.done()}
-            iconName='none'
-          />
-        </View>
-      )
-    }
+    if (this.props.isSearching || this.props.isEdit)
+      return this.renderDoneButton();
 
     return (
       <View style={{padding: containerPadding, paddingHorizontal: 0}}>
