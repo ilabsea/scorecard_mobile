@@ -63,6 +63,7 @@ class NewScorecardForm extends Component {
         <ScorecardCodeInput
           ref={this.props.scorecardRef}
           joinScorecard={this.joinScorecard}
+          handleInvalidUrl={this.props.handleInvalidUrl}
         />
 
         {this.renderErrorMsg()}

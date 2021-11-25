@@ -1,26 +1,45 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AppState } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import { LocalizationContext } from '../Translations';
-
+import { handleScorecardCodeClipboard } from '../../utils/scorecard_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardCodeInputTabletStyles from '../../styles/tablet/ScorecardCodeInputComponentStyle';
 import ScorecardCodeInputMobileStyles from '../../styles/mobile/ScorecardCodeInputComponentStyle';
 
 const styles = getDeviceStyle(ScorecardCodeInputTabletStyles, ScorecardCodeInputMobileStyles);
+
+let _this = null;
+
 class ScorecardCodeInput extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
+    _this = this;
   }
 
   componentDidMount() {
+    handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
+    AppState.addEventListener('change', this._handleAppStateChange);
     setTimeout(() => {
       this.inputRef.focusField(0);
     }, 5);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange(nextState) {
+    if (nextState != 'active')
+      return;
+
+    setTimeout(() => {
+      handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
+    }, 100);
   }
 
   onCodeFilled = (code) => {
