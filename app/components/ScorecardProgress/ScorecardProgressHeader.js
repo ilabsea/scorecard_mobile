@@ -4,13 +4,10 @@ import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
 import ScorecardProgressCircle from './ScorecardProgressCircle';
 import ScorecardProgressShareButton from './ScorecardProgressShareButton';
+import { navigateBack } from '../../utils/navigation_util';
 
 class ScorecardProgressHeader extends Component {
   static contextType = LocalizationContext;
-
-  _onPress() {
-    !!this.props.onBackPress && this.props.onBackPress()
-  }
 
   renderRightComponent() {
     return this.props.scorecard.isUploaded
@@ -27,7 +24,7 @@ class ScorecardProgressHeader extends Component {
         <NavigationHeader
           title={translations.scorecardDetail}
           rightComponent={() => this.renderRightComponent()}
-          onBackPress={() => this._onPress()}
+          onBackPress={() => navigateBack()}
           rightButtonStyle={{marginRight: 6}}
         />
       </React.Fragment>

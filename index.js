@@ -8,6 +8,7 @@ import {name as appName} from './app.json';
 import { setCustomText } from 'react-native-global-props';
 import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
 import messaging from '@react-native-firebase/messaging';
+import deepLinkService from './app/services/deep_link_service';
 
 const customTextProps = {
   style: {
@@ -26,5 +27,7 @@ messaging().onMessage(async remoteMessage => {
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!=========', remoteMessage);
 });
+
+deepLinkService.watchInitialURL();
 
 AppRegistry.registerComponent(appName, () => App);

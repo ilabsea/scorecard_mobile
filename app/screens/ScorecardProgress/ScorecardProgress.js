@@ -117,7 +117,6 @@ class ScorecardProgress extends Component {
       <View style={{flex: 1}}>
         <ScorecardProgressHeader
           scorecard={this.state.scorecard}
-          onBackPress={() => this.props.navigation.goBack()}
           updateLoadingStatus={(status) => this.setState({isLoading: status})}
           updateErrorMessageModal={(errorType, visibleModal) => this.setState({ errorType, visibleModal })}
         />

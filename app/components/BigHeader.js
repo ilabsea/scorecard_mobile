@@ -20,20 +20,17 @@ import Color from '../themes/color';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import BigHeaderTabletStyles from '../styles/tablet/BigHeaderComponentStyle';
 import BigHeaderMobileStyles from '../styles/mobile/BigHeaderComponentStyle';
+import { navigateBack } from '../utils/navigation_util';
 
 const responsiveStyles = getDeviceStyle(BigHeaderTabletStyles, BigHeaderMobileStyles);
 
 export default class BigHeader extends React.Component {
-  _onPress() {
-    !!this.props.onBackPress && this.props.onBackPress()
-  }
-
   render() {
     return (
       <Header span style={responsiveStyles.container}>
         <View style={{flexDirection: 'row', marginTop: 16}}>
           <Left>
-            <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => this._onPress() }/>
+            <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigateBack() }/>
           </Left>
 
           <Body>
