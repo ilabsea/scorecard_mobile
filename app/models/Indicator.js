@@ -9,8 +9,9 @@ const Indicator = (() => {
 
   // Filter predefinded and custom indicator by name or tag
   function filter(scorecardUuid, text) {
+
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    let indicators = realm.objects('Indicator').filtered(`facility_id = '${facilityId}' AND (name CONTAINS '${text}' OR tag CONTAINS '${text}')`);
+    let indicators = realm.objects('Indicator').filtered(`facility_id = '${facilityId}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
     const customIndicators = CustomIndicator.filter(scorecardUuid, text);
 
     if (customIndicators.length > 0)
