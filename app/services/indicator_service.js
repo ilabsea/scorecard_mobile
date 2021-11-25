@@ -123,18 +123,9 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  getIndicatorList = (scorecardUuid, searchText, addNewLabel, selectedIndicators) => {
-    let savedIndicators = [];
-    let hasAddNewIndicator = true;
-
-    if (searchText != '') {
-      savedIndicators = Indicator.filter(scorecardUuid, searchText);
-      hasAddNewIndicator = false;
-    }
-    else
-      savedIndicators = this.getAll(scorecardUuid);
-
-    return this._getIndicatorAttrs(savedIndicators, selectedIndicators, addNewLabel, hasAddNewIndicator);
+  getIndicatorList = (scorecardUuid, searchText, selectedIndicators) => {
+    const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+    return this._getIndicatorAttrs(savedIndicators, selectedIndicators);
   }
 
   find = (indicatorId) => {
@@ -148,7 +139,7 @@ class IndicatorService {
     return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
   }
 
-  _getIndicatorAttrs = (savedIndicators, proposedCriterias, addNewLabel, hasAddNewItem) => {
+  _getIndicatorAttrs = (savedIndicators, proposedCriterias) => {
     let indicators = [];
     let selectedIndicators = [];
 
@@ -175,9 +166,6 @@ class IndicatorService {
       }
       indicators.push(attrs);
     });
-
-    if (hasAddNewItem)
-      indicators.push({name: addNewLabel, uuid: '', shortcut: 'add', isSelected: false, type: 'custom'});
 
     return {indicators, selectedIndicators};
   }

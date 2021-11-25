@@ -4,17 +4,14 @@ import { HeaderBackButton } from '@react-navigation/stack';
 
 import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
-import { LocalizationContext } from '../Translations';
 import IndicatorService from '../../services/indicator_service';
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
 
 class SearchableHeader extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      isSearch: false,
       query: ''
     };
   }
@@ -23,7 +20,7 @@ class SearchableHeader extends Component {
     if (!this.props.onBackPress)
       return
 
-    if (this.state.isSearch)
+    if (this.props.isSearching)
       this.cancel();
     else if (this.props.isEdit)
       this.props.updateIsEditStatus(false);
@@ -32,16 +29,15 @@ class SearchableHeader extends Component {
   }
 
   onChangeSearch(text) {
-    const { translations } = this.context;
     this.setState({ query: text });
-    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, translations.addNewCriteria, this.props.selectedIndicators);
+    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, this.props.selectedIndicators);
 
     this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
   }
 
   cancel() {
     this.onChangeSearch('');
-    this.toggleSearch(false);
+    this.props.updateSearchStatus(false);
   }
 
   _renderSearchBox() {
@@ -58,15 +54,10 @@ class SearchableHeader extends Component {
     return (
       <CreateNewIndicatorTitle
         isEdit={this.props.isEdit}
-        toggleSearch={() => this.toggleSearch(true)}
+        toggleSearch={() => this.props.updateSearchStatus(true)}
         editIndicator={() => this.props.updateIsEditStatus(true)}
       />
     )
-  }
-
-  toggleSearch(status) {
-    this.setState({ isSearch: status });
-    this.props.updateSearchStatus(status);
   }
 
   render() {
@@ -75,7 +66,7 @@ class SearchableHeader extends Component {
         <Left style={{flex: navigationBackButtonFlex, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
           <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
         </Left>
-        { !this.state.isSearch ? this._renderTitle() : this._renderSearchBox() }
+        { !this.props.isSearching ? this._renderTitle() : this._renderSearchBox() }
       </Header>
     )
   }

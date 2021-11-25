@@ -4,7 +4,6 @@ import { CUSTOM } from '../utils/variable';
 
 const createNewIndicatorHelper = (() => {
   return {
-    isAddNewIndicatorSection,
     getUpdatedIndicators,
     isAbleToSaveIndicator,
     getNewSelectedIndicators,
@@ -14,13 +13,6 @@ const createNewIndicatorHelper = (() => {
     createNewProposedIndicator,
     deleteUnselectedProposedIndicator,
   };
-
-  function isAddNewIndicatorSection(index, indicators) {
-    if (index == indicators.length -1 && indicators[index].uuid == '')
-      return true;
-
-    return false;
-  }
 
   function getUpdatedIndicators(indicators, unSelectedIndicators) {
     let newIndicators = indicators;

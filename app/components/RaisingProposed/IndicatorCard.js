@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import { normalLabelSize } from '../../utils/responsive_util';
-import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper'
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
@@ -39,31 +37,19 @@ class IndicatorCard extends Component {
   _renderCard = () => {
     const { indicator, index } = this.props;
     const displayName = this._getIndicatorName(indicator);
-    let iconContainerStyle = !!indicator.local_image ? {backgroundColor: 'transparent'} : {};
-    let isAddNewCriteria = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
-
-    if (isAddNewCriteria && this.props.isSearching)
-      return <View/>;
 
     return (
       <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
-          onPress={() => this.props.selectIndicator(index)}>
-          { isAddNewCriteria && 
-            <View style={[styles.iconContainer, iconContainerStyle]}>
-              <MaterialIcon name="add" size={50} color={indicator.isSelected ? Color.whiteColor : Color.paleBlackColor} />
-            </View>
-          }
-
+          onPress={() => this.props.selectIndicator(index)}
+        >
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: normalLabelSize}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 
         {/* Audio Button */}
-        { !isAddNewCriteria &&
-          this.props.children
-        }
+        { this.props.children }
       </View>
     )
   }

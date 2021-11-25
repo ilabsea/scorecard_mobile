@@ -70,7 +70,7 @@ class CriteriaAudioButton extends Component {
             <Icon name={this.state.iconName} style={[{ color: Color.whiteColor}, this.state.iconName == 'pause' ? { marginLeft: 1 } : {}]} />
           </TouchableOpacity>
         }
-        { !this.hasAudio() && !this.props.isAddNewCriteria &&
+        { !this.hasAudio() &&
           <View style={[styles.playAudioBtn, { backgroundColor: Color.paleBlackColor }]}>
             <Icon name='volume-mute' style={{ color: Color.whiteColor}} />
           </View>

@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
-import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 
 class CriteriaSelectionItems extends Component {
   static contextType = LocalizationContext;
@@ -29,15 +28,12 @@ class CriteriaSelectionItems extends Component {
     this.audioPlayer = audioPlayer;
   }
 
-  audioButton = (indicator, index) => {
-    let isAddNewCriteriaIndex = createNewIndicatorHelper.isAddNewIndicatorSection(index, this.props.indicators);
-
+  audioButton = (indicator) => {
     return (
       <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
         playingIndicatorId={this.state.playingIndicatorId}
         updateAudioState={this.updateAudioState}
         scorecardUUID={this.props.scorecardUuid}
-        isAddNewCriteria={isAddNewCriteriaIndex}
       />
     );
   }
@@ -56,7 +52,7 @@ class CriteriaSelectionItems extends Component {
         isSearching={this.props.isSearching}
         key={itemKey}
       >
-        {this.audioButton(indicator, index)}
+        {this.audioButton(indicator)}
       </IndicatorCard>
     )
   }

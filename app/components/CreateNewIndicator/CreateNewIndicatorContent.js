@@ -16,8 +16,7 @@ class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
 
   updateSelectedParticipant(participantUuid) {
-    const { translations } = this.context;
-    const indicatorAttrs = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', translations.addNewCriteria, []);
+    const indicatorAttrs = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', []);
     const dataset = {
       indicators: indicatorAttrs.indicators,
       selected_indicators: indicatorAttrs.selectedIndicators,
