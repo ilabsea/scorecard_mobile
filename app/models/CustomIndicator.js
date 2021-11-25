@@ -47,7 +47,7 @@ const CustomIndicator = (() => {
   }
 
   function filter(scorecardUuid, text) {
-    return realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS '${text}' OR tag CONTAINS '${text}')`);
+    return realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
   }
 
   function deleteFile(filePath) {
