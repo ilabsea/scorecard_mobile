@@ -309,5 +309,6 @@
   "theUrlThatYouCopiedIsInvalid": "The URL that you copied is invalid.",
   "joiningTheScorecard": "Joining the scorecard({0})",
   "thisScorecardCodeIsIncorrect": "This scorecard code({0}) is incorrect. Please contact the program administrator for more detail.",
-  "done": "Done"
+  "done": "Done",
+  "clickThisButtonToAddNewCriteria": "Click this button to add new criteria"
 }
