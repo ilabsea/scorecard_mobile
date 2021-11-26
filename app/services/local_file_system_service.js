@@ -8,14 +8,17 @@ const downloadFileFromUrl = async (url, filename, isPdfFile, callback) => {
 
   let destinationPath = isPdfFile ? getPDFPath(filename) : getAudioPath(filename);
   let options = {
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Token ${authToken}`,
-    },
     fromUrl: url,
     toFile: destinationPath,
     background,
   };
+
+  if (isPdfFile) {
+    options['headers'] = {
+      Accept: 'application/json',
+      Authorization: `Token ${authToken}`,
+    }
+  }
 
   await RNFS.downloadFile(options).promise.then(res => {
     const isSuccess = res.statusCode == 200 ? true : false;
