@@ -192,8 +192,8 @@ class ScorecardService extends BaseModelService {
       voting_indicators_attributes: this.votingCriteriasAttr(),
       ratings_attributes: this.ratingsAttr(),
       language_conducted_code: this.scorecard.audio_language_code,
-      finished_date: this.scorecard.finished_date ? Moment(this.scorecard.finished_date).format(apiDateFormat) : null,
-      running_date: this.scorecard.running_date ? Moment(this.scorecard.running_date).format(apiDateFormat) : null,
+      finished_date: this.scorecard.finished_date ? this.scorecard.finished_date : null,
+      running_date: this.scorecard.running_date ? this.scorecard.running_date : null,
     }
   }
 
