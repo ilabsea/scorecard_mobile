@@ -85,9 +85,7 @@ class ScorecardService extends BaseModelService {
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
-          const uploadedDate = new Date().toDateString();
-
-          Scorecard.update(_this.scorecard.uuid, { uploaded_date: uploadedDate });
+          Scorecard.update(_this.scorecard.uuid, { uploaded_date: new Date() });
           let milestoneData = {
             facilitators_attributes: Facilitator.getDataForMilestone(_this.scorecard_uuid),
             finished_date: _this.scorecard.finished_date,
