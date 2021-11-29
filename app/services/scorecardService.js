@@ -85,9 +85,7 @@ class ScorecardService extends BaseModelService {
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
-          const uploadedDate = new Date().toDateString();
-
-          Scorecard.update(_this.scorecard.uuid, { uploaded_date: uploadedDate });
+          Scorecard.update(_this.scorecard.uuid, { uploaded_date: new Date() });
           let milestoneData = {
             facilitators_attributes: Facilitator.getDataForMilestone(_this.scorecard_uuid),
             finished_date: _this.scorecard.finished_date,
@@ -192,8 +190,8 @@ class ScorecardService extends BaseModelService {
       voting_indicators_attributes: this.votingCriteriasAttr(),
       ratings_attributes: this.ratingsAttr(),
       language_conducted_code: this.scorecard.audio_language_code,
-      finished_date: this.scorecard.finished_date ? Moment(this.scorecard.finished_date).format(apiDateFormat) : null,
-      running_date: this.scorecard.running_date ? Moment(this.scorecard.running_date).format(apiDateFormat) : null,
+      finished_date: this.scorecard.finished_date ? this.scorecard.finished_date : null,
+      running_date: this.scorecard.running_date ? this.scorecard.running_date : null,
     }
   }
 
