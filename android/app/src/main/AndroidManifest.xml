@@ -2,6 +2,11 @@
   package="org.instedd.ilabsea.community_scorecard"
   xmlns:tools="http://schemas.android.com/tools">
 
+    <queries>
+        <package android:name="org.instedd.ilabsea.community_scorecard.store" />
+        <package android:name="org.instedd.ilabsea.community_scorecard.services" />
+    </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
