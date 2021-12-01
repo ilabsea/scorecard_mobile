@@ -3,6 +3,7 @@ import ScorecardService from './scorecardService';
 import { load as loadProgramLanguage } from './program_language_service';
 import validationService from './validation_service';
 import { isDownloaded } from './scorecard_download_service';
+import scorecardStepService from './scorecard_step_service';
 import scorecardHelper from '../helpers/scorecard_helper';
 import Scorecard from '../models/Scorecard';
 import { ERROR_SCORECARD } from '../constants/error_constant';
@@ -41,6 +42,8 @@ const newScorecardService = (() => {
       else {
         Scorecard.upsert(responseData);
         loadProgramLanguage(responseData.program_id, (response) => {
+          scorecardStepService.recordStep(scorecardUuid, 0);
+
           successCallback();
         });
       }
