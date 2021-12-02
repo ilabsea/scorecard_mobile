@@ -76,9 +76,7 @@ class FacilitatorScreen extends Component {
   saveSelectedData = () => {
     this.formRef.current.closeSelectBox(null);
     facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
-
     scorecardStepService.recordStep(this.props.route.params.scorecard_uuid, 3);
-
     this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   };
 

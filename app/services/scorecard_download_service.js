@@ -246,7 +246,6 @@ const _downloadSuccess = (options, updateDownloadProgress, errorCallback, downlo
         milestone: DOWNLOADED
       }
       scorecardMilestoneService.updateMilestone(params);
-
       scorecardStepService.recordStep(scorecard.uuid, 1);
     }
   }

@@ -43,7 +43,6 @@ const newScorecardService = (() => {
         Scorecard.upsert(responseData);
         loadProgramLanguage(responseData.program_id, (response) => {
           scorecardStepService.recordStep(scorecardUuid, 0);
-
           successCallback();
         });
       }

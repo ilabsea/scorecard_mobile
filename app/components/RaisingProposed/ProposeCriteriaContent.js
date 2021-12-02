@@ -9,8 +9,9 @@ import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
 import {Criteria} from '../../services/criteria_service';
 import {getRaisedParticipants} from '../../services/participant_service';
+import scorecardStepService from '../../services/scorecard_step_service';
 import Participant from '../../models/Participant';
-import {connect} from 'react-redux';
+import {connect} from 'react-redux' ;
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
 import { containerPadding } from '../../utils/responsive_util';
 
@@ -19,7 +20,7 @@ class ProposeCriteriaContent extends Component {
 
   onPress = () => {
     this.clearSelectedCriterias();
-
+    scorecardStepService.recordStep(this.props.scorecardUuid, 5);
     this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
   }
 

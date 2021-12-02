@@ -12,6 +12,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import scorecardProgressService from '../../services/scorecard_progress_service';
+import scorecardStepService from '../../services/scorecard_step_service';
 import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/milestone_constant';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
@@ -25,6 +26,7 @@ class ScorecardProgressButtons extends Component {
   finishScorecard() {
     Scorecard.update(this.props.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
     this.setState({ visibleConfirmModal: false });
+    scorecardStepService.recordStep(this.props.scorecard.uuid, 9);
     this.props.updateScorecard();
   }
 
