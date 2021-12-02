@@ -3,12 +3,12 @@ import analytics from '@react-native-firebase/analytics';
 
 import { scorecardTrackingSteps } from '../constants/scorecard_step_constant';
 
-const scorecardStepService = (() => {
+const scorecardTracingStepsService = (() => {
   return {
-    recordStep,
+    trace,
   }
 
-  async function recordStep(scorecardUuid, step) {
+  async function trace(scorecardUuid, step) {
     let setting = await AsyncStorage.getItem('SETTING');
     setting = JSON.parse(setting);
 
@@ -19,4 +19,4 @@ const scorecardStepService = (() => {
   }
 })();
 
-export default scorecardStepService;
+export default scorecardTracingStepsService;

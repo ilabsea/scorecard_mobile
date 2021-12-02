@@ -12,7 +12,7 @@ import ScorecardProgressHeader from '../../components/ScorecardProgress/Scorecar
 import Color from '../../themes/color';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
-import scorecardStepService from '../../services/scorecard_step_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
 import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
@@ -83,7 +83,7 @@ class ScorecardProgress extends Component {
             visibleModal: false,
           });
         }, 500);
-        scorecardStepService.recordStep(this.state.scorecard.uuid, 10);
+        scorecardTracingStepsService.trace(this.state.scorecard.uuid, 10);
       }
     }, (errorType) => {
       this.setState({

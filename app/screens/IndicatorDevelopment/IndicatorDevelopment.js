@@ -17,7 +17,7 @@ import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
-import scorecardStepService from '../../services/scorecard_step_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
 
 class IndicatorDevelopment extends Component {
@@ -72,7 +72,7 @@ class IndicatorDevelopment extends Component {
       this.props.setVotingCriterias(savedCriterias);
     });
 
-    scorecardStepService.recordStep(this.state.scorecard.uuid, 6);
+    scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 

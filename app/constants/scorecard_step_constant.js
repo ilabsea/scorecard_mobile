@@ -14,6 +14,6 @@ export const scorecardTrackingSteps = {
   6: 'finished_indicator_development',
   7: 'finished_voting',
   8: 'finished_scorecard_result',
-  9: 'finished_setup_scorecard',
+  9: 'scorecard_completed',
   10: 'scorecard_submitted'
 };

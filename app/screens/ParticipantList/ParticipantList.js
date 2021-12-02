@@ -21,7 +21,7 @@ import OutlinedButton from '../../components/OutlinedButton';
 import NoDataMessage from '../../components/NoDataMessage';
 
 import Participant from '../../models/Participant';
-import scorecardStepService from '../../services/scorecard_step_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import ParticipantListTabletStyles from '../../styles/tablet/ParticipantListScreenStyle';
@@ -135,7 +135,7 @@ class ParticipantList extends Component {
   }
 
   next = () => {
-    scorecardStepService.recordStep(this.props.route.params.scorecard_uuid, 4);
+    scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 4);
     this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})
   }
 

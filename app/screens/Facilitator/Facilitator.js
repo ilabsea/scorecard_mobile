@@ -9,7 +9,7 @@ import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
-import scorecardStepService from '../../services/scorecard_step_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { environment } from '../../config/environment';
 
 import Color from '../../themes/color';
@@ -76,7 +76,7 @@ class FacilitatorScreen extends Component {
   saveSelectedData = () => {
     this.formRef.current.closeSelectBox(null);
     facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
-    scorecardStepService.recordStep(this.props.route.params.scorecard_uuid, 3);
+    scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 3);
     this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
   };
 

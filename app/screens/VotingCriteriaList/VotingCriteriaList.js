@@ -23,7 +23,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import Scorecard from '../../models/Scorecard';
 import * as participantService from '../../services/participant_service';
-import scorecardStepService from '../../services/scorecard_step_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { hasVoting } from '../../helpers/voting_criteria_helper';
 import VotingCriteria from '../../models/VotingCriteria';
 
@@ -64,7 +64,7 @@ class VotingCriteriaList extends Component {
   }
 
   _goNext() {
-    scorecardStepService.recordStep(this.state.scorecard.uuid, 7);
+    scorecardTracingStepsService.trace(this.state.scorecard.uuid, 7);
     this.props.navigation.navigate('OfflineScorecardResult', {scorecard_uuid: this.state.scorecard.uuid});
   }
 
