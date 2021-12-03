@@ -36,6 +36,7 @@ const scorecardMilestoneService = (() => {
       scorecard_progress: {
         scorecard_uuid: scorecardUuid,
         status: milestone,
+        device_type: DeviceInfo.isTablet() ? 'tablet' : 'mobile',
       }
     };
 
