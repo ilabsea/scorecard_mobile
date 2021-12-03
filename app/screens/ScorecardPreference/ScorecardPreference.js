@@ -12,6 +12,7 @@ import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 import scorecardSyncService from '../../services/scorecard_sync_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 
@@ -89,6 +90,7 @@ class ScorecardPreference extends Component {
     this.formRef.current.closeAllSelectBox()
     const {date, textLocale, audioLocale} = this.state;
     scorecardPreferenceService.saveSelectedData(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
+    scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 2);
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }
 
