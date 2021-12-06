@@ -4,6 +4,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { LocalizationContext } from '../../components/Translations';
 import ContactListItem from '../../components/Contact/ContactListItem';
 import MessageModal from '../../components/MessageModal';
+import NoDataMessage from '../../components/NoDataMessage';
 import contacts from '../../db/jsons/contacts';
 import contactService from '../../services/contact_service';
 
@@ -52,6 +53,16 @@ export default class Contact extends Component {
     Linking.openURL(`${linkTo[contact.contact_type]}:${contact.value}`);
   }
 
+  renderNoContacts = () => {
+    return (
+      <NoDataMessage
+        title={ this.context.translations.unableToGetContacts }
+        buttonLabel={ this.context.translations.getContacts }
+        onPress={() => this.loadContact()}
+      />
+    )
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={{padding: 16, flexGrow: 1}}
@@ -62,6 +73,8 @@ export default class Contact extends Component {
           />
         }
       >
+        { this.state.contacts.length === 0 && this.renderNoContacts() }
+
         { this.state.contacts.map((item, index) =>
           <ContactListItem contact={item} key={index} onPress={(contact) => this.callOrEmailTo(contact)}/>
         )}
