@@ -11,7 +11,7 @@ const changedSchemas = [
   { label: schemaNames[13], data: ProgramLanguage },
 ];
 
-const schemaV9 = {
+const schemaV10 = {
   schema: schemaHelper.getSchemas(changedSchemas),
   schemaVersion: 10,
   migration: (oldRealm, newRealm) => {
@@ -26,4 +26,4 @@ const schemaV9 = {
   }
 }
 
-export default schemaV9;
+export default schemaV10;

@@ -6,8 +6,4 @@ const getTimeFromDuration = (duration) => {
   return date.toISOString().substr(11, 8);
 }
 
-const currentTime = () => {
-  return Moment().format('HH:mm:ss ZZ');
-}
-
-export { getTimeFromDuration, currentTime };
+export { getTimeFromDuration };

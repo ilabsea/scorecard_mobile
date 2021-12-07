@@ -1,3 +1,4 @@
+import Moment from 'moment';
 import ProgramLanguage from '../migrations/v3/programLanguage';
 import Scorecard from '../migrations/v11/scorecard';
 import VotingCriteria from '../migrations/v9/votingCriteria';
@@ -19,7 +20,14 @@ const schemaV11 = {
       const newObjects = newRealm.objects('Scorecard');
 
       oldObjects.map((oldObject, index) => {
-        newObjects[index].conducted_time = !oldObject.conducted_time ? null : oldObject.conducted_time;
+        let conductedAt = null;
+
+        if (oldObject.conducted_at)
+          conductedAt = oldObject.conducted_at;
+        else if (oldObject.conducted_date)
+          conductedAt = Moment(oldObject.conducted_date, 'DD/MM/YYYY').toDate();
+
+        newObjects[index].conducted_at = conductedAt;
       });
     }
   }

@@ -72,7 +72,7 @@ Scorecard.schema = {
     running_date: {type: 'date', optional: true},
     planned_start_date: {type: 'date', optional: true},
     planned_end_date: {type: 'date', optional: true},
-    conducted_time: 'string?'
+    conducted_at: { type: 'date', optional: true }
   }
 }
 

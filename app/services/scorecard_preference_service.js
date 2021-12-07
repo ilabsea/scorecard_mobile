@@ -7,7 +7,7 @@ import scorecardMilestoneService from './scorecard_milestone_service';
 import Scorecard from '../models/Scorecard';
 import ProgramLanguage from '../models/ProgramLanguage';
 
-import { currentTime } from '../utils/time_util';
+import { currentDateTime } from '../utils/date_util';
 import { isKhmerLanguage } from '../utils/program_language_util';
 import { RUNNING } from '../constants/milestone_constant';
 
@@ -89,7 +89,7 @@ const scorecardPreferenceService = (() => {
       conducted_date: date.toString(),
       text_language_code: textLocale,
       audio_language_code: audioLocale,
-      conducted_time: !scorecard.conducted_time ? currentTime() : scorecard.conducted_time,
+      conducted_at: !scorecard.conducted_at ? currentDateTime : scorecard.conducted_at,
     };
 
     Scorecard.update(scorecardUuid, attrs);
