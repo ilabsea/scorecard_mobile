@@ -5,6 +5,7 @@ const ProposedCriteria = (() => {
     find,
     create,
     update,
+    getAllByScorecard,
     findByParticipant,
     findByIndicator,
     findByScorecard,
@@ -29,6 +30,10 @@ const ProposedCriteria = (() => {
         realm.create('ProposedCriteria', Object.assign(params, {uuid: uuid}), 'modified');
       })
     }
+  }
+
+  function getAllByScorecard(scorecardUuid) {
+    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid='${scorecardUuid}'`);
   }
 
   function findByParticipant(indicatorId, participantUuid) {
