@@ -15,11 +15,12 @@ class LocationSearchBox extends Component {
 
   render() {
     const { translations } = this.context;
+    const placeholderColor = '#676767';
 
     return (
       <View style={styles.container}>
         <Item rounded style={[styles.inputContainer, this.props.searchedLocation ? { marginRight: 15 } : {}]}>
-          <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: Color.grayColor}} />
+          <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
           <Input
             placeholder={ translations.searchLocation }
             value={this.props.searchedLocation}
@@ -28,6 +29,7 @@ class LocationSearchBox extends Component {
             onChangeText={(text) => this.props.onChangeText(text)}
             onFocus={() => this.props.updateFocusStatus(true)}
             onBlur={() => this.props.updateFocusStatus(false)}
+            placeholderTextColor={placeholderColor}
           />
         </Item>
 
@@ -44,7 +46,7 @@ class LocationSearchBox extends Component {
 const styles = StyleSheet.create({
   inputContainer: {
     borderRadius: 10,
-    borderColor: Color.grayColor,
+    borderColor: '#bababa',
     flex: 1,
     backgroundColor: Color.paleGrayColor
   },

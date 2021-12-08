@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -121,7 +121,7 @@ class FilterScorecard extends Component {
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }} stickyHeaderIndices={[2]}>
           { this.renderScorecardStatusAndTypeOptions() }
 
-          <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
+          <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor, height: 49}}>
             { translations.scorecardLocation }
           </Text>
 
@@ -134,5 +134,12 @@ class FilterScorecard extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  sectionHeader: {
+    paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)),
+    marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor, height: 48
+  }
+});
 
 export default FilterScorecard;
