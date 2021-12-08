@@ -8,8 +8,9 @@ const SaveButton = (props) => {
     <Button
       {...props}
       mode="contained"
-      style={{ marginLeft: 20 }}
-      labelStyle={{fontSize: normalLabelSize, paddingTop: 2, color: Color.whiteColor}}
+      style={{ marginLeft: 20, height: 51 }}
+      labelStyle={{fontSize: normalLabelSize, color: Color.whiteColor}}
+      contentStyle={{height: 51}}
     >
       {props.label}
     </Button>

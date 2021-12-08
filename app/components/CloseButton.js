@@ -8,8 +8,9 @@ const CloseButton = (props) => {
     <Button
       {...props}
       mode="outlined"
-      style={{ borderWidth: 2, borderColor: Color.primaryButtonColor }}
+      style={{ borderWidth: 2, borderColor: Color.primaryButtonColor, height: 51 }}
       labelStyle={{fontSize: normalLabelSize}}
+      contentStyle={{height: 51, marginTop: -2}}
     >
       {props.label}
     </Button>

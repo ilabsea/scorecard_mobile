@@ -11,7 +11,8 @@ const ScorecardCodeInputComponentStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 4
+    marginTop: 4,
+    height: 55,
   },
   inputContainer: {
     backgroundColor: Color.whiteColor,
