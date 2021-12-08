@@ -13,7 +13,7 @@ const NoDataMessageComponentStyles = StyleSheet.create({
   },
   icon: {
     fontSize: wp('22%'),
-    color: "#e1e0e1"
+    color: '#bab7ba',
   },
   messageContainer: {
     marginTop: containerMarginTop,

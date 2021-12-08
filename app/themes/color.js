@@ -25,7 +25,7 @@ const Color = {
   redColor: '#ff0000',
   blackColor: '#000000',
   lightBlackColor: '#2e2e2e',
-  paleBlackColor: '#787878',
+  paleBlackColor: '#767676',
   loadingBackgroundColor: 'rgba(227, 107, 51, 0.6)',
   selfAssessmentColor: '#31c0c7',
   communityScorecardColor: '#f29522',
