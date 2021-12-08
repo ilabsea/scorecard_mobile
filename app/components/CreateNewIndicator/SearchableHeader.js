@@ -5,7 +5,8 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
 import IndicatorService from '../../services/indicator_service';
-import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import { pressableItemSize } from '../../constants/components_size_constant';
 
 class SearchableHeader extends Component {
   constructor(props) {
@@ -63,8 +64,8 @@ class SearchableHeader extends Component {
   render() {
     return (
       <Header searchBar>
-        <Left style={{flex: navigationBackButtonFlex, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
-          <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0) }} />
+        <Left style={{flex: 0.22, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
+          <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0), width: pressableItemSize, height: pressableItemSize }} />
         </Left>
         { !this.props.isSearching ? this._renderTitle() : this._renderSearchBox() }
       </Header>

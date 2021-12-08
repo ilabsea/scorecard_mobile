@@ -135,11 +135,4 @@ class FilterScorecard extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  sectionHeader: {
-    paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)),
-    marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor, height: 48
-  }
-});
-
 export default FilterScorecard;
