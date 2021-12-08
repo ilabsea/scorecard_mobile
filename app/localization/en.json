@@ -312,5 +312,5 @@
   "done": "Done",
   "clickThisButtonToAddNewCriteria": "Click this button to add new criteria",
   "unableToGetContacts": "Unable to get contacts",
-  "getContacts": "Get contacts"
+  "syncContacts": "Sync contacts"
 }

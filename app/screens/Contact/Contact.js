@@ -57,8 +57,9 @@ export default class Contact extends Component {
     return (
       <NoDataMessage
         title={ this.context.translations.unableToGetContacts }
-        buttonLabel={ this.context.translations.getContacts }
+        buttonLabel={ this.context.translations.syncContacts }
         onPress={() => this.loadContact()}
+        icon="refresh"
       />
     )
   }
