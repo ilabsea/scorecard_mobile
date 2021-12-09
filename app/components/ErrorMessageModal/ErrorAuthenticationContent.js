@@ -91,6 +91,8 @@ class ErrorAuthenticationContent extends Component {
         name={this.state.showPasswordIcon}
         color="#959595"
         onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
+        accessibilityLabel='Toggle password visibility'
+        style={{height: 50, width: 50}}
       />
     )
   }
