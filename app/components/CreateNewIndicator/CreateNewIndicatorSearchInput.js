@@ -18,7 +18,7 @@ class CreateNewIndicatorSearchInput extends Component {
         <Item style={styles.container}>
           <Input
             autoFocus={true}
-            placeholder={ this.context.translations.searchCriteria }
+            placeholder={ this.context.translations.searchIndicator }
             value={this.props.query}
             onChangeText={(text) => this.props.onChangeSearch(text)}
             clearButtonMode='always'

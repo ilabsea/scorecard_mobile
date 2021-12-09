@@ -33,7 +33,7 @@ class CreateNewIndicatorTitle extends Component {
       <React.Fragment>
         <Body style={styles.body}>
           <Title style={styles.titleLabel}>
-            { this.props.isEdit ? this.context.translations.editCustomCriteria : this.context.translations.createNewProposedCriteria }
+            { this.props.isEdit ? this.context.translations.editCustomIndicator : this.context.translations.createNewProposedIndicator }
           </Title>
         </Body>
 

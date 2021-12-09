@@ -86,9 +86,9 @@ class ProposedCriteriaModal extends Component {
     return (
       <Portal>
         <Modal visible={this.props.visible} onDismiss={() => this.onDismiss()} contentContainerStyle={[styles.container, responsiveStyles.container]}>
-          <Text style={[styles.header, responsiveStyles.header]}>{translations.criteriaList}</Text>
+          <Text style={[styles.header, responsiveStyles.header]}>{translations.indicatorList}</Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={[{marginBottom: 16, flex: 1}, responsiveStyles.label]}>{translations.pleaseSelectCriteria}</Text>
+            <Text style={[{marginBottom: 16, flex: 1}, responsiveStyles.label]}>{translations.pleaseSelectIndicator}</Text>
             <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.label]}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
           </View>
 

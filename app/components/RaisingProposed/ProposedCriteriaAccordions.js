@@ -29,7 +29,7 @@ class ProposedCriteriaAccordions extends Component {
       <AccordionSwitcher
         scorecardUuid={this.props.scorecardUuid}
         leftLabel={ translations.raisedParticipant }
-        rightLabel={ translations.raisedCriteria }
+        rightLabel={ translations.raisedIndicator }
         activeSide={activeSide}
         onPressLeft={() => this.setState({ accordionType: 'participant' })}
         onPressRight={() => this.setState({ accordionType: 'criteria' })}
@@ -44,8 +44,8 @@ class ProposedCriteriaAccordions extends Component {
     return (
       <View style={{height: '100%'}}>
         <NoDataMessage
-          title={translations.pleaseProposeCriteria}
-          buttonLabel={translations.proposeNewCriteria}
+          title={translations.pleaseProposeIndicator}
+          buttonLabel={translations.proposeNewIndicator}
           onPress={() => this.props.showModal()}
           customContainerStyle={responsiveStyles.noDataContainer}
         />

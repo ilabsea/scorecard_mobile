@@ -113,7 +113,7 @@ class AddNewIndicatorModal extends Component {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View>
             <Text style={styles.header}>
-              { this.props.isEdit ? translations.editCriteria : translations.addNewCriteria }
+              { this.props.isEdit ? translations.editIndicator : translations.addNewIndicator }
             </Text>
 
             { this.renderTextInputs() }

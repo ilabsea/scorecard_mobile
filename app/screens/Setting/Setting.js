@@ -134,10 +134,10 @@ class Setting extends Component {
 
     const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
 
-    if (!changeableSetting) {
-      this.setState({ visibleModal: true });
-      return;
-    }
+    // if (!changeableSetting) {
+    //   this.setState({ visibleModal: true });
+    //   return;
+    // }
 
     if (!this.isValidForm()) {
       return;

@@ -34,7 +34,7 @@ class ScorecardListInfoScorecardDetial extends Component {
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>{ scorecard.facility_code }: </Text>
         <Text style={[{fontSize: getDeviceStyle(16, 15), marginTop: 0}]}>{ scorecard.uuid } </Text>
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>
-          ({this.context.translations.scorecardCriteria}: {criteriasSize})
+          ({this.context.translations.raisedIndicator}: {criteriasSize})
         </Text>
 
         { this.renderConductedDate(scorecard) }
