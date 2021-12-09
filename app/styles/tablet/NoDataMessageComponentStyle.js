@@ -7,7 +7,7 @@ const NoDataMessageComponentStyles = StyleSheet.create({
   },
   icon: {
     fontSize: 100,
-    color: "#e1e0e1"
+    color: '#bab7ba',
   },
   messageContainer: {
     marginTop: -(220 / 3),

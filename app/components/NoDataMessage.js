@@ -18,7 +18,7 @@ class NoDataMessage extends Component {
           <Text style={responsiveStyles.label}>{this.props.title}</Text>
           <View>
             <OutlinedButton
-              icon="plus"
+              icon={ this.props.icon || 'plus' }
               label={this.props.buttonLabel}
               onPress={() => this.props.onPress() }
             />

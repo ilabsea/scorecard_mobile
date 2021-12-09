@@ -29,7 +29,7 @@ const ListItemStyle = StyleSheet.create({
   },
   subTextIcon: {
     fontSize: getDeviceStyle(24, wp('5%')),
-    color: Color.subText,
+    color: '#767676',
     marginTop: getDeviceStyle(0, -5)
   },
   contentWrapper: {

@@ -1,4 +1,5 @@
 import React, {useContext, useEffect} from 'react';
+import { HeaderBackButton } from '@react-navigation/stack';
 
 import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
@@ -61,7 +62,8 @@ function AppNavigator() {
           marginTop: getDeviceStyle(0, 2),
         },
         headerTintColor: 'white',
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        headerLeft: () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: 48, height: 48 }}/>
       }}>
       <Stack.Screen
         name="Home"
@@ -71,6 +73,7 @@ function AppNavigator() {
           headerRight: () => (
             <SettingMenu navigation={navigation} />
           ),
+          headerLeft: null
         })}
       />
       <Stack.Screen
