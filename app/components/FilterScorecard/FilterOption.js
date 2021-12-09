@@ -9,6 +9,7 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import uuidv4 from '../../utils/uuidv4';
+import { pressableItemSize } from '../../utils/component_util';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 
 class FilterOption extends Component {
@@ -23,12 +24,13 @@ class FilterOption extends Component {
 
   renderOptionList() {
     const { translations } = this.context;
+    const itemPaddingVertical = 12;
 
     return this.props.options.map((option, index) => {
       return (
         <View key={uuidv4()}>
           <TouchableOpacity onPress={() => this.props.onSelectItem(option.value)}
-            style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center', height: 50}}
+            style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, alignItems: 'center', height: pressableItemSize(itemPaddingVertical)}}
           >
             <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize))}}>{ translations[option.label] }</Text>
 
@@ -43,11 +45,12 @@ class FilterOption extends Component {
   render() {
     return (
       <View style={[this.props.containerStyle, { backgroundColor: Color.whiteColor }]}>
-        <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)),
-          fontFamily: FontFamily.title, backgroundColor: Color.whiteColor, height: 49}}
-        >
-          { this.props.title }
-        </Text>
+        <View style={{paddingHorizontal: 16, paddingVertical: 10, backgroundColor: Color.whiteColor, justifyContent: 'center'}}>
+          <Text style={{fontSize: getDeviceStyle(16, wp(mdLabelSize)), fontFamily: FontFamily.title}}>
+            { this.props.title }
+          </Text>
+        </View>
+
         { this.renderOptionList() }
       </View>
     )

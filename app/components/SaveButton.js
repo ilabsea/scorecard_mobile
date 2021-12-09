@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
 import { normalLabelSize } from '../utils/responsive_util';
+import { pressableItemSize } from '../utils/component_util';
+import { modalButtonPaddingVertical } from '../constants/component_style_constant';
 import Color from '../themes/color';
 
 const SaveButton = (props) => {
@@ -8,9 +10,9 @@ const SaveButton = (props) => {
     <Button
       {...props}
       mode="contained"
-      style={{ marginLeft: 20, height: 51 }}
+      style={{ marginLeft: 20, height: pressableItemSize(modalButtonPaddingVertical) }}
       labelStyle={{fontSize: normalLabelSize, color: Color.whiteColor}}
-      contentStyle={{height: 51}}
+      contentStyle={{height: pressableItemSize(modalButtonPaddingVertical)}}
     >
       {props.label}
     </Button>

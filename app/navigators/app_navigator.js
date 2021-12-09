@@ -38,7 +38,7 @@ import SettingMenu from '../components/Home/SettingMenu';
 import HeaderRightButton from '../components/HeaderRightButton';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
-import { lgLabelSize } from '../constants/mobile_font_size_constant';
+import { pressableItemSize } from '../utils/component_util';
 
 const Stack = createStackNavigator();
 
@@ -63,7 +63,7 @@ function AppNavigator() {
         },
         headerTintColor: 'white',
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        headerLeft: () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: 48, height: 48 }}/>
+        headerLeft: () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>
       }}>
       <Stack.Screen
         name="Home"
