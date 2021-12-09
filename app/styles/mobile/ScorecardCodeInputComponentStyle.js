@@ -3,6 +3,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { mdLabelSize, xxlLabelSize } from '../../constants/mobile_font_size_constant';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { pressableItemSize } from '../../utils/component_util';
 
 const ScorecardCodeInputComponentStyles = StyleSheet.create({
   label: {
@@ -15,13 +16,13 @@ const ScorecardCodeInputComponentStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 4
+    marginTop: 4,
   },
   inputContainer: {
     backgroundColor: Color.whiteColor,
     borderRadius: 4,
-    width: wp('10%'),
-    height: wp('11.7%'),
+    width: pressableItemSize(),
+    height: pressableItemSize(),
     textAlign: 'center',
     borderColor: Color.primaryColor,
     borderWidth: 1,

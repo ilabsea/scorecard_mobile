@@ -13,6 +13,7 @@ import authenticationFormService from '../../services/authentication_form_servic
 
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
+import { pressableItemSize } from '../../utils/component_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -86,11 +87,15 @@ class ErrorAuthenticationContent extends Component {
   }
 
   _renderShowPasswordIcon = () => {
+    const buttonPadding = 2;
+
     return (
       <TextInput.Icon
         name={this.state.showPasswordIcon}
         color="#959595"
         onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
+        accessibilityLabel='Toggle password visibility'
+        style={{height: pressableItemSize(buttonPadding), width: pressableItemSize(buttonPadding)}}
       />
     )
   }

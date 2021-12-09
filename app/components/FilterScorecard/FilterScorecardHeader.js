@@ -5,7 +5,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
 import { getDeviceStyle, mobileHeadingTitleSize, isShortWidthScreen } from '../../utils/responsive_util';
-import { pressableItemSize } from '../../constants/components_size_constant';
+import { pressableItemSize } from '../../utils/component_util';
 
 class FilterScorecardHeader extends Component {
   static contextType = LocalizationContext;
@@ -16,7 +16,7 @@ class FilterScorecardHeader extends Component {
 
   renderRightButton() {
     return (
-      <Button transparent onPress={() => this.props.resetFilter()} style={{padding: 0, height: pressableItemSize}}>
+      <Button transparent onPress={() => this.props.resetFilter()} style={{padding: 0, height: pressableItemSize()}}>
         <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{ this.context.translations.reset }</Title>
       </Button>
     )
