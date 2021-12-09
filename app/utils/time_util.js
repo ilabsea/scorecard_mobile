@@ -1,3 +1,5 @@
+import Moment from 'moment';
+
 const getTimeFromDuration = (duration) => {
   let date = new Date(null);
   date.setSeconds(duration);

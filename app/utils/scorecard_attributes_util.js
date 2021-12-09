@@ -2,15 +2,16 @@ import Moment from 'moment';
 import DeviceInfo from 'react-native-device-info'
 import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
-import { apiDateFormat } from '../constants/date_format_constant';
 import { getNestedAttributes } from './scorecard_nested_attributes_util';
 
 export const scorecardAttributes = (scorecard) => {
   let facilitators = Facilitator.getAll(scorecard.uuid);
   let participants = Participant.getAll(scorecard.uuid);
+  const conductedTime = Moment(scorecard.conducted_at).format('HH:mm:ss ZZ');
+  const conductedDate = Moment(scorecard.conducted_date + ' ' + conductedTime, 'DD/MM/YYYY HH:mm:ss ZZ').toDate();
 
   let scorecardAttributes = {
-    conducted_date: Moment(scorecard.conducted_date, 'DD/MM/YYYY').format(apiDateFormat),
+    conducted_date: conductedDate,
     number_of_caf: facilitators.length,
     number_of_participant: participants.length,
     number_of_female: participants.filter(p => p.gender == "female").length,
