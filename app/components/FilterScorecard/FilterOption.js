@@ -28,7 +28,7 @@ class FilterOption extends Component {
       return (
         <View key={uuidv4()}>
           <TouchableOpacity onPress={() => this.props.onSelectItem(option.value)}
-            style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
+            style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center', height: 50}}
           >
             <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize))}}>{ translations[option.label] }</Text>
 
@@ -43,7 +43,9 @@ class FilterOption extends Component {
   render() {
     return (
       <View style={[this.props.containerStyle, { backgroundColor: Color.whiteColor }]}>
-        <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
+        <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)),
+          fontFamily: FontFamily.title, backgroundColor: Color.whiteColor, height: 49}}
+        >
           { this.props.title }
         </Text>
         { this.renderOptionList() }

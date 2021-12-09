@@ -6,13 +6,14 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import NavigationHeaderBody from './NavigationHeaderBody'
 import Color from '../themes/color';
 import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
+import { pressableItemSize } from '../constants/components_size_constant';
 
 class NavigationHeader extends Component {
   render() {
     return (
       <Header style={{alignItems: 'center'}}>
         <Left style={{ flex: navigationBackButtonFlex }}>
-          <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.props.onBackPress()} style={{ marginLeft: 0 }} />
+          <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.props.onBackPress()} style={{ marginLeft: 0, width: pressableItemSize, height: pressableItemSize }} />
         </Left>
 
         <NavigationHeaderBody title={this.props.title} />

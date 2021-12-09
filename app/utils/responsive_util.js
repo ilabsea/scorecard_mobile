@@ -62,7 +62,7 @@ const containerPadding = getDeviceStyle(20, 15);
 
 const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('4%') : wp('1%'));
 
-const navigationBackButtonFlex = 0.22;
+const navigationBackButtonFlex = 0.26;
 
 export {
   getDeviceStyle,

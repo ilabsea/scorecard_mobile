@@ -6,7 +6,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 const CreateNewIndicatorTitleStyles = StyleSheet.create({
   body: {
     flex: 2,
-    paddingLeft: wp('1.4%'),
+    marginLeft: 18
   },
   titleLabel: {
     fontSize: 19,
