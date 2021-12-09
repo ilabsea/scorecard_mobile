@@ -18,7 +18,7 @@ class ButtonForgetCode extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={responsiveStyles.container}>
+      <View style={[responsiveStyles.container, this.props.hasErrorMsg ? responsiveStyles.containerMarginBottom : {}]}>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Contact')}
           style={responsiveStyles.button}>

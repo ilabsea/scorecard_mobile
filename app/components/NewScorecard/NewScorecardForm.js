@@ -68,7 +68,7 @@ class NewScorecardForm extends Component {
 
         {this.renderErrorMsg()}
 
-        <ButtonForgetCode navigation={this.props.navigation} />
+        <ButtonForgetCode navigation={this.props.navigation} hasErrorMsg={this.props.errorMsg != '' ? true : false} />
       </View>
     )
   }

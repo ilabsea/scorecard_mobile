@@ -7,7 +7,6 @@ import Color from '../../themes/color';
 
 const NewScorecardScreenStyles = StyleSheet.create({
   formContainer: {
-    // width: wp('77%'),
     width: wp('82%'),
     marginTop: 20,
   },

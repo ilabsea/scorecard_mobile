@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { mdLabelSize, xxlLabelSize } from '../../constants/mobile_font_size_constant';
+import { pressableItemSize } from '../../constants/components_size_constant';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const ScorecardCodeInputComponentStyles = StyleSheet.create({
@@ -20,11 +21,8 @@ const ScorecardCodeInputComponentStyles = StyleSheet.create({
   inputContainer: {
     backgroundColor: Color.whiteColor,
     borderRadius: 4,
-    // width: wp('10%'),
-    // height: wp('11.7%'),
-    width: 48,
-    height: 48,
-
+    width: pressableItemSize,
+    height: pressableItemSize,
     textAlign: 'center',
     borderColor: Color.primaryColor,
     borderWidth: 1,
