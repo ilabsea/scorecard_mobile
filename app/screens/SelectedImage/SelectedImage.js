@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import { View, ScrollView } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import Color from '../../themes/color';
 import ScorecardReference from '../../models/ScorecardReference';
 import Scorecard from '../../models/Scorecard';
 
 import { LocalizationContext } from '../../components/Translations';
 import SelectedImageHeader from '../../components/SelectedImage/SelectedImageHeader';
+import SelectedImageList from '../../components/SelectedImage/SelectedImageList';
 import ImageSelector from '../../components/ImageSelector';
 import NoDataMessage from '../../components/NoDataMessage';
 
 import scorecardReferenceService from '../../services/scorecard_reference_service';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
+
+let _this = null;
 
 class SelectedImage extends Component {
   static contextType = LocalizationContext;
@@ -26,58 +27,42 @@ class SelectedImage extends Component {
       selectedImages: [],
       imagePickerVisible: false,
     }
+
+    _this = this;
   }
 
   toggleSelectImage(imagePath) {
-    if (this.state.scorecard.finished)
+    if (_this.state.scorecard.finished)
       return;
 
-    let selectedImages = this.state.selectedImages;
+    let selectedImages = _this.state.selectedImages;
 
-    if (!this.isSelected(imagePath))
+    if (!_this.isSelected(imagePath))
       selectedImages.push(imagePath);
     else {
       const index = selectedImages.indexOf(imagePath);
       selectedImages.splice(index, 1);
     }
 
-    this.setState({ selectedImages })
+    _this.setState({ selectedImages })
   }
 
   isSelected(imagePath) {
-    for (let i = 0; i < this.state.selectedImages.length; i++) {
-      if (this.state.selectedImages[i] == imagePath)
+    for (let i = 0; i < _this.state.selectedImages.length; i++) {
+      if (_this.state.selectedImages[i] == imagePath)
         return true;
     }
 
     return false;
   }
 
-  renderListItem(item, index) {
-    const isSelected = this.isSelected(item.image_path);
-
-    return (
-      <TouchableOpacity onPress={() => this.toggleSelectImage(item.image_path)} key={index}
-        style={[styles.imageContainer, isSelected ? {borderColor: Color.clickableColor} : {}]}
-      >
-        { isSelected &&
-          <View style={{backgroundColor: Color.clickableColor, position: 'absolute', right: 0, top: 0, zIndex: 10, borderRadius: 60, height: 20, width: 20, justifyContent: 'center'}}>
-            <MaterialIcon name='check' size={20} color={Color.whiteColor} />
-          </View>
-        }
-
-        <Image
-          source={{uri: item.image_path}}
-          style={{width: wp('28.3%'), height: wp('28.3%')}}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderImages(scorecardImages) {
-    return scorecardImages.map((item, index) => {
-      return this.renderListItem(item, index)
-    })
+  renderImages() {
+    return <SelectedImageList
+              scorecardImages={this.state.scorecardImages}
+              toggleSelectImage={this.toggleSelectImage}
+              isSelected={this.isSelected}
+              openImagePicker={() => this.setState({ imagePickerVisible: true })}
+           />
   }
 
   confirmDelete() {
@@ -108,16 +93,13 @@ class SelectedImage extends Component {
           onBackPress={() => this.props.navigation.goBack()}
           hasDeleteButton={this.state.selectedImages.length > 0}
           confirmDelete={() => this.confirmDelete()}
-          openImagePicker={() => this.setState({ imagePickerVisible: true })}
           isScorecardFinished={this.state.scorecard.finished}
         />
 
         <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, paddingHorizontal: listContainerPadding, paddingBottom: 30 }}>
-          { this.state.scorecardImages.length === 0 &&
-            this.renderNoImage()
-          }
+          { this.state.scorecardImages.length === 0 && this.renderNoImage() }
 
-          { this.renderImages(this.state.scorecardImages) }
+          { this.state.scorecardImages.length > 0 && this.renderImages() }
         </ScrollView>
 
         <ImageSelector
@@ -130,15 +112,5 @@ class SelectedImage extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    borderWidth: 1,
-    borderColor: '#b5b5b5',
-    marginHorizontal: 4,
-    marginVertical: 5,
-    borderRadius: 0,
-  }
-});
 
 export default SelectedImage;
