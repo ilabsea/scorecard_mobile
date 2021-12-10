@@ -263,11 +263,9 @@
   "numberOfProposedParticipant": "ចំនួនអ្នកស្នើលក្ខណៈវិនិច្ឆ័យ",
   "doYouWantToRemoveTheImage": "តើអ្នកពិតជាចង់លុបរូបភាពនេះមែនទេ?",
   "selectedImage": "រូបភាពដែលបានជ្រើសរើស",
-  "addImage": "បន្ថែមរូបភាព",
   "chooseImage": "ជ្រើសរើសរូបភាព",
   "takePhoto": "ថតរូប",
   "viewImage": "មើលរូបភាព",
-  "noImageIsSelected": "មិនមានរូបភាពត្រូវបានជ្រើសរើស",
   "submittedScorecards": "ប័ណ្ណដាក់ពិន្ទុដែលបានដាក់ស្នើរួច",
   "filterScorecard": "ស្វែងរកប័ណ្ណដាក់ពិន្ទុ",
   "searchLocation": "ស្វែងរកទីតាំង",
@@ -305,5 +303,6 @@
   "done": "រួចរាល់",
   "clickThisButtonToAddNewIndicator": "ចុចប៊ូតុងនេះដើម្បីបញ្ចូលលក្ខណៈវិនិច្ឆ័យថ្មី",
   "unableToGetContacts": "មិនអាចទាញយកព័ត៌មានទំនាក់ទំនង",
-  "syncContacts": "ទាញយកព័ត៌មានទំនាក់ទំនង"
+  "syncContacts": "ទាញយកព័ត៌មានទំនាក់ទំនង",
+  "pleaseChooseTheImage": "សូមជ្រើសរើសរូបភាព"
 }

@@ -263,11 +263,9 @@
   "numberOfProposedParticipant": "Number of proposed participant",
   "doYouWantToRemoveTheImage": "Do you want to remove the selected image?",
   "selectedImage": "Selected Image",
-  "addImage": "Add image",
   "chooseImage": "Choose image",
   "takePhoto": "Take photo",
   "viewImage": "View image",
-  "noImageIsSelected": "No image is selected",
   "submittedScorecards": "Submitted scorecards",
   "filterScorecard": "Filter scorecard",
   "searchLocation": "Search location",
@@ -305,5 +303,6 @@
   "done": "Done",
   "clickThisButtonToAddNewIndicator": "Click this button to add new indicator",
   "unableToGetContacts": "Unable to get contacts",
-  "syncContacts": "Sync contacts"
+  "syncContacts": "Sync contacts",
+  "pleaseChooseTheImage": "Please choose the image"
 }

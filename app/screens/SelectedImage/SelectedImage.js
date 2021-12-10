@@ -10,13 +10,10 @@ import Scorecard from '../../models/Scorecard';
 import { LocalizationContext } from '../../components/Translations';
 import SelectedImageHeader from '../../components/SelectedImage/SelectedImageHeader';
 import ImageSelector from '../../components/ImageSelector';
+import NoDataMessage from '../../components/NoDataMessage';
 
 import scorecardReferenceService from '../../services/scorecard_reference_service';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
-import NoDataMessageTabletStyles from '../../styles/tablet/NoDataMessageComponentStyle';
-import NoDataMessageMobileStyles from '../../styles/mobile/NoDataMessageComponentStyle';
-
-const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
 
 class SelectedImage extends Component {
   static contextType = LocalizationContext;
@@ -92,8 +89,17 @@ class SelectedImage extends Component {
     });
   }
 
+  renderNoImage() {
+    return (
+      <NoDataMessage
+        title={ this.context.translations.pleaseChooseTheImage }
+        buttonLabel={ this.context.translations.chooseImage }
+        onPress={() => this.setState({ imagePickerVisible: true })}
+      />
+    )
+  }
+
   render() {
-    const { translations } = this.context;
     const listContainerPadding = getDeviceStyle(wp('5%'), isShortWidthScreen() ? wp('3.3%') : wp('3.8%'));
 
     return (
@@ -106,13 +112,11 @@ class SelectedImage extends Component {
           isScorecardFinished={this.state.scorecard.finished}
         />
 
-        { this.state.scorecardImages.length == 0 &&
-          <Text style={[responsiveStyles.label, {textAlign: 'center', marginTop: 20, }]}>
-            {translations.noImageIsSelected}
-          </Text>
-        }
-
         <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, paddingHorizontal: listContainerPadding, paddingBottom: 30 }}>
+          { this.state.scorecardImages.length === 0 &&
+            this.renderNoImage()
+          }
+
           { this.renderImages(this.state.scorecardImages) }
         </ScrollView>
 
