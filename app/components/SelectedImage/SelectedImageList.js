@@ -5,7 +5,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import Color from '../../themes/color';
 
-const boxSize = wp('28.3%');
+const boxSize = wp('28.2%');
 
 class SelectedImageList extends Component {
 

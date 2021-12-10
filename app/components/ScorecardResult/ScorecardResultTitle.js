@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../../components/Translations';
-import OutlinedButton from '../OutlinedButton';
+import ViewImageButton from './ViewImageButton';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
 
@@ -19,11 +19,8 @@ class ScorecardResultTitle extends Component {
             { translations.scorecardResult }
           </Text>
         </View>
-        <OutlinedButton
-          icon="image"
-          label={translations.viewImage}
-          onPress={() => this.props.navigation.navigate('SelectedImage', { scorecard_uuid: this.props.scorecardUuid }) }
-        />
+
+        <ViewImageButton scorecardUuid={this.props.scorecardUuid} />
       </View>
     )
   }

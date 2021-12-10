@@ -10,6 +10,7 @@ import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
+import { getAllScorecardReferences } from '../../actions/scorecardReferenceAction';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
@@ -55,6 +56,7 @@ class ScorecardResult extends Component {
     }
 
     this.props.getAll(this.state.scorecard.uuid);
+    this.props.getAllScorecardReferences(this.state.scorecard.uuid);
   }
 
   _renderHeader() {
@@ -164,6 +166,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getAll: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+    getAllScorecardReferences: (scorecard_uuid) => dispatch(getAllScorecardReferences(scorecard_uuid)),
   };
 }
 

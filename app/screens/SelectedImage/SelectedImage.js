@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+import { connect } from 'react-redux';
+import { setScorecardReferences } from '../../actions/scorecardReferenceAction';
+
 import ScorecardReference from '../../models/ScorecardReference';
 import Scorecard from '../../models/Scorecard';
 
@@ -67,6 +70,7 @@ class SelectedImage extends Component {
 
   confirmDelete() {
     scorecardReferenceService.remove(this.props.route.params.scorecard_uuid, this.state.selectedImages, (scorecardImages) => {
+      this.props.setScorecardReferences(scorecardImages);
       this.setState({
         scorecardImages: scorecardImages,
         selectedImages: []
@@ -82,6 +86,11 @@ class SelectedImage extends Component {
         onPress={() => this.setState({ imagePickerVisible: true })}
       />
     )
+  }
+
+  selectImageSuccess(scorecardImages) {
+    this.props.setScorecardReferences(scorecardImages);
+    this.setState({ scorecardImages });
   }
 
   render() {
@@ -106,11 +115,20 @@ class SelectedImage extends Component {
           modalVisible={this.state.imagePickerVisible}
           closeModal={() => this.setState({ imagePickerVisible: false })}
           scorecardUuid={this.props.route.params.scorecard_uuid}
-          selectImageSuccess={(scorecardImages) => { this.setState({ scorecardImages }) }}
+          selectImageSuccess={(scorecardImages) => this.selectImageSuccess(scorecardImages)}
         />
       </View>
     )
   }
 }
 
-export default SelectedImage;
+function mapDispatchToProps(dispatch) {
+  return {
+    setScorecardReferences: (scorecardReferences) => dispatch(setScorecardReferences(scorecardReferences)),
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SelectedImage)
