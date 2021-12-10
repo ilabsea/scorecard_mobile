@@ -31,9 +31,9 @@ class AddNewIndicatorModalTextInputs extends Component {
         <TextFieldInput
           value={this.props.name}
           isRequire={true}
-          label={translations['criteriaName']}
-          placeholder={translations['enterCriteriaName']}
-          fieldName="criteriaName"
+          label={translations.indicatorName}
+          placeholder={translations.enterIndicatorName}
+          fieldName="indicatorName"
           onChangeText={(fieldName, text) => this.props.onChangeName(text)}
         />
 

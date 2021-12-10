@@ -73,7 +73,7 @@ class CreateNewIndicatorContent extends Component {
 
         { (!this.props.isSearching && !this.props.isEdit) &&
           <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor, marginTop: 20}}>
-            {this.context.translations['chooseProposedCriteria']}
+            {this.context.translations.chooseProposedIndicator}
           </Text>
         }
 

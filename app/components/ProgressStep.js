@@ -80,7 +80,7 @@ export default class ProgressStep extends Component {
       "scorecardPreference",
       "facilitatorList",
       "participantInformation",
-      "proposedCriteria"
+      "proposedIndicator"
     ]
 
     return steps.map(step => translations[step]);

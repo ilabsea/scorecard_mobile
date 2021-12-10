@@ -43,7 +43,7 @@ class RaisingProposedCustomIndicatorList extends Component {
   renderEmptyMessage() {
     return (
       <Text style={[responsiveStyles.label, {textAlign: 'center', marginTop: 0}]}>
-        { this.context.translations.noCustomCriteria }
+        { this.context.translations.noCustomIndicator }
       </Text>
     )
   }

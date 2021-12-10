@@ -48,7 +48,7 @@ class ListUser extends Component {
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecard_uuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
-              mode={{type: 'button', label: translations.proposeNewCriteria, iconName: 'plus'}}
+              mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
               onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
               onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
               navigation={this.props.navigation}

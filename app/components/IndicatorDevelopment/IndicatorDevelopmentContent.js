@@ -35,8 +35,8 @@ class IndicatorDevelopmentContent extends Component {
 
     return (
       <NoDataMessage
-        title={translations.pleaseAddCriteria}
-        buttonLabel={translations.criteria}
+        title={translations.pleaseAddIndicators}
+        buttonLabel={translations.indicator}
         onPress={() => this.props.openModal() }
         customContainerStyle={{position: 'absolute', width: '100%', top: top}}
       />

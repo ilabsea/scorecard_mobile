@@ -52,7 +52,7 @@ class AddNewIndicatorButton extends Component {
       >
         <Icon name='add' size={30} color={Color.whiteColor} />
         { this.props.scrollDirection == 'up' &&
-          <Text style={{color: Color.whiteColor, marginHorizontal: 6, fontSize: normalLabelSize}}>{ this.context.translations.addNewCriteria }</Text>
+          <Text style={{color: Color.whiteColor, marginHorizontal: 6, fontSize: normalLabelSize}}>{ this.context.translations.addNewIndicator }</Text>
         }
       </TouchableOpacity>
     )
@@ -63,7 +63,7 @@ class AddNewIndicatorButton extends Component {
 
     return (
       <CopilotStep
-        text={this.context.translations.clickThisButtonToAddNewCriteria}
+        text={this.context.translations.clickThisButtonToAddNewIndicator}
         order={1}
         name="addNewIndicator"
       >

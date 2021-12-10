@@ -52,9 +52,9 @@ const validationConstant = {
       greaterThan: 0,
     },
   },
-  criteriaName: {
+  indicatorName: {
     presence: {
-      message: '^criteriaNameRequireMsg',
+      message: '^indicatorNameRequireMsg',
     }
   },
 };

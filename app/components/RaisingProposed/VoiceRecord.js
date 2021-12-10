@@ -176,7 +176,7 @@ class VoiceRecord extends Component {
       <View>
         <View style={{alignItems: 'center', marginBottom: 10}}>
           <Text style={{fontSize: normalLabelSize, color: '#3a3a3a'}}>
-            {translations['enterNewCriteriaAsVoice']}
+            {translations.enterNewIndicatorAsVoice}
           </Text>
         </View>
         {this.state.isRecordButtonVisible && this.renderRecordButton()}

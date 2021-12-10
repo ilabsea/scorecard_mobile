@@ -54,13 +54,13 @@ export default class VerticalProgressStep extends Component {
   getProposedCriteriaSubTitle(step) {
     const { translations } = this.context;
 
-    return `${translations.numberOfCriteria}: ${step.subTitle}`;
+    return `${translations.numberOfIndicator}: ${step.subTitle}`;
   }
 
   getIndicatorDevelopmentSubTitle(step) {
     const { translations } = this.context;
 
-    return `${translations.numberOfCriteria}: ${step.subTitle}`;
+    return `${translations.numberOfIndicator}: ${step.subTitle}`;
   }
 
   _renderLine(index) {
