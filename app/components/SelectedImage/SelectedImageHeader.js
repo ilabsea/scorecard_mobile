@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../Translations';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -39,17 +38,10 @@ class SelectedImageHeader extends Component {
   }
 
   renderRightButton() {
-    if (!this.props.isScorecardFinished) {
-      return (
-        <View>
-          { this.props.hasDeleteButton ?
-            <HeaderIconButton onPress={() => this.setState({ visibleModal: true })} icon='trash' />
-            :
-            <HeaderIconButton onPress={() => this.props.openImagePicker()} icon='add' mobileIconSize={wp('7%')} />
-          }
-        </View>
-      )
-    }
+    if (!this.props.isScorecardFinished && this.props.hasDeleteButton)
+      return <HeaderIconButton onPress={() => this.setState({ visibleModal: true })} icon='trash' />
+
+    return <View/>
   }
 
   render() {

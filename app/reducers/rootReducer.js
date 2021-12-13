@@ -6,6 +6,7 @@ import participantReducer from './participantReducer';
 import criteriaListReducer from './criteriaListReducer';
 import {ratingScaleAudioReducer} from './ratingScaleReducer';
 import currentScorecardReducer from './currentScorecardReducer';
+import scorecardReferenceReducer from './scorecardReferenceReducer';
 
 const allReducers = combineReducers({
   selectedCriterias: selectedCriteriaReducer,
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
   criteriaListReducer,
   ratingScaleAudioReducer,
   currentScorecard: currentScorecardReducer,
+  scorecardReferences: scorecardReferenceReducer,
 });
 
 const rootReducer = (state, action) => {
