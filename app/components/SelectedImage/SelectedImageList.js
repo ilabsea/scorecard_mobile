@@ -14,7 +14,7 @@ class SelectedImageList extends Component {
 
     return (
       <TouchableOpacity onPress={() => this.props.toggleSelectImage(item.image_path)} key={index}
-        style={[styles.imageContainer, isSelected ? {borderColor: Color.clickableColor} : {}]}
+        style={[styles.container, isSelected ? {borderColor: Color.clickableColor} : {}]}
       >
         { isSelected &&
           <View style={{backgroundColor: Color.clickableColor, position: 'absolute', right: 0, top: 0, zIndex: 10, borderRadius: 60, height: 20, width: 20, justifyContent: 'center'}}>
@@ -24,7 +24,7 @@ class SelectedImageList extends Component {
 
         <Image
           source={{uri: item.image_path}}
-          style={{width: boxSize, height: boxSize}}
+          style={{width: boxSize, height: boxSize, borderRadius: 4}}
         />
       </TouchableOpacity>
     )
@@ -33,7 +33,7 @@ class SelectedImageList extends Component {
   renderAddButton() {
     return (
       <TouchableOpacity onPress={() => this.props.openImagePicker()}
-        style={[styles.imageContainer, { width: boxSize, height: boxSize, justifyContent: 'center', alignItems: 'center' }]}
+        style={[styles.container, { width: boxSize, height: boxSize, justifyContent: 'center', alignItems: 'center' }]}
       >
         <MaterialIcon name='add' size={60} color={Color.clickableColor} />
       </TouchableOpacity>
@@ -57,12 +57,12 @@ class SelectedImageList extends Component {
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
+  container: {
     borderWidth: 1,
     borderColor: '#b5b5b5',
     marginHorizontal: 4,
     marginVertical: 5,
-    borderRadius: 0,
+    borderRadius: 4,
   }
 });
 
