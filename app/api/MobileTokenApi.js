@@ -1,4 +1,5 @@
 import BaseApi from './BaseApi';
+import AsyncStorage from '@react-native-community/async-storage';
 import { environment } from '../config/environment';
 
 class MobileTokenApi extends BaseApi {
@@ -6,14 +7,16 @@ class MobileTokenApi extends BaseApi {
     super('mobile_tokens', '');
   }
 
-  put = (data) => {
+  put = async (data) => {
     const options = {
       url: '/api/v1/' + this.responsibleModel,
       method: 'PUT',
       data: data,
     };
 
-    return BaseApi.request(options, environment.domain);
+    const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
+
+    return BaseApi.request(options, endpointUrl);
   }
 }
 
