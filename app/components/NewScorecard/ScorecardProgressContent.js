@@ -46,7 +46,7 @@ class ScorecardProgressContent extends Component {
 
         <View style={{marginTop: 15, paddingHorizontal: 22, flexDirection: 'row'}}>
           <Text style={responsiveStyles.label}>
-            {translations.formatString(translations.thisScorecardIsInStep, this.props.scorecardUuid)}
+            {translations.formatString(translations.thisScorecardIsInStep, <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>)}
             <Text style={[{ fontFamily: FontFamily.title }, responsiveStyles.label]}> "{ translations[step.label] }"</Text>
           </Text>
         </View>

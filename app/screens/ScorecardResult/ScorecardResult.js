@@ -103,21 +103,6 @@ class ScorecardResult extends Component {
     this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'ScorecardList'}] });
   }
 
-  _confirmFinishContent = () => {
-    const {translations} = this.context;
-
-    return (
-      <View>
-        <Text style={modalStyles.label}>
-          {translations.formatString(translations.thisScorecardWillBeLocked, this.props.route.params.scorecard_uuid)}
-        </Text>
-        <Text style={[{ marginTop: 12 }, , modalStyles.label]}>
-          {translations.formatString(translations.areYouSureYouWantToFinish, this.props.route.params.scorecard_uuid)}
-        </Text>
-      </View>
-    )
-  }
-
   render() {
     const { translations } = this.context;
 

@@ -12,14 +12,15 @@ class ScorecardProgressConfirmFinishContent extends Component {
 
   render() {
     const { translations } = this.context;
+    const scorecardUuid = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
 
     return (
       <View>
         <Text style={modalStyles.label}>
-          {translations.formatString(translations.thisScorecardWillBeLocked, this.props.scorecardUuid)}
+          {translations.formatString(translations.thisScorecardWillBeLocked, scorecardUuid)}
         </Text>
         <Text style={[{ marginTop: 12 }, , modalStyles.label]}>
-          {translations.formatString(translations.areYouSureYouWantToFinish, this.props.scorecardUuid)}
+          {translations.formatString(translations.areYouSureYouWantToFinish, scorecardUuid)}
         </Text>
       </View>
     )

@@ -6,6 +6,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { pressableItemSize } from '../../utils/component_util';
 import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -19,7 +20,7 @@ class LocationSearchBox extends Component {
 
     return (
       <View style={styles.container}>
-        <Item rounded style={[styles.inputContainer, this.props.searchedLocation ? { marginRight: 15 } : {}]}>
+        <Item rounded style={[styles.inputContainer, this.props.searchedLocation ? { marginRight: 10 } : {}]}>
           <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
           <Input
             placeholder={ translations.searchLocation }
@@ -34,7 +35,7 @@ class LocationSearchBox extends Component {
         </Item>
 
         { !!this.props.searchedLocation &&
-          <TouchableOpacity onPress={() => this.props.onClearSearch()} style={{justifyContent: 'center'}}>
+          <TouchableOpacity onPress={() => this.props.onClearSearch()} style={{justifyContent: 'center', width: pressableItemSize(), alignItems: 'center'}}>
             <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: Color.grayColor}} />
           </TouchableOpacity>
         }

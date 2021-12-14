@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 
 import MessageModal from '../MessageModal';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
@@ -10,9 +11,10 @@ class ScorecardListModals extends Component {
 
   render() {
     const { translations } = this.context;
+    const scorecardUuid = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
     const modalMessage = this.props.isConfirmModal ?
-                          translations.formatString(translations.doYouWantToDeleteThisScorecard, this.props.scorecardUuid)
-                          : translations.formatString(translations.cannotDeleteThisScorecard, this.props.scorecardUuid);
+                          translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)
+                          : translations.formatString(translations.cannotDeleteThisScorecard, scorecardUuid);
 
     return (
       <React.Fragment>
