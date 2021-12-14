@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Container} from "native-base";
+import Spinner from 'react-native-loading-spinner-overlay';
 import BigHeader from '../../components/BigHeader';
 import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
+import ScorecardDetailSyncButton from '../../components/ScorecardDetail/ScorecardDetailSyncButton';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
+import Color from '../../themes/color';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardDetailTabletStyles from '../../styles/tablet/ScorecardDetailScreenStyle';
@@ -20,6 +24,9 @@ class ScorecardDetail extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
+      isLoading: false,
+      modalVisible: false,
+      errorType: null,
     };
   }
 
@@ -30,11 +37,40 @@ class ScorecardDetail extends Component {
     });
   }
 
+  finishSyncData() {
+    this.setState({
+      scorecard: Scorecard.find(this.props.route.params.scorecard_uuid),
+      isLoading: false,
+    })
+  }
+
+  syncDataButton() {
+    return (
+      <ScorecardDetailSyncButton scorecardUuid={this.props.route.params.scorecard_uuid}
+        updateLoadingStatus={(status) => this.setState({ isLoading: status })}
+        finishSyncData={() => this.finishSyncData()}
+        showErrorMessage={(errorType) => this.setState({ modalVisible: true, errorType })}
+      />
+    )
+  }
+
   _renderHeader() {
     const {translations} = this.context;
     const title = `${translations.scorecardApp} - ${this.props.route.params.scorecard_uuid}`;
 
-    return <BigHeader title={translations.welcomeTo} bigTitle={title} />
+    return <BigHeader title={translations.welcomeTo} bigTitle={title} rightButton={this.syncDataButton()} />
+  }
+
+  _renderErrorMessageModal() {
+    return (
+      <ErrorMessageModal
+        visible={this.state.modalVisible}
+        onDismiss={() => this.setState({ modalVisible: false })}
+        errorType={this.state.errorType}
+        isNewScorecard={true}
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+      />
+    )
   }
 
   render() {
@@ -44,6 +80,12 @@ class ScorecardDetail extends Component {
       <Container>
         {this._renderHeader()}
 
+        <Spinner
+          visible={this.state.isLoading}
+          color={Color.primaryColor}
+          overlayColor={Color.loadingBackgroundColor}
+        />
+
         <ScrollView contentContainerStyle={[styles.container, responsiveStyles.container]}>
           <Text style={responsiveStyles.title}>{translations.pleaseCheckScorecardDetailBelow}</Text>
           <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
@@ -52,6 +94,8 @@ class ScorecardDetail extends Component {
         <View style={styles.buttonContainer}>
           <BottomButton label={translations.start} onPress={() => this.startScorecard()} />
         </View>
+
+        { this._renderErrorMessageModal() }
       </Container>
     );
   }
