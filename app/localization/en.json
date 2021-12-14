@@ -304,5 +304,6 @@
   "clickThisButtonToAddNewIndicator": "Click this button to add new indicator",
   "unableToGetContacts": "Unable to get contacts",
   "syncContacts": "Sync contacts",
-  "pleaseChooseTheImage": "Please choose the image"
+  "pleaseChooseTheImage": "Please choose the image",
+  "syncInfo": "Sync info"
 }

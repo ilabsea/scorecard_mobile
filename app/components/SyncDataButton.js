@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -20,9 +20,11 @@ class SyncDataButton extends Component {
   render() {
     return (
       <TouchableOpacity onPress={() => this.onPress()}
-        style={{borderWidth: 0, width: pressableItemSize(), height: pressableItemSize(), alignItems: 'center', justifyContent: 'center' }}
+        style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', height: pressableItemSize(), width: this.props.label ? 'auto' : pressableItemSize() }}
       >
         <Icon name='sync' size={27} color={Color.whiteColor} />
+
+        { !!this.props.label && <Text style={{color: Color.whiteColor, marginLeft: 4, fontSize: 19}}>{ this.props.label }</Text>}
       </TouchableOpacity>
     )
   }
