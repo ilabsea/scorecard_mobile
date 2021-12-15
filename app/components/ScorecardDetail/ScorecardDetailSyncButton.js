@@ -32,7 +32,7 @@ class ScorecardDetailSyncButton extends Component {
   }
 
   render() {
-    return <SyncDataButton syncData={() => this.syncScorecardDetail()} label={ DeviceInfo.isTablet() ? this.context.translations.syncInfo : '' } />
+    return <SyncDataButton syncData={() => this.syncScorecardDetail()} label={ DeviceInfo.isTablet() ? this.context.translations.syncInfo : '' } customStyle={{ marginRight: 9 }} />
   }
 }
 

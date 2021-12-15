@@ -20,7 +20,8 @@ class SyncDataButton extends Component {
   render() {
     return (
       <TouchableOpacity onPress={() => this.onPress()}
-        style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', height: pressableItemSize(), width: this.props.label ? 'auto' : pressableItemSize() }}
+        style={[{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', height: pressableItemSize(), width: this.props.label ? 'auto' : pressableItemSize() },
+                this.props.customStyle]}
       >
         <Icon name='sync' size={27} color={Color.whiteColor} />
 
