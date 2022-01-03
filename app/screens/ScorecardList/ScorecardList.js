@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { View, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { LocalizationContext } from '../../components/Translations';
 import NoDataMessage from '../../components/NoDataMessage';
@@ -16,6 +17,7 @@ import { set } from '../../actions/currentScorecardAction';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
 import scorecardFilterService from '../../services/scorecard_filter_service';
 import scorecardHelper from '../../helpers/scorecard_helper';
+import Color from '../../themes/color';
 
 class ScorecardList extends Component {
   static contextType = LocalizationContext;
@@ -118,7 +120,6 @@ class ScorecardList extends Component {
     return (
       <View style={{flex: 1}}>
         { !this.state.isLoading &&
-
           <ScorecardListScrollView
             scorecards={this.state.scorecards}
             selectedScorecard={this.state.selectedScorecard}
@@ -126,6 +127,8 @@ class ScorecardList extends Component {
             showDeleteModal={(scorecard) => this.setState({ visibleModal: true, selectedScorecard: scorecard })}
           />
         }
+
+        <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
         <ScorecardListModals
           visibleConfirmModal={this.state.visibleModal}

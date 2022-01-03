@@ -8,6 +8,7 @@ import ScorecardListItem from './ScorecardListItem';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getListStickyIndices } from '../../utils/scorecard_util';
 import uuidv4 from '../../utils/uuidv4';
+import scorecardSyncService from '../../services/scorecard_sync_service';
 
 class ScorecardListScrollView extends React.Component {
   static contextType = LocalizationContext;
@@ -16,8 +17,13 @@ class ScorecardListScrollView extends React.Component {
     super(props);
 
     this.state = {
-      selectedScorecard: null,
+      isLoading: false,
     }
+  }
+
+  syncScorecard() {
+    this.setState({ isLoading: true });
+    scorecardSyncService.syncScorecardsInReview(() => this.setState({ isLoading: false }));
   }
 
   renderScorecardItems(scorecards) {
@@ -32,11 +38,7 @@ class ScorecardListScrollView extends React.Component {
   }
 
   renderProgressScorecards(scorecards) {
-    return (
-      <View key={uuidv4()}>
-        { this.renderScorecardItems(scorecards) }
-      </View>
-    )
+    return <View key={uuidv4()}>{ this.renderScorecardItems(scorecards) }</View>
   }
 
   renderFinishedScorecards(finishedScorecards) {
@@ -59,13 +61,11 @@ class ScorecardListScrollView extends React.Component {
     finishedScorecards = scorecardHelper.getGroupedByDate(finishedScorecards);
 
     return (
-      <ScrollView contetnContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={getListStickyIndices(finishedScorecards)}
+      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={getListStickyIndices(finishedScorecards)}
         refreshControl={
           <RefreshControl
             refreshing={this.state.isLoading}
-            onRefresh={() => {
-              console.log('sync scorecard')
-            }}
+            onRefresh={() => this.syncScorecard()}
           />
         }
       >

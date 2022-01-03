@@ -1,7 +1,7 @@
 import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import Moment from 'moment';
-import { DOWNLOADED, RUNNING, SUBMITTED } from '../constants/milestone_constant';
+import { DOWNLOADED, RUNNING, SUBMITTED, IN_REVIEW } from '../constants/milestone_constant';
 import { apiDateFormat } from '../constants/date_format_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
 
@@ -19,6 +19,7 @@ const Scorecard = (() => {
     getMilestone,
     getSubmittedExpired,
     getAllProvinces,
+    getScorecardsInReview,
   }
 
   function getAll() {
@@ -103,6 +104,10 @@ const Scorecard = (() => {
     const provinces = [...new Set(scorecards.map(scorecard => scorecard.province))];
 
     return provinces;
+  }
+
+  function getScorecardsInReview() {
+    return realm.objects('Scorecard').filtered(`milestone = '${IN_REVIEW}'`);
   }
 
   // Private

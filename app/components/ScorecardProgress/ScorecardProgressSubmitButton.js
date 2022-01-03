@@ -5,6 +5,7 @@ import { ProgressBar } from 'react-native-paper';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
+import { isScorecardInReview } from '../../utils/scorecard_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
@@ -50,7 +51,14 @@ class ScorecardProgressSubmitButton extends Component {
         onPress={() => this.props.submitToServer() }
         style={[responsiveStyles.btn, btnStyle]}>
 
-        <Text style={responsiveStyles.btnText}>{translations['submit']}</Text>
+        <Text style={responsiveStyles.btnText}>
+          { isScorecardInReview(this.props.scorecard) ? translations.submitted : translations.submit }
+        </Text>
+
+        { isScorecardInReview(this.props.scorecard) &&
+          <Text style={responsiveStyles.btnSubText}>({ this.context.translations.inReview })</Text>
+        }
+
         { this.props.scorecard.isUploaded &&
           <Icon name={'lock-closed'}  style={responsiveStyles.lockIcon}/>
         }

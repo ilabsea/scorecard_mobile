@@ -4,6 +4,7 @@ import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
 import { isNumber } from './string_util';
 import { validScorecardUrls } from '../constants/url_constant';
 import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
+import { IN_REVIEW } from '../constants/milestone_constant';
 
 export const getUniqueScorecards = (scorecards) => {
   return scorecards.filter((scorecard, index, array) => array.findIndex(t => t.uuid == scorecard.uuid) == index);
@@ -75,4 +76,8 @@ const _isValidScorecardUrl = (copiedText) => {
   }
 
   return false;
+}
+
+export const isScorecardInReview = (scorecard) => {
+  return scorecard.milestone === IN_REVIEW;
 }

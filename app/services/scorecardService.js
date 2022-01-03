@@ -2,18 +2,16 @@ import ScorecardApi from '../api/ScorecardApi';
 import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import { getErrorType } from './api_service';
 import scorecardReferenceService from './scorecard_reference_service';
-import scorecardMilestoneService from './scorecard_milestone_service';
 
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
-import Facilitator from '../models/Facilitator';
 import ScorecardReference from '../models/ScorecardReference';
 
 import { scorecardAttributes } from '../utils/scorecard_attributes_util';
 
 import BaseModelService from './baseModelService';
 import { handleApiResponse, sendRequestToApi } from './api_service';
-import { SUBMITTED } from '../constants/milestone_constant';
+import { IN_REVIEW } from '../constants/milestone_constant';
 
 class ScorecardService extends BaseModelService {
 
@@ -80,17 +78,10 @@ class ScorecardService extends BaseModelService {
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
-          Scorecard.update(_this.scorecard.uuid, { uploaded_date: new Date() });
-          let milestoneData = {
-            facilitators_attributes: Facilitator.getDataForMilestone(_this.scorecard_uuid),
-            finished_date: _this.scorecard.finished_date,
-          };
-
-          const params = {
-            scorecardUuid: _this.scorecard.uuid,
-            milestone: SUBMITTED
-          }
-          scorecardMilestoneService.updateMilestone(params, milestoneData);
+          Scorecard.update(_this.scorecard.uuid, {
+            uploaded_date: new Date(),
+            milestone: IN_REVIEW
+          });
         }
         else if (response.error)
           !!errorCallback && errorCallback(getErrorType(response.error.status));

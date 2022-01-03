@@ -3,10 +3,12 @@ import NetInfo from '@react-native-community/netinfo';
 import Scorecard from '../models/Scorecard';
 import ScorecardService from './scorecardService';
 import { apiDateFormat } from '../constants/date_format_constant';
+import { SUBMITTED, COMPLETED } from '../constants/milestone_constant';
 
 const scorecardSyncService = (() => {
   return {
     syncPlannedDates,
+    syncScorecardsInReview,
   }
 
   function syncPlannedDates(scorecardUuid) {
@@ -20,6 +22,20 @@ const scorecardSyncService = (() => {
         _syncAndUpdateScorecard(scorecardUuid);
       }
     });
+  }
+
+  function syncScorecardsInReview(callback) {
+    const scorecards = Scorecard.getScorecardsInReview();
+    const scorecardService = new ScorecardService();
+
+    scorecards.map(scorecard => {
+      scorecardService.find(scorecard.uuid, (responseData) => {
+        if (!!responseData && responseData.status === COMPLETED)
+          Scorecard.update(scorecard.uuid, { milestone: SUBMITTED })
+      }, null);
+    });
+
+    !!callback() && callback();
   }
 
   // private method
