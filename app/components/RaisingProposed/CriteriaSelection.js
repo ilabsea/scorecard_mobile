@@ -5,6 +5,7 @@ import {LocalizationContext} from '../Translations';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
 import AddNewIndicatorButton from './AddNewIndicatorButton';
+import NoIndicatorMessage from './NoIndicatorMessage';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
@@ -70,15 +71,19 @@ class CriteriaSelection extends Component {
   render() {
     return (
       <React.Fragment>
-        <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
-          <CriteriaSelectionItems
-            indicators={this.state.indicators}
-            selectedIndicators={this.state.selectedIndicators}
-            isSearching={this.props.isSearching}
-            scorecardUuid={this.props.scorecardUuid}
-            selectIndicator={this.selectIndicator}
-          />
-        </RaisingProposedScrollView>
+        { this.state.indicators.length > 0 &&
+          <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
+            <CriteriaSelectionItems
+              indicators={this.state.indicators}
+              selectedIndicators={this.state.selectedIndicators}
+              isSearching={this.props.isSearching}
+              scorecardUuid={this.props.scorecardUuid}
+              selectIndicator={this.selectIndicator}
+            />
+          </RaisingProposedScrollView>
+        }
+
+        { this.state.indicators.length === 0 && <NoIndicatorMessage /> }
 
         { !this.props.isSearching && this.renderAddNewIndicatorButton() }
       </React.Fragment>

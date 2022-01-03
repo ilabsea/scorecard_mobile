@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
-import { Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
-
-import { getDeviceStyle } from '../../utils/responsive_util';
-import NoDataMessageTabletStyles from '../../styles/tablet/NoDataMessageComponentStyle';
-import NoDataMessageMobileStyles from '../../styles/mobile/NoDataMessageComponentStyle';
-
-const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
+import NoIndicatorMessage from './NoIndicatorMessage';
 
 let _this = null;
 class RaisingProposedCustomIndicatorList extends Component {
@@ -40,19 +34,11 @@ class RaisingProposedCustomIndicatorList extends Component {
     )
   }
 
-  renderEmptyMessage() {
-    return (
-      <Text style={[responsiveStyles.label, {textAlign: 'center', marginTop: 0}]}>
-        { this.context.translations.noCustomIndicator }
-      </Text>
-    )
-  }
-
   render() {
     return (
       this.props.indicators.length > 0
         ? this.renderInidcatorList()
-        : this.renderEmptyMessage()
+        : <NoIndicatorMessage />
     )
   }
 }
