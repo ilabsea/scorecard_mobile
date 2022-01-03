@@ -11,6 +11,7 @@ import Scorecard from '../../models/Scorecard';
 import { LocalizationContext } from '../../components/Translations';
 import SelectedImageHeader from '../../components/SelectedImage/SelectedImageHeader';
 import SelectedImageList from '../../components/SelectedImage/SelectedImageList';
+import SelectedImageDoneButton from '../../components/SelectedImage/SelectedImageDoneButton';
 import ImageSelector from '../../components/ImageSelector';
 import NoDataMessage from '../../components/NoDataMessage';
 
@@ -84,6 +85,7 @@ class SelectedImage extends Component {
         title={ this.context.translations.pleaseChooseTheImage }
         buttonLabel={ this.context.translations.chooseImage }
         onPress={() => this.setState({ imagePickerVisible: true })}
+        customContainerStyle={{ height: '100%', marginTop: 30 }}
       />
     )
   }
@@ -117,6 +119,8 @@ class SelectedImage extends Component {
           scorecardUuid={this.props.route.params.scorecard_uuid}
           selectImageSuccess={(scorecardImages) => this.selectImageSuccess(scorecardImages)}
         />
+
+        <SelectedImageDoneButton navigation={this.props.navigation} />
       </View>
     )
   }

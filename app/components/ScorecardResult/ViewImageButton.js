@@ -20,8 +20,8 @@ class ViewImageButton extends Component {
         />
 
         { this.props.scorecardReferences.length > 0 &&
-          <View style={styles.badge}>
-            <Text style={{color: Color.whiteColor}}>{ this.props.scorecardReferences.length }</Text>
+          <View style={[styles.badge, { paddingHorizontal: this.props.scorecardReferences.length > 9 ? 6 : 8 }]}>
+            <Text style={{color: Color.whiteColor, fontSize: 12}}>{ this.props.scorecardReferences.length }</Text>
           </View>
         }
       </View>
@@ -31,14 +31,13 @@ class ViewImageButton extends Component {
 
 const styles = StyleSheet.create({
   badge: {
-    paddingHorizontal: 11,
     backgroundColor: Color.clickableColor,
     borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     right: 0,
-    top: -14
+    top: -12,
   }
 });
 
