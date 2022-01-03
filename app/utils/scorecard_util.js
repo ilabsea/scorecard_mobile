@@ -1,6 +1,7 @@
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
+import { isNumber } from './string_util';
 import { validScorecardUrls } from '../constants/url_constant';
 import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
 
@@ -51,7 +52,7 @@ export const handleScorecardCodeClipboard = async (updateErrorState) => {
   }
 
   copiedText = copiedText.slice(-6);
-  if (!parseInt(copiedText)) {    // if the last 6 digits contain a special character or letter
+  if (!isNumber(copiedText)) {    // if the last 6 digits contain a special character or letter
     _handelInvalidUrl(updateErrorState);
     return;
   }

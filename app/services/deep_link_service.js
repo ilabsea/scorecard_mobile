@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import newScorecardService from './new_scorecard_service';
 import { getErrorType } from './api_service';
 import Scorecard from '../models/Scorecard';
+import { isNumber, extractNumber } from '../utils/string_util';
 import scorecardProgress from '../db/jsons/scorecardProgress';
 import { ERROR_INCORRECT_SCORECARD_CODE } from '../constants/error_constant';
 
@@ -44,10 +45,13 @@ const deepLinkService = (() => {
   function _handleRedirection(url, updateModalStatus, closeModal, handleOccupiedScorecard) {
     const scorecardUuid = url.slice(-6);
     // If the last 6 digits include a special character or letter, shows an incorrect scorecard code message
-    if (!parseInt(scorecardUuid)) {
-      updateModalStatus(false, scorecardUuid.match(/\d|\./g).join(''), ERROR_INCORRECT_SCORECARD_CODE);
-      return;
+    if (!isNumber(scorecardUuid)) {
+      if (extractNumber(scorecardUuid) != '')
+        updateModalStatus(false, scorecardUuid, ERROR_INCORRECT_SCORECARD_CODE);
+
+      return;  
     }
+
     updateModalStatus(true, scorecardUuid, null);        // Show loading popup modal
 
     setTimeout(() => {
