@@ -42,8 +42,9 @@ export const getLocationMaxWidth = (scorecard) => {
 
 export const handleScorecardCodeClipboard = async (updateErrorState) => {
   let copiedText = await Clipboard.getString();
+  copiedText = copiedText.replace(' ', '');
 
-  if (copiedText == 'null')
+  if (copiedText == 'null' || copiedText == '')
     return;
 
   if (!_isValidScorecardUrl(copiedText)) {
