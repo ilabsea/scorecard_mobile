@@ -1,7 +1,7 @@
 export default [
   {
     screenName: 'RaisingProposed',
-    title: 'វិធីដើម្បីបំផុសលក្ខណៈវិន្និច្ឆ័យ',
+    title: 'វិធីដើម្បីបំផុសលក្ខណៈវិនិច្ឆ័យ',
     description: '',
     tips: [
       {
