@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 import { LocalizationContext } from '../Translations';
 import ListSectionTitle from '../ListSectionTitle';
@@ -9,6 +10,7 @@ import scorecardHelper from '../../helpers/scorecard_helper';
 import { getListStickyIndices } from '../../utils/scorecard_util';
 import uuidv4 from '../../utils/uuidv4';
 import scorecardSyncService from '../../services/scorecard_sync_service';
+import internetConnectionService from '../../services/internet_connection_service';
 
 class ScorecardListScrollView extends React.Component {
   static contextType = LocalizationContext;
@@ -22,8 +24,14 @@ class ScorecardListScrollView extends React.Component {
   }
 
   syncScorecard() {
-    this.setState({ isLoading: true });
-    scorecardSyncService.syncScorecardsInReview(() => this.setState({ isLoading: false }));
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        this.setState({ isLoading: true });
+        scorecardSyncService.syncScorecardsInReview(() => this.setState({ isLoading: false }));
+      }
+      else
+        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection,);
+    });
   }
 
   renderScorecardItems(scorecards) {
