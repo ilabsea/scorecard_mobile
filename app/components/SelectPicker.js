@@ -6,7 +6,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../themes/color';
 import { LocalizationContext } from './Translations';
 
-import { normalLabelSize } from '../utils/responsive_util';
+import { bodyFontSize } from '../utils/font_size_util';
 
 class SelectPicker extends Component {
   static contextType = LocalizationContext;
@@ -28,8 +28,7 @@ class SelectPicker extends Component {
     return (
       <View style={{flexDirection: 'row'}}>
         { showCustomArrow &&
-          <Text
-            style={{color: Color.clickableColor, textTransform: 'uppercase', fontSize: normalLabelSize}}>
+          <Text style={{color: Color.clickableColor, textTransform: 'uppercase', fontSize: bodyFontSize()}}>
             {translations['choose']}
           </Text>
         }
@@ -78,9 +77,9 @@ class SelectPicker extends Component {
           itemStyle={{justifyContent: 'flex-start'}}
           dropDownMaxHeight={200}
           dropDownStyle={[{backgroundColor: Color.whiteColor, zIndex: zIndex}]}
-          labelStyle={{fontSize: normalLabelSize}}
+          labelStyle={{fontSize: bodyFontSize()}}
           customArrowDown={() => this.dropDownArrowRight()}
-          searchableError={() => <Text style={{ fontSize: normalLabelSize }}>{ translations.noData }</Text>}
+          searchableError={() => <Text style={{ fontSize: bodyFontSize() }}>{ translations.noData }</Text>}
         />
       </View>
     );

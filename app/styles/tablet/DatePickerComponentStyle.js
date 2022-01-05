@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 
 const DatePickerComponentStyles = StyleSheet.create({
   container: {
@@ -26,7 +27,7 @@ const DatePickerComponentStyles = StyleSheet.create({
     alignItems: 'center'
   },
   dateLabel: {
-    fontSize: 16,
+    fontSize: bodyFontSize(),
     marginLeft: 20,
     marginTop: 4
   },
@@ -35,7 +36,7 @@ const DatePickerComponentStyles = StyleSheet.create({
   },
   messageLabel: {
     color: Color.orangeColor,
-    fontSize: 14,
+    fontSize: smallTextFontSize(),
     paddingTop: 5
   }
 });

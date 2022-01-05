@@ -13,7 +13,7 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import Color from '../themes/color';
 
-import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
+import { getDeviceStyle } from '../utils/responsive_util';
 import BigHeaderTabletStyles from '../styles/tablet/BigHeaderComponentStyle';
 import BigHeaderMobileStyles from '../styles/mobile/BigHeaderComponentStyle';
 import { navigateBack } from '../utils/navigation_util';

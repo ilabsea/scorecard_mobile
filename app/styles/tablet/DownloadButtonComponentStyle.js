@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { bodyFontSize, bottomButtonFontSize } from '../../utils/font_size_util';
 
 const DownloadButtonComponentStyles = StyleSheet.create({
   buttonLabel: {
-    fontSize: 18
+    fontSize: bottomButtonFontSize(),
   },
   progressBar: {
     height: 30,
@@ -10,6 +11,7 @@ const DownloadButtonComponentStyles = StyleSheet.create({
   },
   downloadPercentageLabel: {
     marginTop: 4,
+    fontSize: bodyFontSize(),
   },
   icon: {
     fontSize: 24

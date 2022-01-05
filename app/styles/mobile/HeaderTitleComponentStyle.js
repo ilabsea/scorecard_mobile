@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { mobileHeadingTitleSize, mobileSubTitleSize } from '../../utils/responsive_util';
+import { modalTitleFontSize, subTitleFontSize } from '../../utils/font_size_util';
 
 const HeaderTitleComponentStyles = StyleSheet.create({
   headline: {
     color: Color.primaryColor,
-    fontSize: mobileHeadingTitleSize(),
+    fontSize: modalTitleFontSize(),
     fontFamily: FontFamily.title
   },
   subTitle: {
-    fontSize: mobileSubTitleSize(),
+    fontSize: subTitleFontSize(),
     color: Color.lightBlackColor,
   }
 });

@@ -1,6 +1,5 @@
 import { PixelRatio } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-
 import { isShortScreenDevice } from './responsive_util';
 import { HDPIRatio, XHDPIRatio } from '../constants/screen_size_constant';
 
@@ -39,6 +38,16 @@ export const subTitleFontSize = () => {
   return getFontSizeByDevice(18, mobileFontSize);
 }
 
+export const bottomButtonFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 16);
+  return getFontSizeByDevice(20, mobileFontSize);
+}
+
+export const bottomButtonIconSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 26, 24);
+  return getFontSizeByDevice(28, mobileFontSize);
+}
+
 // tablet: 20dp, mobile ratio <= 2: 19dp, mobile ratio > 2: 17dp
 export const bigButtonFontSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 19, 17);
@@ -54,6 +63,10 @@ export const smallTextFontSize = () => {
 export const smallIconSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 16);
   return getFontSizeByDevice(18, mobileFontSize)
+}
+
+export const mobileDatePickerIconSize = () => {
+  return getMobileFontSizeByPixelRatio(XHDPIRatio, 20, 18);
 }
 
 export const mobileNormalLabelFontSize = PixelRatio.get() <= HDPIRatio ? 11 : 14;

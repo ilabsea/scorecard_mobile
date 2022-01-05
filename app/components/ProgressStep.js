@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';

@@ -2,12 +2,13 @@ import React from 'react';
 import { Body, Title } from "native-base";
 
 import { FontFamily } from '../assets/stylesheets/theme/font';
-import { getDeviceStyle, mobileHeadingTitleSize, navigationTitlePaddingLeft } from '../utils/responsive_util';
+import { getDeviceStyle, navigationTitlePaddingLeft } from '../utils/responsive_util';
+import { navigationHeaderTitleFontSize } from '../utils/font_size_util';
 
 const NavigationHeaderBody = (props) => {
   return (
     <Body style={{flex: getDeviceStyle(2, 1), paddingLeft: navigationTitlePaddingLeft}}>
-      <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize()), fontFamily: FontFamily.title}}>
+      <Title style={{fontSize: navigationHeaderTitleFontSize(), fontFamily: FontFamily.title}}>
         { props.title }
       </Title>
     </Body>
