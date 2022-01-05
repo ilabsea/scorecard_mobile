@@ -25,7 +25,7 @@ class ScorecardProgressShareButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.shareSubmittedScorecard()} disabled={ isScorecardInReview(this.props.scorecard) ? true : false }>
+      <TouchableOpacity onPress={() => this.shareSubmittedScorecard()} disabled={ isScorecardInReview(this.props.scorecard) }>
         <MaterialIcon name="share" size={22} color={ isScorecardInReview(this.props.scorecard) ? Color.disabledBtnBg : Color.whiteColor } />
       </TouchableOpacity>
     );

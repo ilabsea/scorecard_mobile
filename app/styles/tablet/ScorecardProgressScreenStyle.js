@@ -32,10 +32,11 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   },
   btnSubText: {
     color: Color.whiteColor,
-    fontSize: 11,
+    fontSize: 13,
     fontFamily: FontFamily.body,
     marginLeft: 4,
-    marginTop: 2
+    marginTop: 2,
+    color: Color.darkRedColor
   },
   progressBar: {
     height: 30,
