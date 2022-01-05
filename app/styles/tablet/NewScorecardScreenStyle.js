@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const NewScorecardScreenStyles = StyleSheet.create({
   formContainer: {
@@ -28,6 +29,7 @@ const NewScorecardScreenStyles = StyleSheet.create({
   },
   retryLink: {
     alignSelf: 'center',
+    alignItems: 'center',
     marginTop: 5,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -41,7 +43,7 @@ const NewScorecardScreenStyles = StyleSheet.create({
     marginRight: 2
   },
   errorMessageLabel: {
-    fontSize: 16,
+    fontSize: bodyFontSize(),
     color: Color.errorColor,
     textShadowColor: Color.lightBlackColor,
     textShadowOffset: { width: 0.4, height: 0.4 },

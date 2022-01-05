@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const ScorecardCodeInputComponentStyles = StyleSheet.create({
   label: {
-    fontSize: 16,
+    fontSize: bodyFontSize(),
     color: Color.whiteColor,
     textShadowColor: Color.lightBlackColor,
     textShadowRadius: 5

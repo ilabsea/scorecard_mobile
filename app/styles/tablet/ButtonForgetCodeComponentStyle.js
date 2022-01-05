@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { pressableItemSize } from '../../utils/component_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const ButtonForgetCodeComponentStyles = StyleSheet.create({
   container: {
@@ -22,7 +23,7 @@ const ButtonForgetCodeComponentStyles = StyleSheet.create({
     fontSize: 24
   },
   label: {
-    fontSize: 16,
+    fontSize: bodyFontSize()
   }
 });
 

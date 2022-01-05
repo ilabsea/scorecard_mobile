@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
+import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 
 const ButtonForgetCodeComponentStyles = StyleSheet.create({
@@ -29,7 +29,7 @@ const ButtonForgetCodeComponentStyles = StyleSheet.create({
     marginTop: -8
   },
   label: {
-    fontSize: isShortScreenDevice() ? wp(smLabelSize) : wp(mdLabelSize),
+    fontSize: bodyFontSize(),
     marginTop: -6
   }
 });
