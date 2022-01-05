@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { mobileSubTitleSize } from '../../utils/responsive_util';
+import { subTitleFontSize } from '../../utils/font_size_util';
 
 const ScorecardDetailScreenStyles = StyleSheet.create({
   container: {
     paddingTop: 14,
   },
   title: {
-    fontSize: mobileSubTitleSize(),
+    fontSize: subTitleFontSize(),
     marginBottom: -10
   }
 });

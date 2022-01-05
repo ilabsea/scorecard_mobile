@@ -4,16 +4,39 @@ import DeviceInfo from 'react-native-device-info';
 import { isShortScreenDevice } from './responsive_util';
 import { HDPIRatio, XHDPIRatio } from '../constants/screen_size_constant';
 
+// body or normal font size
 // tablet: 16dp, mobile ratio <= 2: 16dp, mobile ratio > 2: 14dp
 export const bodyFontSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 16, 14);
   return getFontSizeByDevice(16, mobileFontSize);
 }
 
-// tablet: 20dp, mobile ratio <= 2: 18dp, mobile ratio > 2 : 16dp
+// popup modal title font size
+// tablet: 20dp, mobile ratio <= 2: 18dp, mobile ratio > 2: 16dp
 export const modalTitleFontSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 16);
   return getFontSizeByDevice(20, mobileFontSize);
+}
+
+// big navigation header title font size
+// tablet: 28dp, mobile ratio <= 2: 26dp, mobile ratio > 2: 24dp
+export const bigNavigationHeaderTitleFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 26, 24);
+  return getFontSizeByDevice(28, mobileFontSize);
+}
+
+// navigation header title font size
+// tablet: 19dp, mobile ratio <= 2: 18dp, mobile ratio > 2: 17dp
+export const navigationHeaderTitleFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 17);
+  return getFontSizeByDevice(19, mobileFontSize);
+}
+
+// screen sub title font size
+// tablet: 18dp, mobile ratio <= 2: 18dp, mobile ratio > 2: 16dp
+export const subTitleFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 16);
+  return getFontSizeByDevice(18, mobileFontSize);
 }
 
 // tablet: 20dp, mobile ratio <= 2: 19dp, mobile ratio > 2: 17dp
