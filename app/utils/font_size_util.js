@@ -10,6 +10,12 @@ export const bodyFontSize = () => {
   return getFontSizeByDevice(16, mobileFontSize);
 }
 
+// tablet: 20dp, mobile ratio <= 2: 18dp, mobile ratio > 2 : 16dp
+export const modalTitleFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 16);
+  return getFontSizeByDevice(20, mobileFontSize);
+}
+
 // tablet: 20dp, mobile ratio <= 2: 19dp, mobile ratio > 2: 17dp
 export const bigButtonFontSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 19, 17);
