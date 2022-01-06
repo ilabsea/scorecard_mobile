@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Color from '../themes/color';
 import { getIntegerOf } from '../utils/math';
-import TextFieldInput from './TextFieldInput';
+import { bodyFontSize } from '../utils/font_size_util';
 import { LocalizationContext } from './Translations';
 
 class NumericInput extends Component {
@@ -42,7 +42,7 @@ class NumericInput extends Component {
         <TextInput
           { ...this.props }
           mode="outlined"
-          style={{backgroundColor: Color.whiteColor, width: '100%'}}
+          style={{backgroundColor: Color.whiteColor, width: '100%', fontSize: bodyFontSize()}}
           keyboardType="number-pad"
           maxLength={2}
           theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   messageLabel: {
     color: Color.errorColor,
     marginBottom: 10,
+    fontSize: bodyFontSize()
   },
 });
 
