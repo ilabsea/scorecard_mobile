@@ -5,6 +5,9 @@ import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
 
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import { XHDPIRatio } from '../../constants/screen_size_constant';
+
 const votingCriteriaListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
     marginBottom: 10,
@@ -72,7 +75,7 @@ const votingCriteriaListItemComponentStyle = StyleSheet.create({
     marginBottom: -12
   },
   viewMoreLabel: {
-    fontSize: wp(smLabelSize),
+    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 14.5, 12.5),
     color: Color.headerColor
   },
   viewMoreIcon: {
@@ -82,7 +85,7 @@ const votingCriteriaListItemComponentStyle = StyleSheet.create({
   },
   indicatorNameLabel: {
     paddingRight: 10,
-    fontSize: wp('3.5%')
+    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 15, 13.5),
   },
 });
 

@@ -5,9 +5,8 @@ import {
   ScrollView,
 } from 'react-native';
 
-import { Icon, Button, Text } from 'native-base';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
@@ -27,8 +26,9 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import { hasVoting } from '../../helpers/voting_criteria_helper';
 import VotingCriteria from '../../models/VotingCriteria';
 
+import { modalTitleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import { xlLabelSize } from '../../constants/mobile_font_size_constant';
+
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
 
@@ -145,8 +145,8 @@ const styles = StyleSheet.create({
     padding: containerPadding,
   },
   h1: {
-    fontSize: getDeviceStyle(24, wp(xlLabelSize)),
+    fontSize: getDeviceStyle(24, modalTitleFontSize()),
     fontFamily: FontFamily.title,
-    marginBottom: 20
+    marginBottom: getDeviceStyle(20, 30),
   }
 })

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { lgLabelSize, mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const VotingInfoComponentStyles = StyleSheet.create({
   modalContainer: {
@@ -8,17 +8,10 @@ const VotingInfoComponentStyles = StyleSheet.create({
     padding: 14,
   },
   header: {
-    fontSize: wp(lgLabelSize),
-  },
-  participantTypeText: {
-    fontSize: wp(smLabelSize),
-  },
-  participantNumberText: {
-    fontSize: wp(mdLabelSize),
-    fontWeight: 'bold',
+    fontSize: bodyFontSize()
   },
   normalText: {
-    fontSize: wp(mdLabelSize)
+    fontSize: bodyFontSize()
   }
 });
 
