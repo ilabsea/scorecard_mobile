@@ -1,8 +1,12 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
-import { smLabelSize, xsLabelSize } from '../../constants/mobile_font_size_constant';
+import { xsLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortWidthScreen } from '../../utils/responsive_util';
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import { XHDPIRatio } from '../../constants/screen_size_constant';
+
+const titleFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 14.2, 14);
 
 const IndicatorAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
@@ -11,7 +15,7 @@ const IndicatorAccordionComponentStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleLabel: {
-    fontSize: wp(smLabelSize)
+    fontSize: titleFontSize
   },
   subTitleLabel: {
     fontSize: wp(xsLabelSize),
@@ -26,7 +30,7 @@ const IndicatorAccordionComponentStyles = StyleSheet.create({
     paddingBottom: 5,
   },
   contentTitleLabel: {
-    fontSize: wp(smLabelSize),
+    fontSize: titleFontSize,
     marginTop: -1
   },
 });

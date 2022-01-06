@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { bodyFontSize } from '../../utils/font_size_util';
 
-const labelFontSize = 16;
+const labelFontSize = bodyFontSize();
 
 const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {

@@ -3,6 +3,13 @@ import DeviceInfo from 'react-native-device-info';
 import { isShortScreenDevice } from './responsive_util';
 import { HDPIRatio, XHDPIRatio } from '../constants/screen_size_constant';
 
+export const getMobileFontSizeByPixelRatio = (pixelRatio, smallRatioFontSize, bigRatioFontSize) => {
+  const devicePixelRatio = Math.round(PixelRatio.roundToNearestPixel(PixelRatio.get()));
+  const fontSize = devicePixelRatio <= pixelRatio ? smallRatioFontSize : bigRatioFontSize;
+
+  return isShortScreenDevice() ? fontSize - 1 : fontSize;
+}
+
 // body or normal font size
 // tablet: 16dp, mobile ratio <= 2: 16dp, mobile ratio > 2: 14dp
 export const bodyFontSize = () => {
@@ -84,11 +91,4 @@ export const mobileNormalLabelFontSize = PixelRatio.get() <= HDPIRatio ? 11 : 14
 // Private method
 const getFontSizeByDevice = (tabletFontSize, mobileFontSize) => {
   return DeviceInfo.isTablet() ? tabletFontSize : mobileFontSize;
-}
-
-const getMobileFontSizeByPixelRatio = (pixelRatio, smallRatioFontSize, bigRatioFontSize) => {
-  const devicePixelRatio = Math.round(PixelRatio.roundToNearestPixel(PixelRatio.get()));
-  const fontSize = devicePixelRatio <= pixelRatio ? smallRatioFontSize : bigRatioFontSize;
-
-  return isShortScreenDevice() ? fontSize - 1 : fontSize;
 }

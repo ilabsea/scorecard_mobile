@@ -1,12 +1,13 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import Color from '../../themes/color';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { modalTitleFontSize } from '../../utils/font_size_util';
 
 const screenHeight = Dimensions.get('screen').height;
 
 const RaisingProposedComponentStyles = StyleSheet.create({
   headingTitle: {
-    fontSize: 20,
+    fontSize: modalTitleFontSize()
   },
   criteriaValue: {
     fontSize: 16,
