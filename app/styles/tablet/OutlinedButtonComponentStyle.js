@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { bodyFontSize, outlinedButtonIconSize } from '../../utils/font_size_util';
 
 const OutlinedButtonComponentStyles = StyleSheet.create({
   buttonLabel: {
-    fontSize: 14,
+    fontSize: bodyFontSize()
   },
   buttonIcon: {
-    fontSize: 24
+    fontSize: outlinedButtonIconSize()
   },
 });
 

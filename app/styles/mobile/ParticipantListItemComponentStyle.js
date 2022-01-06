@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { lgLabelSize, smLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
+import { lgLabelSize, smLabelSize, mdIconSize, mdLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { numberContainerSize } from '../../utils/participant_list_util';
 
@@ -50,7 +50,7 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     fontSize: wp(mdIconSize),
   },
   ageLabel: {
-    fontSize: wp(lgLabelSize),
+    fontSize: wp(mdLabelSize),
     marginTop: -2
   },
   editLabel: {

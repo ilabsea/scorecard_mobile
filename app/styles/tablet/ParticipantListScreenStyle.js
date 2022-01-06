@@ -1,15 +1,17 @@
 import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { bigTitleFontSize } from '../../utils/font_size_util';
 
 const PrarticipantListScreenStyles = StyleSheet.create({
   titleLabel: {
-    fontSize: 20,
+    fontSize: bigTitleFontSize(),
     fontFamily: FontFamily.title
   },
   participantNumberLabel: {
-    fontSize: 22,
+    fontSize: bigTitleFontSize(),
     fontWeight: 'bold',
     marginLeft: 5,
+    marginTop: 3
   },
   orderNumberHeaderContainer: {
     paddingRight: 20,

@@ -31,6 +31,11 @@ export const navigationHeaderTitleFontSize = () => {
   return getFontSizeByDevice(19, mobileFontSize);
 }
 
+export const bigTitleFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 18, 17);
+  return getFontSizeByDevice(20, mobileFontSize);
+}
+
 // screen sub title font size
 // tablet: 18dp, mobile ratio <= 2: 18dp, mobile ratio > 2: 16dp
 export const subTitleFontSize = () => {
@@ -67,6 +72,11 @@ export const smallIconSize = () => {
 
 export const mobileDatePickerIconSize = () => {
   return getMobileFontSizeByPixelRatio(XHDPIRatio, 20, 18);
+}
+
+export const outlinedButtonIconSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 20, 18);
+  return getFontSizeByDevice(24, mobileFontSize);
 }
 
 export const mobileNormalLabelFontSize = PixelRatio.get() <= HDPIRatio ? 11 : 14;
