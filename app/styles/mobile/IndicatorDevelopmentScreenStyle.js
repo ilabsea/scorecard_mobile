@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { xlLabelSize } from '../../constants/mobile_font_size_constant';
+import { modalTitleFontSize } from '../../utils/font_size_util';
 
 const IndicatorDevelopmentScreenStyles = StyleSheet.create({
   titleContainer: {
@@ -8,7 +7,7 @@ const IndicatorDevelopmentScreenStyles = StyleSheet.create({
     marginBottom: 5
   },
   titleLabel: {
-    fontSize: wp(xlLabelSize),
+    fontSize: modalTitleFontSize(),
     flex: 1,
   },
 });
