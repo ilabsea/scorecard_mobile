@@ -5,7 +5,6 @@ import {
   Text,
 } from 'react-native';
 
-import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';
 import { Avatar } from 'react-native-paper';
 import uuidv4 from '../../utils/uuidv4';
@@ -16,8 +15,6 @@ import TipListItemMobileStyle from '../../styles/mobile/TipListItemComponentStyl
 const styles = getDeviceStyle(TipListItemTabletStyle, TipListItemMobileStyle);
 
 export default class TipListItem extends Component {
-  static contextType = LocalizationContext;
-
   renderIcon(num) {
     return (
       <View style={{marginRight: 20}}>
@@ -27,7 +24,6 @@ export default class TipListItem extends Component {
   }
 
   render() {
-    const { translations } = this.context;
     const { title, subTitle, number, titleStyle } = this.props;
 
     return (
