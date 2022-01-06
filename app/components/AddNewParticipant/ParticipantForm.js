@@ -11,9 +11,7 @@ import participantHelper from '../../helpers/participant_helper';
 import GendersCheckBox from './GendersCheckBox';
 import OptionsSelectBox from './OptionsSelectBox';
 
-import { tabletTitleLabelSize } from '../../styles/tablet/SelectBoxComponentStyle';
-import { mobileTitleLabelSize } from '../../styles/mobile/SelectBoxComponentStyle';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 class ParticipantForm extends Component {
   static contextType = LocalizationContext;
@@ -114,7 +112,7 @@ class ParticipantForm extends Component {
             renderSmallSize={this.props.renderSmallSize}
           />
 
-          <Text style={{marginTop: 15, fontSize: getDeviceStyle(tabletTitleLabelSize, mobileTitleLabelSize)}}>
+          <Text style={{marginTop: 15, fontSize: bodyFontSize()}}>
             { translations.attributes }
           </Text>
           { this._renderParticipantAttributes() }

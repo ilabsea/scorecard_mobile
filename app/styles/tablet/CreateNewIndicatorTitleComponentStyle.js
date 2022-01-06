@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { navigationHeaderTitleFontSize } from '../../utils/font_size_util';
 
 const CreateNewIndicatorTitleStyles = StyleSheet.create({
   body: {
@@ -9,7 +10,7 @@ const CreateNewIndicatorTitleStyles = StyleSheet.create({
     marginLeft: 18
   },
   titleLabel: {
-    fontSize: 19,
+    fontSize: navigationHeaderTitleFontSize(),
     fontFamily: FontFamily.title
   },
   right: {

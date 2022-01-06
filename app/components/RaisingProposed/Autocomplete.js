@@ -12,7 +12,7 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { Chip } from 'react-native-paper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { normalLabelSize } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 let _this = null;
 class Autocomplete extends Component {
@@ -60,7 +60,7 @@ class Autocomplete extends Component {
           Keyboard.dismiss();
         }}
         style={styles.listItem}>
-        <Text>{item}</Text>
+        <Text style={{fontSize: bodyFontSize()}}>{item}</Text>
       </TouchableOpacity>
     )
 
@@ -90,7 +90,7 @@ class Autocomplete extends Component {
             this.setState({tag: '', focusing: true});
             !!this.tagInput && this.tagInput.focus();
           }}
-          textStyle={{fontSize: normalLabelSize, paddingTop: 4}}
+          textStyle={{fontSize: bodyFontSize(), paddingTop: 4}}
           style={{ marginTop: 8, marginBottom: 2}}
         >
           {this.state.tag}
@@ -111,7 +111,7 @@ class Autocomplete extends Component {
           onBlur={() => this.setState({showDropdown: false, tag: this.state.value, focusing: false})}
           placeholder={this.props.placeholder || this.props.label}
           placeholderTextColor={Color.inputBorderLineColor}
-          style={{flex: 1, fontSize: normalLabelSize, fontFamily: FontFamily.body}}
+          style={{flex: 1, fontSize: bodyFontSize(), fontFamily: FontFamily.body}}
           ref={(input) => { this.tagInput = input;}}
         />
 

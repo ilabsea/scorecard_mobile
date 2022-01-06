@@ -17,7 +17,7 @@ import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { modalHeadingTitleSize } from '../../utils/responsive_util';
+import { modalTitleFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     borderRadius: modalBorderRadius
   },
   header: {
-    fontSize: modalHeadingTitleSize(),
+    fontSize: modalTitleFontSize(),
     fontFamily: FontFamily.title,
     marginBottom: 20,
   },

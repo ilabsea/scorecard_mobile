@@ -8,9 +8,7 @@ import CriteriaSelection from '../RaisingProposed/CriteriaSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
 
 import IndicatorService from '../../services/indicator_service';
-import { getDeviceStyle, mobileSubTitleSize } from '../../utils/responsive_util';
-
-const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
+import { subTitleFontSize } from '../../utils/font_size_util';
 
 class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
@@ -72,7 +70,7 @@ class CreateNewIndicatorContent extends Component {
         { this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
-          <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor, marginTop: 20}}>
+          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: 20}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>
         }

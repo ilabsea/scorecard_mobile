@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import TourTipButton from '../TourTipButton';
-import { normalLabelSize } from '../../utils/responsive_util';
+import { bodyFontSize, bottomButtonIconSize } from '../../utils/font_size_util';
 
 const WalkableView = walkthroughable(View);
 class AddNewIndicatorButton extends Component {
@@ -50,9 +50,9 @@ class AddNewIndicatorButton extends Component {
       <TouchableOpacity onPress={() => this.props.showAddNewIndicatorForm()}
         style={[styles.container, !this.state.hasTourtip ? styles.floatPosition : {}]}
       >
-        <Icon name='add' size={30} color={Color.whiteColor} />
+        <Icon name='add' size={bottomButtonIconSize()} color={Color.whiteColor} />
         { this.props.scrollDirection == 'up' &&
-          <Text style={{color: Color.whiteColor, marginHorizontal: 6, fontSize: normalLabelSize}}>{ this.context.translations.addNewIndicator }</Text>
+          <Text style={{color: Color.whiteColor, marginHorizontal: 6, fontSize: bodyFontSize()}}>{ this.context.translations.addNewIndicator }</Text>
         }
       </TouchableOpacity>
     )

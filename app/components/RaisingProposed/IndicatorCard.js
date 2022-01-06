@@ -3,8 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
-import { normalLabelSize } from '../../utils/responsive_util';
-
+import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
 import CriteriaSelectionMobileStyle from '../../styles/mobile/CriteriaSelectionComponentStyle';
@@ -44,7 +43,7 @@ class IndicatorCard extends Component {
           onPress={() => this.props.selectIndicator(index)}
         >
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left', fontSize: normalLabelSize}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
+            <Text style={{textAlign: 'left', fontSize: bodyFontSize()}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 

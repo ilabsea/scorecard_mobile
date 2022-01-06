@@ -15,7 +15,7 @@ const AccordionSwitcherComponentStyles = StyleSheet.create({
     backgroundColor: Color.clickableColor
   },
   btnText: {
-    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 14, 14),
+    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 14, 13.2),
     color: Color.clickableColor,
     textAlign: 'center'
   },

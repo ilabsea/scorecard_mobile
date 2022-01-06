@@ -9,6 +9,7 @@ import OutlinedButton from '../OutlinedButton';
 import styles from '../../themes/participantListItemStyle';
 import ParticipantModalListItem from './ParticipantModalListItem';
 import CloseButton from '../CloseButton';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 export default class ParticipantModal extends Component {
   static contextType = LocalizationContext;
@@ -46,7 +47,7 @@ export default class ParticipantModal extends Component {
     const { translations } = this.context;
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>{translations.noParticipant}</Text>
+        <Text style={{fontSize: bodyFontSize()}}>{translations.noParticipant}</Text>
       </View>
     )
   }

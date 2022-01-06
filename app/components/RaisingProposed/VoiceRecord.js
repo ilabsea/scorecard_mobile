@@ -7,7 +7,7 @@ import RecordedAudioCard from './RecordedAudioCard';
 import RecordAudioButton from './RecordAudioButton';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
-import { normalLabelSize } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 
 class VoiceRecord extends Component {
@@ -175,7 +175,7 @@ class VoiceRecord extends Component {
     return (
       <View>
         <View style={{alignItems: 'center', marginBottom: 10}}>
-          <Text style={{fontSize: normalLabelSize, color: '#3a3a3a'}}>
+          <Text style={{fontSize: bodyFontSize(), color: '#3a3a3a'}}>
             {translations.enterNewIndicatorAsVoice}
           </Text>
         </View>

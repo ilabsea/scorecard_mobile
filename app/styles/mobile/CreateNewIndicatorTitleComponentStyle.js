@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { mobileHeadingTitleSize, isShortWidthScreen } from '../../utils/responsive_util';
+import { isShortWidthScreen } from '../../utils/responsive_util';
+import { navigationHeaderTitleFontSize } from '../../utils/font_size_util';
 
 const mobileBodyPaddingLeft = isShortWidthScreen() ? wp('4%') : wp('1%');
 
@@ -12,7 +13,7 @@ const CreateNewIndicatorTitleStyles = StyleSheet.create({
     paddingLeft: mobileBodyPaddingLeft,
   },
   titleLabel: {
-    fontSize: mobileHeadingTitleSize(),
+    fontSize: navigationHeaderTitleFontSize(),
     fontFamily: FontFamily.title,
   },
   right: {
