@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Input, Item, Icon } from 'native-base';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 import { LocalizationContext } from '../../components/Translations';
 
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#bababa',
     flex: 1,
-    backgroundColor: Color.paleGrayColor
+    backgroundColor: Color.paleGrayColor,
   },
   container: {
     backgroundColor: Color.whiteColor,
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     fontFamily: FontFamily.body,
-    fontSize: getDeviceStyle(16, wp(mdLabelSize)),
+    fontSize: bodyFontSize(),
     width: '100%',
     paddingTop: 0,
     paddingBottom: 0,
