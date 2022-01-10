@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { mdLabelSize, smLabelSize, xlIconSize } from '../../constants/mobile_font_size_constant';
+import { smLabelSize, xlIconSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const subTitleFontSize = 12;
 
@@ -55,7 +56,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     height: '100%'
   },
   deleteLabel: {
-    fontSize: wp(mdLabelSize)
+    fontSize: bodyFontSize(),
   },
   locationLabel: {
     fontSize: subTitleFontSize,

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
   itemContainer: {
@@ -48,7 +49,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     alignItems: 'center'
   },
   deleteLabel: {
-    fontSize: 16
+    fontSize: bodyFontSize()
   },
   locationLabel: {
     fontSize: 14,

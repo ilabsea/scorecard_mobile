@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
-import { lgLabelSize, mdLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortScreenDevice } from '../../utils/responsive_util';
+import { getMobileFontSizeByPixelRatio, bottomButtonFontSize, subTitleFontSize, bodyFontSize } from '../../utils/font_size_util';
+import { XHDPIRatio } from '../../constants/screen_size_constant';
 
 const ScorecardProgressScreenStyles = StyleSheet.create({
   container: {
@@ -11,7 +12,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     paddingTop: isShortScreenDevice() ? 5 : 10,
   },
   title: {
-    fontSize: wp(lgLabelSize),
+    fontSize: subTitleFontSize(),
     fontFamily: FontFamily.title,
     paddingBottom: 0,
     marginBottom: -wp('0.9%')
@@ -21,7 +22,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     color: Color.grayColor,
   },
   subTitle: {
-    fontSize: 12,
+    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 12, 12),
     color: Color.grayColor,
   },
   btn: {
@@ -34,7 +35,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   },
   btnText: {
     color: Color.whiteColor,
-    fontSize: isShortScreenDevice() ? wp(mdLabelSize) : wp(lgLabelSize)
+    fontSize: bottomButtonFontSize(),
   },
   btnSubText: {
     color: Color.whiteColor,
@@ -55,7 +56,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     left: '48%',
     position: 'absolute',
     fontWeight: 'bold',
-    fontSize: wp('3.5%')
+    fontSize: bodyFontSize(),
   },
   lockIcon: {
     fontSize: wp('5%'),
