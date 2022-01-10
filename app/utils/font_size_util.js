@@ -86,6 +86,11 @@ export const outlinedButtonIconSize = () => {
   return getFontSizeByDevice(24, mobileFontSize);
 }
 
+export const accordionItemFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 14, 13);
+  return getFontSizeByDevice(16, mobileFontSize);
+}
+
 export const mobileNormalLabelFontSize = PixelRatio.get() <= HDPIRatio ? 11 : 14;
 
 // Private method

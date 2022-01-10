@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';
 import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
-import { smLabelSize } from '../../constants/mobile_font_size_constant';
+import { accordionItemFontSize } from '../../utils/font_size_util'
 
 const ScorecardResultAccordionFieldLabel = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   if (props.fieldName == 'suggested_action') {
-    const textStyle = { fontSize: wp(smLabelSize), alignSelf: 'center' };
+    const textStyle = { fontSize: accordionItemFontSize(), alignSelf: 'center' };
 
     return (
       <View style={{flexDirection: "row", flexGrow: 1}}>

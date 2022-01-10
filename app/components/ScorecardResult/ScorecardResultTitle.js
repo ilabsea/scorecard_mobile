@@ -4,7 +4,8 @@ import { View, Text } from 'react-native';
 import { LocalizationContext } from '../../components/Translations';
 import ViewImageButton from './ViewImageButton';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle, mobileHeadingTitleSize } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import { modalTitleFontSize } from '../../utils/font_size_util';
 
 class ScorecardResultTitle extends Component {
   static contextType = LocalizationContext;
@@ -13,9 +14,9 @@ class ScorecardResultTitle extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{flexDirection: 'row', marginBottom: 20}}>
+      <View style={{ flexDirection: 'row', marginBottom: getDeviceStyle(20, 5) }}>
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text style={{ fontSize: getDeviceStyle(24, mobileHeadingTitleSize()), fontFamily: FontFamily.title }}>
+          <Text style={{ fontSize: getDeviceStyle(24, modalTitleFontSize()), fontFamily: FontFamily.title }}>
             { translations.scorecardResult }
           </Text>
         </View>
