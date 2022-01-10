@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { xxlLabelSize, xlLabelSize, lgLabelSize, mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { xxlLabelSize, xlLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
+
+const contentFontSize = bodyFontSize();
 
 const AboutScreenStyles = StyleSheet.create({
   container: {
@@ -23,15 +26,15 @@ const AboutScreenStyles = StyleSheet.create({
   khmerText: {
     marginTop: 30,
     textAlign: 'center',
-    fontSize: wp(mdLabelSize),
+    fontSize: contentFontSize,
   },
   englishText: {
     marginTop: 20,
     textAlign: 'center',
-    fontSize: wp(mdLabelSize)
+    fontSize: contentFontSize
   },
   logoTitle: {
-    fontSize: wp(lgLabelSize),
+    fontSize: subTitleFontSize(),
     fontFamily: FontFamily.body,
   },
   logoContainer: {
@@ -51,7 +54,7 @@ const AboutScreenStyles = StyleSheet.create({
   versionText: {
     textAlign: 'center',
     marginTop: 10,
-    fontSize: wp(mdLabelSize)
+    fontSize: contentFontSize
   }
 });
 

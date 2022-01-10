@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
+import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
+
+const contentFontSize = bodyFontSize();
 
 const AboutScreenStyles = StyleSheet.create({
   container: {
@@ -21,13 +24,15 @@ const AboutScreenStyles = StyleSheet.create({
   khmerText: {
     marginTop: 50,
     textAlign: 'center',
+    fontSize: contentFontSize
   },
   englishText: {
     marginTop: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: contentFontSize
   },
   logoTitle: {
-    fontSize: 18,
+    fontSize: subTitleFontSize(),
     fontFamily: FontFamily.body
   },
   logoContainer: {
@@ -46,7 +51,8 @@ const AboutScreenStyles = StyleSheet.create({
   },
   versionText: {
     textAlign: 'center',
-    marginTop: 10
+    marginTop: 10,
+    fontSize: contentFontSize
   }
 });
 

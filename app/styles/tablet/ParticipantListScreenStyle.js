@@ -19,8 +19,10 @@ const PrarticipantListScreenStyles = StyleSheet.create({
     width: 60
   },
   itemTitle: {
-    fontWeight: '700',
     textAlign: 'center',
+    fontFamily: FontFamily.title,
+    lineHeight: 28,
+    fontSize: 15,
   },
   actionColumn: {
     width: 60

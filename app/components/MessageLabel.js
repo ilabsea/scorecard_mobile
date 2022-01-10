@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet} from 'react-native';
 import Color from '../themes/color';
+import { bodyFontSize } from '../utils/font_size_util';
 
 class MessageLabel extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
   messageLabel: {
     marginTop: 30,
     textAlign: 'center',
+    fontSize: bodyFontSize()
   }
 });
 

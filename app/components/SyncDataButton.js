@@ -34,7 +34,7 @@ class SyncDataButton extends Component {
         style={[{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', height: pressableItemSize(), width: this.props.label ? 'auto' : pressableItemSize() },
                 this.props.customStyle]}
       >
-        <Icon name='sync' size={27} color={Color.whiteColor} />
+        <Icon name='sync' size={25} color={Color.whiteColor} />
 
         { !!this.props.label && <Text style={{color: Color.whiteColor, marginLeft: 4, fontSize: navigationHeaderTitleFontSize()}}>{ this.props.label }</Text>}
       </TouchableOpacity>

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bigTitleFontSize } from '../../utils/font_size_util';
 
@@ -21,9 +20,11 @@ const PrarticipantListScreenStyles = StyleSheet.create({
     width: wp('11.7%'),
   },
   itemTitle: {
-    fontWeight: '700',
     textAlign: 'center',
-    fontSize: wp(smLabelSize),
+    fontSize: 12,
+    fontFamily: FontFamily.title,
+    lineHeight: 19,
+    paddingTop: 1
   },
   actionColumn: {
     width: 50

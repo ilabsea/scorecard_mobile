@@ -6,7 +6,7 @@ import { getDeviceStyle } from '../utils/responsive_util';
 
 class HeaderIconButton extends Component {
   render() {
-    const mobileIconSize = this.props.mobileIconSize || wp('6%');
+    const mobileIconSize = this.props.mobileIconSize || wp('5.5%');
 
     return (
       <Button transparent onPress={() => this.props.onPress()}>
