@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const SettingScreenStyles = StyleSheet.create({
   container: {
@@ -9,7 +10,7 @@ const SettingScreenStyles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   textLabel: {
-    fontSize: 16
+    fontSize: bodyFontSize()
   },
   messageContainer: {
     marginTop: 120
