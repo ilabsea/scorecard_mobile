@@ -1,13 +1,12 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { lgLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+import { subTitleFontSize } from '../../utils/font_size_util';
 
 const VotingCriteriaFormScreenStyles = StyleSheet.create({
   title: {
     marginTop: 10,
     marginBottom: 5,
-    fontSize: wp(lgLabelSize),
+    fontSize: subTitleFontSize()
   },
   itemSeparator: {
     backgroundColor: Color.paleGrayColor,

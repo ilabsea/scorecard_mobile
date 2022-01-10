@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { isShortWidthScreen } from '../../utils/responsive_util';
+import { subTitleFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 
 const iconWrapperHeight = wp('10%');
@@ -28,7 +29,7 @@ const CriteriaRatingItemComponentStyles = StyleSheet.create({
     marginRight: 40,
   },
   indicatorLabel: {
-    fontSize: wp('4.2%'),
+    fontSize: subTitleFontSize(),
     fontFamily: FontFamily.title,
     textTransform: 'capitalize',
     marginRight: 10,
