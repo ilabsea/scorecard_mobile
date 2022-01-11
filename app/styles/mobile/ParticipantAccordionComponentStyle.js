@@ -4,9 +4,8 @@ import { xsLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
-const labelFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 14.2, 13);
+const labelFontSize = getMobileFontSizeByPixelRatio(14.2, 13);
 
 const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {

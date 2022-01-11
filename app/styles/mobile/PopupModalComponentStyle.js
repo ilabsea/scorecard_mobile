@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { bodyFontSize, modalTitleFontSize } from '../../utils/font_size_util';
+import { bodyFontSize, titleFontSize } from '../../utils/font_size_util';
 
 const PopupModalComponentStyles = StyleSheet.create({
   headerTitle: {
-    fontSize: modalTitleFontSize(),
+    fontSize: titleFontSize(),
     marginBottom: 0,
   },
   label: {

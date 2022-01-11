@@ -1,14 +1,13 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
-import { mdLabelSize, xxlLabelSize } from '../../constants/mobile_font_size_constant';
+import { xxlLabelSize } from '../../constants/mobile_font_size_constant';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { pressableItemSize } from '../../utils/component_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 
 const ScorecardCodeInputComponentStyles = StyleSheet.create({
   label: {
-    // fontSize: wp(mdLabelSize),
     fontSize: bodyFontSize(),
     color: Color.whiteColor,
     textShadowColor: Color.blackColor,

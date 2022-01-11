@@ -1,13 +1,16 @@
-import { StyleSheet } from 'react-native';
-import { modalTitleFontSize } from '../../utils/font_size_util';
+import { StyleSheet, PixelRatio } from 'react-native';
+import { titleFontSize } from '../../utils/font_size_util';
+import { XHDPIRatio } from '../../constants/screen_size_constant';
+
+const devicePixelRatio = Math.round(PixelRatio.roundToNearestPixel(PixelRatio.get()));
 
 const IndicatorDevelopmentScreenStyles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
-    marginBottom: 5
+    marginBottom: devicePixelRatio <= XHDPIRatio ? 5 : 15,
   },
   titleLabel: {
-    fontSize: modalTitleFontSize(),
+    fontSize: titleFontSize(),
     flex: 1,
   },
 });

@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import { modalTitleFontSize } from '../../utils/font_size_util';
+import { titleFontSize } from '../../utils/font_size_util';
 import { lgLabelSize } from '../../constants/mobile_font_size_constant';
 
 const RaisingProposedComponentStyles = StyleSheet.create({
   headingTitle: {
-    fontSize: modalTitleFontSize(),
+    fontSize: titleFontSize(),
   },
   criteriaValue: {
     fontSize: wp(lgLabelSize),

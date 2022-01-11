@@ -17,7 +17,6 @@ import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/milestone_constant';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
 
 class ScorecardProgressButtons extends Component {
@@ -59,7 +58,7 @@ class ScorecardProgressButtons extends Component {
   renderMessage() {
     const { translations, appLanguage } = this.context;
     let message = '';
-    const mobileFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 13.5, 12.5);
+    const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
 
     if (this.props.scorecard.isUploaded)

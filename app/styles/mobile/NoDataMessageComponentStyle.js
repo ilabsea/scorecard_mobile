@@ -2,14 +2,13 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { isShortScreenDevice } from '../../utils/responsive_util'
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
 // 210 is the height of message container
 const containerMarginTop = isShortScreenDevice() ? -(210 / 8) : -(210 / 4);
 
 const NoDataMessageComponentStyles = StyleSheet.create({
   label: {
-    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 19, 17),
+    fontSize: getMobileFontSizeByPixelRatio(19, 17),
     marginVertical: 10
   },
   icon: {

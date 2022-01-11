@@ -4,7 +4,6 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio, bottomButtonFontSize, subTitleFontSize, bodyFontSize } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
 const ScorecardProgressScreenStyles = StyleSheet.create({
   container: {
@@ -22,7 +21,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     color: Color.grayColor,
   },
   subTitle: {
-    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 12, 12),
+    fontSize: getMobileFontSizeByPixelRatio(12, 12),
     color: Color.grayColor,
   },
   btn: {

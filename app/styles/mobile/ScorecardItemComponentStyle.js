@@ -4,9 +4,8 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { smLabelSize, xlIconSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
-const subTitleFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 12, 11.5);
+const subTitleFontSize = getMobileFontSizeByPixelRatio(12, 11.5);
 
 const ScorecardItemComponentStyles = StyleSheet.create({
   itemContainer: {

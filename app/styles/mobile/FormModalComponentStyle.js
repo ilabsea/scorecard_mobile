@@ -3,11 +3,9 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
-const mdFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 15, 14);
-const smFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 14, 13);
-
+const mdFontSize = getMobileFontSizeByPixelRatio(15, 14);
+const smFontSize = getMobileFontSizeByPixelRatio(14, 13);
 
 const FormModalComponentStyles = StyleSheet.create({
   container: {
@@ -57,7 +55,7 @@ const FormModalComponentStyles = StyleSheet.create({
   },
   removeIcon: {
     color: Color.redColor,
-    fontSize: getMobileFontSizeByPixelRatio(XHDPIRatio, 20, 18),
+    fontSize: getMobileFontSizeByPixelRatio(20, 18),
   }
 });
 

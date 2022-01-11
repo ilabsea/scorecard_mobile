@@ -26,7 +26,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import { hasVoting } from '../../helpers/voting_criteria_helper';
 import VotingCriteria from '../../models/VotingCriteria';
 
-import { modalTitleFontSize } from '../../utils/font_size_util';
+import { titleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 
 class VotingCriteriaList extends Component {
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     padding: containerPadding,
   },
   h1: {
-    fontSize: getDeviceStyle(24, modalTitleFontSize()),
+    fontSize: getDeviceStyle(24, titleFontSize()),
     fontFamily: FontFamily.title,
     marginBottom: getDeviceStyle(20, 30),
   }

@@ -4,9 +4,8 @@ import Color from '../../themes/color';
 import { xsLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortWidthScreen } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-import { XHDPIRatio } from '../../constants/screen_size_constant';
 
-const titleFontSize = getMobileFontSizeByPixelRatio(XHDPIRatio, 14.2, 13);
+const titleFontSize = getMobileFontSizeByPixelRatio(14.2, 13);
 
 const IndicatorAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {

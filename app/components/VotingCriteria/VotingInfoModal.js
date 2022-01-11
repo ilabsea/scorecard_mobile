@@ -14,7 +14,7 @@ import Color from '../../themes/color';
 
 import { isVotingCriteriaRated } from '../../helpers/voting_criteria_helper';
 
-import { modalTitleFontSize } from '../../utils/font_size_util';
+import { titleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';
 import VotingInfoMobileStyles from '../../styles/mobile/VotingInfoComponentStyle';
@@ -69,7 +69,7 @@ class VotingInfoModal extends Component {
           contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.modalContainer, { width: this.getModalWidth() } ]}
         >
           { isVotingCriteriaRated(this.props.criteria.uuid) &&
-            <Text numberOfLines={1} style={[CustomStyle.modalTitle, { fontSize: modalTitleFontSize() }]}>
+            <Text numberOfLines={1} style={[CustomStyle.modalTitle, { fontSize: titleFontSize() }]}>
               { this.props.indicator && this.props.indicator.content }
             </Text>
           }
