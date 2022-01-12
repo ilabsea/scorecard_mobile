@@ -72,7 +72,7 @@ class IndicatorDevelopmentList extends Component {
 
         <IndicatorDevelopmentInstructionModal
           visible={this.state.isFirstVisit}
-          onDimiss={() => this.onInstructionModalDismiss()}
+          onDismiss={() => this.onInstructionModalDismiss()}
           headerHeight={this.props.headerHeight}
         />
       </React.Fragment>

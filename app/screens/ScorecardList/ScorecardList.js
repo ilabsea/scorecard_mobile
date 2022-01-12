@@ -31,6 +31,7 @@ class ScorecardList extends Component {
       scorecards: Scorecard.getAll(),
       isLoading: false,
       visibleErrorModal: false,
+      headerHeight: 0
     }
   }
 
@@ -118,7 +119,9 @@ class ScorecardList extends Component {
       return this._renderNoData();
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}}
+        onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y })}
+      >
         { !this.state.isLoading &&
           <ScorecardListScrollView
             scorecards={this.state.scorecards}
@@ -138,6 +141,8 @@ class ScorecardList extends Component {
           scorecardUuid={scorecardUuid}
           isConfirmModal={this.state.isConfirmModal}
           confirmDelete={() => this._confirmDelete()}
+          headerHeight={this.state.headerHeight}
+          scorecards={this.state.scorecards}
         />
       </View>
     )
