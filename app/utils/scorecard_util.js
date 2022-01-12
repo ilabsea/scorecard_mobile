@@ -47,7 +47,7 @@ export const handleScorecardCodeClipboard = async (updateErrorState) => {
   if (copiedText == 'null' || copiedText == '')
     return;
 
-  if (!_isValidScorecardUrl(copiedText)) {
+  if (!_isValidScorecardUrl(copiedText) && !isNumber(copiedText)) {
     _handelInvalidUrl(updateErrorState);
     return;
   }

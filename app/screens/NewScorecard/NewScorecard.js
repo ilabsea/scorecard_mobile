@@ -151,7 +151,7 @@ class NewScorecard extends Component {
     });
 
     if (hasAutoFocus && this.state.errorType != ERROR_INVALID_SCORECARD_URL)
-      this.scorecardRef.current.inputRef.focusField(5);
+      !!this.scorecardRef.current.inputRef && this.scorecardRef.current.inputRef.focusField(5);
   }
 
   renderForm() {
