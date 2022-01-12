@@ -73,7 +73,7 @@ class ScorecardService extends BaseModelService {
   // ------Step2------
   async uploadScorecard(callback, errorCallback) {
     const _this = this;
-    let attrs = scorecardAttributes(_this.scorecard);
+    let attrs = await scorecardAttributes(_this.scorecard);
 
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {

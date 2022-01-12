@@ -3,8 +3,9 @@ import DeviceInfo from 'react-native-device-info'
 import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
 import { getNestedAttributes } from './scorecard_nested_attributes_util';
+import MobileTokenService from '../services/mobile_token_service';
 
-export const scorecardAttributes = (scorecard) => {
+export const scorecardAttributes = async (scorecard) => {
   let facilitators = Facilitator.getAll(scorecard.uuid);
   let participants = Participant.getAll(scorecard.uuid);
   const conductedTime = Moment(scorecard.conducted_at).format('HH:mm:ss ZZ');
@@ -23,6 +24,7 @@ export const scorecardAttributes = (scorecard) => {
     finished_date: scorecard.finished_date ? scorecard.finished_date : null,
     running_date: scorecard.running_date ? scorecard.running_date : null,
     device_type: DeviceInfo.isTablet() ? 'tablet' : 'mobile',
+    device_token: await MobileTokenService.getToken(),
   };
 
   scorecardAttributes = {...scorecardAttributes, ...getNestedAttributes(scorecard)};
