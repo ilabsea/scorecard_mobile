@@ -27,10 +27,9 @@ class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    let scorecard = props.currentScorecard;
 
     this.state = {
-      scorecard: scorecard,
+      scorecard: Scorecard.find(props.route.params.uuid),
       progressPercentag: 0,
       showProgress: false,
       visibleModal: false,
@@ -109,8 +108,10 @@ class ScorecardProgress extends Component {
   }
 
   updateScorecard() {
+    const scorecardUuid = this.props.currentScorecard ? this.props.currentScorecard.uuid : this.props.route.params.uuid;
+
     this.setState({
-      scorecard: Scorecard.find(this.props.currentScorecard.uuid)
+      scorecard: Scorecard.find(scorecardUuid)
     });
   }
 

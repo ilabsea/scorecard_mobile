@@ -59,7 +59,6 @@ const MobileTokenService = (() => {
       return null;
 
     const jsonValue = JSON.parse(storageToken) || {};
-
     return jsonValue.token;
   }
 
