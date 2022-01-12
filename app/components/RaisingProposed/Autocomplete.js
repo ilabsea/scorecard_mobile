@@ -88,7 +88,7 @@ class Autocomplete extends Component {
           onClose={() => {
             this.onChangeText('');
             this.setState({tag: '', focusing: true});
-            this.tagInput.focus();
+            !!this.tagInput && this.tagInput.focus();
           }}
           textStyle={{fontSize: normalLabelSize, paddingTop: 4}}
           style={{ marginTop: 8, marginBottom: 2}}

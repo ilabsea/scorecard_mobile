@@ -26,7 +26,7 @@ class ScorecardCodeInput extends Component {
     handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
     AppState.addEventListener('change', this._handleAppStateChange);
     setTimeout(() => {
-      this.inputRef.focusField(0);
+      !!this.inputRef && this.inputRef.focusField(0);
     }, 5);
   }
 
