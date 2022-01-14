@@ -36,8 +36,7 @@ const authenticationFormService = (() => {
     AsyncStorage.removeItem('IS_ERROR_AUTHENTICATION');
   }
 
-  function isValidSettingForm(state) {
-    const { backendUrl, email, password } = state;
+  function isValidSettingForm(backendUrl, email, password) {
     const backendUrlValidationMsg = validationService('backendUrl', backendUrl == '' ? undefined : backendUrl);
     const emailValidationMsg = _getEmailValidationMsg(email);
     const passwordValidationMsg = _getPasswordValidationMsg(password);

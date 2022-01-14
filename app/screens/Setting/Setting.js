@@ -37,6 +37,7 @@ class Setting extends Component {
       isLoading: false,
       hasInternetConnection: false,
       visibleModal: false,
+      isValid: false
     };
 
     this.settingFormRef = React.createRef();
@@ -55,15 +56,13 @@ class Setting extends Component {
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  isValidForm = () => {
+  clearErrorMessage() {
     this.settingFormRef.current.setState({
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
     });
     this.setState({ errorMsg: '' });
-
-    return authenticationFormService.isValidSettingForm(this.settingFormRef.current.state);
   }
 
   authenticate() {
@@ -91,6 +90,11 @@ class Setting extends Component {
     // });
   }
 
+  isFormValid() {
+    const { backendUrl, email, password } = this.settingFormRef.current.state;
+    return authenticationFormService.isValidSettingForm(backendUrl, email, password);
+  }
+
   save = async () => {
     const { translations } = this.context;
 
@@ -106,13 +110,13 @@ class Setting extends Component {
       return;
     }
 
-    if (!this.isValidForm())
+    this.clearErrorMessage();
+    if (!this.isFormValid())
       return;
 
     // signInService.saveSignInInfo(this.settingFormRef.current.state);
     authenticationService.saveSignInInfo(this.settingFormRef.current.state);
     AsyncStorage.setItem('IS_CONNECTED', 'false');
-
     this.setState({isLoading: true});
     this.authenticate();
 
@@ -160,13 +164,13 @@ class Setting extends Component {
             overlayColor={Color.loadingBackgroundColor}
           />
 
-          <SettingForm ref={this.settingFormRef} />
+          <SettingForm ref={this.settingFormRef} updateValidationStatus={() => this.setState({ isValid: this.isFormValid() })} />
 
           {this.renderErrorMsg()}
           <ActionButton
             label={translations['save']}
             onPress={() => this.save()}
-            isDisabled={this.state.isLoading}
+            isDisabled={this.state.isLoading || !this.state.isValid}
             customLabelStyle={responsiveStyles.textLabel}
           />
           <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>
