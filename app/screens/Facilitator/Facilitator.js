@@ -7,6 +7,7 @@ import ProgressHeader from '../../components/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';
+import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
@@ -26,6 +27,8 @@ class FacilitatorScreen extends Component {
       isError: true,
       containerPaddingBottom: 0,
       isLoading: false,
+      modalVisible: false,
+      errorType: null,
     };
 
     this.formRef = React.createRef();
@@ -90,6 +93,16 @@ class FacilitatorScreen extends Component {
     );
   };
 
+  renderErrorMessageModal() {
+    return (
+      <ErrorMessageModal
+        visible={this.state.modalVisible}
+        onDismiss={() => this.setState({ modalVisible: false })}
+        errorType={this.state.errorType}
+        isNewScorecard={true}
+      />
+    )
+  }
 
   render() {
     const {translations} = this.context;
@@ -104,6 +117,7 @@ class FacilitatorScreen extends Component {
               <FacilitatorReloadButton localNgoId={this.props.route.params.local_ngo_id}
                 reloadFacilitators={() => this.loadFacilitators()}
                 updateLoadingStatus={(status) => this.setState({ isLoading: status })}
+                showErrorMessage={(errorType) => this.setState({ modalVisible: true, errorType })}
               />
             }
           />
@@ -135,6 +149,8 @@ class FacilitatorScreen extends Component {
           </KeyboardAvoidingView>
 
           { this.renderNextButton() }
+
+          { this.renderErrorMessageModal() }
         </View>
       </TouchableWithoutFeedback>
     );

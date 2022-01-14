@@ -14,7 +14,7 @@ class ScorecardProgressShareButton extends Component {
 
   shareSubmittedScorecard() {
      NetInfo.fetch().then(state => {
-      if (state.isConnected) {
+      if (state.isConnected && state.isInternetReachable) {
         scorecardSharingService.shareScorecardPdfFile(this.props.scorecard.uuid, this.props.updateLoadingStatus, this.props.updateErrorMessageModal, this.context.appLanguage);
         return;
       }

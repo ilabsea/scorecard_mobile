@@ -7,13 +7,23 @@ import Color from '../themes/color';
 import { LocalizationContext } from './Translations'
 import { pressableItemSize } from '../utils/component_util';
 import internetConnectionService from '../services/internet_connection_service';
+import {checkConnection} from '../services/api_service';
 
 class SyncDataButton extends Component {
   static contextType = LocalizationContext;
 
   onPress() {
     NetInfo.fetch().then(state => {
-      state.isConnected ? this.props.syncData() : internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection)
+      if (state.isConnected && state.isInternetReachable) {
+        this.props.syncData();
+
+        // If the sync request is taking too long (20 seconds), it will show a something when wrong message
+        checkConnection((type, message) => {
+          this.props.showSomethingWentWrong();
+        });
+      }
+      else
+        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection)
     });
   }
 

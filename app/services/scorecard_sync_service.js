@@ -18,7 +18,7 @@ const scorecardSyncService = (() => {
       return;
 
     NetInfo.fetch().then(state => {
-      if (state.isConnected) {
+      if (state.isConnected && state.isInternetReachable) {
         _syncAndUpdateScorecard(scorecardUuid);
       }
     });
