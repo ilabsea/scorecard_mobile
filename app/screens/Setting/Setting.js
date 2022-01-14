@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Text,
-} from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -16,22 +10,19 @@ import SettingForm from '../../components/Setting/SettingForm';
 import MessageModal from '../../components/MessageModal';
 
 import Color from '../../themes/color';
-import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_service';
-import {handleApiResponse} from '../../services/api_service';
-import authenticationFormService from '../../services/authentication_form_service';
-import contactService from '../../services/contact_service';
 import internetConnectionService from '../../services/internet_connection_service';
-import settingHelper from '../../helpers/setting_helper';
+import authenticationService from '../../services/authentication_service';
+// import signInService from '../../services/sign_in_service';
+import authenticationFormService from '../../services/authentication_form_service';
 
-import SessionApi from '../../api/SessionApi';
+import settingHelper from '../../helpers/setting_helper';
 
 import pkg from '../../../package';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
 import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
-import MobileTokenService from '../../services/mobile_token_service';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
@@ -64,64 +55,40 @@ class Setting extends Component {
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  getPickerDefaultValue = (value) => {
-    if (value != '' && value != undefined)
-      return value.toString();
-
-    return null;
-  };
-
   isValidForm = () => {
-    const {backendUrl, email, password} = this.settingFormRef.current.state;
     this.settingFormRef.current.setState({
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
     });
-
     this.setState({ errorMsg: '' });
 
-    const backendUrlValidationMsg = validationService('backendUrl', backendUrl == '' ? undefined : backendUrl);
-    const emailValidationMsg = validationService('email', email == '' ? undefined : email);
-    const passwordValidationMsg = validationService('password', password == '' ? undefined : password);
-
-    this.setState({
-      backendUrlErrorMsg: backendUrlValidationMsg || '',
-      emailErrorMsg: emailValidationMsg || '',
-      passwordErrorMsg: passwordValidationMsg || '',
-    });
-
-    if (backendUrlValidationMsg != null || emailValidationMsg != null || passwordValidationMsg != null)
-      return false;
-
-    return true;
+    return authenticationFormService.isValidSettingForm(this.settingFormRef.current.state);
   }
 
-  async authenticate() {
+  authenticate() {
     const { email, password } = this.settingFormRef.current.state;
-    const response = await SessionApi.authenticate(email, password);
 
-    handleApiResponse(response, (responseData) => {
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-      AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
-      MobileTokenService.updateToken(responseData.program_id);
-
-      authenticationFormService.clearErrorAuthentication();
-      contactService.downloadContacts(null, null);
-
-      this.setState({isLoading: false});
+    authenticationService.authenticate(email, password, () => {
+      this.setState({ isLoading: false });
       this.props.navigation.goBack();
-    }, (error) => {
-      if (error.status == 422)
-        authenticationFormService.setIsErrorAuthentication();
-
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      AsyncStorage.removeItem('AUTH_TOKEN');
-
-      this.setState({isLoading: false});
-      this.handleAuthenticateError(response);
+    }, (errorMessage) => {
+      this.setState({
+        isLoading: false,
+        errorMsg: errorMessage,
+        messageType: 'error',
+      });
     });
+    // signInService.authenticate(email, password, () => {
+    //   this.setState({ isLoading: false });
+    //   this.props.navigation.goBack();
+    // }, (errorMessage) => {
+    //   this.setState({
+    //     isLoading: false,
+    //     errorMsg: errorMessage,
+    //     messageType: 'error',
+    //   });
+    // });
   }
 
   save = async () => {
@@ -139,19 +106,11 @@ class Setting extends Component {
       return;
     }
 
-    if (!this.isValidForm()) {
+    if (!this.isValidForm())
       return;
-    }
 
-    const { backendUrl, email, password, locale } = this.settingFormRef.current.state;
-
-    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
-    AsyncStorage.setItem('SETTING', JSON.stringify({
-      backendUrl: backendUrl,
-      email: email,
-      password: password,
-      locale: locale
-    }));
+    // signInService.saveSignInInfo(this.settingFormRef.current.state);
+    authenticationService.saveSignInInfo(this.settingFormRef.current.state);
     AsyncStorage.setItem('IS_CONNECTED', 'false');
 
     this.setState({isLoading: true});
@@ -169,34 +128,11 @@ class Setting extends Component {
     });
   }
 
-  handleAuthenticateError = (response) => {
-    let message = '';
-    if (response.error === undefined) {
-      this.setState({errorMsg: 'authenticationFailed'});
-      return;
-    }
-
-    this.setState({messageType: 'error'});
-    const error = response.error;
-
-    if (error.message.toLowerCase() === 'invalid email or password!')
-      message = 'invalidEmailOrPasswordMsg';
-    else if (error.message.toLowerCase() === 'Your account is unprocessable')
-      message = 'accountIsUnprocessable';
-    else
-      message = 'authenticationFailed';
-
-    this.setState({errorMsg: message});
-  }
-
   renderErrorMsg = () => {
-    const {translations} = this.context;
-    const {errorMsg, messageType} = this.state;
-
     return (
       <MessageLabel
-        message={translations[errorMsg]}
-        type={messageType}
+        message={this.context.translations[this.state.errorMsg]}
+        type={this.state.messageType}
         customStyle={responsiveStyles.messageContainer}
       />
     );
@@ -217,16 +153,14 @@ class Setting extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
-        <View style={[styles.container]}>
+        <View style={[responsiveStyles.container]}>
           <Spinner
             visible={this.state.isLoading}
             color={Color.primaryColor}
             overlayColor={Color.loadingBackgroundColor}
           />
 
-          <SettingForm
-            ref={this.settingFormRef}
-          />
+          <SettingForm ref={this.settingFormRef} />
 
           {this.renderErrorMsg()}
           <ActionButton
@@ -250,26 +184,5 @@ class Setting extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Color.whiteColor,
-    flex: 1,
-    paddingTop: 16,
-    paddingHorizontal: 16,
-  },
-  inputLabel: {
-    marginBottom: 10,
-  },
-  dropDownPickerStyle: {
-    backgroundColor: Color.whiteColor,
-    zIndex: 5000,
-    elevation: 2,
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
-  }
-});
 
 export default Setting;

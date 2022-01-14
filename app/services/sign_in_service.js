@@ -1,26 +1,30 @@
-import SessionApi from '../api/SessionApi';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import { handleApiResponse } from './api_service';
 import authenticationFormService from './authentication_form_service';
 import contactService from './contact_service';
 import MobileTokenService from './mobile_token_service';
-import AsyncStorage from '@react-native-community/async-storage';
+import SessionApi from '../api/SessionApi';
 
-const authenticationService = (() => {
+const signInService = (() => {
   return {
-    authenticate,
-    reNewAuthToken,
     saveSignInInfo,
-  };
+    authenticate
+  }
 
-  async function authenticate(email, password, successCallback, failedCallback) {
-    // const response = await SessionApi.authenticate(email, password);
-    // handleApiResponse(response, (res) => {
-    //   successCallback(res);
-    //   authenticationFormService.clearErrorAuthentication();
-    // }, (error) => {
-    //   failedCallback(error);
-    // });
+  function saveSignInInfo(state) {
+    const { backendUrl, email, password, locale } = state;
 
+    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
+    AsyncStorage.setItem('SETTING', JSON.stringify({
+      backendUrl: backendUrl,
+      email: email,
+      password: password,
+      locale: locale
+    }));
+  }
+
+  async function authenticate(email, password, successCallback, errorCallback) {
     const response = await SessionApi.authenticate(email, password);
 
     handleApiResponse(response, (responseData) => {
@@ -44,33 +48,6 @@ const authenticationService = (() => {
     });
   }
 
-  async function reNewAuthToken(callback) {
-    const setting = await AsyncStorage.getItem('SETTING');
-    const { email, password } = JSON.parse(setting);
-
-    authenticate(email, password, (responseData) => {
-      AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-      authenticationFormService.clearErrorAuthentication();
-      callback();
-    }, (error) => {
-      AsyncStorage.removeItem('AUTH_TOKEN');
-      authenticationFormService.setIsErrorAuthentication();
-    });
-  }
-
-  function saveSignInInfo(state) {
-    const { backendUrl, email, password, locale } = state;
-
-    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
-    AsyncStorage.setItem('SETTING', JSON.stringify({
-      backendUrl: backendUrl,
-      email: email,
-      password: password,
-      locale: locale
-    }));
-  }
-
   // private methods
   function _getAuthenticationErrorMsg(response) {
     if (response.error === undefined)
@@ -92,4 +69,4 @@ const authenticationService = (() => {
   }
 })();
 
-export default authenticationService;
+export default signInService;

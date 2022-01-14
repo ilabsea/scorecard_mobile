@@ -51,7 +51,7 @@ class ErrorAuthenticationContent extends Component {
   }
 
   save = async () => {
-    const { translations }  = this.context;
+    const { translations, appLanguage }  = this.context;
     if (!this.state.isValidForm)
       return;
 
@@ -60,31 +60,60 @@ class ErrorAuthenticationContent extends Component {
       message: translations.authenticating,
     });
 
-    authenticationService.authenticate(this.state.email, this.state.password, async (responseData) => {
+    authenticationService.authenticate(this.state.email, this.state.password, async () => {
       this.setState({
         isLoading: false,
         message: translations.successfullyAuthenticated,
       });
-      const endPointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
-      authenticationFormService.clearErrorAuthentication();
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
 
-      AsyncStorage.setItem('SETTING',JSON.stringify({
-        backendUrl: endPointUrl,
+      // const backendUrl = await AsyncStorage.getItem('ENDPOINT_URL');
+      const signInInfo = {
+        backendUrl: await AsyncStorage.getItem('ENDPOINT_URL'),
         email: this.state.email,
-        password: this.state.password
-      }));
+        password: this.state.password,
+        locale: appLanguage
+      }
+      authenticationService.saveSignInInfo(signInInfo);
 
+      // AsyncStorage.setItem('SETTING',JSON.stringify({
+      //   backendUrl: endPointUrl,
+      //   email: this.state.email,
+      //   password: this.state.password
+      // }));
       this.props.onDismiss();
     }, (error) => {
-      authenticationFormService.setIsErrorAuthentication();
-      AsyncStorage.removeItem('AUTH_TOKEN');
       this.setState({
         isLoading: false,
         message: translations.emailOrPasswordIsIncorrect,
       });
-    })
-  }
+    });
+
+
+  //   authenticationService.authenticate(this.state.email, this.state.password, async (responseData) => {
+  //     this.setState({
+  //       isLoading: false,
+  //       message: translations.successfullyAuthenticated,
+  //     });
+  //     const endPointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
+  //     authenticationFormService.clearErrorAuthentication();
+  //     AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+
+  //     AsyncStorage.setItem('SETTING',JSON.stringify({
+  //       backendUrl: endPointUrl,
+  //       email: this.state.email,
+  //       password: this.state.password
+  //     }));
+
+  //     this.props.onDismiss();
+  //   }, (error) => {
+  //     authenticationFormService.setIsErrorAuthentication();
+  //     AsyncStorage.removeItem('AUTH_TOKEN');
+  //     this.setState({
+  //       isLoading: false,
+  //       message: translations.emailOrPasswordIsIncorrect,
+  //     });
+  //   })
+  // }
 
   _renderShowPasswordIcon = () => {
     const buttonPadding = 2;

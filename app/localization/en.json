@@ -306,5 +306,6 @@
   "syncContacts": "Sync contacts",
   "pleaseChooseTheImage": "Please choose the image",
   "syncInfo": "Sync info",
-  "inReview": "in review"
+  "inReview": "in review",
+  "theServerUrlIsInvalid": "The server URL is invalid"
 }

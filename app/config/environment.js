@@ -6,5 +6,8 @@ export const environment = {
   enableTourTip: false,
   numberOfFacilitators: 4,
   implementedDayRange: 14,     // days
-  defaultEndpoint: 'https://isaf.digital-csc.org'
+  defaultEndpoint: 'https://isaf.digital-csc.org',
+  signInAttempt: 10,
+  resetLockInterval: 900000,       // miliseconds
+  lockRequestInterval: 900000,     // miliseconds
 };
