@@ -7,6 +7,7 @@ import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import MessageLabel from '../../components/MessageLabel';
 import SettingForm from '../../components/Setting/SettingForm';
+import LockSignInMessage from '../../components/Setting/LockSignInMessage';
 import MessageModal from '../../components/MessageModal';
 
 import Color from '../../themes/color';
@@ -15,6 +16,7 @@ import internetConnectionService from '../../services/internet_connection_servic
 import authenticationService from '../../services/authentication_service';
 // import signInService from '../../services/sign_in_service';
 import authenticationFormService from '../../services/authentication_form_service';
+import lockSignInService from '../../services/lock_sign_in_service';
 
 import settingHelper from '../../helpers/setting_helper';
 
@@ -37,7 +39,8 @@ class Setting extends Component {
       isLoading: false,
       hasInternetConnection: false,
       visibleModal: false,
-      isValid: false
+      isLocked: false,
+      isValid: false,
     };
 
     this.settingFormRef = React.createRef();
@@ -71,11 +74,12 @@ class Setting extends Component {
     authenticationService.authenticate(email, password, () => {
       this.setState({ isLoading: false });
       this.props.navigation.goBack();
-    }, (errorMessage) => {
+    }, (errorMessage, isLocked) => {
       this.setState({
         isLoading: false,
         errorMsg: errorMessage,
         messageType: 'error',
+        isLocked: isLocked,
       });
     });
     // signInService.authenticate(email, password, () => {
@@ -90,9 +94,9 @@ class Setting extends Component {
     // });
   }
 
-  isFormValid() {
+  async isFormValid() {
     const { backendUrl, email, password } = this.settingFormRef.current.state;
-    return authenticationFormService.isValidSettingForm(backendUrl, email, password);
+    return await authenticationFormService.isValidSettingForm(backendUrl, email, password);
   }
 
   save = async () => {
@@ -111,7 +115,7 @@ class Setting extends Component {
     }
 
     this.clearErrorMessage();
-    if (!this.isFormValid())
+    if (!await this.isFormValid())
       return;
 
     // signInService.saveSignInInfo(this.settingFormRef.current.state);
@@ -133,6 +137,9 @@ class Setting extends Component {
   }
 
   renderErrorMsg = () => {
+    if (this.state.isLocked)
+      return <LockSignInMessage />
+
     return (
       <MessageLabel
         message={this.context.translations[this.state.errorMsg]}
@@ -154,7 +161,6 @@ class Setting extends Component {
 
   render() {
     const {translations} = this.context;
-
     return (
       <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
         <View style={[responsiveStyles.container]}>
@@ -164,13 +170,13 @@ class Setting extends Component {
             overlayColor={Color.loadingBackgroundColor}
           />
 
-          <SettingForm ref={this.settingFormRef} updateValidationStatus={() => this.setState({ isValid: this.isFormValid() })} />
+          <SettingForm ref={this.settingFormRef} updateValidationStatus={async () => this.setState({ isValid: !await this.isFormValid(), isLocked: await lockSignInService.isLocked() })} />
 
           {this.renderErrorMsg()}
           <ActionButton
             label={translations['save']}
             onPress={() => this.save()}
-            isDisabled={this.state.isLoading || !this.state.isValid}
+            isDisabled={this.state.isLoading || this.state.isValid || this.state.isLocked}
             customLabelStyle={responsiveStyles.textLabel}
           />
           <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>

@@ -4,6 +4,7 @@ import { handleApiResponse } from './api_service';
 import authenticationFormService from './authentication_form_service';
 import contactService from './contact_service';
 import MobileTokenService from './mobile_token_service';
+import lockSignInService from './lock_sign_in_service';
 import SessionApi from '../api/SessionApi';
 
 const signInService = (() => {
@@ -38,13 +39,18 @@ const signInService = (() => {
 
       successCallback();
     }, (error) => {
-      if (error.status == 422)
+      if (error.status == 422) {
         authenticationFormService.setIsErrorAuthentication();
+        lockSignInService.countInvalidAuthentication();
+      }
 
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.removeItem('AUTH_TOKEN');
 
-      errorCallback(_getAuthenticationErrorMsg(response));
+      setTimeout(async () => {
+        const isLocked = await lockSignInService.isLocked();
+        errorCallback(_getAuthenticationErrorMsg(response), isLocked);
+      }, 200);
     });
   }
 

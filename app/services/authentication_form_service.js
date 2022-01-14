@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
+import lockSignInService from './lock_sign_in_service';
 
 const authenticationFormService = (() => {
   return {
@@ -36,7 +37,10 @@ const authenticationFormService = (() => {
     AsyncStorage.removeItem('IS_ERROR_AUTHENTICATION');
   }
 
-  function isValidSettingForm(backendUrl, email, password) {
+  async function isValidSettingForm(backendUrl, email, password) {
+    if (await lockSignInService.isLocked())
+      return false;
+
     const backendUrlValidationMsg = validationService('backendUrl', backendUrl == '' ? undefined : backendUrl);
     const emailValidationMsg = _getEmailValidationMsg(email);
     const passwordValidationMsg = _getPasswordValidationMsg(password);
