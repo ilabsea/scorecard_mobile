@@ -1,11 +1,14 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { handleApiResponse } from './api_service';
+import { handleApiResponse, getErrorType } from './api_service';
 import authenticationFormService from './authentication_form_service';
 import contactService from './contact_service';
 import MobileTokenService from './mobile_token_service';
-import lockSignInService from './lock_sign_in_service';
+import lockDeviceService from './lock_device_service';
+import resetLockService from './reset_lock_service';
 import SessionApi from '../api/SessionApi';
+import { ERROR_UNPROCESSABLE } from '../constants/error_constant';
+import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';
 
 const signInService = (() => {
   return {
@@ -29,6 +32,7 @@ const signInService = (() => {
     const response = await SessionApi.authenticate(email, password);
 
     handleApiResponse(response, (responseData) => {
+      resetLockService.resetLockData(FAILED_SIGN_IN_ATTEMPT);
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
       AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
@@ -36,20 +40,22 @@ const signInService = (() => {
 
       authenticationFormService.clearErrorAuthentication();
       contactService.downloadContacts(null, null);
-
       successCallback();
     }, (error) => {
-      if (error.status == 422) {
+      let isInvalidAccount = false;
+
+      if (getErrorType(error.status) === ERROR_UNPROCESSABLE) {
         authenticationFormService.setIsErrorAuthentication();
-        lockSignInService.countInvalidAuthentication();
+        lockDeviceService.countInvalidRequest(FAILED_SIGN_IN_ATTEMPT);
+        isInvalidAccount = true;
       }
 
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       AsyncStorage.removeItem('AUTH_TOKEN');
 
       setTimeout(async () => {
-        const isLocked = await lockSignInService.isLocked();
-        errorCallback(_getAuthenticationErrorMsg(response), isLocked);
+        const isLocked = await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT);
+        errorCallback(_getAuthenticationErrorMsg(response), isLocked, isInvalidAccount);
       }, 200);
     });
   }

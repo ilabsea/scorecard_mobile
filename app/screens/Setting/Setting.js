@@ -16,11 +16,13 @@ import internetConnectionService from '../../services/internet_connection_servic
 import authenticationService from '../../services/authentication_service';
 // import signInService from '../../services/sign_in_service';
 import authenticationFormService from '../../services/authentication_form_service';
-import lockSignInService from '../../services/lock_sign_in_service';
+import lockDeviceService from '../../services/lock_device_service';
+import resetLockService from '../../services/reset_lock_service';
 
 import settingHelper from '../../helpers/setting_helper';
 
 import pkg from '../../../package';
+import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
@@ -41,6 +43,7 @@ class Setting extends Component {
       visibleModal: false,
       isLocked: false,
       isValid: false,
+      unlockAt: '',
     };
 
     this.settingFormRef = React.createRef();
@@ -52,11 +55,31 @@ class Setting extends Component {
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
+
+    if (await lockDeviceService.hasFailAttempt(FAILED_SIGN_IN_ATTEMPT) && !this.resetLockInterval)
+      this.watchLockStatus();
   }
 
   componentWillUnmount() {
+    clearInterval(this.resetLockInterval);
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
+  }
+
+  watchLockStatus() {
+    setTimeout(async () => {
+      if (!this.componentIsUnmount)
+        this.setState({ unlockAt: await lockDeviceService.unLockAt(FAILED_SIGN_IN_ATTEMPT) });
+    }, 300);
+
+    this.resetLockInterval = resetLockService.watchLockStatus(FAILED_SIGN_IN_ATTEMPT, async () => {
+      clearInterval(this.resetLockInterval);
+      this.resetLockInterval = null;
+      this.setState({
+        isLocked: false,
+        isValid: await this.isFormValid()
+      });
+    });
   }
 
   clearErrorMessage() {
@@ -74,13 +97,16 @@ class Setting extends Component {
     authenticationService.authenticate(email, password, () => {
       this.setState({ isLoading: false });
       this.props.navigation.goBack();
-    }, (errorMessage, isLocked) => {
+    }, (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
         isLoading: false,
         errorMsg: errorMessage,
         messageType: 'error',
         isLocked: isLocked,
       });
+
+      if (!this.resetLockInterval && isInvalidAccount)
+        this.watchLockStatus();
     });
     // signInService.authenticate(email, password, () => {
     //   this.setState({ isLoading: false });
@@ -138,7 +164,7 @@ class Setting extends Component {
 
   renderErrorMsg = () => {
     if (this.state.isLocked)
-      return <LockSignInMessage />
+      return <LockSignInMessage unlockAt={this.state.unlockAt} />
 
     return (
       <MessageLabel
@@ -161,6 +187,7 @@ class Setting extends Component {
 
   render() {
     const {translations} = this.context;
+
     return (
       <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
         <View style={[responsiveStyles.container]}>
@@ -170,13 +197,15 @@ class Setting extends Component {
             overlayColor={Color.loadingBackgroundColor}
           />
 
-          <SettingForm ref={this.settingFormRef} updateValidationStatus={async () => this.setState({ isValid: !await this.isFormValid(), isLocked: await lockSignInService.isLocked() })} />
+          <SettingForm ref={this.settingFormRef}
+            updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
+          />
 
           {this.renderErrorMsg()}
           <ActionButton
             label={translations['save']}
             onPress={() => this.save()}
-            isDisabled={this.state.isLoading || this.state.isValid || this.state.isLocked}
+            isDisabled={this.state.isLoading || !this.state.isValid || this.state.isLocked}
             customLabelStyle={responsiveStyles.textLabel}
           />
           <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>

@@ -15,8 +15,9 @@ const SettingScreenStyles = StyleSheet.create({
     fontSize: wp(mdLabelSize)
   },
   messageContainer: {
-    marginTop: isShortScreenDevice() ? hp('3%') : hp('9%'),
-    marginBottom: 4
+    marginTop: isShortScreenDevice() ? hp('3%') : hp('8%'),
+    marginBottom: 4,
+    fontSize: 14.2,
   }
 });
 

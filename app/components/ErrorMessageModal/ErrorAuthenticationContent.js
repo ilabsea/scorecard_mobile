@@ -3,13 +3,16 @@ import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TextInput } from 'react-native-paper';
 
-import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import OutlineInfoIcon from '../OutlineInfoIcon';
-import authenticationService from '../../services/authentication_service';
 import authenticationFormService from '../../services/authentication_form_service';
+// import signInService from '../../services/sign_in_service';
+import authenticationService from '../../services/authentication_service';
+import lockDeviceService from '../../services/lock_device_service';
+import resetLockService from '../../services/reset_lock_service';
+import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 
@@ -34,7 +37,17 @@ class ErrorAuthenticationContent extends Component {
       message: '',
       isError: false,
       showPasswordIcon: 'eye',
+      isLocked: false,
     };
+  }
+
+  async componentDidMount() {
+    if (await lockDeviceService.hasFailAttempt(FAILED_SIGN_IN_ATTEMPT) && !this.resetLockInterval)
+      this.watchLockStatus();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.resetLockInterval);
   }
 
   onChangeText = (fieldName, value) => {
@@ -47,6 +60,18 @@ class ErrorAuthenticationContent extends Component {
       this.setState({
         isValidForm: authenticationFormService.isValidForm(this.state.email, this.state.password)
       })
+    });
+  }
+
+  watchLockStatus() {
+    this.resetLockInterval = resetLockService.watchLockStatus(FAILED_SIGN_IN_ATTEMPT, async () => {
+      clearInterval(this.resetLockInterval);
+      this.resetLockInterval = null;
+      this.setState({
+        isLocked: false,
+        isValid: authenticationFormService.isValidForm(this.state.email, this.state.password),
+        message: '',
+      });
     });
   }
 
@@ -66,54 +91,26 @@ class ErrorAuthenticationContent extends Component {
         message: translations.successfullyAuthenticated,
       });
 
-      // const backendUrl = await AsyncStorage.getItem('ENDPOINT_URL');
       const signInInfo = {
         backendUrl: await AsyncStorage.getItem('ENDPOINT_URL'),
         email: this.state.email,
         password: this.state.password,
-        locale: appLanguage
+        locale: appLanguage,
       }
       authenticationService.saveSignInInfo(signInInfo);
-
-      // AsyncStorage.setItem('SETTING',JSON.stringify({
-      //   backendUrl: endPointUrl,
-      //   email: this.state.email,
-      //   password: this.state.password
-      // }));
       this.props.onDismiss();
-    }, (error) => {
+    }, async (errorMessage, isLocked, isInvalidAccount) => {
+      const unlockAt = await lockDeviceService.unLockAt(FAILED_SIGN_IN_ATTEMPT) || '';
       this.setState({
         isLoading: false,
-        message: translations.emailOrPasswordIsIncorrect,
+        message: isLocked ? translations.formatString(translations.yourDeviceIsCurrentlyLocked, unlockAt) : translations.emailOrPasswordIsIncorrect,
+        isLocked: isLocked,
       });
+
+      if (!this.resetLockInterval && isInvalidAccount)
+        this.watchLockStatus();
     });
-
-
-  //   authenticationService.authenticate(this.state.email, this.state.password, async (responseData) => {
-  //     this.setState({
-  //       isLoading: false,
-  //       message: translations.successfullyAuthenticated,
-  //     });
-  //     const endPointUrl = await AsyncStorage.getItem('ENDPOINT_URL');
-  //     authenticationFormService.clearErrorAuthentication();
-  //     AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-
-  //     AsyncStorage.setItem('SETTING',JSON.stringify({
-  //       backendUrl: endPointUrl,
-  //       email: this.state.email,
-  //       password: this.state.password
-  //     }));
-
-  //     this.props.onDismiss();
-  //   }, (error) => {
-  //     authenticationFormService.setIsErrorAuthentication();
-  //     AsyncStorage.removeItem('AUTH_TOKEN');
-  //     this.setState({
-  //       isLoading: false,
-  //       message: translations.emailOrPasswordIsIncorrect,
-  //     });
-  //   })
-  // }
+  }
 
   _renderShowPasswordIcon = () => {
     const buttonPadding = 2;
@@ -181,7 +178,7 @@ class ErrorAuthenticationContent extends Component {
             closeButtonLabel={translations.close}
             onConfirm={() => this.save()}
             confirmButtonLabel={translations.save}
-            isConfirmButtonDisabled={!this.state.isValidForm || this.state.isLoading}
+            isConfirmButtonDisabled={!this.state.isValidForm || this.state.isLoading || this.state.isLocked}
           />
         </View>
       </TouchableWithoutFeedback>
