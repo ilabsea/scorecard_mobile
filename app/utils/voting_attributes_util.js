@@ -9,14 +9,18 @@ const votingAttributesHelper = (() => {
 
   function parse(scorecard) {
     let votingCriterias = JSON.parse(JSON.stringify(VotingCriteria.getAll(scorecard.uuid)));
-    let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action'];
-    let votingCriteriaAttr = proposedIndicatorHelper.getProposedIndicatorAttributes(scorecard, votingCriterias, columns);
+    let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action', 'order'];
+    let votingCriteriaAttr = proposedIndicatorHelper.getProposedIndicatorAttributes(scorecard, votingCriterias, columns, false);
 
     votingCriteriaAttr.map((votingCriteria, index) => {
       votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : null;
       votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : null;
       votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : null;
       votingCriteriaAttr[index].indicator_activities_attributes = getIndicatorActivitiesAttrs(scorecard.uuid, votingCriteria.uuid);
+      votingCriteriaAttr[index].suggested_actions_attributes = getSuggestedActionAttrs(scorecard.uuid, votingCriteria.uuid);
+      votingCriteriaAttr[index].display_order = votingCriteria.order;
+
+      delete votingCriteriaAttr[index].order
     });
 
     return { 'voting_indicators_attributes': votingCriteriaAttr };

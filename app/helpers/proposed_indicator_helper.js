@@ -1,4 +1,5 @@
 import CustomIndicator from '../models/CustomIndicator';
+import VotingCriteria from '../models/VotingCriteria';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 
 const proposedIndicatorHelper = (() => {
@@ -6,17 +7,22 @@ const proposedIndicatorHelper = (() => {
     getProposedIndicatorAttributes
   };
 
-  function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, hasTag) {
-    return proposedIndicators.map(proposedIndicator => {
-      let indicator = _getIndicatorAttrs(proposedIndicator, scorecard);
-      let attr = getAttributesByColumns(proposedIndicator, columns);
+  function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
+    return selectedIndicators.map(selectedIndicator => {
+      let indicator = _getIndicatorAttrs(selectedIndicator, scorecard);
+      let attr = getAttributesByColumns(selectedIndicator, columns);
 
       attr.indicatorable_id = indicator.id;
       attr.indicatorable_type = indicator.type;
 
-      if (!!hasTag) {
+      if (!!isRaisedIndicatorAttrs) {
+        const votingIndicator = VotingCriteria.find(scorecard.uuid, indicator.id);
         attr.tag_attributes = { name: indicator.tag }
+        attr.selected = !!votingIndicator ? true : false;
+        attr.voting_indicator_uuid = !!votingIndicator ? votingIndicator.uuid : null;
       }
+      else 
+        attr.uuid = selectedIndicator.uuid;
 
       return attr;
     })
