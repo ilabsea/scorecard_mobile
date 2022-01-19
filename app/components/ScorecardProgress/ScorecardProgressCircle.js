@@ -3,9 +3,11 @@ import { Text } from 'react-native';
 import * as Progress from 'react-native-progress';
 
 import Color from '../../themes/color';
+import Scorecard from '../../models/Scorecard';
 
 const ScorecardProgressCircle = (props) => {
-  const progressIndex = props.scorecard.finished ? props.scorecard.status : props.scorecard.status - 1;
+  const scorecard = Scorecard.find(props.scorecardUuid);
+  const progressIndex = scorecard.finished ? scorecard.status : scorecard.status - 1;
   const progress = (progressIndex / 10) * 2
 
   return (

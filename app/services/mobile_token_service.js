@@ -9,7 +9,8 @@ const retryTime = 1;
 const MobileTokenService = (() => {
   return {
     handleSyncingToken: handleSyncingToken,
-    updateToken: updateToken
+    updateToken: updateToken,
+    getToken
   }
 
   function handleSyncingToken() {
@@ -50,6 +51,15 @@ const MobileTokenService = (() => {
         _sendTokenToApi(data);
       })
     });
+  }
+
+  async function getToken() {
+    const storageToken = await AsyncStorage.getItem(TOKEN_KEY);
+    if (!storageToken)
+      return null;
+
+    const jsonValue = JSON.parse(storageToken) || {};
+    return jsonValue.token;
   }
 
   // private function

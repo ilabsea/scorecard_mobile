@@ -24,6 +24,7 @@ import { LocalizationProvider, LocalizationContext } from './app/components/Tran
 import { NavigationContainer } from '@react-navigation/native';
 
 import MobileTokenService from './app/services/mobile_token_service';
+import notificationService from './app/services/notification_service';
 import { SELECTED_FILTERS } from './app/constants/main_constant';
 
 Sentry.init({
@@ -61,6 +62,8 @@ const App: () => React$Node = () => {
 
     AsyncStorage.removeItem(SELECTED_FILTERS);
     AsyncStorage.removeItem('HANDLE_DEEP_LINK')
+
+    notificationService.handleAppOpenFromNotification();
   });
 
   return (
