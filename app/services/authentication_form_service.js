@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
+import lockDeviceService from './lock_device_service';
+import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';
 
 const authenticationFormService = (() => {
   return {
@@ -7,11 +9,12 @@ const authenticationFormService = (() => {
     setIsErrorAuthentication,
     clearErrorAuthentication,
     isAuthenticated,
+    isValidSettingForm,
   };
 
   function isValidForm(email, password) {
-    let emailValidationMsg = validationService('email', email === '' ? undefined : email);
-    let passwordValidationMsg = validationService('password', password === '' ? undefined : password);
+    let emailValidationMsg = _getEmailValidationMsg(email);
+    let passwordValidationMsg = _getPasswordValidationMsg(password);
 
     return emailValidationMsg === null && passwordValidationMsg === null;
   }
@@ -33,6 +36,30 @@ const authenticationFormService = (() => {
 
   function clearErrorAuthentication() {
     AsyncStorage.removeItem('IS_ERROR_AUTHENTICATION');
+  }
+
+  async function isValidSettingForm(backendUrl, email, password) {
+    if (await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT))
+      return false;
+
+    const backendUrlValidationMsg = validationService('backendUrl', backendUrl == '' ? undefined : backendUrl);
+    const emailValidationMsg = _getEmailValidationMsg(email);
+    const passwordValidationMsg = _getPasswordValidationMsg(password);
+    let isValidForm = true;
+
+    if (backendUrlValidationMsg != null || emailValidationMsg != null || passwordValidationMsg != null)
+      isValidForm =  false;
+
+    return isValidForm;
+  }
+
+  // private methods
+  function _getEmailValidationMsg(email) {
+    return validationService('email', email === '' ? undefined : email);
+  }
+
+  function _getPasswordValidationMsg(password) {
+    return validationService('password', password === '' ? undefined : password);
   }
 })();
 

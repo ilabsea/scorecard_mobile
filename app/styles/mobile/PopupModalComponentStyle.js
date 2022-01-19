@@ -9,7 +9,7 @@ const PopupModalComponentStyles = StyleSheet.create({
     marginBottom: 0,
   },
   label: {
-    fontSize: wp(mdLabelSize),
+    fontSize: 14.2,
   }
 });
 

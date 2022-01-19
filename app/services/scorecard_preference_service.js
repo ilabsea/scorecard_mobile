@@ -89,7 +89,7 @@ const scorecardPreferenceService = (() => {
       conducted_date: date.toString(),
       text_language_code: textLocale,
       audio_language_code: audioLocale,
-      conducted_at: !scorecard.conducted_at ? currentDateTime : scorecard.conducted_at,
+      conducted_at: !scorecard.conducted_at ? currentDateTime() : scorecard.conducted_at,
     };
 
     Scorecard.update(scorecardUuid, attrs);

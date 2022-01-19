@@ -44,8 +44,7 @@ class SettingForm extends Component {
         setting = Object.assign(setting, JSON.parse(value))
       }
       setting.locale = appLanguage;
-
-      this.setState(setting);
+      this.setState(setting, () => this.props.updateValidationStatus());
     } catch (error) {
       this.setState(setting);
     }
@@ -65,8 +64,7 @@ class SettingForm extends Component {
     let state = {};
     state[fieldName] = value;
     state[`${fieldName}ErrorMsg`] = '';
-
-    this.setState(state);
+    this.setState(state, () => this.props.updateValidationStatus());
   }
 
   _renderShowPasswordIcon = () => {

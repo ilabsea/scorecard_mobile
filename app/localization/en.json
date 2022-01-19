@@ -306,5 +306,7 @@
   "syncContacts": "Sync contacts",
   "pleaseChooseTheImage": "Please choose the image",
   "syncInfo": "Sync info",
-  "inReview": "in review"
+  "inReview": "in review",
+  "theServerUrlIsInvalid": "The server URL is invalid",
+  "yourDeviceIsCurrentlyLocked": "Your device is currently locked, please try again at {0}"
 }

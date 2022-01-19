@@ -6,4 +6,8 @@ const getTimeFromDuration = (duration) => {
   return date.toISOString().substr(11, 8);
 }
 
-export { getTimeFromDuration };
+const getTimeFromMilliseconds = (milliseconds) => {
+  return Moment(milliseconds).format('LTS');
+}
+
+export { getTimeFromDuration, getTimeFromMilliseconds };

@@ -306,5 +306,7 @@
   "syncContacts": "ទាញយកព័ត៌មានទំនាក់ទំនង",
   "pleaseChooseTheImage": "សូមជ្រើសរើសរូបភាព",
   "syncInfo": "ធ្វើបច្ចុប្បន្នភាព",
-  "inReview": "កំពុងត្រួតពិនិត្យ"
+  "inReview": "កំពុងត្រួតពិនិត្យ",
+  "theServerUrlIsInvalid": "អាស័យដ្ឋានម៉ាស៊ីនមេមិនត្រឹមត្រូវ",
+  "yourDeviceIsCurrentlyLocked": "ឧបករណ៍របស់អ្នកត្រូវបានជាប់សោ។ សូមព្យាយាមម្ដងទៀតនៅម៉ោង {0}"
 }

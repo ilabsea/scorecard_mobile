@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Text,
-} from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -13,25 +7,25 @@ import {LocalizationContext} from '../../components/Translations';
 import ActionButton from '../../components/ActionButton';
 import MessageLabel from '../../components/MessageLabel';
 import SettingForm from '../../components/Setting/SettingForm';
+import LockSignInMessage from '../../components/Setting/LockSignInMessage';
 import MessageModal from '../../components/MessageModal';
 
 import Color from '../../themes/color';
-import validationService from '../../services/validation_service';
 import {checkConnection} from '../../services/api_service';
-import {handleApiResponse} from '../../services/api_service';
-import authenticationFormService from '../../services/authentication_form_service';
-import contactService from '../../services/contact_service';
 import internetConnectionService from '../../services/internet_connection_service';
+import authenticationService from '../../services/authentication_service';
+import authenticationFormService from '../../services/authentication_form_service';
+import lockDeviceService from '../../services/lock_device_service';
+import resetLockService from '../../services/reset_lock_service';
+
 import settingHelper from '../../helpers/setting_helper';
 
-import SessionApi from '../../api/SessionApi';
-
 import pkg from '../../../package';
+import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
 import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
-import MobileTokenService from '../../services/mobile_token_service';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
@@ -46,6 +40,9 @@ class Setting extends Component {
       isLoading: false,
       hasInternetConnection: false,
       visibleModal: false,
+      isLocked: false,
+      isValid: false,
+      unlockAt: '',
     };
 
     this.settingFormRef = React.createRef();
@@ -57,71 +54,64 @@ class Setting extends Component {
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
+
+    if (await lockDeviceService.hasFailAttempt(FAILED_SIGN_IN_ATTEMPT) && !this.resetLockInterval)
+      this.watchLockStatus();
   }
 
   componentWillUnmount() {
+    clearInterval(this.resetLockInterval);
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  getPickerDefaultValue = (value) => {
-    if (value != '' && value != undefined)
-      return value.toString();
+  watchLockStatus() {
+    setTimeout(async () => {
+      if (!this.componentIsUnmount)
+        this.setState({ unlockAt: await lockDeviceService.unLockAt(FAILED_SIGN_IN_ATTEMPT) });
+    }, 300);
 
-    return null;
-  };
+    this.resetLockInterval = resetLockService.watchLockStatus(FAILED_SIGN_IN_ATTEMPT, async () => {
+      clearInterval(this.resetLockInterval);
+      this.resetLockInterval = null;
+      this.setState({
+        isLocked: false,
+        isValid: await this.isFormValid()
+      });
+    });
+  }
 
-  isValidForm = () => {
-    const {backendUrl, email, password} = this.settingFormRef.current.state;
+  clearErrorMessage() {
     this.settingFormRef.current.setState({
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
     });
-
     this.setState({ errorMsg: '' });
-
-    const backendUrlValidationMsg = validationService('backendUrl', backendUrl == '' ? undefined : backendUrl);
-    const emailValidationMsg = validationService('email', email == '' ? undefined : email);
-    const passwordValidationMsg = validationService('password', password == '' ? undefined : password);
-
-    this.setState({
-      backendUrlErrorMsg: backendUrlValidationMsg || '',
-      emailErrorMsg: emailValidationMsg || '',
-      passwordErrorMsg: passwordValidationMsg || '',
-    });
-
-    if (backendUrlValidationMsg != null || emailValidationMsg != null || passwordValidationMsg != null)
-      return false;
-
-    return true;
   }
 
-  async authenticate() {
+  authenticate() {
     const { email, password } = this.settingFormRef.current.state;
-    const response = await SessionApi.authenticate(email, password);
 
-    handleApiResponse(response, (responseData) => {
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-      AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
-      MobileTokenService.updateToken(responseData.program_id);
-
-      authenticationFormService.clearErrorAuthentication();
-      contactService.downloadContacts(null, null);
-
-      this.setState({isLoading: false});
+    authenticationService.authenticate(email, password, () => {
+      this.setState({ isLoading: false });
       this.props.navigation.goBack();
-    }, (error) => {
-      if (error.status == 422)
-        authenticationFormService.setIsErrorAuthentication();
+    }, (errorMessage, isLocked, isInvalidAccount) => {
+      this.setState({
+        isLoading: false,
+        errorMsg: errorMessage,
+        messageType: 'error',
+        isLocked: isLocked,
+      });
 
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      AsyncStorage.removeItem('AUTH_TOKEN');
-
-      this.setState({isLoading: false});
-      this.handleAuthenticateError(response);
+      if (!this.resetLockInterval && isInvalidAccount)
+        this.watchLockStatus();
     });
+  }
+
+  async isFormValid() {
+    const { backendUrl, email, password } = this.settingFormRef.current.state;
+    return await authenticationFormService.isValidSettingForm(backendUrl, email, password);
   }
 
   save = async () => {
@@ -139,21 +129,12 @@ class Setting extends Component {
       return;
     }
 
-    if (!this.isValidForm()) {
+    this.clearErrorMessage();
+    if (!await this.isFormValid())
       return;
-    }
 
-    const { backendUrl, email, password, locale } = this.settingFormRef.current.state;
-
-    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
-    AsyncStorage.setItem('SETTING', JSON.stringify({
-      backendUrl: backendUrl,
-      email: email,
-      password: password,
-      locale: locale
-    }));
+    authenticationService.saveSignInInfo(this.settingFormRef.current.state);
     AsyncStorage.setItem('IS_CONNECTED', 'false');
-
     this.setState({isLoading: true});
     this.authenticate();
 
@@ -169,34 +150,14 @@ class Setting extends Component {
     });
   }
 
-  handleAuthenticateError = (response) => {
-    let message = '';
-    if (response.error === undefined) {
-      this.setState({errorMsg: 'authenticationFailed'});
-      return;
-    }
-
-    this.setState({messageType: 'error'});
-    const error = response.error;
-
-    if (error.message.toLowerCase() === 'invalid email or password!')
-      message = 'invalidEmailOrPasswordMsg';
-    else if (error.message.toLowerCase() === 'Your account is unprocessable')
-      message = 'accountIsUnprocessable';
-    else
-      message = 'authenticationFailed';
-
-    this.setState({errorMsg: message});
-  }
-
   renderErrorMsg = () => {
-    const {translations} = this.context;
-    const {errorMsg, messageType} = this.state;
+    if (this.state.isLocked)
+      return <LockSignInMessage unlockAt={this.state.unlockAt} />
 
     return (
       <MessageLabel
-        message={translations[errorMsg]}
-        type={messageType}
+        message={this.context.translations[this.state.errorMsg]}
+        type={this.state.messageType}
         customStyle={responsiveStyles.messageContainer}
       />
     );
@@ -217,22 +178,22 @@ class Setting extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
-        <View style={[styles.container]}>
+        <View style={[responsiveStyles.container]}>
           <Spinner
             visible={this.state.isLoading}
             color={Color.primaryColor}
             overlayColor={Color.loadingBackgroundColor}
           />
 
-          <SettingForm
-            ref={this.settingFormRef}
+          <SettingForm ref={this.settingFormRef}
+            updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
           />
 
           {this.renderErrorMsg()}
           <ActionButton
             label={translations['save']}
             onPress={() => this.save()}
-            isDisabled={this.state.isLoading}
+            isDisabled={this.state.isLoading || !this.state.isValid || this.state.isLocked}
             customLabelStyle={responsiveStyles.textLabel}
           />
           <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>
@@ -250,26 +211,5 @@ class Setting extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Color.whiteColor,
-    flex: 1,
-    paddingTop: 16,
-    paddingHorizontal: 16,
-  },
-  inputLabel: {
-    marginBottom: 10,
-  },
-  dropDownPickerStyle: {
-    backgroundColor: Color.whiteColor,
-    zIndex: 5000,
-    elevation: 2,
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
-  }
-});
 
 export default Setting;

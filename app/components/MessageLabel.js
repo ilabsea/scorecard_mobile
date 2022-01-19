@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import Color from '../themes/color';
 
 class MessageLabel extends Component {
@@ -25,7 +25,7 @@ class MessageLabel extends Component {
       );
     }
     else
-      return (<View style={customStyle}/>)
+      return (<Text style={[styles.messageLabel, this.labelColor(), customStyle]}/>)
   }
 }
 

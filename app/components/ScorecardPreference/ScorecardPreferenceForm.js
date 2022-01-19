@@ -22,7 +22,7 @@ class ScorecardPreferenceForm extends Component {
     super(props);
 
     this.state = {
-      date: props.scorecard.conducted_date || todayDate,
+      date: props.scorecard.conducted_date || todayDate(),
       textLocale: props.scorecard.text_language_code || '',
       audioLocale: props.scorecard.audio_language_code || '',
       openDropDownType: null,
