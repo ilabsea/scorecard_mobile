@@ -48,7 +48,10 @@ class ErrorMessageContent extends Component {
 
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={responsiveStyles.label}>
-              { this._renderErrorMessage() }
+              { !!this.props.message ?
+                this.props.message
+                : this._renderErrorMessage()
+              }
             </Text>
           </View>
         </View>

@@ -8,7 +8,7 @@ const lockDeviceService = (() => {
   return {
     countInvalidRequest,
     isLocked,
-    unLockAt,
+    unlockAt,
     hasFailAttempt,
     isWithinInterval,
   }
@@ -51,13 +51,16 @@ const lockDeviceService = (() => {
     return JSON.parse(lockData).locked;
   }
 
-  async function unLockAt(lockType) {
-    const lockData = await AsyncStorage.getItem(lockType);
-
+  async function unlockAt(lockType) {
+    let lockData = await AsyncStorage.getItem(lockType);
     if (!lockData)
       return '';
 
-    let lockedAt = JSON.parse(lockData).locked_at;
+    lockData = JSON.parse(lockData);
+    if (!lockData.locked)
+      return '';
+
+    let lockedAt = lockData.locked_at;
     lockedAt = Moment(lockedAt).valueOf();
     const unlockAt = lockedAt + lockConditions(lockType).reset_lock_duration;
     return getTimeFromMilliseconds(unlockAt)

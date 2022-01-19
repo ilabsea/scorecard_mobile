@@ -37,16 +37,18 @@ class NewScorecardForm extends Component {
   renderErrorMsg = () => {
     const { translations } = this.context;
 
-    if (this.props.errorMsg != '') {
+    if (this.props.errorMsg != '' || !!this.props.isLocked) {
+      const message = !!this.props.unlockAt ? translations.formatString(translations.yourDeviceIsCurrentlyLocked, this.props.unlockAt) : translations[this.props.errorMsg];
+
       return (
         <React.Fragment>
           <MessageLabel
-            message={translations[this.props.errorMsg]}
+            message={message}
             type={this.props.messageType}
             customStyle={[responsiveStyles.errorMessageLabel, {marginTop: 10}]}
           />
 
-          { this.renderRetryBtn() }
+          { !this.props.isLocked && this.renderRetryBtn() }
         </React.Fragment>
       );
     }
@@ -64,6 +66,7 @@ class NewScorecardForm extends Component {
           ref={this.props.scorecardRef}
           joinScorecard={this.joinScorecard}
           handleInvalidUrl={this.props.handleInvalidUrl}
+          isLocked={this.props.isLocked}
         />
 
         {this.renderErrorMsg()}

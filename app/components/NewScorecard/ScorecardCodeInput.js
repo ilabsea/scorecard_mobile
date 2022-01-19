@@ -5,6 +5,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 
 import { LocalizationContext } from '../Translations';
 
+import Color from '../../themes/color';
 import { handleScorecardCodeClipboard } from '../../utils/scorecard_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardCodeInputTabletStyles from '../../styles/tablet/ScorecardCodeInputComponentStyle';
@@ -35,8 +36,10 @@ class ScorecardCodeInput extends Component {
   }
 
   _handleAppStateChange(nextState) {
-    if (nextState != 'active')
+    if (nextState != 'active' || _this.props.isLocked) {
+      Clipboard.setString(null);
       return;
+    }
 
     setTimeout(() => {
       handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
@@ -50,6 +53,7 @@ class ScorecardCodeInput extends Component {
 
   render() {
     const {translations} = this.context;
+    const disableStyle = { backgroundColor: Color.disableCardColor }
 
     return (
       <View>
@@ -61,10 +65,10 @@ class ScorecardCodeInput extends Component {
           ref={(ref) => this.inputRef = ref}
           style={styles.container}
           pinCount={6}
-          codeInputFieldStyle={styles.inputContainer}
+          codeInputFieldStyle={[styles.inputContainer, this.props.isLocked ? disableStyle : {}]}
           onCodeFilled = {(code) => this.onCodeFilled(code)}
           keyboardType='number-pad'
-          editable={true}
+          editable={!this.props.isLocked}
         />
       </View>
     )

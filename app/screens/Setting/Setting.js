@@ -68,7 +68,7 @@ class Setting extends Component {
   watchLockStatus() {
     setTimeout(async () => {
       if (!this.componentIsUnmount)
-        this.setState({ unlockAt: await lockDeviceService.unLockAt(FAILED_SIGN_IN_ATTEMPT) });
+        this.setState({ unlockAt: await lockDeviceService.unlockAt(FAILED_SIGN_IN_ATTEMPT) });
     }, 300);
 
     this.resetLockInterval = resetLockService.watchLockStatus(FAILED_SIGN_IN_ATTEMPT, async () => {

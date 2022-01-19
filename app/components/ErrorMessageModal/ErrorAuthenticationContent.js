@@ -99,7 +99,7 @@ class ErrorAuthenticationContent extends Component {
       authenticationService.saveSignInInfo(signInInfo);
       this.props.onDismiss();
     }, async (errorMessage, isLocked, isInvalidAccount) => {
-      const unlockAt = await lockDeviceService.unLockAt(FAILED_SIGN_IN_ATTEMPT) || '';
+      const unlockAt = await lockDeviceService.unlockAt(FAILED_SIGN_IN_ATTEMPT) || '';
       this.setState({
         isLoading: false,
         message: isLocked ? translations.formatString(translations.yourDeviceIsCurrentlyLocked, unlockAt) : translations.emailOrPasswordIsIncorrect,
