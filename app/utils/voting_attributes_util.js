@@ -16,9 +16,11 @@ const votingAttributesHelper = (() => {
       votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : null;
       votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : null;
       votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : null;
-      votingCriteriaAttr[index].indicator_activities_attributes = getIndicatorActivitiesAttrs(scorecard.uuid, votingCriteria.uuid);
-      votingCriteriaAttr[index].suggested_actions_attributes = getSuggestedActionAttrs(scorecard.uuid, votingCriteria.uuid);
       votingCriteriaAttr[index].display_order = votingCriteria.order;
+
+      const { activities_attrs, suggested_actions_attrs } = getIndicatorActivitiesAttrs(scorecard.uuid, votingCriteria.uuid);
+      votingCriteriaAttr[index].indicator_activities_attributes = activities_attrs;
+      votingCriteriaAttr[index].suggested_actions_attributes = suggested_actions_attrs;
 
       delete votingCriteriaAttr[index].order
     });
