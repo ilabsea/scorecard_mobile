@@ -1,6 +1,6 @@
 import VotingCriteria from '../models/VotingCriteria';
-import { getSuggestedActionAttrs } from '../helpers/voting_criteria_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
+import { getIndicatorActivitiesAttrs } from '../helpers/indicator_activity_helper';
 
 const votingAttributesHelper = (() => {
   return {
@@ -16,7 +16,7 @@ const votingAttributesHelper = (() => {
       votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : null;
       votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : null;
       votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : null;
-      votingCriteriaAttr[index].suggested_actions_attributes = getSuggestedActionAttrs(scorecard.uuid, votingCriteria.uuid);
+      votingCriteriaAttr[index].indicator_activities_attributes = getIndicatorActivitiesAttrs(scorecard.uuid, votingCriteria.uuid);
     });
 
     return { 'voting_indicators_attributes': votingCriteriaAttr };

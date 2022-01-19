@@ -56,26 +56,6 @@ const getVotingParticipants = (scorecardUuid) => {
   return participantInfos;
 }
 
-const getSuggestedActionAttrs = (scorecardUuid, votingCriteriaUuid) => {
-  const votingCriteria = VotingCriteria.findByUuid(votingCriteriaUuid);
-  let suggestedActionAttrs = [];
-
-  const suggestedActions = JSON.parse(votingCriteria.suggested_action);
-
-  suggestedActions.map((suggestedAction, index) => {
-    const attrs = {
-      voting_indicator_uuid: votingCriteria.uuid,
-      scorecard_uuid: scorecardUuid,
-      content: suggestedAction,
-      selected: votingCriteria.suggested_action_status[index],
-    }
-
-    suggestedActionAttrs.push(attrs);
-  });
-
-  return suggestedActionAttrs;
-}
-
 const isVotingCriteriaRated = (votingCriteriaUuid) => {
   return Rating.findByVotingCriteria(votingCriteriaUuid) ? true : false;
 }
@@ -92,4 +72,4 @@ const _getVotedParticipantByType = (scorecardUuid, type) => {
   return participants.length;
 }
 
-export { getVotingInfos, hasVoting, getVotingParticipants, getSuggestedActionAttrs, isVotingCriteriaRated };
+export { getVotingInfos, hasVoting, getVotingParticipants, isVotingCriteriaRated };
