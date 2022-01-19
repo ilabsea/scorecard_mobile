@@ -8,7 +8,6 @@ import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import OutlineInfoIcon from '../OutlineInfoIcon';
 import authenticationFormService from '../../services/authentication_form_service';
-// import signInService from '../../services/sign_in_service';
 import authenticationService from '../../services/authentication_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';

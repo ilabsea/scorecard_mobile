@@ -14,7 +14,6 @@ import Color from '../../themes/color';
 import {checkConnection} from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import authenticationService from '../../services/authentication_service';
-// import signInService from '../../services/sign_in_service';
 import authenticationFormService from '../../services/authentication_form_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
@@ -108,16 +107,6 @@ class Setting extends Component {
       if (!this.resetLockInterval && isInvalidAccount)
         this.watchLockStatus();
     });
-    // signInService.authenticate(email, password, () => {
-    //   this.setState({ isLoading: false });
-    //   this.props.navigation.goBack();
-    // }, (errorMessage) => {
-    //   this.setState({
-    //     isLoading: false,
-    //     errorMsg: errorMessage,
-    //     messageType: 'error',
-    //   });
-    // });
   }
 
   async isFormValid() {
@@ -144,7 +133,6 @@ class Setting extends Component {
     if (!await this.isFormValid())
       return;
 
-    // signInService.saveSignInInfo(this.settingFormRef.current.state);
     authenticationService.saveSignInInfo(this.settingFormRef.current.state);
     AsyncStorage.setItem('IS_CONNECTED', 'false');
     this.setState({isLoading: true});
