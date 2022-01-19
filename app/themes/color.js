@@ -23,6 +23,7 @@ const Color = {
   paleGrayColor: '#e6e7e9',
   whiteColor: '#ffffff',
   redColor: '#ff0000',
+  darkRedColor: '#e50000',
   blackColor: '#000000',
   lightBlackColor: '#2e2e2e',
   paleBlackColor: '#767676',

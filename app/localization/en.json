@@ -305,5 +305,6 @@
   "unableToGetContacts": "Unable to get contacts",
   "syncContacts": "Sync contacts",
   "pleaseChooseTheImage": "Please choose the image",
-  "syncInfo": "Sync info"
+  "syncInfo": "Sync info",
+  "inReview": "in review"
 }

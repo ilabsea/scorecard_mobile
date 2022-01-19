@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 
 import MessageModal from '../MessageModal';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import ScorecardListInstructionModal from './ScorecardListInstructionModal';
 import { LocalizationContext } from '../Translations';
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 
@@ -34,6 +35,8 @@ class ScorecardListModals extends Component {
           isNewScorecard={false}
           scorecardUuid={this.props.scorecardUuid}
         />
+
+        <ScorecardListInstructionModal headerHeight={this.props.headerHeight} scorecards={this.props.scorecards} />
       </React.Fragment>
     )
   }
