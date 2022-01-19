@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { bodyFontSize } from '../../utils/font_size_util.js';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const LogosComponentStyles = StyleSheet.create({
   label: {

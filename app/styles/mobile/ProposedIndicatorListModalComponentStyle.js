@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import { modalTitleFontSize, bodyFontSize } from '../../utils/font_size_util';
+import { titleFontSize, bodyFontSize } from '../../utils/font_size_util';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 import { popupModalMinHeight } from '../../constants/component_style_constant';
 import Color from '../../themes/color';
@@ -23,7 +23,7 @@ const ProposedIndicatorListModalComponentStyles = StyleSheet.create({
   header: {
     fontFamily: FontFamily.title,
     textTransform: 'capitalize',
-    fontSize: modalTitleFontSize()
+    fontSize: titleFontSize()
   },
   label: {
     fontSize: bodyFontSize(),

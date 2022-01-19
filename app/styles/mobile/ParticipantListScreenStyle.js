@@ -21,7 +21,7 @@ const PrarticipantListScreenStyles = StyleSheet.create({
   },
   itemTitle: {
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: FontFamily.title,
     lineHeight: 19,
     paddingTop: 1

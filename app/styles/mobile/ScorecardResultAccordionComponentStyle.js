@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
-import { bodyFontSize, accordionItemFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import { bodyFontSize, accordionItemFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 
 const ScorecardResultAccordionComponentStyles = StyleSheet.create({
   titleText: {
@@ -29,7 +29,7 @@ const ScorecardResultAccordionComponentStyles = StyleSheet.create({
     marginLeft: 6,
   },
   btnText: {
-    fontSize: accordionItemFontSize(),
+    fontSize: getMobileFontSizeByPixelRatio(13, 12),
   },
   btnEdit: {
     backgroundColor: Color.headerColor,
