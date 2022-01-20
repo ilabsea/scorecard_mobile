@@ -28,7 +28,7 @@ const authenticationService = (() => {
 
       authenticationFormService.clearErrorAuthentication();
       contactService.downloadContacts(null, null);
-      successCallback();
+      successCallback(responseData);
     }, (error) => {
       let isInvalidAccount = false;
 

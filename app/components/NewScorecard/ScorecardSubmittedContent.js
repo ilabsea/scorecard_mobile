@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
-
 import { LocalizationContext } from '../Translations';
 import ModalConfirmationButtons from '../ModalConfirmationButtons';
 import OutlineInfoIcon from '../OutlineInfoIcon';
-
 import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -29,6 +26,7 @@ class ScorecardSubmittedContent extends Component {
 
   render() {
     const { translations } = this.context;
+    const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
 
     return (
       <View>
@@ -37,7 +35,7 @@ class ScorecardSubmittedContent extends Component {
 
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={responsiveStyles.label}>
-              { translations.formatString(translations.thisScorecardIsAlreadySubmitted, this.props.scorecardUuid) }
+              { translations.formatString(translations.thisScorecardIsAlreadySubmitted, scorecardCode) }
             </Text>
           </View>
         </View>

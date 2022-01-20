@@ -48,6 +48,7 @@ const getErrorType = (errorStatus) => {
 
 const sendRequestToApi = async (apiRequest) => {
   const isTokenExpired = await authenticationHelper.isTokenExpired();
+
   if (isTokenExpired) {
     authenticationService.reNewAuthToken(() => {
       apiRequest();
