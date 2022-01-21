@@ -16,6 +16,7 @@ class NewScorecardModals extends Component {
           errorType={this.props.errorType}
           isNewScorecard={true}
           scorecardUuid={this.props.scorecardUuid}
+          unlockAt={this.props.unlockAt}
         />
 
         <ScorecardInfoModal

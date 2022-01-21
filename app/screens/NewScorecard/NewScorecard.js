@@ -144,6 +144,7 @@ class NewScorecard extends Component {
         isSubmitted={this.state.isSubmitted}
         navigation={this.props.navigation}
         closeModal={this.closeModal}
+        unlockAt={this.state.unlockAt}
       />
     )
   }
