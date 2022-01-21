@@ -4,7 +4,7 @@ import { Modal, Portal } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../Translations';
-import ErrorMessageContent from '../ErrorMessageModal/ErrorMessageContent';
+import LockDeviceModalMessage from '../LockDeviceModalMessage';
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 import { environment } from '../../config/environment';
 import Color from '../../themes/color';
@@ -35,13 +35,8 @@ class ErrorMessageModal extends Component {
   }
 
   _renderContent = () => {
-    if (!!this.props.unlockAt) {
-      const { translations } = this.context;
-      return <ErrorMessageContent
-              onDismiss={this.props.onDismiss}
-              message={ translations.formatString(translations.yourDeviceIsCurrentlyLocked, this.props.unlockAt) }
-            />
-    }
+    if (!!this.props.unlockAt)
+      return <LockDeviceModalMessage onDismiss={this.props.onDismiss} unlockAt={this.props.unlockAt} />
 
     const params = {
       error_type: this.props.errorType,

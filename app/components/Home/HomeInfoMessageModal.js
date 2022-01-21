@@ -10,7 +10,7 @@ import CustomStyle from '../../themes/customStyle';
 import { getErrorMessageContent } from '../../utils/modal_error_message_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { LocalizationContext } from '../Translations';
-import ErrorMessageContent from '../ErrorMessageModal/ErrorMessageContent';
+import LockDeviceModalMessage from '../LockDeviceModalMessage';
 
 import HomeInfoMessageModalTabletStyles from '../../styles/tablet/HomeInfoMessageModalComponentStyle';
 import HomeInfoMessageModalMobileStyles from '../../styles/mobile/HomeInfoMessageModalComponentStyle';
@@ -60,14 +60,8 @@ class HomeInfoModal extends Component {
   }
 
   _renderContent() {
-    if (!!this.props.unlockAt) {
-      const { translations } = this.context;
-
-      return <ErrorMessageContent
-              onDismiss={this.props.onDismiss}
-              message={ translations.formatString(translations.yourDeviceIsCurrentlyLocked, this.props.unlockAt) }
-            />
-    }
+    if (!!this.props.unlockAt)
+      return <LockDeviceModalMessage onDismiss={this.props.onDismiss} unlockAt={this.props.unlockAt} />
 
     return (
       <View>

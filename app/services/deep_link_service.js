@@ -45,20 +45,10 @@ const deepLinkService = (() => {
 
   //Private method
   async function _handleRedirection(url, updateModalStatus, closeModal, handleOccupiedScorecard) {
-    // Show locked message when the device is locked
-    if (await lockDeviceService.isLocked(INVALID_SCORECARD_ATTEMPT)) {
-      updateModalStatus(false, scorecardUuid, ERROR_DEVICE_LOCKED, true)
-      return;
-    }
-
     const scorecardUuid = url.slice(-6);
-    // If the last 6 digits include a special character or letter, shows an incorrect scorecard code message
-    if (!isNumber(scorecardUuid)) {
-      if (extractNumber(scorecardUuid) != '')
-        updateModalStatus(false, scorecardUuid, ERROR_INCORRECT_SCORECARD_CODE, false);
 
-      return;  
-    }
+    if (!await _isAbleToJoinScorecard(scorecardUuid, updateModalStatus))
+      return;
 
     updateModalStatus(true, scorecardUuid, null, false);        // Show loading popup modal
 
@@ -104,6 +94,24 @@ const deepLinkService = (() => {
       { name: 'Home' },
       { name: screenName, params: params }
     ]});
+  }
+
+  async function _isAbleToJoinScorecard(scorecardUuid, updateModalStatus) {
+    // Show locked message when the device is locked
+    if (await lockDeviceService.isLocked(INVALID_SCORECARD_ATTEMPT)) {
+      updateModalStatus(false, scorecardUuid, ERROR_DEVICE_LOCKED, true)
+      return false;
+    }
+
+    // If the last 6 digits include a special character or letter, shows an incorrect scorecard code message
+    if (!isNumber(scorecardUuid)) {
+      if (extractNumber(scorecardUuid) != '')
+        updateModalStatus(false, scorecardUuid, ERROR_INCORRECT_SCORECARD_CODE, false);
+
+      return false;
+    }
+
+    return true;
   }
 })();
 
