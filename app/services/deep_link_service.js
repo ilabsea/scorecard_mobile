@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import newScorecardService from './new_scorecard_service';
 import { getErrorType } from './api_service';
 import lockDeviceService from './lock_device_service';
+import resetLockService from './reset_lock_service';
 import Scorecard from '../models/Scorecard';
 import { isNumber, extractNumber } from '../utils/string_util';
 import scorecardProgress from '../db/jsons/scorecardProgress';
@@ -64,6 +65,7 @@ const deepLinkService = (() => {
     setTimeout(() => {
       newScorecardService.handleExistedScorecard(scorecardUuid, () => {
         if (!!Scorecard.find(scorecardUuid)) {
+          resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
           closeModal();
           _redirectTo('ScorecardDetail', { scorecard_uuid: scorecardUuid });
           return;
@@ -84,6 +86,7 @@ const deepLinkService = (() => {
   }
 
   function _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard) {
+    resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
     const scorecard = Scorecard.find(scorecardUuid);
     closeModal();
 

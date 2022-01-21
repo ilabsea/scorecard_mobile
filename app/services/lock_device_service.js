@@ -35,7 +35,7 @@ const lockDeviceService = (() => {
     const isWithinResetCountInterval = isWithinInterval(lockData['failed_at'], reset_count_duration);
 
     if (failedCount === max_attempt && isWithinResetCountInterval) {
-      lockData['locked_at'] = currentDateTime(); 
+      lockData['locked_at'] = currentDateTime();
       lockData.locked = true;
     }
 

@@ -96,12 +96,13 @@ class Setting extends Component {
     authenticationService.authenticate(email, password, () => {
       this.setState({ isLoading: false });
       this.props.navigation.goBack();
-    }, (errorMessage, isLocked, isInvalidAccount) => {
+    }, async (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
         isLoading: false,
         errorMsg: errorMessage,
         messageType: 'error',
         isLocked: isLocked,
+        unlockAt: await lockDeviceService.unlockAt(FAILED_SIGN_IN_ATTEMPT)
       });
 
       if (!this.resetLockInterval && isInvalidAccount)

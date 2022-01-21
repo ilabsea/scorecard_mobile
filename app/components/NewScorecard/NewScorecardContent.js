@@ -14,6 +14,7 @@ import newScorecardService from '../../services/new_scorecard_service';
 import authenticationFormService from '../../services/authentication_form_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import lockDeviceService from '../../services/lock_device_service';
+import resetLockService from '../../services/reset_lock_service';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
 
 let _this = null;
@@ -54,11 +55,15 @@ class NewScorecardContent extends Component {
 
     const isSubmitted = Scorecard.isSubmitted(code);
     if (!newScorecardService.isValidScorecard(code) || isSubmitted) {
+      if (isSubmitted)
+        resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
+
       _this.props.updateInfoModalState(isSubmitted, isSubmitted);
       return;
     }
 
     if (Scorecard.isExists(code)) {
+      resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
       newScorecardService.handleExistedScorecard(code, () => {
         _this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: code});
       }, () => {
