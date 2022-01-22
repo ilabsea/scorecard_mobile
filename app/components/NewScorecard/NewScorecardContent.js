@@ -64,7 +64,7 @@ class NewScorecardContent extends Component {
         messageType={this.props.messageType}
         joinScorecard={this.joinScorecard}
         navigation={this.props.navigation}
-        handleInvalidUrl={this.props.handleErrorScorecard}
+        handleInvalidUrl={this.props.handleInvalidUrl}
         isLocked={this.props.isLocked}
         unlockAt={this.props.unlockAt}
       />

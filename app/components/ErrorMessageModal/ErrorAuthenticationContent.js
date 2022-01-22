@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { TextInput } from 'react-native-paper';
 
-import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import TextFieldInput from '../TextFieldInput';
-import OutlineInfoIcon from '../OutlineInfoIcon';
+import ErrorAuthenticationContentHeader from './ErrorAuthenticationContentHeader';
+import ErrorAuthenticationContentForm from './ErrorAuthenticationContentForm';
+
 import authenticationFormService from '../../services/authentication_form_service';
 import authenticationService from '../../services/authentication_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
-
-import ModalConfirmationButtons from '../ModalConfirmationButtons';
-
-import { pressableItemSize } from '../../utils/component_util';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
-import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
-
-const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 class ErrorAuthenticationContent extends Component {
   static contextType = LocalizationContext;
@@ -37,28 +27,37 @@ class ErrorAuthenticationContent extends Component {
       isError: false,
       showPasswordIcon: 'eye',
       isLocked: false,
+      unlockAt: '',
     };
+    this.componentIsUnmount = false;
   }
 
   async componentDidMount() {
     if (await lockDeviceService.hasFailAttempt(FAILED_SIGN_IN_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
+
+    const unlockAt = await lockDeviceService.unlockAt(FAILED_SIGN_IN_ATTEMPT) || '';
+    const isLocked = await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT);
+    this.setState({
+      isLocked,
+      message: !!isLocked ? this.context.translations.formatString(this.context.translations.yourDeviceIsCurrentlyLocked, unlockAt) : '',
+      unlockAt,
+    });
   }
 
   componentWillUnmount() {
     clearInterval(this.resetLockInterval);
+    this.componentIsUnmount = true;
   }
 
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
     state[`${fieldName}ErrorMsg`] = '';
-    state['message'] = '';
+    state['message'] = this.state.isLocked ? this.context.translations.formatString(this.context.translations.yourDeviceIsCurrentlyLocked, this.state.unlockAt) : '';
 
     this.setState(state, () => {
-      this.setState({
-        isValidForm: authenticationFormService.isValidForm(this.state.email, this.state.password)
-      })
+      this.setState({ isValidForm: this.isLocked ? false : authenticationFormService.isValidForm(this.state.email, this.state.password) });
     });
   }
 
@@ -66,11 +65,14 @@ class ErrorAuthenticationContent extends Component {
     this.resetLockInterval = resetLockService.watchLockStatus(FAILED_SIGN_IN_ATTEMPT, async () => {
       clearInterval(this.resetLockInterval);
       this.resetLockInterval = null;
-      this.setState({
-        isLocked: false,
-        isValid: authenticationFormService.isValidForm(this.state.email, this.state.password),
-        message: '',
-      });
+
+      if (!this.componentIsUnmount) {
+        this.setState({
+          isLocked: false,
+          isValidForm: authenticationFormService.isValidForm(this.state.email, this.state.password),
+          message: '',
+        });
+      }
     });
   }
 
@@ -104,6 +106,7 @@ class ErrorAuthenticationContent extends Component {
         isLoading: false,
         message: isLocked ? translations.formatString(translations.yourDeviceIsCurrentlyLocked, unlockAt) : translations.emailOrPasswordIsIncorrect,
         isLocked: isLocked,
+        unlockAt,
       });
 
       if (!this.resetLockInterval && isInvalidAccount)
@@ -111,73 +114,24 @@ class ErrorAuthenticationContent extends Component {
     });
   }
 
-  _renderShowPasswordIcon = () => {
-    const buttonPadding = 2;
-
-    return (
-      <TextInput.Icon
-        name={this.state.showPasswordIcon}
-        color="#959595"
-        onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
-        accessibilityLabel='Toggle password visibility'
-        style={{height: pressableItemSize(buttonPadding), width: pressableItemSize(buttonPadding)}}
-      />
-    )
-  }
-
   render() {
-    const { translations } = this.context;
-    const emailLabel = `${translations['email']} *`;
-    const passwordLabel = `${translations['password']} *`;
-
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{borderWidth: 0, margin: 0}}>
-          <View style={{flexDirection: 'row'}}>
-            <OutlineInfoIcon color={Color.warningColor} />
+          <ErrorAuthenticationContentHeader backendUrl={this.props.backendUrl} />
 
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <View style={{marginTop: 0, flexDirection: 'row', flexWrap: 'wrap'}}>
-                <Text style={[{ marginBottom: 15 }, responsiveStyles.label]}>
-                  {translations.invalidEmailOrPasswordForServer}: <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>.
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <TextFieldInput
-            value={this.state.email}
-            label={emailLabel}
-            placeholder={translations.enterEmail}
-            fieldName="email"
+          <ErrorAuthenticationContentForm
+            email={this.state.email}
+            password={this.state.password}
             onChangeText={this.onChangeText}
-            message={translations.emailErrorMsg}
-            keyboardType='email-address'
-          />
-
-          <TextFieldInput
-            value={this.state.password}
-            label={passwordLabel}
-            placeholder={translations.enterPassword}
-            fieldName="password"
-            onChangeText={this.onChangeText}
-            message={translations.passwordErrorMsg}
-            secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
-            right={this._renderShowPasswordIcon()}
-          />
-
-          { this.state.message != '' &&
-            <Text style={[{ textAlign: 'center', marginTop: -10, color: this.state.isError ? 'red' : 'green'}, responsiveStyles.label]}>
-              {this.state.message}
-            </Text>
-          }
-
-          <ModalConfirmationButtons
-            onClose={this.props.onDismiss}
-            closeButtonLabel={translations.close}
-            onConfirm={() => this.save()}
-            confirmButtonLabel={translations.save}
-            isConfirmButtonDisabled={!this.state.isValidForm || this.state.isLoading || this.state.isLocked}
+            message={this.state.message}
+            showPasswordIcon={this.state.showPasswordIcon}
+            isValidForm={this.state.isValidForm}
+            isLoading={this.state.isLoading}
+            isLocked={this.state.isLocked}
+            toggleShowPassword={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
+            onDismiss={this.props.onDismiss}
+            save={() => this.save()}
           />
         </View>
       </TouchableWithoutFeedback>
