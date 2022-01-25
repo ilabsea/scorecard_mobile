@@ -10,6 +10,7 @@ import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
 import ScorecardStep from '../../models/ScorecardStep';
+import { navigate } from '../../navigators/app_navigator';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 
@@ -19,7 +20,7 @@ export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
 
   onPress(step) {
-    this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecard.uuid, local_ngo_id: this.props.scorecard.local_ngo_id })
+    navigate(step.routeName, { scorecard_uuid: this.props.scorecard.uuid, local_ngo_id: this.props.scorecard.local_ngo_id });
   }
 
   _renderMilestoneCard(step) {

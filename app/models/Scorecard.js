@@ -30,10 +30,12 @@ const Scorecard = (() => {
     return realm.objects('Scorecard').filtered(`uuid='${uuid}'`)[0];
   }
 
-  function update(uuid, params={}) {
+  function update(uuid, params={}, callback = null) {
     if (find(uuid)) {
       realm.write(() => {
         realm.create('Scorecard', Object.assign(params, {uuid: uuid}), 'modified');
+
+        !!callback && callback(find(uuid));
       })
     }
   }
