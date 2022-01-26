@@ -35,13 +35,13 @@ class IndicatorCard extends Component {
   }
 
   _renderCard = () => {
-    const { indicator, index } = this.props;
+    const { indicator } = this.props;
     const displayName = this._getIndicatorName(indicator);
 
     return (
       <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
-          onPress={() => this.props.selectIndicator(index)}
+          onPress={() => this.props.selectIndicator(indicator.uuid)}
         >
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: normalLabelSize}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>

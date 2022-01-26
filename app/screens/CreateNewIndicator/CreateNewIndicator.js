@@ -46,13 +46,13 @@ class CreateNewIndicator extends Component {
     this._updateIndicatorList();
   }
 
-  selectIndicator = (selectedIndicators, unselectedIndicators, isModalVisible) => {
+  selectIndicator = (selectedIndicators, unselectedIndicators, isModalVisible = false) => {
     this.setState({
       selectedIndicators: selectedIndicators,
       unselectedIndicators: unselectedIndicators,
-      isModalVisible: isModalVisible,
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(selectedIndicators),
       selectedCustomIndicator: null,
+      isModalVisible: isModalVisible
     });
   };
 

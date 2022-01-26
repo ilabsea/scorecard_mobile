@@ -8,7 +8,7 @@ const createNewIndicatorHelper = (() => {
     isAbleToSaveIndicator,
     getNewSelectedIndicators,
     getCriteriaUuid,
-    getIndicatorSelection,
+    toggleIndicator,
     getUpdatedSelectedIndicators,
     createNewProposedIndicator,
     deleteUnselectedProposedIndicator,
@@ -48,29 +48,26 @@ const createNewIndicatorHelper = (() => {
     return uuidv4();
   }
 
-  function getIndicatorSelection(index, allIndicators, selectedIndicators, unselectedIndicators) {
-    let indicators = allIndicators;
+  function toggleIndicator(indicatorUuid, indicators, selectedIndicators, unselectedIndicators) {
+    let newIndicators = indicators;
     let newSelectedIndicators = selectedIndicators;
     let newUnselectedIndicators = unselectedIndicators;
+    const index = indicators.findIndex(item => item.uuid == indicatorUuid);
 
-    if (indicators[index].isSelected) {
-      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.indicatorable_id !== indicators[index].indicatorable_id);
-      newUnselectedIndicators.push(indicators[index]);
+    if (newIndicators[index].isSelected) {
+      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.indicatorable_id.toString() !== newIndicators[index].uuid.toString());
+      newUnselectedIndicators.push(newIndicators[index]);
     }
-    else if (indicators[index].uuid != '') {
-      const newIindicator = indicators[index];
-      newIindicator['indicatorable_id'] = newIindicator.uuid.toString();
-      newSelectedIndicators.push(newIindicator);
-      newUnselectedIndicators = newUnselectedIndicators.filter((indicator) => indicator.uuid !== indicators[index].uuid);
+    else if (newIndicators[index].uuid != '') {
+      const indicator = newIndicators[index];
+      indicator['indicatorable_id'] = indicator.uuid;
+      newSelectedIndicators.push(indicator);
+      newUnselectedIndicators = newUnselectedIndicators.filter((indicator) => indicator.uuid !== newIndicators[index].uuid);
     }
 
-    indicators[index].isSelected = !indicators[index].isSelected;
+    newIndicators[index].isSelected = !newIndicators[index].isSelected;
 
-    return {
-      indicators: indicators,
-      selectedIndicators: newSelectedIndicators,
-      unselectedIndicators: newUnselectedIndicators
-    }
+    return { newIndicators, newSelectedIndicators, newUnselectedIndicators }
   }
 
   function getUpdatedSelectedIndicators(selectedIndicators, updatedIndicator) {
