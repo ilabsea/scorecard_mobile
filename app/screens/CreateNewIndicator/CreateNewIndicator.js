@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import {Portal} from 'react-native-paper';
 
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import {saveParticipant} from '../../actions/participantAction';
@@ -12,7 +11,6 @@ import SearchableHeader from '../../components/CreateNewIndicator/SearchableHead
 import CreateNewIndicatorContent from '../../components/CreateNewIndicator/CreateNewIndicatorContent';
 import CreateNewIndicatorBottomButton from '../../components/CreateNewIndicator/CreateNewIndicatorBottomButton';
 
-import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
 import ProposedCriteria from '../../models/ProposedCriteria';
 
@@ -161,8 +159,15 @@ class CreateNewIndicator extends Component {
 
   updateEditStatus(isEdit) {
     this.setState({ isEdit: isEdit });
-    if (isEdit)
-      this.setState({ indicators: CustomIndicator.getAll(this.props.route.params.scorecard_uuid) });
+    if (isEdit) {
+      // ToDo: filter grouped indicator for custom indicator
+      const indicatorDataset = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', [], true);
+      this.setState({
+        indicators: indicatorDataset.indicators,
+        selectIndicators: indicatorDataset.selectedIndicators,
+        groupedIndicators: indicatorDataset.groupedIndicators,
+      });
+    }
     else
       this._updateIndicatorList();
   }
@@ -220,18 +225,16 @@ class CreateNewIndicator extends Component {
 
             { this.renderBottomButton() }
 
-            <Portal>
-              <AddNewIndicatorModal
-                isVisible={this.state.isModalVisible}
-                closeModal={() => this.closeModal()}
-                saveCustomIndicator={this.saveCustomIndicator}
-                participantUUID={this.props.route.params.participant_uuid}
-                scorecardUUID={this.props.route.params.scorecard_uuid}
-                selectedCustomIndicator={this.state.selectedCustomIndicator}
-                isEdit={this.state.isEdit}
-                updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
-              />
-            </Portal>
+            <AddNewIndicatorModal
+              isVisible={this.state.isModalVisible}
+              closeModal={() => this.closeModal()}
+              saveCustomIndicator={this.saveCustomIndicator}
+              participantUUID={this.props.route.params.participant_uuid}
+              scorecardUUID={this.props.route.params.scorecard_uuid}
+              selectedCustomIndicator={this.state.selectedCustomIndicator}
+              isEdit={this.state.isEdit}
+              updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
+            />
           </View>
         </View>
       </TouchableWithoutFeedback>

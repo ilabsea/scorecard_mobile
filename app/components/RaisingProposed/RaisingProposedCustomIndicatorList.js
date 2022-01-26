@@ -4,6 +4,7 @@ import {LocalizationContext} from '../Translations';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
 import NoIndicatorMessage from './NoIndicatorMessage';
+import CustomIndicator from '../../models/CustomIndicator'
 
 let _this = null;
 class RaisingProposedCustomIndicatorList extends Component {
@@ -14,9 +15,8 @@ class RaisingProposedCustomIndicatorList extends Component {
     _this = this;
   }
 
-  selectIndicator(index) {
-    const indicator = _this.props.indicators[index];
-    _this.props.editCustomIndicator(indicator);
+  selectIndicator(indicatorUuid) {
+    _this.props.editCustomIndicator(CustomIndicator.find(indicatorUuid));
   }
 
   renderInidcatorList() {
@@ -24,6 +24,7 @@ class RaisingProposedCustomIndicatorList extends Component {
       <RaisingProposedScrollView>
         <CriteriaSelectionItems
           indicators={this.props.indicators}
+          groupedIndicators={this.props.groupedIndicators}
           selectedIndicators={this.props.selectedCustomIndicator ? [this.props.selectedCustomIndicator] : []}
           isSearching={this.props.isSearching}
           isEdit={true}

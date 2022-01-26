@@ -7,7 +7,7 @@ class RaisingProposedScrollView extends Component {
       <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 50, marginHorizontal: -8}}
         keyboardShouldPersistTaps='handled'
         showsVerticalScrollIndicator={false}
-        onScroll={(event) => this.props.onScroll(event)}
+        onScroll={(event) => !!this.props.onScroll && this.props.onScroll(event)}
       >
         <Pressable onPress={() => Keyboard.dismiss()}>
           { this.props.children }

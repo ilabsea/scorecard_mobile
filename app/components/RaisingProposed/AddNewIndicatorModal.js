@@ -7,7 +7,7 @@ import {
   Keyboard,
 } from 'react-native';
 
-import { Modal } from 'react-native-paper';
+import { Modal, Portal } from 'react-native-paper';
 
 import VoiceRecord from './VoiceRecord';
 import { LocalizationContext } from '../Translations';
@@ -109,28 +109,30 @@ class AddNewIndicatorModal extends Component {
     const {translations} = this.context;
 
     return (
-      <Modal visible={this.props.isVisible} contentContainerStyle={styles.container}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View>
-            <Text style={styles.header}>
-              { this.props.isEdit ? translations.editIndicator : translations.addNewIndicator }
-            </Text>
+      <Portal>
+        <Modal visible={this.props.isVisible} contentContainerStyle={styles.container}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View>
+              <Text style={styles.header}>
+                { this.props.isEdit ? translations.editIndicator : translations.addNewIndicator }
+              </Text>
 
-            { this.renderTextInputs() }
+              { this.renderTextInputs() }
 
-            <VoiceRecord
-              participantUUID={this.props.participantUUID}
-              scorecardUUID={this.props.scorecardUUID}
-              finishRecord={this.finishRecord}
-              audioFilePath={this.state.audio}
-              deleteAudio={() => this.setState({audio: null})}
-              isEdit={this.props.isEdit}
-            />
+              <VoiceRecord
+                participantUUID={this.props.participantUUID}
+                scorecardUUID={this.props.scorecardUUID}
+                finishRecord={this.finishRecord}
+                audioFilePath={this.state.audio}
+                deleteAudio={() => this.setState({audio: null})}
+                isEdit={this.props.isEdit}
+              />
 
-            {this.renderButtons()}
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+              {this.renderButtons()}
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </Portal>
     );
   }
 }

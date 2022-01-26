@@ -76,8 +76,8 @@ class IndicatorService {
     this.isStopDownload = true;
   }
 
-  getAll = (scorecardUuid) => {
-    let predefinedIndicators = this._getPredefinedIndicator(scorecardUuid);
+  getAll = (scorecardUuid, isEditList) => {
+    let predefinedIndicators = isEditList ? [] : this._getPredefinedIndicator(scorecardUuid);
     const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`)));
     predefinedIndicators = predefinedIndicators.concat(customIndicators);
 
@@ -123,8 +123,8 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  getIndicatorList = (scorecardUuid, searchText, selectedIndicators) => {
-    const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+  getIndicatorList = (scorecardUuid, searchText, selectedIndicators, isEditList =  false) => {
+    const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid, isEditList);
 
     return this._getIndicatorAttrs(savedIndicators, selectedIndicators);
   }

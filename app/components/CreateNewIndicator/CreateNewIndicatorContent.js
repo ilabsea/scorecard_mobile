@@ -61,6 +61,7 @@ class CreateNewIndicatorContent extends Component {
       <RaisingProposedCustomIndicatorList
         scorecardUuid={this.props.scorecardUuid}
         indicators={this.props.indicators}
+        groupedIndicators={this.props.groupedIndicators}
         editCustomIndicator={this.props.editCustomIndicator}
         selectedCustomIndicator={this.props.selectedCustomIndicator}
       />
