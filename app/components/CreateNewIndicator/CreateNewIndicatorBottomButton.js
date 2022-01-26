@@ -11,9 +11,11 @@ class CreateNewIndicatorBottomButton extends Component {
 
   done() {
     if (this.props.isSearching) {
-      const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', this.props.selectedIndicators);
+      // const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', this.props.selectedIndicators);
+      const indicatorDataset = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', this.props.selectedIndicators);
       this.props.stopSearching();
-      this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
+      // this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
+      this.props.updateSearchedIndicator(indicatorDataset);
     }
     else
       this.props.stopEditing();

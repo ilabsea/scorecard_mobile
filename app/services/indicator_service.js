@@ -125,6 +125,7 @@ class IndicatorService {
 
   getIndicatorList = (scorecardUuid, searchText, selectedIndicators) => {
     const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+
     return this._getIndicatorAttrs(savedIndicators, selectedIndicators);
   }
 
@@ -139,7 +140,7 @@ class IndicatorService {
     return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
   }
 
-  _getIndicatorAttrs = (savedIndicators, proposedCriterias) => {
+  _getIndicatorAttrs = (savedIndicators, proposedIndicators) => {
     let indicators = [];
     let selectedIndicators = [];
 
@@ -154,20 +155,23 @@ class IndicatorService {
         type: !!indicator.id ? PREDEFINED : CUSTOM,
         local_image: indicator.local_image,
       };
-      if (proposedCriterias != undefined) {
-        for (let i=0; i<proposedCriterias.length; i++) {
+      if (proposedIndicators != undefined) {
+        for (let i=0; i<proposedIndicators.length; i++) {
           const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-          if (proposedCriterias[i].indicatorable_id === indicatorId) {
+          if (proposedIndicators[i].indicatorable_id === indicatorId) {
             attrs.isSelected = true;
             selectedIndicators.push(attrs);
             break;
           }
         }
       }
+
       indicators.push(attrs);
     });
 
-    return {indicators, selectedIndicators};
+    const groupedIndicators = indicatorHelper.groupIndicatorByTag(indicators);
+
+    return {indicators, selectedIndicators, groupedIndicators};
   }
 }
 

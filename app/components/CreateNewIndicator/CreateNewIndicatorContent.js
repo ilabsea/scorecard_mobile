@@ -49,6 +49,7 @@ class CreateNewIndicatorContent extends Component {
         indicators={this.props.indicators}
         selectedIndicators={this.props.selectedIndicators}
         unselectedIndicators={this.props.unselectedIndicators}
+        groupedIndicators={this.props.groupedIndicators}
         customIndicator={this.props.customIndicator}
         isSearching={this.props.isSearching}
       />

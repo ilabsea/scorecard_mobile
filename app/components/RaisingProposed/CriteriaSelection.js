@@ -76,6 +76,7 @@ class CriteriaSelection extends Component {
             <CriteriaSelectionItems
               indicators={this.state.indicators}
               selectedIndicators={this.state.selectedIndicators}
+              groupedIndicators={this.props.groupedIndicators}
               isSearching={this.props.isSearching}
               scorecardUuid={this.props.scorecardUuid}
               selectIndicator={this.selectIndicator}

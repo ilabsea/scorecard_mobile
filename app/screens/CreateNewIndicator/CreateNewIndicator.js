@@ -139,17 +139,23 @@ class CreateNewIndicator extends Component {
   _updateIndicatorList = () => {
     const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', this.state.selectedIndicators);
 
-    this.setState({ indicators: allCriteria.indicators });
+    this.setState({
+      indicators: allCriteria.indicators,
+      selectIndicators: allCriteria.selectedIndicators,
+      groupedIndicators: allCriteria.groupedIndicators,
+    });
   }
 
-  updateSearchedIndicator = (indicators, allSelectedIndicators) => {
+  updateSearchedIndicator = (indicatorDataset) => {
     const { unselectedIndicators, selectedIndicators } = this.state;
+    const allSelectedIndicators = indicatorDataset.selectedIndicators;
     let newSelectedIndicators = createNewIndicatorHelper.getNewSelectedIndicators(allSelectedIndicators, selectedIndicators, unselectedIndicators);
 
     this.setState({
-      indicators: createNewIndicatorHelper.getUpdatedIndicators(indicators, unselectedIndicators),
+      indicators: createNewIndicatorHelper.getUpdatedIndicators(indicatorDataset.indicators, unselectedIndicators),
       selectedIndicators: newSelectedIndicators,
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(newSelectedIndicators),
+      groupedIndicators: indicatorDataset.groupedIndicators,
     });
   }
 
@@ -192,6 +198,7 @@ class CreateNewIndicator extends Component {
         indicators={this.state.indicators}
         selectedIndicators={this.state.selectedIndicators}
         unselectedIndicators={this.state.unselectedIndicators}
+        groupedIndicators={this.state.groupedIndicators}
         customIndicator={this.state.customIndicator}
         selectedCustomIndicator={this.state.selectedCustomIndicator}
         isSearching={this.state.isSearching}

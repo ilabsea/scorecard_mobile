@@ -308,5 +308,6 @@
   "syncInfo": "Sync info",
   "inReview": "in review",
   "theServerUrlIsInvalid": "The server URL is invalid",
-  "yourDeviceIsCurrentlyLocked": "Your device is currently locked, please try again at {0}"
+  "yourDeviceIsCurrentlyLocked": "Your device is currently locked, please try again at {0}",
+  "noTag": "No tag"
 }

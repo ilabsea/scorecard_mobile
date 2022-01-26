@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import { Divider } from 'react-native-paper'
 
 import { LocalizationContext } from '../Translations';
 import IndicatorCard from './IndicatorCard';
 import CriteriaAudioButton from './CriteriaAudioButton';
+import indicatorHelper from '../../helpers/indicator_helper';
+import { NO_TAG } from '../../constants/main_constant';
+
+import CriteriaSelectionItemsTabletStyle from '../../styles/tablet/CriteriaSelectionItemsComponentStyle';
+import CriteriaSelectionItemsMobileStyle from '../../styles/mobile/CriteriaSelectionItemsComponentStyle';
+import { getDeviceStyle } from '../../utils/responsive_util';
+
+const styles = getDeviceStyle(CriteriaSelectionItemsTabletStyle, CriteriaSelectionItemsMobileStyle);
 
 class CriteriaSelectionItems extends Component {
   static contextType = LocalizationContext;
@@ -57,14 +66,38 @@ class CriteriaSelectionItems extends Component {
     )
   }
 
+  renderIndicators(indicators, tag) {
+    return indicators.map((indicator, index) => {
+      return this.renderIndicatorCard(indicator, index, tag);
+    });
+  }
+
+  renderGroupedIndicators() {
+    let doms = [];
+    let indicatorTags = indicatorHelper.getSortedIndicatorTag(this.props.groupedIndicators);
+
+    indicatorTags.map((tag, index) => {
+      const indicators = this.props.groupedIndicators[tag];
+      const tagLabel = tag === NO_TAG ? this.context.translations.noTag : tag;
+
+      doms.push(
+        <View key={`${tag}-${index}`} style={[styles.indicatorContainer]}>
+          <Text style={styles.tagTitle}>{ tagLabel }</Text>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            { !!indicators && this.renderIndicators(indicators, tag) }
+          </View>
+          { index < indicatorTags.length - 1 && <Divider style={{marginTop: 12}} /> }
+        </View>
+      );
+    });
+
+    return doms;
+  }
+
   render() {
     return (
       <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, marginTop: (this.props.isSearching || this.props.isEdit) ? 5 : 15}}>
-        { 
-          this.props.indicators.map((indicator, index) => {
-            return this.renderIndicatorCard(indicator, index)
-          })
-        }
+        { this.renderGroupedIndicators() }
       </View>
     )
   }

@@ -31,9 +31,12 @@ class SearchableHeader extends Component {
 
   onChangeSearch(text) {
     this.setState({ query: text });
-    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, this.props.selectedIndicators);
+    const indicatorDataset = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, this.props.selectedIndicators);
+    this.props.updateSearchedIndicator(indicatorDataset);
 
-    this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
+    // const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, this.props.selectedIndicators);
+
+    // this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
   }
 
   cancel() {
