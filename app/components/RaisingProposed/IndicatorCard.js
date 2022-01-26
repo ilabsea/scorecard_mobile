@@ -23,7 +23,7 @@ class IndicatorCard extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    if (indicator.isSelected)
+    if (indicator.isSelected && !this.props.isEdit)
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     for (let i = 0; i < this.props.selectedIndicators.length; i++) {

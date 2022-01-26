@@ -11,37 +11,36 @@ class CreateNewIndicatorBottomButton extends Component {
 
   done() {
     if (this.props.isSearching) {
-      // const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', this.props.selectedIndicators);
       const indicatorDataset = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', this.props.selectedIndicators);
       this.props.stopSearching();
-      // this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
       this.props.updateSearchedIndicator(indicatorDataset);
     }
     else
       this.props.stopEditing();
   }
 
-  renderDoneButton() {
-    return (
-      <View style={{padding: containerPadding, paddingHorizontal: 0}}>
-        <BottomButton disabled={!this.props.isValid}
-          label={ this.context.translations.done }
-          onPress={() => this.done()}
-          iconName='none'
-        />
-      </View>
-    )
+  onPress() {
+    if (this.props.isSearching || this.props.isEdit)
+      this.done();
+    else
+      this.props.save();
   }
 
   render() {
-    if (this.props.isSearching || this.props.isEdit)
-      return this.renderDoneButton();
+    let iconName = '';
+    let label = this.context.translations.saveAndGoNext;
+
+    if (this.props.isSearching || this.props.isEdit) {
+      iconName = 'none';
+      label = this.context.translations.done;
+    }
 
     return (
       <View style={{padding: containerPadding, paddingHorizontal: 0}}>
         <BottomButton disabled={!this.props.isValid}
-          label={this.context.translations['saveAndGoNext']}
-          onPress={() => this.props.save()}
+          label={label}
+          onPress={() => this.onPress()}
+          iconName={iconName}
         />
       </View>
     )

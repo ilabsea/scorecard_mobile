@@ -7,17 +7,8 @@ import { CUSTOM } from '../utils/variable';
 
 const customIndicatorService = (() => {
   return {
-    getIndicatorList,
     createNewIndicator,
     updateIndicator,
-  }
-
-  function getIndicatorList(scorecardUuid, searchText) {
-    let customIndicators = searchText ? CustomIndicator.filter(scorecardUuid, searchText) : CustomIndicator.getAll(scorecardUuid);
-
-    return customIndicators.length > 0
-      ? JSON.parse(JSON.stringify(customIndicators)).sort((a, b) => a.name > b.name)
-      : customIndicators;
   }
 
   function createNewIndicator(scorecardUuid, indicator, callback) {

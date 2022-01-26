@@ -4,8 +4,7 @@ import { View, Text } from 'react-native';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantInfo';
-import CriteriaSelection from '../RaisingProposed/CriteriaSelection';
-import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
+import IndicatorList from '../RaisingProposed/IndicatorList';
 
 import IndicatorService from '../../services/indicator_service';
 import { getDeviceStyle, mobileSubTitleSize } from '../../utils/responsive_util';
@@ -40,10 +39,11 @@ class CreateNewIndicatorContent extends Component {
     )
   }
 
-  renderCriteriaList() {
+  renderIndicatorList() {
     return (
-      <CriteriaSelection
-        selectIndicator={this.props.selectIndicator}
+      <IndicatorList
+        isEdit={this.props.isEdit}
+        isSearching={this.props.isSearching}
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
         indicators={this.props.indicators}
@@ -51,19 +51,9 @@ class CreateNewIndicatorContent extends Component {
         unselectedIndicators={this.props.unselectedIndicators}
         groupedIndicators={this.props.groupedIndicators}
         customIndicator={this.props.customIndicator}
-        isSearching={this.props.isSearching}
-      />
-    )
-  }
-
-  renderCustomIndicatorList() {
-    return (
-      <RaisingProposedCustomIndicatorList
-        scorecardUuid={this.props.scorecardUuid}
-        indicators={this.props.indicators}
-        groupedIndicators={this.props.groupedIndicators}
         editCustomIndicator={this.props.editCustomIndicator}
         selectedCustomIndicator={this.props.selectedCustomIndicator}
+        selectIndicator={this.props.selectIndicator}
       />
     )
   }
@@ -79,7 +69,7 @@ class CreateNewIndicatorContent extends Component {
           </Text>
         }
 
-        { !this.props.isEdit ? this.renderCriteriaList() : this.renderCustomIndicatorList() }
+        { this.renderIndicatorList() }
       </View>
     )
   }

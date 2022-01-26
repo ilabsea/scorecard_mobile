@@ -1,5 +1,6 @@
 import uuidv4 from '../utils/uuidv4';
 import ProposedCriteria from '../models/ProposedCriteria';
+import IndicatorService from '../services/indicator_service';
 import { CUSTOM } from '../utils/variable';
 
 const createNewIndicatorHelper = (() => {
@@ -12,6 +13,7 @@ const createNewIndicatorHelper = (() => {
     getUpdatedSelectedIndicators,
     createNewProposedIndicator,
     deleteUnselectedProposedIndicator,
+    getIndicatorDataset,
   };
 
   function getUpdatedIndicators(indicators, unSelectedIndicators) {
@@ -55,7 +57,13 @@ const createNewIndicatorHelper = (() => {
     const index = indicators.findIndex(item => item.uuid == indicatorUuid);
 
     if (newIndicators[index].isSelected) {
-      newSelectedIndicators = newSelectedIndicators.filter((indicator) => indicator.indicatorable_id.toString() !== newIndicators[index].uuid.toString());
+      newSelectedIndicators = newSelectedIndicators.filter((indicator) => {
+        if (!!indicator.indicatorable_id)
+          indicator.indicatorable_id.toString() !== newIndicators[index].uuid.toString()
+        else
+          indicator.uuid.toString() !== newIndicators[index].uuid.toString()
+      });
+
       newUnselectedIndicators.push(newIndicators[index]);
     }
     else if (newIndicators[index].uuid != '') {
@@ -118,6 +126,13 @@ const createNewIndicatorHelper = (() => {
       const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, participantUuid);
       ProposedCriteria.destroy(proposedCriteria);
     });
+  }
+
+  function getIndicatorDataset(scorecardUuid, selectedIndicator, isCustomIndicator) {
+    if (isCustomIndicator)
+      return new IndicatorService().getIndicatorList(scorecardUuid, '', [], true);
+
+    return new IndicatorService().getIndicatorList(scorecardUuid, '', selectedIndicator, false);
   }
 })();
 

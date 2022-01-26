@@ -1,29 +1,22 @@
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
 
-import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 import {saveCriteria} from '../../actions/criteriaListAction';
-
 import Color from '../../themes/color';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
-import CreateNewIndicatorContent from '../../components/CreateNewIndicator/CreateNewIndicatorContent';
-import CreateNewIndicatorBottomButton from '../../components/CreateNewIndicator/CreateNewIndicatorBottomButton';
+import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNewIndicatorBody';
 
 import Participant from '../../models/Participant';
 import ProposedCriteria from '../../models/ProposedCriteria';
-
-import IndicatorService from '../../services/indicator_service';
 import proposedCriteriaService from '../../services/proposedCriteriaService';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
-import customIndicatorService from '../../services/custom_indicator_service';
 
 class CreateNewIndicator extends Component {
   constructor(props) {
     super(props);
-    this.indicatorSelectionRef = React.createRef();
     this.state = {
       isModalVisible: false,
       isValid: false,
@@ -41,7 +34,7 @@ class CreateNewIndicator extends Component {
   componentDidMount() {
     const proposedCriterias = ProposedCriteria.find(this.props.route.params.scorecard_uuid, this.state.participantUuid);
     this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
-    this._updateIndicatorList();
+    this.updateIndicatorList();
   }
 
   selectIndicator = (selectedIndicators, unselectedIndicators, isModalVisible = false) => {
@@ -50,7 +43,7 @@ class CreateNewIndicator extends Component {
       unselectedIndicators: unselectedIndicators,
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(selectedIndicators),
       selectedCustomIndicator: null,
-      isModalVisible: isModalVisible
+      isModalVisible: isModalVisible,
     });
   };
 
@@ -66,18 +59,19 @@ class CreateNewIndicator extends Component {
     });
   }
 
+  // Update the custom indicators list after edit the custom indicator
   updateCustomIndicator(customIndicator) {
     this.setState({
       isModalVisible: false,
-      indicators: customIndicatorService.getIndicatorList(this.props.route.params.scorecard_uuid, ''),
       selectedCustomIndicator: null,
       selectedIndicators: createNewIndicatorHelper.getUpdatedSelectedIndicators(this.state.selectedIndicators, customIndicator),
-    });
+    }, () => this.updateIndicatorList());
 
     const participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.route.params.scorecard_uuid)));
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 
+  // Update the indicators list after create new custom indicator
   saveCustomIndicator = (customIndicator) => {
     let selectedIndicators = this.state.selectedIndicators;
     selectedIndicators.push(customIndicator);
@@ -87,9 +81,7 @@ class CreateNewIndicator extends Component {
       isModalVisible: false,
       isValid: true,
       customIndicator: customIndicator,
-    });
-    
-    this._updateIndicatorList();
+    }, () => this.updateIndicatorList());
   }
 
   save = () => {
@@ -107,20 +99,6 @@ class CreateNewIndicator extends Component {
     });
   }
 
-  renderBottomButton = () => {
-    return <CreateNewIndicatorBottomButton
-              isSearching={this.state.isSearching}
-              isEdit={this.state.isEdit}
-              isValid={this.state.isValid}
-              save={() => this.save()}
-              stopEditing={() => this.updateEditStatus(false)}
-              stopSearching={() => this.setState({ isSearching: false })}
-              updateSearchedIndicator={this.updateSearchedIndicator}
-              scorecardUuid={this.props.route.params.scorecard_uuid}
-              selectedIndicators={this.state.selectedIndicators}
-           />
-  };
-
   updateSelectedParticipant(indicatorDataset) {
     if (this.state.participantUuid != indicatorDataset.participant_uuid) {
       this.setState({
@@ -134,13 +112,12 @@ class CreateNewIndicator extends Component {
     }
   }
 
-  _updateIndicatorList = () => {
-    const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', this.state.selectedIndicators);
+  updateIndicatorList = () => {
+    const indicatorDataset = createNewIndicatorHelper.getIndicatorDataset(this.props.route.params.scorecard_uuid, this.state.selectedIndicators, this.state.isEdit);
 
     this.setState({
-      indicators: allCriteria.indicators,
-      selectIndicators: allCriteria.selectedIndicators,
-      groupedIndicators: allCriteria.groupedIndicators,
+      indicators: indicatorDataset.indicators,
+      groupedIndicators: indicatorDataset.groupedIndicators,
     });
   }
 
@@ -158,18 +135,7 @@ class CreateNewIndicator extends Component {
   }
 
   updateEditStatus(isEdit) {
-    this.setState({ isEdit: isEdit });
-    if (isEdit) {
-      // ToDo: filter grouped indicator for custom indicator
-      const indicatorDataset = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', [], true);
-      this.setState({
-        indicators: indicatorDataset.indicators,
-        selectIndicators: indicatorDataset.selectedIndicators,
-        groupedIndicators: indicatorDataset.groupedIndicators,
-      });
-    }
-    else
-      this._updateIndicatorList();
+    this.setState({ isEdit: isEdit }, () => this.updateIndicatorList());
   }
 
   renderSearchableHeader() {
@@ -195,24 +161,31 @@ class CreateNewIndicator extends Component {
     });
   }
 
-  renderContent() {
-    return (
-      <CreateNewIndicatorContent
-        scorecardUuid={this.props.route.params.scorecard_uuid}
-        participantUuid={this.state.participantUuid}
-        indicators={this.state.indicators}
-        selectedIndicators={this.state.selectedIndicators}
-        unselectedIndicators={this.state.unselectedIndicators}
-        groupedIndicators={this.state.groupedIndicators}
-        customIndicator={this.state.customIndicator}
-        selectedCustomIndicator={this.state.selectedCustomIndicator}
-        isSearching={this.state.isSearching}
-        isEdit={this.state.isEdit}
-        selectIndicator={this.selectIndicator}
-        editCustomIndicator={(indicator) => this.editCustomIndicator(indicator)}
-        updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
-      />
-    )
+  renderBody() {
+    return <CreateNewIndicatorBody
+            scorecardUuid={this.props.route.params.scorecard_uuid}
+            participantUuid={this.state.participantUuid}
+            indicators={this.state.indicators}
+            selectedIndicators={this.state.selectedIndicators}
+            unselectedIndicators={this.state.unselectedIndicators}
+            groupedIndicators={this.state.groupedIndicators}
+            customIndicator={this.state.customIndicator}
+            selectedCustomIndicator={this.state.selectedCustomIndicator}
+            isSearching={this.state.isSearching}
+            isEdit={this.state.isEdit}
+            isValid={this.state.isValid}
+            isModalVisible={this.state.isModalVisible}
+            save={() => this.save()}
+            selectIndicator={this.selectIndicator}
+            editCustomIndicator={(customIndicator) => this.editCustomIndicator(customIndicator)}
+            updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
+            stopEditing={() => this.updateEditStatus(false)}
+            closeModal={() => this.closeModal()}
+            stopSearching={() => this.setState({ isSearching: false })}
+            updateSearchedIndicator={this.updateSearchedIndicator}
+            updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
+            saveCustomIndicator={(customIndicator) => this.saveCustomIndicator(customIndicator)}
+          />
   }
 
   render() {
@@ -221,20 +194,7 @@ class CreateNewIndicator extends Component {
         <View style={{flex: 1}}>
           { this.renderSearchableHeader() }
           <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
-            { this.renderContent() }
-
-            { this.renderBottomButton() }
-
-            <AddNewIndicatorModal
-              isVisible={this.state.isModalVisible}
-              closeModal={() => this.closeModal()}
-              saveCustomIndicator={this.saveCustomIndicator}
-              participantUUID={this.props.route.params.participant_uuid}
-              scorecardUUID={this.props.route.params.scorecard_uuid}
-              selectedCustomIndicator={this.state.selectedCustomIndicator}
-              isEdit={this.state.isEdit}
-              updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
-            />
+            { this.renderBody() }
           </View>
         </View>
       </TouchableWithoutFeedback>

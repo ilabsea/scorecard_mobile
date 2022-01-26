@@ -60,6 +60,7 @@ class CriteriaSelectionItems extends Component {
         selectedIndicators={this.props.selectedIndicators}
         isSearching={this.props.isSearching}
         key={itemKey}
+        isEdit={this.props.isEdit}
       >
         {this.audioButton(indicator)}
       </IndicatorCard>
@@ -86,7 +87,7 @@ class CriteriaSelectionItems extends Component {
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             { !!indicators && this.renderIndicators(indicators, tag) }
           </View>
-          { index < indicatorTags.length - 1 && <Divider style={{marginTop: 12}} /> }
+          { index < indicatorTags.length - 1 && <Divider style={{marginTop: 12, backgroundColor: '#b5b5b5'}} /> }
         </View>
       );
     });
@@ -96,7 +97,7 @@ class CriteriaSelectionItems extends Component {
 
   render() {
     return (
-      <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, marginTop: (this.props.isSearching || this.props.isEdit) ? 5 : 15}}>
+      <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, marginTop: (this.props.isSearching || this.props.isEdit) ? -10 : 15}}>
         { this.renderGroupedIndicators() }
       </View>
     )
