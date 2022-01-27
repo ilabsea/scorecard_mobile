@@ -88,7 +88,7 @@ class About extends Component {
           </Text>
           <Text style={styles.englishText}>
             The digitised scorecard app development is funded by the EU, implemented by CARE,
-            API and InSTEDD iLab SEA under the project “supports civic engagement and improves
+            API and InSTEDD iLab Southeast Asia under the project “Supporting meaningful civic engagement and improved
             social accountability by leveraging digital technologies (Re: ISAF-II)“.
             The community members, local NGO partners and governmental officials use the app to
             enhance their participation and dialogue with regards to public services improvement.
