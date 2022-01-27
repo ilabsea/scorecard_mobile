@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import { LocalizationContext } from '../../components/Translations';
-import VerticalProgressStep from '../../components/ScorecardProgress/VerticalProgressStep';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
-import ScorecardProgressTitle from '../../components/ScorecardProgress/ScorecardProgressTitle';
 import ScorecardProgressButtons from '../../components/ScorecardProgress/ScorecardProgressButtons';
 import ScorecardProgressHeader from '../../components/ScorecardProgress/ScorecardProgressHeader';
+import ScorecardProgressScrollView from '../../components/ScorecardProgress/ScorecardProgressScrollView';
 
 import Color from '../../themes/color';
 import ScorecardService from '../../services/scorecardService';
@@ -17,11 +16,6 @@ import Scorecard from '../../models/Scorecard';
 import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
-import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
-
-const responsiveStyles = getDeviceStyle(ScorecardProgressTabletStyles, ScorecardProgressMobileStyles);
 
 class ScorecardProgress extends Component {
   static contextType = LocalizationContext;
@@ -126,15 +120,9 @@ class ScorecardProgress extends Component {
 
         <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
-        <ScrollView contentContainerStyle={responsiveStyles.container}>
-          <ScorecardProgressTitle scorecard={this.state.scorecard} />
-
-          <VerticalProgressStep
-            progressIndex={this.state.scorecard.status || 3}
-            scorecard={this.state.scorecard}
-            navigation={this.props.navigation}
-          />
-        </ScrollView>
+        <ScorecardProgressScrollView scorecard={this.state.scorecard}
+          updateScorecard={(scorecard) => this.setState({ scorecard }) }
+        />
 
         <ScorecardProgressButtons
           scorecard={this.state.scorecard}

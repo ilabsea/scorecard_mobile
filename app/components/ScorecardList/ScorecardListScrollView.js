@@ -1,16 +1,15 @@
 import React from 'react';
-import { View, ScrollView, RefreshControl } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
+import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import ListSectionTitle from '../ListSectionTitle';
 import ScorecardListItem from './ScorecardListItem';
+import PullToRefreshScrollView from '../PullToRefreshScrollView';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getListStickyIndices } from '../../utils/scorecard_util';
 import uuidv4 from '../../utils/uuidv4';
 import scorecardSyncService from '../../services/scorecard_sync_service';
-import internetConnectionService from '../../services/internet_connection_service';
 
 class ScorecardListScrollView extends React.Component {
   static contextType = LocalizationContext;
@@ -21,17 +20,6 @@ class ScorecardListScrollView extends React.Component {
     this.state = {
       isLoading: false,
     }
-  }
-
-  syncScorecard() {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected) {
-        this.setState({ isLoading: true });
-        scorecardSyncService.syncScorecardsInReview(() => this.setState({ isLoading: false }));
-      }
-      else
-        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection,);
-    });
   }
 
   renderScorecardItems(scorecards) {
@@ -69,19 +57,18 @@ class ScorecardListScrollView extends React.Component {
     finishedScorecards = scorecardHelper.getGroupedByDate(finishedScorecards);
 
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0, marginBottom: 0}} stickyHeaderIndices={getListStickyIndices(finishedScorecards)}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isLoading}
-            onRefresh={() => this.syncScorecard()}
-          />
-        }
+      <PullToRefreshScrollView
+        containerStyle={{ flexGrow: 1, paddingBottom: 0, marginBottom: 0 }}
+        stickyIndices={getListStickyIndices(finishedScorecards)}
+        allowPullToRefresh={true}
+        syncData={() => scorecardSyncService.syncScorecardsInReview(() => this.setState({ isLoading: false }))}
+        isLoading={this.state.isLoading}
+        updateLoadingState={(isLoading) => this.setState({ isLoading })}
       >
         { !!progressScorecards.length && <ListSectionTitle title={translations.progressScorecards} /> }
         { !!progressScorecards.length && this.renderProgressScorecards(progressScorecards) }
         { this.renderFinishedScorecards(finishedScorecards) }
-
-      </ScrollView>
+      </PullToRefreshScrollView>
     )
   }
 }
