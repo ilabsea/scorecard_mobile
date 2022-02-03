@@ -2,6 +2,8 @@ import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNFS from 'react-native-fs';
 
+const MODEL = 'CustomIndicator';
+
 const CustomIndicator = (() => {
   return {
     find,
@@ -11,32 +13,33 @@ const CustomIndicator = (() => {
     filter,
     create,
     deleteFile,
+    isNameExist,
   }
 
   function getAll(scorecardUuid) {
-    return realm.objects('CustomIndicator').filtered(`scorecard_uuid='${scorecardUuid}'`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}'`);
   }
 
   function find(uuid) {
-    return realm.objects('CustomIndicator').filtered(`uuid='${uuid}'`)[0];
+    return realm.objects(MODEL).filtered(`uuid='${uuid}'`)[0];
   }
 
   function create(data) {
     realm.write(() => {
-      realm.create('CustomIndicator', data, 'modified');
+      realm.create(MODEL, data, 'modified');
     });
   }
 
   function update(uuid, params) {
     if (find(uuid)) {
       realm.write(() => {
-        realm.create('CustomIndicator', Object.assign(params, {uuid: uuid}), 'modified');
+        realm.create(MODEL, Object.assign(params, {uuid: uuid}), 'modified');
       })
     }
   }
 
   function deleteAll(scorecardUuid) {
-    const customIndicators = realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`);
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`);
 
     if (customIndicators.length > 0) {
       realm.write(() => {
@@ -47,7 +50,7 @@ const CustomIndicator = (() => {
   }
 
   function filter(scorecardUuid, text) {
-    return realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
   }
 
   function deleteFile(filePath) {
@@ -68,6 +71,10 @@ const CustomIndicator = (() => {
       .catch((err) => {
         console.log(err.message);
       });
+  }
+
+  function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND uuid != '${selectedIndicatorUuid}' AND name ==[c] '${ name }'`).length > 0 ? true : false;
   }
 
   // Private method

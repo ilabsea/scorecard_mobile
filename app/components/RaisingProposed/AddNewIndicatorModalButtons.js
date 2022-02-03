@@ -10,7 +10,7 @@ class AddNewIndicatorModalButtons extends Component {
   static contextType = LocalizationContext;
 
   isValid = () => {
-    if (isBlank(this.props.name))
+    if (isBlank(this.props.name) || this.props.isIndicatorExist)
       return false;
 
     return true;
