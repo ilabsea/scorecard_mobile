@@ -9,13 +9,14 @@ import Color from '../../themes/color';
 import styles from '../../themes/scorecardListItemStyle';
 import { getPluralOrSingularWord } from '../../utils/translation_util';
 
-class CriteriaTitle extends Component {
+class IndicatorTitle extends Component {
   static contextType = LocalizationContext;
 
-  renderCriteriaTitle() {
+  renderIndicatorTitleContent() {
     const {translations, appLanguage} = this.context;
     const order = (this.props.order || this.props.order == 0) ? `${this.props.order + 1}. ` : '';
-    const content = (
+
+    return (
       <View style={{flexDirection: 'row'}}>
         { this.props.isDraggable &&
           <View style={{width: 20, marginLeft: -10, paddingTop: 5}}>
@@ -26,29 +27,31 @@ class CriteriaTitle extends Component {
         <View>
           <Text style={[styles.title, this.props.customTitleStyle]} numberOfLines={2}>{ order }{this.props.title}</Text>
           <Text style={[styles.subText, this.props.customSubTextStyle]}>
-            {this.props.subText}: ({this.props.criteriaCount} { getPluralOrSingularWord(this.props.criteriaCount, translations.time, appLanguage, 's') })
+            {this.props.subText}: ({this.props.indicatorCount} { getPluralOrSingularWord(this.props.indicatorCount, translations.time, appLanguage, 's') })
           </Text>
         </View>
       </View>
-    );
+    )
+  }
 
+  renderIndicatorTitle() {
     const containerStyles = {flex: 1, paddingRight: 20, justifyContent: 'center'};
 
     if (this.props.isDraggable) {
       return (
         <TouchableOpacity onLongPress={() => this.props.onLongPress()} style={containerStyles}>
-          { content }
+          { this.renderIndicatorTitleContent() }
         </TouchableOpacity>
       );
     }
 
-    return ( <View style={containerStyles}>{ content }</View> );
+    return ( <View style={containerStyles}>{ this.renderIndicatorTitleContent() }</View> );
   }
 
   render() {
     return (
       <View style={[this.props.customContainerStyle, {flexDirection: 'row', justifyContent: 'center'}]}>
-        { this.renderCriteriaTitle() }
+        { this.renderIndicatorTitle() }
 
         <View style={[{paddingRight: 10}, this.props.customAudioContainerStyle]}>
           <PlaySound filePath={this.props.indicator.local_audio}/>
@@ -58,4 +61,4 @@ class CriteriaTitle extends Component {
   }
 }
 
-export default CriteriaTitle;
+export default IndicatorTitle;

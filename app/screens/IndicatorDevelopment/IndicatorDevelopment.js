@@ -10,13 +10,13 @@ import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/I
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
-import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
+import { setSelectedIndicators } from '../../actions/selectedIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
-import proposedCriteriaService from '../../services/proposedCriteriaService';
+import proposedCriteriaService from '../../services/proposed_criteria_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
 
@@ -52,7 +52,7 @@ class IndicatorDevelopment extends Component {
 
     proposedCriterias = proposedCriterias.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
 
-    this.props.setSelectedCriterias(selectedCriterias);
+    this.props.setSelectedIndicators(selectedCriterias);
     this.props.setProposedIndicators(proposedCriterias);
   }
 
@@ -68,7 +68,7 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedCriterias, (savedCriterias) => {
+    votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedIndicators, (savedCriterias) => {
       this.props.setVotingCriterias(savedCriterias);
     });
 
@@ -79,18 +79,18 @@ class IndicatorDevelopment extends Component {
   _renderContent() {
     return (
       <IndicatorDevelopmentContent
-        selectedCriterias={this.props.selectedCriterias}
+        selectedCriterias={this.props.selectedIndicators}
         scorecardUuid={this.props.route.params.scorecard_uuid}
         openModal={() => this.setState({ visibleModal: true })}
-        updateSelectedCriteriasOrder={(criterias) => this.updateSelectedCriteriasOrder(criterias)}
+        updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}
         navigation={this.props.navigation}
       />
     )
   }
 
-  updateSelectedCriteriasOrder(criterias) {
-    if (!!criterias)
-      this.props.setSelectedCriterias(criterias);
+  updateSelectedIndicatorsOrder(indicators) {
+    if (!!indicators)
+      this.props.setSelectedIndicators(indicators);
   }
 
   render() {
@@ -102,7 +102,7 @@ class IndicatorDevelopment extends Component {
 
         { this._renderContent() }
 
-        { !!this.props.selectedCriterias.length &&
+        { !!this.props.selectedIndicators.length &&
           <View style={{padding: containerPadding}}>
             <BottomButton
               onPress={ () => this._submit() }
@@ -122,13 +122,13 @@ class IndicatorDevelopment extends Component {
 
 function mapStateToProps(state) {
   return {
-    selectedCriterias: state.selectedCriterias,
+    selectedIndicators: state.selectedIndicators,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSelectedCriterias: (criterias) => dispatch(setSelectedCriterias(criterias)),
+    setSelectedIndicators: (indicators) => dispatch(setSelectedIndicators(indicators)),
     setProposedIndicators: (indicators) => dispatch(setProposedIndicators(indicators)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
     setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 import AsyncStorage from '@react-native-community/async-storage';
-import SelectedCriteriaItem from './SelectedCriteriaItem';
+import SelectedIndicatorItem from './SelectedIndicatorItem';
 import IndicatorDevelopmentInstructionModal from './IndicatorDevelopmentInstructionModal';
 
 let _this = null;
@@ -35,7 +35,7 @@ class IndicatorDevelopmentList extends Component {
     const {item, index, drag, isActive} = params;
 
     return (
-      <SelectedCriteriaItem criteria={item} key={index}
+      <SelectedIndicatorItem indicator={item} key={index}
         order={index}
         isDraggable={true}
         onLongPress={drag}
@@ -46,9 +46,9 @@ class IndicatorDevelopmentList extends Component {
     )
   }
 
-  updateCriteriasOrder(data) {
+  updateIndicatorsOrder(data) {
     this.setState({ selectedCriterias: data });
-    this.props.updateSelectedCriteriasOrder(data);
+    this.props.updateSelectedIndicatorsOrder(data);
   }
 
   onInstructionModalDismiss() {
@@ -63,7 +63,7 @@ class IndicatorDevelopmentList extends Component {
       <React.Fragment>
         <DraggableFlatList
           data={selectedCriterias}
-          onDragEnd={({ data }) => this.updateCriteriasOrder(data)}
+          onDragEnd={({ data }) => this.updateIndicatorsOrder(data)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={(params) => this.renderItem(params)}
           containerStyle={{marginHorizontal: -4}}

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Color from '../../themes/color';
-import { removeFromSelected } from '../../actions/selectedCriteriaAction';
+import { removeFromSelected } from '../../actions/selectedIndicatorAction';
 import { addToProposed } from '../../actions/proposedIndicatorAction';
 
 import { LocalizationContext } from '../Translations';
@@ -14,23 +14,23 @@ import styles from '../../themes/scorecardListItemStyle';
 import indicatorHelper from '../../helpers/indicator_helper';
 import Scorecard from '../../models/Scorecard';
 
-import CriteriaTitle from './CriteriaTitle';
+import IndicatorTitle from './IndicatorTitle';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import SelectedCriteriaItemTabletStyles from '../../styles/tablet/SelectedCriteriaItemComponentStyle';
-import SelectedCriteriaItemMobileStyles from '../../styles/mobile/SelectedCriteriaItemComponentStyle';
+import SelectedIndicatorItemTabletStyles from '../../styles/tablet/SelectedIndicatorItemComponentStyle';
+import SelectedIndicatorItemMobileStyles from '../../styles/mobile/SelectedIndicatorItemComponentStyle';
 
-const responsiveStyles = getDeviceStyle(SelectedCriteriaItemTabletStyles, SelectedCriteriaItemMobileStyles);
+const responsiveStyles = getDeviceStyle(SelectedIndicatorItemTabletStyles, SelectedIndicatorItemMobileStyles);
 
-class SelectedCriteriaItem extends Component {
+class SelectedIndicatorItem extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
-    this.scorecard = Scorecard.find(props.criteria.scorecard_uuid);
+    this.scorecard = Scorecard.find(props.indicator.scorecard_uuid);
 
     this.state = {
-      indicator: indicatorHelper.getDisplayIndicator(props.criteria, this.scorecard),
+      indicator: indicatorHelper.getDisplayIndicator(props.indicator, this.scorecard),
       scorecard: this.scorecard,
     };
 
@@ -38,7 +38,7 @@ class SelectedCriteriaItem extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    return { indicator: indicatorHelper.getDisplayIndicator(props.criteria, state.scorecard) };
+    return { indicator: indicatorHelper.getDisplayIndicator(props.indicator, state.scorecard) };
   }
 
   async componentDidMount() {
@@ -54,16 +54,16 @@ class SelectedCriteriaItem extends Component {
     this.isComponentUnmount = true;
   }
 
-  handleCriteria() {
-    this.props.removeFromSelected(this.props.criteria);
-    this.props.addToProposed(this.props.criteria);
+  handleRemoveIndicator() {
+    this.props.removeFromSelected(this.props.indicator);
+    this.props.addToProposed(this.props.indicator);
   }
 
   renderRemoveButton() {
     const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.redColor;
 
     return (
-      <TouchableOpacity onPress={() => this.handleCriteria()} style={responsiveStyles.removeButton} disabled={this.props.hasRating}>
+      <TouchableOpacity onPress={() => this.handleRemoveIndicator()} style={responsiveStyles.removeButton} disabled={this.props.hasRating}>
         <Icon name='trash' size={16} style={[responsiveStyles.removeIcon, { color: buttonColor }]} />
         <Text style={[styles.buttonLabel, responsiveStyles.removeLabel, { color: buttonColor }]}>
           { this.context.translations['remove'] }
@@ -79,11 +79,11 @@ class SelectedCriteriaItem extends Component {
       <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
         <View style={[responsiveStyles.listItem, this.props.isActive ? responsiveStyles.selectedItem : {}]}>
 
-          <CriteriaTitle
+          <IndicatorTitle
             title={this.state.indicator.content}
             order={this.props.order}
             subText={translations.raisedTimes}
-            criteriaCount={this.props.criteria.count}
+            indicatorCount={this.props.indicator.count}
             indicator={this.state.indicator}
             customContainerStyle={responsiveStyles.container}
             customTitleStyle={responsiveStyles.titleText}
@@ -103,18 +103,13 @@ class SelectedCriteriaItem extends Component {
   }
 }
 
-SelectedCriteriaItem.defaultProps = {
-  criteria: { tag: 'Dumi', count: 1 },
-  onPress: {}
-};
-
 function mapStateToProps(state) {
   return {};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeFromSelected: (criteria) => dispatch(removeFromSelected(criteria)),
+    removeFromSelected: (indicator) => dispatch(removeFromSelected(indicator)),
     addToProposed: (indicator) => dispatch(addToProposed(indicator)),
   };
 }
@@ -122,4 +117,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SelectedCriteriaItem);
+)(SelectedIndicatorItem);

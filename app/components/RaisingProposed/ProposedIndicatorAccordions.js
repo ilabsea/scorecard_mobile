@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
 import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
-import CriteriaAccordion from '../CriteriaAccordion/CriteriaAccordion';
+import IndicatorAccordion from '../IndicatorAccordion/IndicatorAccordion';
 import NoDataMessage from '../NoDataMessage';
 
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
@@ -15,7 +15,7 @@ import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComp
 
 const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
 
-class ProposedCriteriaAccordions extends Component {
+class ProposedIndicatorAccordions extends Component {
   static contextType = LocalizationContext;
   state = {
     accordionType: 'participant'
@@ -23,7 +23,7 @@ class ProposedCriteriaAccordions extends Component {
 
   renderAccordionSwitcher() {
     const { translations } =  this.context;
-    const activeSide = this.state.accordionType == 'criteria' ? ACCORDION_RIGHT : ACCORDION_LEFT;
+    const activeSide = this.state.accordionType == 'indicator' ? ACCORDION_RIGHT : ACCORDION_LEFT;
 
     return (
       <AccordionSwitcher
@@ -32,7 +32,7 @@ class ProposedCriteriaAccordions extends Component {
         rightLabel={ translations.raisedIndicator }
         activeSide={activeSide}
         onPressLeft={() => this.setState({ accordionType: 'participant' })}
-        onPressRight={() => this.setState({ accordionType: 'criteria' })}
+        onPressRight={() => this.setState({ accordionType: 'indicator' })}
         numberOfProposedParticipant={this.props.numberOfProposedParticipant}
       />
     )
@@ -65,11 +65,11 @@ class ProposedCriteriaAccordions extends Component {
         { this.state.accordionType == 'participant' ?
           <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} navigation={this.props.navigation} />
           :
-          <CriteriaAccordion scorecardUuid={this.props.scorecardUuid} />
+          <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
         }
       </React.Fragment>
     )
   }
 }
 
-export default ProposedCriteriaAccordions;
+export default ProposedIndicatorAccordions;

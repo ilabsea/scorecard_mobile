@@ -4,7 +4,7 @@ import Color from '../../themes/color';
 
 const labelFontSize = 16;
 
-const CriteriaAccordionComponentStyles = StyleSheet.create({
+const IndicatorAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
     width: wp('73%'),
     height: wp('8.8%'),
@@ -31,4 +31,4 @@ const CriteriaAccordionComponentStyles = StyleSheet.create({
   },
 });
 
-export default CriteriaAccordionComponentStyles;
+export default IndicatorAccordionComponentStyles;

@@ -5,50 +5,50 @@ import { connect } from 'react-redux';
 import { Modal, Portal } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import ProposedCriteriaItem from './ProposedCriteriaItem';
+import ProposedIndicatorItem from './ProposedIndicatorItem';
 import SaveButton from '../SaveButton';
 import CloseButton from '../CloseButton';
 
-import { addToSelected } from '../../actions/selectedCriteriaAction';
+import { addToSelected } from '../../actions/selectedIndicatorAction';
 import { removeFromProposed } from '../../actions/proposedIndicatorAction';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ProposedCriteriaListModalTabletStyles from '../../styles/tablet/ProposedCriteriaListModalComponentStyle';
-import ProposedCriteriaListModalMobileStyles from '../../styles/mobile/ProposedCriteriaListModalComponentStyle';
+import ProposedIndicatorListModalTabletStyles from '../../styles/tablet/ProposedIndicatorListModalComponentStyle';
+import ProposedIndicatorListModalMobileStyles from '../../styles/mobile/ProposedIndicatorListModalComponentStyle';
 
-const responsiveStyles = getDeviceStyle(ProposedCriteriaListModalTabletStyles, ProposedCriteriaListModalMobileStyles);
+const responsiveStyles = getDeviceStyle(ProposedIndicatorListModalTabletStyles, ProposedIndicatorListModalMobileStyles);
 
 class ProposedIndicatorListModal extends Component {
   static contextType = LocalizationContext;
 
-  maximumCriteriaAmount = 10;
+  maximumIndicatorAmount = 10;
 
   constructor(props) {
     super(props);
 
     this.state = {
-      criterias: []
+      indicators: []
     };
   }
 
-  handleAddingCriteria(criteria, action) {
+  handleAddingIndicator(indicator, action) {
     if (action == 'add') {
-      return this.setState({criterias: [...this.state.criterias, criteria]});
+      return this.setState({indicators: [...this.state.indicators, indicator]});
     }
 
-    return this.setState({criterias: this.state.criterias.filter(cri => cri.tag != criteria.tag)});
+    return this.setState({indicators: this.state.indicators.filter(indi => indi.tag != indicator.tag)});
   }
 
   onSave() {
-    for(let i=0; i<this.state.criterias.length; i++) {
-      this.props.addToSelected(this.state.criterias[i]);
-      this.props.removeFromProposed(this.state.criterias[i]);
+    for(let i=0; i<this.state.indicators.length; i++) {
+      this.props.addToSelected(this.state.indicators[i]);
+      this.props.removeFromProposed(this.state.indicators[i]);
     }
     this.onDismiss();
   }
 
   selectedAmount() {
-    return this.props.selectedCriterias.length + this.state.criterias.length;
+    return this.props.selectedIndicators.length + this.state.indicators.length;
   }
 
   _renderList() {
@@ -56,11 +56,11 @@ class ProposedIndicatorListModal extends Component {
       <FlatList
         data={this.props.proposedIndicators}
         renderItem={ item =>
-          <ProposedCriteriaItem
+          <ProposedIndicatorItem
             selectedAmount={ this.selectedAmount() }
-            onPress={(item, action) => this.handleAddingCriteria(item, action)}
-            maximumCriteriaAmount={this.maximumCriteriaAmount}
-            criteria={item.item}/>
+            onPress={(item, action) => this.handleAddingIndicator(item, action)}
+            maximumIndicatorAmount={this.maximumIndicatorAmount}
+            indicator={item.item}/>
         }
         keyExtractor={(item, index) => index.toString()}
       />
@@ -69,7 +69,7 @@ class ProposedIndicatorListModal extends Component {
 
   onDismiss() {
     !!this.props.onDismiss && this.props.onDismiss();
-    this.setState({criterias: []});
+    this.setState({indicators: []});
   }
 
   _renderSubTitle() {
@@ -79,7 +79,7 @@ class ProposedIndicatorListModal extends Component {
     return (
       <View style={{flexDirection: 'row'}}>
         <Text style={[{marginBottom: 16, flex: 1, fontFamily: FontFamily.title}, responsiveStyles.label]}>{this.context.translations.pleaseSelectIndicator}</Text>
-        <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.label]}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
+        <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.label]}>{ this.selectedAmount() } / {this.maximumIndicatorAmount}</Text>
       </View>
     )
   }
@@ -94,7 +94,7 @@ class ProposedIndicatorListModal extends Component {
 
         { this.props.proposedIndicators.length > 0 &&
           <SaveButton
-            disabled={this.state.criterias.length === 0}
+            disabled={this.state.indicators.length === 0}
             onPress={() => this.onSave()}
             label={this.context.translations.save}
           />
@@ -122,13 +122,13 @@ class ProposedIndicatorListModal extends Component {
 function mapStateToProps(state) {
   return {
     proposedIndicators: state.proposedIndicators,
-    selectedCriterias: state.selectedCriterias,
+    selectedIndicators: state.selectedIndicators,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToSelected: (criteria) => dispatch(addToSelected(criteria)),
+    addToSelected: (indicator) => dispatch(addToSelected(indicator)),
     removeFromProposed: (indicator) => dispatch(removeFromProposed(indicator))
   };
 }

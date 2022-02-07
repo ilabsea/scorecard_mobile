@@ -5,7 +5,6 @@ import {Portal} from 'react-native-paper';
 import AddNewIndicatorModal from '../../components/RaisingProposed/AddNewIndicatorModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
-import {saveCriteria} from '../../actions/criteriaListAction';
 
 import Color from '../../themes/color';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
@@ -17,7 +16,7 @@ import Participant from '../../models/Participant';
 import ProposedCriteria from '../../models/ProposedCriteria';
 
 import IndicatorService from '../../services/indicator_service';
-import proposedCriteriaService from '../../services/proposedCriteriaService';
+import proposedCriteriaService from '../../services/proposed_criteria_service';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import customIndicatorService from '../../services/custom_indicator_service';
@@ -103,7 +102,6 @@ class CreateNewIndicator extends Component {
     };
 
     proposedCriteriaService.saveProposedCriterias(params, (participants) => {
-      this.props.saveCriteria(this.props.route.params.scorecard_uuid);
       this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
       this.props.navigation.goBack();
     });
@@ -239,7 +237,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID)),
-    saveCriteria: (scorecardUUID) => dispatch(saveCriteria(scorecardUUID)),
   };
 }
 

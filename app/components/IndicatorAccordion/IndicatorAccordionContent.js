@@ -7,16 +7,16 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 import uuidv4 from '../../utils/uuidv4';
 
 import listItemStyles from '../../themes/participantListItemStyle';
-import CriteriaAccordionMobileStyles from '../../styles/mobile/CriteriaAccordionComponentStyle';
-import CriteriaAccordionTabletStyles from '../../styles/tablet/CriteriaAccordionComponentStyle';
+import IndicatorAccordionMobileStyles from '../../styles/mobile/IndicatorAccordionComponentStyle';
+import IndicatorAccordionTabletStyles from '../../styles/tablet/IndicatorAccordionComponentStyle';
 
-const styles = getDeviceStyle(CriteriaAccordionTabletStyles, CriteriaAccordionMobileStyles);
+const styles = getDeviceStyle(IndicatorAccordionTabletStyles, IndicatorAccordionMobileStyles);
 
-class CriteriaAccordionContent extends Component {
+class IndicatorAccordionContent extends Component {
   static contextType = LocalizationContext;
 
   renderParticipantOrderNumbers() {
-    const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, this.props.criteria.indicatorable_id);
+    const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
 
     return participantOrderNumbers.map(orderNumber => {
       return (
@@ -40,4 +40,4 @@ class CriteriaAccordionContent extends Component {
   }
 }
 
-export default CriteriaAccordionContent;
+export default IndicatorAccordionContent;

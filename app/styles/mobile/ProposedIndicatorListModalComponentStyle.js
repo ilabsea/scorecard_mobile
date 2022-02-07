@@ -7,7 +7,7 @@ import { modalBorderRadius } from '../../constants/border_radius_constant';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
-const ProposedcriteriaListModalComponentStyles = StyleSheet.create({
+const ProposedIndicatorListModalComponentStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
     padding: 20,
@@ -34,4 +34,4 @@ const ProposedcriteriaListModalComponentStyles = StyleSheet.create({
   },
 });
 
-export default ProposedcriteriaListModalComponentStyles;
+export default ProposedIndicatorListModalComponentStyles;

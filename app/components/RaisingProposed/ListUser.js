@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Text} from 'native-base';
 
 import {LocalizationContext} from '../Translations';
-import ProposedCriteriaAccordions from './ProposedCriteriaAccordions';
+import ProposedIndicatorAccordions from './ProposedIndicatorAccordions';
 
 import { connect } from 'react-redux';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -58,7 +58,7 @@ class ListUser extends Component {
           </View>
         </View>
 
-        <ProposedCriteriaAccordions
+        <ProposedIndicatorAccordions
           scorecardUuid={this.props.scorecardUuid}
           raisedParticipants={raisedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}

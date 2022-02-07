@@ -7,33 +7,32 @@ import Tip from '../Tip';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
-import {Criteria} from '../../services/criteria_service';
+import proposedCriteriaService from '../../services/proposed_criteria_service';
 import {getRaisedParticipants} from '../../services/participant_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Participant from '../../models/Participant';
 import {connect} from 'react-redux' ;
-import { removeFromSelected } from '../../actions/selectedCriteriaAction';
+import { removeFromSelected } from '../../actions/selectedIndicatorAction';
 import { containerPadding } from '../../utils/responsive_util';
 
-class ProposeCriteriaContent extends Component {
+class ProposeIndicatorContent extends Component {
   static contextType = LocalizationContext;
 
   onPress = () => {
-    this.clearSelectedCriterias();
+    this.clearSelectedIndicators();
     scorecardTracingStepsService.trace(this.props.scorecardUuid, 5);
     this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
   }
 
-  clearSelectedCriterias = () => {
-    this.props.selectedCriterias.map(criteria => {
-      this.props.removeFromSelected(criteria);
+  clearSelectedIndicators = () => {
+    this.props.selectedIndicators.map(indicator => {
+      this.props.removeFromSelected(indicator);
     });
   }
 
-  hasRaisedCriteria = () => {
+  hasRaisedIndicator = () => {
     const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
-    const criteria = new Criteria(this.props.scorecardUuid);
-    return criteria.hasRaisedCritria(raisedParticipants)
+    return proposedCriteriaService.hasRaisedCriteria(this.props.scorecardUuid, raisedParticipants);
   }
 
   renderFinishButton = () => {
@@ -42,7 +41,7 @@ class ProposeCriteriaContent extends Component {
     return (
       <View style={styles.buttonContainer}>
         <BottomButton
-          disabled={!this.hasRaisedCriteria()}
+          disabled={!this.hasRaisedIndicator()}
           label={translations['finishAndNext']}
           onPress={() => this.onPress()}
         />
@@ -88,17 +87,17 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     participants: state.participantReducer.participants,
-    selectedCriterias: state.selectedCriterias,
+    selectedIndicators: state.selectedIndicators,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeFromSelected: (criteria) => dispatch(removeFromSelected(criteria)),
+    removeFromSelected: (indicator) => dispatch(removeFromSelected(indicator)),
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProposeCriteriaContent);
+)(ProposeIndicatorContent);
