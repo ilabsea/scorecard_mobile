@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import selectedCriteriaReducer from './selectedCriteriaReducer';
-import proposedCriteriaReducer from './proposedCriteriaReducer';
+import proposedIndicatorReducer from './proposedIndicatorReducer';
 import votingCriteriaReducer from './votingCriteriaReducer';
 import participantReducer from './participantReducer';
 import criteriaListReducer from './criteriaListReducer';
@@ -10,7 +10,7 @@ import scorecardReferenceReducer from './scorecardReferenceReducer';
 
 const allReducers = combineReducers({
   selectedCriterias: selectedCriteriaReducer,
-  proposedCriterias: proposedCriteriaReducer,
+  proposedIndicators: proposedIndicatorReducer,
   votingCriterias: votingCriteriaReducer,
   participantReducer,
   criteriaListReducer,

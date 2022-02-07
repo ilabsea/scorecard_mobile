@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
-import ProposedCriteriaListModal from '../../components/IndicatorDevelopment/ProposedCriteriaListModal';
+import ProposedIndicatorListModal from '../../components/IndicatorDevelopment/ProposedIndicatorListModal';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
 
 import Color from '../../themes/color';
-import { setProposedCriterias } from '../../actions/proposedCriteriaAction';
+import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
 import { setSelectedCriterias } from '../../actions/selectedCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
 import { setVotingCriterias } from '../../actions/votingCriteriaAction';
@@ -53,7 +53,7 @@ class IndicatorDevelopment extends Component {
     proposedCriterias = proposedCriterias.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
 
     this.props.setSelectedCriterias(selectedCriterias);
-    this.props.setProposedCriterias(proposedCriterias);
+    this.props.setProposedIndicators(proposedCriterias);
   }
 
   _renderHeader() {
@@ -111,7 +111,7 @@ class IndicatorDevelopment extends Component {
           </View>
         }
 
-        <ProposedCriteriaListModal
+        <ProposedIndicatorListModal
           visible={this.state.visibleModal}
           onDismiss={() => this.setState({visibleModal: false})}
         />
@@ -129,7 +129,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setSelectedCriterias: (criterias) => dispatch(setSelectedCriterias(criterias)),
-    setProposedCriterias: (criterias) => dispatch(setProposedCriterias(criterias)),
+    setProposedIndicators: (indicators) => dispatch(setProposedIndicators(indicators)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
     setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
   };

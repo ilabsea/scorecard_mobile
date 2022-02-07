@@ -10,7 +10,7 @@ import SaveButton from '../SaveButton';
 import CloseButton from '../CloseButton';
 
 import { addToSelected } from '../../actions/selectedCriteriaAction';
-import { removeFromProposed } from '../../actions/proposedCriteriaAction';
+import { removeFromProposed } from '../../actions/proposedIndicatorAction';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedCriteriaListModalTabletStyles from '../../styles/tablet/ProposedCriteriaListModalComponentStyle';
@@ -18,7 +18,7 @@ import ProposedCriteriaListModalMobileStyles from '../../styles/mobile/ProposedC
 
 const responsiveStyles = getDeviceStyle(ProposedCriteriaListModalTabletStyles, ProposedCriteriaListModalMobileStyles);
 
-class ProposedCriteriaModal extends Component {
+class ProposedIndicatorListModal extends Component {
   static contextType = LocalizationContext;
 
   maximumCriteriaAmount = 10;
@@ -54,7 +54,7 @@ class ProposedCriteriaModal extends Component {
   _renderList() {
     return (
       <FlatList
-        data={this.props.proposedCriterias}
+        data={this.props.proposedIndicators}
         renderItem={ item =>
           <ProposedCriteriaItem
             selectedAmount={ this.selectedAmount() }
@@ -73,7 +73,7 @@ class ProposedCriteriaModal extends Component {
   }
 
   _renderSubTitle() {
-    if (this.props.proposedCriterias.length === 0)
+    if (this.props.proposedIndicators.length === 0)
       return <Text style={responsiveStyles.label}>{ this.context.translations.noIndicator }</Text>
 
     return (
@@ -92,7 +92,7 @@ class ProposedCriteriaModal extends Component {
           label={this.context.translations.close}
         />
 
-        { this.props.proposedCriterias.length > 0 &&
+        { this.props.proposedIndicators.length > 0 &&
           <SaveButton
             disabled={this.state.criterias.length === 0}
             onPress={() => this.onSave()}
@@ -121,7 +121,7 @@ class ProposedCriteriaModal extends Component {
 
 function mapStateToProps(state) {
   return {
-    proposedCriterias: state.proposedCriterias,
+    proposedIndicators: state.proposedIndicators,
     selectedCriterias: state.selectedCriterias,
   };
 }
@@ -129,8 +129,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addToSelected: (criteria) => dispatch(addToSelected(criteria)),
-    removeFromProposed: (criteria) => dispatch(removeFromProposed(criteria))
+    removeFromProposed: (indicator) => dispatch(removeFromProposed(indicator))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProposedCriteriaModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ProposedIndicatorListModal);

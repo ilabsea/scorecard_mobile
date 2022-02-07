@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Color from '../../themes/color';
 import { removeFromSelected } from '../../actions/selectedCriteriaAction';
-import { addToProposed } from '../../actions/proposedCriteriaAction';
+import { addToProposed } from '../../actions/proposedIndicatorAction';
 
 import { LocalizationContext } from '../Translations';
 import styles from '../../themes/scorecardListItemStyle';
@@ -115,7 +115,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     removeFromSelected: (criteria) => dispatch(removeFromSelected(criteria)),
-    addToProposed: (criteria) => dispatch(addToProposed(criteria)),
+    addToProposed: (indicator) => dispatch(addToProposed(indicator)),
   };
 }
 
