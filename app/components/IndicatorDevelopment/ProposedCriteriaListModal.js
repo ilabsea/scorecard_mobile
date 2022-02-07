@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList
-} from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Modal, Portal, ProgressBar } from 'react-native-paper';
+import { Modal, Portal } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
-import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import ProposedCriteriaItem from './ProposedCriteriaItem';
 import SaveButton from '../SaveButton';
+import CloseButton from '../CloseButton';
 
 import { addToSelected } from '../../actions/selectedCriteriaAction';
 import { removeFromProposed } from '../../actions/proposedCriteriaAction';
 
-import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedCriteriaListModalTabletStyles from '../../styles/tablet/ProposedCriteriaListModalComponentStyle';
 import ProposedCriteriaListModalMobileStyles from '../../styles/mobile/ProposedCriteriaListModalComponentStyle';
@@ -45,14 +40,11 @@ class ProposedCriteriaModal extends Component {
   }
 
   onSave() {
-    !!this.props.onDismiss && this.props.onDismiss();
-
     for(let i=0; i<this.state.criterias.length; i++) {
       this.props.addToSelected(this.state.criterias[i]);
       this.props.removeFromProposed(this.state.criterias[i]);
     }
-
-    this.setState({criterias: []});
+    this.onDismiss();
   }
 
   selectedAmount() {
@@ -80,25 +72,47 @@ class ProposedCriteriaModal extends Component {
     this.setState({criterias: []});
   }
 
-  render() {
-    const { translations } = this.context;
+  _renderSubTitle() {
+    if (this.props.proposedCriterias.length === 0)
+      return <Text style={responsiveStyles.label}>{ this.context.translations.noIndicator }</Text>
 
     return (
+      <View style={{flexDirection: 'row'}}>
+        <Text style={[{marginBottom: 16, flex: 1, fontFamily: FontFamily.title}, responsiveStyles.label]}>{this.context.translations.pleaseSelectIndicator}</Text>
+        <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.label]}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
+      </View>
+    )
+  }
+
+  _renderBottomButtons() {
+    return (
+      <View style={responsiveStyles.btnWrapper}>
+        <CloseButton
+          onPress={() => this.onDismiss()}
+          label={this.context.translations.close}
+        />
+
+        { this.props.proposedCriterias.length > 0 &&
+          <SaveButton
+            disabled={this.state.criterias.length === 0}
+            onPress={() => this.onSave()}
+            label={this.context.translations.save}
+          />
+        }
+      </View>
+    )
+  }
+
+  render() {
+    return (
       <Portal>
-        <Modal visible={this.props.visible} onDismiss={() => this.onDismiss()} contentContainerStyle={[styles.container, responsiveStyles.container]}>
-          <Text style={[styles.header, responsiveStyles.header]}>{translations.indicatorList}</Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={[{marginBottom: 16, flex: 1}, responsiveStyles.label]}>{translations.pleaseSelectIndicator}</Text>
-            <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.label]}>{ this.selectedAmount() } / {this.maximumCriteriaAmount}</Text>
-          </View>
+        <Modal visible={this.props.visible} onDismiss={() => this.onDismiss()} contentContainerStyle={responsiveStyles.container}>
+          <Text style={responsiveStyles.header}>{this.context.translations.indicatorList}</Text>
+          { this._renderSubTitle() }
 
           { this._renderList() }
 
-          <View style={{flex: 1}}></View>
-
-          <View style={styles.btnWrapper}>
-            <SaveButton onPress={() => this.onSave()} label={translations.save} />
-          </View>
+          { this._renderBottomButtons() }
         </Modal>
       </Portal>
     )
@@ -120,21 +134,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProposedCriteriaModal);
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Color.whiteColor,
-    padding: 20,
-    marginHorizontal: 30,
-    justifyContent: 'flex-start',
-  },
-  btnWrapper: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
-  },
-  header: {
-    fontFamily: FontFamily.title,
-    textTransform: 'capitalize'
-  },
-});

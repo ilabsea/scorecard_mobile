@@ -283,7 +283,7 @@
   "pleaseProposeIndicator": "សូមធ្វើការបំផុសលក្ខណៈវិនិច្ឆ័យ",
   "editIndicator": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",
   "editCustomIndicator": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",
-  "noCustomIndicator": "មិនមានលក្ខណៈវិនិច្ឆ័យ",
+  "noIndicator": "មិនមានលក្ខណៈវិនិច្ឆ័យ",
   "rejoinScorecard": "ភ្ជាប់ប័ណ្ណដាក់ពិន្ទុម្ដងទៀត",
   "failedToDownloadThisScorecardInformation": "មិនមានសេវា​អ៊ីនធឺណិត​ ឬ​សេវាអ៊ីនធឺណិតយឺត។ សូមធ្វើការពិនិត្យសេវា​អ៊ីនធឺណិតរបស់អ្នកហើយព្យាយាមធ្វើការទាញយកម្ដងទៀត។",
   "selectedDateIsBeforePlannedStartDate": "កាលបរិច្ឆេទដែលបានជ្រើសរើសគឺមុនកាលបរិច្ឆេទចាប់ផ្ដើមដែលបានគ្រោងទុក ({0})",
