@@ -175,7 +175,7 @@ function AppNavigator() {
         name="AddNewParticipant"
         component={AddNewParticipantScreen}
         options={{
-          title: `${translations.participantInformation}`,
+          title: `${translations.newParticipant}`,
         }}
       />
       <Stack.Screen
