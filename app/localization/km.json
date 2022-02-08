@@ -309,5 +309,6 @@
   "inReview": "កំពុងត្រួតពិនិត្យ",
   "theServerUrlIsInvalid": "អាស័យដ្ឋានម៉ាស៊ីនមេមិនត្រឹមត្រូវ",
   "yourDeviceIsCurrentlyLocked": "ឧបករណ៍របស់អ្នកត្រូវបានជាប់សោ។ សូមព្យាយាមម្ដងទៀតនៅម៉ោង {0}",
-  "thisIndicatorIsAlreadyExist": "លក្ខណៈវិនិច្ឆ័យនេះមានរួចហើយ"
+  "thisIndicatorIsAlreadyExist": "លក្ខណៈវិនិច្ឆ័យនេះមានរួចហើយ",
+  "noParticipant": "មិនមានអ្នកចូលរួម"
 }

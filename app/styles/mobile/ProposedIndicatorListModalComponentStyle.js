@@ -4,6 +4,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import { lgLabelSize, xlLabelSize, mdLabelSize } from '../../constants/mobile_font_size_constant';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
+import { popupModalMinHeight } from '../../constants/component_style_constant';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
@@ -17,6 +18,7 @@ const ProposedIndicatorListModalComponentStyles = StyleSheet.create({
     alignSelf: 'center',
     padding: 18,
     maxHeight: hp('85%'),
+    minHeight: popupModalMinHeight,
     borderRadius: modalBorderRadius
   },
   header: {

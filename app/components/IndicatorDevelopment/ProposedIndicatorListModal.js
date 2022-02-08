@@ -52,19 +52,21 @@ class ProposedIndicatorListModal extends Component {
   }
 
   _renderList() {
-    return (
-      <FlatList
-        data={this.props.proposedIndicators}
-        renderItem={ item =>
-          <ProposedIndicatorItem
-            selectedAmount={ this.selectedAmount() }
-            onPress={(item, action) => this.handleAddingIndicator(item, action)}
-            maximumIndicatorAmount={this.maximumIndicatorAmount}
-            indicator={item.item}/>
-        }
-        keyExtractor={(item, index) => index.toString()}
-      />
-    )
+    if (this.props.proposedIndicators.length > 0) {
+      return (
+        <FlatList
+          data={this.props.proposedIndicators}
+          renderItem={ item =>
+            <ProposedIndicatorItem
+              selectedAmount={ this.selectedAmount() }
+              onPress={(item, action) => this.handleAddingIndicator(item, action)}
+              maximumIndicatorAmount={this.maximumIndicatorAmount}
+              indicator={item.item}/>
+          }
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )
+    }
   }
 
   onDismiss() {
@@ -74,7 +76,9 @@ class ProposedIndicatorListModal extends Component {
 
   _renderSubTitle() {
     if (this.props.proposedIndicators.length === 0)
-      return <Text style={responsiveStyles.label}>{ this.context.translations.noIndicator }</Text>
+      return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={responsiveStyles.label}>{ this.context.translations.noIndicator }</Text>
+            </View>
 
     return (
       <View style={{flexDirection: 'row'}}>
