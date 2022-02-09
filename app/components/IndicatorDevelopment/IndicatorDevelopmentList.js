@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import SelectedIndicatorItem from './SelectedIndicatorItem';
 import IndicatorDevelopmentInstructionModal from './IndicatorDevelopmentInstructionModal';
 
-let _this = null;
 class IndicatorDevelopmentList extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +13,6 @@ class IndicatorDevelopmentList extends Component {
       isFirstVisit: false,
     }
     this.isComponentUnmounted = false;
-    _this = this;
   }
 
   componentWillUnmount() {

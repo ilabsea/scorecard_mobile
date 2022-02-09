@@ -3,44 +3,37 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { isShortScreenDevice, isShortWidthScreen, getDeviceStyle } from '../../utils/responsive_util';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
 import Color from '../../themes/color';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const getContainerHeight = () => {
   if (isShortWidthScreen())
-    return hp('15%');
+    return hp('12.5%');
 
-  return isShortScreenDevice() ? hp('16.5%') : hp('14.5%')
+  return isShortScreenDevice() ? hp('13.5%') : hp('11.5%')
 }
 
 const titlePaddingTop = () => {
   if (isShortScreenDevice())
     return 8;
 
-  return isShortWidthScreen() ? 5 : 10
+  return isShortWidthScreen() ? 5 : 8
 }
 
 const SelectedIndicatorItemComponentStyles = StyleSheet.create({
   itemContainer: {
     height: getContainerHeight(),
     borderRadius: cardBorderRadius,
-    marginHorizontal: 4
-  },
-  listItem: {
-    paddingLeft: 0,
-    paddingTop: 0,
-    flexDirection: 'column',
-    borderRadius: 4,
-    flex: 1
+    marginHorizontal: 4,
   },
   container: {
     paddingLeft: 10,
-    marginTop: 4,
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
   },
   titleText: {
     lineHeight: 22,
     paddingTop: titlePaddingTop(),
+    marginTop: -4,
   },
   subText: {
     marginTop: -6,
@@ -55,25 +48,25 @@ const SelectedIndicatorItemComponentStyles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: getDeviceStyle(4, 2),
   },
-  removeButton: {
-    flexDirection: 'row',
-    paddingLeft: 6,
-    paddingRight: 16,
-  },
-  removeIcon: {
-    color: 'red',
-    marginRight: 8,
-    alignSelf: 'center',
-    marginTop: -4
-  },
-  removeLabel: {
-    fontFamily: FontFamily.title,
-    fontSize: 14,
-    color: 'red',
-  },
   selectedItem: {
     backgroundColor: '#f5cfb6',
-    elevation: 30
+    elevation: 10
+  },
+  removeButton: {
+    backgroundColor: Color.redColor,
+    width: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: getContainerHeight(),
+  },
+  removeLabel: {
+    fontSize: bodyFontSize(),
+    color: Color.whiteColor
+  },
+  draggableIconContainer: {
+    width: 20,
+    marginLeft: -10,
+    paddingTop: isShortWidthScreen() ? 3 : 1,
   }
 });
 

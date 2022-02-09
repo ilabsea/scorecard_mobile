@@ -5,7 +5,7 @@ const selectedIndicatorReducer = (state=[], action) => {
     case 'ADD_TO_SELECTED':
       return [...state, action.payload];
     case 'REMOVE_FROM_SELECTED':
-      return state.filter(critera => critera.indicatorable_id != action.payload.indicatorable_id);
+      return state.filter(indicator => indicator.indicatorable_id != action.payload.indicatorable_id);
     default:
       return state;
   }
