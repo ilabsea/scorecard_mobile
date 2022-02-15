@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useContext, useState } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Text, TextInput } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
@@ -47,6 +47,12 @@ const theme = {
     thin: { fontFamily: FontFamily.body }
   }
 };
+
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
+TextInput.defaultProps = TextInput.defaultProps || {};
+TextInput.defaultProps.allowFontScaling = false;
 
 const App: () => React$Node = () => {
   const [ loading, setLoading ] = useState(true);
