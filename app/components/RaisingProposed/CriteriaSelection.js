@@ -6,8 +6,6 @@ import RaisingProposedScrollView from './RaisingProposedScrollView';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
 import AddNewIndicatorButton from './AddNewIndicatorButton';
 import NoIndicatorMessage from './NoIndicatorMessage';
-
-import indicatorHelper from '../../helpers/indicator_helper';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 
 class CriteriaSelection extends Component {
@@ -18,8 +16,6 @@ class CriteriaSelection extends Component {
 
     this.state = {
       indicators: props.indicators,
-      selectedIndicators: [],
-      unselectedIndicators: [],
       participantUuid: props.participantUuid,
       scrollDirection: 'up',
     };
@@ -30,10 +26,7 @@ class CriteriaSelection extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.participantUuid != state.participantUuid)
-      return { indicators: props.indicators, selectedIndicators: props.selectedIndicators }
-
-    return indicatorHelper.getIndicatorsState(props, state)
+    return { indicators: props.indicators };
   }
 
   selectIndicator = (index) => {
@@ -75,7 +68,8 @@ class CriteriaSelection extends Component {
           <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
             <CriteriaSelectionItems
               indicators={this.state.indicators}
-              selectedIndicators={this.state.selectedIndicators}
+              selectedIndicators={this.props.selectedIndicators}
+              unselectedIndicators={this.props.unselectedIndicators}
               isSearching={this.props.isSearching}
               scorecardUuid={this.props.scorecardUuid}
               selectIndicator={this.selectIndicator}

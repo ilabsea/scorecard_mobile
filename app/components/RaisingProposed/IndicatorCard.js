@@ -38,7 +38,7 @@ class IndicatorCard extends Component {
     const displayName = this._getIndicatorName(indicator);
 
     return (
-      <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
+      <View style={[styles.criteriaBoxContainer, this.props.customCardStyle, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
           onPress={() => this.props.selectIndicator(index)}
         >

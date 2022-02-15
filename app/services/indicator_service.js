@@ -11,7 +11,6 @@ import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
 import CustomIndicator from '../models/CustomIndicator';
-import Scorecard from '../models/Scorecard';
 
 class IndicatorService {
   getAll = (scorecardUuid) => {
@@ -69,6 +68,19 @@ class IndicatorService {
     const isCustomIndicatorExist = CustomIndicator.isNameExist(scorecardUuid, name, selectedIndicatorUuid);
 
     return isPredefinedIndicatorExist || isCustomIndicatorExist;
+  }
+
+  getDuplicatedIndicator(scorecardUuid, name, selectedIndicators) {
+    let result = [];
+    const predefinedIndicators = Indicator.findByScorecardAndName(scorecardUuid, name);
+    const customIndicators = CustomIndicator.findByScorecardAndName(scorecardUuid, name);
+
+    if (predefinedIndicators.length > 0)
+      result = predefinedIndicators;
+    else if (customIndicators.length > 0)
+      result = customIndicators;
+
+    return result.length > 0 ? this._getIndicatorAttrs(result, selectedIndicators) : [];
   }
 
   // private

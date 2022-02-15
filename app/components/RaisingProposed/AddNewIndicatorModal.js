@@ -1,18 +1,12 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Modal } from 'react-native-paper';
 
 import VoiceRecord from './VoiceRecord';
 import { LocalizationContext } from '../Translations';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
 import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
+import ExistedIndicatorItem from './ExistedIndicatorItem';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
@@ -51,13 +45,17 @@ class AddNewIndicatorModal extends Component {
     this.isComponentUnmount = true;
   }
 
-  cancel = () => {
+  clearInputs() {
     this.setState({
       name: '',
       tag: '',
       audio: null,
       isIndicatorExist: false,
     });
+  }
+
+  cancel = () => {
+    this.clearInputs();
     this.props.closeModal();
   }
 
@@ -79,12 +77,7 @@ class AddNewIndicatorModal extends Component {
           this.props.saveCustomIndicator(customIndicator);
       });
     }
-
-    this.setState({
-      name: '',
-      tag: '',
-      audio: null,
-    });
+    this.clearInputs();
   }
 
   finishRecord = (filename) => {
@@ -93,7 +86,7 @@ class AddNewIndicatorModal extends Component {
 
   renderButtons = () => {
     return <AddNewIndicatorModalButtons name={this.state.name} save={() => this.save()}
-            cancel={() => this.cancel()} isIndicatorExist={this.state.isIndicatorExist} />
+            cancel={() => this.cancel()} isIndicatorExist={this.state.isIndicatorExist} isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()} />
   }
 
   onChangeName(name) {
@@ -115,8 +108,26 @@ class AddNewIndicatorModal extends Component {
         onChangeName={(text) => this.onChangeName(text)}
         onChangeTag={(text) => this.setState({tag: text})}
         isIndicatorExist={this.state.isIndicatorExist}
+        isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()}
       />
     )
+  }
+
+  renderExistedIndicator() {
+    return <ExistedIndicatorItem
+              scorecardUuid={this.props.scorecardUUID}
+              indicatorName={this.state.name}
+              indicators={this.props.indicators}
+              selectedIndicators={this.props.selectedIndicators}
+              unselectedIndicators={this.props.unselectedIndicators}
+              updateIndicators={this.props.updateIndicators}
+              selectIndicator={this.props.selectIndicator}
+              clearInputs={() => this.clearInputs()}
+            />
+  }
+
+  isUniqueIndicatorOrEditing() {
+    return !this.state.isIndicatorExist || this.props.isEdit;
   }
 
   render() {
@@ -132,14 +143,18 @@ class AddNewIndicatorModal extends Component {
 
             { this.renderTextInputs() }
 
-            <VoiceRecord
-              participantUUID={this.props.participantUUID}
-              scorecardUUID={this.props.scorecardUUID}
-              finishRecord={this.finishRecord}
-              audioFilePath={this.state.audio}
-              deleteAudio={() => this.setState({audio: null})}
-              isEdit={this.props.isEdit}
-            />
+            { this.isUniqueIndicatorOrEditing() ?
+              <VoiceRecord
+                participantUUID={this.props.participantUUID}
+                scorecardUUID={this.props.scorecardUUID}
+                finishRecord={this.finishRecord}
+                audioFilePath={this.state.audio}
+                deleteAudio={() => this.setState({audio: null})}
+                isEdit={this.props.isEdit}
+              />
+              :
+              this.renderExistedIndicator()
+            }
 
             {this.renderButtons()}
           </View>

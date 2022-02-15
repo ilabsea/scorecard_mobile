@@ -10,6 +10,7 @@ const Indicator = (() => {
     create,
     filter,
     findByScorecard,
+    findByScorecardAndName,
     isNameExist,
   };
 
@@ -41,9 +42,13 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`facility_id = '${facilityId}'`);
   }
 
-  function isNameExist(scorecardUuid, name) {
+  function findByScorecardAndName(scorecardUuid, name) {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    const indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
+    return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
+  }
+
+  function isNameExist(scorecardUuid, name) {
+    const indicators = findByScorecardAndName(scorecardUuid, name);
     return indicators.length > 0 ? true : false;
   }
 })();

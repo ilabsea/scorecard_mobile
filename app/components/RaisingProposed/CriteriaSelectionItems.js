@@ -51,6 +51,7 @@ class CriteriaSelectionItems extends Component {
         selectedIndicators={this.props.selectedIndicators}
         isSearching={this.props.isSearching}
         key={itemKey}
+        customCardStyle={this.props.customCardStyle}
       >
         {this.audioButton(indicator)}
       </IndicatorCard>

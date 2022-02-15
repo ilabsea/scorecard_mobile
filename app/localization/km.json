@@ -311,5 +311,7 @@
   "yourDeviceIsCurrentlyLocked": "ឧបករណ៍របស់អ្នកត្រូវបានជាប់សោ។ សូមព្យាយាមម្ដងទៀតនៅម៉ោង {0}",
   "thisIndicatorIsAlreadyExist": "លក្ខណៈវិនិច្ឆ័យនេះមានរួចហើយ",
   "noParticipant": "មិនមានអ្នកចូលរួម",
-  "participantInformation": "ព័ត៌មានអ្នកចូលរួម"
+  "participantInformation": "ព័ត៌មានអ្នកចូលរួម",
+  "tapOnTheIndicatorBelowToSelect": "ចុចលើលក្ខណៈវិនិច្ឆ័យខាងក្រោមដើម្បីធ្វើការជ្រើសរើស",
+  "thisIndicatorIsAlreadySelected": "លក្ខណៈវិនិច្ឆ័យនេះត្រូវបានជ្រើសរើសរួចហើយ"
 }

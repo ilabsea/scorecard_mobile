@@ -22,9 +22,25 @@ class AddNewIndicatorModalTextInputs extends Component {
     return this.tags.filter(str => PATTERN.test(str));
   }
 
+  renderIndicatorTagInput() {
+    if (this.props.isUniqueIndicatorOrEditing) {
+      const data = this._filterData(this.props.tag);
+
+      return <Autocomplete
+              autoCapitalize="none"
+              autoCorrect={false}
+              label={this.context.translations['enterTag']}
+              data={data}
+              value={this.props.tag}
+              defaultValue={this.props.tag}
+              onChangeText={(text) => this.props.onChangeTag(text)}
+              style={{marginBottom: 24}}
+            />
+    }
+  }
+
   render() {
     const { translations } = this.context;
-    const data = this._filterData(this.props.tag);
 
     return (
       <React.Fragment>
@@ -38,16 +54,7 @@ class AddNewIndicatorModalTextInputs extends Component {
           message={this.props.isIndicatorExist ? translations.thisIndicatorIsAlreadyExist : ''}
         />
 
-        <Autocomplete
-          autoCapitalize="none"
-          autoCorrect={false}
-          label={translations['enterTag']}
-          data={data}
-          value={this.props.tag}
-          defaultValue={this.props.tag}
-          onChangeText={(text) => this.props.onChangeTag(text)}
-          style={{marginBottom: 24}}
-        />
+        { this.renderIndicatorTagInput() }
       </React.Fragment>
     )
   }

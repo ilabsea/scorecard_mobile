@@ -219,8 +219,13 @@ class CreateNewIndicator extends Component {
                 participantUUID={this.props.route.params.participant_uuid}
                 scorecardUUID={this.props.route.params.scorecard_uuid}
                 selectedCustomIndicator={this.state.selectedCustomIndicator}
+                indicators={this.state.indicators}
+                selectedIndicators={this.state.selectedIndicators}
+                unselectedIndicators={this.state.unselectedIndicators}
                 isEdit={this.state.isEdit}
                 updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
+                selectIndicator={this.selectIndicator}
+                updateIndicators={(newIndicators) => this.setState({ indicators: newIndicators })}
               />
             </Portal>
           </View>

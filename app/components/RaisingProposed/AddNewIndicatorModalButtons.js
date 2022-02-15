@@ -22,11 +22,13 @@ class AddNewIndicatorModalButtons extends Component {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 126 }}>
         <CloseButton onPress={() => this.props.cancel()} label={translations.close} />
-        <SaveButton
-          onPress={() => this.props.save()}
-          label={translations.save}
-          disabled={!this.isValid()}
-        />
+        { this.props.isUniqueIndicatorOrEditing &&
+          <SaveButton
+            onPress={() => this.props.save()}
+            label={translations.save}
+            disabled={!this.isValid()}
+          />
+        }
       </View>
     )
   }

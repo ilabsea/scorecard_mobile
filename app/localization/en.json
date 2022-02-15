@@ -311,5 +311,7 @@
   "yourDeviceIsCurrentlyLocked": "Your device is currently locked, please try again at {0}",
   "thisIndicatorIsAlreadyExist": "This indicator is already exist",
   "noParticipant": "No participant",
-  "participantInformation": "Participant Information"
+  "participantInformation": "Participant Information",
+  "tapOnTheIndicatorBelowToSelect": "Tap on the indicator below to select",
+  "thisIndicatorIsAlreadySelected": "This indicator is already selected"
 }
