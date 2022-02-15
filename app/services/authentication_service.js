@@ -52,10 +52,7 @@ const authenticationService = (() => {
     const setting = await AsyncStorage.getItem('SETTING');
     const { email, password } = JSON.parse(setting);
 
-    authenticate(email, password, (responseData) => {
-      AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-      authenticationFormService.clearErrorAuthentication();
+    authenticate(email, password, () => {
       callback();
     }, (error) => {
       AsyncStorage.removeItem('AUTH_TOKEN');
