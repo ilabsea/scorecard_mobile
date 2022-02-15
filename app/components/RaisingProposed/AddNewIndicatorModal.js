@@ -14,6 +14,7 @@ import { LocalizationContext } from '../Translations';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
 import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
 
+import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { modalHeadingTitleSize } from '../../utils/responsive_util';
@@ -30,6 +31,7 @@ class AddNewIndicatorModal extends Component {
       name: '',
       tag: '',
       audio: null,
+      isIndicatorExist: false,
     };
 
     this.isComponentUnmount = false;
@@ -54,6 +56,7 @@ class AddNewIndicatorModal extends Component {
       name: '',
       tag: '',
       audio: null,
+      isIndicatorExist: false,
     });
     this.props.closeModal();
   }
@@ -89,7 +92,17 @@ class AddNewIndicatorModal extends Component {
   }
 
   renderButtons = () => {
-    return <AddNewIndicatorModalButtons name={this.state.name} save={() => this.save()} cancel={() => this.cancel()} />
+    return <AddNewIndicatorModalButtons name={this.state.name} save={() => this.save()}
+            cancel={() => this.cancel()} isIndicatorExist={this.state.isIndicatorExist} />
+  }
+
+  onChangeName(name) {
+    const selectedIndicatorUuid = this.props.selectedCustomIndicator ? this.props.selectedCustomIndicator.uuid : null;
+
+    this.setState({
+      name,
+      isIndicatorExist: name === '' ? false : new IndicatorService().isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+    });
   }
 
   renderTextInputs() {
@@ -99,8 +112,9 @@ class AddNewIndicatorModal extends Component {
         tag={this.state.tag}
         isEdit={this.props.isEdit}
         scorecardUuid={this.props.scorecardUUID}
-        onChangeName={(text) => this.setState({name: text})}
+        onChangeName={(text) => this.onChangeName(text)}
         onChangeTag={(text) => this.setState({tag: text})}
+        isIndicatorExist={this.state.isIndicatorExist}
       />
     )
   }

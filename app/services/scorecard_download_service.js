@@ -176,22 +176,6 @@ const _downloadIndicator = (scorecard, audioLocale, updateDownloadProgress, erro
   );
 }
 
-const _downloadIndicatorImage = (scorecard, audioLocale, updateDownloadProgress, errorCallback) => {
-  _indicatorService.saveImage(scorecard.uuid,
-    (isDownloaded, phase) => {
-      const options = {
-        isDownloaded,
-        phase,
-        scorecard,
-        audioLocale,
-      };
-
-      _downloadSuccess(options, updateDownloadProgress, errorCallback, downloadLangIndicatorAudio);
-    },
-    errorCallback
-  );
-}
-
 const downloadLangIndicatorAudio = (scorecard, audioLocale, updateDownloadProgress, errorCallback) => {
   if (!_languageIndicatorService)
     _languageIndicatorService = new LanguageIndicatorService();
@@ -255,7 +239,6 @@ const stopDownload = () => {
   if (_indicatorService) {
     _languageIndicatorService.stopDownload()
     _languageRatingScaleService.stopDownload();
-    _indicatorService.stopDownload();
   }
 
   _languageIndicatorService = null;

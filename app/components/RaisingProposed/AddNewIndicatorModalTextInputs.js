@@ -35,6 +35,7 @@ class AddNewIndicatorModalTextInputs extends Component {
           placeholder={translations.enterIndicatorName}
           fieldName="indicatorName"
           onChangeText={(fieldName, text) => this.props.onChangeName(text)}
+          message={this.props.isIndicatorExist ? translations.thisIndicatorIsAlreadyExist : ''}
         />
 
         <Autocomplete

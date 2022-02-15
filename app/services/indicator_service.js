@@ -1,84 +1,22 @@
-import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4';
-import { environment } from '../config/environment';
-import { downloadFileFromUrl, isFileExist } from './local_file_system_service';
-
 import IndicatorApi from '../api/IndicatorApi';
 import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
-import { indicatorPhase, indicatorImagePhase } from '../constants/scorecard_constant';
+import { indicatorPhase } from '../constants/scorecard_constant';
 import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
 import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
 
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
+import CustomIndicator from '../models/CustomIndicator';
+import Scorecard from '../models/Scorecard';
 
 class IndicatorService {
-  constructor() {
-    this.isStopDownload = false;
-  }
-
-  saveImage = (scorecardUuid, successCallback, errorCallback) => {
-    let indicators = this._getPredefinedIndicator(scorecardUuid);
-    this.downloadImage(0, indicators, successCallback, errorCallback);
-  }
-
-  downloadImage = async (index, indicators, successCallback, errorCallback) => {
-    if (index === indicators.length) {
-      successCallback(true, indicatorImagePhase);
-      return;
-    }
-
-    const indicator = indicators[index];
-    if (!indicator.image) {
-      this.downloadImage(index + 1, indicators, successCallback, errorCallback);
-      return;
-    }
-
-    const fileUrl = indicator.image.split('/');
-    const filename = `${indicator.id}_${fileUrl[fileUrl.length - 1]}`;
-    const isImageExist = await isFileExist(filename);
-
-    if (!isImageExist) {
-      const url = environment.type == 'development' ? `${environment.domain}${indicator.image}` : indicator.image;
-
-      downloadFileFromUrl(url, filename, false,
-        (isSuccess, response, localAudioFilePath) => {
-          if (isSuccess) {
-            const attrs = {
-              uuid: indicator.uuid,
-              local_image: localAudioFilePath,
-            };
-
-            realm.write(() => {
-              realm.create('Indicator', attrs, 'modified');
-            });
-
-            if (this.isStopDownload)
-              return;
-
-            this.downloadImage(index + 1, indicators, successCallback, errorCallback);
-          }
-          else {
-            console.log('error download indicator image = ', response);
-            errorCallback();
-          }
-        }
-      );
-    }
-    else
-      this.downloadImage(index + 1, indicators, successCallback, errorCallback);
-  }
-
-  stopDownload = () => {
-    this.isStopDownload = true;
-  }
-
   getAll = (scorecardUuid) => {
-    let predefinedIndicators = this._getPredefinedIndicator(scorecardUuid);
-    const customIndicators = JSON.parse(JSON.stringify(realm.objects('CustomIndicator').filtered(`scorecard_uuid = '${scorecardUuid}'`)));
+    let predefinedIndicators = JSON.parse(JSON.stringify(Indicator.findByScorecard(scorecardUuid)));;
+    const customIndicators = JSON.parse(JSON.stringify(CustomIndicator.getAll(scorecardUuid)));
     predefinedIndicators = predefinedIndicators.concat(customIndicators);
 
     return predefinedIndicators.sort((a, b) => a.name > b.name);
@@ -114,9 +52,7 @@ class IndicatorService {
           tag: indicator.tag_name,
           image: indicator.image != null ? indicator.image : undefined,
         };
-        realm.write(() => {
-          realm.create('Indicator', indicatorSet, 'modified');
-        });
+        Indicator.create(indicatorSet);
       }
       savedCount += 1;
     });
@@ -128,16 +64,14 @@ class IndicatorService {
     return this._getIndicatorAttrs(savedIndicators, selectedIndicators);
   }
 
-  find = (indicatorId) => {
-    return realm.objects('Indicator').filtered(`id = ${indicatorId}`)[0];
+  isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
+    const isPredefinedIndicatorExist = Indicator.isNameExist(scorecardUuid, name);
+    const isCustomIndicatorExist = CustomIndicator.isNameExist(scorecardUuid, name, selectedIndicatorUuid);
+
+    return isPredefinedIndicatorExist || isCustomIndicatorExist;
   }
 
   // private
-
-  _getPredefinedIndicator(scorecardUuid) {
-    const facilityId = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0].facility_id;
-    return JSON.parse(JSON.stringify(realm.objects('Indicator').filtered(`facility_id = '${facilityId}'`)));
-  }
 
   _getIndicatorAttrs = (savedIndicators, proposedCriterias) => {
     let indicators = [];
