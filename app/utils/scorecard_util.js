@@ -40,7 +40,7 @@ export const getLocationMaxWidth = (scorecard) => {
   if (locationWidth > wp('70%') && scorecard.uploaded_date)
     return locationLength * (scorecard.primary_school != null ? getDeviceStyle(wp('0.8%'), wp('0.6%')) : getDeviceStyle(wp('1%'), wp('0.8%')));
 
-  return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1%'))
+  return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1.2%'))
 }
 
 export const handleScorecardCodeClipboard = async (updateErrorState) => {
