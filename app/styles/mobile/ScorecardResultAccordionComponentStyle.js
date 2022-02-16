@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
+import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
+import { bodyFontSize, accordionItemFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 
 const ScorecardResultAccordionComponentStyles = StyleSheet.create({
   titleText: {
-    fontSize: wp(mdLabelSize),
+    fontSize: bodyFontSize(),
   },
   itemTitleText: {
-    fontSize: wp(smLabelSize),
+    fontSize: accordionItemFontSize(),
     flex: 3,
     alignSelf: 'center',
   },
   itemValueText: {
-    fontSize: wp(mdLabelSize),
+    fontSize: bodyFontSize(),
     flex: 1,
     textAlign: 'center',
   },
@@ -28,7 +29,7 @@ const ScorecardResultAccordionComponentStyles = StyleSheet.create({
     marginLeft: 6,
   },
   btnText: {
-    fontSize: wp(smLabelSize),
+    fontSize: getMobileFontSizeByPixelRatio(13, 12),
   },
   btnEdit: {
     backgroundColor: Color.headerColor,
@@ -41,7 +42,7 @@ const ScorecardResultAccordionComponentStyles = StyleSheet.create({
   btnEditText: {
     color: Color.whiteColor,
     marginRight: 6,
-    fontSize: wp(smLabelSize),
+    fontSize: accordionItemFontSize(),
   },
   btnEditIcon: {
     color: Color.whiteColor,

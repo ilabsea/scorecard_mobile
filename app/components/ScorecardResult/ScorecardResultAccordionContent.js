@@ -44,7 +44,7 @@ class ScorecardResultAccordionContent extends Component {
             />
           }
 
-          { index < fieldNames.length - 1 && <Divider style={{backgroundColor: '#b3b3b3'}}/> }
+          { index < fieldNames.length - 1 && <Divider style={{backgroundColor: '#b3b3b3', marginVertical: 1}}/> }
         </View>
       )
     });

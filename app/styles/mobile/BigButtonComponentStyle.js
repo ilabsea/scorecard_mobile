@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { xlLabelSize, lgLabelSize, xxlIconSize, xlIconSize } from '../../constants/mobile_font_size_constant';
+import { xxlIconSize, xlIconSize } from '../../constants/mobile_font_size_constant';
 import { isShortScreenDevice } from '../../utils/responsive_util';
+import { bigButtonFontSize } from '../../utils/font_size_util';
 
 const BigButtonComponentStyles = StyleSheet.create({
   button: {
@@ -14,7 +15,7 @@ const BigButtonComponentStyles = StyleSheet.create({
     marginRight: 15
   },
   label: {
-    fontSize: isShortScreenDevice() ? wp(lgLabelSize) : wp(xlLabelSize),
+    fontSize: bigButtonFontSize()
   }
 });
 

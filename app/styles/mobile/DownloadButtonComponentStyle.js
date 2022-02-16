@@ -1,21 +1,20 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { isShortScreenDevice } from '../../utils/responsive_util';
-import { lgLabelSize, mdLabelSize, lgIconSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize, bottomButtonFontSize, bottomButtonIconSize } from '../../utils/font_size_util';
 
 const DownloadButtonComponentStyles = StyleSheet.create({
   buttonLabel: {
-    fontSize: isShortScreenDevice() ? wp(mdLabelSize) : wp(lgLabelSize),
+    fontSize: bottomButtonFontSize(),
   },
   progressBar: {
     height: 20,
     marginBottom: 15,
   },
   downloadPercentageLabel: {
-    fontSize: wp('3.5%')
+    fontSize: bodyFontSize()
   },
   icon: {
-    fontSize: wp(lgIconSize),
+    fontSize: bottomButtonIconSize()
   },
   button: {
     height: isShortScreenDevice() ? 45 : 50,

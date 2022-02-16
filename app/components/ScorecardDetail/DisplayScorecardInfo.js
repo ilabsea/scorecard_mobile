@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {TextInput} from 'react-native-paper';
 import {LocalizationContext} from '../../components/Translations';
-import { normalLabelSize } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 class DisplayScorecardInfo extends Component {
   static contextType = LocalizationContext;
@@ -48,7 +48,7 @@ class DisplayScorecardInfo extends Component {
           mode="outlined"
           value={value}
           editable={false}
-          style={{backgroundColor: 'white', width: '100%', marginTop: 20, fontSize: normalLabelSize}}
+          style={{backgroundColor: 'white', width: '100%', marginTop: 20, fontSize: bodyFontSize()}}
           key={index}
         />
       );

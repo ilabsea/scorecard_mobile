@@ -1,9 +1,11 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+
+const mdFontSize = getMobileFontSizeByPixelRatio(15, 14);
+const smFontSize = getMobileFontSizeByPixelRatio(14, 13);
 
 const FormModalComponentStyles = StyleSheet.create({
   container: {
@@ -28,20 +30,20 @@ const FormModalComponentStyles = StyleSheet.create({
     paddingRight: 15,
   },
   titleText: {
-    fontSize: wp(mdLabelSize),
+    fontSize: mdFontSize,
     fontFamily: FontFamily.title,
     marginBottom: 10,
   },
   subTitleText: {
-    fontSize: wp(smLabelSize)
+    fontSize: smFontSize,
   },
   orderNumberText: {
-    fontSize: wp(mdLabelSize),
+    fontSize: mdFontSize,
     fontWeight: 'bold',
     marginRight: 10,
   },
   inputText: {
-    fontSize: wp(smLabelSize),
+    fontSize: smFontSize,
     borderWidth: 0,
     height: 30,
     marginVertical: 10,
@@ -53,7 +55,7 @@ const FormModalComponentStyles = StyleSheet.create({
   },
   removeIcon: {
     color: Color.redColor,
-    fontSize: wp('5%'),
+    fontSize: getMobileFontSizeByPixelRatio(20, 18),
   }
 });
 

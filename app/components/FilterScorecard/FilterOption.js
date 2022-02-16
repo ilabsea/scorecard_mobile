@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../Translations';
 import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle } from '../../utils/responsive_util';
 import uuidv4 from '../../utils/uuidv4';
 import { pressableItemSize } from '../../utils/component_util';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 class FilterOption extends Component {
   static contextType = LocalizationContext;
@@ -32,7 +30,7 @@ class FilterOption extends Component {
           <TouchableOpacity onPress={() => this.props.onSelectItem(option.value)}
             style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, alignItems: 'center', height: pressableItemSize(itemPaddingVertical)}}
           >
-            <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize))}}>{ translations[option.label] }</Text>
+            <Text style={{flex: 1, fontSize: bodyFontSize()}}>{ translations[option.label] }</Text>
 
             { this.isSelected(option.value) && <FilterScorecardCheckIcon /> }
           </TouchableOpacity>
@@ -46,7 +44,7 @@ class FilterOption extends Component {
     return (
       <View style={[this.props.containerStyle, { backgroundColor: Color.whiteColor }]}>
         <View style={{paddingHorizontal: 16, paddingVertical: 10, backgroundColor: Color.whiteColor, justifyContent: 'center'}}>
-          <Text style={{fontSize: getDeviceStyle(16, wp(mdLabelSize)), fontFamily: FontFamily.title}}>
+          <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.title}}>
             { this.props.title }
           </Text>
         </View>

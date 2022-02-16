@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const AccordionSwitcherComponentStyles = StyleSheet.create({
   filterBtn: {
@@ -13,7 +14,7 @@ const AccordionSwitcherComponentStyles = StyleSheet.create({
     backgroundColor: Color.clickableColor
   },
   btnText: {
-    fontSize: 16,
+    fontSize: bodyFontSize(),
     color: Color.clickableColor,
     textAlign: 'center'
   },

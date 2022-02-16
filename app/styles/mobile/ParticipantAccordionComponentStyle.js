@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { smLabelSize, xsLabelSize } from '../../constants/mobile_font_size_constant';
+import { xsLabelSize } from '../../constants/mobile_font_size_constant';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+
+const labelFontSize = getMobileFontSizeByPixelRatio(14.2, 13);
 
 const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
@@ -10,21 +13,21 @@ const ParticipantAccordionComponentStyles = StyleSheet.create({
     width: wp('71%'),
   },
   titleText: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     marginTop: 4,
     marginHorizontal: 5
   },
   itemTitleText: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     flex: 1,
     fontFamily: FontFamily.title
   },
   itemValueText: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     flex: 1,
   },
   editButton: {
-    fontSize: wp(smLabelSize),
+    fontSize: labelFontSize,
     color: Color.clickableColor,
   },
   btnEditIcon: {

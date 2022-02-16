@@ -1,14 +1,13 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { smLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize, outlinedButtonIconSize } from '../../utils/font_size_util';
 
 const OutlinedButtonComponentStyles = StyleSheet.create({
   buttonLabel: {
-    fontSize: wp(smLabelSize),
+    fontSize: bodyFontSize(),
     paddingRight: 0,
   },
   buttonIcon: {
-    fontSize: wp(mdIconSize),
+    fontSize: outlinedButtonIconSize(),
     marginLeft: 0,
     marginRight: 0,
   }

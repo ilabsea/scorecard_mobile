@@ -4,7 +4,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import { normalLabelSize } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { getTimeFromDuration } from '../../utils/time_util';
 
 class RecordedAudioCard extends Component {
@@ -23,8 +23,8 @@ class RecordedAudioCard extends Component {
             {this.renderPlayIcon()}
           </TouchableOpacity>
           <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
-            <Text style={{fontSize: normalLabelSize}}>{this.context.translations.play}</Text>
-            <Text>{getTimeFromDuration(this.props.playSeconds)}</Text>
+            <Text style={{fontSize: bodyFontSize()}}>{this.context.translations.play}</Text>
+            <Text style={{fontSize: bodyFontSize()}}>{getTimeFromDuration(this.props.playSeconds)}</Text>
           </View>
           <TouchableOpacity onPress={() => this.props.delete()} style={{alignSelf: 'center'}}>
             <MaterialIcon name="delete" size={30} color={Color.redColor} />

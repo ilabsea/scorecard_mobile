@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -12,8 +11,7 @@ import FilterScorecardApplyButton from '../../components/FilterScorecard/FilterS
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
 import scorecardFilterService from '../../services/scorecard_filter_service';
 
@@ -121,7 +119,7 @@ class FilterScorecard extends Component {
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: this.state.isSearchBoxFocused ? 300 : 20 }} stickyHeaderIndices={[2]}>
           { this.renderScorecardStatusAndTypeOptions() }
 
-          <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: getDeviceStyle(16, wp(mdLabelSize)), marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
+          <Text style={{paddingHorizontal: 16, paddingVertical: 10, fontSize: bodyFontSize(), marginTop: 20, fontFamily: FontFamily.title, backgroundColor: Color.whiteColor}}>
             { translations.scorecardLocation }
           </Text>
 

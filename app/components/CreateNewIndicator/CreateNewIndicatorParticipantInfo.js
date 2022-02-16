@@ -5,8 +5,7 @@ import {LocalizationContext} from '../Translations';
 import ParticipantInfo from './ParticipantInfo';
 import Color from '../../themes/color';
 import Participant from '../../models/Participant';
-import { getDeviceStyle, mobileSubTitleSize } from '../../utils/responsive_util';
-const headerTitleSize = getDeviceStyle(18, mobileSubTitleSize());
+import { subTitleFontSize } from '../../utils/font_size_util';
 
 class CreateNewIndicatorParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -18,7 +17,7 @@ class CreateNewIndicatorParticipantInfo extends Component {
   render() {
     return (
       <View>
-        <Text style={{fontSize: headerTitleSize, color: Color.lightBlackColor}}>
+        <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor}}>
           {this.context.translations.selectParticipant}
         </Text>
 

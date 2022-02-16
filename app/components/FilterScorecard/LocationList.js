@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
 import uuidv4 from '../../utils/uuidv4';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import locationHelper from '../../helpers/location_helper';
@@ -83,7 +81,7 @@ class LocationList extends Component {
           <TouchableOpacity onPress={() => this.onSelectItem(location.label)}
             style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
           >
-            <Text style={{flex: 1, fontSize: getDeviceStyle(16, wp(mdLabelSize)), textTransform: 'capitalize'}}>
+            <Text style={{flex: 1, fontSize: bodyFontSize(), textTransform: 'capitalize'}}>
               { locationHelper.getProvinceName(location.label, this.context.appLanguage) }
             </Text>
 

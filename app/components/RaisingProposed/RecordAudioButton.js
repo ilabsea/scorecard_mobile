@@ -5,7 +5,7 @@ import Tooltip from 'react-native-walkthrough-tooltip';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import { normalLabelSize } from '../../utils/responsive_util';
+import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
 import { getTimeFromDuration } from '../../utils/time_util';
 
 class RecordAudioButton extends Component {
@@ -16,7 +16,7 @@ class RecordAudioButton extends Component {
 
   renderRecordTime = () => {
     return (
-      <Text style={{fontWeight: 'bold', fontSize: 18}}>
+      <Text style={{fontWeight: 'bold', fontSize: subTitleFontSize()}}>
         { getTimeFromDuration(this.props.recordDuration) }
       </Text>
     );
@@ -32,7 +32,7 @@ class RecordAudioButton extends Component {
         </View>
         <Tooltip
           isVisible={this.state.toolTipVisible}
-          content={<Text style={{fontSize: normalLabelSize}}>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
+          content={<Text style={{fontSize: bodyFontSize()}}>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
           contentStyle={{width: 300, flexWrap: 'wrap', flexDirection: 'row'}}
           placement="top"
           onClose={() => this.setState({ toolTipVisible: false })}

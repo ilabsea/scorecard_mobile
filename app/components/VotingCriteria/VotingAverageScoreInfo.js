@@ -37,7 +37,7 @@ class VotingAverageScoreInfo extends Component {
 
     if (doms.length > 0) {
       return (
-        <View>
+        <View style={{paddingLeft: 10}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             {doms[0]}
             {doms[1]}

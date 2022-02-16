@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
-import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
+
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 
 const votingCriteriaListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
@@ -72,7 +73,7 @@ const votingCriteriaListItemComponentStyle = StyleSheet.create({
     marginBottom: -12
   },
   viewMoreLabel: {
-    fontSize: wp(smLabelSize),
+    fontSize: getMobileFontSizeByPixelRatio(14.5, 12.5),
     color: Color.headerColor
   },
   viewMoreIcon: {
@@ -82,7 +83,7 @@ const votingCriteriaListItemComponentStyle = StyleSheet.create({
   },
   indicatorNameLabel: {
     paddingRight: 10,
-    fontSize: wp('3.5%')
+    fontSize: getMobileFontSizeByPixelRatio(15, 13.5),
   },
 });
 

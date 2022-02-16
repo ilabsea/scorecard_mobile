@@ -6,6 +6,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Color from '../themes/color';
 import { LocalizationContext } from './Translations'
 import { pressableItemSize } from '../utils/component_util';
+import { navigationHeaderTitleFontSize } from '../utils/font_size_util';
 import internetConnectionService from '../services/internet_connection_service';
 import {checkConnection} from '../services/api_service';
 
@@ -33,9 +34,9 @@ class SyncDataButton extends Component {
         style={[{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', height: pressableItemSize(), width: this.props.label ? 'auto' : pressableItemSize() },
                 this.props.customStyle]}
       >
-        <Icon name='sync' size={27} color={Color.whiteColor} />
+        <Icon name='sync' size={25} color={Color.whiteColor} />
 
-        { !!this.props.label && <Text style={{color: Color.whiteColor, marginLeft: 4, fontSize: 19}}>{ this.props.label }</Text>}
+        { !!this.props.label && <Text style={{color: Color.whiteColor, marginLeft: 4, fontSize: navigationHeaderTitleFontSize()}}>{ this.props.label }</Text>}
       </TouchableOpacity>
     )
   }

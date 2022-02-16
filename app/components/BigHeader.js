@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 
 import {
   Header,
   Title,
-  Icon,
   Left,
   Right,
   Body,
@@ -14,10 +13,11 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import Color from '../themes/color';
 
-import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
+import { getDeviceStyle } from '../utils/responsive_util';
 import BigHeaderTabletStyles from '../styles/tablet/BigHeaderComponentStyle';
 import BigHeaderMobileStyles from '../styles/mobile/BigHeaderComponentStyle';
 import { navigateBack } from '../utils/navigation_util';
+import { navigationHeaderTitleFontSize } from '../utils/font_size_util';
 
 const responsiveStyles = getDeviceStyle(BigHeaderTabletStyles, BigHeaderMobileStyles);
 
@@ -31,7 +31,7 @@ export default class BigHeader extends React.Component {
           </Left>
 
           <Body>
-            <Title style={{fontSize: getDeviceStyle(19, mobileHeadingTitleSize())}}>{this.props.title}</Title>
+            <Title style={{fontSize: navigationHeaderTitleFontSize()}}>{this.props.title}</Title>
           </Body>
 
           { !!this.props.rightButton &&

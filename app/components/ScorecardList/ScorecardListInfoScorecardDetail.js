@@ -9,6 +9,8 @@ import VotingCriteria from '../../models/VotingCriteria';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
+const subTextFontSize = getDeviceStyle(13, 12);
+
 class ScorecardListInfoScorecardDetial extends Component {
   static contextType = LocalizationContext;
 
@@ -17,7 +19,7 @@ class ScorecardListInfoScorecardDetial extends Component {
 
     if (scorecard.conducted_date)
       return (
-        <Text style={{ flex: 1, textAlign: 'right', color: Color.grayColor, fontSize: getDeviceStyle(13, 12), marginTop: getDeviceStyle(2, 4)}}>
+        <Text style={{ flex: 1, textAlign: 'right', color: Color.grayColor, fontSize: subTextFontSize, marginTop: getDeviceStyle(2, 4)}}>
           { !!scorecard.conducted_date ? scorecardHelper.getTranslatedDate(scorecard.conducted_date, this.context.appLanguage, 'DD MMM') : '' }
         </Text>
       )
@@ -26,7 +28,7 @@ class ScorecardListInfoScorecardDetial extends Component {
   render() {
     const { scorecard } = this.props;
     const criteriasSize = VotingCriteria.getAll(scorecard.uuid).length;
-    const subTextStyles = { paddingTop: getDeviceStyle(2, 1), fontSize: getDeviceStyle(13, 12), marginLeft: 0};
+    const subTextStyles = { paddingTop: getDeviceStyle(2, 1), fontSize: subTextFontSize, marginLeft: 0};
     const subTitleMarginTop = getDeviceStyle(2, 3);
 
     return (

@@ -1,14 +1,16 @@
-import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { xlLabelSize } from '../../constants/mobile_font_size_constant';
+import { StyleSheet, PixelRatio } from 'react-native';
+import { titleFontSize } from '../../utils/font_size_util';
+import { XHDPIRatio } from '../../constants/screen_size_constant';
+
+const devicePixelRatio = Math.round(PixelRatio.roundToNearestPixel(PixelRatio.get()));
 
 const IndicatorDevelopmentScreenStyles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
-    marginBottom: 5
+    marginBottom: devicePixelRatio <= XHDPIRatio ? 5 : 15,
   },
   titleLabel: {
-    fontSize: wp(xlLabelSize),
+    fontSize: titleFontSize(),
     flex: 1,
   },
 });

@@ -60,7 +60,7 @@ class ParticipantList extends Component {
       )
 
       return (
-        <View style={{flexDirection: 'row', paddingBottom: 16}}>
+        <View style={{flexDirection: 'row', paddingBottom: getDeviceStyle(0, 16)}}>
           <View style={responsiveStyles.orderNumberHeaderContainer}>
             <Text style={responsiveStyles.itemTitle}>{translations.no}</Text>
           </View>

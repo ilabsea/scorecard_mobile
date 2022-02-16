@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const VotingInfoComponentStyles = StyleSheet.create({
   modalContainer: {
@@ -7,15 +8,8 @@ const VotingInfoComponentStyles = StyleSheet.create({
   header: {
     fontSize: 18,
   },
-  participantTypeText: {
-    fontSize: 13,
-  },
-  participantNumberText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
   normalText: {
-    fontSize: 16
+    fontSize: bodyFontSize()
   }
 });
 

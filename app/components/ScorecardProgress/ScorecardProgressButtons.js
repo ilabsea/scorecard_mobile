@@ -16,6 +16,8 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/milestone_constant';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+
 
 class ScorecardProgressButtons extends Component {
   static contextType = LocalizationContext;
@@ -56,13 +58,16 @@ class ScorecardProgressButtons extends Component {
   renderMessage() {
     const { translations, appLanguage } = this.context;
     let message = '';
+    const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
+    const fontSize = getDeviceStyle(15, mobileFontSize);
+
     if (this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
       message = translations[scorecardProgressService.getProgressMessage(this.props.criterias, this.props.scorecard)];
 
     return (
-      <Text style={{ fontSize: getDeviceStyle(15, 12), color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title, paddingTop: 5}}>
+      <Text style={{ fontSize: fontSize, color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title, paddingTop: 5}}>
         { message }
       </Text>
     )

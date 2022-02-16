@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { mobileHeadingTitleSize, isShortWidthScreen } from '../../utils/responsive_util';
+import { isShortWidthScreen } from '../../utils/responsive_util';
+import { navigationHeaderTitleFontSize } from '../../utils/font_size_util';
 
 const mobileMarginLeft = isShortWidthScreen() ? -6 : -16;
 
@@ -13,7 +14,7 @@ const CreateNewIndicatorSearchInputStyles = StyleSheet.create({
   },
   searchInput: {
     fontFamily: FontFamily.body,
-    fontSize: mobileHeadingTitleSize(),
+    fontSize: navigationHeaderTitleFontSize(),
     color: '#fff',
     borderWidth: 0,
     width: '100%',

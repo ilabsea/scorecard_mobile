@@ -1,10 +1,13 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
-import { mdLabelSize, smLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
+import { mdLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
 import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
+import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 
 export const badgeSize = wp('9%');
+
+const smallLabelFontSize = smallTextFontSize();
 
 const MilestoneCardComponentStyles = StyleSheet.create({
   badgeIconContainer: {
@@ -35,19 +38,19 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   cardTitleContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   cardTitle: {
     color: Color.grayColor,
-    fontSize: wp(mdLabelSize),
+    fontSize: bodyFontSize(),
     lineHeight: 34
   },
   cardSubTitle: {
-    fontSize: wp(smLabelSize),
+    fontSize: smallLabelFontSize,
     color: Color.grayColor
   },
   viewDetailText: {
-    fontSize: wp(smLabelSize),
+    fontSize: smallLabelFontSize,
     color: Color.headerColor
   },
   viewDetailIcon: {
@@ -64,7 +67,7 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   btnResumeText: {
     color: Color.whiteColor,
-    fontSize: wp(smLabelSize)
+    fontSize: smallLabelFontSize,
   }
 });
 

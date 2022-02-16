@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { modalHeadingTitleSize } from '../../utils/responsive_util';
-import { mdLabelSize } from '../../constants/mobile_font_size_constant';
+import { bodyFontSize, titleFontSize } from '../../utils/font_size_util';
 
 const PopupModalComponentStyles = StyleSheet.create({
   headerTitle: {
-    fontSize: modalHeadingTitleSize(),
+    fontSize: titleFontSize(),
     marginBottom: 0,
   },
   label: {
-    fontSize: 14.2,
+    fontSize: bodyFontSize()
   }
 });
 

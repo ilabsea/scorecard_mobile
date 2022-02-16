@@ -8,7 +8,8 @@ import ScorecardCodeInput from './ScorecardCodeInput';
 import MessageLabel from '../MessageLabel';
 
 import Color from '../../themes/color';
-import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
+import { smallIconSize } from '../../utils/font_size_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import NewScorecardTabletStyles from '../../styles/tablet/NewScorecardScreenStyle';
 import NewScorecardMobileStyles from '../../styles/mobile/NewScorecardScreenStyle';
 
@@ -24,12 +25,14 @@ class NewScorecardForm extends Component {
   }
 
   renderRetryBtn() {
+    const iconSize = smallIconSize();
+
     return (
       <TouchableOpacity onPress={() => this.props.joinScorecard(this.code)}
         style={responsiveStyles.retryLink}
       >
         <Text style={[responsiveStyles.rejoinLink, responsiveStyles.messageLabel]}>{ this.context.translations.rejoinScorecard }</Text>
-        <MaterialIcon name="refresh" size={getDeviceStyle(18, 17)} color={ Color.whiteColor } style={{marginTop: isShortWidthScreen() ? 2 : 3}} />
+        <MaterialIcon name="refresh" size={iconSize} color={ Color.whiteColor } style={{height: iconSize, marginTop: getDeviceStyle(-3, -2)}} />
       </TouchableOpacity>
     )
   }

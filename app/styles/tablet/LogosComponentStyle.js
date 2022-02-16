@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const LogosComponentStyles = StyleSheet.create({
   label: {
-    fontSize: 16,
+    fontSize: bodyFontSize()
   },
   euLogo: {
     width: 97,

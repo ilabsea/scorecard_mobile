@@ -31,10 +31,10 @@ class VotingMedianInfo extends Component {
 
     return (
       <View style={{flexDirection: 'row', alignItems: 'center', marginTop: getDeviceStyle(-3, -5)}}>
-        <Text style={{fontSize: 22}}>(</Text>
+        <Text style={{fontSize: getDeviceStyle(22, 20)}}>(</Text>
         { this._renderIcon(currentIcon, iconSize) }
         <Text style={[responsiveStyles.normalText, { marginLeft: 8 }]}>{translations[currentIcon.label]}</Text>
-        <Text style={{fontSize: 22}}>)</Text>
+        <Text style={{fontSize: getDeviceStyle(22, 20)}}>)</Text>
       </View>
     )
   }

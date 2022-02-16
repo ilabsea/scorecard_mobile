@@ -12,14 +12,13 @@ import { MALE, genders } from '../../constants/participant_constant';
 import {
   mdTabletGenderIconSize,
   smTabletGenderIconSize,
-  tabletTitleLabelSize,
 } from '../../styles/tablet/SelectBoxComponentStyle';
 import {
   mdMobileGenderIconSize,
   smMobileGenderIconSize,
-  mobileTitleLabelSize,
 } from '../../styles/mobile/SelectBoxComponentStyle';
 
+import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 const mdGenderIconSize= getDeviceStyle(mdTabletGenderIconSize, mdMobileGenderIconSize);
@@ -83,7 +82,7 @@ class GendersCheckBox extends Component {
 
     return (
       <View style={{ marginTop: -14 }}>
-        <Text style={{marginBottom: 10, fontSize: getDeviceStyle(tabletTitleLabelSize, mobileTitleLabelSize)}}>
+        <Text style={{marginBottom: 10, fontSize: bodyFontSize()}}>
           { translations.gender }
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
