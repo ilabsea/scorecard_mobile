@@ -36,7 +36,7 @@ const proposedIndicatorHelper = (() => {
 
     if (indicator.indicatorable_type != 'predefined') {
       indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
-      indicatorable_type = 'CustomIndicator';
+      indicatorable_type = 'Indicators::CustomIndicator';
     }
 
     return { id: indicatorable_id, type: indicatorable_type };
