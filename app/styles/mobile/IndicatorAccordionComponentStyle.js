@@ -4,7 +4,7 @@ import Color from '../../themes/color';
 import { smLabelSize, xsLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortWidthScreen } from '../../utils/responsive_util';
 
-const CriteriaAccordionComponentStyles = StyleSheet.create({
+const IndicatorAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
     width: isShortWidthScreen() ? wp('71%') : wp('73%'),
     height: wp('12.5%'),
@@ -31,4 +31,4 @@ const CriteriaAccordionComponentStyles = StyleSheet.create({
   },
 });
 
-export default CriteriaAccordionComponentStyles;
+export default IndicatorAccordionComponentStyles;

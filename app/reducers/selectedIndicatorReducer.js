@@ -1,6 +1,6 @@
-const selectedCriteriaReducer = (state=[], action) => {
+const selectedIndicatorReducer = (state=[], action) => {
   switch(action.type) {
-    case 'SET_SELECTED_CRITERIAS':
+    case 'SET_SELECTED_INDICATORS':
       return action.payload;
     case 'ADD_TO_SELECTED':
       return [...state, action.payload];
@@ -11,4 +11,4 @@ const selectedCriteriaReducer = (state=[], action) => {
   }
 }
 
-export default selectedCriteriaReducer;
+export default selectedIndicatorReducer;

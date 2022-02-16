@@ -1,12 +1,27 @@
 import { StyleSheet } from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { isShortScreenDevice, isShortWidthScreen, getDeviceStyle } from '../../utils/responsive_util';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
-import { getDeviceStyle } from '../../utils/responsive_util';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
-const SelectedCriteriaItemComponentStyles = StyleSheet.create({
+const getContainerHeight = () => {
+  if (isShortWidthScreen())
+    return hp('15%');
+
+  return isShortScreenDevice() ? hp('16.5%') : hp('14.5%')
+}
+
+const titlePaddingTop = () => {
+  if (isShortScreenDevice())
+    return 8;
+
+  return isShortWidthScreen() ? 5 : 10
+}
+
+const SelectedIndicatorItemComponentStyles = StyleSheet.create({
   itemContainer: {
-    height: 140,
+    height: getContainerHeight(),
     borderRadius: cardBorderRadius,
     marginHorizontal: 4
   },
@@ -19,21 +34,21 @@ const SelectedCriteriaItemComponentStyles = StyleSheet.create({
   },
   container: {
     paddingLeft: 10,
-    flex: 1,
-    marginTop: 6,
+    marginTop: 4,
     justifyContent: 'center',
+    flex: 1
   },
   titleText: {
-    lineHeight: 30,
-    paddingTop: 6,
+    lineHeight: 22,
+    paddingTop: titlePaddingTop(),
   },
   subText: {
-    marginTop: -5,
+    marginTop: -6,
     marginLeft: 0,
   },
   viewDetailContainer: {
-    height: 35,
-    marginTop: 5,
+    height: 28,
+    marginTop: 4,
     borderTopWidth: 1,
     borderTopColor: Color.borderColor,
     alignItems: 'center',
@@ -53,12 +68,13 @@ const SelectedCriteriaItemComponentStyles = StyleSheet.create({
   },
   removeLabel: {
     fontFamily: FontFamily.title,
+    fontSize: 14,
     color: 'red',
   },
   selectedItem: {
     backgroundColor: '#f5cfb6',
-    elevation: 30,
+    elevation: 30
   }
 });
 
-export default SelectedCriteriaItemComponentStyles;
+export default SelectedIndicatorItemComponentStyles;

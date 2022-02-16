@@ -46,7 +46,7 @@ export default class ParticipantModal extends Component {
     const { translations } = this.context;
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>{translations.noData}</Text>
+        <Text>{translations.noParticipant}</Text>
       </View>
     )
   }

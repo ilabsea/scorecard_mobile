@@ -1,19 +1,17 @@
 import {combineReducers} from 'redux';
-import selectedCriteriaReducer from './selectedCriteriaReducer';
-import proposedCriteriaReducer from './proposedCriteriaReducer';
+import selectedIndicatorReducer from './selectedIndicatorReducer';
+import proposedIndicatorReducer from './proposedIndicatorReducer';
 import votingCriteriaReducer from './votingCriteriaReducer';
 import participantReducer from './participantReducer';
-import criteriaListReducer from './criteriaListReducer';
 import {ratingScaleAudioReducer} from './ratingScaleReducer';
 import currentScorecardReducer from './currentScorecardReducer';
 import scorecardReferenceReducer from './scorecardReferenceReducer';
 
 const allReducers = combineReducers({
-  selectedCriterias: selectedCriteriaReducer,
-  proposedCriterias: proposedCriteriaReducer,
+  selectedIndicators: selectedIndicatorReducer,
+  proposedIndicators: proposedIndicatorReducer,
   votingCriterias: votingCriteriaReducer,
   participantReducer,
-  criteriaListReducer,
   ratingScaleAudioReducer,
   currentScorecard: currentScorecardReducer,
   scorecardReferences: scorecardReferenceReducer,

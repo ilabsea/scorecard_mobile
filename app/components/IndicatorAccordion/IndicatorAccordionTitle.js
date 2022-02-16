@@ -5,21 +5,21 @@ import {LocalizationContext} from '../Translations';
 import participantHelper from '../../helpers/participant_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
-import CriteriaAccordionMobileStyles from '../../styles/mobile/CriteriaAccordionComponentStyle';
-import CriteriaAccordionTabletStyles from '../../styles/tablet/CriteriaAccordionComponentStyle';
+import IndicatorAccordionMobileStyles from '../../styles/mobile/IndicatorAccordionComponentStyle';
+import IndicatorAccordionTabletStyles from '../../styles/tablet/IndicatorAccordionComponentStyle';
 
-const styles = getDeviceStyle(CriteriaAccordionTabletStyles, CriteriaAccordionMobileStyles);
+const styles = getDeviceStyle(IndicatorAccordionTabletStyles, IndicatorAccordionMobileStyles);
 
-class CriteriaAccordionTitle extends Component {
+class IndicatorAccordionTitle extends Component {
   static contextType = LocalizationContext;
 
   render() {
     const { translations } = this.context;
-    const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, this.props.criteria.indicatorable_id);
+    const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
 
     return (
       <View style={styles.accordionItemContainer}>
-        <Text numberOfLines={2} style={styles.titleLabel}>{ this.props.criteria.name }</Text>
+        <Text numberOfLines={2} style={styles.titleLabel}>{ this.props.indicator.name }</Text>
         <Text style={styles.subTitleLabel}>
           { translations.formatString(translations.numberOfRaisedParticipant, participantOrderNumbers.length) }
         </Text>
@@ -28,4 +28,4 @@ class CriteriaAccordionTitle extends Component {
   }
 }
 
-export default CriteriaAccordionTitle;
+export default IndicatorAccordionTitle;

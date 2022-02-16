@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-import { Criteria } from '../../services/criteria_service';
-
+import proposedCriteriaService from '../../services/proposed_criteria_service';
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import AccordionSwitcherTabletStyles from '../../styles/tablet/AccordionSwitcherComponentStyle';
@@ -24,7 +23,7 @@ class AccordionSwitcher extends Component {
   }
 
   render() {
-    const criterias = new Criteria(this.props.scorecardUuid).getCriterias();
+    const criterias = proposedCriteriaService.getProposedCriterias(this.props.scorecardUuid);
 
     return (
       <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>

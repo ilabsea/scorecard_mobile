@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 
-import Color from '../../themes/color';
-
 import {LocalizationContext} from '../../components/Translations';
-import ProposeCriteriaContent from '../../components/RaisingProposed/ProposeCriteriaContent';
+import ProposeIndicatorContent from '../../components/RaisingProposed/ProposeIndicatorContent';
 import ProgressHeader from '../../components/ProgressHeader';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
-
 import Scorecard from '../../models/Scorecard';
 
 class RaisingProposed extends Component {
@@ -35,7 +32,7 @@ class RaisingProposed extends Component {
           title={translations['getStarted']}
           progressIndex={3}
         />
-        <ProposeCriteriaContent
+        <ProposeIndicatorContent
           scorecardUuid={this.props.route.params.scorecard_uuid}
           navigation={this.props.navigation}
         />

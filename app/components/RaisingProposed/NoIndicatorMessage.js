@@ -8,7 +8,7 @@ const NoIndicatorMessage = () => {
 
   return (
     <NoDataMessage
-      title={locale.translations.noCustomIndicator}
+      title={locale.translations.noIndicator}
       hideButton={true}
       contentContainerStyle={{height: 160, borderWidth: 0, marginTop: 20}}
     />

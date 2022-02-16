@@ -64,7 +64,7 @@ class IndicatorDevelopmentContent extends Component {
           <IndicatorDevelopmentList
             scorecardUuid={this.props.scorecardUuid}
             selectedCriterias={this.props.selectedCriterias}
-            updateSelectedCriteriasOrder={this.props.updateSelectedCriteriasOrder}
+            updateSelectedIndicatorsOrder={this.props.updateSelectedIndicatorsOrder}
             hasData={hasData}
             openModal={this.props.openModal}
             renderHeader={() => this.renderHeader()}

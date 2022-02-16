@@ -4,12 +4,13 @@ import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, modalHeadingTitleSize } from '../utils/responsive_util';
 import { numberContainerSize, numberLabelSize } from '../utils/participant_list_util';
 import { modalBorderRadius } from '../constants/border_radius_constant';
+import { popupModalMinHeight } from '../constants/component_style_constant';
 
 const participantListItemStyle = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 20,
-    height: 450,
+    height: popupModalMinHeight,
     marginHorizontal: 30,
     justifyContent: 'flex-start',
     paddingTop: getDeviceStyle(20, 10),

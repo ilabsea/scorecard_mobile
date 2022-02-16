@@ -283,7 +283,7 @@
   "pleaseProposeIndicator": "Please propose indicator",
   "editIndicator": "Edit Indicator",
   "editCustomIndicator": "Edit Custom Indicator",
-  "noCustomIndicator": "No custom indicator",
+  "noIndicator": "No indicator",
   "rejoinScorecard": "Rejoin Scorecard",
   "failedToDownloadThisScorecardInformation": "No internet connection or the internet connection is too slow, please double check your internet connection then try to download again.",
   "selectedDateIsBeforePlannedStartDate": "The selected date is before the planned start date ({0})",
@@ -309,5 +309,6 @@
   "inReview": "in review",
   "theServerUrlIsInvalid": "The server URL is invalid",
   "yourDeviceIsCurrentlyLocked": "Your device is currently locked, please try again at {0}",
-  "thisIndicatorIsAlreadyExist": "This indicator is already exist"
+  "thisIndicatorIsAlreadyExist": "This indicator is already exist",
+  "noParticipant": "No participant"
 }

@@ -8,7 +8,7 @@ const titlePaddingTop = () => {
   return isShortWidthScreen() ? 5 : 10
 }
 
-const ProposedCriteriaItemStyles = StyleSheet.create({
+const ProposedIndicatorItemStyles = StyleSheet.create({
   titleText: {
     lineHeight: 22,
     paddingTop: titlePaddingTop(),
@@ -19,4 +19,4 @@ const ProposedCriteriaItemStyles = StyleSheet.create({
   }
 });
 
-export default ProposedCriteriaItemStyles;
+export default ProposedIndicatorItemStyles;

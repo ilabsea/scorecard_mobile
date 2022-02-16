@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const ProposedCriteriaItemStyles = StyleSheet.create({
+const ProposedIndicatorItemStyles = StyleSheet.create({
   titleText: {
     lineHeight: 30,
     paddingTop: 6
@@ -11,4 +11,4 @@ const ProposedCriteriaItemStyles = StyleSheet.create({
   }
 });
 
-export default ProposedCriteriaItemStyles;
+export default ProposedIndicatorItemStyles;
