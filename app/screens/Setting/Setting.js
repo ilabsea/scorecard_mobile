@@ -68,7 +68,7 @@ class Setting extends Component {
   watchLockStatus() {
     setTimeout(async () => {
       if (!this.componentIsUnmount)
-        this.setState({ unlockAt: await lockDeviceService.unLockAt(FAILED_SIGN_IN_ATTEMPT) });
+        this.setState({ unlockAt: await lockDeviceService.unlockAt(FAILED_SIGN_IN_ATTEMPT) });
     }, 300);
 
     this.resetLockInterval = resetLockService.watchLockStatus(FAILED_SIGN_IN_ATTEMPT, async () => {
@@ -96,12 +96,13 @@ class Setting extends Component {
     authenticationService.authenticate(email, password, () => {
       this.setState({ isLoading: false });
       this.props.navigation.goBack();
-    }, (errorMessage, isLocked, isInvalidAccount) => {
+    }, async (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
         isLoading: false,
         errorMsg: errorMessage,
         messageType: 'error',
         isLocked: isLocked,
+        unlockAt: await lockDeviceService.unlockAt(FAILED_SIGN_IN_ATTEMPT)
       });
 
       if (!this.resetLockInterval && isInvalidAccount)

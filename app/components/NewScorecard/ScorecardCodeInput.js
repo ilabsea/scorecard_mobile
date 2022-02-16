@@ -35,8 +35,10 @@ class ScorecardCodeInput extends Component {
   }
 
   _handleAppStateChange(nextState) {
-    if (nextState != 'active')
+    if (nextState != 'active' || _this.props.isLocked) {
+      Clipboard.setString(null);
       return;
+    }
 
     setTimeout(() => {
       handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
@@ -64,7 +66,6 @@ class ScorecardCodeInput extends Component {
           codeInputFieldStyle={styles.inputContainer}
           onCodeFilled = {(code) => this.onCodeFilled(code)}
           keyboardType='number-pad'
-          editable={true}
         />
       </View>
     )

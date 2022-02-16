@@ -1,32 +1,16 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ImageBackground,
-} from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from '@react-native-community/async-storage';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import NewScorecardForm from '../../components/NewScorecard/NewScorecardForm';
 import NewScorecardModals from '../../components/NewScorecard/NewScorecardModals';
+import NewScorecardContent from '../../components/NewScorecard/NewScorecardContent';
 
-import Color from '../../themes/color';
 import {checkConnection, getErrorType} from '../../services/api_service';
-import Scorecard from '../../models/Scorecard';
-
-import authenticationFormService from '../../services/authentication_form_service';
-import internetConnectionService from '../../services/internet_connection_service';
 import newScorecardService from '../../services/new_scorecard_service';
+import lockDeviceService from '../../services/lock_device_service';
+import resetLockService from '../../services/reset_lock_service';
 import { ERROR_INVALID_SCORECARD_URL } from '../../constants/error_constant';
-
-import Brand from '../../components/Home/Brand';
-import Logos from '../../components/Home/Logos';
-
-import { connect } from 'react-redux';
-import { set } from '../../actions/currentScorecardAction';
+import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
 
 let _this = null;
 class NewScorecard extends Component {
@@ -43,7 +27,8 @@ class NewScorecard extends Component {
       errorType: null,
       visibleInfoModal: false,
       isSubmitted: false,
-      hasInternetConnection: false,
+      isLocked: false,
+      unlockAt: '',
     };
 
     this.unsubscribeNetInfo;
@@ -52,89 +37,84 @@ class NewScorecard extends Component {
     _this = this;
   }
 
-  componentDidMount() {
-    this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
-      this.setState({ hasInternetConnection: hasConnection });
-    });
+  async componentDidMount() {
+    if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval) {
+      this.setState({
+        isLocked: await lockDeviceService.isLocked(INVALID_SCORECARD_ATTEMPT),
+        unlockAt: await lockDeviceService.unlockAt(INVALID_SCORECARD_ATTEMPT)
+      })
+      this.watchLockStatus();
+    }
   }
 
   componentWillUnmount() {
+    clearInterval(this.resetLockInterval);
     this.componentIsUnmount = true;
-    this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  joinScorecard = async (code) => {
-    this.setState({ code });
-    const isAuthenticated = await authenticationFormService.isAuthenticated();
-    this.setState({ errorMsg: '' });
+   watchLockStatus() {
+    this.resetLockInterval = resetLockService.watchLockStatus(INVALID_SCORECARD_ATTEMPT, async () => {
+      clearInterval(this.resetLockInterval);
+      this.resetLockInterval = null;
 
-    if (!isAuthenticated) {
-      this.setErrorState('422');
-      return;
-    }
-
-    const isSubmitted = Scorecard.isSubmitted(code);
-    if (!newScorecardService.isValidScorecard(code) || isSubmitted) {
       this.setState({
-        visibleInfoModal: isSubmitted,
-        isSubmitted: isSubmitted,
+        isLocked: false,
+        errorMsg: '',
+        unlockAt: '',
       });
+    });
+  }
 
-      return;
-    }
-
-    if (Scorecard.isExists(code)) {
-      newScorecardService.handleExistedScorecard(code, () => {
-        this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: code});
-      }, () => {
-        this.setState({
-          visibleInfoModal: true,
-          isSubmitted: false,
-        });
-      })
-      return;
-    }
-
-    if (!this.state.hasInternetConnection) {
-      internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection);
-      return;
-    }
-
-    this.setState({isLoading: true});
-    AsyncStorage.setItem('IS_CONNECTED', 'false');
+  joinScorecard = (code) => {
+    _this.setState({isLoading: true});
 
     newScorecardService.joinScorecard(code,
-      (errorType) => this.handleErrorScorecard(errorType),
-      () => this.handleJoinScorecardSuccess(),
-      (error) => this.handleJoinScorecardError(error)
+      (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
+      () => _this.handleJoinScorecardSuccess(),
+      (error, isLocked, isInvalidScorecard) => _this.handleJoinScorecardError(error, isLocked, isInvalidScorecard)
     );
 
     checkConnection((type, message) => {
-      if (!this.componentIsUnmount)
-        this.setState({
+      if (!_this.componentIsUnmount)
+        _this.setState({
           messageType: type,
           errorMsg: message,
           isLoading: false,
         });
     });
-  };
+  }
 
-  handleErrorScorecard(errorType) {
+  async handleErrorScorecard(errorType, isLocked = false, isInvalidScorecard = false) {
+    if (!_this.resetLockInterval && isInvalidScorecard)
+      _this.watchLockStatus();
+
     _this.setState({
       isLoading: false,
       visibleModal: true,
       errorType: errorType,
+      isLocked: isLocked,
+      unlockAt: await lockDeviceService.unlockAt(INVALID_SCORECARD_ATTEMPT) || '',
     });
   }
 
   handleJoinScorecardSuccess() {
-    this.setState({isLoading: false});
-    this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: this.state.code});
+    _this.setState({isLoading: false});
+    _this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: _this.state.code});
   }
 
-  handleJoinScorecardError(error) {
-    this.setState({isLoading: false});
-    this.setErrorState(error.status);
+  async handleJoinScorecardError(error, isLocked, isInvalidScorecard) {
+    if (!_this.resetLockInterval && isInvalidScorecard)
+      _this.watchLockStatus();
+
+    const unlockAt = await lockDeviceService.unlockAt(INVALID_SCORECARD_ATTEMPT) || '';
+
+    _this.setState({
+      isLoading: false,
+      isLocked: isLocked,
+      errorType: !!unlockAt ? 'error' : null,
+      unlockAt: unlockAt,
+    });
+    _this.setErrorState(error.status);
   }
 
   setErrorState = (error) => {
@@ -154,19 +134,6 @@ class NewScorecard extends Component {
       !!this.scorecardRef.current.inputRef && this.scorecardRef.current.inputRef.focusField(5);
   }
 
-  renderForm() {
-    return (
-      <NewScorecardForm
-        scorecardRef={this.scorecardRef}
-        errorMsg={this.state.errorMsg}
-        messageType={this.state.messageType}
-        joinScorecard={this.joinScorecard}
-        navigation={this.props.navigation}
-        handleInvalidUrl={this.handleErrorScorecard}
-      />
-    )
-  }
-
   renderModals() {
     return (
       <NewScorecardModals
@@ -177,9 +144,33 @@ class NewScorecard extends Component {
         isSubmitted={this.state.isSubmitted}
         navigation={this.props.navigation}
         closeModal={this.closeModal}
-        setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
+        unlockAt={this.state.unlockAt}
       />
     )
+  }
+
+  renderContent() {
+    return <NewScorecardContent
+              scorecardRef={this.scorecardRef}
+              errorMsg={this.state.errorMsg}
+              messageType={this.state.messageType}
+              updateScorecardCode={(code) => _this.setState({ code })}
+              joinScorecard={this.joinScorecard}
+              navigation={this.props.navigation}
+              handleInvalidUrl={this.handleErrorScorecard}
+              isLocked={this.state.isLocked}
+              unlockAt={this.state.unlockAt}
+              isLoading={this.state.isLoading}
+              updateInfoModalState={this.updateInfoModalState}
+              setErrorState={this.setErrorState}
+          />
+  }
+
+  updateInfoModalState(visible, isSubmitted) {
+    _this.setState({
+      visibleInfoModal: visible,
+      isSubmitted
+    })
   }
 
   render() {
@@ -187,17 +178,7 @@ class NewScorecard extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
           <View style={{alignItems: 'center', flex: 1}}>
-            <Spinner
-              visible={this.state.isLoading}
-              color={Color.primaryColor}
-              overlayColor={Color.loadingBackgroundColor}
-            />
-
-            <View style={{flex: 3}}></View>
-
-            <Brand/>
-            { this.renderForm() }
-            <Logos />
+            { this.renderContent() }
             { this.renderModals() }
           </View>
         </ImageBackground>
@@ -207,9 +188,6 @@ class NewScorecard extends Component {
 }
 
 const styles = StyleSheet.create({
-  errorLabel: {
-    color: Color.errorColor,
-  },
   imageBg: {
     flex: 1,
     resizeMode: "cover",
@@ -217,13 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(NewScorecard);
+export default NewScorecard;

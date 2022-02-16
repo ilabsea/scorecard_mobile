@@ -5,6 +5,8 @@ import { isNumber } from './string_util';
 import { validScorecardUrls } from '../constants/url_constant';
 import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
 import { IN_REVIEW } from '../constants/milestone_constant';
+import { INVALID_SCORECARD_ATTEMPT } from '../constants/lock_device_constant';
+import lockDeviceService from '../services/lock_device_service';
 
 export const getUniqueScorecards = (scorecards) => {
   return scorecards.filter((scorecard, index, array) => array.findIndex(t => t.uuid == scorecard.uuid) == index);
@@ -42,6 +44,9 @@ export const getLocationMaxWidth = (scorecard) => {
 }
 
 export const handleScorecardCodeClipboard = async (updateErrorState) => {
+  if (await lockDeviceService.isLocked(INVALID_SCORECARD_ATTEMPT))
+    return;
+
   let copiedText = await Clipboard.getString();
   copiedText = copiedText.replace(' ', '');
 

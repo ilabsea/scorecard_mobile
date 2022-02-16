@@ -3,10 +3,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import newScorecardService from './new_scorecard_service';
 import { getErrorType } from './api_service';
+import lockDeviceService from './lock_device_service';
+import resetLockService from './reset_lock_service';
 import Scorecard from '../models/Scorecard';
 import { isNumber, extractNumber } from '../utils/string_util';
 import scorecardProgress from '../db/jsons/scorecardProgress';
-import { ERROR_INCORRECT_SCORECARD_CODE } from '../constants/error_constant';
+import { ERROR_INCORRECT_SCORECARD_CODE, ERROR_DEVICE_LOCKED } from '../constants/error_constant';
+import { INVALID_SCORECARD_ATTEMPT } from '../constants/lock_device_constant';
 
 import { navigationRef } from '../navigators/app_navigator';
 
@@ -24,7 +27,6 @@ const deepLinkService = (() => {
 
   async function watchIncommingDeepLink(updateModalStatus, closeModal, handleOccupiedScorecard) {
     const initialUrl = await AsyncStorage.getItem('INITIAL_URL');
-
     // Handle redirection when the app is killed
     if (!!initialUrl) {
       AsyncStorage.removeItem('INITIAL_URL');
@@ -42,30 +44,27 @@ const deepLinkService = (() => {
   }
 
   //Private method
-  function _handleRedirection(url, updateModalStatus, closeModal, handleOccupiedScorecard) {
+  async function _handleRedirection(url, updateModalStatus, closeModal, handleOccupiedScorecard) {
     const scorecardUuid = url.slice(-6);
-    // If the last 6 digits include a special character or letter, shows an incorrect scorecard code message
-    if (!isNumber(scorecardUuid)) {
-      if (extractNumber(scorecardUuid) != '')
-        updateModalStatus(false, scorecardUuid, ERROR_INCORRECT_SCORECARD_CODE);
 
-      return;  
-    }
+    if (!await _isAbleToJoinScorecard(scorecardUuid, updateModalStatus))
+      return;
 
-    updateModalStatus(true, scorecardUuid, null);        // Show loading popup modal
+    updateModalStatus(true, scorecardUuid, null, false);        // Show loading popup modal
 
     setTimeout(() => {
       newScorecardService.handleExistedScorecard(scorecardUuid, () => {
         if (!!Scorecard.find(scorecardUuid)) {
+          resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
           closeModal();
           _redirectTo('ScorecardDetail', { scorecard_uuid: scorecardUuid });
           return;
         }
 
         newScorecardService.joinScorecard(scorecardUuid,
-          (errorType) => updateModalStatus(false, scorecardUuid, errorType),          // Error caused by the scorecard status
+          (errorType, isLocked, isInvalidScorecard) => updateModalStatus(false, scorecardUuid, errorType, isInvalidScorecard),          // Error caused by the scorecard status
           () => _joinScorecardSuccess(scorecardUuid, closeModal),
-          (error) => updateModalStatus(false, scorecardUuid, getErrorType(error.status))         // Error caused by the request issue (ex: no internet connection, ...)
+          (error, isLocked, isInvalidScorecard) => updateModalStatus(false, scorecardUuid, getErrorType(error.status), isInvalidScorecard)         // Error caused by the request issue (ex: no internet connection, ...)
         );
       }, () => _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard)); // Handle redirection when scorecard is already exist in the app
     }, 50);
@@ -77,6 +76,7 @@ const deepLinkService = (() => {
   }
 
   function _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard) {
+    resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
     const scorecard = Scorecard.find(scorecardUuid);
     closeModal();
 
@@ -94,6 +94,24 @@ const deepLinkService = (() => {
       { name: 'Home' },
       { name: screenName, params: params }
     ]});
+  }
+
+  async function _isAbleToJoinScorecard(scorecardUuid, updateModalStatus) {
+    // Show locked message when the device is locked
+    if (await lockDeviceService.isLocked(INVALID_SCORECARD_ATTEMPT)) {
+      updateModalStatus(false, scorecardUuid, ERROR_DEVICE_LOCKED, true)
+      return false;
+    }
+
+    // If the last 6 digits include a special character or letter, shows an incorrect scorecard code message
+    if (!isNumber(scorecardUuid)) {
+      if (extractNumber(scorecardUuid) != '')
+        updateModalStatus(false, scorecardUuid, ERROR_INCORRECT_SCORECARD_CODE, false);
+
+      return false;
+    }
+
+    return true;
   }
 })();
 

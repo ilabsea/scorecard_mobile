@@ -3,6 +3,8 @@ import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { LocalizationContext } from '../Translations';
+import LockDeviceModalMessage from '../LockDeviceModalMessage';
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 import { environment } from '../../config/environment';
 import Color from '../../themes/color';
@@ -14,6 +16,7 @@ import ErrorMessageModalMobileStyles from '../../styles/mobile/ErrorMessageModal
 const responsiveStyles = getDeviceStyle(ErrorMessageModalTabletStyles, ErrorMessageModalMobileStyles);
 
 class ErrorMessageModal extends Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +35,9 @@ class ErrorMessageModal extends Component {
   }
 
   _renderContent = () => {
+    if (!!this.props.unlockAt)
+      return <LockDeviceModalMessage onDismiss={this.props.onDismiss} unlockAt={this.props.unlockAt} />
+
     const params = {
       error_type: this.props.errorType,
       is_new_scorecard: this.props.isNewScorecard,

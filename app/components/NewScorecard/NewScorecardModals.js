@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import ScorecardInfoModal from './ScorecardInfoModal';
 
+import { connect } from 'react-redux';
+import { set } from '../../actions/currentScorecardAction';
+
 class NewScorecardModals extends Component {
   render() {
     return (
@@ -13,6 +16,7 @@ class NewScorecardModals extends Component {
           errorType={this.props.errorType}
           isNewScorecard={true}
           scorecardUuid={this.props.scorecardUuid}
+          unlockAt={this.props.unlockAt}
         />
 
         <ScorecardInfoModal
@@ -28,4 +32,13 @@ class NewScorecardModals extends Component {
   }
 }
 
-export default NewScorecardModals;
+function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NewScorecardModals);

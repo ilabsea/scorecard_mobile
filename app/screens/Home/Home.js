@@ -1,16 +1,16 @@
-import React, {Component, useContext, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import { LocalizationContext } from '../../components/Translations';
+import { StyleSheet, ImageBackground } from "react-native";
 
-import { StyleSheet, ImageBackground, View } from "react-native";
-
-import BigButton from '../../components/Home/BigButton';
-import Brand from '../../components/Home/Brand';
-import Logos from '../../components/Home/Logos';
+import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
 import deepLinkService from '../../services/deep_link_service';
+import lockDeviceService from '../../services/lock_device_service';
+import resetLockService from '../../services/reset_lock_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
+import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
 
 let _this = null;
 
@@ -24,23 +24,45 @@ class Home extends Component {
       errorType: '',
       isLoading: false,
       scorecardUuid: '',
+      unlockAt: '',
     }
 
     _this = this;
+    this.componentIsUnmount = false;
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
+      this.watchLockStatus();
+
     setTimeout(() => {
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
   }
 
-  updateModalStatus(isLoading, scorecardUuid, errorType) {
+  componentWillUnmount() {
+    this.componentIsUnmount = true;
+    clearInterval(_this.resetLockInterval);
+    _this.resetLockInterval = null;
+  }
+
+  async updateModalStatus(isLoading, scorecardUuid, errorType, isInvalidScorecard) {
+    if (!_this.resetLockInterval && isInvalidScorecard && !_this.componentIsUnmount)
+      _this.watchLockStatus();
+
     _this.setState({
       infoModalVisible: true,
       errorType,
       isLoading,
       scorecardUuid,
+      unlockAt: await lockDeviceService.unlockAt(INVALID_SCORECARD_ATTEMPT),
+    });
+  }
+
+  watchLockStatus() {
+    _this.resetLockInterval = resetLockService.watchLockStatus(INVALID_SCORECARD_ATTEMPT, async () => {
+      clearInterval(_this.resetLockInterval);
+      _this.resetLockInterval = null;
     });
   }
 
@@ -64,25 +86,7 @@ class Home extends Component {
 
     return (
       <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
-        <View style={{alignItems: 'center', flex: 1}}>
-          <View style={{flex: 3}}></View>
-
-          <Brand />
-
-          <BigButton
-            onPress={() => this.props.navigation.navigate('NewScorecard')}
-            label={ translations.startScorecard }
-            icon={'add-circle-sharp'}
-          />
-
-          <BigButton
-            onPress={() => this.props.navigation.navigate('ScorecardList')}
-            label={ translations['savedScorecard'] }
-            icon={'list-circle'}
-          />
-
-          <Logos />
-        </View>
+        <HomeContent navigation={this.props.navigation} />
 
         <HomeInfoMessageModal
           visible={this.state.infoModalVisible}
@@ -90,6 +94,7 @@ class Home extends Component {
           errorType={this.state.errorType}
           isLoading={this.state.isLoading}
           scorecardUuid={this.state.scorecardUuid}
+          unlockAt={this.state.unlockAt}
         />
       </ImageBackground>
     );
