@@ -6,6 +6,7 @@ import CriteriaSelectionItems from './CriteriaSelectionItems';
 
 import IndicatorService from '../../services/indicator_service';
 import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 class ExistedIndicatorItem extends React.Component {
   static contextType = LocalizationContext;
@@ -36,7 +37,7 @@ class ExistedIndicatorItem extends React.Component {
 
     return (
       <View>
-        <Text style={{marginTop: 20}}>{ label }</Text>
+        <Text style={{marginTop: 20, fontSize: bodyFontSize()}}>{ label }</Text>
 
         <CriteriaSelectionItems
           indicators={indicatorDataSet.indicators}

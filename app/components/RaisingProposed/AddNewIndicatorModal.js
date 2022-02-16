@@ -17,7 +17,6 @@ import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 class AddNewIndicatorModal extends Component {
   static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
 
@@ -169,7 +168,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     marginHorizontal: 30,
     padding: 20,
-    borderRadius: modalBorderRadius
+    borderRadius: modalBorderRadius,
+    width: '92%',
+    alignSelf: 'center',
   },
   header: {
     fontSize: titleFontSize(),
