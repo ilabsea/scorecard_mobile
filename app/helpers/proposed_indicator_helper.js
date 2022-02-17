@@ -4,7 +4,8 @@ import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 
 const proposedIndicatorHelper = (() => {
   return {
-    getProposedIndicatorAttributes
+    getProposedIndicatorAttributes,
+    getOrderedSelectedProposedIndicators,
   };
 
   function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -26,6 +27,21 @@ const proposedIndicatorHelper = (() => {
 
       return attr;
     })
+  }
+
+  function getOrderedSelectedProposedIndicators(selectedIndicators, orderedIndicatorableIds) {
+    let orderedIndicators = [];
+
+    for (let i = 0; i < orderedIndicatorableIds.length; i++) {
+      const filteredIndicators = selectedIndicators.filter(indicator => indicator.indicatorable_id == orderedIndicatorableIds[i]);
+
+      if (filteredIndicators.length == 0)
+        continue;
+
+      orderedIndicators.push(filteredIndicators[0]);
+    }
+
+    return orderedIndicators;
   }
 
   // private methods

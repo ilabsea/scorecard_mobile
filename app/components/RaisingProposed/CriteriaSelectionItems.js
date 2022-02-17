@@ -15,8 +15,6 @@ class CriteriaSelectionItems extends Component {
     this.state = {
       playingIndicatorId: null,
       isModalVisible: false,
-
-      indicators: []
     }
   }
 
@@ -45,15 +43,15 @@ class CriteriaSelectionItems extends Component {
 
     return (
       <IndicatorCard
-        indicators={this.props.indicators}
         indicator={indicator}
         index={index}
         scorecardUuid={this.props.scorecardUuid}
-        selectIndicator={this.props.selectIndicator}
-        // selectedIndicators={this.props.selectedIndicators}
-        isSearching={this.props.isSearching}
         key={itemKey}
         customCardStyle={this.props.customCardStyle}
+        participantUuid={this.props.participantUuid}
+        isEdit={this.props.isEdit}
+        updateIndicatorList={() => this.props.updateIndicatorList()}
+        selectForEdit={() => this.props.selectForEdit(indicator)}
       >
         {this.audioButton(indicator)}
       </IndicatorCard>
@@ -63,7 +61,7 @@ class CriteriaSelectionItems extends Component {
   render() {
     return (
       <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, marginTop: (this.props.isSearching || this.props.isEdit) ? 5 : 15}}>
-        { 
+        {
           this.props.indicators.map((indicator, index) => {
             return this.renderIndicatorCard(indicator, index)
           })

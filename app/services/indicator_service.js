@@ -4,7 +4,6 @@ import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
 import { indicatorPhase } from '../constants/scorecard_constant';
-import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
 import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
 
@@ -59,14 +58,9 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  // getIndicatorList = (scorecardUuid, searchText, selectedIndicators) => {
-  //   const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
-  //   return this._getIndicatorAttrs(savedIndicators, selectedIndicators);
-  // }
-
   getIndicatorList = (scorecardUuid, searchText) => {
     const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
-    return this._getIndicatorAttrs(scorecardUuid, savedIndicators);
+    return this._getIndicatorAttrs(savedIndicators);
   }
 
   isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
@@ -76,7 +70,7 @@ class IndicatorService {
     return isPredefinedIndicatorExist || isCustomIndicatorExist;
   }
 
-  getDuplicatedIndicator(scorecardUuid, name, selectedIndicators) {
+  getDuplicatedIndicator(scorecardUuid, name) {
     let result = [];
     const predefinedIndicators = Indicator.findByScorecardAndName(scorecardUuid, name);
     const customIndicators = CustomIndicator.findByScorecardAndName(scorecardUuid, name);
@@ -86,15 +80,13 @@ class IndicatorService {
     else if (customIndicators.length > 0)
       result = customIndicators;
 
-    return result.length > 0 ? this._getIndicatorAttrs(scorecardUuid, result) : [];
-    // return result.length > 0 ? this._getIndicatorAttrs(result, selectedIndicators) : [];
+    return result.length > 0 ? this._getIndicatorAttrs(result) : [];
   }
 
   // private
 
-  _getIndicatorAttrs = (scorecardUuid, savedIndicators) => {
+  _getIndicatorAttrs = (savedIndicators) => {
     let indicators = [];
-    let selectedIndicators = [];
 
     savedIndicators.map((indicator) => {
       let attrs = {
@@ -107,62 +99,16 @@ class IndicatorService {
         local_image: indicator.local_image,
       };
 
-      if (this._isIndicatorProposed(scorecardUuid, indicator)) {
-        attrs.isSelected = true;
-        selectedIndicators.push(attrs);
-      }
-
-      // if (proposedCriterias != undefined) {
-      //   for (let i=0; i<proposedCriterias.length; i++) {
-      //     const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-      //     if (proposedCriterias[i].indicatorable_id === indicatorId) {
-      //       attrs.isSelected = true;
-      //       selectedIndicators.push(attrs);
-      //       break;
-      //     }
-      //   }
-      // }
       indicators.push(attrs);
     });
 
-    return {indicators, selectedIndicators};
+    return indicators;
   }
 
   _isIndicatorProposed(scorecardUuid, indicator) {
     const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorId);
+    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorId).length > 0;
   }
-
-  // _getIndicatorAttrs = (savedIndicators, proposedCriterias) => {
-  //   let indicators = [];
-  //   let selectedIndicators = [];
-
-  //   savedIndicators.map((indicator) => {
-  //     let attrs = {
-  //       uuid: indicator.id || indicator.uuid,
-  //       indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
-  //       name: indicator.name,
-  //       shortcut: getIndicatorShortcutName(indicator.name),
-  //       isSelected: false,
-  //       tag: indicator.tag,
-  //       type: !!indicator.id ? PREDEFINED : CUSTOM,
-  //       local_image: indicator.local_image,
-  //     };
-  //     if (proposedCriterias != undefined) {
-  //       for (let i=0; i<proposedCriterias.length; i++) {
-  //         const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-  //         if (proposedCriterias[i].indicatorable_id === indicatorId) {
-  //           attrs.isSelected = true;
-  //           selectedIndicators.push(attrs);
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     indicators.push(attrs);
-  //   });
-
-  //   return {indicators, selectedIndicators};
-  // }
 }
 
 export default IndicatorService;

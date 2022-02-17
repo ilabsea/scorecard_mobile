@@ -14,6 +14,7 @@ const ProposedIndicator = (() => {
     getAllDistinctTag,
     getAllDistinct,
     destroy,
+    getLastOrderNumber,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -38,8 +39,8 @@ const ProposedIndicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}'`);
   }
 
-  function findByParticipant(indicatorId, participantUuid) {
-    return realm.objects(MODEL).filtered(`indicatorable_id = '${indicatorId}' AND participant_uuid = '${participantUuid}'`);
+  function findByParticipant(scorecardUuid, indicatorId, participantUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorId }' AND participant_uuid = '${ participantUuid }'`)[0];
   }
 
   function findByIndicator(scorecardUuid, indicatorableId) {
@@ -63,6 +64,11 @@ const ProposedIndicator = (() => {
     realm.write(() => {
       realm.delete(proposedCriteria);
     });
+  }
+
+  function getLastOrderNumber(scorecardUuid) {
+    const proposedIndicators = realm.objects(`scorecard_uuid = '${scorecardUuid}'`).max('order');
+    return proposedIndicators.length > 0 ? proposedIndicators[0].order : 0;
   }
 })();
 

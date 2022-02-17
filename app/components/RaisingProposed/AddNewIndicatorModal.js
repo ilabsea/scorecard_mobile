@@ -25,6 +25,7 @@ class AddNewIndicatorModal extends Component {
       tag: '',
       audio: null,
       isIndicatorExist: false,
+      duplicatedIndicators: []
     };
 
     this.isComponentUnmount = false;
@@ -68,32 +69,34 @@ class AddNewIndicatorModal extends Component {
     if (this.props.isEdit) {
       const { uuid, local_audio } = this.props.selectedCustomIndicator
       customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
-      this.props.updateCustomIndicator(indicator);
+      this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator,
-        (customIndicator) => {
-          this.props.saveCustomIndicator(customIndicator);
+      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, () => {
+        this.props.finishSaveOrUpdateCustomIndicator(false);
       });
     }
     this.clearInputs();
   }
 
-  finishRecord = (filename) => {
-    this.setState({audio: filename});
-  }
-
   renderButtons = () => {
-    return <AddNewIndicatorModalButtons name={this.state.name} save={() => this.save()}
-            cancel={() => this.cancel()} isIndicatorExist={this.state.isIndicatorExist} isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()} />
+    return <AddNewIndicatorModalButtons
+              name={this.state.name}
+              save={() => this.save()}
+              cancel={() => this.cancel()}
+              isIndicatorExist={this.state.isIndicatorExist}
+              isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()}
+            />
   }
 
   onChangeName(name) {
     const selectedIndicatorUuid = this.props.selectedCustomIndicator ? this.props.selectedCustomIndicator.uuid : null;
+    const indicatorService = new IndicatorService();
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : new IndicatorService().isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUUID, name)
     });
   }
 
@@ -115,13 +118,10 @@ class AddNewIndicatorModal extends Component {
   renderExistedIndicator() {
     return <ExistedIndicatorItem
               scorecardUuid={this.props.scorecardUUID}
+              participantUuid={this.props.participantUUID}
               indicatorName={this.state.name}
-              indicators={this.props.indicators}
-              // selectedIndicators={this.props.selectedIndicators}
-              // unselectedIndicators={this.props.unselectedIndicators}
-              updateIndicators={this.props.updateIndicators}
-              selectIndicator={this.props.selectIndicator}
-              clearInputs={() => this.clearInputs()}
+              duplicatedIndicators={this.state.duplicatedIndicators}
+              updateIndicatorList={() => this.props.updateIndicatorList()}
             />
   }
 
@@ -146,7 +146,7 @@ class AddNewIndicatorModal extends Component {
               <VoiceRecord
                 participantUUID={this.props.participantUUID}
                 scorecardUUID={this.props.scorecardUUID}
-                finishRecord={this.finishRecord}
+                finishRecord={(filename) => this.setState({audio: filename})}
                 audioFilePath={this.state.audio}
                 deleteAudio={() => this.setState({audio: null})}
                 isEdit={this.props.isEdit}

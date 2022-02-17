@@ -6,7 +6,6 @@ import RaisingProposedScrollView from './RaisingProposedScrollView';
 import CriteriaSelectionItems from './CriteriaSelectionItems';
 import AddNewIndicatorButton from './AddNewIndicatorButton';
 import NoIndicatorMessage from './NoIndicatorMessage';
-import createNewIndicatorHelper from '../../helpers/create_new_indicator_helper';
 
 class CriteriaSelection extends Component {
   static contextType = LocalizationContext;
@@ -15,8 +14,6 @@ class CriteriaSelection extends Component {
     super(props);
 
     this.state = {
-      indicators: props.indicators,
-      participantUuid: props.participantUuid,
       scrollDirection: 'up',
     };
     this.scrollOffset = 0;
@@ -25,31 +22,10 @@ class CriteriaSelection extends Component {
       UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return { indicators: props.indicators };
-  }
-
-  selectIndicator = (index) => {
-    // const indicatorSelection = createNewIndicatorHelper.getIndicatorSelection(index, this.state.indicators, this.props.selectedIndicators, this.props.unselectedIndicators);
-    // const { indicators, selectedIndicators, unselectedIndicators } = indicatorSelection;
-
-    // this.setState({
-    //   indicators,
-    //   selectedIndicators,
-    //   unselectedIndicators,
-    // }, () => {
-    //   this.props.selectIndicator(selectedIndicators, unselectedIndicators, false);
-    // });
-  }
-
-  showAddNewIndicatorForm() {
-    this.props.selectIndicator(this.props.selectedIndicators, this.props.unselectedIndicators, true);
-  }
-
   renderAddNewIndicatorButton() {
     return <AddNewIndicatorButton
              scrollDirection={this.state.scrollDirection}
-             showAddNewIndicatorForm={() => this.showAddNewIndicatorForm()}
+             showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal()}
            />
   }
 
@@ -64,20 +40,19 @@ class CriteriaSelection extends Component {
   render() {
     return (
       <React.Fragment>
-        { this.state.indicators.length > 0 &&
+        { this.props.indicators.length > 0 &&
           <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
             <CriteriaSelectionItems
-              indicators={this.state.indicators}
-              selectedIndicators={this.props.selectedIndicators}
-              unselectedIndicators={this.props.unselectedIndicators}
+              indicators={this.props.indicators}
               isSearching={this.props.isSearching}
               scorecardUuid={this.props.scorecardUuid}
-              selectIndicator={this.selectIndicator}
+              participantUuid={this.props.participantUuid}
+              updateIndicatorList={() => this.props.updateIndicatorList()}
             />
           </RaisingProposedScrollView>
         }
 
-        { this.state.indicators.length === 0 && <NoIndicatorMessage /> }
+        { this.props.indicators.length === 0 && <NoIndicatorMessage /> }
 
         { !this.props.isSearching && this.renderAddNewIndicatorButton() }
       </React.Fragment>

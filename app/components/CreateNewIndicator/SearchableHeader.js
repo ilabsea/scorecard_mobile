@@ -4,7 +4,6 @@ import { HeaderBackButton } from '@react-navigation/stack';
 
 import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
-import IndicatorService from '../../services/indicator_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
 
@@ -24,20 +23,19 @@ class SearchableHeader extends Component {
     if (this.props.isSearching)
       this.cancel();
     else if (this.props.isEdit)
-      this.props.updateIsEditStatus(false);
+      this.props.updateEditStatus(false);
     else
       this.props.onBackPress();
   }
 
   onChangeSearch(text) {
     this.setState({ query: text });
-    const allIndicator = new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, this.props.selectedIndicators);
-
-    this.props.updateSearchedIndicator(allIndicator.indicators, allIndicator.selectedIndicators);
+    this.props.updateSearchedName(text);
   }
 
   cancel() {
     this.onChangeSearch('');
+    this.props.updateSearchedName('');
     this.props.updateSearchStatus(false);
   }
 
@@ -56,7 +54,7 @@ class SearchableHeader extends Component {
       <CreateNewIndicatorTitle
         isEdit={this.props.isEdit}
         toggleSearch={() => this.props.updateSearchStatus(true)}
-        editIndicator={() => this.props.updateIsEditStatus(true)}
+        editIndicator={() => this.props.updateEditStatus(true)}
       />
     )
   }

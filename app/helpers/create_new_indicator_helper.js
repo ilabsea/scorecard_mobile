@@ -1,5 +1,6 @@
 import uuidv4 from '../utils/uuidv4';
 import ProposedIndicator from '../models/ProposedIndicator';
+import proposedIndicatorService from '../services/proposed_indicator_service';
 import { CUSTOM } from '../utils/variable';
 
 const createNewIndicatorHelper = (() => {
@@ -92,7 +93,7 @@ const createNewIndicatorHelper = (() => {
     selectedIndicators.map((indicator) => {
       const indicatorId = indicator.indicatorable_id || indicator.uuid;
 
-      if (ProposedIndicator.findByParticipant(indicatorId, participantUuid).length == 0) {
+      if (ProposedIndicator.findByParticipant(scorecardUuid, indicatorId, participantUuid).length == 0) {
         const attrs = {
           uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
           scorecard_uuid: scorecardUuid.toString(),
@@ -118,7 +119,7 @@ const createNewIndicatorHelper = (() => {
       })
     });
     deleteIndciators.map((indicator) => {
-      const proposedIndicator = ProposedIndicator.findByParticipant(indicator.indicatorable_id, participantUuid);
+      const proposedIndicator = ProposedIndicator.findByParticipant(scorecardUuid, indicator.indicatorable_id, participantUuid);
       ProposedIndicator.destroy(proposedIndicator);
     });
   }

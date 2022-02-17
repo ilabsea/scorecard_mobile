@@ -3,8 +3,10 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import ProposedIndicator from '../../models/ProposedIndicator';
 import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
 import CriteriaSelectionMobileStyle from '../../styles/mobile/CriteriaSelectionComponentStyle';
 
@@ -22,25 +24,30 @@ class IndicatorCard extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    // if (indicator.isSelected)
-    //   return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
-
-    // for (let i = 0; i < this.props.selectedIndicators.length; i++) {
-    //   if (this.props.selectedIndicators[i].uuid == indicator.uuid)
-    //     return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
-    // }
+    if (!!ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.uuid, this.props.participantUuid))
+      return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     return {};
   }
 
-  _renderCard = () => {
-    const { indicator, index } = this.props;
+  toggleIndicator(indicator) {
+    if (this.props.isEdit) {
+      !!this.props.selectForEdit && this.props.selectForEdit(indicator);
+      return;
+    }
+
+    proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
+    !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+  }
+
+  render() {
+    const { indicator } = this.props;
     const displayName = this._getIndicatorName(indicator);
 
     return (
       <View style={[styles.criteriaBoxContainer, this.props.customCardStyle, this.selectedCriteriaBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.criteriaBox}
-          onPress={() => this.props.selectIndicator(index)}
+          onPress={() => this.toggleIndicator(indicator)}
         >
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: bodyFontSize()}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
@@ -51,11 +58,6 @@ class IndicatorCard extends Component {
         { this.props.children }
       </View>
     )
-  }
-
-
-  render() {
-    return this._renderCard();
   }
 }
 
