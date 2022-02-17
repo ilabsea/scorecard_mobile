@@ -1,5 +1,5 @@
 import uuidv4 from '../utils/uuidv4';
-import ProposedCriteria from '../models/ProposedCriteria';
+import ProposedIndicator from '../models/ProposedIndicator';
 import { CUSTOM } from '../utils/variable';
 
 const createNewIndicatorHelper = (() => {
@@ -39,10 +39,10 @@ const createNewIndicatorHelper = (() => {
   }
 
   function getCriteriaUuid(scorecardUuid, indicatorUuid, participantUuid) {
-    const proposedCriterias = ProposedCriteria.find(scorecardUuid, participantUuid);
-    for (let i=0; i<proposedCriterias.length; i++) {
-      if (proposedCriterias[i].indicatorable_id === indicatorUuid.toString())
-        return proposedCriterias[i].uuid;
+    const proposedIndicators = ProposedIndicator.find(scorecardUuid, participantUuid);
+    for (let i=0; i<proposedIndicators.length; i++) {
+      if (proposedIndicators[i].indicatorable_id === indicatorUuid.toString())
+        return proposedIndicators[i].uuid;
     }
 
     return uuidv4();
@@ -92,7 +92,7 @@ const createNewIndicatorHelper = (() => {
     selectedIndicators.map((indicator) => {
       const indicatorId = indicator.indicatorable_id || indicator.uuid;
 
-      if (ProposedCriteria.findByParticipant(indicatorId, participantUuid).length == 0) {
+      if (ProposedIndicator.findByParticipant(indicatorId, participantUuid).length == 0) {
         const attrs = {
           uuid: getCriteriaUuid(scorecardUuid, indicator.uuid, participantUuid),
           scorecard_uuid: scorecardUuid.toString(),
@@ -103,23 +103,23 @@ const createNewIndicatorHelper = (() => {
           tag: indicator.tag
         };
 
-        ProposedCriteria.create(attrs);
+        ProposedIndicator.create(attrs);
       }
     });
   }
 
   function deleteUnselectedProposedIndicator(scorecardUuid, participantUuid, unselectedIndicators) {
-    const proposedCriterias = ProposedCriteria.find(scorecardUuid, participantUuid);
-    let deleteCriterias = [];
-    proposedCriterias.map((criteria) => {
-      unselectedIndicators.map((indicator) => {
-        if (indicator.uuid == criteria.indicatorable_id)
-          deleteCriterias.push(criteria);
+    const proposedIndicators = ProposedIndicator.find(scorecardUuid, participantUuid);
+    let deleteIndciators = [];
+    proposedIndicators.map((indicator) => {
+      unselectedIndicators.map((unselectedIndicator) => {
+        if (unselectedIndicator.uuid == indicator.indicatorable_id)
+          deleteIndciators.push(indicator);
       })
     });
-    deleteCriterias.map((criteria) => {
-      const proposedCriteria = ProposedCriteria.findByParticipant(criteria.indicatorable_id, participantUuid);
-      ProposedCriteria.destroy(proposedCriteria);
+    deleteIndciators.map((indicator) => {
+      const proposedIndicator = ProposedIndicator.findByParticipant(indicator.indicatorable_id, participantUuid);
+      ProposedIndicator.destroy(proposedIndicator);
     });
   }
 })();

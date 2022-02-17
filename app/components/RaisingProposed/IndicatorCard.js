@@ -22,13 +22,13 @@ class IndicatorCard extends Component {
   }
 
   selectedCriteriaBoxStyle = (indicator) => {
-    if (indicator.isSelected)
-      return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
+    // if (indicator.isSelected)
+    //   return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
-    for (let i = 0; i < this.props.selectedIndicators.length; i++) {
-      if (this.props.selectedIndicators[i].uuid == indicator.uuid)
-        return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
-    }
+    // for (let i = 0; i < this.props.selectedIndicators.length; i++) {
+    //   if (this.props.selectedIndicators[i].uuid == indicator.uuid)
+    //     return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
+    // }
 
     return {};
   }

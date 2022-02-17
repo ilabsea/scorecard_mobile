@@ -15,6 +15,8 @@ class CriteriaSelectionItems extends Component {
     this.state = {
       playingIndicatorId: null,
       isModalVisible: false,
+
+      indicators: []
     }
   }
 
@@ -48,7 +50,7 @@ class CriteriaSelectionItems extends Component {
         index={index}
         scorecardUuid={this.props.scorecardUuid}
         selectIndicator={this.props.selectIndicator}
-        selectedIndicators={this.props.selectedIndicators}
+        // selectedIndicators={this.props.selectedIndicators}
         isSearching={this.props.isSearching}
         key={itemKey}
         customCardStyle={this.props.customCardStyle}

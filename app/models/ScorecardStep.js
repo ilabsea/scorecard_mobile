@@ -3,7 +3,7 @@ import VotingCriteria from './VotingCriteria';
 import moment from "moment/min/moment-with-locales";
 import AsyncStorage from '@react-native-community/async-storage';
 import Participant from './Participant';
-import ProposedCriteria from './ProposedCriteria';
+import ProposedIndicator from './ProposedIndicator';
 
 class ScorecardStep {
   constructor() {
@@ -40,7 +40,7 @@ class ScorecardStep {
   }
 
   getProposedCriteriaSubTitle(scorecard) {
-    return ProposedCriteria.getAllDistinct(scorecard.uuid).length;
+    return ProposedIndicator.getAllDistinct(scorecard.uuid).length;
   }
 
   getIndicatorDevelopmentSubTitle(scorecard) {

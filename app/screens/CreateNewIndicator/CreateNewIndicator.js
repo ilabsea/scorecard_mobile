@@ -13,7 +13,7 @@ import CreateNewIndicatorBottomButton from '../../components/CreateNewIndicator/
 
 import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
-import ProposedCriteria from '../../models/ProposedCriteria';
+import ProposedIndicator from '../../models/ProposedIndicator';
 
 import IndicatorService from '../../services/indicator_service';
 import proposedCriteriaService from '../../services/proposed_criteria_service';
@@ -29,7 +29,7 @@ class CreateNewIndicator extends Component {
       isModalVisible: false,
       isValid: false,
       indicators: [],
-      selectedIndicators: JSON.parse(JSON.stringify(ProposedCriteria.find(props.route.params.scorecard_uuid, props.route.params.participant_uuid))),
+      selectedIndicators: JSON.parse(JSON.stringify(ProposedIndicator.find(props.route.params.scorecard_uuid, props.route.params.participant_uuid))),
       unselectedIndicators: [],
       participantUuid: this.props.route.params.participant_uuid,
       customIndicator: null,
@@ -40,15 +40,15 @@ class CreateNewIndicator extends Component {
   }
 
   componentDidMount() {
-    const proposedCriterias = ProposedCriteria.find(this.props.route.params.scorecard_uuid, this.state.participantUuid);
-    this.setState({isValid: (proposedCriterias != undefined && proposedCriterias.length > 0) ? true : false});
+    const proposedIndicators = ProposedIndicator.find(this.props.route.params.scorecard_uuid, this.state.participantUuid);
+    this.setState({isValid: (proposedIndicators != undefined && proposedIndicators.length > 0) ? true : false});
     this._updateIndicatorList();
   }
 
   selectIndicator = (selectedIndicators, unselectedIndicators, isModalVisible) => {
     this.setState({
-      selectedIndicators: selectedIndicators,
-      unselectedIndicators: unselectedIndicators,
+      // selectedIndicators: selectedIndicators,
+      // unselectedIndicators: unselectedIndicators,
       isModalVisible: isModalVisible,
       isValid: createNewIndicatorHelper.isAbleToSaveIndicator(selectedIndicators),
       selectedCustomIndicator: null,
@@ -135,9 +135,11 @@ class CreateNewIndicator extends Component {
   }
 
   _updateIndicatorList = () => {
-    const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', this.state.selectedIndicators);
+    // const allCriteria = new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '', this.state.selectedIndicators);
 
-    this.setState({ indicators: allCriteria.indicators });
+    const dataSet = new new IndicatorService().getIndicatorList(this.props.route.params.scorecard_uuid, '');
+
+    this.setState({ indicators: dataSet.indicators });
   }
 
   updateSearchedIndicator = (indicators, allSelectedIndicators) => {
@@ -188,10 +190,10 @@ class CreateNewIndicator extends Component {
         scorecardUuid={this.props.route.params.scorecard_uuid}
         participantUuid={this.state.participantUuid}
         indicators={this.state.indicators}
-        selectedIndicators={this.state.selectedIndicators}
-        unselectedIndicators={this.state.unselectedIndicators}
+        // selectedIndicators={this.state.selectedIndicators}
+        // unselectedIndicators={this.state.unselectedIndicators}
         customIndicator={this.state.customIndicator}
-        selectedCustomIndicator={this.state.selectedCustomIndicator}
+        // selectedCustomIndicator={this.state.selectedCustomIndicator}
         isSearching={this.state.isSearching}
         isEdit={this.state.isEdit}
         selectIndicator={this.selectIndicator}
@@ -220,8 +222,8 @@ class CreateNewIndicator extends Component {
                 scorecardUUID={this.props.route.params.scorecard_uuid}
                 selectedCustomIndicator={this.state.selectedCustomIndicator}
                 indicators={this.state.indicators}
-                selectedIndicators={this.state.selectedIndicators}
-                unselectedIndicators={this.state.unselectedIndicators}
+                // selectedIndicators={this.state.selectedIndicators}
+                // unselectedIndicators={this.state.unselectedIndicators}
                 isEdit={this.state.isEdit}
                 updateCustomIndicator={(customIndicator) => this.updateCustomIndicator(customIndicator)}
                 selectIndicator={this.selectIndicator}

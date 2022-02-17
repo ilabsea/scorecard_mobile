@@ -3,7 +3,7 @@ import createNewIndicatorHelper from '../helpers/create_new_indicator_helper';
 import indicatorHelper from '../helpers/indicator_helper';
 
 import Participant from '../models/Participant';
-import ProposedCriteria from '../models/ProposedCriteria';
+import ProposedIndicator from '../models/ProposedIndicator';
 import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
 
 const proposedCriteriaService = (() => {
@@ -17,8 +17,8 @@ const proposedCriteriaService = (() => {
   }
 
   function getProposedCriterias(scorecardUuid) {
-    let allCriterias = ProposedCriteria.findByScorecard(scorecardUuid, false);
-    let criterias = JSON.parse(JSON.stringify(ProposedCriteria.getAllDistinct(scorecardUuid)));
+    let allCriterias = ProposedIndicator.findByScorecard(scorecardUuid, false);
+    let criterias = JSON.parse(JSON.stringify(ProposedIndicator.getAllDistinct(scorecardUuid)));
 
     criterias.map(criteria => {
       criteria.count = allCriterias.filter(x => x.indicatorable_id == criteria.indicatorable_id && x.indicatorable_type == criteria.indicatorable_type ).length;
@@ -33,10 +33,10 @@ const proposedCriteriaService = (() => {
   }
 
   function deleteProposedCriterias(scorecardUuid) {
-    const proposedCriterias = ProposedCriteria.findByScorecard(scorecardUuid, false);
+    const proposedCriterias = ProposedIndicator.findByScorecard(scorecardUuid, false);
 
     if (proposedCriterias.length > 0)
-      ProposedCriteria.destroy(proposedCriterias);
+      ProposedIndicator.destroy(proposedCriterias);
   }
 
   function getSelectedCriterias(scorecardUuid, orderedIndicatorableIds) {
@@ -59,20 +59,20 @@ const proposedCriteriaService = (() => {
   }
 
   function update(scorecardUuid, indicatorId, params) {
-    const proposedCriterias = ProposedCriteria.findByIndicator(scorecardUuid, indicatorId);
+    const proposedCriterias = ProposedIndicator.findByIndicator(scorecardUuid, indicatorId);
 
     proposedCriterias.map(proposedCriteria => {
-      ProposedCriteria.update(proposedCriteria.uuid, params);
+      ProposedIndicator.update(proposedCriteria.uuid, params);
     });
   }
 
   function hasRaisedCriteria(scorecardUuid, participants) {
     for (let i=0; i<participants.length; i++) {
-      const proposedCriteria = participants[i].proposed_criterias != undefined 
+      const proposedIndicators = participants[i].proposed_criterias != undefined 
         ? participants[i].proposed_criterias
-        : ProposedCriteria.find(scorecardUuid, participants[i].uuid);
+        : ProposedIndicator.find(scorecardUuid, participants[i].uuid);
 
-      if (proposedCriteria.length > 0)
+      if (proposedIndicators.length > 0)
         return true;
     }
     return false;

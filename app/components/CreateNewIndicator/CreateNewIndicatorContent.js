@@ -45,8 +45,8 @@ class CreateNewIndicatorContent extends Component {
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
         indicators={this.props.indicators}
-        selectedIndicators={this.props.selectedIndicators}
-        unselectedIndicators={this.props.unselectedIndicators}
+        // selectedIndicators={this.props.selectedIndicators}
+        // unselectedIndicators={this.props.unselectedIndicators}
         customIndicator={this.props.customIndicator}
         isSearching={this.props.isSearching}
       />

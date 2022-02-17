@@ -30,16 +30,16 @@ class CriteriaSelection extends Component {
   }
 
   selectIndicator = (index) => {
-    const indicatorSelection = createNewIndicatorHelper.getIndicatorSelection(index, this.state.indicators, this.props.selectedIndicators, this.props.unselectedIndicators);
-    const { indicators, selectedIndicators, unselectedIndicators } = indicatorSelection;
+    // const indicatorSelection = createNewIndicatorHelper.getIndicatorSelection(index, this.state.indicators, this.props.selectedIndicators, this.props.unselectedIndicators);
+    // const { indicators, selectedIndicators, unselectedIndicators } = indicatorSelection;
 
-    this.setState({
-      indicators,
-      selectedIndicators,
-      unselectedIndicators,
-    }, () => {
-      this.props.selectIndicator(selectedIndicators, unselectedIndicators, false);
-    });
+    // this.setState({
+    //   indicators,
+    //   selectedIndicators,
+    //   unselectedIndicators,
+    // }, () => {
+    //   this.props.selectIndicator(selectedIndicators, unselectedIndicators, false);
+    // });
   }
 
   showAddNewIndicatorForm() {

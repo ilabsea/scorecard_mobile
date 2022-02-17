@@ -117,8 +117,8 @@ class AddNewIndicatorModal extends Component {
               scorecardUuid={this.props.scorecardUUID}
               indicatorName={this.state.name}
               indicators={this.props.indicators}
-              selectedIndicators={this.props.selectedIndicators}
-              unselectedIndicators={this.props.unselectedIndicators}
+              // selectedIndicators={this.props.selectedIndicators}
+              // unselectedIndicators={this.props.unselectedIndicators}
               updateIndicators={this.props.updateIndicators}
               selectIndicator={this.props.selectIndicator}
               clearInputs={() => this.clearInputs()}

@@ -16,4 +16,5 @@ export const schemaNames = [
   'ScorecardDownload',
   'Contact',
   'ScorecardReference',
+  'ProposedIndicator',
 ];

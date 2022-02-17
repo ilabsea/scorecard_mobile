@@ -6,7 +6,7 @@ import { Icon } from 'native-base';
 import {LocalizationContext} from '../Translations';
 
 import Color from '../../themes/color';
-import ProposedCriteria from '../../models/ProposedCriteria';
+import ProposedIndicator from '../../models/ProposedIndicator';
 import uuidv4 from '../../utils/uuidv4';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantAccordionMobileStyles from '../../styles/mobile/ParticipantAccordionComponentStyle';
@@ -33,7 +33,7 @@ class ParticipantAccordionContent extends Component {
   }
 
   renderCriterias() {
-    const criterias = ProposedCriteria.find(this.props.scorecardUuid, this.props.participantUuid);
+    const criterias = ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid);
 
     return criterias.map((criteria, index) => {
       return (
