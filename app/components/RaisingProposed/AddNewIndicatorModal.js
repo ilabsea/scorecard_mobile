@@ -1,22 +1,19 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Modal } from 'react-native-paper';
 
 import VoiceRecord from './VoiceRecord';
-import { LocalizationContext } from '../Translations';
+import AddNewIndicatorModalTitle from './AddNewIndicatorModalTitle';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
 import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
 import ExistedIndicatorItem from './ExistedIndicatorItem';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { titleFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 class AddNewIndicatorModal extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
@@ -115,13 +112,18 @@ class AddNewIndicatorModal extends Component {
     )
   }
 
+  updateIndicatorList() {
+    this.clearInputs();
+    this.props.updateIndicatorList();
+  }
+
   renderExistedIndicator() {
     return <ExistedIndicatorItem
               scorecardUuid={this.props.scorecardUUID}
               participantUuid={this.props.participantUUID}
               indicatorName={this.state.name}
               duplicatedIndicators={this.state.duplicatedIndicators}
-              updateIndicatorList={() => this.props.updateIndicatorList()}
+              updateIndicatorList={() => this.updateIndicatorList()}
             />
   }
 
@@ -130,15 +132,11 @@ class AddNewIndicatorModal extends Component {
   }
 
   render() {
-    const {translations} = this.context;
-
     return (
       <Modal visible={this.props.isVisible} contentContainerStyle={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View>
-            <Text style={styles.header}>
-              { this.props.isEdit ? translations.editIndicator : translations.addNewIndicator }
-            </Text>
+            <AddNewIndicatorModalTitle isEdit={this.props.isEdit} />
 
             { this.renderTextInputs() }
 
@@ -171,11 +169,6 @@ const styles = StyleSheet.create({
     borderRadius: modalBorderRadius,
     width: '92%',
     alignSelf: 'center',
-  },
-  header: {
-    fontSize: titleFontSize(),
-    fontFamily: FontFamily.title,
-    marginBottom: 20,
   },
 });
 
