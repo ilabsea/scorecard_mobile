@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 
-const MODEL = 'ProposedCriteria';
+// const MODEL = 'ProposedCriteria';
+const MODEL = 'ProposedIndicator';
 
 const ProposedIndicator = (() => {
   return {
@@ -15,6 +16,8 @@ const ProposedIndicator = (() => {
     getAllDistinct,
     destroy,
     getLastOrderNumber,
+    getLastOrderNumberOfParticipant,
+    destroyUnconfirmProposedIndicators,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -67,8 +70,27 @@ const ProposedIndicator = (() => {
   }
 
   function getLastOrderNumber(scorecardUuid) {
-    const proposedIndicators = realm.objects(`scorecard_uuid = '${scorecardUuid}'`).max('order');
-    return proposedIndicators.length > 0 ? proposedIndicators[0].order : 0;
+    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).max('order');
+    return !orderNumber ? 0 : orderNumber;
+  }
+
+  function getLastOrderNumberOfParticipant(scorecardUuid, participantUuid) {
+    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }'`).max('order');
+    return !orderNumber ? 0 : orderNumber;
+  }
+
+  function destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {
+    console.log('last order number ===== ', lastOrderNumber);
+
+    const proposedIndicators = find(scorecardUuid, participantUuid);
+
+    if (proposedIndicators.length > 0) {
+      const unconfirmProposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }' AND order > ${ lastOrderNumber }`);
+
+      console.log('unconfirm proposed indicator == ', unconfirmProposedIndicators);
+
+      destroy(unconfirmProposedIndicators);
+    }
   }
 })();
 

@@ -9,6 +9,7 @@ import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNe
 
 import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
+import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
 
 class CreateNewIndicator extends Component {
@@ -21,6 +22,8 @@ class CreateNewIndicator extends Component {
       isSearching: false,
       isEdit: false,
     };
+
+    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
   }
 
   componentDidMount() {
@@ -53,8 +56,12 @@ class CreateNewIndicator extends Component {
     this.props.navigation.goBack();
   }
 
-  updateEditStatus(isEdit) {
-    this.setState({ isEdit: isEdit }, () => {
+  updateEditAndSearchStatus(status, isEdit) {
+    this.setState({
+      isEdit: isEdit ? status : this.state.isEdit,
+      isSearching: !isEdit ? status : this.state.isSearching,
+      searchedName: '',
+    }, () => {
       this.updateIndicatorList();
     });
   }
@@ -63,15 +70,22 @@ class CreateNewIndicator extends Component {
     this.setState({ searchedName: name }, () => { this.updateIndicatorList() });
   }
 
+  onBackPress() {
+    const { scorecard_uuid, participant_uuid } = this.props.route.params;
+    ProposedIndicator.destroyUnconfirmProposedIndicators(scorecard_uuid, participant_uuid, this.lastOrderNumber);
+    this.props.navigation.goBack();
+  }
+
   renderSearchableHeader() {
     return (
       <SearchableHeader
-        onBackPress={() => this.props.navigation.goBack()}
+        onBackPress={() => this.onBackPress()}
         updateSearchedName={(name) => this.updateSearchedName(name)}
-        updateSearchStatus={(status) => this.setState({ isSearching: status })}
-        updateEditStatus={(isEdit) => this.updateEditStatus(isEdit)}
+        updateSearchStatus={(isSearching) => this.updateEditAndSearchStatus(isSearching, false)}
+        updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
         isEdit={this.state.isEdit}
         isSearching={this.state.isSearching}
+        searchedName={this.state.searchedName}
       />
     )
   }
@@ -83,8 +97,8 @@ class CreateNewIndicator extends Component {
             participantUuid={this.props.route.params.participant_uuid}
             isEdit={this.state.isEdit}
             isSearching={this.state.isSearching}
-            updateEditStatus={(isEdit) => this.updateEditStatus(isEdit)}
-            updateSearchStatus={(status) => this.setState({ isSearching: status })}
+            updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
+            updateSearchStatus={(isSearching) => this.updateEditAndSearchStatus(isSearching, false)}
             updateIndicatorList={() => this.updateIndicatorList()}
             updateParticipantInfo={() => this.updateParticipantInfo()}
             save={() => this.save()}

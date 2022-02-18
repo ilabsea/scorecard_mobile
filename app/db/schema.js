@@ -27,7 +27,7 @@ const schemas = [
   schemaV9,
   schemaV10,
   schemaV11,
-  // schemaV12,
+  schemaV12,
 ];
 
 // the first schema to update to is the current schema version

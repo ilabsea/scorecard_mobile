@@ -313,5 +313,6 @@
   "noParticipant": "No participant",
   "participantInformation": "Participant Information",
   "tapOnTheIndicatorBelowToSelect": "Tap on the indicator below to select",
-  "thisIndicatorIsAlreadySelected": "This indicator is already selected"
+  "thisIndicatorIsAlreadySelected": "This indicator is already selected",
+  "doYouWantToReturnToPreviousScreen": "Do you want to return to previous screen?"
 }

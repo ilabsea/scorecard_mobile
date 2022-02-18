@@ -313,5 +313,6 @@
   "noParticipant": "មិនមានអ្នកចូលរួម",
   "participantInformation": "ព័ត៌មានអ្នកចូលរួម",
   "tapOnTheIndicatorBelowToSelect": "ចុចលើលក្ខណៈវិនិច្ឆ័យខាងក្រោមដើម្បីធ្វើការជ្រើសរើស",
-  "thisIndicatorIsAlreadySelected": "លក្ខណៈវិនិច្ឆ័យនេះត្រូវបានជ្រើសរើសរួចហើយ"
+  "thisIndicatorIsAlreadySelected": "លក្ខណៈវិនិច្ឆ័យនេះត្រូវបានជ្រើសរើសរួចហើយ",
+  "doYouWantToReturnToPreviousScreen": "តើអ្នកពិតជាចង់ត្រលប់ថយក្រោយ?"
 }

@@ -49,7 +49,8 @@ const Participant = (() => {
   }
 
   function getNumberOfProposedParticipant(scorecardUuid) {
-    return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
+    // return realm.objects('ProposedCriteria').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
+    return realm.objects('ProposedIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
   }
 })();
 

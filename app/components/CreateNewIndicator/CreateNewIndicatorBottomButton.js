@@ -9,10 +9,8 @@ class CreateNewIndicatorBottomButton extends Component {
   static contextType = LocalizationContext;
 
   done() {
-    if (this.props.isSearching) {
+    if (this.props.isSearching)
       this.props.stopSearching();
-      this.props.updateIndicatorList();
-    }
     else
       this.props.stopEditing();
   }

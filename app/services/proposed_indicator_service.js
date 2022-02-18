@@ -36,7 +36,7 @@ const proposedIndicatorService = (() => {
       indicatorable_name: indicator.name,
       participant_uuid: participantUuid,
       tag: indicator.tag,
-      // order: ProposedIndicator.getLastOrderNumber() + 1,
+      order: parseInt(ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
     };
 
     ProposedIndicator.create(attrs);

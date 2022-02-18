@@ -24,11 +24,8 @@ const schemaV12 = {
         let data = proposedCriteria;
         data['order'] = index + 1;
 
-        console.log(`Proposed indicator ${index} = `, data);
-
-        newRealm.write(() => {
-          newRealm.create('ProposedIndicator', data, 'modified');
-        });
+        newRealm.delete(proposedCriteria);
+        newRealm.create('ProposedIndicator', data, 'modified');
       });
     }
   }
