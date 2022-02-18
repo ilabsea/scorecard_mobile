@@ -3,9 +3,9 @@ import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import IndicatorCard from './IndicatorCard';
-import CriteriaAudioButton from './CriteriaAudioButton';
+import IndicatorAudioButton from './IndicatorAudioButton';
 
-class CriteriaSelectionItems extends Component {
+class IndicatorSelectionItems extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -30,7 +30,7 @@ class CriteriaSelectionItems extends Component {
 
   audioButton = (indicator) => {
     return (
-      <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
+      <IndicatorAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
         playingIndicatorId={this.state.playingIndicatorId}
         updateAudioState={this.updateAudioState}
         scorecardUUID={this.props.scorecardUuid}
@@ -71,4 +71,4 @@ class CriteriaSelectionItems extends Component {
   }
 }
 
-export default CriteriaSelectionItems;
+export default IndicatorSelectionItems;

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import CriteriaSelectionItems from './CriteriaSelectionItems';
+import IndicatorSelectionItems from './IndicatorSelectionItems';
 
 import { bodyFontSize } from '../../utils/font_size_util';
 
@@ -19,7 +19,7 @@ class ExistedIndicatorItem extends React.Component {
       <View>
         <Text style={{marginTop: 20, fontSize: bodyFontSize()}}>{ label }</Text>
 
-        <CriteriaSelectionItems
+        <IndicatorSelectionItems
           indicators={this.props.duplicatedIndicators}
           isSearching={false}
           scorecardUuid={this.props.scorecardUuid}

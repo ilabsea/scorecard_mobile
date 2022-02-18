@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {LocalizationContext} from '../Translations';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
-import CriteriaSelectionItems from './CriteriaSelectionItems';
+import IndicatorSelectionItems from './IndicatorSelectionItems';
 import NoIndicatorMessage from './NoIndicatorMessage';
 class RaisingProposedCustomIndicatorList extends Component {
   static contextType = LocalizationContext;
@@ -10,7 +10,7 @@ class RaisingProposedCustomIndicatorList extends Component {
   renderInidcatorList() {
     return (
       <RaisingProposedScrollView>
-        <CriteriaSelectionItems
+        <IndicatorSelectionItems
           indicators={this.props.indicators}
           isSearching={this.props.isSearching}
           isEdit={true}

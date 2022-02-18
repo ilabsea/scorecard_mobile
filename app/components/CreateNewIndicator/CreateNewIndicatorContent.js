@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantInfo';
-import CriteriaSelection from '../RaisingProposed/CriteriaSelection';
+import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
 import { subTitleFontSize } from '../../utils/font_size_util';
 
@@ -25,9 +25,9 @@ class CreateNewIndicatorContent extends Component {
     )
   }
 
-  renderCriteriaList() {
+  renderIndicatorList() {
     return (
-      <CriteriaSelection
+      <IndicatorSelection
         indicators={this.props.indicators}
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
@@ -61,7 +61,7 @@ class CreateNewIndicatorContent extends Component {
           </Text>
         }
 
-        { !this.props.isEdit ? this.renderCriteriaList() : this.renderCustomIndicatorList() }
+        { !this.props.isEdit ? this.renderIndicatorList() : this.renderCustomIndicatorList() }
       </View>
     )
   }

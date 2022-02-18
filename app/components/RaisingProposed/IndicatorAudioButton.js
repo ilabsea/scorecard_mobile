@@ -6,7 +6,7 @@ import {getLanguageIndicator} from '../../services/language_indicator_service';
 import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../utils/variable';
 
-class CriteriaAudioButton extends Component {
+class IndicatorAudioButton extends Component {
   constructor(props) {
     super(props);
     this._audioPlayer = null;
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CriteriaAudioButton;
+export default IndicatorAudioButton;

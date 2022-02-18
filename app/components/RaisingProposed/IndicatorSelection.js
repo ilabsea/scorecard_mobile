@@ -3,11 +3,11 @@ import { LayoutAnimation, UIManager } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import RaisingProposedScrollView from './RaisingProposedScrollView';
-import CriteriaSelectionItems from './CriteriaSelectionItems';
+import IndicatorSelectionItems from './IndicatorSelectionItems';
 import AddNewIndicatorButton from './AddNewIndicatorButton';
 import NoIndicatorMessage from './NoIndicatorMessage';
 
-class CriteriaSelection extends Component {
+class IndicatorSelection extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -42,7 +42,7 @@ class CriteriaSelection extends Component {
       <React.Fragment>
         { this.props.indicators.length > 0 &&
           <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
-            <CriteriaSelectionItems
+            <IndicatorSelectionItems
               indicators={this.props.indicators}
               isSearching={this.props.isSearching}
               scorecardUuid={this.props.scorecardUuid}
@@ -60,4 +60,4 @@ class CriteriaSelection extends Component {
   }
 }
 
-export default CriteriaSelection;
+export default IndicatorSelection;
