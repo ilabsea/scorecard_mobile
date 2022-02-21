@@ -36,9 +36,13 @@ class CreateIndicatorBody extends React.Component {
 
   updateSelectedParticipant(participantUuid) {
     if (this.state.participantUuid != participantUuid) {
+      this.props.removeUnconfirmedProposedIndicator();
+
       this.setState({
         isValid: false,
         participantUuid: participantUuid
+      }, () => {
+        !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participantUuid);
       });
     }
   }

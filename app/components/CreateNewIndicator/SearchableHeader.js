@@ -9,6 +9,8 @@ import MessageModal from '../MessageModal';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
 
+import { navigationRef } from '../../navigators/app_navigator';
+
 class SearchableHeader extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -69,7 +71,8 @@ class SearchableHeader extends Component {
 
   confirmGoBack() {
     this.setState({ isModalVisible: false });
-    !!this.props.onBackPress && this.props.onBackPress()
+    !!this.props.removeUnconfirmedProposedIndicator && this.props.removeUnconfirmedProposedIndicator();
+    navigationRef.current?.goBack();
   }
 
   renderComfirmModal() {

@@ -21,6 +21,7 @@ class CreateNewIndicator extends Component {
       searchedName: '',
       isSearching: false,
       isEdit: false,
+      participantUuid: props.route.params.participant_uuid,
     };
 
     this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
@@ -51,7 +52,7 @@ class CreateNewIndicator extends Component {
   }
 
   save = () => {
-    Participant.create({ uuid: this.props.route.params.participant_uuid, raised: true });
+    Participant.create({ uuid: this.state.participantUuid, raised: true });
     this.updateParticipantInfo();
     this.props.navigation.goBack();
   }
@@ -70,19 +71,17 @@ class CreateNewIndicator extends Component {
     this.setState({ searchedName: name }, () => { this.updateIndicatorList() });
   }
 
-  onBackPress() {
-    const { scorecard_uuid, participant_uuid } = this.props.route.params;
-    ProposedIndicator.destroyUnconfirmProposedIndicators(scorecard_uuid, participant_uuid, this.lastOrderNumber);
-    this.props.navigation.goBack();
+  removeUnconfirmedProposedIndicator() {
+    ProposedIndicator.destroyUnconfirmProposedIndicators(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber);
   }
 
   renderSearchableHeader() {
     return (
       <SearchableHeader
-        onBackPress={() => this.onBackPress()}
         updateSearchedName={(name) => this.updateSearchedName(name)}
         updateSearchStatus={(isSearching) => this.updateEditAndSearchStatus(isSearching, false)}
         updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
+        removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
         isEdit={this.state.isEdit}
         isSearching={this.state.isSearching}
         searchedName={this.state.searchedName}
@@ -90,11 +89,15 @@ class CreateNewIndicator extends Component {
     )
   }
 
+  updateSelectedParticipant(participantUuid) {
+    this.setState({ participantUuid }, () => { this.updateIndicatorList(); });
+  }
+
   renderBody() {
     return <CreateNewIndicatorBody
             indicators={this.state.indicators}
             scorecardUuid={this.props.route.params.scorecard_uuid}
-            participantUuid={this.props.route.params.participant_uuid}
+            participantUuid={this.state.participantUuid}
             isEdit={this.state.isEdit}
             isSearching={this.state.isSearching}
             updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
@@ -102,6 +105,8 @@ class CreateNewIndicator extends Component {
             updateIndicatorList={() => this.updateIndicatorList()}
             updateParticipantInfo={() => this.updateParticipantInfo()}
             save={() => this.save()}
+            removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
+            updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
           />
   }
 
