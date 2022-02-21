@@ -7,10 +7,10 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
-import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
-import CriteriaSelectionMobileStyle from '../../styles/mobile/CriteriaSelectionComponentStyle';
+import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
+import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
 
-const styles = getDeviceStyle(CriteriaSelectionTabletStyle, CriteriaSelectionMobileStyle);
+const styles = getDeviceStyle(IndicatorCardTabletStyle, IndicatorCardMobileStyle);
 
 class IndicatorCard extends Component {
 
@@ -23,7 +23,7 @@ class IndicatorCard extends Component {
     return indicator.name.split(":").pop();
   }
 
-  selectedCriteriaBoxStyle = (indicator) => {
+  selectedIndicatorBoxStyle = (indicator) => {
     if (!!ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.uuid, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
@@ -45,8 +45,8 @@ class IndicatorCard extends Component {
     const displayName = this._getIndicatorName(indicator);
 
     return (
-      <View style={[styles.criteriaBoxContainer, this.props.customCardStyle, this.selectedCriteriaBoxStyle(indicator)]}>
-        <TouchableOpacity style={styles.criteriaBox}
+      <View style={[styles.indicatorBoxContainer, this.props.customCardStyle, this.selectedIndicatorBoxStyle(indicator)]}>
+        <TouchableOpacity style={styles.indicatorBox}
           onPress={() => this.toggleIndicator(indicator)}
         >
           <View style={styles.detailContainer}>

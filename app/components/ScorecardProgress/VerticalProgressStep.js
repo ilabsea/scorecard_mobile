@@ -52,7 +52,7 @@ export default class VerticalProgressStep extends Component {
     return `${translations.numberOfParticipant}: ${step.subTitle} ${translations.pax}`;
   }
 
-  getProposedCriteriaSubTitle(step) {
+  getProposedIndicatorSubTitle(step) {
     const { translations } = this.context;
 
     return `${translations.numberOfIndicator}: ${step.subTitle}`;

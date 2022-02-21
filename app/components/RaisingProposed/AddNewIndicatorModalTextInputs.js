@@ -5,7 +5,6 @@ import TextFieldInput from '../TextFieldInput';
 import Autocomplete from './Autocomplete';
 import indicatorHelper from '../../helpers/indicator_helper';
 
-
 class AddNewIndicatorModalTextInputs extends Component {
   static contextType = LocalizationContext;
   constructor(props) {

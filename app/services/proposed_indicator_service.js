@@ -51,7 +51,7 @@ const proposedIndicatorService = (() => {
   }
 
   function getProposedIndicators(scorecardUuid) {
-    const allIndicators = ProposedIndicator.findByScorecard(scorecardUuid, false);
+    const allIndicators = ProposedIndicator.getAllByScorecard(scorecardUuid);
     let proposedIndicators = JSON.parse(JSON.stringify(ProposedIndicator.getAllDistinct(scorecardUuid)));
 
     proposedIndicators.map(proposedIndicator => {
@@ -75,7 +75,7 @@ const proposedIndicatorService = (() => {
   }
 
   function deleteProposedIndicators(scorecardUuid) {
-    const proposedIndicators = ProposedIndicator.findByScorecard(scorecardUuid, false);
+    const proposedIndicators = ProposedIndicator.getAllByScorecard(scorecardUuid);
 
     if (proposedIndicators.length > 0)
       ProposedIndicator.destroy(proposedIndicators);

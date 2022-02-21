@@ -104,11 +104,6 @@ class IndicatorService {
 
     return indicators;
   }
-
-  _isIndicatorProposed(scorecardUuid, indicator) {
-    const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorId).length > 0;
-  }
 }
 
 export default IndicatorService;

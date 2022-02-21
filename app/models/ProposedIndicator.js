@@ -10,7 +10,6 @@ const ProposedIndicator = (() => {
     getAllByScorecard,
     findByParticipant,
     findByIndicator,
-    findByScorecard,
     getAllDistinctTag,
     getAllDistinct,
     destroy,
@@ -49,11 +48,6 @@ const ProposedIndicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`);
   }
 
-  function findByScorecard(scorecardUuid, distinctByIndicator) {
-    const query = distinctByIndicator ? `scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id)` : `scorecard_uuid='${scorecardUuid}'`;
-    return realm.objects(MODEL).filtered(query);
-  }
-
   function getAllDistinctTag(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(tag)`);
   }
@@ -62,9 +56,9 @@ const ProposedIndicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id, indicatorable_type) SORT(indicatorable_name ASC)`);
   }
 
-  function destroy(proposedCriteria) {
+  function destroy(proposedIndicator) {
     realm.write(() => {
-      realm.delete(proposedCriteria);
+      realm.delete(proposedIndicator);
     });
   }
 

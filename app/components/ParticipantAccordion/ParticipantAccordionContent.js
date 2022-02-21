@@ -32,14 +32,14 @@ class ParticipantAccordionContent extends Component {
     )
   }
 
-  renderCriterias() {
-    const criterias = ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid);
+  renderIndicators() {
+    const indicators = ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid);
 
-    return criterias.map((criteria, index) => {
+    return indicators.map((indicator, index) => {
       return (
         <View key={uuidv4()} style={{paddingLeft: 8}}>
-          <Text numberOfLines={2} style={styles.itemValueText}>{ criteria.indicatorable_name }</Text>
-          { index < criterias.length - 1 && <Divider style={{backgroundColor: '#b3b3b3', marginVertical: 8}}/> }
+          <Text numberOfLines={2} style={styles.itemValueText}>{ indicator.indicatorable_name }</Text>
+          { index < indicators.length - 1 && <Divider style={{backgroundColor: '#b3b3b3', marginVertical: 8}}/> }
         </View>
       )
     });
@@ -54,7 +54,7 @@ class ParticipantAccordionContent extends Component {
       <View key={uuidv4()} style={{paddingHorizontal: 20, paddingVertical: 10, backgroundColor: Color.accordionContentBgColor}}>
         {this.renderContentTitle()}
 
-        {this.renderCriterias()}
+        {this.renderIndicators()}
       </View>
     )
   }

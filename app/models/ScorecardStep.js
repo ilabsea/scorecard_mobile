@@ -39,7 +39,7 @@ class ScorecardStep {
     return Participant.findByScorecard(scorecard.uuid).length;
   }
 
-  getProposedCriteriaSubTitle(scorecard) {
+  getProposedIndicatorSubTitle(scorecard) {
     return ProposedIndicator.getAllDistinct(scorecard.uuid).length;
   }
 
