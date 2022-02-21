@@ -24,6 +24,7 @@ class CreateNewIndicator extends Component {
       participantUuid: props.route.params.participant_uuid,
     };
 
+    // Get the last order number of the saved proposed indicator of the participant
     this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
   }
 

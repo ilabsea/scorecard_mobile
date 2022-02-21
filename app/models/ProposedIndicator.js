@@ -1,6 +1,5 @@
 import realm from '../db/schema';
 
-// const MODEL = 'ProposedCriteria';
 const MODEL = 'ProposedIndicator';
 
 const ProposedIndicator = (() => {
@@ -60,7 +59,7 @@ const ProposedIndicator = (() => {
   }
 
   function getAllDistinct(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id, indicatorable_type)`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id, indicatorable_type) SORT(indicatorable_name ASC)`);
   }
 
   function destroy(proposedCriteria) {
@@ -80,15 +79,10 @@ const ProposedIndicator = (() => {
   }
 
   function destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {
-    console.log('last order number ===== ', lastOrderNumber);
-
     const proposedIndicators = find(scorecardUuid, participantUuid);
 
     if (proposedIndicators.length > 0) {
       const unconfirmProposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }' AND order > ${ lastOrderNumber }`);
-
-      console.log('unconfirm proposed indicator == ', unconfirmProposedIndicators);
-
       destroy(unconfirmProposedIndicators);
     }
   }

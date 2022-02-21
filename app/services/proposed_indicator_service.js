@@ -29,7 +29,7 @@ const proposedIndicatorService = (() => {
 
   function create(scorecardUuid, indicator, participantUuid) {
     const attrs = {
-      uuid: _getProposedIndicatorUuid(scorecardUuid, indicator.uuid, participantUuid),
+      uuid: uuidv4(),
       scorecard_uuid: scorecardUuid.toString(),
       indicatorable_id: indicator.uuid.toString(),
       indicatorable_type: indicator.type || CUSTOM,
@@ -83,19 +83,6 @@ const proposedIndicatorService = (() => {
 
   function hasProposedIndicator(scorecardUuid) {
     return ProposedIndicator.getAllByScorecard(scorecardUuid).length > 0;
-  }
-
-  // private methods
-
-  // ToDo: test and refactor the indicator uuid
-  function _getProposedIndicatorUuid(scorecardUuid, indicatorUuid, participantUuid) {
-    const proposedIndicators = ProposedIndicator.find(scorecardUuid, participantUuid);
-    for (let i=0; i<proposedIndicators.length; i++) {
-      if (proposedIndicators[i].indicatorable_id === indicatorUuid.toString())
-        return proposedIndicators[i].uuid;
-    }
-
-    return uuidv4();
   }
 })();
 
