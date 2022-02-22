@@ -1,4 +1,3 @@
-import Moment from 'moment';
 import ProgramLanguage from '../migrations/v3/programLanguage';
 import Scorecard from '../migrations/v11/scorecard';
 import VotingCriteria from '../migrations/v9/votingCriteria';
