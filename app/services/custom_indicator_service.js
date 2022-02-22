@@ -1,9 +1,10 @@
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
+import Indicator from '../models/Indicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 import proposedIndicatorService from './proposed_indicator_service';
 import uuidv4 from '../utils/uuidv4';
-import { CUSTOM } from '../utils/variable';
+import { CUSTOM } from '../constants/indicator_constant';
 
 const customIndicatorService = (() => {
   return {
@@ -21,12 +22,15 @@ const customIndicatorService = (() => {
   }
 
   function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
-    const customIndicator = {
-      uuid: uuidv4(),
+    const generatedUuid = uuidv4();
+
+    let customIndicator = {
+      uuid: generatedUuid,
+      indicator_uuid: generatedUuid,
       name: indicator.name,
-      local_audio: indicator.local_audio,
       scorecard_uuid: scorecardUuid,
-      tag: indicator.tag
+      tag: indicator.tag,
+      type: CUSTOM,
     };
 
     const scorecard = Scorecard.find(scorecardUuid);
@@ -40,12 +44,41 @@ const customIndicatorService = (() => {
       type: CUSTOM,
     };
 
-    CustomIndicator.create(customIndicator);
+    Indicator.create(customIndicator);
     LanguageIndicator.create(customLanguageIndicator);
+
+    customIndicator.indicatorable_id = generatedUuid;
     proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
 
     callback();
   }
+
+  // function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
+  //   const customIndicator = {
+  //     uuid: uuidv4(),
+  //     name: indicator.name,
+  //     local_audio: indicator.local_audio,
+  //     scorecard_uuid: scorecardUuid,
+  //     tag: indicator.tag
+  //   };
+
+  //   const scorecard = Scorecard.find(scorecardUuid);
+  //   const customLanguageIndicator = {
+  //     id: uuidv4(),
+  //     content: indicator.name,
+  //     language_code: scorecard.audio_language_code,
+  //     local_audio: indicator.local_audio,
+  //     scorecard_uuid: scorecardUuid,
+  //     indicator_id: customIndicator.uuid,
+  //     type: CUSTOM,
+  //   };
+
+  //   CustomIndicator.create(customIndicator);
+  //   LanguageIndicator.create(customLanguageIndicator);
+  //   proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
+
+  //   callback();
+  // }
 
   function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {
     CustomIndicator.update(customIndicatorUuid, newIndicator);

@@ -6,6 +6,7 @@ import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { PREDEFINED } from '../../constants/indicator_constant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
 import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
@@ -24,7 +25,9 @@ class IndicatorCard extends Component {
   }
 
   selectedIndicatorBoxStyle = (indicator) => {
-    if (!!ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.uuid, this.props.participantUuid))
+    // console.log('==++ indicit == ', indicator);
+
+    if (!!ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     return {};
@@ -35,6 +38,8 @@ class IndicatorCard extends Component {
       !!this.props.selectForEdit && this.props.selectForEdit(indicator);
       return;
     }
+
+    console.log('selected = indicator = ', indicator)
 
     proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
     !!this.props.updateIndicatorList && this.props.updateIndicatorList();

@@ -1,4 +1,4 @@
-const PREDEFINED_INDICATOR = 'Indicator';
-const CUSTOM_INDICATOR = 'Indicators::CustomIndicator';
-
-export { PREDEFINED_INDICATOR, CUSTOM_INDICATOR };
+export const PREDEFINED = 'predefined';
+export const CUSTOM = 'custom';
+export const PLAYING = 'playing';
+export const PAUSED = 'paused';

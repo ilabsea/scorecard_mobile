@@ -6,7 +6,7 @@ import Color from '../../themes/color';
 import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
-import {PLAYING, PAUSED} from '../../utils/variable';
+import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 import votingCriteriaService from '../../services/votingCriteriaService';
 
 import { getDeviceStyle } from '../../utils/responsive_util';

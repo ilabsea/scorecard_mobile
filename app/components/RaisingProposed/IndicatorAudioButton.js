@@ -4,7 +4,7 @@ import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import AudioPlayer from '../../services/audio_player_service';
-import {PLAYING, PAUSED} from '../../utils/variable';
+import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 
 class IndicatorAudioButton extends Component {
   constructor(props) {

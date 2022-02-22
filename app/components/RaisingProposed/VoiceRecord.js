@@ -6,7 +6,7 @@ import {LocalizationContext} from '../Translations';
 import RecordedAudioCard from './RecordedAudioCard';
 import RecordAudioButton from './RecordAudioButton';
 import AudioPlayer from '../../services/audio_player_service';
-import {PLAYING, PAUSED} from '../../utils/variable';
+import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 

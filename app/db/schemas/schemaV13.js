@@ -5,7 +5,7 @@ import ProposedIndicator from '../migrations/v12/proposedIndicator';
 import Indicator from '../migrations/v13/indicator';
 import schemaHelper from '../../helpers/schema_helper';
 import { schemaNames } from '../../constants/schema_constant';
-import { PREDEFINED_INDICATOR, CUSTOM_INDICATOR } from '../../constants/indicator_constant';
+import { CUSTOM, PREDEFINED } from '../../constants/indicator_constant';
 
 const changedSchemas = [
   { label: schemaNames[0], data: Scorecard },
@@ -27,7 +27,7 @@ const schemaV13 = {
       // Copy all the existing predefined indicator (from indicator schema)
       oldIndicators.map((oldIndicator, index) => {
         newIndicators[index].indicator_uuid = null,
-        newIndicators[index].type = PREDEFINED_INDICATOR;
+        newIndicators[index].type = PREDEFINED;
       });
 
       // Add all the custom indicator (from custom indicator) to indicator and remove them from custom indicator table
@@ -40,7 +40,7 @@ const schemaV13 = {
           facility_id: null,
           tag: !!customIndicator.tag ? customIndicator.tag : null,
           scorecard_uuid: customIndicator.scorecard_uuid,
-          type: CUSTOM_INDICATOR,
+          type: CUSTOM,
         };
 
         newRealm.delete(customIndicator);
@@ -50,4 +50,4 @@ const schemaV13 = {
   }
 }
 
-export default schemaV12;
+export default schemaV13;
