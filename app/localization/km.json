@@ -314,5 +314,7 @@
   "participantInformation": "ព័ត៌មានអ្នកចូលរួម",
   "tapOnTheIndicatorBelowToSelect": "ចុចលើលក្ខណៈវិនិច្ឆ័យខាងក្រោមដើម្បីធ្វើការជ្រើសរើស",
   "thisIndicatorIsAlreadySelected": "លក្ខណៈវិនិច្ឆ័យនេះត្រូវបានជ្រើសរើសរួចហើយ",
-  "doYouWantToReturnToPreviousScreen": "តើអ្នកពិតជាចង់ត្រលប់ថយក្រោយ?"
+  "areYouSureYouWantToDiscardTheseNewProposedIndicator": "តើអ្នកពិតជាចង់បោះបង់លក្ខណៈវិនិច្ឆ័យដែលបានជ្រើសរើសថ្មីទាំងនេះ?",
+  "buttonLabelNo": "ទេ",
+  "buttonLabelYes": "យល់ព្រម"
 }

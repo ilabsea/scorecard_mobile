@@ -79,9 +79,10 @@ class SearchableHeader extends Component {
     return <MessageModal
             visible={this.state.isModalVisible}
             onDismiss={() => this.setState({isModalVisible: false})}
-            description={this.context.translations.doYouWantToReturnToPreviousScreen}
+            description={this.context.translations.areYouSureYouWantToDiscardTheseNewProposedIndicator}
             hasConfirmButton={true}
-            confirmButtonLabel={this.context.translations.ok}
+            confirmButtonLabel={this.context.translations.buttonLabelYes}
+            closeButtonLabel={this.context.translations.buttonLabelNo}
             onPressConfirmButton={() => this.confirmGoBack()}
           />
   }
