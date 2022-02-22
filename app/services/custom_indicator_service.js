@@ -1,7 +1,7 @@
 import Scorecard from '../models/Scorecard';
 import CustomIndicator from '../models/CustomIndicator';
 import LanguageIndicator from '../models/LanguageIndicator';
-import proposedCriteriaService from './proposed_criteria_service';
+import proposedIndicatorService from './proposed_indicator_service';
 import uuidv4 from '../utils/uuidv4';
 import { CUSTOM } from '../utils/variable';
 
@@ -20,7 +20,7 @@ const customIndicatorService = (() => {
       : customIndicators;
   }
 
-  function createNewIndicator(scorecardUuid, indicator, callback) {
+  function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
     const customIndicator = {
       uuid: uuidv4(),
       name: indicator.name,
@@ -42,7 +42,9 @@ const customIndicatorService = (() => {
 
     CustomIndicator.create(customIndicator);
     LanguageIndicator.create(customLanguageIndicator);
-    callback(customIndicator);
+    proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
+
+    callback();
   }
 
   function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {
@@ -54,7 +56,7 @@ const customIndicatorService = (() => {
       local_audio: newIndicator.local_audio,
     }
     LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
-    proposedCriteriaService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
+    proposedIndicatorService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
 
     // Delete the existing audio file if user record new audio for custom indicator
     if (previousAudio && (previousAudio != newIndicator.local_audio))

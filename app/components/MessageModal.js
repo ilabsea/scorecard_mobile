@@ -65,7 +65,7 @@ class MessageModal extends Component {
           }
 
           <View style={CustomStyle.modalBtnWrapper}>
-            <CloseButton onPress={this.props.onDismiss} label={translations.close} />
+            <CloseButton onPress={this.props.onDismiss} label={ this.props.closeButtonLabel || translations.close} />
             { this.props.hasConfirmButton &&
               <SaveButton
                 label={this.props.confirmButtonLabel}

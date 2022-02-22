@@ -9,7 +9,7 @@ export default [
   { value: 2,
     headerTitle: 'proposedIndicator',
     label: 'proposedIndicator',
-    getSubTitle: 'getProposedCriteriaSubTitle',
+    getSubTitle: 'getProposedIndicatorSubTitle',
     routeName: 'OfflineRaisingProposed'
   },
   { value: 3,

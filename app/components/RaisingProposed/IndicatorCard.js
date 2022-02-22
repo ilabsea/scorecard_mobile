@@ -3,12 +3,14 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import CriteriaSelectionTabletStyle from '../../styles/tablet/CriteriaSelectionComponentStyle';
-import CriteriaSelectionMobileStyle from '../../styles/mobile/CriteriaSelectionComponentStyle';
+import ProposedIndicator from '../../models/ProposedIndicator';
+import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
+import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
 
-const styles = getDeviceStyle(CriteriaSelectionTabletStyle, CriteriaSelectionMobileStyle);
+const styles = getDeviceStyle(IndicatorCardTabletStyle, IndicatorCardMobileStyle);
 
 class IndicatorCard extends Component {
 
@@ -21,26 +23,31 @@ class IndicatorCard extends Component {
     return indicator.name.split(":").pop();
   }
 
-  selectedCriteriaBoxStyle = (indicator) => {
-    if (indicator.isSelected)
+  selectedIndicatorBoxStyle = (indicator) => {
+    if (!!ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.uuid, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
-
-    for (let i = 0; i < this.props.selectedIndicators.length; i++) {
-      if (this.props.selectedIndicators[i].uuid == indicator.uuid)
-        return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
-    }
 
     return {};
   }
 
-  _renderCard = () => {
-    const { indicator, index } = this.props;
+  toggleIndicator(indicator) {
+    if (this.props.isEdit) {
+      !!this.props.selectForEdit && this.props.selectForEdit(indicator);
+      return;
+    }
+
+    proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
+    !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+  }
+
+  render() {
+    const { indicator } = this.props;
     const displayName = this._getIndicatorName(indicator);
 
     return (
-      <View style={[styles.criteriaBoxContainer, this.selectedCriteriaBoxStyle(indicator)]}>
-        <TouchableOpacity style={styles.criteriaBox}
-          onPress={() => this.props.selectIndicator(index)}
+      <View style={[styles.indicatorBoxContainer, this.props.customCardStyle, this.selectedIndicatorBoxStyle(indicator)]}>
+        <TouchableOpacity style={styles.indicatorBox}
+          onPress={() => this.toggleIndicator(indicator)}
         >
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: bodyFontSize()}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
@@ -51,11 +58,6 @@ class IndicatorCard extends Component {
         { this.props.children }
       </View>
     )
-  }
-
-
-  render() {
-    return this._renderCard();
   }
 }
 

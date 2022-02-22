@@ -1,4 +1,4 @@
-import ProposedCriteria from '../models/ProposedCriteria';
+import ProposedIndicator from '../models/ProposedIndicator';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
 
 const proposedIndicatorAttributesUtil = (() => {
@@ -7,10 +7,10 @@ const proposedIndicatorAttributesUtil = (() => {
   };
 
   function parse(scorecard) {
-    let proposedCriterias = JSON.parse(JSON.stringify(ProposedCriteria.getAllByScorecard(scorecard.uuid)));
-    let columns = ['scorecard_uuid', 'participant_uuid'];
+    const proposedIndicators = JSON.parse(JSON.stringify(ProposedIndicator.getAllByScorecard(scorecard.uuid)));
+    const columns = ['scorecard_uuid', 'participant_uuid'];
 
-    return { 'raised_indicators_attributes': proposedIndicatorHelper.getProposedIndicatorAttributes(scorecard, proposedCriterias, columns, true) };
+    return { 'raised_indicators_attributes': proposedIndicatorHelper.getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, true) };
   }
 })();
 

@@ -4,7 +4,8 @@ import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 
 const proposedIndicatorHelper = (() => {
   return {
-    getProposedIndicatorAttributes
+    getProposedIndicatorAttributes,
+    getOrderedSelectedProposedIndicators,
   };
 
   function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -28,6 +29,21 @@ const proposedIndicatorHelper = (() => {
     })
   }
 
+  function getOrderedSelectedProposedIndicators(selectedIndicators, orderedIndicatorableIds) {
+    let orderedIndicators = [];
+
+    for (let i = 0; i < orderedIndicatorableIds.length; i++) {
+      const filteredIndicators = selectedIndicators.filter(indicator => indicator.indicatorable_id == orderedIndicatorableIds[i]);
+
+      if (filteredIndicators.length == 0)
+        continue;
+
+      orderedIndicators.push(filteredIndicators[0]);
+    }
+
+    return orderedIndicators;
+  }
+
   // private methods
   function _getIndicatorAttrs(indicator, scorecard) {
     let indicatorable_id = indicator.indicatorable_id;
@@ -36,7 +52,7 @@ const proposedIndicatorHelper = (() => {
 
     if (indicator.indicatorable_type != 'predefined') {
       indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
-      indicatorable_type = 'CustomIndicator';
+      indicatorable_type = 'Indicators::CustomIndicator';
     }
 
     return { id: indicatorable_id, type: indicatorable_type };

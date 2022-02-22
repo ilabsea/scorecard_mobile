@@ -1,5 +1,5 @@
 import Color from '../themes/color';
-import ProposedCriteria from '../models/ProposedCriteria';
+import ProposedIndicator from '../models/ProposedIndicator';
 import Participant from '../models/Participant';
 
 const participantHelper = (() => {
@@ -33,11 +33,11 @@ const participantHelper = (() => {
   }
 
   function getParticipantByIndicator(scorecardUuid, indicatorableId) {
-    const proposedCriterias = ProposedCriteria.findByIndicator(scorecardUuid, indicatorableId);
+    const proposedIndicators = ProposedIndicator.findByIndicator(scorecardUuid, indicatorableId);
     const participantOrderNumbers = [];
 
-    proposedCriterias.map(criteria => {
-      const participant = Participant.find(criteria.participant_uuid);
+    proposedIndicators.map(indicator => {
+      const participant = Participant.find(indicator.participant_uuid);
 
       participantOrderNumbers.push(participant.order + 1);
     });

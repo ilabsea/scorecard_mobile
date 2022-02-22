@@ -47,7 +47,7 @@ class AddNewIndicatorButton extends Component {
 
   renderButton() {
     return (
-      <TouchableOpacity onPress={() => this.props.showAddNewIndicatorForm()}
+      <TouchableOpacity onPress={() => this.props.showAddNewIndicatorModal()}
         style={[styles.container, !this.state.hasTourtip ? styles.floatPosition : {}]}
       >
         <Icon name='add' size={bottomButtonIconSize()} color={Color.whiteColor} />

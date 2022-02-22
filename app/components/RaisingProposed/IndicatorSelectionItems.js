@@ -3,9 +3,9 @@ import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import IndicatorCard from './IndicatorCard';
-import CriteriaAudioButton from './CriteriaAudioButton';
+import IndicatorAudioButton from './IndicatorAudioButton';
 
-class CriteriaSelectionItems extends Component {
+class IndicatorSelectionItems extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -30,7 +30,7 @@ class CriteriaSelectionItems extends Component {
 
   audioButton = (indicator) => {
     return (
-      <CriteriaAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
+      <IndicatorAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
         playingIndicatorId={this.state.playingIndicatorId}
         updateAudioState={this.updateAudioState}
         scorecardUUID={this.props.scorecardUuid}
@@ -43,14 +43,15 @@ class CriteriaSelectionItems extends Component {
 
     return (
       <IndicatorCard
-        indicators={this.props.indicators}
         indicator={indicator}
         index={index}
         scorecardUuid={this.props.scorecardUuid}
-        selectIndicator={this.props.selectIndicator}
-        selectedIndicators={this.props.selectedIndicators}
-        isSearching={this.props.isSearching}
         key={itemKey}
+        customCardStyle={this.props.customCardStyle}
+        participantUuid={this.props.participantUuid}
+        isEdit={this.props.isEdit}
+        updateIndicatorList={() => this.props.updateIndicatorList()}
+        selectForEdit={() => this.props.selectForEdit(indicator)}
       >
         {this.audioButton(indicator)}
       </IndicatorCard>
@@ -60,7 +61,7 @@ class CriteriaSelectionItems extends Component {
   render() {
     return (
       <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, marginTop: (this.props.isSearching || this.props.isEdit) ? 5 : 15}}>
-        { 
+        {
           this.props.indicators.map((indicator, index) => {
             return this.renderIndicatorCard(indicator, index)
           })
@@ -70,4 +71,4 @@ class CriteriaSelectionItems extends Component {
   }
 }
 
-export default CriteriaSelectionItems;
+export default IndicatorSelectionItems;

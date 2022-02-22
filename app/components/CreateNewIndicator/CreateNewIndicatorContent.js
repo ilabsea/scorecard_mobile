@@ -4,25 +4,12 @@ import { View, Text } from 'react-native';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantInfo';
-import CriteriaSelection from '../RaisingProposed/CriteriaSelection';
+import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
-
-import IndicatorService from '../../services/indicator_service';
 import { subTitleFontSize } from '../../utils/font_size_util';
 
 class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
-
-  updateSelectedParticipant(participantUuid) {
-    const indicatorAttrs = new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', []);
-    const dataset = {
-      indicators: indicatorAttrs.indicators,
-      selected_indicators: indicatorAttrs.selectedIndicators,
-      participant_uuid: participantUuid
-    };
-
-    !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(dataset);
-  }
 
   renderParticipant() {
     if (this.props.isSearching || this.props.isEdit)
@@ -33,22 +20,20 @@ class CreateNewIndicatorContent extends Component {
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
         navigation={this.props.navigation}
-        updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
+        updateSelectedParticipant={(participantUuid) => this.props.updateSelectedParticipant(participantUuid)}
       />
     )
   }
 
-  renderCriteriaList() {
+  renderIndicatorList() {
     return (
-      <CriteriaSelection
-        selectIndicator={this.props.selectIndicator}
+      <IndicatorSelection
+        indicators={this.props.indicators}
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
-        indicators={this.props.indicators}
-        selectedIndicators={this.props.selectedIndicators}
-        unselectedIndicators={this.props.unselectedIndicators}
-        customIndicator={this.props.customIndicator}
         isSearching={this.props.isSearching}
+        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal()}
+        updateIndicatorList={() => this.props.updateIndicatorList()}
       />
     )
   }
@@ -58,8 +43,9 @@ class CreateNewIndicatorContent extends Component {
       <RaisingProposedCustomIndicatorList
         scorecardUuid={this.props.scorecardUuid}
         indicators={this.props.indicators}
-        editCustomIndicator={this.props.editCustomIndicator}
+        selectForEdit={this.props.selectForEdit}
         selectedCustomIndicator={this.props.selectedCustomIndicator}
+        updateIndicatorList={() => this.props.updateIndicatorList()}
       />
     )
   }
@@ -75,7 +61,7 @@ class CreateNewIndicatorContent extends Component {
           </Text>
         }
 
-        { !this.props.isEdit ? this.renderCriteriaList() : this.renderCustomIndicatorList() }
+        { !this.props.isEdit ? this.renderIndicatorList() : this.renderCustomIndicatorList() }
       </View>
     )
   }

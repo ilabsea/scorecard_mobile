@@ -1,29 +1,19 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Modal } from 'react-native-paper';
 
 import VoiceRecord from './VoiceRecord';
-import { LocalizationContext } from '../Translations';
+import AddNewIndicatorModalTitle from './AddNewIndicatorModalTitle';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
 import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
+import ExistedIndicatorItem from './ExistedIndicatorItem';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { titleFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 class AddNewIndicatorModal extends Component {
-  static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
 
@@ -32,6 +22,7 @@ class AddNewIndicatorModal extends Component {
       tag: '',
       audio: null,
       isIndicatorExist: false,
+      duplicatedIndicators: []
     };
 
     this.isComponentUnmount = false;
@@ -51,13 +42,17 @@ class AddNewIndicatorModal extends Component {
     this.isComponentUnmount = true;
   }
 
-  cancel = () => {
+  clearInputs() {
     this.setState({
       name: '',
       tag: '',
       audio: null,
       isIndicatorExist: false,
     });
+  }
+
+  cancel = () => {
+    this.clearInputs();
     this.props.closeModal();
   }
 
@@ -71,37 +66,34 @@ class AddNewIndicatorModal extends Component {
     if (this.props.isEdit) {
       const { uuid, local_audio } = this.props.selectedCustomIndicator
       customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
-      this.props.updateCustomIndicator(indicator);
+      this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator,
-        (customIndicator) => {
-          this.props.saveCustomIndicator(customIndicator);
+      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, () => {
+        this.props.finishSaveOrUpdateCustomIndicator(false);
       });
     }
-
-    this.setState({
-      name: '',
-      tag: '',
-      audio: null,
-    });
-  }
-
-  finishRecord = (filename) => {
-    this.setState({audio: filename});
+    this.clearInputs();
   }
 
   renderButtons = () => {
-    return <AddNewIndicatorModalButtons name={this.state.name} save={() => this.save()}
-            cancel={() => this.cancel()} isIndicatorExist={this.state.isIndicatorExist} />
+    return <AddNewIndicatorModalButtons
+              name={this.state.name}
+              save={() => this.save()}
+              cancel={() => this.cancel()}
+              isIndicatorExist={this.state.isIndicatorExist}
+              isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()}
+            />
   }
 
   onChangeName(name) {
     const selectedIndicatorUuid = this.props.selectedCustomIndicator ? this.props.selectedCustomIndicator.uuid : null;
+    const indicatorService = new IndicatorService();
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : new IndicatorService().isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUUID, name)
     });
   }
 
@@ -115,31 +107,51 @@ class AddNewIndicatorModal extends Component {
         onChangeName={(text) => this.onChangeName(text)}
         onChangeTag={(text) => this.setState({tag: text})}
         isIndicatorExist={this.state.isIndicatorExist}
+        isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()}
       />
     )
   }
 
-  render() {
-    const {translations} = this.context;
+  updateIndicatorList() {
+    this.clearInputs();
+    this.props.updateIndicatorList();
+  }
 
+  renderExistedIndicator() {
+    return <ExistedIndicatorItem
+              scorecardUuid={this.props.scorecardUUID}
+              participantUuid={this.props.participantUUID}
+              indicatorName={this.state.name}
+              duplicatedIndicators={this.state.duplicatedIndicators}
+              updateIndicatorList={() => this.updateIndicatorList()}
+            />
+  }
+
+  isUniqueIndicatorOrEditing() {
+    return !this.state.isIndicatorExist || this.props.isEdit;
+  }
+
+  render() {
     return (
       <Modal visible={this.props.isVisible} contentContainerStyle={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View>
-            <Text style={styles.header}>
-              { this.props.isEdit ? translations.editIndicator : translations.addNewIndicator }
-            </Text>
+            <AddNewIndicatorModalTitle isEdit={this.props.isEdit} />
 
             { this.renderTextInputs() }
 
-            <VoiceRecord
-              participantUUID={this.props.participantUUID}
-              scorecardUUID={this.props.scorecardUUID}
-              finishRecord={this.finishRecord}
-              audioFilePath={this.state.audio}
-              deleteAudio={() => this.setState({audio: null})}
-              isEdit={this.props.isEdit}
-            />
+            { this.isUniqueIndicatorOrEditing() ?
+              <VoiceRecord
+                participantUUID={this.props.participantUUID}
+                scorecardUUID={this.props.scorecardUUID}
+                finishRecord={(filename) => this.setState({audio: filename})}
+                audioFilePath={this.state.audio}
+                deleteAudio={() => this.setState({audio: null})}
+                isEdit={this.props.isEdit}
+              />
+              :
+              this.renderExistedIndicator()
+            }
 
             {this.renderButtons()}
           </View>
@@ -154,12 +166,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     marginHorizontal: 30,
     padding: 20,
-    borderRadius: modalBorderRadius
-  },
-  header: {
-    fontSize: titleFontSize(),
-    fontFamily: FontFamily.title,
-    marginBottom: 20,
+    borderRadius: modalBorderRadius,
+    width: '92%',
+    alignSelf: 'center',
   },
 });
 

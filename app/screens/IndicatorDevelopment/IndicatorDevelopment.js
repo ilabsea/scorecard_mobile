@@ -16,7 +16,7 @@ import { setVotingCriterias } from '../../actions/votingCriteriaAction';
 
 import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
-import proposedCriteriaService from '../../services/proposed_criteria_service';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
 
@@ -38,22 +38,22 @@ class IndicatorDevelopment extends Component {
       this.props.setCurrentScorecard(this.state.scorecard);
     }
 
-    this.updateCriteriasData();
+    this.updateIndicatorsData();
   }
 
   componentWillUnmount() {
-    this.updateCriteriasData()
+    this.updateIndicatorsData()
   }
 
-  updateCriteriasData() {
+  updateIndicatorsData() {
     const selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
-    let proposedCriterias = proposedCriteriaService.getProposedCriterias(this.state.scorecard.uuid);
-    const selectedCriterias = proposedCriteriaService.getSelectedCriterias(this.state.scorecard.uuid, selectedIndicatorableIds);
+    let proposedIndicators = proposedIndicatorService.getProposedIndicators(this.state.scorecard.uuid);
+    const selectedIndicators = proposedIndicatorService.getSelectedProposedIndicators(this.state.scorecard.uuid, selectedIndicatorableIds);
 
-    proposedCriterias = proposedCriterias.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
+    proposedIndicators = proposedIndicators.filter(x => !selectedIndicatorableIds.includes(x.indicatorable_id));
 
-    this.props.setSelectedIndicators(selectedCriterias);
-    this.props.setProposedIndicators(proposedCriterias);
+    this.props.setSelectedIndicators(selectedIndicators);
+    this.props.setProposedIndicators(proposedIndicators);
   }
 
   _renderHeader() {

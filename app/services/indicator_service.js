@@ -4,14 +4,13 @@ import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
 import { indicatorPhase } from '../constants/scorecard_constant';
-import  { getIndicatorShortcutName } from '../utils/indicator_util';
 import { CUSTOM, PREDEFINED } from '../utils/variable';
 import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
 
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
 import CustomIndicator from '../models/CustomIndicator';
-import Scorecard from '../models/Scorecard';
+import ProposedIndicator from '../models/ProposedIndicator';
 
 class IndicatorService {
   getAll = (scorecardUuid) => {
@@ -59,9 +58,9 @@ class IndicatorService {
     successCallback(savedCount === indicators.length, indicatorPhase);
   }
 
-  getIndicatorList = (scorecardUuid, searchText, selectedIndicators) => {
+  getIndicatorList = (scorecardUuid, searchText) => {
     const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
-    return this._getIndicatorAttrs(savedIndicators, selectedIndicators);
+    return this._getIndicatorAttrs(savedIndicators);
   }
 
   isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
@@ -71,37 +70,39 @@ class IndicatorService {
     return isPredefinedIndicatorExist || isCustomIndicatorExist;
   }
 
+  getDuplicatedIndicator(scorecardUuid, name) {
+    let result = [];
+    const predefinedIndicators = Indicator.findByScorecardAndName(scorecardUuid, name);
+    const customIndicators = CustomIndicator.findByScorecardAndName(scorecardUuid, name);
+
+    if (predefinedIndicators.length > 0)
+      result = predefinedIndicators;
+    else if (customIndicators.length > 0)
+      result = customIndicators;
+
+    return result.length > 0 ? this._getIndicatorAttrs(result) : [];
+  }
+
   // private
 
-  _getIndicatorAttrs = (savedIndicators, proposedCriterias) => {
+  _getIndicatorAttrs = (savedIndicators) => {
     let indicators = [];
-    let selectedIndicators = [];
 
     savedIndicators.map((indicator) => {
       let attrs = {
         uuid: indicator.id || indicator.uuid,
         indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
         name: indicator.name,
-        shortcut: getIndicatorShortcutName(indicator.name),
         isSelected: false,
         tag: indicator.tag,
         type: !!indicator.id ? PREDEFINED : CUSTOM,
         local_image: indicator.local_image,
       };
-      if (proposedCriterias != undefined) {
-        for (let i=0; i<proposedCriterias.length; i++) {
-          const indicatorId = indicator.id != undefined ? indicator.id.toString() : indicator.uuid;
-          if (proposedCriterias[i].indicatorable_id === indicatorId) {
-            attrs.isSelected = true;
-            selectedIndicators.push(attrs);
-            break;
-          }
-        }
-      }
+
       indicators.push(attrs);
     });
 
-    return {indicators, selectedIndicators};
+    return indicators;
   }
 }
 

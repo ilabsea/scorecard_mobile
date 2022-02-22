@@ -8,7 +8,7 @@ import LanguageIndicator from '../models/LanguageIndicator';
 import { deleteScorecardDownload } from './scorecard_download_service';
 import scorecardMilestoneService from './scorecard_milestone_service';
 import votingCriteriaService from './votingCriteriaService';
-import proposedCriteriaService from './proposed_criteria_service';
+import proposedIndicatorService from './proposed_indicator_service';
 import scorecardSharingService from './scorecard_sharing_service';
 
 import { RENEWED } from '../constants/milestone_constant';
@@ -52,7 +52,7 @@ const scorecardDeletionService = (() => {
     CustomIndicator.deleteAll(scorecardUuid);
     LanguageIndicator.deleteAll(scorecardUuid);
     votingCriteriaService.deleteVotingCriteria(scorecardUuid);
-    proposedCriteriaService.deleteProposedCriterias(scorecardUuid);
+    proposedIndicatorService.deleteProposedIndicators(scorecardUuid);
     scorecardSharingService.deleteScorecardPdf(scorecardUuid);
 
     callback && callback();

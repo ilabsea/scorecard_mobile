@@ -7,8 +7,7 @@ import Tip from '../Tip';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
-import proposedCriteriaService from '../../services/proposed_criteria_service';
-import {getRaisedParticipants} from '../../services/participant_service';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Participant from '../../models/Participant';
 import {connect} from 'react-redux' ;
@@ -30,18 +29,13 @@ class ProposeIndicatorContent extends Component {
     });
   }
 
-  hasRaisedIndicator = () => {
-    const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
-    return proposedCriteriaService.hasRaisedCriteria(this.props.scorecardUuid, raisedParticipants);
-  }
-
   renderFinishButton = () => {
     const {translations} = this.context;
 
     return (
       <View style={styles.buttonContainer}>
         <BottomButton
-          disabled={!this.hasRaisedIndicator()}
+          disabled={!proposedIndicatorService.hasProposedIndicator(this.props.scorecardUuid)}
           label={translations['finishAndNext']}
           onPress={() => this.onPress()}
         />

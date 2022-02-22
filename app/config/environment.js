@@ -3,7 +3,6 @@ export const environment = {
   type: 'development',
   defaultLanguage: 'km',
   removeScorecardDay: 90,
-  enableTourTip: false,
   numberOfFacilitators: 4,
   implementedDayRange: 14,     // days
   defaultEndpoint: 'https://isaf.digital-csc.org',

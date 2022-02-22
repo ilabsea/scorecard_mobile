@@ -14,6 +14,7 @@ const CustomIndicator = (() => {
     create,
     deleteFile,
     isNameExist,
+    findByScorecardAndName,
   }
 
   function getAll(scorecardUuid) {
@@ -75,6 +76,10 @@ const CustomIndicator = (() => {
 
   function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND uuid != '${selectedIndicatorUuid}' AND name ==[c] '${ name }'`).length > 0 ? true : false;
+  }
+
+  function findByScorecardAndName(scorecardUuid, name) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND name ==[c] '${name}'`);
   }
 
   // Private method

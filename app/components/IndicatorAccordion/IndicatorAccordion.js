@@ -4,7 +4,7 @@ import {LocalizationContext} from '../Translations';
 import Accordion from '../Accordion';
 import IndicatorAccordionTitle from './IndicatorAccordionTitle';
 import IndicatorAccordionContent from './IndicatorAccordionContent';
-import proposedCriteriaService from '../../services/proposed_criteria_service';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 
 let _this = null;
 
@@ -15,13 +15,13 @@ class IndicatorAccordion extends Component {
     _this = this;
 
     this.state = {
-      criterias: [],
+      indicators: [],
     }
   }
 
   componentDidMount() {
-    const criterias = proposedCriteriaService.getProposedCriterias(this.props.scorecardUuid);
-    this.setState({ criterias })
+    const indicators = proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid);
+    this.setState({ indicators })
   }
 
   renderTitleText(indicator) {
@@ -35,7 +35,7 @@ class IndicatorAccordion extends Component {
   render() {
     return (
       <Accordion
-        items={this.state.criterias}
+        items={this.state.indicators}
         accordionTitle={this.renderTitleText}
         accordionContent={this.renderAccordionContent}
       />

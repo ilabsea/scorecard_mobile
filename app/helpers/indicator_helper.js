@@ -6,37 +6,11 @@ import Indicator from '../models/Indicator';
 
 const indicatorHelper = (() => {
   return {
-    getIndicatorsState,
     isExist,
     getDisplayIndicator,
     getTags,
     getIndicatorId,
   };
-
-  function getIndicatorsState(props, state) {
-    let indicators = props.indicators;
-    let selectedIndicatorsState = state.selectedIndicators;
-    let defaultSelectedIndicators = [];
-
-    if (props.customIndicator != null) {
-      selectedIndicatorsState.push(props.customIndicator);
-    }
-
-    selectedIndicatorsState.map((selectedIndicator) => {
-      let index = indicators.findIndex((indicator) => {
-        return indicator.uuid == selectedIndicator.uuid;
-      })
-
-      if (index != -1) {
-        indicators[index].isSelected = true;
-
-        if (!defaultSelectedIndicators.some(indicator => indicator.uuid == indicators[index].uuid))
-          defaultSelectedIndicators.push(indicators[index]);
-      }
-    });
-
-    return { indicators: indicators, selectedIndicators: defaultSelectedIndicators };
-  }
 
   function isExist(indicatorId) {
     return Indicator.find(indicatorId) === undefined ? false : true;
