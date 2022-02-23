@@ -54,9 +54,6 @@ const customIndicatorService = (() => {
   }
 
   function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {
-    // Previous version code
-    // CustomIndicator.update(customIndicatorUuid, newIndicator);
-
     const indicatorParams = {
       name: newIndicator.name,
       tag: newIndicator.tag,
@@ -76,51 +73,6 @@ const customIndicatorService = (() => {
     // if (previousAudio && (previousAudio != newIndicator.local_audio))
     //   CustomIndicator.deleteFile(previousAudio);
   }
-
-  // Previous version code
-
-  // function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
-  //   const customIndicator = {
-  //     uuid: uuidv4(),
-  //     name: indicator.name,
-  //     local_audio: indicator.local_audio,
-  //     scorecard_uuid: scorecardUuid,
-  //     tag: indicator.tag
-  //   };
-
-  //   const scorecard = Scorecard.find(scorecardUuid);
-  //   const customLanguageIndicator = {
-  //     id: uuidv4(),
-  //     content: indicator.name,
-  //     language_code: scorecard.audio_language_code,
-  //     local_audio: indicator.local_audio,
-  //     scorecard_uuid: scorecardUuid,
-  //     indicator_id: customIndicator.uuid,
-  //     type: CUSTOM,
-  //   };
-
-  //   CustomIndicator.create(customIndicator);
-  //   LanguageIndicator.create(customLanguageIndicator);
-  //   proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
-
-  //   callback();
-  // }
-
-  // function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {
-  //   CustomIndicator.update(customIndicatorUuid, newIndicator);
-  //   const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
-
-  //   const newLanguageIndicator = {
-  //     content: newIndicator.name,
-  //     local_audio: newIndicator.local_audio,
-  //   }
-  //   LanguageIndicator.update(languageIndicator.id, newLanguageIndicator);
-  //   proposedIndicatorService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
-
-  //   // Delete the existing audio file if user record new audio for custom indicator
-  //   if (previousAudio && (previousAudio != newIndicator.local_audio))
-  //     CustomIndicator.deleteFile(previousAudio);
-  // }
 })();
 
 export default customIndicatorService;

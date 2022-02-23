@@ -1,7 +1,6 @@
 import ProposedIndicator from '../models/ProposedIndicator';
 import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
-import { CUSTOM } from '../constants/indicator_constant';
 import uuidv4 from '../utils/uuidv4';
 import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
 
@@ -31,7 +30,6 @@ const proposedIndicatorService = (() => {
     const attrs = {
       uuid: uuidv4(),
       scorecard_uuid: scorecardUuid.toString(),
-      // indicatorable_id: indicator.type === CUSTOM ? indicator.indicator_uuid : indicator.indicatorable_id,
       indicatorable_id: indicator.indicatorable_id,
       indicatorable_type: indicator.type,
       indicatorable_name: indicator.name,
@@ -44,21 +42,6 @@ const proposedIndicatorService = (() => {
 
     ProposedIndicator.create(attrs);
   }
-
-  // function create(scorecardUuid, indicator, participantUuid) {
-  //   const attrs = {
-  //     uuid: uuidv4(),
-  //     scorecard_uuid: scorecardUuid.toString(),
-  //     indicatorable_id: indicator.uuid.toString(),
-  //     indicatorable_type: indicator.type || CUSTOM,
-  //     indicatorable_name: indicator.name,
-  //     participant_uuid: participantUuid,
-  //     tag: indicator.tag,
-  //     order: parseInt(ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
-  //   };
-
-  //   ProposedIndicator.create(attrs);
-  // }
 
   function update(scorecardUuid, indicatorId, params) {
     const proposedIndicators = ProposedIndicator.findByIndicator(scorecardUuid, indicatorId);

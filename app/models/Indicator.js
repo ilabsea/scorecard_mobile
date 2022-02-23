@@ -1,7 +1,6 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
-import CustomIndicator from './CustomIndicator';
-import { CUSTOM } from '../constants/indicator_constant';
+import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
 
 const  MODEL = 'Indicator';
 
@@ -17,11 +16,6 @@ const Indicator = (() => {
     getCustomIndicators,
   };
 
-  // Previous version code
-  // function find(id) {
-  //   return realm.objects('Indicator').filtered(`id = ${id}`)[0];
-  // }
-
   function find(indicatorId, type) {
     if (type === CUSTOM)
       return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorId}'`)[0];
@@ -35,12 +29,10 @@ const Indicator = (() => {
     });
   }
 
-  function update(indicatorUuid, params) {
-    if (find(indicatorUuid, CUSTOM)) {
-      realm.write(() => {
-        realm.create(MODEL, Object.assign(params, { uuid: indicatorUuid }), 'modified');
-      });
-    }
+  function update(uuid, params) {
+    realm.write(() => {
+      realm.create(MODEL, Object.assign(params, { uuid: uuid }), 'modified');
+    });
   }
 
   // Filter predefinded and custom indicator by name or tag
@@ -52,25 +44,11 @@ const Indicator = (() => {
       indicators = [...indicators, ...customIndicators];
 
     return indicators;
-
-
-    // Previous version code
-    // const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    // let indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
-    // const customIndicators = CustomIndicator.filter(scorecardUuid, text);
-
-    // if (customIndicators.length > 0)
-    //   indicators = [...indicators, ...customIndicators];
-
-    // return indicators;
   }
 
   function findByScorecard(scorecardUuid) {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
     return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' OR scorecard_uuid = '${scorecardUuid}'`);
-
-    // Previous version code
-    // return realm.objects(MODEL).filtered(`facility_id = '${facilityId}'`);
   }
 
   function findByScorecardAndName(scorecardUuid, name) {

@@ -4,23 +4,14 @@ import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
 import { indicatorPhase } from '../constants/scorecard_constant';
-import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
+import { PREDEFINED } from '../constants/indicator_constant';
 import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
 
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
 import CustomIndicator from '../models/CustomIndicator';
-import ProposedIndicator from '../models/ProposedIndicator';
 
 class IndicatorService {
-  // getAll = (scorecardUuid) => {
-  //   let predefinedIndicators = JSON.parse(JSON.stringify(Indicator.findByScorecard(scorecardUuid)));;
-  //   const customIndicators = JSON.parse(JSON.stringify(CustomIndicator.getAll(scorecardUuid)));
-  //   predefinedIndicators = predefinedIndicators.concat(customIndicators);
-
-  //   return predefinedIndicators.sort((a, b) => a.name > b.name);
-  // }
-
   getAll = (scorecardUuid) => {
     let indicators = JSON.parse(JSON.stringify(Indicator.findByScorecard(scorecardUuid)));;
     return indicators.sort((a, b) => a.name > b.name);
@@ -32,7 +23,7 @@ class IndicatorService {
 
     handleApiResponse(response, (indicators) => {
       if (!!indicators) {
-        this._saveIndicator(indicators, scorecardUuid, successCallback);
+        this._saveIndicator(indicators, successCallback);
         saveLanguageIndicator(scorecardUuid, indicators, successCallback)
       }
       else
@@ -43,52 +34,6 @@ class IndicatorService {
     });
   }
 
-  // Save the indicator when downloading the data
-  _saveIndicator(indicators, scorecardUuid, successCallback) {
-    let savedCount = 0;
-    indicators.map((indicator) => {
-      if (!indicatorHelper.isExist(indicator.id)) {
-        const indicatorSet = {
-          uuid: uuidv4(),
-          indicator_uuid: indicator.uuid,
-          id: indicator.id,
-          name: indicator.name,
-          facility_id: indicator.categorizable.id,
-          tag: indicator.tag_name,
-          type: PREDEFINED,
-        };
-        Indicator.create(indicatorSet);
-      }
-      savedCount += 1;
-    });
-    successCallback(savedCount === indicators.length, indicatorPhase);
-  }
-
-  // _saveIndicator(indicators, scorecardUuid, successCallback) {
-  //   let savedCount = 0;
-  //   indicators.map((indicator) => {
-  //     if (!indicatorHelper.isExist(indicator.id)) {
-  //       const indicatorSet = {
-  //         uuid: uuidv4(),
-  //         id: indicator.id,
-  //         name: indicator.name,
-  //         facility_id: indicator.categorizable.id,
-  //         scorecard_uuid: scorecardUuid,
-  //         tag: indicator.tag_name,
-  //         image: indicator.image != null ? indicator.image : undefined,
-  //       };
-  //       Indicator.create(indicatorSet);
-  //     }
-  //     savedCount += 1;
-  //   });
-  //   successCallback(savedCount === indicators.length, indicatorPhase);
-  // }
-
-  // getIndicatorList = (scorecardUuid, searchText) => {
-  //   const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
-  //   return this._getIndicatorAttrs(savedIndicators);
-  // }
-
   getIndicatorList = (scorecardUuid, searchText, isEdit) => {
     let savedIndicators = [];
 
@@ -97,7 +42,7 @@ class IndicatorService {
     else
       savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
 
-    return this._getIndicatorAttrs(savedIndicators);
+    return indicatorHelper.getIndicatorsAttrs(savedIndicators);
   }
 
   isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
@@ -117,53 +62,36 @@ class IndicatorService {
     else if (customIndicators.length > 0)
       result = customIndicators;
 
-    return result.length > 0 ? this._getIndicatorAttrs(result) : [];
+    return result.length > 0 ? indicatorHelper.getIndicatorsAttrs(result) : [];
   }
 
-  // private
+  // private methods
 
-  _getIndicatorAttrs = (savedIndicators) => {
-    let indicators = [];
+  // Save the indicator when downloading the scorecard data
+  _saveIndicator(indicators, successCallback) {
+    let savedCount = 0;
+    indicators.map((indicator) => {
+      const savedIndicator = Indicator.find(indicator.id, PREDEFINED);
 
-    savedIndicators.map((indicator) => {
-      // Custom indicator: indicator.uuid is the same as indicator.indicator_uuid
-      let attrs = {
-        uuid: indicator.uuid,
-        indicator_uuid: indicator.indicator_uuid,
-        indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
-        name: indicator.name,
-        isSelected: false,
-        tag: indicator.tag,
-        type: indicator.type || CUSTOM,
-      };
+      if (!savedIndicator) {
+        const indicatorSet = {
+          uuid: uuidv4(),
+          indicator_uuid: indicator.uuid,
+          id: indicator.id,
+          name: indicator.name,
+          facility_id: indicator.categorizable.id,
+          tag: indicator.tag_name,
+          type: PREDEFINED,
+        };
+        Indicator.create(indicatorSet);
+      }
+      else if(!!savedIndicator && !savedIndicator.indicator_uuid)
+        Indicator.update(savedIndicator.uuid, { indicator_uuid: indicator.uuid });
 
-      indicators.push(attrs);
+      savedCount += 1;
     });
-
-    return indicators;
+    successCallback(savedCount === indicators.length, indicatorPhase);
   }
-
-  // Previous version code
-
-  // _getIndicatorAttrs = (savedIndicators) => {
-  //   let indicators = [];
-
-  //   savedIndicators.map((indicator) => {
-  //     let attrs = {
-  //       uuid: indicator.id || indicator.uuid,
-  //       indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
-  //       name: indicator.name,
-  //       isSelected: false,
-  //       tag: indicator.tag,
-  //       type: !!indicator.id ? PREDEFINED : CUSTOM,
-  //       local_image: indicator.local_image,
-  //     };
-
-  //     indicators.push(attrs);
-  //   });
-
-  //   return indicators;
-  // }
 }
 
 export default IndicatorService;

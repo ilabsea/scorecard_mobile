@@ -1,8 +1,8 @@
 import IndicatorService from '../services/indicator_service';
-import CustomIndicator from '../models/CustomIndicator';
 import { find as findLanguageIndicator } from '../services/language_indicator_service';
 import Scorecard from '../models/Scorecard';
 import Indicator from '../models/Indicator';
+import { PREDEFINED } from '../constants/indicator_constant';
 
 const indicatorHelper = (() => {
   return {
@@ -10,10 +10,12 @@ const indicatorHelper = (() => {
     getDisplayIndicator,
     getTags,
     getIndicatorId,
+    hasIndicatorUuid,
+    getIndicatorsAttrs,
   };
 
-  function isExist(indicatorId) {
-    return Indicator.find(indicatorId) === undefined ? false : true;
+  function isExist(indicatorId, type) {
+    return Indicator.find(indicatorId, type) === undefined ? false : true;
   }
 
   function getDisplayIndicator(proposedIndicator, scorecardObj) {
@@ -33,19 +35,6 @@ const indicatorHelper = (() => {
     return langIndicator;
   }
 
-  // function getDisplayIndicator(indicatorable, scorecardObj) {
-  //   const scorecard = scorecardObj || Scorecard.find(indicatorable.scorecard_uuid);
-
-  //   if (indicatorable.indicatorable_type == 'predefined') {
-  //     return _getPredefinedIndicator(indicatorable, scorecard);
-  //   }
-
-  //   let indi = JSON.parse(JSON.stringify(CustomIndicator.find(indicatorable.indicatorable_id)));
-  //   indi.content = indi.content || indi.name;
-
-  //   return indi;
-  // }
-
   function getTags(scorecardUuid) {
     let indicators = new IndicatorService().getAll(scorecardUuid);
 
@@ -58,22 +47,29 @@ const indicatorHelper = (() => {
     return indicator.indicator_id || indicator.id || indicator.uuid;
   }
 
-  // Private
+  function hasIndicatorUuid(indicatorId) {
+    const savedIndicator = Indicator.find(indicatorId, PREDEFINED);
+    return !!savedIndicator.indicator_uuid
+  }
 
-  function _getPredefinedIndicator(indicatorable, scorecard) {
-    let predefined = Indicator.find(indicatorable.indicatorable_id);
-    let indi = findLanguageIndicator(indicatorable.indicatorable_id, scorecard.audio_language_code);
-    indi = indi || predefined;
-    indi = JSON.parse(JSON.stringify(indi));
-    indi.content = indi.content || indi.name;
-    indi.local_image = predefined.local_image;
+  function getIndicatorsAttrs(savedIndicators) {
+    let indicators = [];
 
-    if (!scorecard.isSameLanguageCode) {
-      let textIndi = findLanguageIndicator(indicatorable.indicatorable_id, scorecard.text_language_code);
-      indi.content = !!textIndi && textIndi.content;
-    }
+    savedIndicators.map((indicator) => {
+      // For custom indicator: indicator.uuid is the same as indicator.indicator_uuid
+      let attrs = {
+        uuid: indicator.uuid,
+        indicator_uuid: indicator.indicator_uuid,
+        indicatorable_id: indicator.type === PREDEFINED ? indicator.id.toString() : indicator.uuid,
+        name: indicator.name,
+        tag: indicator.tag,
+        type: indicator.type,
+      };
 
-    return indi;
+      indicators.push(attrs);
+    });
+
+    return indicators;
   }
 })();
 

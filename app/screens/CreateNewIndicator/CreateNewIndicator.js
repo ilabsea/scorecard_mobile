@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNewIndicatorBody';
 
-import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
@@ -34,12 +33,7 @@ class CreateNewIndicator extends Component {
 
   updateIndicatorList() {
     const { scorecard_uuid } = this.props.route.params;
-
-    this.setState({
-      // Previous version code
-      // indicators: !this.state.isEdit ? new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName) : CustomIndicator.getAll(scorecard_uuid)
-      indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit)
-    });
+    this.setState({ indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit) });
   }
 
   updateParticipantInfo() {
