@@ -1,11 +1,13 @@
 import CustomIndicator from '../models/CustomIndicator';
 import VotingCriteria from '../models/VotingCriteria';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
+import { getLanguageIndicator } from '../services/language_indicator_service';
 
 const proposedIndicatorHelper = (() => {
   return {
     getProposedIndicatorAttributes,
     getOrderedSelectedProposedIndicators,
+    getDisplayName,
   };
 
   function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -42,6 +44,11 @@ const proposedIndicatorHelper = (() => {
     }
 
     return orderedIndicators;
+  }
+
+  function getDisplayName(proposedIndicator, scorecardUuid) {
+    const languageIndicator = getLanguageIndicator(scorecardUuid, proposedIndicator.indicatorable_id, 'text');
+    return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
   }
 
   // private methods

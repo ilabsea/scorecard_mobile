@@ -16,7 +16,7 @@ const styles = getDeviceStyle(IndicatorCardTabletStyle, IndicatorCardMobileStyle
 class IndicatorCard extends Component {
 
   _getIndicatorName = (indicator) => {
-    const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.uuid, 'text');
+    const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_id, 'text');
 
     if (languageIndicator != undefined)
       return languageIndicator.content != '' ? languageIndicator.content : indicator.name.split(":").pop();
@@ -25,8 +25,6 @@ class IndicatorCard extends Component {
   }
 
   selectedIndicatorBoxStyle = (indicator) => {
-    // console.log('==++ indicit == ', indicator);
-
     if (!!ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
@@ -38,8 +36,6 @@ class IndicatorCard extends Component {
       !!this.props.selectForEdit && this.props.selectForEdit(indicator);
       return;
     }
-
-    console.log('selected = indicator = ', indicator)
 
     proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
     !!this.props.updateIndicatorList && this.props.updateIndicatorList();

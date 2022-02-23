@@ -17,7 +17,7 @@ const proposedIndicatorService = (() => {
   }
 
   function handleCreateAndRemoveIndicator(scorecardUuid, indicator, participantUuid) {
-    const proposedIndicator = ProposedIndicator.findByParticipant(scorecardUuid, indicator.uuid, participantUuid);
+    const proposedIndicator = ProposedIndicator.findByParticipant(scorecardUuid, indicator.indicatorable_id, participantUuid);
 
     if (!!proposedIndicator) {
       ProposedIndicator.destroy(proposedIndicator);
