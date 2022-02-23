@@ -36,6 +36,7 @@ class CreateNewIndicator extends Component {
     const { scorecard_uuid } = this.props.route.params;
 
     this.setState({
+      // Previous version code
       // indicators: !this.state.isEdit ? new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName) : CustomIndicator.getAll(scorecard_uuid)
       indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit)
     });

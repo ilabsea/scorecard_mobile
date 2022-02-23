@@ -126,8 +126,10 @@ class IndicatorService {
     let indicators = [];
 
     savedIndicators.map((indicator) => {
+      // Custom indicator: indicator.uuid is the same as indicator.indicator_uuid
       let attrs = {
-        indicator_uuid: indicator.uuid,
+        uuid: indicator.uuid,
+        indicator_uuid: indicator.indicator_uuid,
         indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
         name: indicator.name,
         isSelected: false,
@@ -140,6 +142,8 @@ class IndicatorService {
 
     return indicators;
   }
+
+  // Previous version code
 
   // _getIndicatorAttrs = (savedIndicators) => {
   //   let indicators = [];
