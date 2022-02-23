@@ -84,8 +84,19 @@ class IndicatorService {
   //   successCallback(savedCount === indicators.length, indicatorPhase);
   // }
 
-  getIndicatorList = (scorecardUuid, searchText) => {
-    const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+  // getIndicatorList = (scorecardUuid, searchText) => {
+  //   const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+  //   return this._getIndicatorAttrs(savedIndicators);
+  // }
+
+  getIndicatorList = (scorecardUuid, searchText, isEdit) => {
+    let savedIndicators = [];
+
+    if (isEdit)
+      savedIndicators = Indicator.getCustomIndicators(scorecardUuid);
+    else
+      savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+
     return this._getIndicatorAttrs(savedIndicators);
   }
 

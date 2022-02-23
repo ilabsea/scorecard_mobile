@@ -6,7 +6,6 @@ import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import { PREDEFINED } from '../../constants/indicator_constant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
 import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';

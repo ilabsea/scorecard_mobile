@@ -13,6 +13,7 @@ const Indicator = (() => {
     findByScorecard,
     findByScorecardAndName,
     isNameExist,
+    getCustomIndicators,
   };
 
   // function find(id) {
@@ -36,7 +37,10 @@ const Indicator = (() => {
   // Filter predefinded and custom indicator by name or tag
   function filter(scorecardUuid, text) {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' OR scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    if (customIndicators.length > 0)
+      indicators = [...indicators, ...customIndicators];
 
     return indicators;
 
@@ -64,6 +68,10 @@ const Indicator = (() => {
   function isNameExist(scorecardUuid, name) {
     const indicators = findByScorecardAndName(scorecardUuid, name);
     return indicators.length > 0 ? true : false;
+  }
+
+  function getCustomIndicators(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
   }
 })();
 
