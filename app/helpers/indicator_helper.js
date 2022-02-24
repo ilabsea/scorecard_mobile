@@ -3,6 +3,8 @@ import { find as findLanguageIndicator } from '../services/language_indicator_se
 import Scorecard from '../models/Scorecard';
 import Indicator from '../models/Indicator';
 import { PREDEFINED } from '../constants/indicator_constant';
+import { indicatorPhase } from '../constants/scorecard_constant';
+import uuidv4 from '../utils/uuidv4';
 
 const indicatorHelper = (() => {
   return {
@@ -12,6 +14,7 @@ const indicatorHelper = (() => {
     getIndicatorId,
     hasIndicatorUuid,
     getIndicatorsAttrs,
+    savePredefinedIndicator,
   };
 
   function isExist(indicatorId, type) {
@@ -70,6 +73,31 @@ const indicatorHelper = (() => {
     });
 
     return indicators;
+  }
+
+  function savePredefinedIndicator(indicators, successCallback) {
+    let savedCount = 0;
+    indicators.map((indicator) => {
+      const savedIndicator = Indicator.find(indicator.id, PREDEFINED);
+
+      if (!savedIndicator) {
+        const indicatorSet = {
+          uuid: uuidv4(),
+          indicator_uuid: indicator.uuid,
+          id: indicator.id,
+          name: indicator.name,
+          facility_id: indicator.categorizable.id,
+          tag: indicator.tag_name,
+          type: PREDEFINED,
+        };
+        Indicator.create(indicatorSet);
+      }
+      else if(!!savedIndicator && !savedIndicator.indicator_uuid)
+        Indicator.update(savedIndicator.uuid, { indicator_uuid: indicator.uuid });
+
+      savedCount += 1;
+    });
+    !!successCallback && successCallback(savedCount === indicators.length, indicatorPhase);
   }
 })();
 

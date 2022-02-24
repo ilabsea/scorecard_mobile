@@ -38,8 +38,6 @@ const proposedIndicatorService = (() => {
       order: parseInt(ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
     };
 
-    console.log('create attri == ', attrs)
-
     ProposedIndicator.create(attrs);
   }
 

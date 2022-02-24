@@ -1,11 +1,9 @@
-import uuidv4 from '../utils/uuidv4';
 import IndicatorApi from '../api/IndicatorApi';
 import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
-import { indicatorPhase } from '../constants/scorecard_constant';
 import { PREDEFINED } from '../constants/indicator_constant';
-import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
+import { ERROR_DOWNLOAD_SCORECARD, ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
 
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
@@ -16,21 +14,14 @@ class IndicatorService {
     return indicators.sort((a, b) => a.name > b.name);
   }
 
-  saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, errorCallback) => {
-    const indicatorApi = new IndicatorApi();
-    const response = await indicatorApi.load(facilityId);
-
-    handleApiResponse(response, (indicators) => {
-      if (!!indicators) {
-        this._saveIndicator(indicators, successCallback);
-        saveLanguageIndicator(scorecardUuid, indicators, successCallback)
-      }
-      else
-        errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
+  saveIndicatorSection = (scorecardUuid, facilityId, successCallback, errorCallback) => {
+    this._requestForIndicator(facilityId, (indicators) => {
+      // Save the predefined indicators
+      indicatorHelper.savePredefinedIndicator(indicators, successCallback);
+      saveLanguageIndicator(scorecardUuid, indicators, successCallback)
     }, (error) => {
-      console.log('error download caf = ', error);
       errorCallback(error);
-    });
+    })
   }
 
   getIndicatorList = (scorecardUuid, searchText, isEdit) => {
@@ -44,62 +35,41 @@ class IndicatorService {
     return indicatorHelper.getIndicatorsAttrs(savedIndicators);
   }
 
-  isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
-    return Indicator.isNameExist(scorecardUuid, name, selectedIndicatorUuid);
-  }
-
   getDuplicatedIndicator(scorecardUuid, name) {
     const indicators = Indicator.findByScorecardAndName(scorecardUuid, name);
     return indicators.length > 0 ? indicatorHelper.getIndicatorsAttrs(indicators) : [];
   }
 
-  // Previous version code
-  // isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
-  //   const isPredefinedIndicatorExist = Indicator.isNameExist(scorecardUuid, name);
-  //   const isCustomIndicatorExist = CustomIndicator.isNameExist(scorecardUuid, name, selectedIndicatorUuid);
+  checkAndSavePredefinedIndicatorsUuid(scorecard, successCallback, errorCallback) {
+    this._requestForIndicator(scorecard.facility_id, (indicators) => {
+      indicators.map(indicator => {
+        // Check and update indicator_uuid of predefined indicators
+        const predefinedIndicator = Indicator.find(indicator.id, PREDEFINED);
+        if (!!predefinedIndicator && !predefinedIndicator.indicator_uuid)
+          Indicator.update(predefinedIndicator.uuid, { indicator_uuid: indicator.uuid });
+      });
 
-  //   return isPredefinedIndicatorExist || isCustomIndicatorExist;
-  // }
-
-  // getDuplicatedIndicator(scorecardUuid, name) {
-  //   let result = [];
-  //   const predefinedIndicators = Indicator.findByScorecardAndName(scorecardUuid, name);
-  //   const customIndicators = CustomIndicator.findByScorecardAndName(scorecardUuid, name);
-
-  //   if (predefinedIndicators.length > 0)
-  //     result = predefinedIndicators;
-  //   else if (customIndicators.length > 0)
-  //     result = customIndicators;
-
-  //   return result.length > 0 ? indicatorHelper.getIndicatorsAttrs(result) : [];
-  // }
+      successCallback();
+    }, (response) => {
+      const error = response === ERROR_DOWNLOAD_SCORECARD ? ERROR_SOMETHING_WENT_WRONG : response;
+      errorCallback(error);
+    });
+  }
 
   // private methods
 
-  // Save the indicator when downloading the scorecard data
-  _saveIndicator(indicators, successCallback) {
-    let savedCount = 0;
-    indicators.map((indicator) => {
-      const savedIndicator = Indicator.find(indicator.id, PREDEFINED);
+  async _requestForIndicator(facilityId, successCallback, errorCallback) {
+    const response = await new IndicatorApi().load(facilityId);
 
-      if (!savedIndicator) {
-        const indicatorSet = {
-          uuid: uuidv4(),
-          indicator_uuid: indicator.uuid,
-          id: indicator.id,
-          name: indicator.name,
-          facility_id: indicator.categorizable.id,
-          tag: indicator.tag_name,
-          type: PREDEFINED,
-        };
-        Indicator.create(indicatorSet);
-      }
-      else if(!!savedIndicator && !savedIndicator.indicator_uuid)
-        Indicator.update(savedIndicator.uuid, { indicator_uuid: indicator.uuid });
-
-      savedCount += 1;
+    handleApiResponse(response, (indicators) => {
+      if (!!indicators)
+        !!successCallback && successCallback(indicators);
+      else
+        !!errorCallback && errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
+    }, (error) => {
+      console.log('error download indicator = ', error);
+      !!errorCallback && errorCallback(error);
     });
-    successCallback(savedCount === indicators.length, indicatorPhase);
   }
 }
 
