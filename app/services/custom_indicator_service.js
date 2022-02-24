@@ -2,6 +2,7 @@ import Scorecard from '../models/Scorecard';
 import Indicator from '../models/Indicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 import proposedIndicatorService from './proposed_indicator_service';
+import { deleteFile } from './local_file_system_service';
 import uuidv4 from '../utils/uuidv4';
 import { CUSTOM } from '../constants/indicator_constant';
 
@@ -9,6 +10,7 @@ const customIndicatorService = (() => {
   return {
     createNewIndicator,
     updateIndicator,
+    deleteIndicatorsByScorecard,
   }
 
   function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
@@ -60,8 +62,19 @@ const customIndicatorService = (() => {
     proposedIndicatorService.update(scorecardUuid, customIndicatorUuid, { indicatorable_name: newIndicator.name });
 
     // Delete the existing audio file if user record new audio for custom indicator
-    // if (previousAudio && (previousAudio != newIndicator.local_audio))
-    //   CustomIndicator.deleteFile(previousAudio);
+    if (previousAudio && (previousAudio != newIndicator.local_audio))
+      deleteFile(previousAudio);
+  }
+
+  function deleteIndicatorsByScorecard(scorecardUuid) {
+    const customIndicators = Indicator.getCustomIndicators(scorecardUuid);
+
+    customIndicators.map((customIndicator, index) => {
+      LanguageIndicator.destroy(customIndicator.indicator_uuid);
+
+      if (index === customIndicators.length -1)
+        Indicator.destroy(customIndicators);
+    });
   }
 })();
 

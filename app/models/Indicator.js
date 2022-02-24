@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
-import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
+import { CUSTOM } from '../constants/indicator_constant';
 
 const  MODEL = 'Indicator';
 
@@ -14,6 +14,7 @@ const Indicator = (() => {
     findByScorecardAndName,
     isNameExist,
     getCustomIndicators,
+    destroy,
   };
 
   function find(indicatorId, type) {
@@ -73,19 +74,14 @@ const Indicator = (() => {
     return indicators.length > 0 ? true : false;
   }
 
-  // Previous version code
-  // function findByScorecardAndName(scorecardUuid, name) {
-  //   const facilityId = Scorecard.find(scorecardUuid).facility_id;
-  //   return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
-  // }
-
-  // function isNameExist(scorecardUuid, name) {
-  //   const indicators = findByScorecardAndName(scorecardUuid, name);
-  //   return indicators.length > 0 ? true : false;
-  // }
-
   function getCustomIndicators(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
+  }
+
+  function destroy(indicator) {
+    realm.write(() => {
+      realm.delete(indicator);
+    });
   }
 })();
 
