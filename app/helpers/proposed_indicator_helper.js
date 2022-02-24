@@ -1,7 +1,7 @@
-import CustomIndicator from '../models/CustomIndicator';
 import VotingCriteria from '../models/VotingCriteria';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 import { getLanguageIndicator } from '../services/language_indicator_service';
+import { CUSTOM } from '../constants/indicator_constant';
 
 const proposedIndicatorHelper = (() => {
   return {
@@ -12,7 +12,10 @@ const proposedIndicatorHelper = (() => {
 
   function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
     return selectedIndicators.map(selectedIndicator => {
-      let indicator = _getIndicatorAttrs(selectedIndicator, scorecard);
+      // Previous version code
+      // let indicator = _getIndicatorAttrs(selectedIndicator, scorecard);
+
+      let indicator = _getIndicatorAttrs(selectedIndicator);
       let attr = getAttributesByColumns(selectedIndicator, columns);
 
       attr.indicatorable_id = indicator.id;
@@ -52,18 +55,26 @@ const proposedIndicatorHelper = (() => {
   }
 
   // private methods
-  function _getIndicatorAttrs(indicator, scorecard) {
-    let indicatorable_id = indicator.indicatorable_id;
-    let indicatorable_type = 'Indicator';
-    const customIndicators = CustomIndicator.getAll(scorecard.uuid);
 
-    if (indicator.indicatorable_type != 'predefined') {
-      indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
-      indicatorable_type = 'Indicators::CustomIndicator';
-    }
+  function _getIndicatorAttrs(indicator) {
+    const indicatorable_type = indicator.indicatorable_type === CUSTOM ? 'Indicators::CustomIndicator' : 'Indicator';
 
-    return { id: indicatorable_id, type: indicatorable_type };
+    return { id: indicator.indicatorable_id, type: indicatorable_type };
   }
+
+  // Previous version code
+  // function _getIndicatorAttrs(indicator, scorecard) {
+  //   let indicatorable_id = indicator.indicatorable_id;
+  //   let indicatorable_type = 'Indicator';
+  //   const customIndicators = CustomIndicator.getAll(scorecard.uuid);
+
+  //   if (indicator.indicatorable_type != 'predefined') {
+  //     indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
+  //     indicatorable_type = 'Indicators::CustomIndicator';
+  //   }
+
+  //   return { id: indicatorable_id, type: indicatorable_type };
+  // }
 })();
 
 export default proposedIndicatorHelper;

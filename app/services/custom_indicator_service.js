@@ -1,5 +1,4 @@
 import Scorecard from '../models/Scorecard';
-import CustomIndicator from '../models/CustomIndicator';
 import Indicator from '../models/Indicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 import proposedIndicatorService from './proposed_indicator_service';
@@ -8,17 +7,8 @@ import { CUSTOM } from '../constants/indicator_constant';
 
 const customIndicatorService = (() => {
   return {
-    getIndicatorList,
     createNewIndicator,
     updateIndicator,
-  }
-
-  function getIndicatorList(scorecardUuid, searchText) {
-    let customIndicators = searchText ? CustomIndicator.filter(scorecardUuid, searchText) : CustomIndicator.getAll(scorecardUuid);
-
-    return customIndicators.length > 0
-      ? JSON.parse(JSON.stringify(customIndicators)).sort((a, b) => a.name > b.name)
-      : customIndicators;
   }
 
   function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {

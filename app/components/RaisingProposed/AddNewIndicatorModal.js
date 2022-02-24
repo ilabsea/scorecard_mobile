@@ -11,6 +11,7 @@ import ExistedIndicatorItem from './ExistedIndicatorItem';
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import { getLanguageIndicator } from '../../services/language_indicator_service';
+import Indicator from '../../models/Indicator';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
@@ -36,7 +37,6 @@ class AddNewIndicatorModal extends Component {
       this.setState({
         name: this.props.selectedCustomIndicator.name,
         tag: this.props.selectedCustomIndicator.tag,
-        // audio: this.props.selectedCustomIndicator.local_audio,
         audio: languageIndicator.local_audio
       });
     }
@@ -68,13 +68,8 @@ class AddNewIndicatorModal extends Component {
     };
 
     if (this.props.isEdit) {
-      // Previous version code
-      // const { uuid, local_audio } = this.props.selectedCustomIndicator
-      // customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
-
       const { indicatorable_id, local_audio } = this.props.selectedCustomIndicator
       customIndicatorService.updateIndicator(indicatorable_id, indicator, this.props.scorecardUUID, local_audio);
-
       this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
@@ -101,7 +96,7 @@ class AddNewIndicatorModal extends Component {
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
       duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUUID, name)
     });
   }

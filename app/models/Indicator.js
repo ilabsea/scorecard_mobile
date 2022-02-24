@@ -53,13 +53,36 @@ const Indicator = (() => {
 
   function findByScorecardAndName(scorecardUuid, name) {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
+    const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
+
+    if (predefinedIndicators.length > 0)
+      return predefinedIndicators;
+
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`);
+    return customIndicators;
   }
 
-  function isNameExist(scorecardUuid, name) {
-    const indicators = findByScorecardAndName(scorecardUuid, name);
+  function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {
+    let indicators = [];
+
+    if (!selectedIndicatorUuid)
+      indicators = findByScorecardAndName(scorecardUuid, name);
+    else
+      indicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND name ==[c] '${ name }'`);
+
     return indicators.length > 0 ? true : false;
   }
+
+  // Previous version code
+  // function findByScorecardAndName(scorecardUuid, name) {
+  //   const facilityId = Scorecard.find(scorecardUuid).facility_id;
+  //   return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
+  // }
+
+  // function isNameExist(scorecardUuid, name) {
+  //   const indicators = findByScorecardAndName(scorecardUuid, name);
+  //   return indicators.length > 0 ? true : false;
+  // }
 
   function getCustomIndicators(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
