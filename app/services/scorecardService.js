@@ -4,7 +4,7 @@ import { getErrorType } from './api_service';
 import scorecardReferenceService from './scorecard_reference_service';
 
 import Scorecard from '../models/Scorecard';
-import CustomIndicator from '../models/CustomIndicator';
+import Indicator from '../models/Indicator';
 import ScorecardReference from '../models/ScorecardReference';
 
 import { scorecardAttributes } from '../utils/scorecard_attributes_util';
@@ -30,16 +30,16 @@ class ScorecardService extends BaseModelService {
   upload(uuid, callback, errorCallback) {
     this.scorecard_uuid = uuid;
     this.scorecard = Scorecard.find(uuid)
-    this.customIndicators = CustomIndicator.getAll(uuid);
+    this.customIndicators = Indicator.getCustomIndicators(uuid);
     this.progressNumber = 0;
-    let indicators = this.customIndicators.filter(x => !x.id_from_server);
-    this.totalNumber = indicators.length + ScorecardReference.findByScorecard(uuid).length + 1;
+    const customIndicatorsWithNoId = this.customIndicators.filter(x => !x.id);
+    this.totalNumber = customIndicatorsWithNoId.length + ScorecardReference.findByScorecard(uuid).length + 1;
 
     if (!this.scorecard || !this.scorecard.isInLastPhase) { return; }
 
     scorecardReferenceService.upload(uuid, () => { this.updateProgress(callback) }, () => {
       try {
-        sendRequestToApi(() => this.uploadCustomIndicator(0, indicators, callback, errorCallback));
+        sendRequestToApi(() => this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback));
       } catch (error) {
         console.log(error);
       }
@@ -62,7 +62,8 @@ class ScorecardService extends BaseModelService {
     this.customIndicatorApi.post(this.scorecard_uuid, this.customIndicatorData(customIndicator))
       .then(function (response) {
         if (response.status == 201) {
-          CustomIndicator.update(customIndicator.uuid, {id_from_server: response.data.id});
+          // Update the id of the custom indicator with the id that received from the server
+          Indicator.update(customIndicator.indicator_uuid, { id: response.data.id });
         }
 
         _this.updateProgress(callback);

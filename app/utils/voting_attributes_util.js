@@ -9,13 +9,10 @@ const votingAttributesHelper = (() => {
 
   function parse(scorecard) {
     let votingCriterias = JSON.parse(JSON.stringify(VotingCriteria.getAll(scorecard.uuid)));
-    let columns = ['uuid', 'scorecard_uuid', 'median', 'strength', 'weakness', 'suggested_action', 'order'];
+    let columns = ['uuid', 'scorecard_uuid', 'median', 'order'];
     let votingCriteriaAttr = proposedIndicatorHelper.getProposedIndicatorAttributes(scorecard, votingCriterias, columns, false);
 
     votingCriteriaAttr.map((votingCriteria, index) => {
-      votingCriteriaAttr[index].strength = votingCriteria.strength ? JSON.parse(votingCriteria.strength) : null;
-      votingCriteriaAttr[index].weakness = votingCriteria.weakness ? JSON.parse(votingCriteria.weakness) : null;
-      votingCriteriaAttr[index].suggested_action = votingCriteria.suggested_action ? JSON.parse(votingCriteria.suggested_action) : null;
       votingCriteriaAttr[index].display_order = votingCriteria.order;
 
       const { activities_attrs, suggested_actions_attrs } = getIndicatorActivitiesAttrs(scorecard.uuid, votingCriteria.uuid);

@@ -1,4 +1,5 @@
 import VotingCriteria from '../models/VotingCriteria';
+import Indicator from '../models/Indicator';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 import { getLanguageIndicator } from '../services/language_indicator_service';
 import { CUSTOM } from '../constants/indicator_constant';
@@ -12,23 +13,22 @@ const proposedIndicatorHelper = (() => {
 
   function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
     return selectedIndicators.map(selectedIndicator => {
-      // Previous version code
-      // let indicator = _getIndicatorAttrs(selectedIndicator, scorecard);
-
       let indicator = _getIndicatorAttrs(selectedIndicator);
       let attr = getAttributesByColumns(selectedIndicator, columns);
 
-      attr.indicatorable_id = indicator.id;
+      const indicatorIds = _getIndicatorIds(selectedIndicator);
       attr.indicatorable_type = indicator.type;
+      attr.indicatorable_id = indicatorIds.indicator_id;
+      attr.indicator_uuid = indicatorIds.indicator_uuid;
 
       if (!!isRaisedIndicatorAttrs) {
-        const votingIndicator = VotingCriteria.find(scorecard.uuid, indicator.id);
+        const votingIndicator = VotingCriteria.find(scorecard.uuid, indicator.indicatorable_id);
         attr.tag_attributes = { name: indicator.tag }
         attr.selected = !!votingIndicator ? true : false;
         attr.voting_indicator_uuid = !!votingIndicator ? votingIndicator.uuid : null;
       }
       else 
-        attr.uuid = selectedIndicator.uuid;
+        attr.uuid = selectedIndicator.uuid;    // the uuid of the votingCriteria
 
       return attr;
     })
@@ -59,22 +59,19 @@ const proposedIndicatorHelper = (() => {
   function _getIndicatorAttrs(indicator) {
     const indicatorable_type = indicator.indicatorable_type === CUSTOM ? 'Indicators::CustomIndicator' : 'Indicator';
 
-    return { id: indicator.indicatorable_id, type: indicatorable_type };
+    return { indicatorable_id: indicator.indicatorable_id, type: indicatorable_type };
   }
 
-  // Previous version code
-  // function _getIndicatorAttrs(indicator, scorecard) {
-  //   let indicatorable_id = indicator.indicatorable_id;
-  //   let indicatorable_type = 'Indicator';
-  //   const customIndicators = CustomIndicator.getAll(scorecard.uuid);
+  function _getIndicatorIds(selectedIndicator) {
+    const indicator = Indicator.find(selectedIndicator.indicatorable_id, selectedIndicator.indicatorable_type);
 
-  //   if (indicator.indicatorable_type != 'predefined') {
-  //     indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
-  //     indicatorable_type = 'Indicators::CustomIndicator';
-  //   }
+    console.log('INIDIDIDI == ', indicator);
 
-  //   return { id: indicatorable_id, type: indicatorable_type };
-  // }
+    return {
+      indicator_uuid: selectedIndicator.indicatorable_type === CUSTOM ? selectedIndicator.indicatorable_id : indicator.indicator_uuid,
+      indicator_id: selectedIndicator.indicatorable_type === CUSTOM ? indicator.id : selectedIndicator.indicatorable_id,
+    }
+  }
 })();
 
 export default proposedIndicatorHelper;

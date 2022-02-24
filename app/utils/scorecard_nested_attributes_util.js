@@ -19,5 +19,9 @@ export const getNestedAttributes = (scorecard) => {
     nestedAttributes = {...nestedAttributes, ...scorecardAttribute.parse(scorecard)}
   });
 
+  console.log('raised_indicators_attributes === ', JSON.stringify(nestedAttributes.raised_indicators_attributes));
+  console.log('===============================================');
+  console.log('voting_indicators_attributes === ', JSON.stringify(nestedAttributes.voting_indicators_attributes));
+
   return nestedAttributes;
 }
