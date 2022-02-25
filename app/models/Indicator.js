@@ -53,26 +53,21 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' OR scorecard_uuid = '${scorecardUuid}'`);
   }
 
-  function findByScorecardAndName(scorecardUuid, name) {
+  function findByScorecardAndName(scorecardUuid, name, selectedIndicatorUuid = null) {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
     const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
 
     if (predefinedIndicators.length > 0)
       return predefinedIndicators;
 
-    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`);
-    return customIndicators;
+    const query = !selectedIndicatorUuid ? `scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`
+                  : `scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND name ==[c] '${ name }'`;
+    
+    return realm.objects(MODEL).filtered(query);
   }
 
   function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {
-    let indicators = [];
-
-    if (!selectedIndicatorUuid)
-      indicators = findByScorecardAndName(scorecardUuid, name);
-    else
-      indicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND name ==[c] '${ name }'`);
-
-    return indicators.length > 0 ? true : false;
+    return findByScorecardAndName(scorecardUuid, name, selectedIndicatorUuid).length > 0;
   }
 
   function getCustomIndicators(scorecardUuid) {
