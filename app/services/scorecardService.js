@@ -31,11 +31,15 @@ class ScorecardService {
     this.scorecard_uuid = uuid;
     this.scorecard = Scorecard.find(uuid)
 
-    new IndicatorService().checkAndSavePredefinedIndicatorsUuid(this.scorecard, () => {
+    if (Indicator.arePredefinedIndicatorsHaveUuid(this.scorecard.facility_id))
       this.uploadScorecardReference(callback, errorCallback);
-    }, (error) => {
-      !!errorCallback && errorCallback(error);
-    });
+    else {
+      new IndicatorService().checkAndSavePredefinedIndicatorsUuid(this.scorecard, () => {
+        this.uploadScorecardReference(callback, errorCallback);
+      }, (error) => {
+        !!errorCallback && errorCallback(error);
+      });
+    }
   }
 
   // ------Step2------

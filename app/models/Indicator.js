@@ -15,6 +15,7 @@ const Indicator = (() => {
     isNameExist,
     getCustomIndicators,
     destroy,
+    arePredefinedIndicatorsHaveUuid,
   };
 
   function find(indicatorId, type) {
@@ -82,6 +83,10 @@ const Indicator = (() => {
     realm.write(() => {
       realm.delete(indicator);
     });
+  }
+
+  function arePredefinedIndicatorsHaveUuid(facilityId) {
+    return realm.objects(MODEL).filtered(`facility_id = '${ facilityId }' AND indicator_uuid = null`).length == 0;
   }
 })();
 
