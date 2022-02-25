@@ -26,6 +26,7 @@ class ExistedIndicatorItem extends React.Component {
           isSearching={false}
           scorecardUuid={this.props.scorecardUuid}
           participantUuid={this.props.participantUuid}
+          isPopupModalList={true}
           customCardStyle={{ marginLeft: 0, width: '100%' }}
           updateIndicatorList={() => this.props.updateIndicatorList()}
         />

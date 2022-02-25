@@ -67,7 +67,6 @@ class IndicatorService {
       else
         !!errorCallback && errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
     }, (error) => {
-      console.log('error download indicator = ', error);
       !!errorCallback && errorCallback(error);
     });
   }

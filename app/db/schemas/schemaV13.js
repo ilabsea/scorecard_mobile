@@ -24,7 +24,7 @@ const schemaV13 = {
       const oldIndicators = oldRealm.objects('Indicator');
       const newIndicators = newRealm.objects('Indicator');
 
-      // Copy all the existing predefined indicator (from indicator schema)
+      // Add indicator type and indicator_uuid to existing predefined indicators
       oldIndicators.map((oldIndicator, index) => {
         newIndicators[index].indicator_uuid = null,
         newIndicators[index].type = PREDEFINED;

@@ -42,6 +42,7 @@ const Indicator = (() => {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
     let indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
     const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+
     if (customIndicators.length > 0)
       indicators = [...indicators, ...customIndicators];
 
