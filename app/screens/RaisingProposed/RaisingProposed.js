@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposeIndicatorContent from '../../components/RaisingProposed/ProposeIndicatorContent';
 import ProgressHeader from '../../components/ProgressHeader';
+import TipModal from '../../components/Tip/TipModal';
+import tips from '../../db/jsons/tips';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -22,21 +24,32 @@ class RaisingProposed extends Component {
       Scorecard.update(scorecard.uuid, {status: '2'});
       props.setCurrentScorecard(scorecard);
     }
+
+    this.tipModalRef = React.createRef();
+
+    this.state = {
+      tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
+    }
   }
 
   render() {
     const {translations} = this.context;
     return (
-      <View style={{flex: 1}}>
-        <ProgressHeader
-          title={translations['getStarted']}
-          progressIndex={3}
-        />
-        <ProposeIndicatorContent
-          scorecardUuid={this.props.route.params.scorecard_uuid}
-          navigation={this.props.navigation}
-        />
-      </View>
+      <React.Fragment>
+        <View style={{flex: 1}}>
+          <ProgressHeader
+            title={translations['getStarted']}
+            progressIndex={3}
+          />
+          <ProposeIndicatorContent
+            scorecardUuid={this.props.route.params.scorecard_uuid}
+            navigation={this.props.navigation}
+            tipModalRef={this.tipModalRef}
+          />
+        </View>
+
+        <TipModal tipModalRef={this.tipModalRef} tip={this.state.tip} />
+      </React.Fragment>
     );
   }
 }

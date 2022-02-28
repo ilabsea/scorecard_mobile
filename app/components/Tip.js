@@ -52,7 +52,8 @@ export default class Tip extends Component {
     return (
       <View>
         <TouchableRipple
-          onPress={ () => this.setState({visibleModal: true}) }
+          onPress={() => this.props.showTipModal()}
+          // onPress={ () => this.setState({visibleModal: true}) }
           style={[customStyle.card, {marginBottom: 16, borderRadius: cardBorderRadius}]}>
 
           <View style={{flexDirection: 'row'}}>
@@ -66,11 +67,11 @@ export default class Tip extends Component {
           </View>
         </TouchableRipple>
 
-        <TipModal
+        {/* <TipModal
           visible={this.state.visibleModal}
           tip={this.state.tip}
           onDimiss={() => this.setState({visibleModal: false})}
-        />
+        /> */}
       </View>
     )
   }
