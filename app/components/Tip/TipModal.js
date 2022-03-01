@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Text, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { LocalizationContext } from '../Translations';
-import tips from '../../db/jsons/tips';
-import { Modal, Portal } from 'react-native-paper';
-import CloseButton from '../CloseButton';
 import TipListItem from './TipListItem';
 import BottomSheetModal from '../BottomSheetModal';
 import styles from '../../themes/modalStyle';
@@ -27,19 +23,10 @@ export default class TipModal extends Component {
     this.state = {
       isExpanded: false,
       snapPoints: ['45%', '80%']
-      // snapPoints: ['0%', '45%', '80%']
     }
   }
 
   renderTips() {
-    // let doms = this.props.tip.tips.map((tip, index) =>
-    //   <TipListItem
-    //     key={index}
-    //     title={tip.title}
-    //     subTitle={tip.subTitle}
-    //     number={index + 1} />
-    // )
-
     let doms = this.props.tip.tips.map((tip, index) => {
       if (index == 3 ) {
         return (
@@ -65,18 +52,18 @@ export default class TipModal extends Component {
   }
 
   expandModal() {
-    this.setState({
-      isExpanded: true,
-      snapPoints: ['80%']
-    });
+    this.setState({ isExpanded: true });
+    setTimeout(() => {
+      this.props.tipModalRef.current?.expand();
+    }, 100);
   }
 
   renderExpandButton() {
     return (
-      <TouchableOpacity onPress={() => this.expandModal()}
-        style={{marginBottom: 20, marginTop: -15, alignSelf: 'flex-end', flexDirection: 'row'}}
-      >
-        <Text style={{color: Color.clickableColor, fontFamily: FontFamily.title, fontSize: 16}}>មើលបន្ថែម</Text>
+      <TouchableOpacity onPress={() => this.expandModal()} style={{marginBottom: 20, marginTop: -15, alignSelf: 'flex-end', flexDirection: 'row'}}>
+        <Text style={{color: Color.clickableColor, fontFamily: FontFamily.title, fontSize: 16, textTransform: 'capitalize'}}>
+          {this.context.translations.viewMore}
+          </Text>
         <Icon name="expand-more" color={Color.clickableColor} size={26} />
       </TouchableOpacity>
     )
@@ -94,55 +81,21 @@ export default class TipModal extends Component {
     )
   }
 
-  onDismissModal() {
-    console.log('=== on dismiss ===');
-    this.setState({
-      isExpanded: false,
-      snapPoints: ['45%', '80%'],
-    });
-  }
-
   onChangeModal(index) {
-    console.log('INDEX ==== ', index);
-
-    this.setState({
-      isExpanded: index > 0,
-    });
+    setTimeout(() => {
+      this.setState({ isExpanded: index > 0 });
+    }, 50);
   }
 
   render() {
-    const { translations } = this.context;
-    // const marginHorizontalSize = getDeviceStyle(30, 20);
-    // const modalHeight = getDeviceStyle('70%', hp('80%'));
-
     return (
       <BottomSheetModal
         ref={this.props.tipModalRef}
         content={this.renderContent()}
         snapPoints={this.state.snapPoints}
-        onDismiss={() => this.onDismissModal()}
+        onDismiss={() => this.setState({ isExpanded: false })}
         onChange={(index) => this.onChangeModal(index)}
       />
-      
-      // <BottomSheetModal ref={this.props.tipModalRef}>
-      //   { this.renderContent() }
-      // </BottomSheetModal>
-
-      // <Portal>
-      //   <Modal visible={this.props.visible} onDismiss={this.props.onDimiss}
-      //     contentContainerStyle={ [styles.container, { minHeight: modalHeight, marginHorizontal: marginHorizontalSize, padding: containerPadding}] }
-      //   >
-      //     <ScrollView style={{flex: 1}}>
-      //       <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10 }]}>{ this.props.tip.title }</Text>
-
-      //       { this.renderTips() }
-      //     </ScrollView>
-
-      //     <View style={styles.btnActionWrapper}>
-      //       <CloseButton onPress={this.props.onDimiss} label={translations.close} />
-      //     </View>
-      //   </Modal>
-      // </Portal>
     )
   }
 }

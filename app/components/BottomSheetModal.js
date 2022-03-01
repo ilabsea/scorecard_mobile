@@ -10,8 +10,6 @@ import {
 // import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const BottomSheet = (props, ref) => {
-  // const [currentIndex, setCurrentIndex] = useState(0);
-
   const renderBackdrop = useCallback(
     props => (
       <BottomSheetBackdrop
@@ -48,8 +46,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
     height: '100%',
-    // height: 100,
-    // borderWidth: 1
   },
 });
 

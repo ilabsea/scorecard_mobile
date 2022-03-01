@@ -12,8 +12,6 @@ import { Icon } from 'native-base';
 import Color from '../themes/color';
 import customStyle from '../themes/customStyle';
 import cardListItemStyle from '../themes/cardListItemStyle';
-import tips from '../db/jsons/tips';
-import TipModal from './Tip/TipModal';
 import { TouchableRipple } from 'react-native-paper';
 
 import { cardBorderRadius } from '../constants/border_radius_constant';
@@ -25,15 +23,6 @@ const responsiveStyles = getDeviceStyle(TipTabletStyles, TipMobileStyles);
 
 export default class Tip extends Component {
   static contextType = LocalizationContext;
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
-      visibleModal: false
-    };
-  }
 
   renderTipIcon(scorecard) {
     let iconSize = 40;
@@ -53,7 +42,6 @@ export default class Tip extends Component {
       <View>
         <TouchableRipple
           onPress={() => this.props.showTipModal()}
-          // onPress={ () => this.setState({visibleModal: true}) }
           style={[customStyle.card, {marginBottom: 16, borderRadius: cardBorderRadius}]}>
 
           <View style={{flexDirection: 'row'}}>
@@ -66,12 +54,6 @@ export default class Tip extends Component {
             </View>
           </View>
         </TouchableRipple>
-
-        {/* <TipModal
-          visible={this.state.visibleModal}
-          tip={this.state.tip}
-          onDimiss={() => this.setState({visibleModal: false})}
-        /> */}
       </View>
     )
   }
