@@ -28,10 +28,9 @@ const BottomSheet = (props, ref) => {
         ref={ref}
         enablePanDownToClose={true}
         backdropComponent={renderBackdrop}
-        // snapPoints={[hp('45%'), hp('80%')]}
         snapPoints={props.snapPoints}
-        onDismiss={() => props.onDismiss()}
-        onChange={(index) => props.onChange(index)}
+        onDismiss={() => !!props.onDismiss && props.onDismiss()}
+        onChange={(index) => !!props.onChange && props.onChange(index)}
       >
         <BottomSheetScrollView style={styles.contentContainer}>
           { props.content }

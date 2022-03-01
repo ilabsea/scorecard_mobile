@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import { Modal, Portal } from 'react-native-paper';
+import {View, Text} from 'react-native';
 import {LocalizationContext} from '../Translations';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
 import uuidv4 from '../../utils/uuidv4';
@@ -8,15 +7,15 @@ import { MALE } from '../../constants/participant_constant';
 
 import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
+import BottomSheetModal from '../BottomSheetModal';
 
 import {saveParticipantInfo} from '../../services/participant_service';
-
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
 import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
-import { addNewParticipantModalHeight } from '../../utils/responsive_util';
+import { containerPadding } from '../../utils/responsive_util';
 
 class AddNewParticipantModal extends Component {
   static contextType = LocalizationContext;
@@ -62,7 +61,7 @@ class AddNewParticipantModal extends Component {
       <ParticipantForm
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
-        containerStyle={{paddingBottom: 160, paddingTop: 0}}
+        containerStyle={{paddingBottom: 65, paddingTop: 0}}
         renderSmallSize={true}
       />
     );
@@ -93,39 +92,46 @@ class AddNewParticipantModal extends Component {
 
   closeModal = () => {
     this.resetFormData();
-    this.props.onClose();
+    // this.props.onClose();
+
+    // ToDo: close the participant list modal and close itself modal
+    setTimeout(() => {
+      this.props.participantFormModalRef.current?.dismiss();
+    }, 50);
+  }
+
+  renderContent() {
+    const {translations} = this.context;
+
+    return (
+      <View style={{backgroundColor: Color.whiteColor, padding: containerPadding, flex: 1}}>
+        <Text style={[styles.header, {marginBottom: 10}]}>{translations.addNewParticipant}</Text>
+        {this.renderForm()}
+
+        <View style={styles.btnWrapper}>
+          <CloseButton
+            onPress={() => this.closeModal()}
+            label={translations.close}
+          />
+
+          <SaveButton
+            disabled={!this.state.isValidAge}
+            onPress={() => this.save()}
+            label={translations.save}
+          />
+        </View>
+      </View>
+    )
   }
 
   render() {
-    const {translations} = this.context;
     return (
-      <Portal>
-        <Modal visible={this.props.visible}
-          contentContainerStyle={[styles.container, { height: addNewParticipantModalHeight() }]}
-        >
-          <View style={{backgroundColor: Color.whiteColor, flex: 1}}>
-            <Text style={[styles.header, {marginBottom: 10}]}>{translations.addNewParticipant}</Text>
-
-            <ScrollView style={{marginBottom: 30}} scrollEnabled={false} showsVerticalScrollIndicator={false}>
-              {this.renderForm()}
-            </ScrollView>
-
-            <View style={styles.btnWrapper}>
-              <CloseButton
-                onPress={() => this.closeModal()}
-                label={translations.close}
-              />
-
-              <SaveButton
-                disabled={!this.state.isValidAge}
-                onPress={() => this.save()}
-                label={translations.save}
-              />
-            </View>
-          </View>
-        </Modal>
-      </Portal>
-    );
+      <BottomSheetModal
+        ref={this.props.participantFormModalRef}
+        content={this.renderContent()}
+        snapPoints={['65%']}
+      />
+    )
   }
 }
 

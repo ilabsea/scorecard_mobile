@@ -55,6 +55,7 @@ class ProposeIndicatorContent extends Component {
             navigation={this.props.navigation}
             numberOfParticipant={Participant.getAll(this.props.scorecardUuid).length}
             numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
+            participantFormModalRef={this.props.participantFormModalRef}
           />
         </ScrollView>
 

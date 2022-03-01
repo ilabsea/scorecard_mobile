@@ -22,7 +22,6 @@ export default class TipModal extends Component {
     super(props);
     this.state = {
       isExpanded: false,
-      snapPoints: ['45%', '80%']
     }
   }
 
@@ -92,7 +91,7 @@ export default class TipModal extends Component {
       <BottomSheetModal
         ref={this.props.tipModalRef}
         content={this.renderContent()}
-        snapPoints={this.state.snapPoints}
+        snapPoints={['45%', '80%']}
         onDismiss={() => this.setState({ isExpanded: false })}
         onChange={(index) => this.onChangeModal(index)}
       />
