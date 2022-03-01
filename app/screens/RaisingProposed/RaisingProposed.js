@@ -6,7 +6,6 @@ import ProposeIndicatorContent from '../../components/RaisingProposed/ProposeInd
 import ProgressHeader from '../../components/ProgressHeader';
 import AddNewParticipantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import TipModal from '../../components/Tip/TipModal';
-import tips from '../../db/jsons/tips';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -18,9 +17,6 @@ class RaisingProposed extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
-    }
     this.hasInternetConnection = false;
     let scorecard = Scorecard.find(props.route.params.scorecard_uuid);
 
@@ -30,11 +26,16 @@ class RaisingProposed extends Component {
     }
 
     this.tipModalRef = React.createRef();
+    this.participantModalRef = React.createRef();
     this.participantFormModalRef = React.createRef();
+
+    this.modalRef = React.createRef(null);
   }
 
   render() {
     const {translations} = this.context;
+    const { scorecard_uuid } = this.props.route.params;
+
     return (
       <React.Fragment>
         <View style={{flex: 1}}>
@@ -43,14 +44,15 @@ class RaisingProposed extends Component {
             progressIndex={3}
           />
           <ProposeIndicatorContent
-            scorecardUuid={this.props.route.params.scorecard_uuid}
+            scorecardUuid={scorecard_uuid}
             navigation={this.props.navigation}
             tipModalRef={this.tipModalRef}
+            participantModalRef={this.participantModalRef}
             participantFormModalRef={this.participantFormModalRef}
           />
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} tip={this.state.tip} />
+        <TipModal ref={this.modalRef} tipModalRef={this.tipModalRef} snapPoints={['49%', '76%']} screenName='RaisingProposed' />
         <AddNewParticipantModal participantFormModalRef={this.participantFormModalRef} />
       </React.Fragment>
     );

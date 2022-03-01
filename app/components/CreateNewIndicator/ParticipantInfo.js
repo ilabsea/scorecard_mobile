@@ -118,6 +118,7 @@ export default class ParticipantInfo extends Component {
           onDismiss={() => this.onDismissModal()}
           showAddParticipantModal={() => this._showAddParticipantModal()}
           onPressItem={(participant) => this._onPressItem(participant) }
+          participantModalRef={this.props.participantModalRef}
         />
 
         <AddNewParticiantModal

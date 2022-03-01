@@ -46,8 +46,7 @@ class ProposedIndicatorAccordions extends Component {
         <NoDataMessage
           title={translations.pleaseProposeIndicator}
           buttonLabel={translations.proposeNewIndicator}
-          // onPress={() => this.props.showModal()}
-          onPress={() => this.props.participantFormModalRef.current?.present()}
+          onPress={() => this.props.showModal()}
           customContainerStyle={responsiveStyles.noDataContainer}
         />
       </View>

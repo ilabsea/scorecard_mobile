@@ -35,6 +35,10 @@ const BottomSheet = (props, ref) => {
         <BottomSheetScrollView style={styles.contentContainer}>
           { props.content }
         </BottomSheetScrollView>
+
+        {/* <BottomSheetView style={styles.contentContainer}>
+          { props.content }
+        </BottomSheetView> */}
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )

@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-
-import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { LocalizationContext } from '../Translations';
 import TipListItem from './TipListItem';
 import BottomSheetModal from '../BottomSheetModal';
+import DashedLine from '../DashedLine';
 import styles from '../../themes/modalStyle';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import tips from '../../db/jsons/tips';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
@@ -22,11 +23,12 @@ export default class TipModal extends Component {
     super(props);
     this.state = {
       isExpanded: false,
+      tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
     }
   }
 
   renderTips() {
-    let doms = this.props.tip.tips.map((tip, index) => {
+    let doms = this.state.tip.tips.map((tip, index) => {
       if (index == 3 ) {
         return (
           <React.Fragment key={index}>
@@ -71,10 +73,14 @@ export default class TipModal extends Component {
   renderContent() {
     return (
       <React.Fragment>
-        <ScrollView style={{flex: 1, padding: containerPadding}}>
-          <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10 }]}>{ this.props.tip.title }</Text>
+        <ScrollView style={{flex: 1}}>
+          <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>{ this.state.tip.title }</Text>
 
-          { this.renderTips() }
+          <DashedLine containerStyle={{marginBottom: 8}} />
+
+          <View style={{padding: containerPadding}}>
+            { this.renderTips() }
+          </View>
         </ScrollView>
       </React.Fragment>
     )
@@ -91,7 +97,7 @@ export default class TipModal extends Component {
       <BottomSheetModal
         ref={this.props.tipModalRef}
         content={this.renderContent()}
-        snapPoints={['45%', '80%']}
+        snapPoints={this.props.snapPoints}
         onDismiss={() => this.setState({ isExpanded: false })}
         onChange={(index) => this.onChangeModal(index)}
       />

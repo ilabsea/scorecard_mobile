@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
 import Color from '../../themes/color';
 
 import Tip from '../Tip';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
-// import BottomSheetModal from '../BottomSheetModal';
 import {LocalizationContext} from '../../components/Translations';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
@@ -48,14 +47,13 @@ class ProposeIndicatorContent extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28, flexGrow: 1}}>
-          <Tip showTipModal={() => this.props.tipModalRef.current?.present()} screenName={'RaisingProposed'}/>
+          <Tip showTipModal={() => this.props.tipModalRef.current?.present()} />
 
           <ListUser
             scorecardUuid={this.props.scorecardUuid}
             navigation={this.props.navigation}
             numberOfParticipant={Participant.getAll(this.props.scorecardUuid).length}
             numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
-            participantFormModalRef={this.props.participantFormModalRef}
           />
         </ScrollView>
 

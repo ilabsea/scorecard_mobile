@@ -54,7 +54,6 @@ class ListUser extends Component {
               navigation={this.props.navigation}
               visibleModal={this.state.visibleModal}
               closeModal={() => this.setState({ visibleModal: false })}
-              participantFormModalRef={this.props.participantFormModalRef}
             />
           </View>
         </View>
@@ -65,7 +64,6 @@ class ListUser extends Component {
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
           navigation={this.props.navigation}
           showModal={() => this.setState({ visibleModal: true })}
-          participantFormModalRef={this.props.participantFormModalRef}
         />
       </View>
     );

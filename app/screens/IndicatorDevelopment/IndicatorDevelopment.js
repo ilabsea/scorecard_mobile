@@ -7,6 +7,7 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import ProposedIndicatorListModal from '../../components/IndicatorDevelopment/ProposedIndicatorListModal';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
+import TipModal from '../../components/Tip/TipModal';
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
@@ -30,6 +31,8 @@ class IndicatorDevelopment extends Component {
       visibleModal: false,
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
     };
+
+    this.tipModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -84,6 +87,7 @@ class IndicatorDevelopment extends Component {
         openModal={() => this.setState({ visibleModal: true })}
         updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}
         navigation={this.props.navigation}
+        tipModalRef={this.tipModalRef}
       />
     )
   }
@@ -110,6 +114,8 @@ class IndicatorDevelopment extends Component {
               label={translations.saveAndGoNext}/>
           </View>
         }
+
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={['32.5%']} screenName='IndicatorDevelopment' />
 
         <ProposedIndicatorListModal
           visible={this.state.visibleModal}
