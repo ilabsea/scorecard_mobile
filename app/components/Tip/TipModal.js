@@ -60,7 +60,7 @@ export default class TipModal extends Component {
         <ScrollView style={{flex: 1}}>
           <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>{ this.state.tip.title }</Text>
           <DashedLine containerStyle={{marginBottom: 8}} />
-          <View style={{padding: containerPadding}}>
+          <View style={{padding: containerPadding, paddingBottom: 0}}>
             { this.renderTips() }
           </View>
         </ScrollView>

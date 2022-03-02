@@ -26,7 +26,6 @@ export default class VotingCriteriaListItem extends Component {
     super(props);
 
     this.state = {
-      modalVisible: false,
       votingInfos: [],
       selectedIndicator: null,
     };
@@ -67,7 +66,8 @@ export default class VotingCriteriaListItem extends Component {
       votingInfos: votingInfos,
       selectedIndicator: indicator,
     }, () => {
-      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? ['42%', '53%'] : ['13%'];
+      // const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? ['42%', '53%'] : ['13%'];
+      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? ['42%', '58%'] : ['13%'];
       const scorecard = this.props.scorecard || {};
       const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.criteria);
 

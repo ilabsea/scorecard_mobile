@@ -12,6 +12,7 @@ import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
 import VotingCriteria from '../../models/VotingCriteria';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -56,13 +57,16 @@ class VotingCriteriaList extends Component {
   }
 
   render() {
+    const snapPoints = getDeviceStyle(['32.5%'], ['35%']);
+
     return (
       <View style={{height: '100%'}}>
         { this._renderHeader() }
 
         { this._renderBody() }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={['32.5%']} screenName='VotingCriteriaList' />
+        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={['32.5%']} screenName='VotingCriteriaList' /> */}
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingCriteriaList' />
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
       </View>
     )

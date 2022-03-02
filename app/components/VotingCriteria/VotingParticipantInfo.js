@@ -24,16 +24,25 @@ class VotingParticipantInfo extends Component {
     let doms = [];
 
     if (votingScore > 0) {
-      doms.push(
-        <View key={uuidv4()}
-          style={{flexDirection: 'row'}}
-        >
-          <Text style={responsiveStyles.normalText}>{ participantType }</Text>
-          <Text style={[responsiveStyles.normalText, { fontFamily: FontFamily.title }]}> ({ votingScore } {translations.pax})</Text>
+      // doms.push(
+      //   <View key={uuidv4()}
+      //     style={{flexDirection: 'row'}}
+      //   >
+      //     <Text style={responsiveStyles.normalText}>{ participantType }</Text>
+      //     <Text style={[responsiveStyles.normalText, { fontFamily: FontFamily.title }]}> ({ votingScore } {translations.pax})</Text>
 
-          { index < participantTypes.length -1 &&
-            <Text key={uuidv4()} style={{marginTop: -3}}> | </Text>
-          }
+      //     { index < participantTypes.length -1 &&
+      //       <Text key={uuidv4()} style={{marginTop: -3}}> | </Text>
+      //     }
+      //   </View>
+      // )
+
+      doms.push(
+        <View key={uuidv4()} style={[{flex: 1,flexDirection: 'row', paddingVertical: 4}, index % 2 == 0 ? { marginRight: 20 } : {}]}>
+          <Text style={responsiveStyles.normalText}>{ participantType }</Text>
+          <Text style={[{marginLeft: 6, fontFamily: FontFamily.title}, responsiveStyles.normalText]}>
+            ({ votingScore } {translations.pax})
+          </Text>
         </View>
       )
     }
@@ -53,11 +62,27 @@ class VotingParticipantInfo extends Component {
       doms.push(this._renderSummaryItem(votingScore, participantType, i));
     }
 
+    // return (
+    //   <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+    //     { doms }
+    //   </View>
+    // );
+
     return (
-      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        { doms }
+      <View style={{paddingLeft: 10}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          {doms[0]}
+          {doms[1]}
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          {doms[2]}
+          {doms[3]}
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          {doms[4]}
+        </View>
       </View>
-    );
+    )
   }
 
   render() {
@@ -68,9 +93,9 @@ class VotingParticipantInfo extends Component {
         <Text style={[{marginBottom: 5, fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.numberOfVotedParticipant }: {Participant.getVoted(this.props.scorecard.uuid).length} {translations.pax} 
         </Text>
-        <View style={{flexDirection: 'row', paddingHorizontal: 10}}>
+        {/* <View style={{flexDirection: 'row', paddingHorizontal: 10}}> */}
           {this._renderVotingInformation()}
-        </View>
+        {/* </View> */}
       </View>
     );
   }

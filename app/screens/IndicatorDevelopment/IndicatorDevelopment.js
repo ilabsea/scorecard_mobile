@@ -19,7 +19,7 @@ import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -99,6 +99,7 @@ class IndicatorDevelopment extends Component {
 
   render() {
     const { translations } = this.context;
+    const snapPoint = getDeviceStyle('32.5%', '38%');
 
     return (
       <View style={{flex: 1}}>
@@ -115,7 +116,7 @@ class IndicatorDevelopment extends Component {
           </View>
         }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={['32.5%']} screenName='IndicatorDevelopment' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoint]} screenName='IndicatorDevelopment' />
 
         <ProposedIndicatorListModal
           visible={this.state.visibleModal}
