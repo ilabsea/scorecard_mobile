@@ -24,9 +24,7 @@ const responsiveStyles = getDeviceStyle(TipTabletStyles, TipMobileStyles);
 export default class Tip extends Component {
   static contextType = LocalizationContext;
 
-  renderTipIcon(scorecard) {
-    let iconSize = 40;
-
+  renderTipIcon() {
     return (
       <View style={[cardListItemStyle.statusIconWrapper, responsiveStyles.tipIconContainer]}>
         <Image source={require('../assets/images/tip.png')} style={responsiveStyles.tipIcon}/>
@@ -45,7 +43,7 @@ export default class Tip extends Component {
           style={[customStyle.card, {marginBottom: 16, borderRadius: cardBorderRadius}]}>
 
           <View style={{flexDirection: 'row'}}>
-            { this.renderTipIcon(scorecard) }
+            { this.renderTipIcon() }
 
             <View style={styles.contentWrapper}>
               <Text style={[cardListItemStyle.h2, responsiveStyles.title]}>{ translations.tips }</Text>

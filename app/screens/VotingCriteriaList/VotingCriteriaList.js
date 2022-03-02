@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-
-import { Text } from 'native-base';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -13,6 +7,7 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
+import TipModal from '../../components/Tip/TipModal';
 
 import VotingCriteriaListItem from '../../components/VotingCriteria/VotingCriteriaListItem';
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
@@ -39,6 +34,8 @@ class VotingCriteriaList extends Component {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
       votingCriterias: VotingCriteria.getAll(props.route.params.scorecard_uuid),
     };
+
+    this.tipModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -103,7 +100,7 @@ class VotingCriteriaList extends Component {
         { this._renderHeader() }
 
         <ScrollView contentContainerStyle={styles.container}>
-          <Tip screenName={'VotingCriteriaList'}/>
+          <Tip showTipModal={() => this.tipModalRef.current?.present()} />
 
           { this._renderContent() }
         </ScrollView>
@@ -116,6 +113,8 @@ class VotingCriteriaList extends Component {
             disabled={!hasVoting(this.state.scorecard.uuid)}
           />
         </View>
+
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={['32.5%']} screenName='VotingCriteriaList' />
       </View>
     )
   }
