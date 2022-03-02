@@ -99,7 +99,7 @@ class IndicatorDevelopment extends Component {
 
   render() {
     const { translations } = this.context;
-    const snapPoint = getDeviceStyle('32.5%', '38%');
+    const snapPoints = getDeviceStyle('32.5%', '38%');
 
     return (
       <View style={{flex: 1}}>
@@ -116,7 +116,7 @@ class IndicatorDevelopment extends Component {
           </View>
         }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoint]} screenName='IndicatorDevelopment' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoints]} screenName='IndicatorDevelopment' />
 
         <ProposedIndicatorListModal
           visible={this.state.visibleModal}

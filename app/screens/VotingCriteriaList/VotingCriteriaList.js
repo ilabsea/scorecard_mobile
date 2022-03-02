@@ -65,7 +65,6 @@ class VotingCriteriaList extends Component {
 
         { this._renderBody() }
 
-        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={['32.5%']} screenName='VotingCriteriaList' /> */}
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingCriteriaList' />
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
       </View>

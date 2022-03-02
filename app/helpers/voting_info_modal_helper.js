@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 
-import { LocalizationContext } from '../components/Translations';
 import OutlineInfoIcon from '../components/OutlineInfoIcon';
 import DashedLine from '../components/DashedLine';
 import VotingParticipantInfo from '../components/VotingCriteria/VotingParticipantInfo';
@@ -24,11 +23,11 @@ const votingInfoModalHelper = (() => {
     getModalContent
   }
 
-  function getModalContent(scorecard, indicator, criteria) {
+  function getModalContent(scorecard, indicator, criteria, translations) {
     if (isVotingCriteriaRated(criteria.uuid))
       return _getVotingDetail(scorecard, indicator, criteria);
 
-    return { first_content: _getNoDataContent(), second_content: null }
+    return { first_content: _getNoDataContent(translations), second_content: null }
   }
 
   // private method
@@ -54,9 +53,7 @@ const votingInfoModalHelper = (() => {
     }
   }
 
-  function _getNoDataContent() {
-    const { translations } = useContext(LocalizationContext);
-
+  function _getNoDataContent(translations) {
     return <View style={{flexDirection: 'row', padding: containerPadding}}>
             <OutlineInfoIcon color={Color.warningColor} />
 
