@@ -4,7 +4,6 @@ import DeviceInfo from 'react-native-device-info';
 import { Icon } from 'native-base';
 
 import { LocalizationContext } from '../../components/Translations';
-import VotingInfoModalContent from './VotingInfoModalContent';
 import VotingIndicatorListIcons from './VotingIndicatorListIcons';
 import VotingIndicatorListMedian from './VotingIndicatorListMedian';
 
@@ -13,6 +12,7 @@ import cardListItemStyle from '../../themes/cardListItemStyle';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import { getVotingInfos, isVotingCriteriaRated } from '../../helpers/voting_criteria_helper';
+import votingInfoModalHelper from '../../helpers/voting_info_modal_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
 import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
@@ -67,16 +67,11 @@ export default class VotingCriteriaListItem extends Component {
       votingInfos: votingInfos,
       selectedIndicator: indicator,
     }, () => {
-      const bodyContent = <VotingInfoModalContent
-                          scorecard={this.props.scorecard || {}}
-                          indicator={this.state.selectedIndicator}
-                          votingInfos={this.state.votingInfos}
-                          criteria={this.props.criteria}
-                          infoModalRef={this.props.infoModalRef}
-                        />
+      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? ['42%', '53%'] : ['13%'];
+      const scorecard = this.props.scorecard || {};
+      const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.criteria);
 
-      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? ['35%', '53%'] : ['13%'];
-      this.props.infoModalRef.current?.setBodyContent(bodyContent);
+      this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
       this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);
 
       setTimeout(() => {

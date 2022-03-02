@@ -21,16 +21,16 @@ class VotingIndicatorListContent extends React.Component {
 
   _goNext() {
     scorecardTracingStepsService.trace(this.props.scorecard.uuid, 7);
-    // this.props.navigation.navigate('OfflineScorecardResult', {scorecard_uuid: this.props.scorecard.uuid});
     navigate('OfflineScorecardResult', {scorecard_uuid: this.props.scorecard.uuid});
   }
 
   _renderList() {
-    return this.props.votingCriterias.map((item, index) => <VotingCriteriaListItem criteria={item} key={index} scorecard={this.props.scorecard} votingInfoModalRef={this.props.votingInfoModalRef} infoModalRef={this.props.infoModalRef} />);
+    return this.props.votingCriterias.map((item, index) => 
+      <VotingCriteriaListItem criteria={item} key={index} scorecard={this.props.scorecard} votingInfoModalRef={this.props.votingInfoModalRef} infoModalRef={this.props.infoModalRef} />
+    );
   }
 
   _goToVotingForm(participant_uuid) {
-    // this.props.navigation.navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant_uuid});
     navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant_uuid});
   }
 

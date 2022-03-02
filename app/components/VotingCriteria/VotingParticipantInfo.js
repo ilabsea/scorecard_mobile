@@ -10,7 +10,7 @@ import uuidv4 from '../../utils/uuidv4';
 
 import { participantTypes } from '../../constants/participant_constant';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';
 import VotingInfoMobileStyles from '../../styles/mobile/VotingInfoComponentStyle';
 
@@ -64,7 +64,7 @@ class VotingParticipantInfo extends Component {
     const { translations } = this.context;
 
     return (
-      <View>
+      <View style={{ padding: containerPadding, paddingTop: 0 }}>
         <Text style={[{marginBottom: 5, fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.numberOfVotedParticipant }: {Participant.getVoted(this.props.scorecard.uuid).length} {translations.pax} 
         </Text>
