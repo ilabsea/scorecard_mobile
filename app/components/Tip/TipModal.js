@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { View, Text, ScrollView } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import TipListItem from './TipListItem';
 import BottomSheetModal from '../BottomSheetModal';
 import DashedLine from '../DashedLine';
+import ModalViewMoreButton from '../ModalViewMoreButton';
 import styles from '../../themes/modalStyle';
-import Color from '../../themes/color';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
 import tips from '../../db/jsons/tips';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
@@ -32,7 +30,11 @@ export default class TipModal extends Component {
       if (index == 3 ) {
         return (
           <React.Fragment key={index}>
-            { !this.state.isExpanded && this.renderExpandButton() }
+            { !this.state.isExpanded &&
+              <ModalViewMoreButton modalRef={this.props.tipModalRef}
+                updateIsExpanded={() => this.setState({ isExpanded: true })}
+              />
+            }
 
             <TipListItem
               title={tip.title}
@@ -52,32 +54,12 @@ export default class TipModal extends Component {
     return doms;
   }
 
-  expandModal() {
-    this.setState({ isExpanded: true });
-    setTimeout(() => {
-      this.props.tipModalRef.current?.expand();
-    }, 100);
-  }
-
-  renderExpandButton() {
-    return (
-      <TouchableOpacity onPress={() => this.expandModal()} style={{marginBottom: 20, marginTop: -15, alignSelf: 'flex-end', flexDirection: 'row'}}>
-        <Text style={{color: Color.clickableColor, fontFamily: FontFamily.title, fontSize: 16, textTransform: 'capitalize'}}>
-          {this.context.translations.viewMore}
-          </Text>
-        <Icon name="expand-more" color={Color.clickableColor} size={26} />
-      </TouchableOpacity>
-    )
-  }
-
   renderContent() {
     return (
       <React.Fragment>
         <ScrollView style={{flex: 1}}>
           <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>{ this.state.tip.title }</Text>
-
           <DashedLine containerStyle={{marginBottom: 8}} />
-
           <View style={{padding: containerPadding}}>
             { this.renderTips() }
           </View>
