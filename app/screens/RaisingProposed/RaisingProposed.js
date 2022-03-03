@@ -27,8 +27,6 @@ class RaisingProposed extends Component {
     }
 
     this.tipModalRef = React.createRef();
-    this.participantModalRef = React.createRef();
-    this.participantFormModalRef = React.createRef();
   }
 
   render() {
@@ -47,13 +45,11 @@ class RaisingProposed extends Component {
             scorecardUuid={scorecard_uuid}
             navigation={this.props.navigation}
             tipModalRef={this.tipModalRef}
-            participantModalRef={this.participantModalRef}
-            participantFormModalRef={this.participantFormModalRef}
           />
         </View>
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={['49%', tipSecondSnapPoint]} screenName='RaisingProposed' />
-        <AddNewParticipantModal participantFormModalRef={this.participantFormModalRef} />
+        <AddNewParticipantModal />
       </React.Fragment>
     );
   }

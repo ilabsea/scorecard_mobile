@@ -1,26 +1,22 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useCallback } from 'react';
+import { StyleSheet } from 'react-native';
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetBackdrop,
-  BottomSheetView,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-// import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import Color from '../themes/color';
 
 const BottomSheet = (props, ref) => {
-  const renderBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        onPress={() => ref.current.dismiss()}
-      />
-    ),
-    [],
-  );
+  const renderBackdrop = useCallback( props => (
+    <BottomSheetBackdrop
+      {...props}
+      disappearsOnIndex={-1}
+      appearsOnIndex={0}
+      onPress={() => ref.current.dismiss()}
+    />
+  ), []);
 
   return (
     <BottomSheetModalProvider>
@@ -35,10 +31,6 @@ const BottomSheet = (props, ref) => {
         <BottomSheetScrollView style={styles.contentContainer}>
           { props.content }
         </BottomSheetScrollView>
-
-        {/* <BottomSheetView style={styles.contentContainer}>
-          { props.content }
-        </BottomSheetView> */}
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )
@@ -46,7 +38,7 @@ const BottomSheet = (props, ref) => {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Color.whiteColor,
     width: '100%',
     height: '100%',
   },

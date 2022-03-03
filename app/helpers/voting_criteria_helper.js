@@ -1,9 +1,12 @@
+import React from 'react';
+import { Image } from 'react-native';
 import realm from '../db/schema';
 import Rating from '../models/Rating';
 import Participant from '../models/Participant'
 import VotingCriteria from '../models/VotingCriteria';
 import { roundUpHalf } from '../utils/math';
 import { participantTypes } from '../constants/participant_constant';
+import Images from '../utils/images';
 
 const getVotingInfos = (scorecardUuid, indicatorId) => {
   let votingInfos = [
@@ -60,6 +63,14 @@ const isVotingCriteriaRated = (votingCriteriaUuid) => {
   return Rating.findByVotingCriteria(votingCriteriaUuid) ? true : false;
 }
 
+const getVotingIcon = (icon, size, ratio) => {
+  let sizeRatio = size * ratio;
+
+  return (
+    <Image source={Images[icon.image]} style={{width: sizeRatio, height: sizeRatio, maxWidth: size, maxHeight: size}} />
+  )
+}
+
 // Private
 const _getVotedParticipantByType = (scorecardUuid, type) => {
   let participants = Participant.getVoted(scorecardUuid);
@@ -72,4 +83,4 @@ const _getVotedParticipantByType = (scorecardUuid, type) => {
   return participants.length;
 }
 
-export { getVotingInfos, hasVoting, getVotingParticipants, isVotingCriteriaRated };
+export { getVotingInfos, hasVoting, getVotingParticipants, isVotingCriteriaRated, getVotingIcon };

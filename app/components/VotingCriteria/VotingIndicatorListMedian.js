@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import { VoteIcon } from './VotingIndicatorListIcons';
-
 import ratings from '../../db/jsons/ratings';
+import { getVotingIcon } from '../../helpers/voting_criteria_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
 import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
@@ -25,7 +24,7 @@ const VotingIndicatorListMedian = (props) => {
       <Text style={styles.medianScoreText}>{translations.score}: {criteria.median}</Text>
 
       <View style={{alignItems: 'center'}}>
-        { VoteIcon(currentIcon, iconSize) }
+        { getVotingIcon(currentIcon, iconSize, 0.75) }
         <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
       </View>
     </View>
