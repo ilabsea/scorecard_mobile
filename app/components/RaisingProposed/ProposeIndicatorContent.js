@@ -47,7 +47,7 @@ class ProposeIndicatorContent extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28, flexGrow: 1}}>
-          <Tip showTipModal={() => this.props.tipModalRef.current?.present()} />
+          <Tip screenName='RaisingProposed' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
           <ListUser
             scorecardUuid={this.props.scorecardUuid}

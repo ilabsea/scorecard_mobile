@@ -28,7 +28,7 @@ const votingInfoModalHelper = (() => {
     if (isVotingCriteriaRated(criteria.uuid))
       return _getVotingDetail(scorecard, indicator, criteria);
 
-    return { first_content: _getNoDataContent(translations), second_content: null }
+    return { first_content: _getNoDataContent(criteria, indicator, translations), second_content: null }
   }
 
   function getModalSnapPoints(scorecardUuid, indicator) {
@@ -48,6 +48,12 @@ const votingInfoModalHelper = (() => {
   }
 
   // private method
+  function _modalTitle(order, indicator, customStyle) {
+    return <Text numberOfLines={1} style={[CustomStyle.modalTitle, { fontSize: titleFontSize(), padding: containerPadding, flex: 1 }, customStyle]}>
+            {order}. { indicator && indicator.content }
+           </Text>
+  }
+
   function  _getVotingDetail(scorecard, indicator, criteria) {
     const indicatorId = indicatorHelper.getIndicatorId(indicator);
     const votingInfos = getVotingInfos(scorecard.uuid, indicatorId);
@@ -55,9 +61,7 @@ const votingInfoModalHelper = (() => {
     const votingParticipantInfo = <VotingParticipantInfo scorecard={scorecard} />;
 
     const firstContent = <React.Fragment>
-                          <Text numberOfLines={1} style={[CustomStyle.modalTitle, { fontSize: titleFontSize(), padding: containerPadding, paddingBottom: 5 }]}>
-                            { indicator && indicator.content }
-                          </Text>
+                          { _modalTitle(criteria.order, indicator, { paddingBottom: 0 }) }
                           <DashedLine />
 
                           <View style={{ padding: containerPadding, paddingBottom: 0 }}>
@@ -77,16 +81,20 @@ const votingInfoModalHelper = (() => {
     }
   }
 
-  function _getNoDataContent(translations) {
-    return <View style={{flexDirection: 'row', padding: containerPadding}}>
-            <OutlineInfoIcon color={Color.warningColor} />
+  function _getNoDataContent(criteria, indicator, translations) {
+    return <React.Fragment>
+              <View style={{flexDirection: 'row', paddingHorizontal: containerPadding, justifyContent: 'center', alignItems: 'center'}}>
+                <OutlineInfoIcon color={Color.warningColor} customIconContainerStyles={{ marginTop: -10 }} />
+                { _modalTitle(criteria.order, indicator, { paddingLeft: 0, paddingBottom: 5 }) }
+              </View>
+              <DashedLine />
 
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <Text style={responsiveStyles.normalText}>
-                { translations.thereIsNoVotingYet }
-              </Text>
-            </View>
-          </View>
+              <View style={{flex: 1, justifyContent: 'center', padding: containerPadding}}>
+                <Text style={responsiveStyles.normalText}>
+                  { translations.thereIsNoVotingYet }
+                </Text>
+              </View>
+           </React.Fragment>
   }
 
   function _votingInfoLine(votingInfos) {

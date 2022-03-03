@@ -19,7 +19,8 @@ import Scorecard from '../../models/Scorecard';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
+import { containerPadding } from '../../utils/responsive_util';
+import { tipModalSnapPoints, INDICATOR_DEVELOPMENT } from '../../constants/tip_modal_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -99,7 +100,7 @@ class IndicatorDevelopment extends Component {
 
   render() {
     const { translations } = this.context;
-    const snapPoints = getDeviceStyle('32.5%', '38%');
+    const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
 
     return (
       <View style={{flex: 1}}>

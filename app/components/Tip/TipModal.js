@@ -7,8 +7,9 @@ import BottomSheetModal from '../BottomSheetModal';
 import DashedLine from '../DashedLine';
 import ModalViewMoreButton from '../ModalViewMoreButton';
 import styles from '../../themes/modalStyle';
-import tips from '../../db/jsons/tips';
 
+import { getTipByScreenName } from '../../helpers/tip_helper';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -21,7 +22,7 @@ export default class TipModal extends Component {
     super(props);
     this.state = {
       isExpanded: false,
-      tip: tips.filter(t => t.screenName == props.screenName)[0] || tips[0],
+      tip: getTipByScreenName(props.screenName),
     }
   }
 
@@ -58,9 +59,14 @@ export default class TipModal extends Component {
     return (
       <React.Fragment>
         <ScrollView style={{flex: 1}}>
-          <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>{ this.state.tip.title }</Text>
+          <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>
+            {this.context.translations.tips} - { this.context.translations[this.state.tip.mainTitle] }
+          </Text>
           <DashedLine containerStyle={{marginBottom: 8}} />
+
           <View style={{padding: containerPadding, paddingBottom: 0}}>
+            <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10, fontSize: bodyFontSize() }]}>{ this.state.tip.title }</Text>
+
             { this.renderTips() }
           </View>
         </ScrollView>

@@ -32,7 +32,7 @@ class IndicatorDevelopmentContentHeader extends Component {
   render() {
     return (
       <View style={{paddingTop: containerPadding}}>
-        <Tip showTipModal={() => this.props.tipModalRef.current?.present()} />
+        <Tip screenName='IndicatorDevelopment' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
         <View style={responsiveStyles.titleContainer}>
           <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ this.context.translations.indicatorDevelopment }</Text>

@@ -1,6 +1,7 @@
 export default [
   {
     screenName: 'RaisingProposed',
+    mainTitle: 'proposedIndicatorTip',
     title: 'វិធីដើម្បីបំផុសលក្ខណៈវិនិច្ឆ័យ',
     description: '',
     tips: [
@@ -32,6 +33,7 @@ export default [
   },
   {
     screenName: 'IndicatorDevelopment',
+    mainTitle: 'settingIndicatorDevelopmentTip',
     title: 'ដំណាក់កាលនៃការជ្រើសរើសលក្ខណៈវិនិច្ឆ័យអាទិភាព',
     description: '',
     tips: [
@@ -47,6 +49,7 @@ export default [
   },
   {
     screenName: 'VotingCriteriaList',
+    mainTitle: 'votingIndicatorTip',
     title: 'វិធីក្នុងការគណនាពិន្ទុដោយប្រព័ន្ធកុំព្យូទ័រ',
     description: '',
     tips: [
@@ -62,6 +65,7 @@ export default [
   },
   {
     screenName: 'ScorecardResult',
+    mainTitle: 'scorecardResultTip',
     title: 'តារាងសកម្មភាពអាទិភាព',
     description: '',
     tips: [

@@ -69,7 +69,7 @@ export default class VotingCriteriaListItem extends Component {
       const scorecard = this.props.scorecard;
       const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.criteria, this.context.translations);
       const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(scorecard.uuid, this.state.selectedIndicator);
-      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? votingInfoSnapPoints : ['12%'];
+      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? votingInfoSnapPoints : ['18%'];
 
       this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
       this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);

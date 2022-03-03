@@ -10,7 +10,7 @@ import TipModal from '../../components/Tip/TipModal';
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { tipModalSnapPoints, PROPOSED_INDICATOR } from '../../constants/tip_modal_constant';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -32,7 +32,7 @@ class RaisingProposed extends Component {
   render() {
     const {translations} = this.context;
     const { scorecard_uuid } = this.props.route.params;
-    const tipSecondSnapPoint = getDeviceStyle('76%', '72%');
+    const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
 
     return (
       <React.Fragment>
@@ -48,7 +48,7 @@ class RaisingProposed extends Component {
           />
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={['49%', tipSecondSnapPoint]} screenName='RaisingProposed' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={['54%', tipSecondSnapPoint]} screenName='RaisingProposed' />
         <AddNewParticipantModal />
       </React.Fragment>
     );

@@ -61,7 +61,7 @@ class VotingIndicatorListContent extends React.Component {
     return (
       <React.Fragment>
         <ScrollView contentContainerStyle={styles.container}>
-          <Tip showTipModal={() => this.props.tipModalRef.current?.present()} />
+          <Tip screenName='VotingCriteriaList' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
           { this._renderContent() }
         </ScrollView>

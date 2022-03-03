@@ -22,11 +22,8 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 
 import FormModal from '../../components/ScorecardResult/FormModal';
 import Scorecard from '../../models/Scorecard';
-
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
-import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
-const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
+import { tipModalSnapPoints, SCORECARD_RESULT } from '../../constants/tip_modal_constant';
+import { containerPadding } from '../../utils/responsive_util';
 
 let _this = null;
 
@@ -103,7 +100,7 @@ class ScorecardResult extends Component {
 
   render() {
     const { translations } = this.context;
-    const snapPoints = getDeviceStyle(['32.5%'], ['35%']);
+    const snapPoints = tipModalSnapPoints[SCORECARD_RESULT];
 
     return (
       <View style={{height: '100%'}}>
@@ -111,7 +108,7 @@ class ScorecardResult extends Component {
 
         <ScrollView style={{flex: 1}}>
           <View style={styles.container}>
-            <Tip showTipModal={() => this.tipModalRef.current?.present()} />
+            <Tip screenName='ScorecardResult' showTipModal={() => this.tipModalRef.current?.present()} />
 
             <ScorecardResultTitle scorecardUuid={this.props.route.params.scorecard_uuid} navigation={this.props.navigation} />
 

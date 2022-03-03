@@ -12,7 +12,7 @@ import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
 import VotingCriteria from '../../models/VotingCriteria';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { tipModalSnapPoints, VOTING_INDICATOR } from '../../constants/tip_modal_constant';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -57,7 +57,7 @@ class VotingCriteriaList extends Component {
   }
 
   render() {
-    const snapPoints = getDeviceStyle(['32.5%'], ['35%']);
+    const snapPoints = tipModalSnapPoints[VOTING_INDICATOR];
 
     return (
       <View style={{height: '100%'}}>
