@@ -55,18 +55,25 @@ class VotingParticipantInfo extends Component {
     const { translations } = this.context;
     const participantInfos = getVotingParticipants(this.props.scorecard.uuid);
 
-    for(let i=0; i<participantInfos.length; i++) {
-      const votingScore = participantInfos[i];
-      const participantType = translations[participantTypes[i]];
+    // for(let i=0; i<participantInfos.length; i++) {
+    //   const votingScore = participantInfos[i];
+    //   const participantType = translations[participantTypes[i]];
 
-      doms.push(this._renderSummaryItem(votingScore, participantType, i));
-    }
+    //   doms.push(this._renderSummaryItem(votingScore, participantType, i));
+    // }
 
     // return (
     //   <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
     //     { doms }
     //   </View>
     // );
+
+    for(let i=0; i<participantInfos.length; i++) {
+      const votingScore = participantInfos[i];
+      const participantType = translations[participantTypes[i]];
+      if (participantInfos[i] != 0)
+        doms.push(this._renderSummaryItem(votingScore, participantType, i));
+    }
 
     return (
       <View style={{paddingLeft: 10}}>
@@ -89,7 +96,7 @@ class VotingParticipantInfo extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{ padding: containerPadding, paddingTop: 0 }}>
+      <View>
         <Text style={[{marginBottom: 5, fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.numberOfVotedParticipant }: {Participant.getVoted(this.props.scorecard.uuid).length} {translations.pax} 
         </Text>

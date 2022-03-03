@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
@@ -15,6 +10,7 @@ import { getAllScorecardReferences } from '../../actions/scorecardReferenceActio
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
+import TipModal from '../../components/Tip/TipModal';
 import Color from '../../themes/color';
 import Tip from '../../components/Tip';
 
@@ -47,6 +43,8 @@ class ScorecardResult extends Component {
       selectedIndicator: {},
     };
     _this = this;
+
+    this.tipModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -105,6 +103,7 @@ class ScorecardResult extends Component {
 
   render() {
     const { translations } = this.context;
+    const snapPoints = getDeviceStyle(['32.5%'], ['35%']);
 
     return (
       <View style={{height: '100%'}}>
@@ -112,7 +111,7 @@ class ScorecardResult extends Component {
 
         <ScrollView style={{flex: 1}}>
           <View style={styles.container}>
-            <Tip screenName={'ScorecardResult'}/>
+            <Tip showTipModal={() => this.tipModalRef.current?.present()} />
 
             <ScorecardResultTitle scorecardUuid={this.props.route.params.scorecard_uuid} navigation={this.props.navigation} />
 
@@ -136,6 +135,8 @@ class ScorecardResult extends Component {
             isScorecardFinished={this.state.scorecard.finished}
           />
         </View>
+
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='ScorecardResult' />
       </View>
     )
   }
