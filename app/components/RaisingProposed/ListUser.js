@@ -11,6 +11,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import Participant from '../../models/Participant';
 import { getRaisedParticipants } from '../../services/participant_service';
+import { navigate } from '../../navigators/app_navigator';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
@@ -29,7 +30,7 @@ class ListUser extends Component {
   }
 
   _goToCreateNewIndicator(participant_uuid) {
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid});
+    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid});
   }
 
   render() {
@@ -51,9 +52,10 @@ class ListUser extends Component {
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
               onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
               onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
-              navigation={this.props.navigation}
-              visibleModal={this.state.visibleModal}
-              closeModal={() => this.setState({ visibleModal: false })}
+              visibleModal={this.props.visibleModal}
+              closeModal={() => this.props.updateModalVisible(false)}
+              participantModalRef={this.props.participantModalRef}
+              modalRef={this.props.modalRef}
             />
           </View>
         </View>
@@ -62,8 +64,7 @@ class ListUser extends Component {
           scorecardUuid={this.props.scorecardUuid}
           raisedParticipants={raisedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
-          navigation={this.props.navigation}
-          showModal={() => this.setState({ visibleModal: true })}
+          showModal={() => this.props.updateModalVisible(true)}
         />
       </View>
     );

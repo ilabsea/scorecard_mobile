@@ -13,14 +13,15 @@ import Participant from '../../models/Participant';
 import {connect} from 'react-redux' ;
 import { removeFromSelected } from '../../actions/selectedIndicatorAction';
 import { containerPadding } from '../../utils/responsive_util';
+import { navigate } from '../../navigators/app_navigator';
 
-class ProposeIndicatorContent extends Component {
+class ProposedIndicatorContent extends Component {
   static contextType = LocalizationContext;
 
   onPress = () => {
     this.clearSelectedIndicators();
     scorecardTracingStepsService.trace(this.props.scorecardUuid, 5);
-    this.props.navigation.navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
+    navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
   }
 
   clearSelectedIndicators = () => {
@@ -51,9 +52,12 @@ class ProposeIndicatorContent extends Component {
 
           <ListUser
             scorecardUuid={this.props.scorecardUuid}
-            navigation={this.props.navigation}
             numberOfParticipant={Participant.getAll(this.props.scorecardUuid).length}
             numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
+            visibleModal={this.props.visibleModal}
+            participantModalRef={this.props.participantModalRef}
+            modalRef={this.props.modalRef}
+            updateModalVisible={(status) => this.props.updateModalVisible(status)}
           />
         </ScrollView>
 
@@ -94,4 +98,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProposeIndicatorContent);
+)(ProposedIndicatorContent);

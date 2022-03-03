@@ -63,7 +63,7 @@ class ProposedIndicatorAccordions extends Component {
         }
 
         { this.state.accordionType == 'participant' ?
-          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} navigation={this.props.navigation} />
+          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} />
           :
           <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
         }

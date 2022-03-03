@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import ProposeIndicatorContent from '../../components/RaisingProposed/ProposeIndicatorContent';
+import ProposedIndicatorContent from '../../components/RaisingProposed/ProposedIndicatorContent';
 import ProgressHeader from '../../components/ProgressHeader';
 import AddNewParticipantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import TipModal from '../../components/Tip/TipModal';
+import ParticipantModal from '../../components/ParticipantModal/ParticipantModal';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -17,6 +18,9 @@ class RaisingProposed extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      visibleModal: false,
+    }
 
     this.hasInternetConnection = false;
     let scorecard = Scorecard.find(props.route.params.scorecard_uuid);
@@ -27,6 +31,8 @@ class RaisingProposed extends Component {
     }
 
     this.tipModalRef = React.createRef();
+    this.participantModalRef = React.createRef();
+    this.modalRef = React.createRef();
   }
 
   render() {
@@ -37,18 +43,22 @@ class RaisingProposed extends Component {
     return (
       <React.Fragment>
         <View style={{flex: 1}}>
-          <ProgressHeader
-            title={translations['getStarted']}
-            progressIndex={3}
-          />
-          <ProposeIndicatorContent
+          <ProgressHeader title={translations['getStarted']} progressIndex={3} />
+
+          <ProposedIndicatorContent
             scorecardUuid={scorecard_uuid}
-            navigation={this.props.navigation}
+            visibleModal={this.state.visibleModal}
             tipModalRef={this.tipModalRef}
+            participantModalRef={this.participantModalRef}
+            modalRef={this.modalRef}
+            updateModalVisible={(status) => this.setState({ visibleModal: status })}
           />
         </View>
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={['54%', tipSecondSnapPoint]} screenName='RaisingProposed' />
+        <ParticipantModal ref={this.modalRef} participantModalRef={this.participantModalRef} snapPoints={['70%']}
+          onDismissModal={() => this.setState({ visibleModal: false })}
+        />
         <AddNewParticipantModal />
       </React.Fragment>
     );
