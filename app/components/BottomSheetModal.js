@@ -6,9 +6,10 @@ import {
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
+
 import Color from '../themes/color';
 
-const BottomSheet = (props, ref) => {
+const BottomSheetPopupModal = (props, ref) => {
   const renderBackdrop = useCallback( props => (
     <BottomSheetBackdrop
       {...props}
@@ -40,8 +41,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     backgroundColor: Color.whiteColor,
     width: '100%',
-    height: '100%',
+    flexGrow: 1
   },
 });
 
-export default  React.forwardRef(BottomSheet);
+export default  React.forwardRef(BottomSheetPopupModal);

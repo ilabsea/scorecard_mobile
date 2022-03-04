@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {Text} from 'native-base';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -7,20 +8,16 @@ import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
-// import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
 import ParticipantModalListItem from './ParticipantModalListItem';
-// import CloseButton from '../CloseButton';
-import { bodyFontSize, titleFontSize } from '../../utils/font_size_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 
 class ParticipantListContent extends Component {
   static contextType = LocalizationContext;
 
   onPressItem(item) {
-    this.props.onDismiss();
-
-    !!this.props.onPressItem && this.props.onPressItem(item);
+    !!this.props.onSelectParticipant && this.props.onSelectParticipant(item);
   }
 
   renderParticipantItem(item, index) {
@@ -37,15 +34,6 @@ class ParticipantListContent extends Component {
   }
 
   renderParticipantList() {
-    // return (
-    //   <FlatList
-    //     style={{flex: 1, backgroundColor: '', marginBottom: 20}}
-    //     data={ this.props.participants }
-    //     renderItem={({item, index}) => this.renderParticipantItem(item, index)}
-    //     keyExtractor={item => item.uuid}
-    //   />
-    // );
-
     return this.props.participants.map((participant, index) => {
       return this.renderParticipantItem(participant, index);
     });
@@ -86,10 +74,10 @@ class ParticipantListContent extends Component {
             {this.renderAddNewParticipantButton()}
           </View>
 
-          <View style={{flex: 1}}>
+          <ScrollView>
             { !!this.props.participants.length && this.renderParticipantList() }
             { !this.props.participants.length && this.renderNoData() }
-          </View>
+          </ScrollView>
         </View>
       </View>
     )
@@ -97,10 +85,3 @@ class ParticipantListContent extends Component {
 }
 
 export default ParticipantListContent;
-
-// Needed props
-// - scorecard uuid
-// - participants
-// - on press item function
-// - on dismiss function
-// - update the content function

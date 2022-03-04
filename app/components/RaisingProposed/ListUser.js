@@ -33,6 +33,11 @@ class ListUser extends Component {
     navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid});
   }
 
+  closeModal() {
+    this.props.updateModalVisible(false)
+    this.props.participantModalRef.current?.dismiss();
+  }
+
   render() {
     const {translations} = this.context;
     const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
@@ -47,13 +52,13 @@ class ListUser extends Component {
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
-              scorecard_uuid={ this.props.scorecardUuid }
+              scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
               onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
               onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
               visibleModal={this.props.visibleModal}
-              closeModal={() => this.props.updateModalVisible(false)}
+              closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}
               modalRef={this.props.modalRef}
             />

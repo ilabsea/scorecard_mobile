@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 
 import { LocalizationContext } from '../../components/Translations';
-import ParticipantModal from '../RaisingProposed/ParticipantModal';
-import AddNewParticiantModal from '../RaisingProposed/AddNewParticipantModal';
 import ParticipantModalListItem from '../RaisingProposed/ParticipantModalListItem';
 
 import ParticipantListContent from '../ParticipantModal/ParticipantListContent';
@@ -20,7 +18,7 @@ export default class ParticipantInfo extends Component {
 
     this.state = {
       participants: props.participants || [],
-      participantVisible: false,
+      participantListVisible: false,
       addParticipantVisible: false,
       currentParticipant: Participant.find(props.participant_uuid),
       participantUuid: props.participant_uuid,
@@ -28,19 +26,21 @@ export default class ParticipantInfo extends Component {
   }
 
   componentDidUpdate() {
-    if ((!!this.state.participantVisible || !!this.state.addParticipantVisible ) && !this.props.visibleModal)
+    if (this.isModalNotClosed())
       this.setState({
-        participantVisible: false,
+        participantListVisible: false,
         addParticipantVisible: false,
       });
 
-    if (!this.state.participantVisible && !this.state.addParticipantVisible && this.props.visibleModal) {
-      this.setState({ participantVisible: this.props.visibleModal })
-      this.props.modalRef.current?.setBodyContent(this.getParticipantListContent());
+    if (this.isModalNotOpened()) {
+      this.openParticipantListModal();
 
-      setTimeout(() => {
-        this.props.participantModalRef.current?.present();
-      }, 50);
+      // this.setState({ participantListVisible: this.props.visibleModal })
+      // this.props.modalRef.current?.setBodyContent(this.getParticipantListContent());
+
+      // setTimeout(() => {
+      //   this.props.participantModalRef.current?.present();
+      // }, 50);
     }
 
     if (this.state.participantUuid != this.props.participant_uuid) {
@@ -49,6 +49,27 @@ export default class ParticipantInfo extends Component {
         participantUuid: this.props.participant_uuid
       });
     }
+  }
+
+  isModalNotClosed() {
+    // If either participantListVisible or addParticipantVisible is still true and the visibleModal is false,
+    // it means the modal is not closed yet
+    return (!!this.state.participantListVisible || !!this.state.addParticipantVisible ) && !this.props.visibleModal;
+  }
+
+  isModalNotOpened() {
+    // If participantListVisible and addParticipantVisible are still false and the visibleModal is true,
+    // it means the modal is not opened yet
+    return !this.state.participantListVisible && !this.state.addParticipantVisible && this.props.visibleModal;
+  }
+
+  openParticipantListModal() {
+    this.setState({ participantListVisible: this.props.visibleModal })
+    this.props.modalRef.current?.setBodyContent(this.getParticipantListContent());
+
+    setTimeout(() => {
+      this.props.participantModalRef.current?.present();
+    }, 50);
   }
 
   _renderParticipant() {
@@ -60,22 +81,48 @@ export default class ParticipantInfo extends Component {
         <ParticipantModalListItem
           participant={this.state.currentParticipant}
           translations={translations}
-          onPress={() => this.setState({participantVisible: true}) }
+          onPress={() => this.openParticipantListModal()}
         />
       )
     }
 
-    return this.props.buttonVisible ? 
-      <OutlinedButton
-        icon={mode.iconName || 'plus'}
-        label={mode.label}
-        onPress={() => this.setState({participantVisible: true}) }
-      />
+    return this.props.buttonVisible ?
+      <View>
+        <OutlinedButton
+          icon={mode.iconName || 'plus'}
+          label={mode.label}
+          onPress={() => this.openParticipantListModal()}
+        />
+      </View>
       :
       <View/>;
   }
 
-  _showAddParticipantModal = () => {
+  // start of add new participant functions
+  onSaveParticipant(participant) {
+    this.dismissModal();
+
+    if (!!this.props.onPressCreateParticipant) {
+      return this.props.onPressCreateParticipant(participant);
+    }
+
+    this.setState({ currentParticipant: participant });
+    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
+  }
+  // end of add new participant functions
+
+  // start of participant list functions
+  onSelectParticipant(participant) {
+    this.dismissModal();
+
+    if (!!this.props.onPressItem)
+      return this.props.onPressItem(participant);
+
+    this.setState({currentParticipant: participant});
+    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
+  }
+
+  showAddParticipantModal = () => {
     this.setState({
       participantVisible: false,
       addParticipantVisible: true,
@@ -83,40 +130,11 @@ export default class ParticipantInfo extends Component {
 
     this.props.modalRef.current?.setBodyContent(this.getAddNewParticipantContent());
   }
+  // end of participant list functions
 
-  _hideAddParticipantModal = () => {
+  dismissModal() {
     this.setState({
-      addParticipantVisible: false,
-      participantVisible: true,
-    });
-  }
-
-  _onCreateNewParticipant(participant) {
-    if (!!this.props.onPressCreateParticipant) {
-      return this.props.onPressCreateParticipant(participant);
-    }
-
-    this.setState({
-      currentParticipant: participant,
-      addParticipantVisible: false
-    });
-
-    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
-  }
-
-  _onPressItem(participant) {
-    if (!!this.props.onPressItem) {
-      return this.props.onPressItem(participant);
-    }
-
-    this.setState({currentParticipant: participant, participantVisible: false});
-
-    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
-  }
-
-  onDismissModal() {
-    this.setState({
-      participantVisible: false,
+      participantListVisible: false,
       addParticipantVisible: false,
     });
 
@@ -125,47 +143,21 @@ export default class ParticipantInfo extends Component {
 
   getParticipantListContent() {
     return <ParticipantListContent
-             scorecardUuid={this.props.scorecard_uuid}
+             scorecardUuid={this.props.scorecardUuid}
              participants={this.state.participants || []}
-             onDismiss={() => this.onDismissModal()}
-             showAddParticipantModal={() => this._showAddParticipantModal()}
-             onPressItem={(participant) => this._onPressItem(participant) }
+             showAddParticipantModal={() => this.showAddParticipantModal()}
+             onSelectParticipant={(participant) => this.onSelectParticipant(participant) }
            />
   }
 
   getAddNewParticipantContent() {
     return <AddNewParticipantContent
-             visible={ this.state.addParticipantVisible }
-             onDismiss={() => this.onDismissModal()}
-             onClose={ () => this._hideAddParticipantModal() }
-             scorecardUuid={ this.props.scorecard_uuid }
-             onSaveParticipant={ (participant) => this._onCreateNewParticipant(participant) }
+             scorecardUuid={ this.props.scorecardUuid }
+             onSaveParticipant={ (participant) => this.onSaveParticipant(participant) }
            />
   }
 
   render() {
-    return (
-      <View>
-        { this._renderParticipant() }
-
-        {/* <ParticipantModal
-          participants={this.state.participants || []}
-          visible={this.state.participantVisible}
-          scorecardUuid={this.props.scorecard_uuid}
-          onDismiss={() => this.onDismissModal()}
-          showAddParticipantModal={() => this._showAddParticipantModal()}
-          onPressItem={(participant) => this._onPressItem(participant) }
-          participantModalRef={this.props.participantModalRef}
-        /> */}
-
-        {/* <AddNewParticiantModal
-          visible={ this.state.addParticipantVisible }
-          onDismiss={() => this.onDismissModal()}
-          onClose={ () => this._hideAddParticipantModal() }
-          scorecardUuid={ this.props.scorecard_uuid }
-          onSaveParticipant={ (participant) => this._onCreateNewParticipant(participant) }
-        /> */}
-      </View>
-    );
+    return this._renderParticipant();
   }
 }

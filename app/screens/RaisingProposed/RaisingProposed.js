@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorContent from '../../components/RaisingProposed/ProposedIndicatorContent';
 import ProgressHeader from '../../components/ProgressHeader';
-import AddNewParticipantModal from '../../components/RaisingProposed/AddNewParticipantModal';
 import TipModal from '../../components/Tip/TipModal';
 import ParticipantModal from '../../components/ParticipantModal/ParticipantModal';
 
@@ -59,7 +58,6 @@ class RaisingProposed extends Component {
         <ParticipantModal ref={this.modalRef} participantModalRef={this.participantModalRef} snapPoints={['70%']}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
-        <AddNewParticipantModal />
       </React.Fragment>
     );
   }
