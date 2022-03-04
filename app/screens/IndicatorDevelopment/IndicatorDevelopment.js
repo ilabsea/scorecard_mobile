@@ -20,7 +20,7 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
-import { tipModalSnapPoints, INDICATOR_DEVELOPMENT } from '../../constants/tip_modal_constant';
+import { tipModalSnapPoints, INDICATOR_DEVELOPMENT } from '../../constants/modal_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;

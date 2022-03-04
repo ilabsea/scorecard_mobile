@@ -1,4 +1,4 @@
-import { getDeviceStyle } from '../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice } from '../utils/responsive_util';
 
 export const PROPOSED_INDICATOR = 'PROPOSED_INDICATOR';
 export const INDICATOR_DEVELOPMENT = 'INDICATOR_DEVELOPMENT';
@@ -11,3 +11,5 @@ export const tipModalSnapPoints = {
   'VOTING_INDICATOR': getDeviceStyle(['36%'], ['40%']),
   'SCORECARD_RESULT': getDeviceStyle(['36%'], ['47%']),
 };
+
+export const participantContentHeight = getDeviceStyle('68%', isShortScreenDevice() ? '82%' : '72.5%');

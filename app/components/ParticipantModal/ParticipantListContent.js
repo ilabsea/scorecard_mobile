@@ -12,6 +12,7 @@ import styles from '../../themes/participantListItemStyle';
 import ParticipantModalListItem from './ParticipantModalListItem';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
+import { participantContentHeight } from '../../constants/modal_constant';
 
 class ParticipantListContent extends Component {
   static contextType = LocalizationContext;
@@ -39,15 +40,6 @@ class ParticipantListContent extends Component {
     });
   }
 
-  renderNoData() {
-    const { translations } = this.context;
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{fontSize: bodyFontSize()}}>{translations.noParticipant}</Text>
-      </View>
-    )
-  }
-
   renderAddNewParticipantButton = () => {
     const {translations} = this.context;
 
@@ -64,7 +56,7 @@ class ParticipantListContent extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{ height: hp('68%') }}>
+      <View style={{ height: hp(participantContentHeight) }}>
         <BottomSheetModalTitle title={ translations.proposedIndicator } />
 
         <View style={{padding: containerPadding, flex: 1}}>
@@ -74,9 +66,9 @@ class ParticipantListContent extends Component {
             {this.renderAddNewParticipantButton()}
           </View>
 
-          <ScrollView>
+          <ScrollView contentContainerStyle={[{flexGrow: 1}, !this.props.participants.length ? {justifyContent: 'center'} : {}]}>
             { !!this.props.participants.length && this.renderParticipantList() }
-            { !this.props.participants.length && this.renderNoData() }
+            { !this.props.participants.length && <Text style={{fontSize: bodyFontSize(), alignSelf: 'center'}}>{translations.noParticipant}</Text> }
           </ScrollView>
         </View>
       </View>

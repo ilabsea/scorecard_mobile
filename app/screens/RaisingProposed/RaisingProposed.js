@@ -10,7 +10,8 @@ import ParticipantModal from '../../components/ParticipantModal/ParticipantModal
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, PROPOSED_INDICATOR } from '../../constants/tip_modal_constant';
+import { tipModalSnapPoints, PROPOSED_INDICATOR } from '../../constants/modal_constant';
+import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -38,6 +39,7 @@ class RaisingProposed extends Component {
     const {translations} = this.context;
     const { scorecard_uuid } = this.props.route.params;
     const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
+    const participantModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['85%'] : ['75%']);
 
     return (
       <React.Fragment>
@@ -55,7 +57,7 @@ class RaisingProposed extends Component {
         </View>
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={['54%', tipSecondSnapPoint]} screenName='RaisingProposed' />
-        <ParticipantModal ref={this.modalRef} participantModalRef={this.participantModalRef} snapPoints={['70%']}
+        <ParticipantModal ref={this.modalRef} participantModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
       </React.Fragment>

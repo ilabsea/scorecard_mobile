@@ -17,6 +17,7 @@ import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 import { MALE } from '../../constants/participant_constant';
+import { participantContentHeight } from '../../constants/modal_constant';
 
 class AddNewParticipantContent extends Component {
   static contextType = LocalizationContext;
@@ -92,8 +93,9 @@ class AddNewParticipantContent extends Component {
 
   render() {
     const {translations} = this.context;
+
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp('68%')}}>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
         <BottomSheetModalTitle title={ translations.proposedIndicator } />
 
         <View style={{padding: containerPadding, flex: 1}}>

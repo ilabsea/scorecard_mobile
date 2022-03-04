@@ -12,7 +12,7 @@ import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
 import VotingCriteria from '../../models/VotingCriteria';
-import { tipModalSnapPoints, VOTING_INDICATOR } from '../../constants/tip_modal_constant';
+import { tipModalSnapPoints, VOTING_INDICATOR } from '../../constants/modal_constant';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;

@@ -22,7 +22,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 
 import FormModal from '../../components/ScorecardResult/FormModal';
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, SCORECARD_RESULT } from '../../constants/tip_modal_constant';
+import { tipModalSnapPoints, SCORECARD_RESULT } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
 
 let _this = null;
