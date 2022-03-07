@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import indicatorHelper from '../../helpers/indicator_helper';
@@ -34,10 +34,6 @@ class ProposedIndicatorItem extends Component {
     let state = !this.state.active;
     let action = state ? 'add' : 'remove';
 
-    if (action == 'add' && this.props.selectedAmount >= this.props.maximumIndicatorAmount) {
-      return;
-    }
-
     this.setState({active: state});
     !!this.props.onPress && this.props.onPress(this.props.indicator, action);
   }
@@ -57,7 +53,6 @@ class ProposedIndicatorItem extends Component {
       <TouchableOpacity
         onPress={ () => this.handleSelected() }
         style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight(), borderRadius: cardBorderRadius}]}>
-
         <IndicatorTitle
           title={this.state.indicator.content}
           subText={translations.raisedTimes}

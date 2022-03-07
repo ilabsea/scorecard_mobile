@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
-
 import { connect } from 'react-redux';
+
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
-import ProposedIndicatorListModal from '../../components/IndicatorDevelopment/ProposedIndicatorListModal';
+import ProposedIndicatorListModalContent from '../../components/IndicatorDevelopment/ProposedIndicatorListModalContent';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
 import TipModal from '../../components/Tip/TipModal';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
@@ -20,7 +21,7 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
-import { tipModalSnapPoints, INDICATOR_DEVELOPMENT } from '../../constants/modal_constant';
+import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -29,11 +30,12 @@ class IndicatorDevelopment extends Component {
     super(props);
 
     this.state = {
-      visibleModal: false,
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
     };
 
     this.tipModalRef = React.createRef();
+    this.indicatorListModalRef = React.createRef();
+    this.modalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -80,12 +82,19 @@ class IndicatorDevelopment extends Component {
     this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 
+  openModal() {
+    this.modalRef.current?.setBodyContent(<ProposedIndicatorListModalContent scorecardUuid={this.state.scorecard.uuid} onDismiss={() => this.indicatorListModalRef.current?.dismiss()} />);
+    setTimeout(() => {
+      this.indicatorListModalRef.current?.present();
+    }, 500);
+  }
+
   _renderContent() {
     return (
       <IndicatorDevelopmentContent
         selectedCriterias={this.props.selectedIndicators}
         scorecardUuid={this.props.route.params.scorecard_uuid}
-        openModal={() => this.setState({ visibleModal: true })}
+        openModal={() => this.openModal()}
         updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}
         navigation={this.props.navigation}
         tipModalRef={this.tipModalRef}
@@ -118,11 +127,7 @@ class IndicatorDevelopment extends Component {
         }
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoints]} screenName='IndicatorDevelopment' />
-
-        <ProposedIndicatorListModal
-          visible={this.state.visibleModal}
-          onDismiss={() => this.setState({visibleModal: false})}
-        />
+        <FormBottomSheetModal ref={this.modalRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
       </View>
     )
   }
@@ -130,6 +135,7 @@ class IndicatorDevelopment extends Component {
 
 function mapStateToProps(state) {
   return {
+    proposedIndicators: state.proposedIndicators,
     selectedIndicators: state.selectedIndicators,
   };
 }
