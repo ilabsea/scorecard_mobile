@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 
-import { LocalizationContext } from '../../components/Translations';
-import ParticipantModalListItem from '../RaisingProposed/ParticipantModalListItem';
-
+import { LocalizationContext } from '../Translations';
+import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
 import ParticipantListContent from '../ParticipantModal/ParticipantListContent';
 import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
@@ -20,8 +19,8 @@ export default class ParticipantInfo extends Component {
       participants: props.participants || [],
       participantListVisible: false,
       addParticipantVisible: false,
-      currentParticipant: Participant.find(props.participant_uuid),
-      participantUuid: props.participant_uuid,
+      currentParticipant: Participant.find(props.participantUuid),
+      participantUuid: props.participantUuid,
     };
   }
 
@@ -32,21 +31,13 @@ export default class ParticipantInfo extends Component {
         addParticipantVisible: false,
       });
 
-    if (this.isModalNotOpened()) {
+    if (this.isModalNotOpened())
       this.openParticipantListModal();
 
-      // this.setState({ participantListVisible: this.props.visibleModal })
-      // this.props.modalRef.current?.setBodyContent(this.getParticipantListContent());
-
-      // setTimeout(() => {
-      //   this.props.participantModalRef.current?.present();
-      // }, 50);
-    }
-
-    if (this.state.participantUuid != this.props.participant_uuid) {
+    if (this.state.participantUuid != this.props.participantUuid) {
       this.setState({ 
-        currentParticipant: Participant.find(this.props.participant_uuid),
-        participantUuid: this.props.participant_uuid
+        currentParticipant: Participant.find(this.props.participantUuid),
+        participantUuid: this.props.participantUuid
       });
     }
   }
@@ -65,7 +56,7 @@ export default class ParticipantInfo extends Component {
 
   openParticipantListModal() {
     this.setState({ participantListVisible: this.props.visibleModal })
-    this.props.modalRef.current?.setBodyContent(this.getParticipantListContent());
+    this.props.formModalRef.current?.setBodyContent(this.getParticipantListContent());
 
     setTimeout(() => {
       this.props.participantModalRef.current?.present();
@@ -102,9 +93,8 @@ export default class ParticipantInfo extends Component {
   onSaveParticipant(participant) {
     this.dismissModal();
 
-    if (!!this.props.onPressCreateParticipant) {
+    if (!!this.props.onPressCreateParticipant)
       return this.props.onPressCreateParticipant(participant);
-    }
 
     this.setState({ currentParticipant: participant });
     !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
@@ -128,7 +118,7 @@ export default class ParticipantInfo extends Component {
       addParticipantVisible: true,
     });
 
-    this.props.modalRef.current?.setBodyContent(this.getAddNewParticipantContent());
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
   }
   // end of participant list functions
 

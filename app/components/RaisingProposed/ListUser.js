@@ -51,7 +51,7 @@ class ListUser extends Component {
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
-              participants={Participant.getNotRaised(this.props.scorecardUuid)}
+              participants={Participant.getNotRaised(this.props.scorecardUuid, null)}
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
@@ -60,7 +60,7 @@ class ListUser extends Component {
               visibleModal={this.props.visibleModal}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}
-              modalRef={this.props.modalRef}
+              formModalRef={this.props.formModalRef}
             />
           </View>
         </View>

@@ -4,8 +4,8 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
-import AddNewParticipantButtons from './AddNewParticipantButtons';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import {saveParticipantInfo} from '../../services/participant_service';
 import {saveParticipant} from '../../actions/participantAction';
@@ -103,7 +103,7 @@ class AddNewParticipantContent extends Component {
           {this.renderForm()}
         </View>
 
-        <AddNewParticipantButtons isValidAge={this.state.isValidAge} save={() => this.save()} />
+        <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} />
       </View>
     );
   }

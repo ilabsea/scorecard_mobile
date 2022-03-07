@@ -7,11 +7,13 @@ import {connect} from 'react-redux';
 
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNewIndicatorBody';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 class CreateNewIndicator extends Component {
   constructor(props) {
@@ -25,13 +27,12 @@ class CreateNewIndicator extends Component {
       participantUuid: props.route.params.participant_uuid,
     };
 
-    const { scorecard_uuid, participant_uuid } = props.route.params;
-    // Get the last order number of the saved proposed indicator of the participant
-    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid);
-
     // Get the previous proposed indicators of the participant
     const previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
+    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
+    this.bottomSheetRef = React.createRef();
+    this.formModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -108,6 +109,8 @@ class CreateNewIndicator extends Component {
             save={() => this.save()}
             removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
+            formModalRef={this.formModalRef}
+            bottomSheetRef={this.bottomSheetRef}
           />
   }
 
@@ -118,6 +121,12 @@ class CreateNewIndicator extends Component {
           { this.renderSearchableHeader() }
           
           { this.renderBody() }
+
+          <FormBottomSheetModal
+            ref={this.formModalRef}
+            formModalRef={this.bottomSheetRef}
+            snapPoints={participantModalSnapPoints}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

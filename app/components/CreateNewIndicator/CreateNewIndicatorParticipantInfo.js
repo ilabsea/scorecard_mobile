@@ -22,13 +22,15 @@ class CreateNewIndicatorParticipantInfo extends Component {
         </Text>
 
         <ParticipantInfo
-          participants={Participant.getNotRaised(this.props.scorecardUuid)}
-          scorecard_uuid={ this.props.scorecardUuid }
-          participant_uuid={ this.props.participantUuid }
+          participants={Participant.getNotRaised(this.props.scorecardUuid, this.props.participantUuid)}
+          scorecardUuid={ this.props.scorecardUuid }
+          participantUuid={ this.props.participantUuid }
           navigation={this.props.navigation}
           buttonVisible={false}
           onPressItem={(participant) => this.onUpdateParticipant(participant.uuid)}
           onPressCreateParticipant={(participant) => this.onUpdateParticipant(participant.uuid)}
+          formModalRef={this.props.formModalRef}
+          participantModalRef={this.props.participantModalRef}
         />
       </View>
     )

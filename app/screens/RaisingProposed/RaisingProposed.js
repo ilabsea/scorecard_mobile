@@ -5,13 +5,12 @@ import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorContent from '../../components/RaisingProposed/ProposedIndicatorContent';
 import ProgressHeader from '../../components/ProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
-import ParticipantModal from '../../components/ParticipantModal/ParticipantModal';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, PROPOSED_INDICATOR } from '../../constants/modal_constant';
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
+import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -32,14 +31,13 @@ class RaisingProposed extends Component {
 
     this.tipModalRef = React.createRef();
     this.participantModalRef = React.createRef();
-    this.modalRef = React.createRef();
+    this.formModalRef = React.createRef();
   }
 
   render() {
     const {translations} = this.context;
     const { scorecard_uuid } = this.props.route.params;
     const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
-    const participantModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['85%'] : ['75%']);
 
     return (
       <React.Fragment>
@@ -51,13 +49,13 @@ class RaisingProposed extends Component {
             visibleModal={this.state.visibleModal}
             tipModalRef={this.tipModalRef}
             participantModalRef={this.participantModalRef}
-            modalRef={this.modalRef}
+            formModalRef={this.formModalRef}
             updateModalVisible={(status) => this.setState({ visibleModal: status })}
           />
         </View>
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={['54%', tipSecondSnapPoint]} screenName='RaisingProposed' />
-        <ParticipantModal ref={this.modalRef} participantModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
       </React.Fragment>

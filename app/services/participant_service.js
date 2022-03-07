@@ -14,16 +14,16 @@ const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => 
   if (!isUpdate)
     attrs.order = participants.length;
 
+  let savedParticipant = null;
+
   realm.write(() => {
-    if (!isUpdate) {
-      let savedParticipant = realm.create('Participant', attrs);
-      callback(participants, savedParticipant);
-    }
-    else {
+    if (!isUpdate)
+      savedParticipant = realm.create('Participant', attrs);
+    else
       realm.create('Participant', attrs, 'modified');
-      callback(participants, null);
-    }
   });
+
+  callback(participants, savedParticipant);
 }
 
 const getUnvoted = (scorecardUuid) => {

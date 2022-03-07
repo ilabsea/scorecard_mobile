@@ -8,7 +8,7 @@ import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
 import { containerPadding } from '../../utils/responsive_util';
 
-const AddNewParticipantButtons = (props) => {
+const FormBottomSheetButton = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   return (
@@ -16,7 +16,7 @@ const AddNewParticipantButtons = (props) => {
       { margin: containerPadding, paddingTop: containerPadding, borderTopWidth: 1, borderTopColor: Color.lightGrayColor }]}
     >
       <SaveButton
-        disabled={!props.isValidAge}
+        disabled={!props.isValid}
         onPress={() => props.save()}
         label={translations.save}
       />
@@ -24,4 +24,4 @@ const AddNewParticipantButtons = (props) => {
   )
 }
 
-export default AddNewParticipantButtons;
+export default FormBottomSheetButton;

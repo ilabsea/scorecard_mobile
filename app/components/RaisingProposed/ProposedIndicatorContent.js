@@ -56,7 +56,7 @@ class ProposedIndicatorContent extends Component {
             numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
             visibleModal={this.props.visibleModal}
             participantModalRef={this.props.participantModalRef}
-            modalRef={this.props.modalRef}
+            formModalRef={this.props.formModalRef}
             updateModalVisible={(status) => this.props.updateModalVisible(status)}
           />
         </ScrollView>

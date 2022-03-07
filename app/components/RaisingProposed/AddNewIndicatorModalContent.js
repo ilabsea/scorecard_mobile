@@ -1,28 +1,32 @@
-import React, {Component} from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Modal } from 'react-native-paper';
+import React from 'react';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
+import {LocalizationContext} from '../Translations';
 import VoiceRecord from './VoiceRecord';
-import AddNewIndicatorModalTitle from './AddNewIndicatorModalTitle';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
-import AddNewIndicatorModalButtons from './AddNewIndicatorModalButtons';
 import ExistedIndicatorItem from './ExistedIndicatorItem';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
+import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import { getLanguageIndicator } from '../../services/language_indicator_service';
 import Indicator from '../../models/Indicator';
-import Color from '../../themes/color';
-import { modalBorderRadius } from '../../constants/border_radius_constant';
+import { isBlank } from '../../utils/string_util';
+import { containerPadding } from '../../utils/responsive_util';
+import { participantContentHeight } from '../../constants/modal_constant';
 
-class AddNewIndicatorModal extends Component {
+class AddNewIndicatorModalContent extends React.Component {
+  static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '',
-      tag: '',
-      audio: null,
+      name: props.selectedCustomIndicator ? props.selectedCustomIndicator.name : '',
+      tag: props.selectedCustomIndicator ? props.selectedCustomIndicator.tag : '',
+      audio: props.selectedCustomIndicator ? props.selectedCustomIndicator.local_audio : null,
       isIndicatorExist: false,
       duplicatedIndicators: []
     };
@@ -55,11 +59,6 @@ class AddNewIndicatorModal extends Component {
     });
   }
 
-  cancel = () => {
-    this.clearInputs();
-    this.props.closeModal();
-  }
-
   save = () => {
     const indicator = {
       name: this.state.name,
@@ -73,21 +72,17 @@ class AddNewIndicatorModal extends Component {
       this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, () => {
+      customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid, () => {
         this.props.finishSaveOrUpdateCustomIndicator(false);
       });
     }
     this.clearInputs();
+    this.props.closeModal();
   }
 
-  renderButtons = () => {
-    return <AddNewIndicatorModalButtons
-              name={this.state.name}
-              save={() => this.save()}
-              cancel={() => this.cancel()}
-              isIndicatorExist={this.state.isIndicatorExist}
-              isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()}
-            />
+  renderButton = () => {
+    const isValid = (isBlank(this.state.name) || this.state.isIndicatorExist) ? false : true;
+    return <FormBottomSheetButton isValid={isValid} save={() => this.save()} />
   }
 
   onChangeName(name) {
@@ -107,7 +102,7 @@ class AddNewIndicatorModal extends Component {
         name={this.state.name}
         tag={this.state.tag}
         isEdit={this.props.isEdit}
-        scorecardUuid={this.props.scorecardUUID}
+        scorecardUuid={this.props.scorecardUuid}
         onChangeName={(text) => this.onChangeName(text)}
         onChangeTag={(text) => this.setState({tag: text})}
         isIndicatorExist={this.state.isIndicatorExist}
@@ -123,8 +118,8 @@ class AddNewIndicatorModal extends Component {
 
   renderExistedIndicator() {
     return <ExistedIndicatorItem
-              scorecardUuid={this.props.scorecardUUID}
-              participantUuid={this.props.participantUUID}
+              scorecardUuid={this.props.scorecardUuid}
+              participantUuid={this.props.participantUuid}
               indicatorName={this.state.name}
               duplicatedIndicators={this.state.duplicatedIndicators}
               updateIndicatorList={() => this.updateIndicatorList()}
@@ -135,19 +130,14 @@ class AddNewIndicatorModal extends Component {
     return !this.state.isIndicatorExist || this.props.isEdit;
   }
 
-  render() {
-    return (
-      <Modal visible={this.props.isVisible} contentContainerStyle={styles.container}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View>
-            <AddNewIndicatorModalTitle isEdit={this.props.isEdit} />
-
+  renderForm() {
+    return <View style={{padding: containerPadding, marginTop: 5, flexGrow: 1}}>
             { this.renderTextInputs() }
 
             { this.isUniqueIndicatorOrEditing() ?
               <VoiceRecord
-                participantUUID={this.props.participantUUID}
-                scorecardUUID={this.props.scorecardUUID}
+                participantUUID={this.props.participantUuid}
+                scorecardUUID={this.props.scorecardUuid}
                 finishRecord={(filename) => this.setState({audio: filename})}
                 audioFilePath={this.state.audio}
                 deleteAudio={() => this.setState({audio: null})}
@@ -156,24 +146,22 @@ class AddNewIndicatorModal extends Component {
               :
               this.renderExistedIndicator()
             }
-
-            {this.renderButtons()}
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    );
+  }
+
+  render() {
+    const title = this.state.isEdit ? this.context.translations.editIndicator : this.context.translations.addNewIndicator;
+
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={{height: hp(participantContentHeight)}}>
+          <BottomSheetModalTitle title={title} />
+          { this.renderForm() }
+          { this.renderButton() }
+        </View>
+      </TouchableWithoutFeedback>
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Color.whiteColor,
-    marginHorizontal: 30,
-    padding: 20,
-    borderRadius: modalBorderRadius,
-    width: '92%',
-    alignSelf: 'center',
-  },
-});
-
-export default AddNewIndicatorModal;
+export default AddNewIndicatorModalContent;

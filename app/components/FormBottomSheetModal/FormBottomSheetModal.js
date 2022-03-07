@@ -1,16 +1,11 @@
 import React from 'react';
-
-import { LocalizationContext } from '../Translations';
 import BottomSheetModal from '../BottomSheetModal';
 
-class ParticipantModal extends React.Component {
-  static contextType = LocalizationContext;
-
+class FormBottomSheetModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       bodyContent: null,
-      snapPoints: props.snapPoints
     }
   }
 
@@ -18,16 +13,20 @@ class ParticipantModal extends React.Component {
     this.setState({ bodyContent });
   }
 
+  onDismissModal() {
+    !!this.props.onDismissModal && this.props.onDismissModal()
+  }
+
   render() {
     return (
       <BottomSheetModal
-        ref={this.props.participantModalRef}
+        ref={this.props.formModalRef}
         content={this.state.bodyContent}
-        snapPoints={this.state.snapPoints}
-        onDismiss={() => this.props.onDismissModal()}
+        snapPoints={this.props.snapPoints}
+        onDismiss={() => this.onDismissModal()}
       />
     )
   }
 }
 
-export default ParticipantModal;
+export default FormBottomSheetModal;

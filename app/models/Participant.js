@@ -40,8 +40,8 @@ const Participant = (() => {
     return realm.objects('Participant').filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = true`);
   }
 
-  function getNotRaised(scorecardUuid) {
-    return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND raised=false SORT(order ASC)`)
+  function getNotRaised(scorecardUuid, participantUuid) {
+    return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND uuid != '${participantUuid}' AND raised=false SORT(order ASC)`)
   }
 
   function findByScorecard(scorecardUuid) {
