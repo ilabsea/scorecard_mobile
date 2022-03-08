@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import { connect } from 'react-redux';
@@ -17,12 +17,14 @@ import Tip from '../../components/Tip';
 import ScorecardResultTitle from '../../components/ScorecardResult/ScorecardResultTitle';
 import ScorecardResultTable from '../../components/ScorecardResult/ScorecardResultTable';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+
 import scorecardResultService from '../../services/scorecard_result_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 
-import FormModal from '../../components/ScorecardResult/FormModal';
+import ScorecardResultModalContent from '../../components/ScorecardResult/ScorecardResultModalContent';
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, SCORECARD_RESULT } from '../../constants/modal_constant';
+import { tipModalSnapPoints, SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
 
 let _this = null;
@@ -36,12 +38,13 @@ class ScorecardResult extends Component {
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
       currentCriteria: {},
-      visible: false,
       selectedIndicator: {},
     };
     _this = this;
 
     this.tipModalRef = React.createRef();
+    this.swotModalRef = React.createRef();
+    this.formRef = React.createRef();
   }
 
   componentDidMount() {
@@ -88,9 +91,23 @@ class ScorecardResult extends Component {
   _handleShowModal(criteria, fieldName, indicator) {
     _this.setState({
       currentCriteria: Object.assign({currentFieldName: fieldName}, criteria),
-      visible: true,
       selectedIndicator: indicator,
+    }, () => {
+      _this.formRef.current?.setBodyContent(_this.getSwotModalContent());
+
+      setTimeout(() => {
+        _this.swotModalRef.current?.present();
+      }, 50);
     });
+  }
+
+  getSwotModalContent() {
+    return <ScorecardResultModalContent
+            criteria={this.state.currentCriteria}
+            onDismiss={() => this.swotModalRef.current?.dismiss()}
+            selectedIndicator={this.state.selectedIndicator}
+            isScorecardFinished={this.state.scorecard.finished}
+          />
   }
 
   save() {
@@ -107,7 +124,7 @@ class ScorecardResult extends Component {
         { this._renderHeader() }
 
         <ScrollView style={{flex: 1}}>
-          <View style={styles.container}>
+          <View style={{ padding: containerPadding, flex: 1 }}>
             <Tip screenName='ScorecardResult' showTipModal={() => this.tipModalRef.current?.present()} />
 
             <ScorecardResultTitle scorecardUuid={this.props.route.params.scorecard_uuid} navigation={this.props.navigation} />
@@ -123,17 +140,10 @@ class ScorecardResult extends Component {
             customBackgroundColor={Color.headerColor}
             iconName={'none'}
             label={translations.save}/>
-
-          <FormModal
-            visible={this.state.visible}
-            criteria={this.state.currentCriteria}
-            onDismiss={() => this.setState({visible: false})}
-            selectedIndicator={this.state.selectedIndicator}
-            isScorecardFinished={this.state.scorecard.finished}
-          />
         </View>
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='ScorecardResult' />
+        <FormBottomSheetModal ref={this.formRef} formModalRef={this.swotModalRef} snapPoints={swotModalSnapPoints} />
       </View>
     )
   }
@@ -157,10 +167,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ScorecardResult);
-
-const styles = StyleSheet.create({
-  container: {
-    padding: containerPadding,
-    flex: 1
-  },
-})

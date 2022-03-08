@@ -35,7 +35,7 @@ class IndicatorDevelopment extends Component {
 
     this.tipModalRef = React.createRef();
     this.indicatorListModalRef = React.createRef();
-    this.modalRef = React.createRef();
+    this.formRef = React.createRef();
   }
 
   componentDidMount() {
@@ -83,7 +83,7 @@ class IndicatorDevelopment extends Component {
   }
 
   openModal() {
-    this.modalRef.current?.setBodyContent(<ProposedIndicatorListModalContent scorecardUuid={this.state.scorecard.uuid} onDismiss={() => this.indicatorListModalRef.current?.dismiss()} />);
+    this.formRef.current?.setBodyContent(<ProposedIndicatorListModalContent scorecardUuid={this.state.scorecard.uuid} onDismiss={() => this.indicatorListModalRef.current?.dismiss()} />);
     setTimeout(() => {
       this.indicatorListModalRef.current?.present();
     }, 500);
@@ -127,7 +127,7 @@ class IndicatorDevelopment extends Component {
         }
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoints]} screenName='IndicatorDevelopment' />
-        <FormBottomSheetModal ref={this.modalRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
+        <FormBottomSheetModal ref={this.formRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
       </View>
     )
   }

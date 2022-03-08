@@ -39,6 +39,7 @@ class ScorecardResultTextInput extends Component {
         theme={{colors: {primary: Color.clickableColor}, fontSize: 49}}
         autoCompleteType='off'
         autoCapitalize='none'
+        onFocus={() => this.props.scrollTo()}
       />
     );
   }

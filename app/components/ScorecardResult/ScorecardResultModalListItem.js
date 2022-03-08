@@ -7,7 +7,7 @@ import { LocalizationContext } from '../Translations';
 import ScorecardResultTextInput from './ScorecardResultTextInput';
 
 import Color from '../../themes/color';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
 import FormModalTabletStyles from '../../styles/tablet/FormModalComponentStyle';
 import FormModalMobileStyles from '../../styles/mobile/FormModalComponentStyle';
 
@@ -26,6 +26,7 @@ class ScorecardResultModalListItem extends Component {
 
   render() {
     const { index, note, fieldName, isScorecardFinished, criteria, isDelete } = this.props;
+    const scrollPosition = isShortScreenDevice() ? (50 * index) : (100 * index);
 
     return (
       <React.Fragment>
@@ -51,6 +52,7 @@ class ScorecardResultModalListItem extends Component {
               customStyle={styles.inputText}
               disabled={isScorecardFinished}
               isDelete={isDelete}
+              scrollTo={() => this.props.scrollTo(scrollPosition)}
             />
           </View>
 
