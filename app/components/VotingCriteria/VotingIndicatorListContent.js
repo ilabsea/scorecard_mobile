@@ -30,8 +30,13 @@ class VotingIndicatorListContent extends React.Component {
     );
   }
 
-  _goToVotingForm(participant_uuid) {
-    navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant_uuid});
+  _goToVotingForm(participantUuid) {
+    navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participantUuid});
+  }
+
+  closeModal() {
+    this.props.updateModalVisible(false)
+    this.props.participantModalRef.current?.dismiss();
   }
 
   _renderContent() {
@@ -49,6 +54,9 @@ class VotingIndicatorListContent extends React.Component {
             buttonVisible={true}
             onPressItem={(participant) => this._goToVotingForm(participant.uuid)}
             onPressCreateParticipant={(participant) => this._goToVotingForm(participant.uuid)}
+            participantModalRef={this.props.participantModalRef}
+            formModalRef={this.props.formModalRef}
+            closeModal={() => this.closeModal()}
           />
         </View>
 
