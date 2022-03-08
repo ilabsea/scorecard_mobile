@@ -32,7 +32,7 @@ class CreateNewIndicator extends Component {
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
     this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
     this.bottomSheetRef = React.createRef();
-    this.formModalRef = React.createRef();
+    this.formRef = React.createRef();
   }
 
   componentDidMount() {
@@ -123,7 +123,7 @@ class CreateNewIndicator extends Component {
           { this.renderBody() }
 
           <FormBottomSheetModal
-            ref={this.formModalRef}
+            ref={this.formRef}
             formModalRef={this.bottomSheetRef}
             snapPoints={participantModalSnapPoints}
           />

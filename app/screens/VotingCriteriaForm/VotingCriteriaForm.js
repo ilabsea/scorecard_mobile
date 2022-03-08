@@ -1,24 +1,21 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-} from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 
 import realm from '../../db/schema';
 import Color from '../../themes/color';
+import { navigationRef } from '../../navigators/app_navigator';
 import { LocalizationContext } from '../../components/Translations';
-
 import BottomButton from '../../components/BottomButton';
 import HeaderTitle from '../../components/HeaderTitle';
+import NavigationHeader from '../../components/NavigationHeader';
 import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
 import votingCriteriaService from '../../services/votingCriteriaService';
 import VotingCriteria from '../../models/VotingCriteria';
-
-import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import VotingCriteriaFormTabletStyles from '../../styles/tablet/VotingCriteriaFormScreenStyle';
@@ -39,6 +36,9 @@ class VotingCriteriaForm extends Component {
       isValid: false,
       participant_uuid: props.route.params.participant_uuid,
     };
+
+    this.participantModalRef = React.createRef();
+    this.formRef = React.createRef();
   }
 
   componentWillUnmount() {
@@ -89,11 +89,13 @@ class VotingCriteriaForm extends Component {
 
         <ParticipantInfo
           participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false SORT(order ASC)`)}
-          scorecard_uuid={ this.props.route.params.scorecard_uuid }
-          participant_uuid={ this.props.route.params.participant_uuid }
+          scorecardUuid={ this.props.route.params.scorecard_uuid }
+          participantUuid={ this.props.route.params.participant_uuid }
           onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
-          navigation={this.props.navigation}
           buttonVisible={false}
+          participantModalRef={this.participantModalRef}
+          formModalRef={this.formRef}
+          closeModal={() => this.participantModalRef.current?.dismiss()}
         />
       </View>
     )
@@ -103,7 +105,7 @@ class VotingCriteriaForm extends Component {
     const { translations } = this.context;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{padding: 10, paddingTop: getDeviceStyle(16, 10), paddingHorizontal: 0}}>
+      <ScrollView contentContainerStyle={{flexGrow: 1, padding: 10, paddingTop: getDeviceStyle(16, 10), paddingHorizontal: 0}}>
         { this._renderParticipant() }
 
         <Text style={[{ paddingHorizontal: getDeviceStyle(16, 10) }, responsiveStyles.title]}>{translations.pleaseSelect}</Text>
@@ -143,16 +145,14 @@ class VotingCriteriaForm extends Component {
 
   render() {
     return (
-      <View style={{height: '100%', backgroundColor: Color.whiteColor}}>
+      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+        <NavigationHeader title={this.context.translations.scorecardVoting} onBackPress={() => navigationRef.current?.goBack()} />
         { this._renderContent() }
         { this._renderFooter() }
+        <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />
       </View>
     )
   }
-}
-
-function mapStateToProps(state) {
-  return {};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -162,12 +162,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(VotingCriteriaForm);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-})
