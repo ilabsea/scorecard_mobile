@@ -31,7 +31,7 @@ class CreateNewIndicator extends Component {
     const previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
     this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
-    this.bottomSheetRef = React.createRef();
+    this.participantModalRef = React.createRef();
     this.formRef = React.createRef();
   }
 
@@ -109,8 +109,8 @@ class CreateNewIndicator extends Component {
             save={() => this.save()}
             removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
-            formModalRef={this.formModalRef}
-            bottomSheetRef={this.bottomSheetRef}
+            formModalRef={this.formRef}
+            participantModalRef={this.participantModalRef}
           />
   }
 
@@ -124,7 +124,7 @@ class CreateNewIndicator extends Component {
 
           <FormBottomSheetModal
             ref={this.formRef}
-            formModalRef={this.bottomSheetRef}
+            formModalRef={this.participantModalRef}
             snapPoints={participantModalSnapPoints}
           />
         </View>

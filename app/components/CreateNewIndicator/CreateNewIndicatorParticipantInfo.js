@@ -22,7 +22,7 @@ class CreateNewIndicatorParticipantInfo extends Component {
         </Text>
 
         <ParticipantInfo
-          participants={Participant.getNotRaised(this.props.scorecardUuid, this.props.participantUuid)}
+          participants={Participant.getNotRaised(this.props.scorecardUuid)}
           scorecardUuid={ this.props.scorecardUuid }
           participantUuid={ this.props.participantUuid }
           navigation={this.props.navigation}

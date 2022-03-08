@@ -27,7 +27,7 @@ class CreateIndicatorBody extends React.Component {
 
   closeModal = () => {
     this.setState({ selectedCustomIndicator: null });
-    this.props.bottomSheetRef.current?.dismiss();
+    this.props.participantModalRef.current?.dismiss();
   }
 
   updateSelectedParticipant(participantUuid) {
@@ -39,7 +39,7 @@ class CreateIndicatorBody extends React.Component {
         participantUuid: participantUuid
       }, () => {
         !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participantUuid);
-        this.props.bottomSheetRef.current?.dismiss();
+        this.props.participantModalRef.current?.dismiss();
       });
     }
   }
@@ -61,7 +61,7 @@ class CreateIndicatorBody extends React.Component {
     this.setState({ selectedCustomIndicator: customIndicator }, () => {
       this.props.formModalRef.current?.setBodyContent(this.renderModalContent());
       setTimeout(() => {
-        this.props.bottomSheetRef.current?.present();
+        this.props.participantModalRef.current?.present();
       }, 50);
     });
   }
@@ -91,7 +91,7 @@ class CreateIndicatorBody extends React.Component {
             updateIndicatorList={() => this.updateIndicatorList()}
             closeModal={() => this.closeModal()}
             formModalRef={this.props.formModalRef}
-            participantModalRef={this.props.bottomSheetRef}
+            participantModalRef={this.props.participantModalRef}
           />
   }
 

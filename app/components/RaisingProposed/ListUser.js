@@ -51,7 +51,7 @@ class ListUser extends Component {
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
-              participants={Participant.getNotRaised(this.props.scorecardUuid, null)}
+              participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}

@@ -3,18 +3,18 @@ import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 
-import realm from '../../db/schema';
 import Color from '../../themes/color';
 import { navigationRef } from '../../navigators/app_navigator';
 import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
-import HeaderTitle from '../../components/HeaderTitle';
 import NavigationHeader from '../../components/NavigationHeader';
-import CriteriaRatingItem from '../../components/VotingCriteria/CriteriaRatingItem';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
-import ParticipantInfo from '../../components/CreateNewIndicator/ParticipantInfo';
+import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
+import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
+
 import votingCriteriaService from '../../services/votingCriteriaService';
 import VotingCriteria from '../../models/VotingCriteria';
+import Participant from '../../models/Participant';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
@@ -64,41 +64,20 @@ class VotingCriteriaForm extends Component {
   }
 
   _renderCriteriaRatingList() {
-    return (
-      this.state.criterias.map((criteria, index) => {
-        return (
-          <React.Fragment key={`${criteria.uuid}_${index}`}>
-            <CriteriaRatingItem
-              key={criteria.uuid}
-              criteria={criteria}
-              onPress={ (rating) => this.onClickRatingIcon(criteria, rating) }
-              colIndex={index}
-            />
-
-            { index < this.state.criterias.length - 1 && <View style={responsiveStyles.itemSeparator} /> }
-          </React.Fragment>
-        )
-      })
-    )
+    return <VotingIndicatorFormRatingList
+             criterias={this.state.criterias}
+             onClickRatingIcon={(criteria, rating) => this.onClickRatingIcon(criteria, rating)}
+           />
   }
 
   _renderParticipant() {
-    return (
-      <View style={{paddingHorizontal: getDeviceStyle(16, 10)}}>
-        <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
-
-        <ParticipantInfo
-          participants={realm.objects('Participant').filtered(`scorecard_uuid='${this.state.scorecard.uuid}' AND voted=false SORT(order ASC)`)}
-          scorecardUuid={ this.props.route.params.scorecard_uuid }
-          participantUuid={ this.props.route.params.participant_uuid }
-          onGetParticipant={(participant) => this.setState({participant_uuid: participant.uuid})}
-          buttonVisible={false}
-          participantModalRef={this.participantModalRef}
-          formModalRef={this.formRef}
-          closeModal={() => this.participantModalRef.current?.dismiss()}
-        />
-      </View>
-    )
+    return <VotingIndicatorFormParticipantInfo
+              scorecardUuid={this.props.route.params.scorecard_uuid}
+              participantUuid={this.props.route.params.participant_uuid}
+              participantModalRef={this.participantModalRef}
+              formModalRef={this.formRef}
+              onGetParticipant={(participantUuid) => this.setState({participant_uuid: participantUuid})}
+            />
   }
 
   _renderContent() {
@@ -119,11 +98,7 @@ class VotingCriteriaForm extends Component {
     const { participant_uuid } = this.state;
 
     votingCriteriaService.submitVoting(this.state.criterias, participant_uuid);
-
-    realm.write(() => {
-      realm.create('Participant', {uuid: participant_uuid, voted: true}, 'modified');
-    });
-
+    Participant.update(participant_uuid, { voted: true });
     this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
     this.props.navigation.goBack();
   }
