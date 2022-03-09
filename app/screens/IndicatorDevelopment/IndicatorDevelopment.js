@@ -86,7 +86,7 @@ class IndicatorDevelopment extends Component {
     this.formRef.current?.setBodyContent(<ProposedIndicatorListModalContent scorecardUuid={this.state.scorecard.uuid} onDismiss={() => this.indicatorListModalRef.current?.dismiss()} />);
     setTimeout(() => {
       this.indicatorListModalRef.current?.present();
-    }, 500);
+    }, 50);
   }
 
   _renderContent() {

@@ -22,17 +22,20 @@ export default class ParticipantInfo extends Component {
       currentParticipant: Participant.find(props.participantUuid),
       participantUuid: props.participantUuid,
     };
+
+    this.isComponentUnmounted = false;
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmounted = true;
   }
 
   componentDidUpdate() {
-    if (this.isModalNotClosed())
-      this.setState({
-        participantListVisible: false,
-        addParticipantVisible: false,
-      });
+    if (this.isComponentUnmounted)
+      return;
 
-    if (this.isModalNotOpened())
-      this.openParticipantListModal();
+    this.checkAndCloseModal();
+    this.checkAndOpenParticipantList();
 
     if (this.state.participantUuid != this.props.participantUuid) {
       this.setState({ 
@@ -42,16 +45,19 @@ export default class ParticipantInfo extends Component {
     }
   }
 
-  isModalNotClosed() {
-    // If either participantListVisible or addParticipantVisible is still true and the visibleModal is false,
-    // it means the modal is not closed yet
-    return (!!this.state.participantListVisible || !!this.state.addParticipantVisible ) && !this.props.visibleModal;
+  checkAndCloseModal() {
+    // If either participantListVisible or addParticipantVisible is still true and the visibleModal is false, it means the modal is not closed yet
+    if ((!!this.state.participantListVisible || !!this.state.addParticipantVisible ) && !this.props.visibleModal)
+      this.setState({
+        participantListVisible: false,
+        addParticipantVisible: false,
+      });
   }
 
-  isModalNotOpened() {
-    // If participantListVisible and addParticipantVisible are still false and the visibleModal is true,
-    // it means the modal is not opened yet
-    return !this.state.participantListVisible && !this.state.addParticipantVisible && this.props.visibleModal;
+  checkAndOpenParticipantList() {
+    // If participantListVisible and addParticipantVisible are still false and the visibleModal is true, it means the modal is not opened yet
+    if (!this.state.participantListVisible && !this.state.addParticipantVisible && this.props.visibleModal)
+      this.openParticipantListModal();
   }
 
   openParticipantListModal() {
@@ -89,20 +95,7 @@ export default class ParticipantInfo extends Component {
       <View/>;
   }
 
-  // start of add new participant functions
-  onSaveParticipant(participant) {
-    this.dismissModal();
-
-    if (!!this.props.selectParticipant)
-      return this.props.selectParticipant(participant);
-
-    this.setState({ currentParticipant: participant });
-    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
-  }
-  // end of add new participant functions
-
-  // start of participant list functions
-  onSelectParticipant(participant) {
+  selectParticipant(participant) {
     this.dismissModal();
 
     if (!!this.props.selectParticipant)
@@ -120,7 +113,6 @@ export default class ParticipantInfo extends Component {
 
     this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
   }
-  // end of participant list functions
 
   dismissModal() {
     this.setState({
@@ -136,14 +128,14 @@ export default class ParticipantInfo extends Component {
              scorecardUuid={this.props.scorecardUuid}
              participants={this.state.participants || []}
              showAddParticipantModal={() => this.showAddParticipantModal()}
-             onSelectParticipant={(participant) => this.onSelectParticipant(participant) }
+             onSelectParticipant={(participant) => this.selectParticipant(participant) }
            />
   }
 
   getAddNewParticipantContent() {
     return <AddNewParticipantContent
              scorecardUuid={ this.props.scorecardUuid }
-             onSaveParticipant={ (participant) => this.onSaveParticipant(participant) }
+             onSaveParticipant={ (participant) => this.selectParticipant(participant) }
            />
   }
 
