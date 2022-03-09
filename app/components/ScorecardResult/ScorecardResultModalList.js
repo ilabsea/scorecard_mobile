@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { LocalizationContext } from '../Translations';
@@ -42,7 +43,7 @@ class ScorecardResultModalList extends Component {
       <ScrollView ref={ref => this.scrollViewRef = ref} contentContainerStyle={{padding: containerPadding, paddingTop: 0, paddingBottom: this.props.isScorecardFinished ? 30 : 290}}
         showsVerticalScrollIndicator={false}
       >
-        { this.renderForm() }
+        <Pressable>{ this.renderForm() }</Pressable>
       </ScrollView>
     )
   }
