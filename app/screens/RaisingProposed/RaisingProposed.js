@@ -54,7 +54,7 @@ class RaisingProposed extends Component {
           />
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={['54%', tipSecondSnapPoint]} screenName='RaisingProposed' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='RaisingProposed' />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />

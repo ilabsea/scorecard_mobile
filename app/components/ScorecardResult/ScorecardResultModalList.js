@@ -39,7 +39,9 @@ class ScorecardResultModalList extends Component {
 
   render() {
     return (
-      <ScrollView ref={ref => this.scrollViewRef = ref} contentContainerStyle={{padding: containerPadding, paddingTop: 0, paddingBottom: 290}} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={ref => this.scrollViewRef = ref} contentContainerStyle={{padding: containerPadding, paddingTop: 0, paddingBottom: this.props.isScorecardFinished ? 30 : 290}}
+        showsVerticalScrollIndicator={false}
+      >
         { this.renderForm() }
       </ScrollView>
     )

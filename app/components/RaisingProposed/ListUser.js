@@ -29,10 +29,6 @@ class ListUser extends Component {
     }
   }
 
-  _goToCreateNewIndicator(participant_uuid) {
-    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid});
-  }
-
   closeModal() {
     this.props.updateModalVisible(false)
     this.props.participantModalRef.current?.dismiss();
@@ -55,8 +51,7 @@ class ListUser extends Component {
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
-              onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
-              onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
+              selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               visibleModal={this.props.visibleModal}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}

@@ -126,7 +126,7 @@ class IndicatorDevelopment extends Component {
           </View>
         }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoints]} screenName='IndicatorDevelopment' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='IndicatorDevelopment' />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
       </View>
     )

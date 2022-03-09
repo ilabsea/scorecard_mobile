@@ -10,10 +10,6 @@ import { subTitleFontSize } from '../../utils/font_size_util';
 class CreateNewIndicatorParticipantInfo extends Component {
   static contextType = LocalizationContext;
 
-  onUpdateParticipant(participantUuid) {
-    !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participantUuid);
-  }
-
   render() {
     return (
       <View>
@@ -27,8 +23,7 @@ class CreateNewIndicatorParticipantInfo extends Component {
           participantUuid={ this.props.participantUuid }
           navigation={this.props.navigation}
           buttonVisible={false}
-          onPressItem={(participant) => this.onUpdateParticipant(participant.uuid)}
-          onPressCreateParticipant={(participant) => this.onUpdateParticipant(participant.uuid)}
+          selectParticipant={(participant) => !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participant.uuid)}
           formModalRef={this.props.formModalRef}
           participantModalRef={this.props.participantModalRef}
         />

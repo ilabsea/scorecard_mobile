@@ -26,7 +26,7 @@ class ScorecardResultModalListItem extends Component {
 
   render() {
     const { index, note, fieldName, isScorecardFinished, criteria, isDelete } = this.props;
-    const scrollPosition = isShortScreenDevice() ? (50 * index) : (70 * index);
+    const scrollPosition = index * getDeviceStyle(70, 50);
 
     return (
       <React.Fragment>

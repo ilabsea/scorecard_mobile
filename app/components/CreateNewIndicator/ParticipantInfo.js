@@ -93,8 +93,8 @@ export default class ParticipantInfo extends Component {
   onSaveParticipant(participant) {
     this.dismissModal();
 
-    if (!!this.props.onPressCreateParticipant)
-      return this.props.onPressCreateParticipant(participant);
+    if (!!this.props.selectParticipant)
+      return this.props.selectParticipant(participant);
 
     this.setState({ currentParticipant: participant });
     !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
@@ -105,8 +105,8 @@ export default class ParticipantInfo extends Component {
   onSelectParticipant(participant) {
     this.dismissModal();
 
-    if (!!this.props.onPressItem)
-      return this.props.onPressItem(participant);
+    if (!!this.props.selectParticipant)
+      return this.props.selectParticipant(participant);
 
     this.setState({currentParticipant: participant});
     !!this.props.onGetParticipant && this.props.onGetParticipant(participant);

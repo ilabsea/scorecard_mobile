@@ -30,10 +30,6 @@ class VotingIndicatorListContent extends React.Component {
     );
   }
 
-  _goToVotingForm(participantUuid) {
-    navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participantUuid});
-  }
-
   closeModal() {
     this.props.updateModalVisible(false)
     this.props.participantModalRef.current?.dismiss();
@@ -49,11 +45,10 @@ class VotingIndicatorListContent extends React.Component {
 
           <ParticipantInfo
             participants={ participantService.getUnvoted(this.props.scorecard.uuid) }
-            scorecard_uuid={ this.props.scorecard.uuid }
+            scorecardUuid={ this.props.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
             buttonVisible={true}
-            onPressItem={(participant) => this._goToVotingForm(participant.uuid)}
-            onPressCreateParticipant={(participant) => this._goToVotingForm(participant.uuid)}
+            selectParticipant={(participant) => navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant.uuid})}
             participantModalRef={this.props.participantModalRef}
             formModalRef={this.props.formModalRef}
             closeModal={() => this.closeModal()}
