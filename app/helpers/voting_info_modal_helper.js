@@ -64,7 +64,7 @@ const votingInfoModalHelper = (() => {
                           { _modalTitle(criteria.order, indicator, { paddingBottom: 0 }) }
                           <DashedLine />
 
-                          <View style={{ padding: containerPadding, paddingBottom: 0 }}>
+                          <View style={{ paddingHorizontal: containerPadding, paddingTop: 10 }}>
                             <VotingMedianScoreInfo criteria={criteria} />
                             <VotingAverageScoreInfo votingInfos={votingInfos} />
                             { hasLessInfo && votingParticipantInfo }
