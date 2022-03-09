@@ -44,7 +44,7 @@ class ScorecardResultModalListItem extends Component {
           <Text style={[styles.orderNumberText, this.isSuggestedAction() ? {marginLeft: 5} : {}]}>{ index + 1 }.</Text>
           <View style={{flex: 1}}>
             <ScorecardResultTextInput
-              autoFocus={true}
+              autoFocus={!note}
               value={note}
               placeholder={this.context.translations[criteria.currentFieldName]}
               fieldName={fieldName}
