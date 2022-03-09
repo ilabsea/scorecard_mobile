@@ -31,7 +31,7 @@ class ScorecardResultModalList extends Component {
           toggleCheckbox={this.props.toggleCheckbox}
           onChangeText={this.props.onChangeText}
           deletePoint={this.props.deletePoint}
-          scrollTo={(position) => this.scrollViewRef.scrollTo({ y: position })}
+          scrollTo={(position) => this.scrollViewRef.scrollTo({ y: position, animated: true })}
         />
       )
     });
@@ -39,7 +39,7 @@ class ScorecardResultModalList extends Component {
 
   render() {
     return (
-      <ScrollView ref={ref => this.scrollViewRef = ref} contentContainerStyle={{padding: containerPadding, paddingTop: 0, paddingBottom: 250}} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={ref => this.scrollViewRef = ref} contentContainerStyle={{padding: containerPadding, paddingTop: 0, paddingBottom: 290}} showsVerticalScrollIndicator={false}>
         { this.renderForm() }
       </ScrollView>
     )
