@@ -9,7 +9,7 @@ import ScorecardResultModalTitle from './ScorecardResultModalTitle';
 import ScorecardResultModalList from './ScorecardResultModalList';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
-import VotingCriteria from '../../models/VotingCriteria';
+import VotingIndicator from '../../models/VotingIndicator';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 
 import { swotContentHeight } from '../../constants/modal_constant';
@@ -44,7 +44,7 @@ const ScorecardResultModalContent = (props) => {
     if (isSuggestedAction())
       data['suggested_action_status'] = scorecardResultHelper.getValidSuggestedStatuses(getPoints(), getSelectedActions());
 
-    VotingCriteria.upsert(data);
+    VotingIndicator.upsert(data);
 
     dispatch(getAll(criteria.scorecard_uuid));
     setHasAction(false);

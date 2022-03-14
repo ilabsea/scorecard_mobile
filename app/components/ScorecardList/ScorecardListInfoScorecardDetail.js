@@ -5,7 +5,7 @@ import Color from '../../themes/color';
 import styles from '../../themes/scorecardListItemStyle';
 
 import { LocalizationContext } from '../Translations';
-import VotingCriteria from '../../models/VotingCriteria';
+import VotingIndicator from '../../models/VotingIndicator';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
@@ -27,7 +27,7 @@ class ScorecardListInfoScorecardDetial extends Component {
 
   render() {
     const { scorecard } = this.props;
-    const criteriasSize = VotingCriteria.getAll(scorecard.uuid).length;
+    const criteriasSize = VotingIndicator.getAll(scorecard.uuid).length;
     const subTextStyles = { paddingTop: getDeviceStyle(2, 1), fontSize: subTextFontSize, marginLeft: 0};
     const subTitleMarginTop = getDeviceStyle(2, 3);
 

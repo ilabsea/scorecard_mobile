@@ -1,4 +1,3 @@
-import VotingCriteria from '../models/VotingCriteria';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
 import { getIndicatorActivitiesAttrs } from '../helpers/indicator_activity_helper';
 
@@ -15,14 +14,14 @@ const votingAttributesHelper = (() => {
     votingCriteriaAttr.map((votingCriteria, index) => {
       votingCriteriaAttr[index].display_order = votingCriteria.order;
 
-      const { activities_attrs, suggested_actions_attrs } = getIndicatorActivitiesAttrs(scorecard.uuid, votingCriteria.uuid);
-      votingCriteriaAttr[index].indicator_activities_attributes = activities_attrs;
-      votingCriteriaAttr[index].suggested_actions_attributes = suggested_actions_attrs;
+      const { activities_attrs, suggested_actions_attrs } = getIndicatorActivitiesAttrs(scorecard.uuid, votingIndicator.uuid);
+      votingIndicatorAttr[index].indicator_activities_attributes = activities_attrs;
+      votingIndicatorAttr[index].suggested_actions_attributes = suggested_actions_attrs;
 
-      delete votingCriteriaAttr[index].order
+      delete votingIndicatorAttr[index].order
     });
 
-    return { 'voting_indicators_attributes': votingCriteriaAttr };
+    return { 'voting_indicators_attributes': votingIndicatorAttr };
   }
 })();
 

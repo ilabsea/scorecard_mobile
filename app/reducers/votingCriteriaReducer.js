@@ -1,9 +1,9 @@
-import VotingCriteria from '../models/VotingCriteria';
+import VotingIndicator from '../models/VotingIndicator';
 
 const votingCriteriaReducer = (state=[], action) => {
   switch(action.type) {
     case 'GET_ALL':
-      return JSON.parse(JSON.stringify(VotingCriteria.getAll(action.payload)));
+      return JSON.parse(JSON.stringify(VotingIndicator.getAll(action.payload)));
     case 'SET_VOTING_CRITERIAS':
       return action.payload;
     default:

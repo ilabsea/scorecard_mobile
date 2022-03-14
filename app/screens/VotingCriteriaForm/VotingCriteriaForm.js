@@ -13,9 +13,9 @@ import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicator
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
 
 import votingCriteriaService from '../../services/votingCriteriaService';
-import VotingCriteria from '../../models/VotingCriteria';
 import Participant from '../../models/Participant';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
+import VotingIndicator from '../../models/VotingIndicator';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import VotingCriteriaFormTabletStyles from '../../styles/tablet/VotingCriteriaFormScreenStyle';
@@ -32,7 +32,7 @@ class VotingCriteriaForm extends Component {
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
-      criterias: JSON.parse(JSON.stringify(VotingCriteria.getAll(scorecard_uuid))),
+      criterias: JSON.parse(JSON.stringify(VotingIndicator.getAll(scorecard_uuid))),
       isValid: false,
       participant_uuid: props.route.params.participant_uuid,
     };

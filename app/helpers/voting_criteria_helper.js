@@ -1,9 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native';
-import realm from '../db/schema';
 import Rating from '../models/Rating';
 import Participant from '../models/Participant'
-import VotingCriteria from '../models/VotingCriteria';
+import VotingIndicator from '../models/VotingIndicator';
 import { roundUpHalf } from '../utils/math';
 import { participantTypes } from '../constants/participant_constant';
 import Images from '../utils/images';
@@ -17,8 +16,8 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
     { type: 'youth', voting_score: 0, average_score: 0, participant: _getVotedParticipantByType(scorecardUuid, 'youth') },
   ];
 
-  const votingCriteria = realm.objects('VotingCriteria').filtered(`scorecard_uuid == '${scorecardUuid}' AND indicatorable_id == '${indicatorId}'`)[0];
-  const allParticipants = realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}'`);
+  const votingIndicator = VotingIndicator.filterByIndicator(scorecardUuid, indicatorId, null)[0];
+  const allParticipants = Participant.getAll(scorecardUuid);
 
   votingInfos.map((votingInfo) => {
     const type = votingInfo.type;
@@ -28,7 +27,7 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
       participants = allParticipants.filter((participant) => participant.gender == 'female');
 
     participants.map((participant) => {
-      const rating = Rating.findByVotingCriteriaAndParticipant(votingCriteria.uuid, participant.uuid);
+      const rating = Rating.findByVotingIndicatorAndParticipant(votingIndicator.uuid, participant.uuid);
       votingInfo.voting_score += rating != undefined ? rating.score : 0;
     });
 
@@ -39,10 +38,11 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
 }
 
 const hasVoting = (scorecardUuid) => {
-  const votingCriterias = VotingCriteria.getAll(scorecardUuid);
+  const votingIndicators = VotingIndicator.getAll(scorecardUuid);
 
-  for (let i = 0; i < votingCriterias.length; i++) {
-    if (!Rating.findByVotingCriteria(votingCriterias[i].uuid))
+  for (let i = 0; i < votingIndicators.length; i++) {
+    // Refactor this code
+    if (!Rating.findByVotingIndicator(votingIndicators[i].uuid))
       return false;
   }
 
@@ -59,8 +59,9 @@ const getVotingParticipants = (scorecardUuid) => {
   return participantInfos;
 }
 
-const isVotingCriteriaRated = (votingCriteriaUuid) => {
-  return Rating.findByVotingCriteria(votingCriteriaUuid) ? true : false;
+// Refactor this code
+const isVotingCriteriaRated = (votingIndicatorUuid) => {
+  return Rating.findByVotingIndicator(votingIndicatorUuid) ? true : false;
 }
 
 const getVotingIcon = (icon, size, ratio) => {

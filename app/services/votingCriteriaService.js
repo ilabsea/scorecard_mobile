@@ -4,7 +4,7 @@ import ratings from '../db/jsons/ratings';
 import uuidv4 from '../utils/uuidv4';
 import { Median } from '../utils/math';
 import Rating from '../models/Rating';
-import VotingCriteria from '../models/VotingCriteria';
+import VotingIndicator from '../models/VotingIndicator';
 
 const votingCriteriaService = (() => {
   return {
@@ -19,15 +19,15 @@ const votingCriteriaService = (() => {
   }
 
   function getSelectedTags(scorecardUuid) {
-    return VotingCriteria.getAll(scorecardUuid).map(x => x.tag);
+    return VotingIndicator.getAll(scorecardUuid).map(x => x.tag);
   }
 
   function getSelectedIndicatorableIds(scorecardUuid) {
-    return VotingCriteria.getAll(scorecardUuid).map(x => x.indicatorable_id);
+    return VotingIndicator.getAll(scorecardUuid).map(x => x.indicatorable_id);
   }
 
   function cleanArchiveCriterias(scorecardUuid, selectedCriterias) {
-    let votingCriterias = VotingCriteria.getAll(scorecardUuid);
+    let votingCriterias = VotingIndicator.getAll(scorecardUuid);
     let archiveCriterias = votingCriterias.filter(criteria =>
       !selectedCriterias.filter(sc => sc.indicatorable_id == criteria.indicatorable_id && sc.indicatorable_type == criteria.indicatorable_type).length
     )
@@ -36,7 +36,7 @@ const votingCriteriaService = (() => {
       Rating.destroy(scorecardUuid, votingCriteria.uuid);
     });
 
-    VotingCriteria.destroy(archiveCriterias);
+    VotingIndicator.destroy(archiveCriterias);
   }
 
   function submitCriterias(scorecard_uuid, selectedCriterias, callback) {
@@ -46,7 +46,7 @@ const votingCriteriaService = (() => {
     for(let i=0; i<selectedCriterias.length; i++) {
       const order = i+1;
       let criteria = selectedCriterias[i];
-      let obj = VotingCriteria.filterByIndicator(criteria.scorecard_uuid, criteria.indicatorable_id, criteria.indicatorable_type)[0];
+      let obj = VotingIndicator.filterByIndicator(criteria.scorecard_uuid, criteria.indicatorable_id, criteria.indicatorable_type)[0];
 
       if (!!obj && obj.order == order) { continue; }
 
@@ -59,7 +59,7 @@ const votingCriteriaService = (() => {
         order: order,
       }
 
-      VotingCriteria.upsert(data);
+      VotingIndicator.upsert(data);
       savedCriterias.push(data);
     }
 
@@ -73,7 +73,7 @@ const votingCriteriaService = (() => {
     }
 
     function _updateCriteria(criteria) {
-      let criteriaObj = VotingCriteria.findByUuid(criteria.uuid);
+      let criteriaObj = VotingIndicator.findByUuid(criteria.uuid);
       realm.write(() => {
         criteriaObj[_getCountMethod(criteria)] += 1;
         criteriaObj.median = _getAverageScore(criteriaObj);
@@ -122,10 +122,10 @@ const votingCriteriaService = (() => {
   }
 
   function deleteVotingCriteria(scorecardUuid) {
-    const votingCriterias = VotingCriteria.getAll(scorecardUuid);
+    const votingCriterias = VotingIndicator.getAll(scorecardUuid);
 
     if (votingCriterias.length > 0) {
-      VotingCriteria.destroy(votingCriterias);
+      VotingIndicator.destroy(votingCriterias);
     }
   }
 })();

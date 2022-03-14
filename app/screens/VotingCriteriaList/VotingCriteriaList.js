@@ -12,8 +12,8 @@ import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
-import VotingCriteria from '../../models/VotingCriteria';
 import { tipModalSnapPoints, VOTING_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
+import VotingIndicator from '../../models/VotingIndicator';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -24,7 +24,7 @@ class VotingCriteriaList extends Component {
     this.state = {
       visibleModal: false,
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
-      votingCriterias: VotingCriteria.getAll(props.route.params.scorecard_uuid),
+      votingCriterias: VotingIndicator.getAll(props.route.params.scorecard_uuid),
     };
 
     this.tipModalRef = React.createRef();

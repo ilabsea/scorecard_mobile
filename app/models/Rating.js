@@ -4,11 +4,11 @@ const Rating = (() => {
   return {
     create,
     deleteAll,
-    findByVotingCriteriaAndParticipant,
+    findByVotingIndicatorAndParticipant,
     getAll,
     has,
     destroy,
-    findByVotingCriteria,
+    findByVotingIndicator,
   }
 
   function create(data) {
@@ -27,7 +27,7 @@ const Rating = (() => {
     }
   }
 
-  function findByVotingCriteriaAndParticipant(votingCriUuid, participantUuid) {
+  function findByVotingIndicatorAndParticipant(votingCriUuid, participantUuid) {
     return realm.objects('Rating').filtered(`voting_criteria_uuid == '${votingCriUuid}' AND participant_uuid == '${participantUuid}'`)[0];
   }
 
@@ -49,7 +49,7 @@ const Rating = (() => {
     }
   }
 
-  function findByVotingCriteria(votingCriteriaUuid) {
+  function findByVotingIndicator(votingCriteriaUuid) {
     return realm.objects('Rating').filtered(`voting_criteria_uuid == '${votingCriteriaUuid}'`)[0];
   }
 })();

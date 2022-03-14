@@ -1,4 +1,4 @@
-import VotingCriteria from '../models/VotingCriteria';
+import VotingIndicator from '../models/VotingIndicator';
 
 const scorecardResultService = (() => {
   return {
@@ -9,11 +9,9 @@ const scorecardResultService = (() => {
     if (scorecard.finished)
       return false;
 
-    const criterias = VotingCriteria.getAll(scorecard.uuid);
-    for (let i=0; i<criterias.length; i++) {
-      const criteria = criterias[i];
-  
-      if (!criteria.suggested_action)
+    const votingIndicators = VotingIndicator.getAll(scorecard.uuid);
+    for (let i=0; i < votingIndicators.length; i++) {
+      if (!votingIndicators[i].suggested_action)
         return false;
     }
 

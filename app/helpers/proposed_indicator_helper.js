@@ -1,5 +1,5 @@
-import VotingCriteria from '../models/VotingCriteria';
 import Indicator from '../models/Indicator';
+import VotingIndicator from '../models/VotingIndicator';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 import { getLanguageIndicator } from '../services/language_indicator_service';
 
@@ -20,7 +20,7 @@ const proposedIndicatorHelper = (() => {
       attr.indicator_uuid = indicatorAttrs.indicator_uuid;
 
       if (!!isRaisedIndicatorAttrs) {
-        const votingIndicator = VotingCriteria.find(scorecard.uuid, selectedIndicator.indicatorable_id);
+        const votingIndicator = VotingIndicator.find(scorecard.uuid, indicator.id);
         attr.tag_attributes = { name: selectedIndicator.tag }
         attr.selected = !!votingIndicator ? true : false;
         attr.voting_indicator_uuid = !!votingIndicator ? votingIndicator.uuid : null;
