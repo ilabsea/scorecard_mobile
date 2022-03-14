@@ -11,8 +11,8 @@ import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 
 import indicatorHelper from '../../helpers/indicator_helper';
-import { getVotingInfos, isVotingCriteriaRated } from '../../helpers/voting_criteria_helper';
-import votingInfoModalHelper from '../../helpers/voting_info_modal_helper';
+import { getVotingInfos } from '../../helpers/voting_indicator_helper';
+
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
 import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';

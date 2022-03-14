@@ -42,7 +42,8 @@ const hasVoting = (scorecardUuid) => {
 
   for (let i = 0; i < votingIndicators.length; i++) {
     // Refactor this code
-    if (!Rating.findByVotingIndicator(votingIndicators[i].uuid))
+    // if (!Rating.findByVotingIndicator(votingIndicators[i].uuid))
+    if (!isVotingIndicatorRated(votingIndicators[i].uuid))
       return false;
   }
 
@@ -60,7 +61,7 @@ const getVotingParticipants = (scorecardUuid) => {
 }
 
 // Refactor this code
-const isVotingCriteriaRated = (votingIndicatorUuid) => {
+const isVotingIndicatorRated = (votingIndicatorUuid) => {
   return Rating.findByVotingIndicator(votingIndicatorUuid) ? true : false;
 }
 
