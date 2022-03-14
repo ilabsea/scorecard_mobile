@@ -16,7 +16,7 @@ import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardProgressScreen from '../screens/ScorecardProgress/ScorecardProgress';
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
-import VotingCriteriaFormScreen from '../screens/VotingCriteriaForm/VotingCriteriaForm';
+import VotingIndicatorFormScreen from '../screens/VotingIndicatorForm/VotingIndicatorForm';
 import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
 import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
@@ -108,8 +108,8 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="VotingCriteriaForm"
-        component={VotingCriteriaFormScreen}
+        name="VotingIndicatorForm"
+        component={VotingIndicatorFormScreen}
         options={{
           header: () => null
         }}

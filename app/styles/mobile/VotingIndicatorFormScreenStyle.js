@@ -2,17 +2,17 @@ import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { subTitleFontSize } from '../../utils/font_size_util';
 
-const VotingCriteriaFormScreenStyles = StyleSheet.create({
+const VotingIndicatorFormScreenStyles = StyleSheet.create({
   title: {
-    marginTop: 30,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 5,
     fontSize: subTitleFontSize()
   },
   itemSeparator: {
     backgroundColor: Color.paleGrayColor,
-    height: 20,
+    height: 15,
     marginBottom: -3
   }
 });
 
-export default VotingCriteriaFormScreenStyles;
+export default VotingIndicatorFormScreenStyles;
