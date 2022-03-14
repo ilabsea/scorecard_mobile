@@ -5,9 +5,9 @@ export const getAll = (scorecard_uuid) => {
   }
 }
 
-export const setVotingCriterias = (criterias) => {
+export const setVotingIndicators = (indicators) => {
   return {
-    type: 'SET_VOTING_CRITERIAS',
-    payload: criterias
+    type: 'SET_VOTING_INDICATORS',
+    payload: indicators
   }
 }

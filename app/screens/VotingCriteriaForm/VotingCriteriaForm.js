@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { getAll } from '../../actions/votingCriteriaAction';
+import { getAll } from '../../actions/votingIndicatorAction';
 
 import Color from '../../themes/color';
 import { navigationRef } from '../../navigators/app_navigator';
@@ -100,7 +100,7 @@ class VotingCriteriaForm extends Component {
     votingIndicatorService.submitVoting(this.state.criterias, participant_uuid);
     Participant.update(participant_uuid, { voted: true });
 
-    this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
+    this.props.refreshVotingIndicatorState(this.state.scorecard.uuid);
     this.props.navigation.goBack();
   }
 
@@ -133,7 +133,7 @@ class VotingCriteriaForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshVotingCriteriaState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+    refreshVotingIndicatorState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
   };
 }
 

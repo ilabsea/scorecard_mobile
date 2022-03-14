@@ -86,14 +86,13 @@ class VotingCriteriaList extends Component {
 
 function mapStateToProps(state) {
   return {
-    votingCriterias: state.votingCriterias,
+    votingIndicators: state.votingIndicators,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshVotingCriteriaState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
-    setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
+    refreshVotingIndicatorState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };
 }

@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import { connect } from 'react-redux';
-import { getAll } from '../../actions/votingCriteriaAction';
+import { getAll } from '../../actions/votingIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 import { getAllScorecardReferences } from '../../actions/scorecardReferenceAction';
 

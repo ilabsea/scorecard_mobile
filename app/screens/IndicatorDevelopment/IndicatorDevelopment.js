@@ -14,7 +14,7 @@ import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
 import { setSelectedIndicators } from '../../actions/selectedIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
-import { setVotingCriterias } from '../../actions/votingCriteriaAction';
+import { setVotingIndicators } from '../../actions/votingIndicatorAction';
 
 import Scorecard from '../../models/Scorecard';
 import votingIndicatorService from '../../services/voting_indicator_service';
@@ -74,8 +74,8 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedCriterias) => {
-      this.props.setVotingCriterias(savedCriterias);
+    votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedIndicators) => {
+      this.props.setVotingIndicators(savedIndicators);
     });
 
     scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
@@ -145,7 +145,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedIndicators: (indicators) => dispatch(setSelectedIndicators(indicators)),
     setProposedIndicators: (indicators) => dispatch(setProposedIndicators(indicators)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
-    setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
+    setVotingIndicators: (indicators) => dispatch(setVotingIndicators(indicators)),
   };
 }
 

@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { useDispatch } from 'react-redux';
-import { getAll } from '../../actions/votingCriteriaAction';
+import { getAll } from '../../actions/votingIndicatorAction';
 
 import ScorecardResultModalTitle from './ScorecardResultModalTitle';
 import ScorecardResultModalList from './ScorecardResultModalList';
