@@ -12,9 +12,9 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
 
-import votingCriteriaService from '../../services/votingCriteriaService';
 import Participant from '../../models/Participant';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
+import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
@@ -42,7 +42,7 @@ class VotingCriteriaForm extends Component {
   }
 
   componentWillUnmount() {
-    votingCriteriaService.clearPlayingCriteria();
+    votingIndicatorService.clearPlayingIndicator();
 
     this.setState = (state, callback) => {
       return;
@@ -97,8 +97,9 @@ class VotingCriteriaForm extends Component {
   _submit() {
     const { participant_uuid } = this.state;
 
-    votingCriteriaService.submitVoting(this.state.criterias, participant_uuid);
+    votingIndicatorService.submitVoting(this.state.criterias, participant_uuid);
     Participant.update(participant_uuid, { voted: true });
+
     this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
     this.props.navigation.goBack();
   }

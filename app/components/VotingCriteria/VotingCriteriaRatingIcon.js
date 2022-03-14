@@ -5,7 +5,7 @@ import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../Translations';
 import PlaySound from './PlaySound';
 import Images from '../../utils/images';
-import votingCriteriaService from '../../services/votingCriteriaService';
+import votingIndicatorService from '../../services/voting_indicator_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import CriteriaRatingItemTabletStyles from '../../styles/tablet/CriteriaRatingItemComponentStyle';
 import CriteriaRatingItemMobileStyles from '../../styles/mobile/CriteriaRatingItemComponentStyle';
@@ -40,7 +40,7 @@ class VotingCriteriaRatingIcon extends Component {
           filePath={ratingLanguage.local_audio}
           isLocal={true}
           onPress={() => this.props.onClickIcon(rating)}
-          onSavePlayingAudio={() => votingCriteriaService.savePlayingCriteriaAudio(position)}
+          onSavePlayingAudio={() => votingIndicatorService.savePlayingIndicatorAudio(position)}
           position={position}
         >
           <Text style={responsiveStyles.playSoundLabel}>{translations.listen}</Text>
