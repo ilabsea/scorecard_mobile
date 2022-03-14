@@ -1,5 +1,8 @@
 import realm from '../db/schema';
 
+// const MODEL = 'VotingCriteria';
+const MODEL = 'VotingIndicator';
+
 const VotingCriteria = (() => {
   return {
     getAll,
@@ -12,24 +15,24 @@ const VotingCriteria = (() => {
   };
 
   function getAll(scorecardUuid) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' SORT(order ASC)`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' SORT(order ASC)`);
   }
 
   function find(scorecardUuid, indicatorId) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorId}'`)[0];
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorId}'`)[0];
   }
 
   function findByUuid(votingCriteriaUuid) {
-    return realm.objects('VotingCriteria').filtered(`uuid = '${votingCriteriaUuid}'`)[0];
+    return realm.objects(MODEL).filtered(`uuid = '${votingCriteriaUuid}'`)[0];
   }
 
   function filterByIndicator(scorecardUuid, indicatorableId, indicatorableType) {
-    return realm.objects('VotingCriteria').filtered(`scorecard_uuid='${scorecardUuid}' AND indicatorable_id='${indicatorableId}' AND indicatorable_type='${indicatorableType}'`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' AND indicatorable_id='${indicatorableId}' AND indicatorable_type='${indicatorableType}'`);
   }
 
   function upsert(data) {
     realm.write(() => {
-      realm.create('VotingCriteria', data, 'modified');
+      realm.create(MODEL, data, 'modified');
     });
   }
 
