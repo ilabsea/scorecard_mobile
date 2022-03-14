@@ -22,7 +22,7 @@ export default [
     headerTitle: 'voting',
     label: 'voting',
     getSubTitle: '',
-    routeName: 'VotingCriteriaList'
+    routeName: 'VotingIndicatorList'
   },
   { value: 5,
     headerTitle: 'scorecardResult',

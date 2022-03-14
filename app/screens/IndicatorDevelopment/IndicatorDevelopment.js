@@ -79,7 +79,7 @@ class IndicatorDevelopment extends Component {
     });
 
     scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
-    this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
+    this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 
   openModal() {

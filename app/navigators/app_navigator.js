@@ -17,7 +17,7 @@ import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardProgressScreen from '../screens/ScorecardProgress/ScorecardProgress';
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
 import VotingCriteriaFormScreen from '../screens/VotingCriteriaForm/VotingCriteriaForm';
-import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriteriaList';
+import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
 import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
@@ -101,8 +101,8 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="VotingCriteriaList"
-        component={VotingCriteriaListScreen}
+        name="VotingIndicatorList"
+        component={VotingIndicatorListScreen}
         options={({navigation}) => ({
           header: ()=> null
         })}
