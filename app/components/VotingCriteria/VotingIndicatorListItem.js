@@ -14,12 +14,12 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import { getVotingInfos } from '../../helpers/voting_indicator_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
-import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
+import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
+import VotingIndicatorListItemMobileStyles from '../../styles/mobile/VotingIndicatorListItemComponentStyle';
 
-const styles = getDeviceStyle(VotingCriteriaListItemTabletStyles, VotingCriteriaListItemMobileStyles);
+const styles = getDeviceStyle(VotingIndicatorListItemTabletStyles, VotingIndicatorListItemMobileStyles);
 
-export default class VotingCriteriaListItem extends Component {
+export default class VotingIndicatorListItem extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -33,8 +33,8 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderContent(indicator) {
     const { translations } = this.context;
-    let containerDirectionStyle = !this.props.criteria.median && DeviceInfo.isTablet() ? { flexDirection: 'row' } : {};
-    let viewMoreContainerStyle = !this.props.criteria.median ? styles.viewMoreContainer : styles.borderedViewMoreContainer;
+    let containerDirectionStyle = !this.props.indicator.median && DeviceInfo.isTablet() ? { flexDirection: 'row' } : {};
+    let viewMoreContainerStyle = !this.props.indicator.median ? styles.viewMoreContainer : styles.borderedViewMoreContainer;
     if (!DeviceInfo.isTablet())
       viewMoreContainerStyle = styles.viewMoreContainer;
 
@@ -42,13 +42,13 @@ export default class VotingCriteriaListItem extends Component {
       <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingTop: 10, paddingBottom: 16, paddingRight: 0}, containerDirectionStyle]}>
         <View style={{flex: 1}}>
           <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
-            {this.props.criteria.order}. {indicator.content || indicator.name}
+            {this.props.indicator.order}. {indicator.content || indicator.name}
           </Text>
 
           <VotingIndicatorListIcons criteria={this.props.criteria} />
         </View>
 
-        { this.props.criteria.median &&
+        { this.props.indicator.median &&
           <View style={viewMoreContainerStyle}>
             <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
             <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
@@ -81,7 +81,7 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   render() {
-    let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
+    let indicator = indicatorHelper.getDisplayIndicator(this.props.indicator);
 
     return (
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>

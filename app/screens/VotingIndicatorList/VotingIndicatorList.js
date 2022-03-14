@@ -8,7 +8,7 @@ import TipModal from '../../components/Tip/TipModal';
 import VotingInfoModal from '../../components/VotingCriteria/VotingInfoModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import VotingIndicatorListContent from '../../components/VotingCriteria/VotingIndicatorListContent';
-import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
+import { getAll } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
@@ -100,4 +100,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(VotingCriteriaList);
+)(VotingIndicatorList);

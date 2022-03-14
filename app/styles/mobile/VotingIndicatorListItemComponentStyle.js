@@ -1,19 +1,24 @@
 import { StyleSheet } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
 
-const votingCriteriaListItemComponentStyle = StyleSheet.create({
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+
+const votingIndicatorListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
     flexDirection: 'row',
     borderRadius: cardBorderRadius
   },
   ratingIconContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: -8,
   },
   ratingItem: {
-    width: '25%',
+    width: getDeviceStyle(50, wp('12%')),
     maxWidth: 57,
     paddingVertical: 2,
     flexDirection: 'row',
@@ -22,27 +27,28 @@ const votingCriteriaListItemComponentStyle = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     paddingLeft: 6,
-    marginTop: 6,
+    marginTop: 4
   },
   ratingCount: {
     fontWeight: 'bold',
     flex: 1,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 12,
   },
   resultWrapper: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120,
+    width: wp('20%'),
     borderLeftWidth: 1,
     borderColor: Color.borderColor,
   },
   medianScoreText: {
-    fontSize: 14,
+    fontSize: wp('3%'),
   },
   medianText: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: wp('3%'),
     marginTop: 4,
     color: '#0404d0',
   },
@@ -60,33 +66,25 @@ const votingCriteriaListItemComponentStyle = StyleSheet.create({
   viewMoreContainer: {
     justifyContent: 'flex-end',
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 10,
-    paddingTop: 10
-  },
-  borderedViewMoreContainer: {
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    borderTopWidth: 1,
     width: '100%',
-    borderTopColor: Color.borderColor,
-    paddingTop: 6,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
     paddingRight: 10,
-    marginBottom: -10
+    marginBottom: -12
   },
   viewMoreLabel: {
-    fontSize: 15,
-    color: Color.headerColor,
+    fontSize: getMobileFontSizeByPixelRatio(14.5, 12.5),
+    color: Color.headerColor
   },
   viewMoreIcon: {
-    fontSize: 24,
+    fontSize: wp('4.5%'),
     color: Color.headerColor,
+    marginTop: 1,
   },
   indicatorNameLabel: {
     paddingRight: 10,
-  }
+    fontSize: getMobileFontSizeByPixelRatio(15, 13.5),
+  },
 });
 
-export default votingCriteriaListItemComponentStyle;
+export default votingIndicatorListItemComponentStyle;
