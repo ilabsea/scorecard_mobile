@@ -107,7 +107,7 @@ const votingIndicatorService = (() => {
     return {
       uuid: uuidv4(),
       scorecard_uuid: indicator.scorecard_uuid,
-      voting_criteria_uuid: indicator.uuid,
+      voting_indicator_uuid: indicator.uuid,
       participant_uuid: participant_uuid,
       score: indicator.ratingScore
     }

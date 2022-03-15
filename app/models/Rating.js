@@ -28,7 +28,7 @@ const Rating = (() => {
   }
 
   function findByVotingIndicatorAndParticipant(votingCriUuid, participantUuid) {
-    return realm.objects('Rating').filtered(`voting_criteria_uuid == '${votingCriUuid}' AND participant_uuid == '${participantUuid}'`)[0];
+    return realm.objects('Rating').filtered(`voting_indicator_uuid == '${votingCriUuid}' AND participant_uuid == '${participantUuid}'`)[0];
   }
 
   function getAll(scorecardUuid) {
@@ -40,7 +40,7 @@ const Rating = (() => {
   }
 
   function destroy(scorecardUuid, votingCriteriaUuid) {
-    const rating = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}' AND voting_criteria_uuid = '${votingCriteriaUuid}'`)[0];
+    const rating = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}' AND voting_indicator_uuid = '${votingCriteriaUuid}'`)[0];
 
     if (rating) {
       realm.write(() => {
@@ -50,7 +50,7 @@ const Rating = (() => {
   }
 
   function findByVotingIndicator(votingCriteriaUuid) {
-    return realm.objects('Rating').filtered(`voting_criteria_uuid == '${votingCriteriaUuid}'`)[0];
+    return realm.objects('Rating').filtered(`voting_indicator_uuid == '${votingCriteriaUuid}'`)[0];
   }
 })();
 
