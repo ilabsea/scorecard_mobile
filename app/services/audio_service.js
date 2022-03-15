@@ -1,6 +1,6 @@
 import { environment } from '../config/environment';
-import realm from '../db/schema';
 import {downloadFileFromUrl, isFileExist} from '../services/local_file_system_service';
+import LanguageIndicator from '../models/LanguageIndicator';
 
 class AudioService {
   constructor(isStopDownload) {
@@ -73,9 +73,8 @@ class AudioService {
       id: languageIndicator.id.toString(),
       local_audio: localAudioFilePath,
     };
-    realm.write(() => {
-      realm.create('LanguageIndicator', attrs, 'modified');
-    });
+
+    LanguageIndicator.create(attrs);
     callbackDownload();
   }
 }

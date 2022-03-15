@@ -7,7 +7,6 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import realm from '../../db/schema';
 
 import Color from '../../themes/color';
 
@@ -20,6 +19,7 @@ import {connect} from 'react-redux';
 import OutlinedButton from '../../components/OutlinedButton';
 import NoDataMessage from '../../components/NoDataMessage';
 
+import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 
@@ -45,7 +45,7 @@ class ParticipantList extends Component {
   }
 
   fetchParticipant = () => {
-    const participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ this.props.route.params.scorecard_uuid +'"').sorted('order', false);
+    const participants = Participant.findByScorecard(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 
@@ -76,7 +76,7 @@ class ParticipantList extends Component {
   }
 
   renderParticipantList = () => {
-    const numberOfParticipant = realm.objects('Scorecard').filtered('uuid = "' + this.props.route.params.scorecard_uuid + '"')[0].number_of_participant;
+    const numberOfParticipant = Scorecard.find(this.props.route.params.scorecard_uuid).number_of_participant;
     this.totalParticipant = numberOfParticipant;
 
     let doms = null;

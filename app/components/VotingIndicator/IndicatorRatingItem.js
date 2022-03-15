@@ -4,12 +4,13 @@ import { View, Text } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../../components/Translations';
 import VotingIndicatorRatingIcon from './VotingIndicatorRatingIcon';
-import realm from '../../db/schema';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
 import PlaySound from './PlaySound';
 import indicatorHelper from '../../helpers/indicator_helper';
+import Scorecard from '../../models/Scorecard';
+import LanguageRatingScale from '../../models/LanguageRatingScale';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import IndicatorRatingItemTabletStyles from '../../styles/tablet/IndicatorRatingItemComponentStyle';
@@ -22,13 +23,12 @@ export default class IndicatorRatingItem extends Component {
 
   constructor(props) {
     super(props);
-    let scorecard = realm.objects('Scorecard').filtered(`uuid='${props.indicator.scorecard_uuid}'`)[0];
+    let scorecard = Scorecard.find(props.indicator.scorecard_uuid);
 
     this.state = {
       currentScore: 0,
-      languageRatingScales: [],
       scorecard: scorecard,
-      languageRatingScales: JSON.parse(JSON.stringify(realm.objects('LanguageRatingScale').filtered(`program_id == ${scorecard.program_id}`)))
+      languageRatingScales: JSON.parse(JSON.stringify(LanguageRatingScale.findByProgramId(scorecard.program_id)))
     };
   }
 

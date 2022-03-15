@@ -1,6 +1,5 @@
 import realm from '../db/schema';
 
-// const MODEL = 'VotingCriteria';
 const MODEL = 'VotingIndicator';
 
 const VotingIndicator = (() => {

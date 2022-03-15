@@ -16,6 +16,7 @@ import Participant from '../../models/Participant';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';
+import Participant from '../../models/Participant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import VotingIndicatorFormTabletStyles from '../../styles/tablet/VotingIndicatorFormScreenStyle';
@@ -96,8 +97,7 @@ class VotingIndicatorForm extends Component {
 
   _submit() {
     const { participant_uuid } = this.state;
-
-    votingIndicatorService.submitVoting(this.state.criterias, participant_uuid);
+    votingIndicatorService.submitVoting(this.state.indicators, participant_uuid);
     Participant.update(participant_uuid, { voted: true });
 
     this.props.refreshVotingIndicatorState(this.state.scorecard.uuid);
