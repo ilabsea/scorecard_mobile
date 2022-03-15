@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../../components/Translations';
-import VotingCriteriaRatingIcon from './VotingCriteriaRatingIcon';
+import VotingIndicatorRatingIcon from './VotingIndicatorRatingIcon';
 import realm from '../../db/schema';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
@@ -37,7 +37,7 @@ export default class IndicatorRatingItem extends Component {
     !!this.props.onPress && this.props.onPress(rating);
   }
 
-  _findLangugaeRatingScale(ratingCode, language_code) {
+  _findLanguageRatingScale(ratingCode, language_code) {
     return this.state.languageRatingScales.filter(rating =>
       rating.rating_scale_code == ratingCode && rating.language_code == language_code
     )[0];
@@ -46,10 +46,10 @@ export default class IndicatorRatingItem extends Component {
   _getLanguageRatingScale(ratingCode) {
     const { translations } = this.context;
     const { scorecard } = this.state;
-    let rating = this._findLangugaeRatingScale(ratingCode, scorecard.audio_language_code) || {};
+    let rating = this._findLanguageRatingScale(ratingCode, scorecard.audio_language_code) || {};
 
     if (!scorecard.isSameLanguageCode) {
-      let textRating = this._findLangugaeRatingScale(ratingCode, scorecard.text_language_code);
+      let textRating = this._findLanguageRatingScale(ratingCode, scorecard.text_language_code);
       rating.content = !!textRating && textRating.content;
     }
 
@@ -63,7 +63,7 @@ export default class IndicatorRatingItem extends Component {
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
 
     return (
-      <VotingCriteriaRatingIcon
+      <VotingIndicatorRatingIcon
         key={uuidv4()}
         rating={rating}
         rowIndex={rowIndex}

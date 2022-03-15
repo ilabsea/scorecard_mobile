@@ -18,7 +18,7 @@ class VotingMedianInfo extends Component {
 
   _renderMedian() {
     const { translations } = this.context;
-    let currentIcon = ratings.filter(x => x.value == this.props.criteria.median)[0];
+    let currentIcon = ratings.filter(x => x.value == this.props.indicator.median)[0];
     const iconSize = getDeviceStyle(56, 38);
 
     return (
@@ -36,7 +36,7 @@ class VotingMedianInfo extends Component {
     return (
       <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>
-          { translations.score } : {this.props.criteria.median} { getPluralOrSingularWord(this.props.criteria.median, translations.point, appLanguage, 's') }
+          { translations.score } : {this.props.indicator.median} { getPluralOrSingularWord(this.props.indicator.median, translations.point, appLanguage, 's') }
         </Text>
 
         <View style={{borderWidth: 0, marginLeft: 10}}>

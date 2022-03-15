@@ -72,7 +72,7 @@ class ScorecardResult extends Component {
     return (
       <ScorecardResultTable
         scorecard={this.state.scorecard}
-        criterias={this.props.criterias}
+        criterias={this.props.indicators}
         handleShowModal={this._handleShowModal}
       />
     )
@@ -81,7 +81,7 @@ class ScorecardResult extends Component {
   _renderAccordion() {
     return (
       <ScorecardResultAccordion
-        criterias={this.props.criterias}
+        criterias={this.props.indicators}
         onPress={(criteria, fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
         isScorecardFinished={this.state.scorecard.finished}
       />
@@ -151,7 +151,7 @@ class ScorecardResult extends Component {
 
 function mapStateToProps(state) {
   return {
-    criterias: state.votingCriterias.sort((a, b) => (a.order > b.order) ? 1 : -1),
+    indicators: state.votingIndicators.sort((a, b) => (a.order > b.order) ? 1 : -1),
   };
 }
 
