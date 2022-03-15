@@ -63,7 +63,7 @@ class VotingIndicatorForm extends Component {
     }
   }
 
-  _renderCriteriaRatingList() {
+  _renderIndicatorRatingList() {
     return <VotingIndicatorFormRatingList
              criterias={this.state.criterias}
              onClickRatingIcon={(criteria, rating) => this.onClickRatingIcon(criteria, rating)}

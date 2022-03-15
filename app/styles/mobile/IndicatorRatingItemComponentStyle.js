@@ -10,7 +10,7 @@ const iconWrapperWidth = wp('15.7%');
 const iconSize = wp('10%');
 let iconSizeRatio = iconSize * 0.8;
 
-const CriteriaRatingItemComponentStyles = StyleSheet.create({
+const IndicatorRatingItemComponentStyles = StyleSheet.create({
   ratingIndicatorContainer: {
     borderColor: Color.paleGrayColor,
     shadowOffset: {width: 0, height: 1},
@@ -84,4 +84,4 @@ const CriteriaRatingItemComponentStyles = StyleSheet.create({
   }
 });
 
-export default CriteriaRatingItemComponentStyles;
+export default IndicatorRatingItemComponentStyles;

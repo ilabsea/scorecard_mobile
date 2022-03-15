@@ -12,17 +12,17 @@ import PlaySound from './PlaySound';
 import indicatorHelper from '../../helpers/indicator_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import CriteriaRatingItemTabletStyles from '../../styles/tablet/CriteriaRatingItemComponentStyle';
-import CriteriaRatingItemMobileStyles from '../../styles/mobile/CriteriaRatingItemComponentStyle';
+import IndicatorRatingItemTabletStyles from '../../styles/tablet/IndicatorRatingItemComponentStyle';
+import IndicatorRatingItemMobileStyles from '../../styles/mobile/IndicatorRatingItemComponentStyle';
 
-const responsiveStyles = getDeviceStyle(CriteriaRatingItemTabletStyles, CriteriaRatingItemMobileStyles);
+const responsiveStyles = getDeviceStyle(IndicatorRatingItemTabletStyles, IndicatorRatingItemMobileStyles);
 
-export default class CriteriaRatingItem extends Component {
+export default class IndicatorRatingItem extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
-    let scorecard = realm.objects('Scorecard').filtered(`uuid='${props.criteria.scorecard_uuid}'`)[0];
+    let scorecard = realm.objects('Scorecard').filtered(`uuid='${props.indicator.scorecard_uuid}'`)[0];
 
     this.state = {
       currentScore: 0,
@@ -91,7 +91,7 @@ export default class CriteriaRatingItem extends Component {
   }
 
   _renderRatingIcons() {
-    let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria, this.state.scorecard);
+    let indicator = indicatorHelper.getDisplayIndicator(this.props.indicator, this.state.scorecard);
 
     return (
       <View style={responsiveStyles.ratingIndicatorContainer}>
@@ -100,7 +100,7 @@ export default class CriteriaRatingItem extends Component {
             containerStyle={responsiveStyles.ratingIconContainer}
           >
             <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
-              {this.props.criteria.order}. { indicator.content || indicator.name}
+              {this.props.indicator.order}. { indicator.content || indicator.name}
             </Text>
           </PlaySound>
 
