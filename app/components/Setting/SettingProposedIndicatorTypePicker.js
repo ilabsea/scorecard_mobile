@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
+import ProposedIndicatorTypeDetails from './ProposedIndicatorTypeDetails';
 
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
 
@@ -28,7 +29,8 @@ class SettingProposedIndicatorTypePicker extends React.Component {
   }
 
   showDetail() {
-    this.props.formRef.current?.setBodyContent(<Text>alskdjflaksjdfl;kajsdflkj</Text>);
+    // this.props.formRef.current?.setBodyContent(<Text>alskdjflaksjdfl;kajsdflkj</Text>);
+    this.props.formRef.current?.setBodyContent(<ProposedIndicatorTypeDetails />);
     this.props.formModalRef.current?.present();
   }
 
@@ -63,8 +65,7 @@ class SettingProposedIndicatorTypePicker extends React.Component {
       <SelectPicker
         items={types}
         selectedItem={this.state.proposedIndicatorType}
-        label='Proposed indicator type'
-        placeholder='Select proposed indicator type'
+        label={translations.proposedIndicatorType}
         zIndex={5000}
         showCustomArrow={true}
         onChangeItem={(type) => this.onChange(type)}

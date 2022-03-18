@@ -29,7 +29,7 @@ class Accordion extends Component {
         <List.Accordion
           key={uuidv4()}
           title={this.props.accordionTitle(item, index)}
-          style={{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }}
+          style={[{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }, this.props.customItemStyle]}
           onPress={() => this.toggleAccordion(index)}
           expanded={this.state.accordionStatuses[index]}
         >
