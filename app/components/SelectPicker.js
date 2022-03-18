@@ -65,9 +65,11 @@ class SelectPicker extends Component {
 
     return (
       <View style={[styles.dropDownContainer, customDropDownContainerStyle]}>
-        <Text style={[styles.inputLabel, {zIndex: (zIndex + 1)}, customLabelStyle]}>
-          { this.getLabel() }
-        </Text>
+        { !!this.props.pickerTitle ? this.props.pickerTitle
+          : <Text style={[styles.inputLabel, {zIndex: (zIndex + 1)}, customLabelStyle]}>
+              { this.getLabel() }
+            </Text>
+        }
 
         <DropDownPicker
           { ...this.props }
