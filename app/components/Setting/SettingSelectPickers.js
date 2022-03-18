@@ -23,7 +23,11 @@ class SettingSelectPickers extends React.Component {
     return (
       <View>
         <SettingLanguagePicker ref={this.languagePickerRef} />
-        <SettingProposedIndicatorTypePicker ref={this.indicatorTypeRef} />
+        <SettingProposedIndicatorTypePicker
+          ref={this.indicatorTypeRef}
+          formRef={this.props.formRef}
+          formModalRef={this.props.formModalRef}
+        />
       </View>
     )
   }

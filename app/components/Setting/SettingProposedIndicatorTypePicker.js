@@ -27,10 +27,15 @@ class SettingProposedIndicatorTypePicker extends React.Component {
     });
   }
 
+  showDetail() {
+    this.props.formRef.current?.setBodyContent(<Text>alskdjflaksjdfl;kajsdflkj</Text>);
+    this.props.formModalRef.current?.present();
+  }
+
   pickerTitle() {
     return (
-      <Pressable onPress={() => console.log('PRessssss   ')} style={styles.pickerTitle}>
-        <Text style={{ fontSize: 12, color: Color.inputBorderLineColor }}>Proposed indicator type</Text>
+      <Pressable onPress={() => this.showDetail()} style={styles.pickerTitle}>
+        <Text style={{ fontSize: 12, color: Color.inputBorderLineColor }}>{ this.context.translations.proposedIndicatorType }</Text>
         
         <View style={{width: 23, height: 23, borderRadius: 25, backgroundColor: Color.grayColor, marginLeft: 10, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{fontSize: 14, color: Color.whiteColor}}>?</Text>
@@ -50,8 +55,8 @@ class SettingProposedIndicatorTypePicker extends React.Component {
   render() {
     const {translations} = this.context;
     const types = [
-      { label: 'Indicator base', value: INDICATOR_BASE },
-      { label: 'Participant base', value: PARTICIPANT_BASE }
+      { label: translations.indicatorBase, value: INDICATOR_BASE },
+      { label: translations.participantBase, value: PARTICIPANT_BASE }
     ];
 
     return (

@@ -123,7 +123,7 @@ function AppNavigator() {
         name="Setting"
         component={SettingScreen}
         options={{
-          headerTitle: `${translations['setting']}`,
+          header: () => null,
         }}
       />
       <Stack.Screen

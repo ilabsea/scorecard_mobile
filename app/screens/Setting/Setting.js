@@ -9,6 +9,8 @@ import MessageLabel from '../../components/MessageLabel';
 import SettingForm from '../../components/Setting/SettingForm';
 import LockSignInMessage from '../../components/Setting/LockSignInMessage';
 import MessageModal from '../../components/MessageModal';
+import NavigationHeader from '../../components/NavigationHeader';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import Color from '../../themes/color';
 import {checkConnection} from '../../services/api_service';
@@ -48,6 +50,8 @@ class Setting extends Component {
     this.settingFormRef = React.createRef();
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
+    this.formModalRef = React.createRef();
+    this.formRef =  React.createRef();
   }
 
   componentDidMount = async () => {
@@ -179,34 +183,42 @@ class Setting extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
-        <View style={[responsiveStyles.container]}>
-          <Spinner
-            visible={this.state.isLoading}
-            color={Color.primaryColor}
-            overlayColor={Color.loadingBackgroundColor}
-          />
+        <View style={{flex: 1}}>
+          <NavigationHeader title={translations.setting} onBackPress={() => this.props.navigation.goBack()} />
 
-          <SettingForm ref={this.settingFormRef}
-            updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
-          />
+          <View style={responsiveStyles.container}>
+            <Spinner
+              visible={this.state.isLoading}
+              color={Color.primaryColor}
+              overlayColor={Color.loadingBackgroundColor}
+            />
 
-          {this.renderErrorMsg()}
-          <ActionButton
-            label={translations['save']}
-            onPress={() => this.save()}
-            isDisabled={this.state.isLoading || !this.state.isValid || this.state.isLocked}
-            customLabelStyle={responsiveStyles.textLabel}
-          />
-          <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>
+            <SettingForm ref={this.settingFormRef}
+              updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
+              formRef={this.formRef}
+              formModalRef={this.formModalRef}
+            />
 
-          <MessageModal
-            visible={this.state.visibleModal}
-            onDismiss={() => this.setState({visibleModal: false})}
-            description={translations.scorecardRemainingMessage}
-            hasConfirmButton={true}
-            confirmButtonLabel={translations.viewDetail}
-            onPressConfirmButton={() => this.goToScorecardList()}
-          />
+            {this.renderErrorMsg()}
+            <ActionButton
+              label={translations['save']}
+              onPress={() => this.save()}
+              isDisabled={this.state.isLoading || !this.state.isValid || this.state.isLocked}
+              customLabelStyle={responsiveStyles.textLabel}
+            />
+            <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>
+
+            <MessageModal
+              visible={this.state.visibleModal}
+              onDismiss={() => this.setState({visibleModal: false})}
+              description={translations.scorecardRemainingMessage}
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.viewDetail}
+              onPressConfirmButton={() => this.goToScorecardList()}
+            />
+          </View>
+
+          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={['60%']} />
         </View>
       </TouchableWithoutFeedback>
     );
