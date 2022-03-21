@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, Pressable } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -158,22 +158,24 @@ class SettingBodyContent extends React.Component {
 
   render() {
     return (
-      <View style={responsiveStyles.container}>
-        <Spinner
-          visible={this.state.isLoading}
-          color={Color.primaryColor}
-          overlayColor={Color.loadingBackgroundColor}
-        />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Pressable style={responsiveStyles.container}>
+          <Spinner
+            visible={this.state.isLoading}
+            color={Color.primaryColor}
+            overlayColor={Color.loadingBackgroundColor}
+          />
 
-        <SettingForm
-          ref={this.settingFormRef}
-          updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
-          formRef={this.props.formRef}
-          formModalRef={this.props.formModalRef}
-        />
+          <SettingForm
+            ref={this.settingFormRef}
+            updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
+            formRef={this.props.formRef}
+            formModalRef={this.props.formModalRef}
+          />
 
-        { this.renderBottomSection() }
-      </View>
+          { this.renderBottomSection() }
+        </Pressable>
+      </ScrollView>
     )
   }
 }

@@ -7,6 +7,7 @@ import NavigationHeader from '../../components/NavigationHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import internetConnectionService from '../../services/internet_connection_service';
+import { settingModalSnapPoints } from '../../constants/modal_constant';
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -59,7 +60,7 @@ class Setting extends Component {
 
           { this.renderBodyContent() }
 
-          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={['56%']} />
+          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={settingModalSnapPoints} />
         </View>
       </TouchableWithoutFeedback>
     );
