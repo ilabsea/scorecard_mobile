@@ -13,10 +13,11 @@ import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant'
 
 const ProposedIndicatorMethodDetails = () => {
   const { translations } = useContext(LocalizationContext);
-  const types = [
+  const proposedIndicatorMethods = [
     { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription },
     { label: translations.participantBase, value: PARTICIPANT_BASE, description: translations.participantBaseDescription }
   ];
+  const accordionStatuses = [true, false];
 
   function renderAccordionTitle(item) {
     return <Text>{ item.label }</Text>
@@ -52,11 +53,12 @@ const ProposedIndicatorMethodDetails = () => {
 
       <View style={{padding: containerPadding}}>
         <Accordion
-          items={types}
+          items={proposedIndicatorMethods}
           accordionTitle={renderAccordionTitle}
           accordionContent={renderAccordionContent}
           customItemStyle={{ backgroundColor: '#f9f9fa', borderWidth: 1, borderColor: Color.paleGrayColor }}
-          accordionStatuses={[true, false]}
+          accordionStatuses={accordionStatuses}
+          hasAutoToggle={true}
         />
       </View>
     </View>

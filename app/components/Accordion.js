@@ -14,13 +14,20 @@ class Accordion extends Component {
     }
   }
 
-  toggleAccordion(index) {
+  toggleAccordion(toggleIndex) {
     let statuses = this.state.accordionStatuses;
-    statuses[index] = !statuses[index];
+    statuses[toggleIndex] = !statuses[toggleIndex];
+
+    if (!!this.props.hasAutoToggle) {
+      this.state.accordionStatuses.map((accordionStatus, index) => {
+        if (index != toggleIndex)
+          statuses[index] = false;
+      });
+    }
 
     this.setState({
       accordionStatuses: statuses
-    })
+    });
   }
 
   renderAccordion() {
