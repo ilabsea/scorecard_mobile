@@ -5,39 +5,43 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
-import ProposedIndicatorTypeDetails from './ProposedIndicatorTypeDetails';
+import ProposedIndicatorMethodDetails from './ProposedIndicatorMethodDetails';
 
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
 
-class SettingProposedIndicatorTypePicker extends React.Component {
+class SettingProposedIndicatorMethodPicker extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      proposedIndicatorType: INDICATOR_BASE
+      proposedIndicatorMethod: INDICATOR_BASE,
     }
 
     this.setting = null;
+    this.proposedIndicatorMethodController = null;
   }
 
   async componentDidMount() {
     this.setting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     this.setState({
-      proposedIndicatorType: this.setting.proposedIndicatorType
+      proposedIndicatorMethod: !!this.setting ? this.setting.proposedIndicatorMethod : INDICATOR_BASE
     });
   }
 
+  setSelectedItem(proposedIndicatorMethod) {
+    this.setState({ proposedIndicatorMethod });
+  }
+
   showDetail() {
-    // this.props.formRef.current?.setBodyContent(<Text>alskdjflaksjdfl;kajsdflkj</Text>);
-    this.props.formRef.current?.setBodyContent(<ProposedIndicatorTypeDetails />);
+    this.props.formRef.current?.setBodyContent(<ProposedIndicatorMethodDetails />);
     this.props.formModalRef.current?.present();
   }
 
   pickerTitle() {
     return (
       <Pressable onPress={() => this.showDetail()} style={styles.pickerTitle}>
-        <Text style={{ fontSize: 12, color: Color.inputBorderLineColor }}>{ this.context.translations.proposedIndicatorType }</Text>
+        <Text style={{ fontSize: 12, color: Color.inputBorderLineColor }}>{ this.context.translations.proposedIndicatorMethod }</Text>
         
         <View style={{width: 23, height: 23, borderRadius: 25, backgroundColor: Color.grayColor, marginLeft: 10, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{fontSize: 14, color: Color.whiteColor}}>?</Text>
@@ -46,10 +50,10 @@ class SettingProposedIndicatorTypePicker extends React.Component {
     )
   }
 
-  async onChange(proposedIndicatorType) {
-    this.setting['proposedIndicatorType'] = proposedIndicatorType.value;
+  async onChange(proposedIndicatorMethod) {
+    this.setting['proposedIndicatorMethod'] = proposedIndicatorMethod.value;
 
-    this.setState({ proposedIndicatorType: proposedIndicatorType.value }, () => {
+    this.setState({ proposedIndicatorMethod: proposedIndicatorMethod.value }, () => {
       AsyncStorage.setItem('SETTING', JSON.stringify(this.setting));
     });
   }
@@ -64,13 +68,13 @@ class SettingProposedIndicatorTypePicker extends React.Component {
     return (
       <SelectPicker
         items={types}
-        selectedItem={this.state.proposedIndicatorType}
-        label={translations.proposedIndicatorType}
+        selectedItem={this.state.proposedIndicatorMethod}
+        label={translations.proposedIndicatorMethod}
         zIndex={5000}
         showCustomArrow={true}
         onChangeItem={(type) => this.onChange(type)}
         mustHasDefaultValue={true}
-        controller={(instance) => this.proposedIndicatorTypeController = instance}
+        controller={(instance) => this.proposedIndicatorMethodController = instance}
         onOpen={() => Keyboard.dismiss()}
         customDropDownContainerStyle={{marginTop: 25}}
         pickerTitle={this.pickerTitle()}
@@ -92,4 +96,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SettingProposedIndicatorTypePicker;
+export default SettingProposedIndicatorMethodPicker;

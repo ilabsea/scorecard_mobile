@@ -324,10 +324,11 @@
   "scorecardResultTip": "Inputting info to scorecard result",
   "unableToMakeAContactWithThisPhoneNumber": "Unable to make a contact with this phone number. Please check if your device is able to make and receive phone calls.",
   "unableToMakeAContactWithThisEmailAddress": "Unable to make a contact with this email address. Please check if your device has a mail application installed.",
-  "proposedIndicatorType": "Proposed indicator type",
+  "proposedIndicatorMethod": "Proposed indicator method",
   "indicatorBase": "Indicator base",
   "participantBase": "Participant base",
   "clickHereToWatchHowToProposeIndicator": "Click here to watch how to propose the indicator",
   "indicatorBaseDescription": "To propose an indicator by indicator base requires the user to select an indicator then select the participants who proposed this indicator (the user is able to select multiple participants).",
-  "participantBaseDescription": "To propose an indicator by participant base requires the user to select a participant then select the indicators that are proposed by this participant (the user is able to select multiple indicators)."
+  "participantBaseDescription": "To propose an indicator by participant base requires the user to select a participant then select the indicators that are proposed by this participant (the user is able to select multiple indicators).",
+  "detailOfProposedIndicatorMethods": "Detail of the proposed indicator methods"
 }

@@ -11,7 +11,7 @@ import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
 
-const ProposedIndicatorTypeDetails = () => {
+const ProposedIndicatorMethodDetails = () => {
   const { translations } = useContext(LocalizationContext);
   const types = [
     { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription },
@@ -48,7 +48,7 @@ const ProposedIndicatorTypeDetails = () => {
 
   return (
     <View>
-      <BottomSheetModalTitle title='ព័ត៌មានលម្អិតអំពីវិធីសាស្ត្របំផុសលក្ខណៈវិនិច្ឆ័យ' />
+      <BottomSheetModalTitle title={ translations.detailOfProposedIndicatorMethods } />
 
       <View style={{padding: containerPadding}}>
         <Accordion
@@ -56,10 +56,11 @@ const ProposedIndicatorTypeDetails = () => {
           accordionTitle={renderAccordionTitle}
           accordionContent={renderAccordionContent}
           customItemStyle={{ backgroundColor: '#f9f9fa', borderWidth: 1, borderColor: Color.paleGrayColor }}
+          accordionStatuses={[true, false]}
         />
       </View>
     </View>
   )
 }
 
-export default ProposedIndicatorTypeDetails;
+export default ProposedIndicatorMethodDetails;

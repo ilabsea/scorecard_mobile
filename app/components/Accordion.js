@@ -10,7 +10,7 @@ class Accordion extends Component {
     super(props);
 
     this.state = {
-      accordionStatuses: new Array(props.items.length)
+      accordionStatuses: !!props.accordionStatuses ? props.accordionStatuses : new Array(props.items.length),
     }
   }
 

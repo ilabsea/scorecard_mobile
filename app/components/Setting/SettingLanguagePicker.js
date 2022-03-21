@@ -5,6 +5,7 @@ import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
 
 import {localeDictionary} from '../../constants/locale_constant';
+import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
 
 class SettingSelectPickers extends React.Component {
   static contextType = LocalizationContext;
@@ -33,6 +34,28 @@ class SettingSelectPickers extends React.Component {
   changeLocale = (locale) => {
     this.setState({locale: locale.value});
     this.context.setAppLanguage(locale.value);
+    this.resetProposedIndicatorMethodPicker();
+  }
+
+  // Reset the proposed indicator method picker in order to make selected item get updated when the user changes the language
+  resetProposedIndicatorMethodPicker() {
+    this.props.indicatorMethodRef.current?.proposedIndicatorMethodController.reset();
+    const selectedMethod = !!this.props.indicatorMethodRef.current.state.proposedIndicatorMethod ? this.props.indicatorMethodRef.current.state.proposedIndicatorMethod : INDICATOR_BASE;
+
+    setTimeout(() => {
+      if (selectedMethod === INDICATOR_BASE) {
+        // If the selected value is the first item, we need to toggle the selected value in order to make the value get updated
+        this.props.indicatorMethodRef.current?.setSelectedItem(PARTICIPANT_BASE);
+        this.props.indicatorMethodRef.current?.setSelectedItem(INDICATOR_BASE);
+      }
+      else
+        this.props.indicatorMethodRef.current?.setSelectedItem(selectedMethod);
+    }, 50);
+  }
+
+  onOpen() {
+    this.props.indicatorMethodRef.current?.proposedIndicatorMethodController.close();
+    Keyboard.dismiss();
   }
 
   renderChooseLanguage() {
@@ -51,7 +74,7 @@ class SettingSelectPickers extends React.Component {
         onChangeItem={this.changeLocale}
         mustHasDefaultValue={true}
         controller={(instance) => this.languageController = instance}
-        onOpen={() => Keyboard.dismiss()}
+        onOpen={() => this.onOpen()}
         customDropDownContainerStyle={{marginTop: -5}}
       />
     );

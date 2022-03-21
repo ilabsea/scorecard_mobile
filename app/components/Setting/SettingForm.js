@@ -39,23 +39,6 @@ class SettingForm extends Component {
         password: value.password,
       }, () => this.props.updateValidationStatus());
     }
-
-    // try {
-    //   const value = await AsyncStorage.getItem('SETTING');
-
-    //   if (value !== null) {
-    //     setting = Object.assign(setting, JSON.parse(value))
-    //   }
-    //   // setting.locale = appLanguage;
-
-    //   console.log('setting ==  ', setting);
-
-    //   this.setState(setting, () => this.props.updateValidationStatus());
-    // } catch (error) {
-
-    //   console.log('error =====')
-    //   this.setState(setting);
-    // }
   }
 
   closeDropDown = () => {

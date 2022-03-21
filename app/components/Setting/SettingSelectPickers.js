@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import SettingLanguagePicker from './SettingLanguagePicker';
-import SettingProposedIndicatorTypePicker from './SettingProposedIndicatorTypePicker';
+import SettingProposedIndicatorMethodPicker from './SettingProposedIndicatorMethodPicker';
 
 class SettingSelectPickers extends React.Component {
   static contextType = LocalizationContext;
@@ -11,20 +11,20 @@ class SettingSelectPickers extends React.Component {
     super(props);
 
     this.languagePickerRef = React.createRef();
-    this.indicatorTypeRef = React.createRef();
+    this.indicatorMethodRef = React.createRef();
   }
 
   closeDropdownPickers() {
     this.languagePickerRef.current?.languageController.close();
-    this.indicatorTypeRef.current?.proposedIndicatorTypeController.close();
+    this.indicatorMethodRef.current?.proposedIndicatorMethodController.close();
   }
 
   render() {
     return (
       <View>
-        <SettingLanguagePicker ref={this.languagePickerRef} />
-        <SettingProposedIndicatorTypePicker
-          ref={this.indicatorTypeRef}
+        <SettingLanguagePicker ref={this.languagePickerRef} indicatorMethodRef={this.indicatorMethodRef} />
+        <SettingProposedIndicatorMethodPicker
+          ref={this.indicatorMethodRef}
           formRef={this.props.formRef}
           formModalRef={this.props.formModalRef}
         />
