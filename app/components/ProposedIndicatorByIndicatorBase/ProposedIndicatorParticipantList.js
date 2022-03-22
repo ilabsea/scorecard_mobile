@@ -1,17 +1,25 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
+import styles from '../../themes/participantListItemStyle';
 import Color from '../../themes/color';
+import { LocalizationContext } from '../Translations';
+import OutlinedButton from '../OutlinedButton';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import ParticipantModalListItem from '../RaisingProposed/ParticipantModalListItem';
 
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
-import { containerPadding } from '../../utils/responsive_util';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
+import { containerPadding } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
+import { indicatorParticipantListModalHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorParticipantList extends React.Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -67,13 +75,31 @@ class ProposedIndicatorParticipantList extends React.Component {
     });
   }
 
+  renderAddNewParticipantButton = () => {
+    return (
+      <OutlinedButton
+        icon="plus"
+        label={this.context.translations.addNew}
+        onPress={() => this.props.showAddParticipantModal() }
+      />
+    );
+  }
+
   render() {
     return (
-      <View>
-        <BottomSheetModalTitle title="Participant List" />
+      <View style={{ height: hp(indicatorParticipantListModalHeight) }}>
+        <BottomSheetModalTitle title={ this.context.translations.selectRaisedParticipant } />
 
-        <View style={{ padding: containerPadding }}>
-          { this.renderParticipantList() }
+        <View style={{ padding: containerPadding, flex: 1 }}>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            <Text style={[styles.header, { fontSize: bodyFontSize() }]}>{this.context.translations.participantList}</Text>
+            <View style={{flex:1}} />
+            {this.renderAddNewParticipantButton()}
+          </View>
+
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            { this.renderParticipantList() }
+          </ScrollView>
         </View>
       </View>
     )
