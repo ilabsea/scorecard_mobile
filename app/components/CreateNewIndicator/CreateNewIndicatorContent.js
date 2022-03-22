@@ -7,12 +7,23 @@ import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantIn
 import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
 import { subTitleFontSize } from '../../utils/font_size_util';
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 
 class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props);
+    this.state = {
+      isIndicatorBase: false,
+    }
+  }
+
+  async componentDidMount() {
+    this.setState({ isIndicatorBase: await isProposeByIndicatorBase() });
+  }
 
   renderParticipant() {
-    if (this.props.isSearching || this.props.isEdit)
+    if (this.props.isSearching || this.props.isEdit || !this.props.participantUuid)
       return;
 
     return (
@@ -32,10 +43,12 @@ class CreateNewIndicatorContent extends Component {
       <IndicatorSelection
         indicators={this.props.indicators}
         scorecardUuid={this.props.scorecardUuid}
-        participantUuid={this.props.participantUuid}
+        // participantUuid={this.props.participantUuid}
+        participantUuid={null}
         isSearching={this.props.isSearching}
         showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal(null)}
         updateIndicatorList={() => this.props.updateIndicatorList()}
+        openParticipantList={(indicator) => this.props.openParticipantList(indicator)}
       />
     )
   }
@@ -55,7 +68,7 @@ class CreateNewIndicatorContent extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        { this.renderParticipant() }
+        { !this.state.isIndicatorBase && this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
           <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: 20}}>

@@ -15,6 +15,7 @@ const ProposedIndicator = (() => {
     destroy,
     getLastOrderNumber,
     getLastOrderNumberOfParticipant,
+    getLastOrderNumberOfIndicator,
     destroyUnconfirmProposedIndicators,
   };
 
@@ -69,6 +70,11 @@ const ProposedIndicator = (() => {
 
   function getLastOrderNumberOfParticipant(scorecardUuid, participantUuid) {
     const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }'`).max('order');
+    return !orderNumber ? 0 : orderNumber;
+  }
+
+  function getLastOrderNumberOfIndicator(scorecardUuid, indicatorId) {
+    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorId }'`).max('order');
     return !orderNumber ? 0 : orderNumber;
   }
 

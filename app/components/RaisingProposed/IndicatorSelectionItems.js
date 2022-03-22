@@ -53,6 +53,7 @@ class IndicatorSelectionItems extends Component {
         isPopupModalList={!!this.props.isPopupModalList}
         updateIndicatorList={() => this.props.updateIndicatorList()}
         selectForEdit={() => this.props.selectForEdit(indicator)}
+        openParticipantList={(indicator) => this.props.openParticipantList(indicator)}
       >
         {this.audioButton(indicator)}
       </IndicatorCard>

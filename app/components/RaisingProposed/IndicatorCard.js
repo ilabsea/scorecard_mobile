@@ -4,6 +4,7 @@ import Color from '../../themes/color';
 
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -34,17 +35,18 @@ class IndicatorCard extends Component {
     return {};
   }
 
-  toggleIndicator(indicator) {
+  async toggleIndicator(indicator) {
     if (this.props.isEdit) {
       !!this.props.selectForEdit && this.props.selectForEdit(indicator);
       return;
     }
 
-    if (!!this.props.isPopupModalList && this.isProposedIndicatorExisted(indicator))
-      return;
-
-    proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
-    !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+    if (await isProposeByIndicatorBase())
+      !!this.props.openParticipantList && this.props.openParticipantList(indicator);
+    else {
+      proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
+      !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+    }
   }
 
   render() {

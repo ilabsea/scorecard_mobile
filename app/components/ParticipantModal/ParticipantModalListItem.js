@@ -48,6 +48,10 @@ export default class ParticipantModalListItem extends Component {
     return description.join('; ');
   }
 
+  renderRightIcon() {
+    return !!this.props.rightIcon ? this.props.rightIcon : <MaterialIcon name="arrow-forward-ios" color={Color.blackColor} />
+  }
+
   renderParticipantItem() {
     const item = this.props.participant;
     const { translations } = this.context;
@@ -65,7 +69,7 @@ export default class ParticipantModalListItem extends Component {
             <Text style={[{flex: 1}, responsiveStyles.label]} numberOfLines={1}>{this.getDescription(item, translations)}</Text>
           </View>
 
-          <MaterialIcon name="arrow-forward-ios" color={Color.blackColor} />
+          { this.renderRightIcon() }
         </TouchableOpacity>
         <Divider />
       </View>

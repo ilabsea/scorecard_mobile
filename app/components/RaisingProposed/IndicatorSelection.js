@@ -48,6 +48,7 @@ class IndicatorSelection extends Component {
               scorecardUuid={this.props.scorecardUuid}
               participantUuid={this.props.participantUuid}
               updateIndicatorList={() => this.props.updateIndicatorList()}
+              openParticipantList={(indicator) => this.props.openParticipantList(indicator)}
             />
           </RaisingProposedScrollView>
         }
