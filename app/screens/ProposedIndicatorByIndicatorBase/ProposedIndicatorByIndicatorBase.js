@@ -8,10 +8,11 @@ import SearchableHeader from '../../components/CreateNewIndicator/SearchableHead
 import IndicatorBaseBody from '../../components/ProposedIndicatorByIndicatorBase/IndicatorBaseBody';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import ProposedIndicatorParticipantList from '../../components/ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
+import AddNewParticipantContent from '../../components/ParticipantModal/AddNewParticipantContent';
 
 import CustomIndicator from '../../models/CustomIndicator';
 import IndicatorService from '../../services/indicator_service';
-import { indicatorParticipantListModalSnapPoints } from '../../constants/modal_constant';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 class ProposedIndicatorByIndicatorBase extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class ProposedIndicatorByIndicatorBase extends React.Component {
       participants: [],
     }
 
+    this.selectedIndicator = null;
     this.participantModalRef = React.createRef();
     this.formRef = React.createRef();
   }
@@ -93,10 +95,23 @@ class ProposedIndicatorByIndicatorBase extends React.Component {
   }
 
   openParticipantList(indicator) {
-    console.log('selected indicator == ', indicator)
+    this.selectedIndicator = indicator;
 
-    this.formRef.current?.setBodyContent(<ProposedIndicatorParticipantList scorecardUuid={this.props.route.params.scorecard_uuid} selectedIndicator={indicator} />);
+    this.formRef.current?.setBodyContent(
+      <ProposedIndicatorParticipantList scorecardUuid={this.props.route.params.scorecard_uuid}
+        selectedIndicator={indicator}
+        showAddParticipantModal={() => this.showAddParticipantModal()}
+      />
+    );
     this.participantModalRef.current?.present();
+  }
+
+  showAddParticipantModal() {
+    this.formRef.current?.setBodyContent(
+      <AddNewParticipantContent scorecardUuid={ this.props.route.params.scorecard_uuid }
+        title={this.selectedIndicator.name}
+        onSaveParticipant={ (participant) => this.participantModalRef.current?.dismiss()} />
+    );
   }
 
   render() {
@@ -104,10 +119,10 @@ class ProposedIndicatorByIndicatorBase extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
           { this.renderSearchableHeader() }
-          
+
           { this.renderBody() }
 
-          <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={indicatorParticipantListModalSnapPoints} />
+          <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />
         </View>
       </TouchableWithoutFeedback>
     )

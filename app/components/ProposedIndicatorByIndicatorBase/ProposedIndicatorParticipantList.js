@@ -16,7 +16,7 @@ import Participant from '../../models/Participant';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
-import { indicatorParticipantListModalHeight } from '../../constants/modal_constant';
+import { participantContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorParticipantList extends React.Component {
   static contextType = LocalizationContext;
@@ -87,17 +87,17 @@ class ProposedIndicatorParticipantList extends React.Component {
 
   render() {
     return (
-      <View style={{ height: hp(indicatorParticipantListModalHeight) }}>
-        <BottomSheetModalTitle title={ this.context.translations.selectRaisedParticipant } />
+      <View style={{ height: hp(participantContentHeight) }}>
+        <BottomSheetModalTitle title={ this.props.selectedIndicator.name } />
 
         <View style={{ padding: containerPadding, flex: 1 }}>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <Text style={[styles.header, { fontSize: bodyFontSize() }]}>{this.context.translations.participantList}</Text>
+            <Text style={[styles.header, { fontSize: bodyFontSize() }]}>{this.context.translations.selectRaisedParticipant}</Text>
             <View style={{flex:1}} />
             {this.renderAddNewParticipantButton()}
           </View>
 
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
             { this.renderParticipantList() }
           </ScrollView>
         </View>

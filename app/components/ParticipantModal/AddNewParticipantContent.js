@@ -96,7 +96,7 @@ class AddNewParticipantContent extends Component {
 
     return (
       <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
-        <BottomSheetModalTitle title={ translations.proposedIndicator } />
+        <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposedIndicator } />
 
         <View style={{padding: containerPadding, flex: 1}}>
           <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>{translations.addNewParticipant}</Text>
