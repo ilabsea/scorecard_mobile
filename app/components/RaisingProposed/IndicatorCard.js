@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import Color from '../../themes/color';
 
 import ProposedIndicatorParticipantList from '../ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
@@ -42,6 +42,7 @@ class IndicatorCard extends Component {
       return;
     }
 
+    Keyboard.dismiss();
     if (this.props.isIndicatorBase)
       this.openParticipantList(indicator);
     else {

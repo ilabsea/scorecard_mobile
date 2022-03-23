@@ -37,8 +37,6 @@ const participantHelper = (() => {
     const participantOrderNumbers = [];
 
     proposedIndicators.map(indicator => {
-      console.log('proposed indicator == ', indicator)
-
       const participant = Participant.find(indicator.participant_uuid);
       if (!!participant)
         participantOrderNumbers.push(participant.order + 1);
