@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Color from '../../themes/color';
 
+import ProposedIndicatorParticipantList from '../ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
+import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
+
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
-import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -14,7 +16,6 @@ import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponent
 const styles = getDeviceStyle(IndicatorCardTabletStyle, IndicatorCardMobileStyle);
 
 class IndicatorCard extends Component {
-
   _getIndicatorName = (indicator) => {
     const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_id, 'text');
 
@@ -35,18 +36,37 @@ class IndicatorCard extends Component {
     return {};
   }
 
-  async toggleIndicator(indicator) {
+  toggleIndicator(indicator) {
     if (this.props.isEdit) {
       !!this.props.selectForEdit && this.props.selectForEdit(indicator);
       return;
     }
 
-    if (await isProposeByIndicatorBase())
-      !!this.props.openParticipantList && this.props.openParticipantList(indicator);
+    if (this.props.isIndicatorBase)
+      this.openParticipantList(indicator);
     else {
       proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
       !!this.props.updateIndicatorList && this.props.updateIndicatorList();
     }
+  }
+
+  openParticipantList(indicator) {
+    this.props.formRef.current?.setBodyContent(
+      <ProposedIndicatorParticipantList scorecardUuid={this.props.scorecardUuid}
+        selectedIndicator={indicator}
+        showAddParticipantModal={() => this.showAddParticipantModal(indicator)}
+        updateIndicatorList={() => this.props.updateIndicatorList()}
+      />
+    );
+    this.props.participantModalRef.current?.present();
+  }
+
+  showAddParticipantModal(indicator) {
+    this.props.formRef.current?.setBodyContent(
+      <AddNewParticipantContent scorecardUuid={ this.props.scorecardUuid }
+        title={indicator.name}
+        onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss()} />
+    );
   }
 
   render() {

@@ -10,9 +10,11 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import Participant from '../../models/Participant';
+import { navigate } from '../../navigators/app_navigator';
 import { getRaisedParticipants } from '../../services/participant_service';
 import { navigate } from '../../navigators/app_navigator';
 
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
 import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
@@ -32,6 +34,18 @@ class ListUser extends Component {
   closeModal() {
     this.props.updateModalVisible(false)
     this.props.participantModalRef.current?.dismiss();
+  }
+
+  _goToCreateNewIndicator(participant_uuid) {
+    const params = !!participant_uuid ? { scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid } : { scorecard_uuid: this.props.scorecardUuid };
+    navigate('CreateNewIndicator', params);
+  }
+
+  async startProposeIndicator() {
+    if (await isProposeByIndicatorBase())
+      this._goToCreateNewIndicator(null);
+    else
+      this.setState({ visibleModal: true });
   }
 
   render() {
@@ -65,6 +79,8 @@ class ListUser extends Component {
           raisedParticipants={raisedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
           showModal={() => this.props.updateModalVisible(true)}
+          startProposeIndicator={() => this.startProposeIndicator()}
+          // showModal={() => this.setState({ visibleModal: true })}
         />
       </View>
     );

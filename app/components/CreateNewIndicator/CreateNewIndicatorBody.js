@@ -5,6 +5,7 @@ import AddNewIndicatorModalContent from '../RaisingProposed/AddNewIndicatorModal
 import CreateNewIndicatorContent from './CreateNewIndicatorContent';
 import CreateNewIndicatorBottomButton from './CreateNewIndicatorBottomButton';
 
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Color from '../../themes/color';
@@ -17,12 +18,19 @@ class CreateIndicatorBody extends React.Component {
       isValid: false,
       selectedCustomIndicator: null,
       participantUuid: props.participantUuid,
+      isIndicatorBase: false
     }
   }
 
-  componentDidMount() {
-    const proposedIndicators = ProposedIndicator.find(this.props.scorecardUuid, this.state.participantUuid);
-    this.setState({isValid: (proposedIndicators != undefined && proposedIndicators.length > 0) ? true : false});
+  async componentDidMount() {
+    const proposedIndicators = !!this.state.participantUuid ?
+      ProposedIndicator.find(this.props.scorecardUuid, this.state.participantUuid)
+      : ProposedIndicator.getAllByScorecard(this.props.scorecardUuid);
+
+    this.setState({
+      isValid: (proposedIndicators != undefined && proposedIndicators.length > 0) ? true : false,
+      isIndicatorBase: await isProposeByIndicatorBase(),
+    });
   }
 
   closeModal = () => {
@@ -32,7 +40,7 @@ class CreateIndicatorBody extends React.Component {
 
   updateSelectedParticipant(participantUuid) {
     if (this.state.participantUuid != participantUuid) {
-      this.props.handleUnconfirmedIndicator();
+      !!this.props.handleUnconfirmedIndicator && this.props.handleUnconfirmedIndicator();
 
       this.setState({
         isValid: false,
@@ -51,8 +59,11 @@ class CreateIndicatorBody extends React.Component {
       this.props.updateParticipantInfo();
   }
 
-  updateIndicatorList() {
-    this.setState({ isValid: ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid).length > 0 });
+  async updateIndicatorList() {
+    const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid)
+                                : ProposedIndicator.getAllByScorecard(this.props.scorecardUuid);
+
+    this.setState({ isValid: proposedIndicators.length > 0 });
     this.props.updateIndicatorList();
     this.closeModal();
   }
@@ -86,6 +97,8 @@ class CreateIndicatorBody extends React.Component {
             indicators={this.props.indicators}
             isSearching={this.props.isSearching}
             isEdit={this.props.isEdit}
+            isIndicatorBase={this.state.isIndicatorBase}
+            selectForEdit={(indicator) => this.selectForEdit(indicator)}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
             showAddNewIndicatorModal={(indicator) => this.showAddNewIndicatorModal(indicator)}
             updateIndicatorList={() => this.updateIndicatorList()}

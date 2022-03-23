@@ -7,19 +7,13 @@ import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantIn
 import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
 import { subTitleFontSize } from '../../utils/font_size_util';
-import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 
 class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-    this.state = {
-      isIndicatorBase: false,
-    }
-  }
+  state = { hasParticipantSection: false }
 
-  async componentDidMount() {
-    this.setState({ isIndicatorBase: await isProposeByIndicatorBase() });
+  componentDidMount() {
+    this.setState({ hasParticipantSection: !this.props.isIndicatorBase });
   }
 
   renderParticipant() {
@@ -43,12 +37,13 @@ class CreateNewIndicatorContent extends Component {
       <IndicatorSelection
         indicators={this.props.indicators}
         scorecardUuid={this.props.scorecardUuid}
-        // participantUuid={this.props.participantUuid}
-        participantUuid={null}
+        participantUuid={this.props.participantUuid}
         isSearching={this.props.isSearching}
-        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal(null)}
+        isIndicatorBase={this.props.isIndicatorBase}
+        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal()}
         updateIndicatorList={() => this.props.updateIndicatorList()}
-        openParticipantList={(indicator) => this.props.openParticipantList(indicator)}
+        formRef={this.props.formRef}
+        participantModalRef={this.props.participantModalRef}
       />
     )
   }
@@ -68,7 +63,7 @@ class CreateNewIndicatorContent extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        { !this.state.isIndicatorBase && this.renderParticipant() }
+        { this.props.hasParticipantSection && this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
           <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: 20}}>

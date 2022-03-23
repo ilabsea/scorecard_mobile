@@ -40,10 +40,10 @@ export default class ParticipantInfo extends Component {
     this.checkAndCloseModal();
     this.checkAndOpenParticipantList();
 
-    if (this.state.participantUuid != this.props.participantUuid) {
-      this.setState({ 
-        currentParticipant: Participant.find(this.props.participantUuid),
-        participantUuid: this.props.participantUuid
+    if (this.state.participantUuid != this.props.participant_uuid) {
+      this.setState({
+        currentParticipant: Participant.find(this.props.participant_uuid),
+        participantUuid: this.props.participant_uuid
       });
     }
   }

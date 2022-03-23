@@ -59,6 +59,7 @@ class ProposedIndicatorParticipantList extends React.Component {
 
     this.setState({ raisedParticipantUuids: newRaisedParticipantUuids });
     proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, this.props.selectedIndicator, participant.uuid);
+    !!this.props.updateIndicatorList && this.props.updateIndicatorList();
   }
 
   renderParticipantList() {

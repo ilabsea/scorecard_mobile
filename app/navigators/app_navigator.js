@@ -25,7 +25,6 @@ import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticip
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
-import ProposedIndicatorByIndicatorBaseScreen from '../screens/ProposedIndicatorByIndicatorBase/ProposedIndicatorByIndicatorBase';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
 import FilterScorecardScreen from '../screens/FilterScorecard/FilterScorecard';
@@ -236,13 +235,6 @@ function AppNavigator() {
       <Stack.Screen
         name="FilterScorecardScreen"
         component={FilterScorecardScreen}
-        options={({navigator}) => ({
-          header: () => null,
-        })}
-      />
-      <Stack.Screen
-        name="ProposedIndicatorByIndicatorBase"
-        component={ProposedIndicatorByIndicatorBaseScreen}
         options={({navigator}) => ({
           header: () => null,
         })}

@@ -1,5 +1,8 @@
 import realm from '../db/schema';
 
+import Participant from '../models/Participant';
+import ProposedIndicator from '../models/ProposedIndicator';
+
 const getRaisedParticipants = (scorecardUuid) => {
   return realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
 }
@@ -31,9 +34,21 @@ const getUnvoted = (scorecardUuid) => {
   return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND voted=false SORT(order ASC)`);
 }
 
+const updateRaisedParticipants = (scorecardUuid) => {
+  const participants = Participant.getAll(scorecardUuid);
+  participants.map(participant => {
+    let isRaised = false;
+    if (!!ProposedIndicator.findByParticipant(scorecardUuid, null, participant.uuid))
+      isRaised = true;
+
+    Participant.update(participant.uuid, { raised: isRaised });
+  });
+}
+
 export {
   getRaisedParticipants,
   getParticipantInfo,
   saveParticipantInfo,
   getUnvoted,
+  updateRaisedParticipants,
 };

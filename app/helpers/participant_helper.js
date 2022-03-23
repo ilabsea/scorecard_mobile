@@ -37,9 +37,11 @@ const participantHelper = (() => {
     const participantOrderNumbers = [];
 
     proposedIndicators.map(indicator => {
-      const participant = Participant.find(indicator.participant_uuid);
+      console.log('proposed indicator == ', indicator)
 
-      participantOrderNumbers.push(participant.order + 1);
+      const participant = Participant.find(indicator.participant_uuid);
+      if (!!participant)
+        participantOrderNumbers.push(participant.order + 1);
     });
 
     return participantOrderNumbers.sort((a, b) => a > b);

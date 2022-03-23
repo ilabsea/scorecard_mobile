@@ -12,6 +12,7 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
+import { updateRaisedParticipants } from '../../services/participant_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 
@@ -24,16 +25,26 @@ class CreateNewIndicator extends Component {
       searchedName: '',
       isSearching: false,
       isEdit: false,
-      participantUuid: props.route.params.participant_uuid,
+      participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
     };
 
-    const { scorecard_uuid, participant_uuid } = props.route.params;
-    // Get the previous proposed indicators of the participant
-    const previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);
-    AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
-    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid);
     this.participantModalRef = React.createRef();
     this.formRef = React.createRef();
+
+    let previousProposedIndicators = [];
+
+    if (props.route.params.participant_uuid) {
+      const { scorecard_uuid, participant_uuid } = this.props.route.params;
+
+      this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid); // Last order of the proposed indicator of the participant
+      previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);   // Previous proposed indicators of the participant
+    }
+    else {
+      this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfScorecard(props.route.params.scorecard_uuid);   // last order of the proposed indicator of the scorecard
+      previousProposedIndicators = ProposedIndicator.getAllByScorecard(props.route.params.scorecard_uuid);    // Previous proposed indicators of the scorecard
+    }
+
+    AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
   }
 
   componentDidMount() {
@@ -59,7 +70,8 @@ class CreateNewIndicator extends Component {
   }
 
   save = () => {
-    Participant.create({ uuid: this.state.participantUuid, raised: true });
+    updateRaisedParticipants(this.props.route.params.scorecard_uuid);
+
     this.updateParticipantInfo();
     this.props.navigation.goBack();
   }
@@ -127,11 +139,7 @@ class CreateNewIndicator extends Component {
           
           { this.renderBody() }
 
-          <FormBottomSheetModal
-            ref={this.formRef}
-            formModalRef={this.participantModalRef}
-            snapPoints={participantModalSnapPoints}
-          />
+          <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />
         </View>
       </TouchableWithoutFeedback>
     );
