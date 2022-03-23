@@ -73,7 +73,6 @@ class SettingBodyContent extends React.Component {
     });
   }
 
-
   clearErrorMessage() {
     this.settingFormRef.current.setState({
       backendUrlErrorMsg: '',

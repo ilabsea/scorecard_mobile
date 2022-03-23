@@ -44,7 +44,8 @@ const customIndicatorService = (() => {
       proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
     }
 
-    callback();
+    customIndicator['indicatorable_id'] = customIndicator.uuid;
+    callback(customIndicator);
   }
 
   function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {

@@ -1,13 +1,18 @@
-import Indicator from '../models/Indicator';
-import VotingIndicator from '../models/VotingIndicator';
+import React from 'react';
+import CustomIndicator from '../models/CustomIndicator';
+import VotingCriteria from '../models/VotingCriteria';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
 import { getLanguageIndicator } from '../services/language_indicator_service';
+
+import ProposedIndicatorParticipantList from '../components/ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
+import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
 
 const proposedIndicatorHelper = (() => {
   return {
     getProposedIndicatorAttributes,
     getOrderedSelectedProposedIndicators,
     getDisplayName,
+    showParticipantListModal,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -52,6 +57,20 @@ const proposedIndicatorHelper = (() => {
     return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
   }
 
+  function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+    const { scorecardUuid, indicator } = proposedIndicatorParams;
+
+    formRef.current?.setBodyContent(
+      <ProposedIndicatorParticipantList scorecardUuid={scorecardUuid}
+        selectedIndicator={indicator}
+        showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, scorecardUuid, indicator)}
+        updateIndicatorList={() => updateIndicatorList()}
+      />
+    );
+
+    participantModalRef.current?.present();
+  }
+
   // private methods
 
   function _getIndicatorAttrs(proposedIndicator) {
@@ -64,6 +83,14 @@ const proposedIndicatorHelper = (() => {
     indicatorAttrs[indicator.type]['indicatorable_id'] = indicator.id;
 
     return indicatorAttrs[indicator.type];
+  }
+
+  function _showAddParticipantModal(formRef, participantModalRef, scorecardUuid, indicator) {
+    formRef.current?.setBodyContent(
+      <AddNewParticipantContent scorecardUuid={ scorecardUuid }
+        title={indicator.name}
+        onSaveParticipant={ (participant) => participantModalRef.current?.dismiss()} />
+    );
   }
 })();
 

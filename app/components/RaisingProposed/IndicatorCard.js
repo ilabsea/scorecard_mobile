@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import Color from '../../themes/color';
 
-import ProposedIndicatorParticipantList from '../ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
-import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
-
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
 import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
 
@@ -52,22 +50,8 @@ class IndicatorCard extends Component {
   }
 
   openParticipantList(indicator) {
-    this.props.formRef.current?.setBodyContent(
-      <ProposedIndicatorParticipantList scorecardUuid={this.props.scorecardUuid}
-        selectedIndicator={indicator}
-        showAddParticipantModal={() => this.showAddParticipantModal(indicator)}
-        updateIndicatorList={() => this.props.updateIndicatorList()}
-      />
-    );
-    this.props.participantModalRef.current?.present();
-  }
-
-  showAddParticipantModal(indicator) {
-    this.props.formRef.current?.setBodyContent(
-      <AddNewParticipantContent scorecardUuid={ this.props.scorecardUuid }
-        title={indicator.name}
-        onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss()} />
-    );
+    const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
+    proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
   }
 
   render() {

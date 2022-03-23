@@ -24,6 +24,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
 
   async componentDidMount() {
     this.setting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+
     this.setState({
       proposedIndicatorMethod: !!this.setting ? this.setting.proposedIndicatorMethod : INDICATOR_BASE
     });

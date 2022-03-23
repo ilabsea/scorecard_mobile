@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -6,27 +6,25 @@ import {LocalizationContext} from '../Translations';
 import VoiceRecord from './VoiceRecord';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
 import ExistedIndicatorItem from './ExistedIndicatorItem';
-import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
-import { getLanguageIndicator } from '../../services/language_indicator_service';
-import Indicator from '../../models/Indicator';
-import { isBlank } from '../../utils/string_util';
-import { containerPadding } from '../../utils/responsive_util';
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { participantContentHeight } from '../../constants/modal_constant';
+import { containerPadding } from '../../utils/responsive_util';
+import { isBlank } from '../../utils/string_util';
 
-class AddNewIndicatorModalContent extends React.Component {
+class AddNewIndicatorModalContent extends Component {
   static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
 
     this.state = {
-      name: props.selectedCustomIndicator ? props.selectedCustomIndicator.name : '',
-      tag: props.selectedCustomIndicator ? props.selectedCustomIndicator.tag : '',
-      audio: props.selectedCustomIndicator ? props.selectedCustomIndicator.local_audio : null,
+      name: '',
+      tag: '',
+      audio: null,
       isIndicatorExist: false,
       duplicatedIndicators: []
     };
@@ -36,12 +34,10 @@ class AddNewIndicatorModalContent extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.isComponentUnmount && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
-      const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, this.props.selectedCustomIndicator.indicatorable_id, 'audio');
-
       this.setState({
         name: this.props.selectedCustomIndicator.name,
         tag: this.props.selectedCustomIndicator.tag,
-        audio: languageIndicator.local_audio
+        audio: this.props.selectedCustomIndicator.local_audio,
       });
     }
   }
@@ -67,17 +63,20 @@ class AddNewIndicatorModalContent extends React.Component {
     };
 
     if (this.props.isEdit) {
-      const { indicatorable_id, local_audio } = this.props.selectedCustomIndicator
-      customIndicatorService.updateIndicator(indicatorable_id, indicator, this.props.scorecardUuid, local_audio);
+      const { uuid, local_audio } = this.props.selectedCustomIndicator
+      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
       this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid, () => {
+      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, (customIndicator) => {
         this.props.finishSaveOrUpdateCustomIndicator(false);
+
+        // Todo: change the modal content to participant
+        const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUUID, indicator: customIndicator };
+        proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
       });
     }
     this.clearInputs();
-    this.props.closeModal();
   }
 
   renderButton = () => {
@@ -91,8 +90,8 @@ class AddNewIndicatorModalContent extends React.Component {
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
-      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUuid, name)
+      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
+      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUUID, name)
     });
   }
 
