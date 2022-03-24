@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const MODEL = 'ProposedIndicator';
 
@@ -71,9 +72,12 @@ const ProposedIndicator = (() => {
     });
   }
 
-  function getLastOrderNumber(scorecardUuid) {
-    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).max('order');
-    return !orderNumber ? 0 : orderNumber;
+  async function getLastOrderNumber(scorecardUuid) {
+    const savedOrderNumber = JSON.parse(await AsyncStorage.getItem('proposed-indicator-order-number'));
+    let orderNumber = !!savedOrderNumber ? parseInt(savedOrderNumber) : 0;
+    AsyncStorage.setItem('proposed-indicator-order-number', (orderNumber + 1).toString());
+
+    return orderNumber;
   }
 
   function getLastOrderNumberOfParticipant(scorecardUuid, participantUuid) {
@@ -92,10 +96,13 @@ const ProposedIndicator = (() => {
   }
 
   function destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {
-    const proposedIndicators = !!participantUuid ? find(scorecardUuid, participantUuid) : getAllByScorecard(scorecardUuid);
+    const unconfirmedProposedIndicators = getUnconfirmedProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber);
 
-    if (proposedIndicators.length > 0)
-      destroy(getUnconfirmedProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber));
+    if (unconfirmedProposedIndicators.length > 0) {
+      realm.write(() => {
+        realm.delete(unconfirmedProposedIndicators);
+      });
+    }
   }
 
   function getUnconfirmedProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {

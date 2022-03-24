@@ -51,21 +51,22 @@ class AddNewIndicatorModalContent extends React.Component {
       const { uuid, local_audio } = this.props.selectedCustomIndicator
       customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
       this.props.finishSaveOrUpdateCustomIndicator(true);
+      this.clearInputs();
     }
     else {
       customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, async (customIndicator) => {
         this.props.finishSaveOrUpdateCustomIndicator(false);
 
         if (await isProposeByIndicatorBase())
-          this.showParticipantListModal(customIndicator);
+          this.showParticipantListModal(customIndicator);     // Switch the modal content to participant list
       });
     }
-    this.clearInputs();
   }
 
   showParticipantListModal(customIndicator) {
     const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUUID, indicator: customIndicator };
-    proposedIndicatorHelper.showFormModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
+    proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
+    this.clearInputs();
   }
 
   renderButton = () => {

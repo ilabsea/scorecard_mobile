@@ -28,7 +28,7 @@ const proposedIndicatorService = (() => {
     create(scorecardUuid, indicator, participantUuid, false);
   }
 
-  function create(scorecardUuid, indicator, participantUuid, excludeWriteTransaction) {
+  async function create(scorecardUuid, indicator, participantUuid, excludeWriteTransaction) {
     const attrs = {
       uuid: uuidv4(),
       scorecard_uuid: scorecardUuid.toString(),
@@ -37,7 +37,7 @@ const proposedIndicatorService = (() => {
       indicatorable_name: indicator.name,
       participant_uuid: participantUuid,
       tag: indicator.tag,
-      order: parseInt(ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
+      order: parseInt(await ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
     };
 
     ProposedIndicator.create(attrs, excludeWriteTransaction);
