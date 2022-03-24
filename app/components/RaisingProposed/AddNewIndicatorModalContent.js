@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -6,44 +6,29 @@ import {LocalizationContext} from '../Translations';
 import VoiceRecord from './VoiceRecord';
 import AddNewIndicatorModalTextInputs from './AddNewIndicatorModalTextInputs';
 import ExistedIndicatorItem from './ExistedIndicatorItem';
-import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
+import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
-import { participantContentHeight } from '../../constants/modal_constant';
-import { containerPadding } from '../../utils/responsive_util';
 import { isBlank } from '../../utils/string_util';
+import { containerPadding } from '../../utils/responsive_util';
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+import { participantContentHeight } from '../../constants/modal_constant';
 
-class AddNewIndicatorModalContent extends Component {
+class AddNewIndicatorModalContent extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '',
-      tag: '',
-      audio: null,
+      name: props.selectedCustomIndicator ? props.selectedCustomIndicator.name : '',
+      tag: props.selectedCustomIndicator ? props.selectedCustomIndicator.tag : '',
+      audio: props.selectedCustomIndicator ? props.selectedCustomIndicator.local_audio : null,
       isIndicatorExist: false,
       duplicatedIndicators: []
     };
-
-    this.isComponentUnmount = false;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.isComponentUnmount && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
-      this.setState({
-        name: this.props.selectedCustomIndicator.name,
-        tag: this.props.selectedCustomIndicator.tag,
-        audio: this.props.selectedCustomIndicator.local_audio,
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this.isComponentUnmount = true;
   }
 
   clearInputs() {
@@ -68,15 +53,19 @@ class AddNewIndicatorModalContent extends Component {
       this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, (customIndicator) => {
+      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, async (customIndicator) => {
         this.props.finishSaveOrUpdateCustomIndicator(false);
 
-        // Todo: change the modal content to participant
-        const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUUID, indicator: customIndicator };
-        proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
+        if (await isProposeByIndicatorBase())
+          this.showParticipantListModal(customIndicator);
       });
     }
     this.clearInputs();
+  }
+
+  showParticipantListModal(customIndicator) {
+    const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUUID, indicator: customIndicator };
+    proposedIndicatorHelper.showFormModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
   }
 
   renderButton = () => {
@@ -111,7 +100,9 @@ class AddNewIndicatorModalContent extends Component {
   }
 
   updateIndicatorList() {
-    this.clearInputs();
+    if (!this.props.isIndicatorBase)  // To prevent the warning of can't perform state update on an unmount component
+      this.clearInputs();
+
     this.props.updateIndicatorList();
   }
 
@@ -121,7 +112,10 @@ class AddNewIndicatorModalContent extends Component {
               participantUuid={this.props.participantUuid}
               indicatorName={this.state.name}
               duplicatedIndicators={this.state.duplicatedIndicators}
+              isIndicatorBase={this.props.isIndicatorBase}
               updateIndicatorList={() => this.updateIndicatorList()}
+              formRef={this.props.formRef}
+              participantModalRef={this.props.participantModalRef}
             />
   }
 
@@ -145,11 +139,11 @@ class AddNewIndicatorModalContent extends Component {
               :
               this.renderExistedIndicator()
             }
-          </View>
+           </View>
   }
 
   render() {
-    const title = this.state.isEdit ? this.context.translations.editIndicator : this.context.translations.addNewIndicator;
+    const title = this.props.isEdit ? this.context.translations.editIndicator : this.context.translations.addNewIndicator;
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

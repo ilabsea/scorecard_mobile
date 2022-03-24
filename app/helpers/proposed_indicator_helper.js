@@ -1,8 +1,9 @@
 import React from 'react';
-import CustomIndicator from '../models/CustomIndicator';
-import VotingCriteria from '../models/VotingCriteria';
-import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
+import VotingIndicator from '../models/VotingIndicator';
+import Indicator from '../models/Indicator';
 import { getLanguageIndicator } from '../services/language_indicator_service';
+import { getAttributesByColumns } from './scorecard_attributes_helper';
+import proposedIndicatorService from '../services/proposed_indicator_service';
 
 import ProposedIndicatorParticipantList from '../components/ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
 import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
@@ -12,6 +13,7 @@ const proposedIndicatorHelper = (() => {
     getProposedIndicatorAttributes,
     getOrderedSelectedProposedIndicators,
     getDisplayName,
+    showFormModal,
     showParticipantListModal,
   };
 
@@ -57,18 +59,21 @@ const proposedIndicatorHelper = (() => {
     return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
   }
 
+  function showFormModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+    showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+    participantModalRef.current?.present();
+  }
+
   function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
 
     formRef.current?.setBodyContent(
       <ProposedIndicatorParticipantList scorecardUuid={scorecardUuid}
         selectedIndicator={indicator}
-        showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, scorecardUuid, indicator)}
+        showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList)}
         updateIndicatorList={() => updateIndicatorList()}
       />
     );
-
-    participantModalRef.current?.present();
   }
 
   // private methods
@@ -85,11 +90,18 @@ const proposedIndicatorHelper = (() => {
     return indicatorAttrs[indicator.type];
   }
 
-  function _showAddParticipantModal(formRef, participantModalRef, scorecardUuid, indicator) {
+  function _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+    const { scorecardUuid, indicator } = proposedIndicatorParams;
+
     formRef.current?.setBodyContent(
       <AddNewParticipantContent scorecardUuid={ scorecardUuid }
         title={indicator.name}
-        onSaveParticipant={ (participant) => participantModalRef.current?.dismiss()} />
+        onSaveParticipant={(participant) => {
+            proposedIndicatorService.create(scorecardUuid, indicator, participant.uuid, true);
+            showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+          }
+        }
+      />
     );
   }
 })();

@@ -14,7 +14,6 @@ class IndicatorSelectionItems extends Component {
     this.audioPlayer = null;
     this.state = {
       playingIndicatorId: null,
-      isModalVisible: false,
     }
   }
 
@@ -52,6 +51,7 @@ class IndicatorSelectionItems extends Component {
         isEdit={this.props.isEdit}
         isPopupModalList={!!this.props.isPopupModalList}
         isIndicatorBase={this.props.isIndicatorBase}
+        isExistedIndicator={this.props.isExistedIndicator}
         updateIndicatorList={() => this.props.updateIndicatorList()}
         selectForEdit={() => this.props.selectForEdit(indicator)}
         formRef={this.props.formRef}

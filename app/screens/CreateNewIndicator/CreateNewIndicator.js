@@ -45,13 +45,19 @@ class CreateNewIndicator extends Component {
     }
 
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
+    this.componentIsUnmount = false;
   }
 
   componentDidMount() {
     this.updateIndicatorList();
   }
 
+  componentWillUnmount() { this.componentIsUnmount = true; }
+
   updateIndicatorList() {
+    if (this.componentIsUnmount)
+      return;
+
     const { scorecard_uuid } = this.props.route.params;
     this.setState({ indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit) });
   }
@@ -59,14 +65,6 @@ class CreateNewIndicator extends Component {
   updateParticipantInfo() {
     const participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.route.params.scorecard_uuid)));
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
-  }
-
-  saveCustomIndicator = () => {
-    this.updateIndicatorList();
-    this.setState({
-      isModalVisible: false,
-      isValid: true,
-    });
   }
 
   save = () => {

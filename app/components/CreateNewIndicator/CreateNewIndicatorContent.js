@@ -40,7 +40,7 @@ class CreateNewIndicatorContent extends Component {
         participantUuid={this.props.participantUuid}
         isSearching={this.props.isSearching}
         isIndicatorBase={this.props.isIndicatorBase}
-        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal()}
+        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal(null)}
         updateIndicatorList={() => this.props.updateIndicatorList()}
         formRef={this.props.formRef}
         participantModalRef={this.props.participantModalRef}

@@ -59,7 +59,7 @@ class CreateIndicatorBody extends React.Component {
       this.props.updateParticipantInfo();
   }
 
-  async updateIndicatorList() {
+  updateIndicatorList() {
     const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid)
                                 : ProposedIndicator.getAllByScorecard(this.props.scorecardUuid);
 
@@ -98,7 +98,6 @@ class CreateIndicatorBody extends React.Component {
             isSearching={this.props.isSearching}
             isEdit={this.props.isEdit}
             isIndicatorBase={this.state.isIndicatorBase}
-            selectForEdit={(indicator) => this.selectForEdit(indicator)}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
             showAddNewIndicatorModal={(indicator) => this.showAddNewIndicatorModal(indicator)}
             updateIndicatorList={() => this.updateIndicatorList()}
@@ -120,6 +119,29 @@ class CreateIndicatorBody extends React.Component {
             scorecardUuid={this.props.scorecardUuid}
           />
   };
+
+  showAddNewIndicatorModal(customIndicator) {
+    this.setState({ selectedCustomIndicator: customIndicator }, () => {
+      this.props.formRef.current?.setBodyContent(this.renderModalContent());
+      this.props.participantModalRef.current?.present();
+    });
+  }
+
+  renderModalContent() {
+    return <AddNewIndicatorModalContent
+            closeModal={() => this.closeModal()}
+            participantUUID={this.state.participantUuid}
+            scorecardUUID={this.props.scorecardUuid}
+            selectedCustomIndicator={this.state.selectedCustomIndicator}
+            indicators={this.props.indicators}
+            isEdit={this.props.isEdit}
+            isIndicatorBase={this.state.isIndicatorBase}
+            finishSaveOrUpdateCustomIndicator={(isEdit) => this.finishSaveOrUpdateCustomIndicator(isEdit)}
+            updateIndicatorList={() => this.updateIndicatorList()}
+            formRef={this.props.formRef}
+            participantModalRef={this.props.participantModalRef}
+          />
+  }
 
   render() {
     return (

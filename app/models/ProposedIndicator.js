@@ -25,10 +25,14 @@ const ProposedIndicator = (() => {
     return realm.objects(MODEL).filtered('scorecard_uuid = "'+ scorecardUuid +'" AND participant_uuid = "'+ participantUuid +'" SORT(indicatorable_name ASC)');
   }
 
-  function create(data) {
-    realm.write(() => {
+  function create(data, excludeWriteTransaction) {
+    if (excludeWriteTransaction)
       realm.create(MODEL, data, 'modified');
-    });
+    else {
+      realm.write(() => {
+        realm.create(MODEL, data, 'modified');
+      });
+    }
   }
 
   function update(uuid, params) {

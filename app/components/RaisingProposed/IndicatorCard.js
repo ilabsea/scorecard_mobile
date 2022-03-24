@@ -41,17 +41,24 @@ class IndicatorCard extends Component {
     }
 
     Keyboard.dismiss();
-    if (this.props.isIndicatorBase)
-      this.openParticipantList(indicator);
+    if (this.props.isIndicatorBase) {
+      if (this.props.isExistedIndicator) {
+        const indicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
+        proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, indicatorParams, this.props.updateIndicatorList);
+        return;
+      }
+
+      this.openFormModal(indicator);
+    }
     else {
       proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
       !!this.props.updateIndicatorList && this.props.updateIndicatorList();
     }
   }
 
-  openParticipantList(indicator) {
+  openFormModal(indicator) {
     const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
-    proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
+    proposedIndicatorHelper.showFormModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
   }
 
   render() {
@@ -60,9 +67,7 @@ class IndicatorCard extends Component {
 
     return (
       <View style={[styles.indicatorBoxContainer, this.props.customCardStyle, this.selectedIndicatorBoxStyle(indicator)]}>
-        <TouchableOpacity style={styles.indicatorBox}
-          onPress={() => this.toggleIndicator(indicator)}
-        >
+        <TouchableOpacity style={styles.indicatorBox} onPress={() => this.toggleIndicator(indicator)}>
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: bodyFontSize()}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
