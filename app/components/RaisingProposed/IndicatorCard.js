@@ -52,7 +52,9 @@ class IndicatorCard extends Component {
     }
     else {
       proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
-      !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+      setTimeout(() => {
+        !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+      }, 50);
     }
   }
 

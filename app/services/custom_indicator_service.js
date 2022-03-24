@@ -40,7 +40,7 @@ const customIndicatorService = (() => {
     LanguageIndicator.create(customLanguageIndicator);
 
     if (!!participantUuid)
-      proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid, false);
+      proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
 
     customIndicator['indicatorable_id'] = customIndicator.uuid;
     callback(customIndicator);

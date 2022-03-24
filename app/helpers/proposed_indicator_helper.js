@@ -97,8 +97,11 @@ const proposedIndicatorHelper = (() => {
       <AddNewParticipantContent scorecardUuid={ scorecardUuid }
         title={indicator.name}
         onSaveParticipant={(participant) => {
-            proposedIndicatorService.create(scorecardUuid, indicator, participant.uuid, true);
-            showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+            proposedIndicatorService.create(scorecardUuid, indicator, participant.uuid);
+            setTimeout(() => {
+              updateIndicatorList();
+              showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+            }, 50);
           }
         }
       />
