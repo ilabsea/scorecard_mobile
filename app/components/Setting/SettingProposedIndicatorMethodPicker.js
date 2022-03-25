@@ -71,13 +71,13 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
         items={types}
         selectedItem={this.state.proposedIndicatorMethod}
         label={translations.proposedIndicatorMethod}
-        zIndex={5000}
+        zIndex={6000}
         showCustomArrow={true}
         onChangeItem={(type) => this.onChange(type)}
         mustHasDefaultValue={true}
         controller={(instance) => this.proposedIndicatorMethodController = instance}
         onOpen={() => Keyboard.dismiss()}
-        customDropDownContainerStyle={{marginTop: 25}}
+        customDropDownContainerStyle={{marginTop: -4}}
         pickerTitle={this.pickerTitle()}
       />
     )

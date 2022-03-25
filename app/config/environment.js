@@ -10,4 +10,5 @@ export const environment = {
   maxJoinScorecardAttempt: 10,
   resetLockDuration: 900000,       // milliseconds (15 mins)
   resetCountDuration: 900000,     // milliseconds (15 mins)
+  youtubeApiKey: '',
 };

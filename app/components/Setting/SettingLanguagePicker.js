@@ -69,13 +69,13 @@ class SettingSelectPickers extends React.Component {
         label={translations["language"]}
         placeholder={translations["selectLanguage"]}
         searchablePlaceholder={translations["searchForLanguage"]}
-        zIndex={6000}
+        zIndex={5000}
         showCustomArrow={true}
         onChangeItem={this.changeLocale}
         mustHasDefaultValue={true}
         controller={(instance) => this.languageController = instance}
         onOpen={() => this.onOpen()}
-        customDropDownContainerStyle={{marginTop: -5}}
+        customDropDownContainerStyle={{marginTop: 27}}
       />
     );
   }

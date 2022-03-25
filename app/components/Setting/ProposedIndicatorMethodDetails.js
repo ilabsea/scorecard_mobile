@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../../themes/color';
@@ -10,12 +10,13 @@ import Accordion from '../Accordion';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
+import { navigationRef } from '../../navigators/app_navigator';
 
-const ProposedIndicatorMethodDetails = () => {
+const ProposedIndicatorMethodDetails = (props) => {
   const { translations } = useContext(LocalizationContext);
   const proposedIndicatorMethods = [
-    { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription },
-    { label: translations.participantBase, value: PARTICIPANT_BASE, description: translations.participantBaseDescription }
+    { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription, video_id: 'f7OPcDX_LyI' },
+    { label: translations.participantBase, value: PARTICIPANT_BASE, description: translations.participantBaseDescription, video_id: 'Il0S8BoucSA' }
   ];
   const accordionStatuses = [true, false];
 
@@ -38,13 +39,19 @@ const ProposedIndicatorMethodDetails = () => {
           { item.description }
         </Text>
 
-        <View style={{ flexDirection: 'row', marginTop: 30 }}>
+        <TouchableOpacity onPress={() => showVideoPlayer(item)} style={{ flexDirection: 'row', marginTop: 30 }}>
           <Icon name='play-circle-filled' size={20} color={Color.clickableColor} style={{padding: 0, marginRight: 5, marginTop: 3, height: 20}} />
 
           <Text style={{color: Color.clickableColor, fontSize: bodyFontSize()}}>{ translations.clickHereToWatchHowToProposeIndicator }</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     )
+  }
+
+  function showVideoPlayer(item) {
+    navigationRef.current?.reset({ index: 1, routes: [
+      { name: 'VideoPlayer', params: { video_id: item.video_id, title: item.label } }
+    ]});
   }
 
   return (
