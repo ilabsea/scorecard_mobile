@@ -90,8 +90,8 @@ const proposedIndicatorService = (() => {
     // Remove the proposed indicators that the user does not confirm to save
     ProposedIndicator.destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber);
 
-    // Recreate the saved proposed indicators that the user unselect and does not confirm to save
-    const previousProposedIndicators = JSON.parse(await AsyncStorage.getItem('previous-proposed-indicators'));
+    // Recreate the saved proposed indicators that the user unselected and does not confirm to save
+    const previousProposedIndicators = JSON.parse(await AsyncStorage.getItem('previous-proposed-indicators')) || [];
 
     previousProposedIndicators.map(proposedIndicator => {
       if (!ProposedIndicator.findByParticipant(scorecardUuid, proposedIndicator.indicatorable_id, participantUuid)) {

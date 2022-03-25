@@ -59,8 +59,10 @@ class AddNewIndicatorModalContent extends React.Component {
 
         if (await isProposeByIndicatorBase())
           this.showParticipantListModal(customIndicator);     // Switch the modal content to participant list
-        else
+        else {
+          !!this.props.updateIndicatorList && this.props.updateIndicatorList();
           this.props.closeModal();
+        }
       });
     }
   }

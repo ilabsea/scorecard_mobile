@@ -87,7 +87,9 @@ class AddNewParticipantContent extends Component {
       this.props.saveParticipant(participants, this.props.scorecardUuid);
       this.resetFormData();
 
-      !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
+      setTimeout(() => {
+        !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
+      }, 50);
     });
   }
 

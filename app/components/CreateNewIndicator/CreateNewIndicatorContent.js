@@ -63,7 +63,7 @@ class CreateNewIndicatorContent extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        { this.props.hasParticipantSection && this.renderParticipant() }
+        { this.state.hasParticipantSection && this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
           <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: 20}}>
