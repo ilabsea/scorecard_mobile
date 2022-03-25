@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ProposedIndicator from '../models/ProposedIndicator';
 import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
+import scorecardProposedIndicatorHelper from '../helpers/scorecard_proposed_indicator_helper';
 import uuidv4 from '../utils/uuidv4';
 import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
 
@@ -28,7 +29,7 @@ const proposedIndicatorService = (() => {
     create(scorecardUuid, indicator, participantUuid);
   }
 
-  async function create(scorecardUuid, indicator, participantUuid) {
+  function create(scorecardUuid, indicator, participantUuid) {
     const attrs = {
       uuid: uuidv4(),
       scorecard_uuid: scorecardUuid.toString(),
@@ -37,7 +38,7 @@ const proposedIndicatorService = (() => {
       indicatorable_name: indicator.name,
       participant_uuid: participantUuid,
       tag: indicator.tag,
-      order: parseInt(await ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
+      order: scorecardProposedIndicatorHelper.getCurrentOrderNumber(scorecardUuid),
     };
 
     ProposedIndicator.create(attrs);

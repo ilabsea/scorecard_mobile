@@ -1,5 +1,4 @@
 import realm from '../db/schema';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const MODEL = 'ProposedIndicator';
 
@@ -14,7 +13,6 @@ const ProposedIndicator = (() => {
     getAllDistinctTag,
     getAllDistinct,
     destroy,
-    getLastOrderNumber,
     getLastOrderNumberOfParticipant,
     getLastOrderNumberOfIndicator,
     getLastOrderNumberOfScorecard,
@@ -66,14 +64,6 @@ const ProposedIndicator = (() => {
     realm.write(() => {
       realm.delete(proposedIndicator);
     });
-  }
-
-  async function getLastOrderNumber(scorecardUuid) {
-    const savedOrderNumber = JSON.parse(await AsyncStorage.getItem('proposed-indicator-order-number'));
-    let orderNumber = !!savedOrderNumber ? parseInt(savedOrderNumber) : 0;
-    AsyncStorage.setItem('proposed-indicator-order-number', (orderNumber + 1).toString());
-
-    return orderNumber;
   }
 
   function getLastOrderNumberOfParticipant(scorecardUuid, participantUuid) {
