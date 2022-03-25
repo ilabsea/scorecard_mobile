@@ -66,7 +66,7 @@ class CreateNewIndicatorContent extends Component {
         { this.state.hasParticipantSection && this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
-          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: 20}}>
+          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.props.isIndicatorBase ? 0 : 20}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>
         }
