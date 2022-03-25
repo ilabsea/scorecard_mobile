@@ -45,7 +45,7 @@ class ProposedIndicatorParticipantList extends React.Component {
 
   selectedIcon(participant) {
     if (this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid == participant.uuid).length > 0)
-      return <Icon name='check' size={28} color={ Color.clickableColor } />
+      return <Icon name='check' size={23} color={ Color.clickableColor } />
 
     return <View/>;
   }

@@ -9,7 +9,7 @@ import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantConte
 import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
 import { INDICATOR_BASE } from '../../constants/main_constant';
-import { navigate } from '../../navigators/app_navigator';
+import { navigate, navigationRef } from '../../navigators/app_navigator';
 import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 
 export default class ParticipantInfo extends Component {
