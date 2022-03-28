@@ -32,7 +32,7 @@ class SettingForm extends Component {
   componentDidMount = async () => {
     const value = JSON.parse(await AsyncStorage.getItem('SETTING'));
 
-    if (value !== null) {
+    if (value !== null && !!value.email) {
       this.setState({
         backendUrl: value.backendUrl,
         email: value.email,
@@ -121,7 +121,7 @@ class SettingForm extends Component {
     return (
       <View>
         {this._renderForm()}
-        <SettingSelectPickers ref={this.pickersRef} formRef={this.props.formRef} formModalRef={this.props.formModalRef} />
+        <SettingSelectPickers ref={this.pickersRef} formRef={this.props.formRef} formModalRef={this.props.formModalRef} proposedIndicatorMethod={this.props.proposedIndicatorMethod} />
       </View>
     )
   }

@@ -28,6 +28,8 @@ class Accordion extends Component {
     this.setState({
       accordionStatuses: statuses
     });
+
+    !!this.props.onToggle && this.props.onToggle(toggleIndex);
   }
 
   renderAccordion() {
@@ -39,6 +41,7 @@ class Accordion extends Component {
           style={[{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }, this.props.customItemStyle]}
           onPress={() => this.toggleAccordion(index)}
           expanded={this.state.accordionStatuses[index]}
+          titleStyle={this.props.titleStyle}
         >
           { this.props.accordionContent(item) }
         </List.Accordion>

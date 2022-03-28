@@ -6,8 +6,11 @@ import SettingBodyContent from '../../components/Setting/SettingBodyContent';
 import NavigationHeader from '../../components/NavigationHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
+import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 import internetConnectionService from '../../services/internet_connection_service';
 import { settingModalSnapPoints } from '../../constants/modal_constant';
+import { INDICATOR_BASE } from '../../constants/main_constant';
+
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -15,7 +18,8 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasInternetConnection: false
+      hasInternetConnection: false,
+      proposedIndicatorMethod: INDICATOR_BASE,
     };
 
     this.unsubscribeNetInfo;
@@ -25,7 +29,9 @@ class Setting extends Component {
     this.bodyRef = React.createRef();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.setState({ proposedIndicatorMethod: await getProposedIndicatorMethod() });
+
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       if (!this.componentIsUnmount)
         this.setState({ hasInternetConnection: hasConnection });
@@ -48,7 +54,13 @@ class Setting extends Component {
               formRef={this.formRef}
               formModalRef={this.formModalRef}
               hasInternetConnection={this.state.hasInternetConnection}
+              proposedIndicatorMethod={this.state.proposedIndicatorMethod}
            />
+  }
+
+  async onDismissModal() {
+    this.setState({ proposedIndicatorMethod: await getProposedIndicatorMethod() });
+    this.formRef.current?.setBodyContent(null)
   }
 
   render() {
@@ -61,7 +73,7 @@ class Setting extends Component {
 
           { this.renderBodyContent() }
 
-          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={settingModalSnapPoints} />
+          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={settingModalSnapPoints} onDismissModal={() => this.onDismissModal()} />
         </View>
       </TouchableWithoutFeedback>
     );

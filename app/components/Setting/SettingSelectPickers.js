@@ -16,7 +16,6 @@ class SettingSelectPickers extends React.Component {
 
   closeDropdownPickers() {
     this.languagePickerRef.current?.languageController.close();
-    this.indicatorMethodRef.current?.proposedIndicatorMethodController.close();
   }
 
   render() {
@@ -26,6 +25,7 @@ class SettingSelectPickers extends React.Component {
           ref={this.indicatorMethodRef}
           formRef={this.props.formRef}
           formModalRef={this.props.formModalRef}
+          proposedIndicatorMethod={this.props.proposedIndicatorMethod}
         />
 
         <SettingLanguagePicker ref={this.languagePickerRef} indicatorMethodRef={this.indicatorMethodRef} />

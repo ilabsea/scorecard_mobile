@@ -167,6 +167,7 @@ class SettingBodyContent extends React.Component {
 
           <SettingForm
             ref={this.settingFormRef}
+            proposedIndicatorMethod={this.props.proposedIndicatorMethod}
             updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
             formRef={this.props.formRef}
             formModalRef={this.props.formModalRef}
