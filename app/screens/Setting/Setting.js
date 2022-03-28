@@ -27,7 +27,8 @@ class Setting extends Component {
 
   componentDidMount() {
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
-      this.setState({ hasInternetConnection: hasConnection });
+      if (!this.componentIsUnmount)
+        this.setState({ hasInternetConnection: hasConnection });
     });
   }
 
