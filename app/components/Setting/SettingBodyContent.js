@@ -157,7 +157,7 @@ class SettingBodyContent extends React.Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: Color.whiteColor }}>
         <Pressable style={responsiveStyles.container}>
           <Spinner
             visible={this.state.isLoading}
