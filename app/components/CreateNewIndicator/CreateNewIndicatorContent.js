@@ -7,6 +7,7 @@ import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantIn
 import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
 import { subTitleFontSize } from '../../utils/font_size_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
@@ -66,7 +67,7 @@ class CreateNewIndicatorContent extends Component {
         { this.state.hasParticipantSection && this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
-          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? 0 : 20}}>
+          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 20}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>
         }

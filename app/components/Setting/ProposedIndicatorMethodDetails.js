@@ -13,7 +13,7 @@ import Accordion from '../Accordion';
 import settingHelper from '../../helpers/setting_helper';
 import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
-import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
+import { getProposedIndicatorMethod, getProposedIndicatorVideoId } from '../../utils/proposed_indicator_util';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
 import { navigationRef } from '../../navigators/app_navigator';
 
@@ -74,7 +74,7 @@ class ProposedIndicatorMethodDetails extends React.Component {
 
   showVideoPlayer(item) {
     navigationRef.current?.reset({ index: 1, routes: [
-      { name: 'VideoPlayer', params: { video_id: item.video_id, title: item.label } }
+      { name: 'VideoPlayer', params: { video_id: getProposedIndicatorVideoId(item.value), title: item.label } }
     ]});
   }
 
@@ -88,8 +88,8 @@ class ProposedIndicatorMethodDetails extends React.Component {
   render() {
     const { translations } = this.context;
     const proposedIndicatorMethods = [
-      { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription, video_id: 'f7OPcDX_LyI' },
-      { label: translations.participantBase, value: PARTICIPANT_BASE, description: translations.participantBaseDescription, video_id: 'Il0S8BoucSA' }
+      { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription },
+      { label: translations.participantBase, value: PARTICIPANT_BASE, description: translations.participantBaseDescription }
     ];
 
     return (

@@ -44,7 +44,7 @@ class VideoPlayer extends React.Component {
     if (this.state.hasInternet)
       return <YouTube
               apiKey={environment.youtubeApiKey}
-              style={{ height: '50%', width: Dimensions.get('window').width }}
+              style={{ height: '90%', width: Dimensions.get('window').width }}
               ref={this.playerRef}
               play={true}
               videoId={this.props.route.params.video_id}
