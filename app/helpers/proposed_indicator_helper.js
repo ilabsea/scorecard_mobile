@@ -1,9 +1,10 @@
 import React from 'react';
 import VotingIndicator from '../models/VotingIndicator';
 import Indicator from '../models/Indicator';
-import { getLanguageIndicator } from '../services/language_indicator_service';
+import ProposedIndicator from '../models/ProposedIndicator';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
+import { getLanguageIndicator } from '../services/language_indicator_service';
 
 import ProposedIndicatorParticipantList from '../components/ProposedIndicatorByIndicatorBase/ProposedIndicatorParticipantList';
 import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
@@ -15,6 +16,8 @@ const proposedIndicatorHelper = (() => {
     getDisplayName,
     showFormModal,
     showParticipantListModal,
+    getNumberOfRaisedParticipant,
+    isIndicatorProposed,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -74,6 +77,17 @@ const proposedIndicatorHelper = (() => {
         updateIndicatorList={() => updateIndicatorList()}
       />
     );
+  }
+
+  function getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) {
+    if (!!participantUuid)
+      return !!ProposedIndicator.findByParticipant(scorecardUuid, indicatorId, participantUuid) ? 1 : 0;
+
+    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorId).length;
+  }
+
+  function isIndicatorProposed(scorecardUuid, indicatorId, participantUuid) {
+    return getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) > 0;
   }
 
   // private methods

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import Color from '../../themes/color';
 
+import { LocalizationContext } from '../Translations';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import ProposedIndicator from '../../models/ProposedIndicator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
 import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
@@ -14,6 +14,8 @@ import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponent
 const styles = getDeviceStyle(IndicatorCardTabletStyle, IndicatorCardMobileStyle);
 
 class IndicatorCard extends Component {
+  static contextType = LocalizationContext;
+
   _getIndicatorName = (indicator) => {
     const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_id, 'text');
 
@@ -63,6 +65,21 @@ class IndicatorCard extends Component {
     proposedIndicatorHelper.showFormModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
   }
 
+  renderNumberOfParticipant() {
+    if (!this.props.isIndicatorBase)
+      return;
+
+    const numberOfRaisedParticipant = proposedIndicatorHelper.getNumberOfRaisedParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid);
+
+    if (numberOfRaisedParticipant > 0)
+      return <View style={styles.raisedParticipantBadge}>
+                <Text style={styles.raisedParticipantLabel}>
+                  { this.context.translations.raised }<Text style={styles.raisedLabel}> { numberOfRaisedParticipant } </Text>
+                  { this.context.translations.pax }
+                </Text>
+            </View>
+  }
+
   render() {
     const { indicator } = this.props;
     const displayName = this._getIndicatorName(indicator);
@@ -70,6 +87,8 @@ class IndicatorCard extends Component {
     return (
       <View style={[styles.indicatorBoxContainer, this.props.customCardStyle, this.selectedIndicatorBoxStyle(indicator)]}>
         <TouchableOpacity style={styles.indicatorBox} onPress={() => this.toggleIndicator(indicator)}>
+          {this.renderNumberOfParticipant()}
+
           <View style={styles.detailContainer}>
             <Text style={{textAlign: 'left', fontSize: bodyFontSize()}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
