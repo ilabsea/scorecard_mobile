@@ -1,21 +1,19 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import styles from '../../themes/participantListItemStyle';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import OutlinedButton from '../OutlinedButton';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import ParticipantModalListItem from '../RaisingProposed/ParticipantModalListItem';
+import ProposedIndicatorParticipantListSubtitle from './ProposedIndicatorParticipantListSubtitle';
 
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { containerPadding } from '../../utils/responsive_util';
-import { bodyFontSize } from '../../utils/font_size_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorParticipantList extends React.Component {
@@ -79,27 +77,15 @@ class ProposedIndicatorParticipantList extends React.Component {
     });
   }
 
-  renderAddNewParticipantButton = () => {
-    return (
-      <OutlinedButton
-        icon="plus"
-        label={this.context.translations.addNew}
-        onPress={() => this.props.showAddParticipantModal() }
-      />
-    );
-  }
-
   render() {
     return (
       <View style={{ height: hp(participantContentHeight) }}>
         <BottomSheetModalTitle title={ this.props.selectedIndicator.name } />
 
         <View style={{ padding: containerPadding, flex: 1 }}>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <Text style={[styles.header, { fontSize: bodyFontSize() }]}>{this.context.translations.selectRaisedParticipant}</Text>
-            <View style={{flex:1}} />
-            {this.renderAddNewParticipantButton()}
-          </View>
+          <ProposedIndicatorParticipantListSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.participants.length}
+            showAddParticipantModal={() => this.props.showAddParticipantModal()}
+          />
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
             { this.renderParticipantList() }
