@@ -5,7 +5,7 @@ const titlePaddingTop = () => {
   if (isShortScreenDevice())
     return 8;
 
-  return isShortWidthScreen() ? 5 : 10
+  return isShortWidthScreen() ? 5 : 6
 }
 
 const ProposedIndicatorItemStyles = StyleSheet.create({

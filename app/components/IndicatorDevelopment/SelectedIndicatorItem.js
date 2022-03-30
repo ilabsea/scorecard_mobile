@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { RectButton } from 'react-native-gesture-handler';
 
-import Color from '../../themes/color';
 import { removeFromSelected } from '../../actions/selectedIndicatorAction';
 import { addToProposed } from '../../actions/proposedIndicatorAction';
 
 import { LocalizationContext } from '../Translations';
 import styles from '../../themes/scorecardListItemStyle';
-
 import indicatorHelper from '../../helpers/indicator_helper';
 import Scorecard from '../../models/Scorecard';
 
@@ -35,6 +34,7 @@ class SelectedIndicatorItem extends Component {
     };
 
     this.isComponentUnmount = false;
+    this.itemRef = null;
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -55,56 +55,49 @@ class SelectedIndicatorItem extends Component {
   }
 
   handleRemoveIndicator() {
-    this.props.removeFromSelected(this.props.indicator);
-    this.props.addToProposed(this.props.indicator);
+    this.itemRef.close();
+
+    setTimeout(() => {
+      this.props.addToProposed(this.props.indicator);
+      this.props.removeFromSelected(this.props.indicator);
+    }, 20);
   }
 
-  renderRemoveButton() {
-    const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.redColor;
-
+  renderContent() {
     return (
-      <TouchableOpacity onPress={() => this.handleRemoveIndicator()} style={responsiveStyles.removeButton} disabled={this.props.hasRating}>
-        <Icon name='trash' size={16} style={[responsiveStyles.removeIcon, { color: buttonColor }]} />
-        <Text style={[styles.buttonLabel, responsiveStyles.removeLabel, { color: buttonColor }]}>
-          { this.context.translations['remove'] }
-        </Text>
-      </TouchableOpacity>
+      <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer, this.props.isActive ? responsiveStyles.selectedItem : {}]}>
+        <IndicatorTitle
+          title={this.state.indicator.content}
+          order={this.props.order}
+          subText={this.context.translations.raisedTimes}
+          indicatorCount={this.props.indicator.count}
+          indicator={this.state.indicator}
+          customContainerStyle={responsiveStyles.container}
+          customTitleStyle={responsiveStyles.titleText}
+          customSubTextStyle={responsiveStyles.subText}
+          customAudioContainerStyle={{justifyContent: 'center'}}
+          isDraggable={this.props.isDraggable}
+          onLongPress={this.props.onLongPress}
+        />
+      </View>
+    )
+  }
+
+  renderDeleteButton()  {
+    return (
+      <RectButton onPress={() => this.handleRemoveIndicator()} style={responsiveStyles.removeButton}>
+        <Text style={responsiveStyles.removeLabel}>{ this.context.translations.delete }</Text>
+      </RectButton>
     )
   }
 
   render() {
-    const { translations } = this.context;
-
     return (
-      <View style={[styles.listItem, styles.card, responsiveStyles.itemContainer]}>
-        <View style={[responsiveStyles.listItem, this.props.isActive ? responsiveStyles.selectedItem : {}]}>
-
-          <IndicatorTitle
-            title={this.state.indicator.content}
-            order={this.props.order}
-            subText={translations.raisedTimes}
-            indicatorCount={this.props.indicator.count}
-            indicator={this.state.indicator}
-            customContainerStyle={responsiveStyles.container}
-            customTitleStyle={responsiveStyles.titleText}
-            customSubTextStyle={responsiveStyles.subText}
-            customAudioContainerStyle={{justifyContent: 'center'}}
-            isDraggable={this.props.isDraggable}
-            onLongPress={this.props.onLongPress}
-          />
-
-          <View style={[responsiveStyles.viewDetailContainer]}>
-            <TouchableOpacity onLongPress={() => this.props.onLongPress()} style={{flexGrow: 1, height: '100%'}} />
-            { this.renderRemoveButton() }
-          </View>
-        </View>
-      </View>
+      <Swipeable renderRightActions={() => this.renderDeleteButton()} ref={ref => { this.itemRef = ref }} enabled={!this.props.hasRating}>
+        { this.renderContent() }
+      </Swipeable>
     )
   }
-}
-
-function mapStateToProps(state) {
-  return {};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -115,6 +108,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SelectedIndicatorItem);

@@ -2,25 +2,19 @@ import { StyleSheet } from 'react-native';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import Color from '../../themes/color';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { bodyFontSize } from '../../utils/font_size_util';
+
+const containerHeight = 110;
 
 const SelectedIndicatorItemComponentStyles = StyleSheet.create({
   itemContainer: {
-    height: 140,
+    height: containerHeight,
     borderRadius: cardBorderRadius,
-    marginHorizontal: 4
-  },
-  listItem: {
-    paddingLeft: 0,
-    paddingTop: 0,
-    flexDirection: 'column',
-    borderRadius: 4,
-    flex: 1
+    marginHorizontal: 4,
   },
   container: {
     paddingLeft: 10,
     flex: 1,
-    marginTop: 6,
     justifyContent: 'center',
   },
   titleText: {
@@ -40,24 +34,25 @@ const SelectedIndicatorItemComponentStyles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: getDeviceStyle(4, 2),
   },
-  removeButton: {
-    flexDirection: 'row',
-    paddingLeft: 6,
-    paddingRight: 16,
-  },
-  removeIcon: {
-    color: 'red',
-    marginRight: 8,
-    alignSelf: 'center',
-    marginTop: -4
-  },
-  removeLabel: {
-    fontFamily: FontFamily.title,
-    color: 'red',
-  },
   selectedItem: {
     backgroundColor: '#f5cfb6',
-    elevation: 30,
+    elevation: 10,
+  },
+  removeButton: {
+    backgroundColor: Color.redColor,
+    maxHeight: containerHeight,
+    width: 80,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  removeLabel: {
+    fontSize: bodyFontSize(),
+    color: Color.whiteColor
+  },
+  draggableIconContainer: {
+    width: 20,
+    marginLeft: -10,
+    paddingTop: 5
   }
 });
 
