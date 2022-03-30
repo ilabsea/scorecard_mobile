@@ -13,7 +13,7 @@ import ProposedIndicatorParticipantListSubtitle from './ProposedIndicatorPartici
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorParticipantList extends React.Component {
@@ -43,7 +43,7 @@ class ProposedIndicatorParticipantList extends React.Component {
 
   selectedIcon(participant) {
     if (this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid == participant.uuid).length > 0)
-      return <Icon name='check' size={23} color={ Color.clickableColor } />
+      return <Icon name='check' size={getDeviceStyle(28, 23)} color={ Color.clickableColor } />
 
     return <View/>;
   }
