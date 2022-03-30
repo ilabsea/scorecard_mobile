@@ -27,10 +27,11 @@ class CreateNewIndicator extends Component {
       participantUuid: props.route.params.participant_uuid,
     };
 
+    const { scorecard_uuid, participant_uuid } = props.route.params;
     // Get the previous proposed indicators of the participant
     const previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
-    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
+    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid);
     this.participantModalRef = React.createRef();
     this.formRef = React.createRef();
   }
@@ -77,13 +78,17 @@ class CreateNewIndicator extends Component {
     this.setState({ searchedName: name }, () => { this.updateIndicatorList() });
   }
 
+  handleUnconfirmedIndicator() {
+    proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber);
+  }
+
   renderSearchableHeader() {
     return (
       <SearchableHeader
         updateSearchedName={(name) => this.updateSearchedName(name)}
         updateSearchStatus={(isSearching) => this.updateEditAndSearchStatus(isSearching, false)}
         updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
-        handleUnconfirmedIndicator={() => proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber)}
+        handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
         isEdit={this.state.isEdit}
         isSearching={this.state.isSearching}
         searchedName={this.state.searchedName}
@@ -107,7 +112,7 @@ class CreateNewIndicator extends Component {
             updateIndicatorList={() => this.updateIndicatorList()}
             updateParticipantInfo={() => this.updateParticipantInfo()}
             save={() => this.save()}
-            removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
+            handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
             formModalRef={this.formRef}
             participantModalRef={this.participantModalRef}

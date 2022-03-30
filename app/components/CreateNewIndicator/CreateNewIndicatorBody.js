@@ -32,7 +32,7 @@ class CreateIndicatorBody extends React.Component {
 
   updateSelectedParticipant(participantUuid) {
     if (this.state.participantUuid != participantUuid) {
-      this.props.removeUnconfirmedProposedIndicator();
+      this.props.handleUnconfirmedIndicator();
 
       this.setState({
         isValid: false,

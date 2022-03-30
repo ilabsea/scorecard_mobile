@@ -36,7 +36,7 @@ class AddNewIndicatorModalContent extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.isComponentUnmount && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
-      const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, this.props.selectedCustomIndicator.indicatorable_id, 'audio');
+      const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, this.props.selectedCustomIndicator.indicatorable_id, 'audio');
 
       this.setState({
         name: this.props.selectedCustomIndicator.name,
@@ -68,7 +68,7 @@ class AddNewIndicatorModalContent extends React.Component {
 
     if (this.props.isEdit) {
       const { indicatorable_id, local_audio } = this.props.selectedCustomIndicator
-      customIndicatorService.updateIndicator(indicatorable_id, indicator, this.props.scorecardUUID, local_audio);
+      customIndicatorService.updateIndicator(indicatorable_id, indicator, this.props.scorecardUuid, local_audio);
       this.props.finishSaveOrUpdateCustomIndicator(true);
     }
     else {
@@ -91,8 +91,8 @@ class AddNewIndicatorModalContent extends React.Component {
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
-      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUUID, name)
+      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
+      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUuid, name)
     });
   }
 
