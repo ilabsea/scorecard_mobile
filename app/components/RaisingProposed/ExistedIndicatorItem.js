@@ -5,6 +5,7 @@ import { LocalizationContext } from '../Translations';
 import IndicatorSelectionItems from './IndicatorSelectionItems';
 
 import { bodyFontSize } from '../../utils/font_size_util';
+import ProposedIndicator from '../../models/ProposedIndicator';
 
 class ExistedIndicatorItem extends React.Component {
   static contextType = LocalizationContext;
@@ -13,7 +14,8 @@ class ExistedIndicatorItem extends React.Component {
     if (this.props.indicatorName === '')
       return;
 
-    const label = this.props.duplicatedIndicators.length > 0 ? this.context.translations.thisIndicatorIsAlreadySelected : this.context.translations.tapOnTheIndicatorBelowToSelect;
+    const label = !!ProposedIndicator.findByParticipant(this.props.scorecardUuid, this.props.duplicatedIndicators[0].indicatorable_id, this.props.participantUuid)
+                  ? this.context.translations.thisIndicatorIsAlreadySelected : this.context.translations.tapOnTheIndicatorBelowToSelect;
 
     return (
       <View>
@@ -24,6 +26,7 @@ class ExistedIndicatorItem extends React.Component {
           isSearching={false}
           scorecardUuid={this.props.scorecardUuid}
           participantUuid={this.props.participantUuid}
+          isPopupModalList={true}
           customCardStyle={{ marginLeft: 0, width: '100%' }}
           updateIndicatorList={() => this.props.updateIndicatorList()}
         />

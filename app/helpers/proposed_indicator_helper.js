@@ -1,29 +1,32 @@
-import CustomIndicator from '../models/CustomIndicator';
 import VotingCriteria from '../models/VotingCriteria';
+import Indicator from '../models/Indicator';
 import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
+import { getLanguageIndicator } from '../services/language_indicator_service';
 
 const proposedIndicatorHelper = (() => {
   return {
     getProposedIndicatorAttributes,
     getOrderedSelectedProposedIndicators,
+    getDisplayName,
   };
 
   function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
     return selectedIndicators.map(selectedIndicator => {
-      let indicator = _getIndicatorAttrs(selectedIndicator, scorecard);
+      let indicatorAttrs = _getIndicatorAttrs(selectedIndicator);
       let attr = getAttributesByColumns(selectedIndicator, columns);
 
-      attr.indicatorable_id = indicator.id;
-      attr.indicatorable_type = indicator.type;
+      attr.indicatorable_type = indicatorAttrs.type;
+      attr.indicatorable_id = indicatorAttrs.indicatorable_id;
+      attr.indicator_uuid = indicatorAttrs.indicator_uuid;
 
       if (!!isRaisedIndicatorAttrs) {
-        const votingIndicator = VotingCriteria.find(scorecard.uuid, indicator.id);
-        attr.tag_attributes = { name: indicator.tag }
+        const votingIndicator = VotingCriteria.find(scorecard.uuid, selectedIndicator.indicatorable_id);
+        attr.tag_attributes = { name: selectedIndicator.tag }
         attr.selected = !!votingIndicator ? true : false;
         attr.voting_indicator_uuid = !!votingIndicator ? votingIndicator.uuid : null;
       }
       else 
-        attr.uuid = selectedIndicator.uuid;
+        attr.uuid = selectedIndicator.uuid;    // the uuid of the votingCriteria
 
       return attr;
     })
@@ -44,18 +47,23 @@ const proposedIndicatorHelper = (() => {
     return orderedIndicators;
   }
 
+  function getDisplayName(proposedIndicator, scorecardUuid) {
+    const languageIndicator = getLanguageIndicator(scorecardUuid, proposedIndicator.indicatorable_id, 'text');
+    return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
+  }
+
   // private methods
-  function _getIndicatorAttrs(indicator, scorecard) {
-    let indicatorable_id = indicator.indicatorable_id;
-    let indicatorable_type = 'Indicator';
-    const customIndicators = CustomIndicator.getAll(scorecard.uuid);
 
-    if (indicator.indicatorable_type != 'predefined') {
-      indicatorable_id = customIndicators.filter(x => x.uuid == indicatorable_id)[0].id_from_server;
-      indicatorable_type = 'Indicators::CustomIndicator';
+  function _getIndicatorAttrs(selectedIndicator) {
+    const indicator = Indicator.find(selectedIndicator.indicatorable_id, selectedIndicator.indicatorable_type);
+  
+    const indicatorAttrs = {
+      'custom': { type: 'Indicators::CustomIndicator', indicator_uuid: selectedIndicator.indicatorable_id },
+      'predefined': { type: 'Indicator', indicator_uuid: indicator.indicator_uuid }
     }
+    indicatorAttrs[indicator.type]['indicatorable_id'] = indicator.id;
 
-    return { id: indicatorable_id, type: indicatorable_type };
+    return indicatorAttrs[indicator.type];
   }
 })();
 

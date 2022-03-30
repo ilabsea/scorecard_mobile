@@ -1,108 +1,74 @@
-import uuidv4 from '../utils/uuidv4';
 import IndicatorApi from '../api/IndicatorApi';
 import { handleApiResponse } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
-import { indicatorPhase } from '../constants/scorecard_constant';
-import { CUSTOM, PREDEFINED } from '../utils/variable';
-import { ERROR_DOWNLOAD_SCORECARD } from '../constants/error_constant';
+import { PREDEFINED } from '../constants/indicator_constant';
+import { ERROR_DOWNLOAD_SCORECARD, ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
 
 import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
-import CustomIndicator from '../models/CustomIndicator';
-import ProposedIndicator from '../models/ProposedIndicator';
 
 class IndicatorService {
   getAll = (scorecardUuid) => {
-    let predefinedIndicators = JSON.parse(JSON.stringify(Indicator.findByScorecard(scorecardUuid)));;
-    const customIndicators = JSON.parse(JSON.stringify(CustomIndicator.getAll(scorecardUuid)));
-    predefinedIndicators = predefinedIndicators.concat(customIndicators);
-
-    return predefinedIndicators.sort((a, b) => a.name > b.name);
+    let indicators = JSON.parse(JSON.stringify(Indicator.findByScorecard(scorecardUuid)));;
+    return indicators.sort((a, b) => a.name > b.name);
   }
 
-  saveIndicatorSection = async (scorecardUuid, facilityId, successCallback, errorCallback) => {
-    const indicatorApi = new IndicatorApi();
-    const response = await indicatorApi.load(facilityId);
-
-    handleApiResponse(response, (indicators) => {
-      if (!!indicators) {
-        this._saveIndicator(indicators, scorecardUuid, successCallback);
-        saveLanguageIndicator(scorecardUuid, indicators, successCallback)
-      }
-      else
-        errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
+  saveIndicatorSection = (scorecardUuid, facilityId, successCallback, errorCallback) => {
+    this._requestForIndicator(facilityId, (indicators) => {
+      // Save the predefined indicators
+      indicatorHelper.savePredefinedIndicator(indicators, successCallback);
+      saveLanguageIndicator(scorecardUuid, indicators, successCallback)
     }, (error) => {
-      console.log('error download caf = ', error);
+      errorCallback(error);
+    })
+  }
+
+  getIndicatorList = (scorecardUuid, searchText, isEdit) => {
+    let savedIndicators = [];
+
+    if (isEdit)
+      savedIndicators = Indicator.getCustomIndicators(scorecardUuid);
+    else
+      savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+
+    return indicatorHelper.getIndicatorsAttrs(savedIndicators);
+  }
+
+  getDuplicatedIndicator(scorecardUuid, name) {
+    const indicators = Indicator.findByScorecardAndName(scorecardUuid, name);
+    return indicators.length > 0 ? indicatorHelper.getIndicatorsAttrs(indicators) : [];
+  }
+
+  checkAndSavePredefinedIndicatorsUuid(scorecard, successCallback, errorCallback) {
+    this._requestForIndicator(scorecard.facility_id, (indicators) => {
+      indicators.map(indicator => {
+        // Check and update indicator_uuid of predefined indicators
+        const predefinedIndicator = Indicator.find(indicator.id, PREDEFINED);
+        if (!!predefinedIndicator && !predefinedIndicator.indicator_uuid)
+          Indicator.update(predefinedIndicator.uuid, { indicator_uuid: indicator.uuid });
+      });
+
+      successCallback();
+    }, (response) => {
+      const error = response === ERROR_DOWNLOAD_SCORECARD ? ERROR_SOMETHING_WENT_WRONG : response;
       errorCallback(error);
     });
   }
 
-  _saveIndicator(indicators, scorecardUuid, successCallback) {
-    let savedCount = 0;
-    indicators.map((indicator) => {
-      if (!indicatorHelper.isExist(indicator.id)) {
-        const indicatorSet = {
-          uuid: uuidv4(),
-          id: indicator.id,
-          name: indicator.name,
-          facility_id: indicator.categorizable.id,
-          scorecard_uuid: scorecardUuid,
-          tag: indicator.tag_name,
-          image: indicator.image != null ? indicator.image : undefined,
-        };
-        Indicator.create(indicatorSet);
-      }
-      savedCount += 1;
+  // private methods
+
+  async _requestForIndicator(facilityId, successCallback, errorCallback) {
+    const response = await new IndicatorApi().load(facilityId);
+
+    handleApiResponse(response, (indicators) => {
+      if (!!indicators)
+        !!successCallback && successCallback(indicators);
+      else
+        !!errorCallback && errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
+    }, (error) => {
+      !!errorCallback && errorCallback(error);
     });
-    successCallback(savedCount === indicators.length, indicatorPhase);
-  }
-
-  getIndicatorList = (scorecardUuid, searchText) => {
-    const savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
-    return this._getIndicatorAttrs(savedIndicators);
-  }
-
-  isIndicatorExist(scorecardUuid, name, selectedIndicatorUuid) {
-    const isPredefinedIndicatorExist = Indicator.isNameExist(scorecardUuid, name);
-    const isCustomIndicatorExist = CustomIndicator.isNameExist(scorecardUuid, name, selectedIndicatorUuid);
-
-    return isPredefinedIndicatorExist || isCustomIndicatorExist;
-  }
-
-  getDuplicatedIndicator(scorecardUuid, name) {
-    let result = [];
-    const predefinedIndicators = Indicator.findByScorecardAndName(scorecardUuid, name);
-    const customIndicators = CustomIndicator.findByScorecardAndName(scorecardUuid, name);
-
-    if (predefinedIndicators.length > 0)
-      result = predefinedIndicators;
-    else if (customIndicators.length > 0)
-      result = customIndicators;
-
-    return result.length > 0 ? this._getIndicatorAttrs(result) : [];
-  }
-
-  // private
-
-  _getIndicatorAttrs = (savedIndicators) => {
-    let indicators = [];
-
-    savedIndicators.map((indicator) => {
-      let attrs = {
-        uuid: indicator.id || indicator.uuid,
-        indicatorable_id: indicator.id != undefined ? indicator.id.toString() : indicator.uuid,
-        name: indicator.name,
-        isSelected: false,
-        tag: indicator.tag,
-        type: !!indicator.id ? PREDEFINED : CUSTOM,
-        local_image: indicator.local_image,
-      };
-
-      indicators.push(attrs);
-    });
-
-    return indicators;
   }
 }
 

@@ -1,5 +1,5 @@
 import Sound from 'react-native-sound';
-import {PLAYING, PAUSED} from '../utils/variable';
+import {PLAYING, PAUSED} from '../constants/indicator_constant';
 class AudioPlayer {
   constructor(audioFile, isAutoPlay) {
     this.audioFile = audioFile;

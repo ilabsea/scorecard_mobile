@@ -2,7 +2,6 @@ import Scorecard from '../models/Scorecard';
 import Participant from '../models/Participant';
 import Facilitator from '../models/Facilitator';
 import Rating from '../models/Rating';
-import CustomIndicator from '../models/CustomIndicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 
 import { deleteScorecardDownload } from './scorecard_download_service';
@@ -10,6 +9,7 @@ import scorecardMilestoneService from './scorecard_milestone_service';
 import votingCriteriaService from './votingCriteriaService';
 import proposedIndicatorService from './proposed_indicator_service';
 import scorecardSharingService from './scorecard_sharing_service';
+import customIndicatorService from './custom_indicator_service';
 
 import { RENEWED } from '../constants/milestone_constant';
 
@@ -46,10 +46,10 @@ const scorecardDeletionService = (() => {
   function _deleteScorecardData(scorecardUuid, callback) {
     Participant.deleteAll(scorecardUuid);
     deleteScorecardDownload(scorecardUuid);
+    customIndicatorService.deleteIndicatorsByScorecard(scorecardUuid);
     Scorecard.destroy(scorecardUuid);
     Facilitator.deleteAll(scorecardUuid);
     Rating.deleteAll(scorecardUuid);
-    CustomIndicator.deleteAll(scorecardUuid);
     LanguageIndicator.deleteAll(scorecardUuid);
     votingCriteriaService.deleteVotingCriteria(scorecardUuid);
     proposedIndicatorService.deleteProposedIndicators(scorecardUuid);

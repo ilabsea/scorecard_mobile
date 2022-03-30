@@ -7,6 +7,7 @@ import {LocalizationContext} from '../Translations';
 
 import Color from '../../themes/color';
 import ProposedIndicator from '../../models/ProposedIndicator';
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import uuidv4 from '../../utils/uuidv4';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantAccordionMobileStyles from '../../styles/mobile/ParticipantAccordionComponentStyle';
@@ -33,13 +34,15 @@ class ParticipantAccordionContent extends Component {
   }
 
   renderIndicators() {
-    const indicators = ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid);
+    const proposedIndicators = ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid);
 
-    return indicators.map((indicator, index) => {
+    return proposedIndicators.map((proposedIndicator, index) => {
       return (
         <View key={uuidv4()} style={{paddingLeft: 8}}>
-          <Text numberOfLines={2} style={styles.itemValueText}>{ indicator.indicatorable_name }</Text>
-          { index < indicators.length - 1 && <Divider style={{backgroundColor: '#b3b3b3', marginVertical: 8}}/> }
+          <Text numberOfLines={2} style={styles.itemValueText}>
+            { proposedIndicatorHelper.getDisplayName(proposedIndicator, this.props.scorecardUuid) }
+          </Text>
+          { index < proposedIndicators.length - 1 && <Divider style={{backgroundColor: '#b3b3b3', marginVertical: 8}}/> }
         </View>
       )
     });

@@ -71,7 +71,7 @@ class SearchableHeader extends Component {
 
   confirmGoBack() {
     this.setState({ isModalVisible: false });
-    !!this.props.removeUnconfirmedProposedIndicator && this.props.removeUnconfirmedProposedIndicator();
+    !!this.props.handleUnconfirmedIndicator && this.props.handleUnconfirmedIndicator();
     navigationRef.current?.goBack();
   }
 

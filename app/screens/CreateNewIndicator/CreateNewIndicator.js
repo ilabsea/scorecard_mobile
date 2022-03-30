@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
@@ -7,10 +8,10 @@ import {connect} from 'react-redux';
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNewIndicatorBody';
 
-import CustomIndicator from '../../models/CustomIndicator';
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 
 class CreateNewIndicator extends Component {
   constructor(props) {
@@ -24,8 +25,13 @@ class CreateNewIndicator extends Component {
       participantUuid: props.route.params.participant_uuid,
     };
 
+    const { scorecard_uuid, participant_uuid } = props.route.params;
     // Get the last order number of the saved proposed indicator of the participant
-    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(props.route.params.scorecard_uuid, props.route.params.participant_uuid);
+    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid);
+
+    // Get the previous proposed indicators of the participant
+    const previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);
+    AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
   }
 
   componentDidMount() {
@@ -34,9 +40,7 @@ class CreateNewIndicator extends Component {
 
   updateIndicatorList() {
     const { scorecard_uuid } = this.props.route.params;
-    this.setState({
-      indicators: !this.state.isEdit ? new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName) : CustomIndicator.getAll(scorecard_uuid)
-    });
+    this.setState({ indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit) });
   }
 
   updateParticipantInfo() {
@@ -72,17 +76,13 @@ class CreateNewIndicator extends Component {
     this.setState({ searchedName: name }, () => { this.updateIndicatorList() });
   }
 
-  removeUnconfirmedProposedIndicator() {
-    ProposedIndicator.destroyUnconfirmProposedIndicators(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber);
-  }
-
   renderSearchableHeader() {
     return (
       <SearchableHeader
         updateSearchedName={(name) => this.updateSearchedName(name)}
         updateSearchStatus={(isSearching) => this.updateEditAndSearchStatus(isSearching, false)}
         updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
-        removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
+        handleUnconfirmedIndicator={() => proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber)}
         isEdit={this.state.isEdit}
         isSearching={this.state.isSearching}
         searchedName={this.state.searchedName}

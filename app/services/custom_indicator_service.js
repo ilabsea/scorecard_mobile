@@ -1,32 +1,28 @@
 import Scorecard from '../models/Scorecard';
-import CustomIndicator from '../models/CustomIndicator';
+import Indicator from '../models/Indicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 import proposedIndicatorService from './proposed_indicator_service';
+import { deleteFile } from './local_file_system_service';
 import uuidv4 from '../utils/uuidv4';
-import { CUSTOM } from '../utils/variable';
+import { CUSTOM } from '../constants/indicator_constant';
 
 const customIndicatorService = (() => {
   return {
-    getIndicatorList,
     createNewIndicator,
     updateIndicator,
-  }
-
-  function getIndicatorList(scorecardUuid, searchText) {
-    let customIndicators = searchText ? CustomIndicator.filter(scorecardUuid, searchText) : CustomIndicator.getAll(scorecardUuid);
-
-    return customIndicators.length > 0
-      ? JSON.parse(JSON.stringify(customIndicators)).sort((a, b) => a.name > b.name)
-      : customIndicators;
+    deleteIndicatorsByScorecard,
   }
 
   function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
-    const customIndicator = {
-      uuid: uuidv4(),
+    const generatedUuid = uuidv4();
+
+    let customIndicator = {
+      uuid: generatedUuid,
+      indicator_uuid: generatedUuid,
       name: indicator.name,
-      local_audio: indicator.local_audio,
       scorecard_uuid: scorecardUuid,
-      tag: indicator.tag
+      tag: indicator.tag,
+      type: CUSTOM,
     };
 
     const scorecard = Scorecard.find(scorecardUuid);
@@ -40,15 +36,22 @@ const customIndicatorService = (() => {
       type: CUSTOM,
     };
 
-    CustomIndicator.create(customIndicator);
+    Indicator.create(customIndicator);
     LanguageIndicator.create(customLanguageIndicator);
+
+    customIndicator.indicatorable_id = generatedUuid;
     proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
 
     callback();
   }
 
   function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {
-    CustomIndicator.update(customIndicatorUuid, newIndicator);
+    const indicatorParams = {
+      name: newIndicator.name,
+      tag: newIndicator.tag,
+    }
+
+    Indicator.update(customIndicatorUuid, indicatorParams);
     const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
 
     const newLanguageIndicator = {
@@ -60,7 +63,18 @@ const customIndicatorService = (() => {
 
     // Delete the existing audio file if user record new audio for custom indicator
     if (previousAudio && (previousAudio != newIndicator.local_audio))
-      CustomIndicator.deleteFile(previousAudio);
+      deleteFile(previousAudio);
+  }
+
+  function deleteIndicatorsByScorecard(scorecardUuid) {
+    const customIndicators = Indicator.getCustomIndicators(scorecardUuid);
+
+    customIndicators.map((customIndicator, index) => {
+      LanguageIndicator.destroy(customIndicator.indicator_uuid);
+
+      if (index === customIndicators.length -1)
+        Indicator.destroy(customIndicators);
+    });
   }
 })();
 

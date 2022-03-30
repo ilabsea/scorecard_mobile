@@ -45,8 +45,24 @@ const readAllFiles = (callback) => {
     })
 }
 
-const deleteFile = (fileName) => {
-  RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${fileName}`);
+const deleteFile = (filePath) => {
+  RNFS.exists(filePath)
+      .then( (result) => {
+        console.log("file exists: ", result);
+
+        if (!result) { return; }
+
+        return RNFS.unlink(filePath)
+          .then(() => {
+            console.log('FILE DELETED');
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
 }
 
 export {downloadFileFromUrl, isFileExist, readAllFiles, deleteFile};

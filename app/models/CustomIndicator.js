@@ -9,10 +9,8 @@ const CustomIndicator = (() => {
     find,
     getAll,
     update,
-    deleteAll,
     filter,
     create,
-    deleteFile,
     isNameExist,
     findByScorecardAndName,
   }
@@ -39,39 +37,8 @@ const CustomIndicator = (() => {
     }
   }
 
-  function deleteAll(scorecardUuid) {
-    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`);
-
-    if (customIndicators.length > 0) {
-      realm.write(() => {
-        _removeAudioFiles(customIndicators);
-        realm.delete(customIndicators);
-      });
-    }
-  }
-
   function filter(scorecardUuid, text) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
-  }
-
-  function deleteFile(filePath) {
-    RNFS.exists(filePath)
-      .then( (result) => {
-        console.log("file exists: ", result);
-
-        if (!result) { return; }
-
-        return RNFS.unlink(filePath)
-          .then(() => {
-            console.log('FILE DELETED');
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
   }
 
   function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {
@@ -80,16 +47,6 @@ const CustomIndicator = (() => {
 
   function findByScorecardAndName(scorecardUuid, name) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND name ==[c] '${name}'`);
-  }
-
-  // Private method
-
-  function _removeAudioFiles(collection) {
-    let filePaths = collection.map(x => x.local_audio).filter(path => !!path);
-
-    for(let i=0; i<filePaths.length; i++) {
-      deleteFile(filePaths[i]);
-    }
   }
 })();
 

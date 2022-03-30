@@ -50,6 +50,7 @@ class IndicatorSelectionItems extends Component {
         customCardStyle={this.props.customCardStyle}
         participantUuid={this.props.participantUuid}
         isEdit={this.props.isEdit}
+        isPopupModalList={!!this.props.isPopupModalList}
         updateIndicatorList={() => this.props.updateIndicatorList()}
         selectForEdit={() => this.props.selectForEdit(indicator)}
       >

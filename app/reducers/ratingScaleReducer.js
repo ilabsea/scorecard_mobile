@@ -1,4 +1,4 @@
-import {PAUSED} from '../utils/variable';
+import {PAUSED} from '../constants/indicator_constant';
 const initState = {status: PAUSED}
 
 const ratingScaleAudioReducer = (state = initState, action) => {

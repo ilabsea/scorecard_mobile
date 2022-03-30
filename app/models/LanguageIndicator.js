@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import { deleteFile } from '../services/local_file_system_service';
 
 const LanguageIndicator = (() => {
   return {
@@ -6,6 +7,7 @@ const LanguageIndicator = (() => {
     deleteAll,
     findByIndicatorId,
     update,
+    destroy,
   };
 
   function create(data) {
@@ -34,6 +36,19 @@ const LanguageIndicator = (() => {
         realm.create('LanguageIndicator', Object.assign(params, {id: id}), 'modified');
       })
     }
+  }
+
+  function destroy(indicatorId) {
+    const languageIndicator = findByIndicatorId(indicatorId);
+    if (!languageIndicator)
+      return;
+
+    if (!!languageIndicator.local_audio)
+      deleteFile(languageIndicator.local_audio);
+
+    realm.write(() => {
+      realm.delete(languageIndicator);
+    });
   }
 })();
 

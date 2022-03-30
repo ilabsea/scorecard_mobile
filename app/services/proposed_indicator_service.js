@@ -1,7 +1,7 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import ProposedIndicator from '../models/ProposedIndicator';
 import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
-import { CUSTOM } from '../utils/variable';
 import uuidv4 from '../utils/uuidv4';
 import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
 
@@ -14,10 +14,11 @@ const proposedIndicatorService = (() => {
     getSelectedProposedIndicators,
     deleteProposedIndicators,
     hasProposedIndicator,
+    handleUnconfirmedIndicator,
   }
 
   function handleCreateAndRemoveIndicator(scorecardUuid, indicator, participantUuid) {
-    const proposedIndicator = ProposedIndicator.findByParticipant(scorecardUuid, indicator.uuid, participantUuid);
+    const proposedIndicator = ProposedIndicator.findByParticipant(scorecardUuid, indicator.indicatorable_id, participantUuid);
 
     if (!!proposedIndicator) {
       ProposedIndicator.destroy(proposedIndicator);
@@ -31,8 +32,8 @@ const proposedIndicatorService = (() => {
     const attrs = {
       uuid: uuidv4(),
       scorecard_uuid: scorecardUuid.toString(),
-      indicatorable_id: indicator.uuid.toString(),
-      indicatorable_type: indicator.type || CUSTOM,
+      indicatorable_id: indicator.indicatorable_id,
+      indicatorable_type: indicator.type,
       indicatorable_name: indicator.name,
       participant_uuid: participantUuid,
       tag: indicator.tag,
@@ -83,6 +84,23 @@ const proposedIndicatorService = (() => {
 
   function hasProposedIndicator(scorecardUuid) {
     return ProposedIndicator.getAllByScorecard(scorecardUuid).length > 0;
+  }
+
+  async function handleUnconfirmedIndicator(scorecardUuid, participantUuid, lastOrderNumber) {
+    // Remove the proposed indicators that the user does not confirm to save
+    ProposedIndicator.destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber);
+
+    // Recreate the saved proposed indicators that the user unselect and does not confirm to save
+    const previousProposedIndicators = JSON.parse(await AsyncStorage.getItem('previous-proposed-indicators'));
+
+    previousProposedIndicators.map(proposedIndicator => {
+      if (!ProposedIndicator.findByParticipant(scorecardUuid, proposedIndicator.indicatorable_id, participantUuid)) {
+        const data = proposedIndicator;
+        data.uuid = uuidv4();
+        ProposedIndicator.create(data);
+      }
+    });
+    AsyncStorage.removeItem('previous-proposed-indicators');
   }
 })();
 
