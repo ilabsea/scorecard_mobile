@@ -12,17 +12,17 @@ const responsiveStyles = getDeviceStyle(VotingIndicatorFormTabletStyles, VotingI
 class VotingIndicatorFormRatingList extends React.Component {
   render() {
     return (
-      this.props.criterias.map((criteria, index) => {
+      this.props.indicators.map((indicator, index) => {
         return (
-          <React.Fragment key={`${criteria.uuid}_${index}`}>
+          <React.Fragment key={`${indicator.uuid}_${index}`}>
             <IndicatorRatingItem
-              key={criteria.uuid}
-              criteria={criteria}
-              onPress={ (rating) => this.props.onClickRatingIcon(criteria, rating) }
+              key={indicator.uuid}
+              indicator={indicator}
+              onPress={ (rating) => this.props.onClickRatingIcon(indicator, rating) }
               colIndex={index}
             />
 
-            { index < this.props.criterias.length - 1 && <View style={responsiveStyles.itemSeparator} /> }
+            { index < this.props.indicators.length - 1 && <View style={responsiveStyles.itemSeparator} /> }
           </React.Fragment>
         )
       })

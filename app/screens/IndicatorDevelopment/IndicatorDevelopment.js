@@ -92,7 +92,7 @@ class IndicatorDevelopment extends Component {
   _renderContent() {
     return (
       <IndicatorDevelopmentContent
-        selectedCriterias={this.props.selectedIndicators}
+        selectedIndicators={this.props.selectedIndicators}
         scorecardUuid={this.props.route.params.scorecard_uuid}
         openModal={() => this.openModal()}
         updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}

@@ -39,8 +39,8 @@ const Rating = (() => {
     return getAll(scorecardUuid).length > 0;
   }
 
-  function destroy(scorecardUuid, votingCriteriaUuid) {
-    const rating = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}' AND voting_indicator_uuid = '${votingCriteriaUuid}'`)[0];
+  function destroy(scorecardUuid, votingIndicatorUuid) {
+    const rating = realm.objects('Rating').filtered(`scorecard_uuid = '${scorecardUuid}' AND voting_indicator_uuid = '${votingIndicatorUuid}'`)[0];
 
     if (rating) {
       realm.write(() => {
@@ -49,8 +49,8 @@ const Rating = (() => {
     }
   }
 
-  function findByVotingIndicator(votingCriteriaUuid) {
-    return realm.objects('Rating').filtered(`voting_indicator_uuid == '${votingCriteriaUuid}'`)[0];
+  function findByVotingIndicator(votingIndicatorUuid) {
+    return realm.objects('Rating').filtered(`voting_indicator_uuid == '${votingIndicatorUuid}'`)[0];
   }
 })();
 

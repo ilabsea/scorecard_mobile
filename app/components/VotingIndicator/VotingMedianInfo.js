@@ -5,7 +5,7 @@ import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ratings from '../../db/jsons/ratings';
-import { getVotingIcon } from '../../helpers/voting_criteria_helper';
+import { getVotingIcon } from '../../helpers/voting_indicator_helper';
 import { getPluralOrSingularWord } from '../../utils/translation_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';

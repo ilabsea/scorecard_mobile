@@ -11,6 +11,7 @@ import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 
 import indicatorHelper from '../../helpers/indicator_helper';
+import votingInfoModalHelper from '../../helpers/voting_info_modal_helper';
 import { getVotingInfos, isVotingIndicatorRated } from '../../helpers/voting_indicator_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -45,7 +46,7 @@ export default class VotingIndicatorListItem extends Component {
             {this.props.indicator.order}. {indicator.content || indicator.name}
           </Text>
 
-          <VotingIndicatorListIcons criteria={this.props.criteria} />
+          <VotingIndicatorListIcons indicator={this.props.indicator} />
         </View>
 
         { this.props.indicator.median &&
@@ -67,9 +68,9 @@ export default class VotingIndicatorListItem extends Component {
       selectedIndicator: indicator,
     }, () => {
       const scorecard = this.props.scorecard;
-      const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.criteria, this.context.translations);
+      const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.indicator, this.context.translations);
       const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(scorecard.uuid, this.state.selectedIndicator);
-      const modalSnapPoints = isVotingIndicatorRated(this.props.criteria.uuid) ? votingInfoSnapPoints : ['18%'];
+      const modalSnapPoints = isVotingIndicatorRated(this.props.indicator.uuid) ? votingInfoSnapPoints : ['18%'];
 
       this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
       this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);
@@ -87,7 +88,7 @@ export default class VotingIndicatorListItem extends Component {
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
         <View style={[customStyle.card, styles.ratingItemContainer]}>
           { this._renderContent(indicator) }
-          <VotingIndicatorListMedian criteria={this.props.criteria} />
+          <VotingIndicatorListMedian indicator={this.props.indicator} />
         </View>
       </TouchableOpacity>
     )

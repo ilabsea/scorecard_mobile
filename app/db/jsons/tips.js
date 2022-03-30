@@ -48,7 +48,7 @@ export default [
     ]
   },
   {
-    screenName: 'VotingCriteriaList',
+    screenName: 'VotingIndicatorList',
     mainTitle: 'votingIndicatorTip',
     title: 'វិធីក្នុងការគណនាពិន្ទុដោយប្រព័ន្ធកុំព្យូទ័រ',
     description: '',

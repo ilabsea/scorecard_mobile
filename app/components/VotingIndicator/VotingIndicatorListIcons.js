@@ -18,7 +18,7 @@ const VotingIndicatorListIcons = (props) => {
       <View key={uuidv4()} style={[styles.ratingItem]}>
         { getVotingIcon(icon, iconSize, 0.75) }
 
-        <Text style={styles.ratingCount}>{props.criteria[icon.countMethodName]}</Text>
+        <Text style={styles.ratingCount}>{props.indicator[icon.countMethodName]}</Text>
       </View>
     )
   }

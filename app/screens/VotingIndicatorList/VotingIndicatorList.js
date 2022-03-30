@@ -55,7 +55,7 @@ class VotingIndicatorList extends Component {
   _renderBody() {
     return <VotingIndicatorListContent
             scorecard={this.state.scorecard}
-            votingCriterias={this.state.votingCriterias}
+            votingIndicators={this.state.votingIndicators}
             tipModalRef={this.tipModalRef}
             votingInfoModalRef={this.votingInfoModalRef}
             infoModalRef={this.infoModalRef}
@@ -74,7 +74,7 @@ class VotingIndicatorList extends Component {
 
         { this._renderBody() }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingCriteriaList' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' />
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}

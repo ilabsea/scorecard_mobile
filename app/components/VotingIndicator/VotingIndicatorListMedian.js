@@ -11,17 +11,17 @@ import VotingIndicatorListItemMobileStyles from '../../styles/mobile/VotingIndic
 const styles = getDeviceStyle(VotingIndicatorListItemTabletStyles, VotingIndicatorListItemMobileStyles);
 
 const VotingIndicatorListMedian = (props) => {
-  const { criteria } = props;
+  const { indicator } = props;
   const { translations } = useContext(LocalizationContext);
 
-  if (!criteria.median) { return (null) }
+  if (!indicator.median) { return (null) }
 
-  const currentIcon = ratings.filter(x => x.value == criteria.median)[0];
+  const currentIcon = ratings.filter(x => x.value == indicator.median)[0];
   const iconSize = getDeviceStyle(56, 38);
 
   return (
     <View style={styles.resultWrapper}>
-      <Text style={styles.medianScoreText}>{translations.score}: {criteria.median}</Text>
+      <Text style={styles.medianScoreText}>{translations.score}: {indicator.median}</Text>
 
       <View style={{alignItems: 'center'}}>
         { getVotingIcon(currentIcon, iconSize, 0.75) }

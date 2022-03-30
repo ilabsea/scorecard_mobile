@@ -26,7 +26,7 @@ const proposedIndicatorHelper = (() => {
         attr.voting_indicator_uuid = !!votingIndicator ? votingIndicator.uuid : null;
       }
       else 
-        attr.uuid = selectedIndicator.uuid;    // the uuid of the votingCriteria
+        attr.uuid = selectedIndicator.uuid;    // the uuid of the votingIndicator
 
       return attr;
     })
