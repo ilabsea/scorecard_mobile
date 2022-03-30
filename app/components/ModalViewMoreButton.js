@@ -14,7 +14,7 @@ const ModalViewMoreButton = (props) => {
     props.updateIsExpanded();
     setTimeout(() => {
       props.modalRef.current?.expand();
-    }, 100);
+    }, 50);
   }
 
   return (

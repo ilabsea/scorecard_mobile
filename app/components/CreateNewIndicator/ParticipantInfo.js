@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 
-import { LocalizationContext } from '../../components/Translations';
-import ParticipantModal from '../../components/RaisingProposed/ParticipantModal';
-import AddNewParticiantModal from '../../components/RaisingProposed/AddNewParticipantModal';
-import ParticipantModalListItem from '../../components/RaisingProposed/ParticipantModalListItem';
+import { LocalizationContext } from '../Translations';
+import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
+import ParticipantListContent from '../ParticipantModal/ParticipantListContent';
+import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
+
 import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
 
@@ -16,23 +17,56 @@ export default class ParticipantInfo extends Component {
 
     this.state = {
       participants: props.participants || [],
-      participantVisible: false,
+      participantListVisible: false,
       addParticipantVisible: false,
-      currentParticipant: Participant.find(props.participant_uuid),
-      participantUuid: props.participant_uuid,
+      currentParticipant: Participant.find(props.participantUuid),
+      participantUuid: props.participantUuid,
     };
+
+    this.isComponentUnmounted = false;
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmounted = true;
   }
 
   componentDidUpdate() {
-    if (!this.state.participantVisible && this.props.visibleModal)
-      this.setState({ participantVisible: this.props.visibleModal })
+    if (this.isComponentUnmounted)
+      return;
 
-    if (this.state.participantUuid != this.props.participant_uuid) {
+    this.checkAndCloseModal();
+    this.checkAndOpenParticipantList();
+
+    if (this.state.participantUuid != this.props.participantUuid) {
       this.setState({ 
-        currentParticipant: Participant.find(this.props.participant_uuid),
-        participantUuid: this.props.participant_uuid
+        currentParticipant: Participant.find(this.props.participantUuid),
+        participantUuid: this.props.participantUuid
       });
     }
+  }
+
+  checkAndCloseModal() {
+    // If either participantListVisible or addParticipantVisible is still true and the visibleModal is false, it means the modal is not closed yet
+    if ((!!this.state.participantListVisible || !!this.state.addParticipantVisible ) && !this.props.visibleModal)
+      this.setState({
+        participantListVisible: false,
+        addParticipantVisible: false,
+      });
+  }
+
+  checkAndOpenParticipantList() {
+    // If participantListVisible and addParticipantVisible are still false and the visibleModal is true, it means the modal is not opened yet
+    if (!this.state.participantListVisible && !this.state.addParticipantVisible && this.props.visibleModal)
+      this.openParticipantListModal();
+  }
+
+  openParticipantListModal() {
+    this.setState({ participantListVisible: this.props.visibleModal })
+    this.props.formModalRef.current?.setBodyContent(this.getParticipantListContent());
+
+    setTimeout(() => {
+      this.props.participantModalRef.current?.present();
+    }, 50);
   }
 
   _renderParticipant() {
@@ -44,90 +78,68 @@ export default class ParticipantInfo extends Component {
         <ParticipantModalListItem
           participant={this.state.currentParticipant}
           translations={translations}
-          onPress={() => this.setState({participantVisible: true}) }
+          onPress={() => this.openParticipantListModal()}
         />
       )
     }
 
-    return this.props.buttonVisible ? 
-      <OutlinedButton
-        icon={mode.iconName || 'plus'}
-        label={mode.label}
-        onPress={() => this.setState({participantVisible: true}) }
-      />
+    return this.props.buttonVisible ?
+      <View>
+        <OutlinedButton
+          icon={mode.iconName || 'plus'}
+          label={mode.label}
+          onPress={() => this.openParticipantListModal()}
+        />
+      </View>
       :
       <View/>;
   }
 
-  _showAddParticipantModal = () => {
+  selectParticipant(participant) {
+    this.dismissModal();
+
+    if (!!this.props.selectParticipant)
+      return this.props.selectParticipant(participant);
+
+    this.setState({currentParticipant: participant});
+    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
+  }
+
+  showAddParticipantModal = () => {
     this.setState({
       participantVisible: false,
       addParticipantVisible: true,
     });
+
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
   }
 
-  _hideAddParticipantModal = () => {
+  dismissModal() {
     this.setState({
-      addParticipantVisible: false,
-      participantVisible: true,
-    });
-  }
-
-  _onCreateNewParticipant(participant) {
-    if (!!this.props.onPressCreateParticipant) {
-      return this.props.onPressCreateParticipant(participant);
-    }
-
-    this.setState({
-      currentParticipant: participant,
-      addParticipantVisible: false
-    });
-
-    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
-  }
-
-  _onPressItem(participant) {
-    if (!!this.props.onPressItem) {
-      return this.props.onPressItem(participant);
-    }
-
-    this.setState({currentParticipant: participant, participantVisible: false});
-
-    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
-  }
-
-  onDismissModal() {
-    this.setState({
-      participantVisible: false,
+      participantListVisible: false,
       addParticipantVisible: false,
     });
 
     !!this.props.closeModal && this.props.closeModal();
   }
 
+  getParticipantListContent() {
+    return <ParticipantListContent
+             scorecardUuid={this.props.scorecardUuid}
+             participants={this.state.participants || []}
+             showAddParticipantModal={() => this.showAddParticipantModal()}
+             onSelectParticipant={(participant) => this.selectParticipant(participant) }
+           />
+  }
+
+  getAddNewParticipantContent() {
+    return <AddNewParticipantContent
+             scorecardUuid={ this.props.scorecardUuid }
+             onSaveParticipant={ (participant) => this.selectParticipant(participant) }
+           />
+  }
+
   render() {
-    return (
-      <View>
-        { this._renderParticipant() }
-
-        <ParticipantModal
-          participants={this.state.participants || []}
-          visible={this.state.participantVisible}
-          scorecardUuid={this.props.scorecard_uuid}
-          onDismiss={() => this.onDismissModal()}
-          showAddParticipantModal={() => this._showAddParticipantModal()}
-          onPressItem={(participant) => this._onPressItem(participant) }
-          participantModalRef={this.props.participantModalRef}
-        />
-
-        <AddNewParticiantModal
-          visible={ this.state.addParticipantVisible }
-          onDismiss={() => this.onDismissModal()}
-          onClose={ () => this._hideAddParticipantModal() }
-          scorecardUuid={ this.props.scorecard_uuid }
-          onSaveParticipant={ (participant) => this._onCreateNewParticipant(participant) }
-        />
-      </View>
-    );
+    return this._renderParticipant();
   }
 }

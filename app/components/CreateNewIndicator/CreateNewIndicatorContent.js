@@ -21,6 +21,8 @@ class CreateNewIndicatorContent extends Component {
         participantUuid={this.props.participantUuid}
         navigation={this.props.navigation}
         updateSelectedParticipant={(participantUuid) => this.props.updateSelectedParticipant(participantUuid)}
+        formModalRef={this.props.formModalRef}
+        participantModalRef={this.props.participantModalRef}
       />
     )
   }
@@ -32,7 +34,7 @@ class CreateNewIndicatorContent extends Component {
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
         isSearching={this.props.isSearching}
-        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal()}
+        showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal(null)}
         updateIndicatorList={() => this.props.updateIndicatorList()}
       />
     )
@@ -43,7 +45,7 @@ class CreateNewIndicatorContent extends Component {
       <RaisingProposedCustomIndicatorList
         scorecardUuid={this.props.scorecardUuid}
         indicators={this.props.indicators}
-        selectForEdit={this.props.selectForEdit}
+        selectForEdit={this.props.showAddNewIndicatorModal}
         selectedCustomIndicator={this.props.selectedCustomIndicator}
         updateIndicatorList={() => this.props.updateIndicatorList()}
       />

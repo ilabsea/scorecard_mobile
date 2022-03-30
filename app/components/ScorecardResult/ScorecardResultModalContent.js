@@ -1,27 +1,23 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import { Modal, Portal } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { getAll } from '../../actions/votingCriteriaAction';
 
 import ScorecardResultModalTitle from './ScorecardResultModalTitle';
 import ScorecardResultModalList from './ScorecardResultModalList';
-import ScorecardResultModalButtons from './ScorecardResultModalButtons';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import VotingCriteria from '../../models/VotingCriteria';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 
+import { swotContentHeight } from '../../constants/modal_constant';
 import Color from '../../themes/color';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import FormModalTabletStyles from '../../styles/tablet/FormModalComponentStyle';
-import FormModalMobileStyles from '../../styles/mobile/FormModalComponentStyle';
 
-const styles = getDeviceStyle(FormModalTabletStyles, FormModalMobileStyles);
-
-const FormModal = (props) => {
+const ScorecardResultModalContent = (props) => {
   const dispatch = useDispatch();
-  const { criteria, visible, selectedIndicator, isScorecardFinished } = props;
+  const { criteria, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -121,36 +117,34 @@ const FormModal = (props) => {
   }
 
   return (
-    <Portal>
-      <Modal visible={visible} contentContainerStyle={ styles.container }>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
-            <ScorecardResultModalTitle
-              selectedIndicator={selectedIndicator}
-              addNewPoint={() => addNewPoint()}
-              isScorecardFinished={isScorecardFinished}
-              criteria={criteria}
-            />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor}}>
+        <ScorecardResultModalTitle
+          selectedIndicator={selectedIndicator}
+          addNewPoint={() => addNewPoint()}
+          isScorecardFinished={isScorecardFinished}
+          criteria={criteria}
+        />
 
-            <ScorecardResultModalList
-              hasAction={hasAction}
-              points={points}
-              defaultPoints={defaultPoints}
-              renderSelectedActions={getSelectedActions()}
-              isScorecardFinished={isScorecardFinished}
-              criteria={criteria}
-              isDelete={isDelete}
-              toggleCheckbox={toggleCheckbox}
-              onChangeText={onChangeText}
-              deletePoint={deletePoint}
-            />
+        <ScorecardResultModalList
+          hasAction={hasAction}
+          points={points}
+          defaultPoints={defaultPoints}
+          renderSelectedActions={getSelectedActions()}
+          isScorecardFinished={isScorecardFinished}
+          criteria={criteria}
+          isDelete={isDelete}
+          toggleCheckbox={toggleCheckbox}
+          onChangeText={onChangeText}
+          deletePoint={deletePoint}
+        />
 
-            <ScorecardResultModalButtons submit={() => submit()} dismiss={() => onDismiss()} disabled={isScorecardFinished} />
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </Portal>
+        { !isScorecardFinished &&
+          <FormBottomSheetButton isValid={!isScorecardFinished} save={() => submit()} />
+        }
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 
-export default FormModal;
+export default ScorecardResultModalContent;

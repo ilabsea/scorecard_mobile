@@ -34,7 +34,6 @@ class ParticipantAccordion extends Component {
       <ParticipantAccordionContent
         scorecardUuid={_this.props.scorecardUuid}
         participantUuid={participant.uuid}
-        navigation={_this.props.navigation}
       />
     )
   }

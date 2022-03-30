@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import { Modal, Portal } from 'react-native-paper';
+import {View, Text} from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 import {LocalizationContext} from '../Translations';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
-import uuidv4 from '../../utils/uuidv4';
-import { MALE } from '../../constants/participant_constant';
-
-import CloseButton from '../CloseButton';
-import SaveButton from '../SaveButton';
+import BottomSheetModalTitle from '../BottomSheetModalTitle';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import {saveParticipantInfo} from '../../services/participant_service';
 import {saveParticipant} from '../../actions/participantAction';
@@ -15,9 +13,13 @@ import {connect} from 'react-redux';
 
 import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
-import { addNewParticipantModalHeight } from '../../utils/responsive_util';
+import { containerPadding } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
+import uuidv4 from '../../utils/uuidv4';
+import { MALE } from '../../constants/participant_constant';
+import { participantContentHeight } from '../../constants/modal_constant';
 
-class AddNewParticipantModal extends Component {
+class AddNewParticipantContent extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -84,46 +86,25 @@ class AddNewParticipantModal extends Component {
     saveParticipantInfo(attrs, this.props.scorecardUuid, false, (participants, participant) => {
       this.props.saveParticipant(participants, this.props.scorecardUuid);
       this.resetFormData();
-      this.props.onDismiss();
 
       !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
     });
   }
 
-  closeModal = () => {
-    this.resetFormData();
-    this.props.onClose();
-  }
-
   render() {
     const {translations} = this.context;
+
     return (
-      <Portal>
-        <Modal visible={this.props.visible}
-          contentContainerStyle={[styles.container, { height: addNewParticipantModalHeight() }]}
-        >
-          <View style={{backgroundColor: Color.whiteColor, flex: 1}}>
-            <Text style={[styles.header, {marginBottom: 10}]}>{translations.addNewParticipant}</Text>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
+        <BottomSheetModalTitle title={ translations.proposedIndicator } />
 
-            <ScrollView style={{marginBottom: 30}} scrollEnabled={false} showsVerticalScrollIndicator={false}>
-              {this.renderForm()}
-            </ScrollView>
+        <View style={{padding: containerPadding, flex: 1}}>
+          <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>{translations.addNewParticipant}</Text>
+          {this.renderForm()}
+        </View>
 
-            <View style={styles.btnWrapper}>
-              <CloseButton
-                onPress={() => this.closeModal()}
-                label={translations.close}
-              />
-
-              <SaveButton
-                disabled={!this.state.isValidAge}
-                onPress={() => this.save()}
-                label={translations.save}
-              />
-            </View>
-          </View>
-        </Modal>
-      </Portal>
+        <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} />
+      </View>
     );
   }
 }
@@ -135,4 +116,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   null,
   mapDispatchToProps,
-)(AddNewParticipantModal);
+)(AddNewParticipantContent);

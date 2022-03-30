@@ -27,7 +27,7 @@ class RecordAudioButton extends Component {
 
     return (
       <View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', height: 30}}>
           {this.props.isRecording && this.renderRecordTime()}
         </View>
         <Tooltip
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
 });
 

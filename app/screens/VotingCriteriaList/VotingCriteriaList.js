@@ -6,13 +6,14 @@ import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
 import VotingInfoModal from '../../components/VotingCriteria/VotingInfoModal';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import VotingIndicatorListContent from '../../components/VotingCriteria/VotingIndicatorListContent';
 import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
 import VotingCriteria from '../../models/VotingCriteria';
-import { tipModalSnapPoints, VOTING_INDICATOR } from '../../constants/tip_modal_constant';
+import { tipModalSnapPoints, VOTING_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 
 class VotingCriteriaList extends Component {
   static contextType = LocalizationContext;
@@ -21,13 +22,18 @@ class VotingCriteriaList extends Component {
     super(props);
 
     this.state = {
+      visibleModal: false,
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
       votingCriterias: VotingCriteria.getAll(props.route.params.scorecard_uuid),
     };
 
     this.tipModalRef = React.createRef();
+    // modal reference of voting info
     this.votingInfoModalRef = React.createRef();
-    this.infoModalRef = React.createRef(null);
+    this.infoModalRef = React.createRef();
+    // modal reference of participant list
+    this.formRef = React.createRef();
+    this.participantModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -53,6 +59,9 @@ class VotingCriteriaList extends Component {
             tipModalRef={this.tipModalRef}
             votingInfoModalRef={this.votingInfoModalRef}
             infoModalRef={this.infoModalRef}
+            participantModalRef={this.participantModalRef}
+            formModalRef={this.formRef}
+            updateModalVisible={(status) => this.setState({ visibleModal: status })}
           />
   }
 
@@ -67,6 +76,9 @@ class VotingCriteriaList extends Component {
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingCriteriaList' />
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
+        <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
+          onDismissModal={() => this.setState({ visibleModal: false })}
+        />
       </View>
     )
   }

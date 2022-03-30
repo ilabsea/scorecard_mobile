@@ -1,8 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import {Portal} from 'react-native-paper';
 
-import AddNewIndicatorModal from '../RaisingProposed/AddNewIndicatorModal';
+import AddNewIndicatorModalContent from '../RaisingProposed/AddNewIndicatorModalContent';
 import CreateNewIndicatorContent from './CreateNewIndicatorContent';
 import CreateNewIndicatorBottomButton from './CreateNewIndicatorBottomButton';
 
@@ -15,7 +14,6 @@ class CreateIndicatorBody extends React.Component {
     super(props);
 
     this.state = {
-      isModalVisible: false,
       isValid: false,
       selectedCustomIndicator: null,
       participantUuid: props.participantUuid,
@@ -28,30 +26,22 @@ class CreateIndicatorBody extends React.Component {
   }
 
   closeModal = () => {
-    this.setState({
-      isModalVisible: false,
-      selectedCustomIndicator: null,
-    });
+    this.setState({ selectedCustomIndicator: null });
+    this.props.participantModalRef.current?.dismiss();
   }
 
   updateSelectedParticipant(participantUuid) {
     if (this.state.participantUuid != participantUuid) {
-      this.props.removeUnconfirmedProposedIndicator();
+      this.props.handleUnconfirmedIndicator();
 
       this.setState({
         isValid: false,
         participantUuid: participantUuid
       }, () => {
         !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participantUuid);
+        this.props.participantModalRef.current?.dismiss();
       });
     }
-  }
-
-  selectForEdit(customIndicator) {
-    this.setState({
-      isModalVisible: true,
-      selectedCustomIndicator: customIndicator
-    });
   }
 
   finishSaveOrUpdateCustomIndicator(isEdit) {
@@ -64,9 +54,29 @@ class CreateIndicatorBody extends React.Component {
   updateIndicatorList() {
     this.setState({ isValid: ProposedIndicator.find(this.props.scorecardUuid, this.props.participantUuid).length > 0 });
     this.props.updateIndicatorList();
+    this.closeModal();
+  }
 
-    if (this.state.isModalVisible)
-      this.closeModal();
+  showAddNewIndicatorModal(customIndicator) {
+    this.setState({ selectedCustomIndicator: customIndicator }, () => {
+      this.props.formModalRef.current?.setBodyContent(this.renderModalContent());
+      setTimeout(() => {
+        this.props.participantModalRef.current?.present();
+      }, 50);
+    });
+  }
+
+  renderModalContent() {
+    return <AddNewIndicatorModalContent
+              closeModal={() => this.closeModal()}
+              participantUuid={this.state.participantUuid}
+              scorecardUuid={this.props.scorecardUuid}
+              selectedCustomIndicator={this.state.selectedCustomIndicator}
+              indicators={this.props.indicators}
+              isEdit={this.props.isEdit}
+              finishSaveOrUpdateCustomIndicator={(isEdit) => this.finishSaveOrUpdateCustomIndicator(isEdit)}
+              updateIndicatorList={() => this.updateIndicatorList()}
+            />
   }
 
   renderContent() {
@@ -76,10 +86,12 @@ class CreateIndicatorBody extends React.Component {
             indicators={this.props.indicators}
             isSearching={this.props.isSearching}
             isEdit={this.props.isEdit}
-            selectForEdit={(indicator) => this.selectForEdit(indicator)}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
-            showAddNewIndicatorModal={() => this.setState({ isModalVisible: true })}
+            showAddNewIndicatorModal={(indicator) => this.showAddNewIndicatorModal(indicator)}
             updateIndicatorList={() => this.updateIndicatorList()}
+            closeModal={() => this.closeModal()}
+            formModalRef={this.props.formModalRef}
+            participantModalRef={this.props.participantModalRef}
           />
   }
 
@@ -96,28 +108,11 @@ class CreateIndicatorBody extends React.Component {
           />
   };
 
-  renderModal() {
-    return <Portal>
-            <AddNewIndicatorModal
-              isVisible={this.state.isModalVisible}
-              closeModal={() => this.closeModal()}
-              participantUUID={this.state.participantUuid}
-              scorecardUUID={this.props.scorecardUuid}
-              selectedCustomIndicator={this.state.selectedCustomIndicator}
-              indicators={this.props.indicators}
-              isEdit={this.props.isEdit}
-              finishSaveOrUpdateCustomIndicator={(isEdit) => this.finishSaveOrUpdateCustomIndicator(isEdit)}
-              updateIndicatorList={() => this.updateIndicatorList()}
-            />
-          </Portal>
-  }
-
   render() {
     return (
       <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
         { this.renderContent() }
         { this.renderBottomButton() }
-        { this.renderModal() }
       </View>
     )
   }

@@ -35,7 +35,7 @@ const votingInfoModalHelper = (() => {
     const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : ['38%', '51%'];
     const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['43%', '60.5%'];
     const moreInfoSnapPoints = {
-      2: getDeviceStyle(['37%', '50%'], mobileTwoLinesInfoSnapPoints),
+      2: getDeviceStyle(['36%', '50%'], mobileTwoLinesInfoSnapPoints),
       3: getDeviceStyle(['42%', '58%'], mobileThreeLinesInfoSnapPoints)
     }
 
@@ -64,7 +64,7 @@ const votingInfoModalHelper = (() => {
                           { _modalTitle(criteria.order, indicator, { paddingBottom: 0 }) }
                           <DashedLine />
 
-                          <View style={{ padding: containerPadding, paddingBottom: 0 }}>
+                          <View style={{ paddingHorizontal: containerPadding, paddingTop: 10 }}>
                             <VotingMedianScoreInfo criteria={criteria} />
                             <VotingAverageScoreInfo votingInfos={votingInfos} />
                             { hasLessInfo && votingParticipantInfo }

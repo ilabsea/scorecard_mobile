@@ -11,6 +11,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import Participant from '../../models/Participant';
 import { getRaisedParticipants } from '../../services/participant_service';
+import { navigate } from '../../navigators/app_navigator';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
@@ -28,8 +29,9 @@ class ListUser extends Component {
     }
   }
 
-  _goToCreateNewIndicator(participant_uuid) {
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid});
+  closeModal() {
+    this.props.updateModalVisible(false)
+    this.props.participantModalRef.current?.dismiss();
   }
 
   render() {
@@ -46,14 +48,14 @@ class ListUser extends Component {
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
-              scorecard_uuid={ this.props.scorecardUuid }
+              scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
-              onPressItem={(participant) => this._goToCreateNewIndicator(participant.uuid)}
-              onPressCreateParticipant={(participant) => this._goToCreateNewIndicator(participant.uuid)}
-              navigation={this.props.navigation}
-              visibleModal={this.state.visibleModal}
-              closeModal={() => this.setState({ visibleModal: false })}
+              selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
+              visibleModal={this.props.visibleModal}
+              closeModal={() => this.closeModal()}
+              participantModalRef={this.props.participantModalRef}
+              formModalRef={this.props.formModalRef}
             />
           </View>
         </View>
@@ -62,8 +64,7 @@ class ListUser extends Component {
           scorecardUuid={this.props.scorecardUuid}
           raisedParticipants={raisedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
-          navigation={this.props.navigation}
-          showModal={() => this.setState({ visibleModal: true })}
+          showModal={() => this.props.updateModalVisible(true)}
         />
       </View>
     );

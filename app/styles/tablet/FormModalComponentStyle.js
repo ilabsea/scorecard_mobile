@@ -31,7 +31,8 @@ const FormModalComponentStyles = StyleSheet.create({
     marginBottom: 10
   },
   subTitleText: {
-    fontSize: 16
+    fontSize: 16,
+    flex: 1,
   },
   orderNumberText: {
     fontSize: 20,

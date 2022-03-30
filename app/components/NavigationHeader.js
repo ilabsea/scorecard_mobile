@@ -19,7 +19,7 @@ class NavigationHeader extends Component {
         <NavigationHeaderBody title={this.props.title} />
 
         <Right style={[{maxWidth: wp('14%'), alignSelf: 'center', marginRight: getDeviceStyle(-19, -6)}, this.props.rightButtonStyle]}>
-          { this.props.rightComponent() }
+          { !!this.props.rightComponent && this.props.rightComponent() }
         </Right>
       </Header>
     )

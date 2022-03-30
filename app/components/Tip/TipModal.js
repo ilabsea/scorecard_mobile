@@ -4,7 +4,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import TipListItem from './TipListItem';
 import BottomSheetModal from '../BottomSheetModal';
-import DashedLine from '../DashedLine';
+import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import ModalViewMoreButton from '../ModalViewMoreButton';
 import styles from '../../themes/modalStyle';
 
@@ -59,10 +59,10 @@ export default class TipModal extends Component {
     return (
       <React.Fragment>
         <ScrollView style={{flex: 1}}>
-          <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>
-            {this.context.translations.tips} - { this.context.translations[this.state.tip.mainTitle] }
-          </Text>
-          <DashedLine containerStyle={{marginBottom: 8}} />
+          <BottomSheetModalTitle
+            title={`${this.context.translations.tips} - ${this.context.translations[this.state.tip.mainTitle]}`}
+            dashedLineStyle={{ marginBottom: 8 }}
+          />
 
           <View style={{padding: containerPadding, paddingBottom: 0}}>
             <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10, fontSize: bodyFontSize() }]}>{ this.state.tip.title }</Text>

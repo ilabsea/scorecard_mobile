@@ -7,11 +7,13 @@ import {connect} from 'react-redux';
 
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNewIndicatorBody';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 class CreateNewIndicator extends Component {
   constructor(props) {
@@ -26,12 +28,12 @@ class CreateNewIndicator extends Component {
     };
 
     const { scorecard_uuid, participant_uuid } = props.route.params;
-    // Get the last order number of the saved proposed indicator of the participant
-    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid);
-
     // Get the previous proposed indicators of the participant
     const previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
+    this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid);
+    this.participantModalRef = React.createRef();
+    this.formRef = React.createRef();
   }
 
   componentDidMount() {
@@ -76,13 +78,17 @@ class CreateNewIndicator extends Component {
     this.setState({ searchedName: name }, () => { this.updateIndicatorList() });
   }
 
+  handleUnconfirmedIndicator() {
+    proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber);
+  }
+
   renderSearchableHeader() {
     return (
       <SearchableHeader
         updateSearchedName={(name) => this.updateSearchedName(name)}
         updateSearchStatus={(isSearching) => this.updateEditAndSearchStatus(isSearching, false)}
         updateEditStatus={(isEdit) => this.updateEditAndSearchStatus(isEdit, true)}
-        handleUnconfirmedIndicator={() => proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber)}
+        handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
         isEdit={this.state.isEdit}
         isSearching={this.state.isSearching}
         searchedName={this.state.searchedName}
@@ -106,8 +112,10 @@ class CreateNewIndicator extends Component {
             updateIndicatorList={() => this.updateIndicatorList()}
             updateParticipantInfo={() => this.updateParticipantInfo()}
             save={() => this.save()}
-            removeUnconfirmedProposedIndicator={() => this.removeUnconfirmedProposedIndicator()}
+            handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
+            formModalRef={this.formRef}
+            participantModalRef={this.participantModalRef}
           />
   }
 
@@ -118,6 +126,12 @@ class CreateNewIndicator extends Component {
           { this.renderSearchableHeader() }
           
           { this.renderBody() }
+
+          <FormBottomSheetModal
+            ref={this.formRef}
+            formModalRef={this.participantModalRef}
+            snapPoints={participantModalSnapPoints}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

@@ -8,6 +8,7 @@ import {LocalizationContext} from '../Translations';
 import Color from '../../themes/color';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
+import { navigate } from '../../navigators/app_navigator';
 import uuidv4 from '../../utils/uuidv4';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantAccordionMobileStyles from '../../styles/mobile/ParticipantAccordionComponentStyle';
@@ -49,7 +50,7 @@ class ParticipantAccordionContent extends Component {
   }
 
   editParticipant() {
-    this.props.navigation.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: this.props.participantUuid});
+    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: this.props.participantUuid});
   }
 
   render() {
