@@ -18,6 +18,7 @@ const proposedIndicatorHelper = (() => {
     showParticipantListModal,
     getNumberOfRaisedParticipant,
     isIndicatorProposed,
+    getProposedIndicators,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -88,6 +89,10 @@ const proposedIndicatorHelper = (() => {
 
   function isIndicatorProposed(scorecardUuid, indicatorId, participantUuid) {
     return getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) > 0;
+  }
+
+  function getProposedIndicators(scorecardUuid, participantUuid) {
+    return !!participantUuid ? ProposedIndicator.find(scorecardUuid, participantUuid) : ProposedIndicator.getAllByScorecard(scorecardUuid);
   }
 
   // private methods

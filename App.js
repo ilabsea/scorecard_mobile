@@ -71,7 +71,7 @@ const App: () => React$Node = () => {
     AsyncStorage.removeItem('HANDLE_DEEP_LINK')
 
     notificationService.handleAppOpenFromNotification();
-    settingHelper.checkProposedIndicatorMethod();
+    settingHelper.checkDefaultProposedIndicatorMethod();
   });
 
   return (

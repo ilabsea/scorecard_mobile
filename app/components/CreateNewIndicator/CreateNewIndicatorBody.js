@@ -5,6 +5,7 @@ import AddNewIndicatorModalContent from '../RaisingProposed/AddNewIndicatorModal
 import CreateNewIndicatorContent from './CreateNewIndicatorContent';
 import CreateNewIndicatorBottomButton from './CreateNewIndicatorBottomButton';
 
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -23,9 +24,7 @@ class CreateIndicatorBody extends React.Component {
   }
 
   async componentDidMount() {
-    const proposedIndicators = !!this.state.participantUuid ?
-      ProposedIndicator.find(this.props.scorecardUuid, this.state.participantUuid)
-      : ProposedIndicator.getAllByScorecard(this.props.scorecardUuid);
+    const proposedIndicators = proposedIndicatorHelper.getProposedIndicators(this.props.scorecardUuid, this.state.participantUuid);
 
     this.setState({
       isValid: (proposedIndicators != undefined && proposedIndicators.length > 0) ? true : false,

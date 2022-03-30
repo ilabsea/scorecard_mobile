@@ -30,7 +30,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
               <Text style={styles.valueLabel}>{ this.props.proposedIndicatorMethod == INDICATOR_BASE ? this.context.translations.indicatorBase : this.context.translations.participantBase }</Text>
 
               <Text style={styles.chooseLabel}>
-                {this.context.translations['choose']}
+                {this.context.translations.choose}
               </Text>
             </View>
           </TouchableOpacity>

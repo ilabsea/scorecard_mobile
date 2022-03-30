@@ -7,7 +7,7 @@ const settingHelper = (() => {
     changeable,
     getProposedIndicatorMethodStatuses,
     getProposedIndicatorMethodByIndex,
-    checkProposedIndicatorMethod,
+    checkDefaultProposedIndicatorMethod,
   };
 
   async function changeable(newEndpoint) {
@@ -37,12 +37,13 @@ const settingHelper = (() => {
     return index === 0 ? INDICATOR_BASE : PARTICIPANT_BASE
   }
 
-  async function checkProposedIndicatorMethod() {
-    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+  async function checkDefaultProposedIndicatorMethod() {
+    let savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+
     if (!!savedSetting && !savedSetting.proposedIndicatorMethod)
       savedSetting.proposedIndicatorMethod = PARTICIPANT_BASE;
     else if (!savedSetting)
-      savedSetting.proposedIndicatorMethod = INDICATOR_BASE;
+      savedSetting = { proposedIndicatorMethod: INDICATOR_BASE };
 
     AsyncStorage.setItem('SETTING', JSON.stringify(savedSetting));
   }

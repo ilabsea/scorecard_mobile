@@ -59,11 +59,7 @@ class SettingSelectPickers extends React.Component {
   }
 
   render() {
-    return (
-      <View>
-        { this.renderChooseLanguage() }
-      </View>
-    )
+    return this.renderChooseLanguage()
   }
 }
 
