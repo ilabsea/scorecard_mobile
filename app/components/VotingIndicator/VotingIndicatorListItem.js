@@ -11,7 +11,7 @@ import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 
 import indicatorHelper from '../../helpers/indicator_helper';
-import { getVotingInfos } from '../../helpers/voting_indicator_helper';
+import { getVotingInfos, isVotingIndicatorRated } from '../../helpers/voting_indicator_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
@@ -69,7 +69,7 @@ export default class VotingIndicatorListItem extends Component {
       const scorecard = this.props.scorecard;
       const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.criteria, this.context.translations);
       const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(scorecard.uuid, this.state.selectedIndicator);
-      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? votingInfoSnapPoints : ['18%'];
+      const modalSnapPoints = isVotingIndicatorRated(this.props.criteria.uuid) ? votingInfoSnapPoints : ['18%'];
 
       this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
       this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);

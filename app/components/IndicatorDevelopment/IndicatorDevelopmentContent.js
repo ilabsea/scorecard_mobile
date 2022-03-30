@@ -59,7 +59,7 @@ class IndicatorDevelopmentContent extends Component {
 
     return (
       <View style={{flex: 1}}
-        onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y })}
+        onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y - 22 })}
       >
         <View style={{flex: 1, paddingHorizontal: containerPadding}}>
           <IndicatorDevelopmentList

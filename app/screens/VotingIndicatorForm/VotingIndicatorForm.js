@@ -12,7 +12,6 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
 
-import Participant from '../../models/Participant';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';

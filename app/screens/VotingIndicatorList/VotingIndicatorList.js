@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
-import VotingInfoModal from '../../components/VotingCriteria/VotingInfoModal';
+import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
-import VotingIndicatorListContent from '../../components/VotingCriteria/VotingIndicatorListContent';
-import { getAll } from '../../actions/votingCriteriaAction';
+import VotingIndicatorListContent from '../../components/VotingIndicator/VotingIndicatorListContent';
+import { getAll } from '../../actions/votingIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';

@@ -1,4 +1,4 @@
-import {PREDEFINED} from '../utils/variable';
+import {PREDEFINED} from '../constants/indicator_constant';
 import { languageIndicatorPhase, langIndicatorAudioPhase } from '../constants/scorecard_constant';
 import { downloadAudio } from './download_service';
 import LanguageIndicator from '../models/LanguageIndicator';

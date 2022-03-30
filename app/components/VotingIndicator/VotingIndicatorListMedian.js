@@ -3,12 +3,12 @@ import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import ratings from '../../db/jsons/ratings';
-import { getVotingIcon } from '../../helpers/voting_criteria_helper';
+import { getVotingIcon } from '../../helpers/voting_indicator_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
-import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
+import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
+import VotingIndicatorListItemMobileStyles from '../../styles/mobile/VotingIndicatorListItemComponentStyle';
 
-const styles = getDeviceStyle(VotingCriteriaListItemTabletStyles, VotingCriteriaListItemMobileStyles);
+const styles = getDeviceStyle(VotingIndicatorListItemTabletStyles, VotingIndicatorListItemMobileStyles);
 
 const VotingIndicatorListMedian = (props) => {
   const { criteria } = props;

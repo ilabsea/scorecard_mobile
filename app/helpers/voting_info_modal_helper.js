@@ -9,7 +9,7 @@ import VotingMedianScoreInfo from '../components/VotingCriteria/VotingMedianInfo
 
 import CustomStyle from '../themes/customStyle';
 import Color from '../themes/color';
-import { getVotingInfos, hasVoting, isVotingCriteriaRated } from './voting_criteria_helper';
+import { getVotingInfos, hasVoting, isVotingIndicatorRated } from './voting_criteria_helper';
 import indicatorHelper from './indicator_helper';
 import { titleFontSize } from '../utils/font_size_util';
 import { getDeviceStyle, containerPadding, isShortScreenDevice } from '../utils/responsive_util';
@@ -25,7 +25,7 @@ const votingInfoModalHelper = (() => {
   }
 
   function getModalContent(scorecard, indicator, criteria, translations) {
-    if (isVotingCriteriaRated(criteria.uuid))
+    if (isVotingIndicatorRated(criteria.uuid))
       return _getVotingDetail(scorecard, indicator, criteria);
 
     return { first_content: _getNoDataContent(criteria, indicator, translations), second_content: null }

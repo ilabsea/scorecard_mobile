@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import VotingCriteriaListItem from './VotingCriteriaListItem';
+import VotingIndicatorListItem from './VotingIndicatorListItem';
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import BottomButton from '../BottomButton';
 import Tip from '../Tip';
@@ -14,7 +14,7 @@ import { titleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import * as participantService from '../../services/participant_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { hasVoting } from '../../helpers/voting_criteria_helper';
+import { hasVoting } from '../../helpers/voting_indicator_helper';
 
 class VotingIndicatorListContent extends React.Component {
   static contextType = LocalizationContext;
@@ -26,7 +26,7 @@ class VotingIndicatorListContent extends React.Component {
 
   _renderList() {
     return this.props.votingCriterias.map((item, index) => 
-      <VotingCriteriaListItem criteria={item} key={index} scorecard={this.props.scorecard} votingInfoModalRef={this.props.votingInfoModalRef} infoModalRef={this.props.infoModalRef} />
+      <VotingIndicatorListItem criteria={item} key={index} scorecard={this.props.scorecard} votingInfoModalRef={this.props.votingInfoModalRef} infoModalRef={this.props.infoModalRef} />
     );
   }
 

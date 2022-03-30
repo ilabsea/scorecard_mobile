@@ -1,13 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import CriteriaRatingItem from '../VotingCriteria/CriteriaRatingItem';
+import IndicatorRatingItem from '../VotingIndicator/IndicatorRatingItem';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaFormTabletStyles from '../../styles/tablet/VotingCriteriaFormScreenStyle';
-import VotingCriteriaFormMobileStyles from '../../styles/mobile/VotingCriteriaFormScreenStyle';
+import VotingIndicatorFormTabletStyles from '../../styles/tablet/VotingIndicatorFormScreenStyle';
+import VotingIndicatorFormMobileStyles from '../../styles/mobile/VotingIndicatorFormScreenStyle';
 
-const responsiveStyles = getDeviceStyle(VotingCriteriaFormTabletStyles, VotingCriteriaFormMobileStyles);
+const responsiveStyles = getDeviceStyle(VotingIndicatorFormTabletStyles, VotingIndicatorFormMobileStyles);
 
 class VotingIndicatorFormRatingList extends React.Component {
   render() {
@@ -15,7 +15,7 @@ class VotingIndicatorFormRatingList extends React.Component {
       this.props.criterias.map((criteria, index) => {
         return (
           <React.Fragment key={`${criteria.uuid}_${index}`}>
-            <CriteriaRatingItem
+            <IndicatorRatingItem
               key={criteria.uuid}
               criteria={criteria}
               onPress={ (rating) => this.props.onClickRatingIcon(criteria, rating) }

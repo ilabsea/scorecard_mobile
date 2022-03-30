@@ -41,8 +41,6 @@ const hasVoting = (scorecardUuid) => {
   const votingIndicators = VotingIndicator.getAll(scorecardUuid);
 
   for (let i = 0; i < votingIndicators.length; i++) {
-    // Refactor this code
-    // if (!Rating.findByVotingIndicator(votingIndicators[i].uuid))
     if (!isVotingIndicatorRated(votingIndicators[i].uuid))
       return false;
   }
@@ -60,7 +58,6 @@ const getVotingParticipants = (scorecardUuid) => {
   return participantInfos;
 }
 
-// Refactor this code
 const isVotingIndicatorRated = (votingIndicatorUuid) => {
   return Rating.findByVotingIndicator(votingIndicatorUuid) ? true : false;
 }
@@ -85,4 +82,4 @@ const _getVotedParticipantByType = (scorecardUuid, type) => {
   return participants.length;
 }
 
-export { getVotingInfos, hasVoting, getVotingParticipants, isVotingCriteriaRated, getVotingIcon };
+export { getVotingInfos, hasVoting, getVotingParticipants, isVotingIndicatorRated, getVotingIcon };
