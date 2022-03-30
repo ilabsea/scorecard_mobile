@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
+import { VotingInfoListItem, VotingInfoListItems } from './VotingInfoListItems';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import uuidv4 from '../../utils/uuidv4';
@@ -35,36 +36,22 @@ class VotingAverageScoreInfo extends Component {
       }
     });
 
-    if (doms.length > 0) {
-      return (
-        <View style={{paddingLeft: 10}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            {doms[0]}
-            {doms[1]}
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            {doms[2]}
-            {doms[3]}
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            {doms[4]}
-          </View>
-        </View>
-      )
-    }
+    if (doms.length > 0)
+      return <VotingInfoListItems doms={doms} />
   }
 
   listItem = (label, averageScore, index) => {
     const { translations, appLanguage } = this.context;
 
     return (
-      <View key={uuidv4()} style={[{flex: 1,flexDirection: 'row', paddingVertical: 4}, index % 2 == 0 ? { marginRight: 20 } : {}]}>
-        <Text style={responsiveStyles.normalText}>{ label }</Text>
-        <Text style={[{marginLeft: 6, fontFamily: FontFamily.title}, responsiveStyles.normalText]}>
-          ({ averageScore } { getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's') })
-        </Text>
-      </View>
-    );
+      <VotingInfoListItem
+        key={uuidv4()}
+        index={index}
+        typeLabel={label}
+        score={averageScore}
+        endingLabel={getPluralOrSingularWord(averageScore, translations.point, appLanguage, 's')}
+      />
+    )
   }
 
   render() {

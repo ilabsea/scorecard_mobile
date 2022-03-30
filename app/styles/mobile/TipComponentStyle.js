@@ -8,7 +8,8 @@ const TipComponentStyles = StyleSheet.create({
     marginBottom: 0,
     flex: 1,
     fontSize: wp(smLabelSize),
-    marginLeft: -8
+    marginLeft: -8,
+    paddingRight: 5,
   },
   viewDetailLabel: {
     fontSize: wp(smLabelSize),

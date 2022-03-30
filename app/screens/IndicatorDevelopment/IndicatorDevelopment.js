@@ -7,6 +7,7 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import ProposedIndicatorListModal from '../../components/IndicatorDevelopment/ProposedIndicatorListModal';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
+import TipModal from '../../components/Tip/TipModal';
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
@@ -19,6 +20,7 @@ import votingCriteriaService from '../../services/votingCriteriaService';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
+import { tipModalSnapPoints, INDICATOR_DEVELOPMENT } from '../../constants/tip_modal_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -30,6 +32,8 @@ class IndicatorDevelopment extends Component {
       visibleModal: false,
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
     };
+
+    this.tipModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -84,6 +88,7 @@ class IndicatorDevelopment extends Component {
         openModal={() => this.setState({ visibleModal: true })}
         updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}
         navigation={this.props.navigation}
+        tipModalRef={this.tipModalRef}
       />
     )
   }
@@ -95,6 +100,7 @@ class IndicatorDevelopment extends Component {
 
   render() {
     const { translations } = this.context;
+    const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
 
     return (
       <View style={{flex: 1}}>
@@ -110,6 +116,8 @@ class IndicatorDevelopment extends Component {
               label={translations.saveAndGoNext}/>
           </View>
         }
+
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={[snapPoints]} screenName='IndicatorDevelopment' />
 
         <ProposedIndicatorListModal
           visible={this.state.visibleModal}

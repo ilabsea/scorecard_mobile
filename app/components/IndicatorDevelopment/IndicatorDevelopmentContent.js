@@ -49,6 +49,7 @@ class IndicatorDevelopmentContent extends Component {
         openModal={this.props.openModal}
         hasData={!!this.props.selectedCriterias.length}
         hasRating={this.state.hasRating}
+        tipModalRef={this.props.tipModalRef}
       />
     )
   }

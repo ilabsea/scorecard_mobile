@@ -316,5 +316,10 @@
   "thisIndicatorIsAlreadySelected": "This indicator is already selected",
   "areYouSureYouWantToDiscardTheseNewProposedIndicator": "Are you sure you want to discard these new proposed indicators selected?",
   "buttonLabelNo": "No",
-  "buttonLabelYes": "Yes"
+  "buttonLabelYes": "Yes",
+  "viewMore": "View more",
+  "proposedIndicatorTip": "Raising proposed indicator",
+  "settingIndicatorDevelopmentTip": "Setting indicator for development",
+  "votingIndicatorTip": "Voting the indicator",
+  "scorecardResultTip": "Inputting info to scorecard result"
 }

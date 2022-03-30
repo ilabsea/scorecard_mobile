@@ -114,10 +114,10 @@ export default class ParticipantInfo extends Component {
           participants={this.state.participants || []}
           visible={this.state.participantVisible}
           scorecardUuid={this.props.scorecard_uuid}
-          navigation={this.props.navigation}
           onDismiss={() => this.onDismissModal()}
           showAddParticipantModal={() => this._showAddParticipantModal()}
           onPressItem={(participant) => this._onPressItem(participant) }
+          participantModalRef={this.props.participantModalRef}
         />
 
         <AddNewParticiantModal
@@ -125,7 +125,6 @@ export default class ParticipantInfo extends Component {
           onDismiss={() => this.onDismissModal()}
           onClose={ () => this._hideAddParticipantModal() }
           scorecardUuid={ this.props.scorecard_uuid }
-          navigation={ this.props.navigation }
           onSaveParticipant={ (participant) => this._onCreateNewParticipant(participant) }
         />
       </View>

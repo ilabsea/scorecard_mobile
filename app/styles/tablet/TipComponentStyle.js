@@ -5,6 +5,7 @@ const TipComponentStyles = StyleSheet.create({
   title: {
     marginBottom: 0,
     flex: 1,
+    paddingRight: 5,
   },
   viewDetailLabel: {
     fontSize: 16,

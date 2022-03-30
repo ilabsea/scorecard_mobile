@@ -10,7 +10,6 @@ import CloseButton from '../CloseButton';
 import SaveButton from '../SaveButton';
 
 import {saveParticipantInfo} from '../../services/participant_service';
-
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
@@ -62,7 +61,7 @@ class AddNewParticipantModal extends Component {
       <ParticipantForm
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
-        containerStyle={{paddingBottom: 160, paddingTop: 0}}
+        containerStyle={{paddingBottom: 65, paddingTop: 0}}
         renderSmallSize={true}
       />
     );

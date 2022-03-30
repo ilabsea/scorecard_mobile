@@ -4,10 +4,13 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../../components/Translations';
 import ProposeIndicatorContent from '../../components/RaisingProposed/ProposeIndicatorContent';
 import ProgressHeader from '../../components/ProgressHeader';
+import AddNewParticipantModal from '../../components/RaisingProposed/AddNewParticipantModal';
+import TipModal from '../../components/Tip/TipModal';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
+import { tipModalSnapPoints, PROPOSED_INDICATOR } from '../../constants/tip_modal_constant';
 
 class RaisingProposed extends Component {
   static contextType = LocalizationContext;
@@ -22,21 +25,32 @@ class RaisingProposed extends Component {
       Scorecard.update(scorecard.uuid, {status: '2'});
       props.setCurrentScorecard(scorecard);
     }
+
+    this.tipModalRef = React.createRef();
   }
 
   render() {
     const {translations} = this.context;
+    const { scorecard_uuid } = this.props.route.params;
+    const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
+
     return (
-      <View style={{flex: 1}}>
-        <ProgressHeader
-          title={translations['getStarted']}
-          progressIndex={3}
-        />
-        <ProposeIndicatorContent
-          scorecardUuid={this.props.route.params.scorecard_uuid}
-          navigation={this.props.navigation}
-        />
-      </View>
+      <React.Fragment>
+        <View style={{flex: 1}}>
+          <ProgressHeader
+            title={translations['getStarted']}
+            progressIndex={3}
+          />
+          <ProposeIndicatorContent
+            scorecardUuid={scorecard_uuid}
+            navigation={this.props.navigation}
+            tipModalRef={this.tipModalRef}
+          />
+        </View>
+
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={['54%', tipSecondSnapPoint]} screenName='RaisingProposed' />
+        <AddNewParticipantModal />
+      </React.Fragment>
     );
   }
 }

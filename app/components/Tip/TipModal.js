@@ -1,19 +1,15 @@
 import React, {Component} from 'react';
-
-import {
-  View,
-  Text,
-  ScrollView
-} from 'react-native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { View, Text, ScrollView } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import tips from '../../db/jsons/tips';
-import { Modal, Portal } from 'react-native-paper';
-import CloseButton from '../CloseButton';
 import TipListItem from './TipListItem';
+import BottomSheetModal from '../BottomSheetModal';
+import DashedLine from '../DashedLine';
+import ModalViewMoreButton from '../ModalViewMoreButton';
 import styles from '../../themes/modalStyle';
 
+import { getTipByScreenName } from '../../helpers/tip_helper';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
@@ -22,39 +18,77 @@ const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobile
 export default class TipModal extends Component {
   static contextType = LocalizationContext;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isExpanded: false,
+      tip: getTipByScreenName(props.screenName),
+    }
+  }
+
   renderTips() {
-    let doms = this.props.tip.tips.map((tip, index) =>
-      <TipListItem
-        key={index}
-        title={tip.title}
-        subTitle={tip.subTitle}
-        number={index + 1} />
-    )
+    let doms = this.state.tip.tips.map((tip, index) => {
+      if (index == 3 ) {
+        return (
+          <React.Fragment key={index}>
+            { !this.state.isExpanded &&
+              <ModalViewMoreButton modalRef={this.props.tipModalRef}
+                updateIsExpanded={() => this.setState({ isExpanded: true })}
+              />
+            }
+
+            <TipListItem
+              title={tip.title}
+              subTitle={tip.subTitle}
+              number={index + 1} />
+          </React.Fragment>
+        )
+      }
+      else
+        return <TipListItem
+                key={index}
+                title={tip.title}
+                subTitle={tip.subTitle}
+                number={index + 1} />
+    })
 
     return doms;
   }
 
-  render() {
-    const { translations } = this.context;
-    const marginHorizontalSize = getDeviceStyle(30, 20);
-    const modalHeight = getDeviceStyle('70%', hp('80%'));
-
+  renderContent() {
     return (
-      <Portal>
-        <Modal visible={this.props.visible} onDismiss={this.props.onDimiss}
-          contentContainerStyle={ [styles.container, { minHeight: modalHeight, marginHorizontal: marginHorizontalSize, padding: containerPadding}] }
-        >
-          <ScrollView style={{flex: 1}}>
-            <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10 }]}>{ this.props.tip.title }</Text>
+      <React.Fragment>
+        <ScrollView style={{flex: 1}}>
+          <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>
+            {this.context.translations.tips} - { this.context.translations[this.state.tip.mainTitle] }
+          </Text>
+          <DashedLine containerStyle={{marginBottom: 8}} />
+
+          <View style={{padding: containerPadding, paddingBottom: 0}}>
+            <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10, fontSize: bodyFontSize() }]}>{ this.state.tip.title }</Text>
 
             { this.renderTips() }
-          </ScrollView>
-
-          <View style={styles.btnActionWrapper}>
-            <CloseButton onPress={this.props.onDimiss} label={translations.close} />
           </View>
-        </Modal>
-      </Portal>
+        </ScrollView>
+      </React.Fragment>
+    )
+  }
+
+  onChangeModal(index) {
+    setTimeout(() => {
+      this.setState({ isExpanded: index > 0 });
+    }, 50);
+  }
+
+  render() {
+    return (
+      <BottomSheetModal
+        ref={this.props.tipModalRef}
+        content={this.renderContent()}
+        snapPoints={this.props.snapPoints}
+        onDismiss={() => this.setState({ isExpanded: false })}
+        onChange={(index) => this.onChangeModal(index)}
+      />
     )
   }
 }
