@@ -321,5 +321,7 @@
   "proposedIndicatorTip": "Raising proposed indicator",
   "settingIndicatorDevelopmentTip": "Setting indicator for development",
   "votingIndicatorTip": "Voting the indicator",
-  "scorecardResultTip": "Inputting info to scorecard result"
+  "scorecardResultTip": "Inputting info to scorecard result",
+  "unableToMakeAContactWithThisPhoneNumber": "Unable to make a contact with this phone number. Please check if your device is able to make and receive phone calls.",
+  "unableToMakeAContactWithThisEmailAddress": "Unable to make a contact with this email address. Please check if your device has a mail application installed."
 }

@@ -19,6 +19,7 @@ export default class Contact extends Component {
     this.state = {
       contacts: [],
       visibleModal: false,
+      modalMessage: null,
       isLoading: false,
     }
   }
@@ -40,17 +41,38 @@ export default class Contact extends Component {
           this.setState({ contacts: contactService.getAll() });
         }, () => {
           this.setState({
-            visibleModal: true
+            visibleModal: true,
+            modalMessage: this.context.translations.errorDownloadContact
           });
         });
       }
     });
   }
 
-  callOrEmailTo = (contact) => {
+  callOrEmailTo = async (contact) => {
     let linkTo = { tel: 'tel', email: 'mailto' };
+    const url = `${linkTo[contact.contact_type]}:${contact.value}`;
 
-    Linking.openURL(`${linkTo[contact.contact_type]}:${contact.value}`);
+    Linking.canOpenURL(url).then(isSupported => {
+      if (isSupported)
+        Linking.openURL(url);
+      else
+        this.showInfoMessage(contact);
+    }).catch(error => {
+      this.showInfoMessage(contact);
+    });
+  }
+
+  showInfoMessage(contact) {
+    const infoMessages = {
+      tel: this.context.translations.unableToMakeAContactWithThisPhoneNumber,
+      email: this.context.translations.unableToMakeAContactWithThisEmailAddress,
+    }
+
+    this.setState({
+      visibleModal: true,
+      modalMessage: infoMessages[contact.contact_type]
+    });
   }
 
   renderNoContacts = () => {
@@ -83,7 +105,7 @@ export default class Contact extends Component {
         <MessageModal
           visible={this.state.visibleModal}
           onDismiss={() => this.setState({ visibleModal: false })}
-          description={this.context.translations.errorDownloadContact}
+          description={this.state.modalMessage}
           hasConfirmButton={false}
           confirmButtonLabel={this.context.translations.ok}
           onPressConfirmButton={() => this.props.confirmDelete()}
