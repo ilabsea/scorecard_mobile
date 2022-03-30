@@ -14,6 +14,7 @@ const authenticationService = (() => {
     authenticate,
     reNewAuthToken,
     saveSignInInfo,
+    isSignedIn,
   };
 
   async function authenticate(email, password, successCallback, errorCallback) {
@@ -70,6 +71,10 @@ const authenticationService = (() => {
       password: password,
       locale: locale
     }));
+  }
+
+  async function isSignedIn() {
+    return !!await AsyncStorage.getItem('AUTH_TOKEN');
   }
 
   // private methods

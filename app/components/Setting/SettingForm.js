@@ -9,6 +9,7 @@ import TextFieldInput from '../TextFieldInput';
 
 import {localeDictionary} from '../../constants/locale_constant';
 import { environment } from '../../config/environment';
+import authenticationService from '../../services/authentication_service';
 
 class SettingForm extends Component {
   static contextType = LocalizationContext
@@ -25,6 +26,7 @@ class SettingForm extends Component {
       emailErrorMsg: '',
       passwordErrorMsg: '',
       showPasswordIcon: 'eye',
+      allowTogglePassword: false
     };
 
     this.langugageController;
@@ -32,9 +34,11 @@ class SettingForm extends Component {
 
   componentDidMount = async () => {
     const { appLanguage } = this.context;
+
     let setting = {
       locales: this.getLocales(),
       locale: appLanguage,
+      allowTogglePassword: !await authenticationService.isSignedIn()
     };
 
     try {
@@ -64,17 +68,22 @@ class SettingForm extends Component {
     let state = {};
     state[fieldName] = value;
     state[`${fieldName}ErrorMsg`] = '';
+
+    if (fieldName === 'password' && value == '')
+      state['allowTogglePassword'] = true;
+
     this.setState(state, () => this.props.updateValidationStatus());
   }
 
   _renderShowPasswordIcon = () => {
-    return (
-      <TextInput.Icon
-        name={this.state.showPasswordIcon}
-        color="#959595"
-        onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
-      />
-    )
+    if (this.state.allowTogglePassword)
+      return (
+        <TextInput.Icon
+          name={this.state.showPasswordIcon}
+          color="#959595"
+          onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
+        />
+      )
   }
 
   _renderForm = () => {
