@@ -128,7 +128,7 @@ class ScorecardProgress extends Component {
           scorecard={this.state.scorecard}
           progressPercentag={this.state.progressPercentag}
           showProgress={this.state.showProgress}
-          criterias={this.props.criterias}
+          indicators={this.props.indicators}
           submitToServer={() => this.submitToServer()}
           updateScorecard={() => this.updateScorecard()}
         />
@@ -149,7 +149,7 @@ class ScorecardProgress extends Component {
 function mapStateToProps(state) {
   return {
     currentScorecard: state.currentScorecard,
-    criterias: state.votingIndicators.sort((a, b) => (a.median > b.median) ? 1 : -1),
+    indicators: state.votingIndicators.sort((a, b) => (a.median > b.median) ? 1 : -1),
   };
 }
 
