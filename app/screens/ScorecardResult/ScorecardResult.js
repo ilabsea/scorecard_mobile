@@ -88,9 +88,9 @@ class ScorecardResult extends Component {
     )
   }
 
-  _handleShowModal(selectedIndicator, fieldName, selectedIndicator) {
+  _handleShowModal(indicator, fieldName, selectedIndicator) {
     _this.setState({
-      currentIndicator: Object.assign({currentFieldName: fieldName}, selectedIndicator),
+      currentIndicator: Object.assign({currentFieldName: fieldName}, indicator),
       selectedIndicator: selectedIndicator,
     }, () => {
       _this.formRef.current?.setBodyContent(_this.getSwotModalContent());

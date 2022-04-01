@@ -1,6 +1,5 @@
 import ProgramLanguage from '../migrations/v3/programLanguage';
 import Scorecard from '../migrations/v11/scorecard';
-// import VotingCriteria from '../migrations/v9/votingCriteria';
 import ProposedIndicator from '../migrations/v12/proposedIndicator';
 import Indicator from '../migrations/v13/indicator';
 import Rating from '../migrations/v14/rating';

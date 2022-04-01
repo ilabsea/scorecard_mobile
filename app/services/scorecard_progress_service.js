@@ -16,18 +16,18 @@ const scorecardProgressService = (() => {
     if (votingIndicators.length == 0)
       return false;
 
-    return votingIndicators.filter(criteria => !criteria.suggested_action).length > 0 ? false : true;
+    return votingIndicators.filter(votingIndicator => !votingIndicator.suggested_action).length > 0 ? false : true;
   }
 
-  function getProgressMessage(criterias, scorecard) {
+  function getProgressMessage(indicators, scorecard) {
     if (scorecard.finished)
       return '';
 
-    let votingIndicators = criterias.length > 0 ? criterias : VotingIndicator.getAll(scorecard.uuid);
+    let votingIndicators = indicators.length > 0 ? indicators : VotingIndicator.getAll(scorecard.uuid);
     const messages = [
       { label: scorecard.status < VOTING ? 'pleaseCompleteAllTheSteps' : null },
-      { label: votingIndicators.filter(criteria => !criteria.median).length > 0 ? 'allIndicatorMustBeVoted' : null },
-      { label: votingIndicators.filter(criteria => !criteria.suggested_action).length > 0 ? 'allIndicatorMustHaveSuggestedAction' : null },
+      { label: votingIndicators.filter(votingIndicator => !votingIndicator.median).length > 0 ? 'allIndicatorMustBeVoted' : null },
+      { label: votingIndicators.filter(votingIndicator => !votingIndicator.suggested_action).length > 0 ? 'allIndicatorMustHaveSuggestedAction' : null },
     ]
     const infoMessages = messages.filter(message => message.label);
     return infoMessages.length > 0 ? infoMessages[0].label : '';

@@ -10,23 +10,23 @@ const proposedIndicatorHelper = (() => {
     getDisplayName,
   };
 
-  function getProposedIndicatorAttributes(scorecard, selectedIndicators, columns, isRaisedIndicatorAttrs) {
-    return selectedIndicators.map(selectedIndicator => {
-      let indicatorAttrs = _getIndicatorAttrs(selectedIndicator);
-      let attr = getAttributesByColumns(selectedIndicator, columns);
+  function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
+    return proposedIndicators.map(proposedIndicator => {
+      let indicatorAttrs = _getIndicatorAttrs(proposedIndicator);
+      let attr = getAttributesByColumns(proposedIndicator, columns);
 
       attr.indicatorable_type = indicatorAttrs.type;
       attr.indicatorable_id = indicatorAttrs.indicatorable_id;
       attr.indicator_uuid = indicatorAttrs.indicator_uuid;
 
       if (!!isRaisedIndicatorAttrs) {
-        const votingIndicator = VotingIndicator.find(scorecard.uuid, indicator.id);
-        attr.tag_attributes = { name: selectedIndicator.tag }
+        const votingIndicator = VotingIndicator.find(scorecard.uuid, proposedIndicator.indicatorable_id);
+        attr.tag_attributes = { name: proposedIndicator.tag }
         attr.selected = !!votingIndicator ? true : false;
         attr.voting_indicator_uuid = !!votingIndicator ? votingIndicator.uuid : null;
       }
       else 
-        attr.uuid = selectedIndicator.uuid;    // the uuid of the votingIndicator
+        attr.uuid = proposedIndicator.uuid;    // the uuid of the votingIndicator
 
       return attr;
     })
@@ -54,11 +54,11 @@ const proposedIndicatorHelper = (() => {
 
   // private methods
 
-  function _getIndicatorAttrs(selectedIndicator) {
-    const indicator = Indicator.find(selectedIndicator.indicatorable_id, selectedIndicator.indicatorable_type);
+  function _getIndicatorAttrs(proposedIndicator) {
+    const indicator = Indicator.find(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type);
   
     const indicatorAttrs = {
-      'custom': { type: 'Indicators::CustomIndicator', indicator_uuid: selectedIndicator.indicatorable_id },
+      'custom': { type: 'Indicators::CustomIndicator', indicator_uuid: proposedIndicator.indicatorable_id },
       'predefined': { type: 'Indicator', indicator_uuid: indicator.indicator_uuid }
     }
     indicatorAttrs[indicator.type]['indicatorable_id'] = indicator.id;
