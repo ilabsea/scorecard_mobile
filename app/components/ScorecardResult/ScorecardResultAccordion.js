@@ -12,29 +12,29 @@ class ScorecardResultAccordion extends Component {
     _this = this;
   }
 
-  onPress = (criteria, fieldName, indicator, isAddNew) => {
+  onPress = (selectedIndicator, fieldName, indicator, isAddNew) => {
     if (isAddNew && _this.props.isScorecardFinished)
       return;
 
-    !!_this.props.onPress && _this.props.onPress(criteria, fieldName, indicator);
+    !!_this.props.onPress && _this.props.onPress(selectedIndicator, fieldName, indicator);
   }
 
-  renderAccordionContent(criteria) {
-    return <ScorecardResultAccordionContent criteria={criteria} onPress={_this.onPress} isRequired={_this.isRequired(criteria)} isScorecardFinished={_this.props.isScorecardFinished}  />
+  renderAccordionContent(indicator) {
+    return <ScorecardResultAccordionContent indicator={indicator} onPress={_this.onPress} isRequired={_this.isRequired(indicator)} isScorecardFinished={_this.props.isScorecardFinished}  />
   }
 
-  isRequired(criteria) {
-    return !criteria.suggested_action ? true : false;
+  isRequired(indicator) {
+    return !indicator.suggested_action ? true : false;
   }
 
-  renderTitleText(criteria, index) {
-    return <ScorecardResultAccordionTitle criteria={criteria} order={index + 1} isRequired={_this.isRequired(criteria)} />
+  renderTitleText(indicator, index) {
+    return <ScorecardResultAccordionTitle indicator={indicator} order={index + 1} isRequired={_this.isRequired(indicator)} />
   }
 
   render() {
     return (
       <Accordion
-        items={this.props.criterias}
+        items={this.props.indicators}
         accordionTitle={this.renderTitleText}
         accordionContent={this.renderAccordionContent}
       />

@@ -37,7 +37,7 @@ class ScorecardResult extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
-      currentCriteria: {},
+      currentIndicator: {},
       selectedIndicator: {},
     };
     _this = this;
@@ -72,7 +72,7 @@ class ScorecardResult extends Component {
     return (
       <ScorecardResultTable
         scorecard={this.state.scorecard}
-        criterias={this.props.indicators}
+        indicators={this.props.indicators}
         handleShowModal={this._handleShowModal}
       />
     )
@@ -81,17 +81,17 @@ class ScorecardResult extends Component {
   _renderAccordion() {
     return (
       <ScorecardResultAccordion
-        criterias={this.props.indicators}
-        onPress={(criteria, fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
+        indicators={this.props.indicators}
+        onPress={(selectedIndicator, fieldName, indicator) => this._handleShowModal(selectedIndicator, fieldName, indicator)}
         isScorecardFinished={this.state.scorecard.finished}
       />
     )
   }
 
-  _handleShowModal(criteria, fieldName, indicator) {
+  _handleShowModal(selectedIndicator, fieldName, selectedIndicator) {
     _this.setState({
-      currentCriteria: Object.assign({currentFieldName: fieldName}, criteria),
-      selectedIndicator: indicator,
+      currentIndicator: Object.assign({currentFieldName: fieldName}, selectedIndicator),
+      selectedIndicator: selectedIndicator,
     }, () => {
       _this.formRef.current?.setBodyContent(_this.getSwotModalContent());
 
@@ -103,7 +103,7 @@ class ScorecardResult extends Component {
 
   getSwotModalContent() {
     return <ScorecardResultModalContent
-            criteria={this.state.currentCriteria}
+            indicator={this.state.currentIndicator}
             onDismiss={() => this.swotModalRef.current?.dismiss()}
             selectedIndicator={this.state.selectedIndicator}
             isScorecardFinished={this.state.scorecard.finished}

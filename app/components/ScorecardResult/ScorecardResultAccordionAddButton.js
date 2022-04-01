@@ -8,12 +8,12 @@ class ScorecardResultAccordionAddButton extends Component {
   static contextType = LocalizationContext;
 
   onPress() {
-    const { criteria, fieldName, indicator } = this.props;
+    const { indicator, fieldName, languageIndicator } = this.props;
 
-    if (!criteria.median)
+    if (!indicator.median)
       return;
 
-    this.props.onPress(criteria, fieldName, indicator, true)
+    this.props.onPress(indicator, fieldName, languageIndicator, true)
   }
 
   render() {
@@ -23,7 +23,7 @@ class ScorecardResultAccordionAddButton extends Component {
         btnStyle={styles.btn}
         textStyle={styles.btnText}
         isScorecardFinished={this.props.isScorecardFinished}
-        criteria={this.props.criteria}
+        indicator={this.props.indicator}
       />
     );
   }

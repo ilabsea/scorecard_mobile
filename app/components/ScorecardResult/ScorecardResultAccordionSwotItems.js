@@ -7,16 +7,16 @@ import ScorecardResultAccordionEditButton from './ScorecardResultAccordionEditBu
 
 class ScorecardResultAccordionSwotItems extends Component {
   render() {
-    const { criteria, fieldName, indicator } = this.props;
+    const { indicator, fieldName, languageIndicator } = this.props;
 
     return (
-      <View style={{flexDirection: 'row', marginVertical: !criteria[fieldName] ? 14 : 6}}>
-        <ScorecardResultAccordionFieldLabel criteria={criteria} fieldName={fieldName} isRequired={this.props.isRequired} />
+      <View style={{flexDirection: 'row', marginVertical: !indicator[fieldName] ? 14 : 6}}>
+        <ScorecardResultAccordionFieldLabel indicator={indicator} fieldName={fieldName} isRequired={this.props.isRequired} />
 
-        { !criteria[fieldName] ?
-          <ScorecardResultAccordionAddButton criteria={criteria} fieldName={fieldName} indicator={indicator} onPress={this.props.onPress} isScorecardFinished={this.props.isScorecardFinished} />
+        { !indicator[fieldName] ?
+          <ScorecardResultAccordionAddButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={this.props.onPress} isScorecardFinished={this.props.isScorecardFinished} />
         :
-          <ScorecardResultAccordionEditButton criteria={criteria} fieldName={fieldName} indicator={indicator} onPress={this.props.onPress} />
+          <ScorecardResultAccordionEditButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={this.props.onPress} />
         }
       </View>
     )

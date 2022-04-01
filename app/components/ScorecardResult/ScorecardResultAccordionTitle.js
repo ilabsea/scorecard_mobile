@@ -8,7 +8,7 @@ import indicatorHelper from '../../helpers/indicator_helper';
 
 class ScorecardResultAccordionTitle extends Component {
   render() {
-    const indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
+    const indicator = indicatorHelper.getDisplayIndicator(this.props.indicator);
     const indicatorName = indicator.content || indicator.name;
     const textColor = this.props.isRequired ? { color: Color.redColor } : { color: Color.blackColor };
 

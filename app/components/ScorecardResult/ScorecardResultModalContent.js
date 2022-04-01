@@ -17,36 +17,36 @@ import Color from '../../themes/color';
 
 const ScorecardResultModalContent = (props) => {
   const dispatch = useDispatch();
-  const { criteria, selectedIndicator, isScorecardFinished } = props;
+  const { indicator, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
   const [hasAction, setHasAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [selectedActions, setSelectedActions] = useState([false]);
 
-  let defaultPoints = criteria[criteria.currentFieldName] != null && !hasAction ? [...JSON.parse(criteria[criteria.currentFieldName])] : [''];
-  let savedSelectedActions = criteria.suggested_action_status != undefined && criteria.suggested_action_status.length > 0 ? criteria.suggested_action_status : [];
+  let defaultPoints = indicator[indicator.currentFieldName] != null && !hasAction ? [...JSON.parse(indicator[indicator.currentFieldName])] : [''];
+  let savedSelectedActions = indicator.suggested_action_status != undefined && indicator.suggested_action_status.length > 0 ? indicator.suggested_action_status : [];
 
   const onDismiss = () => {
     setHasAction(false);
     setPoints(['']);
     setSelectedActions([false]);
-    dispatch(getAll(criteria.scorecard_uuid));
+    dispatch(getAll(indicator.scorecard_uuid));
     !!props.onDismiss && props.onDismiss();
   }
 
   function submit() {
-    let data = { uuid: criteria.uuid };
+    let data = { uuid: indicator.uuid };
     let inputtedPoints = getPoints();
     inputtedPoints = inputtedPoints.filter(note => note.length > 0);
 
-    data[criteria.currentFieldName] = inputtedPoints.length == 0 ? null : JSON.stringify(inputtedPoints);
+    data[indicator.currentFieldName] = inputtedPoints.length == 0 ? null : JSON.stringify(inputtedPoints);
 
     if (isSuggestedAction())
       data['suggested_action_status'] = scorecardResultHelper.getValidSuggestedStatuses(getPoints(), getSelectedActions());
 
     VotingIndicator.upsert(data);
 
-    dispatch(getAll(criteria.scorecard_uuid));
+    dispatch(getAll(indicator.scorecard_uuid));
     setHasAction(false);
     onDismiss();
   }
@@ -105,7 +105,7 @@ const ScorecardResultModalContent = (props) => {
   }
 
   function isSuggestedAction() {
-    return criteria.currentFieldName == 'suggested_action';
+    return indicator.currentFieldName == 'suggested_action';
   }
 
   function toggleCheckbox(index) {
@@ -123,7 +123,7 @@ const ScorecardResultModalContent = (props) => {
           selectedIndicator={selectedIndicator}
           addNewPoint={() => addNewPoint()}
           isScorecardFinished={isScorecardFinished}
-          criteria={criteria}
+          indicator={indicator}
         />
 
         <ScorecardResultModalList
@@ -132,7 +132,7 @@ const ScorecardResultModalContent = (props) => {
           defaultPoints={defaultPoints}
           renderSelectedActions={getSelectedActions()}
           isScorecardFinished={isScorecardFinished}
-          criteria={criteria}
+          indicator={indicator}
           isDelete={isDelete}
           toggleCheckbox={toggleCheckbox}
           onChangeText={onChangeText}

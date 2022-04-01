@@ -14,16 +14,15 @@ class ScorecardResultTable extends Component {
     const { translations } = this.context;
     let tableHead = ['criteria', 'score', 'strength', 'weakness', 'suggested_action'];
     tableHead = tableHead.map(x => translations[x]);
-    const tableRows = this.props.criterias;
 
     return (
       <Table borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
         <Row data={tableHead} style={styles.head} textStyle={styles.text} flexArr={[4, 2, 3, 3, 3]} />
         {
-          tableRows.map((criteria, index) => (
-            <ScorecardResultTableRow key={index} criteria={criteria}
+          this.props.indicators.map((indicator, index) => (
+            <ScorecardResultTableRow key={index} indicator={indicator}
               order={index + 1}
-              onPress={(fieldName, indicator) => this.props.handleShowModal(criteria, fieldName, indicator)}
+              onPress={(fieldName, selectedIndicator) => this.props.handleShowModal(indicator, fieldName, selectedIndicator)}
               isScorecardFinished={this.props.scorecard.finished}
             />
           ))

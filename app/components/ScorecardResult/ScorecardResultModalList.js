@@ -26,7 +26,7 @@ class ScorecardResultModalList extends Component {
           note={note}
           fieldName={fieldName}
           isScorecardFinished={this.props.isScorecardFinished}
-          criteria={this.props.criteria}
+          indicator={this.props.indicator}
           isDelete={this.props.isDelete}
           renderSelectedActions={this.props.renderSelectedActions}
           toggleCheckbox={this.props.toggleCheckbox}
