@@ -27,7 +27,7 @@ class ScorecardListInfoScorecardDetial extends Component {
 
   render() {
     const { scorecard } = this.props;
-    const criteriasSize = VotingIndicator.getAll(scorecard.uuid).length;
+    const indicatorsSize = VotingIndicator.getAll(scorecard.uuid).length;
     const subTextStyles = { paddingTop: getDeviceStyle(2, 1), fontSize: subTextFontSize, marginLeft: 0};
     const subTitleMarginTop = getDeviceStyle(2, 3);
 
@@ -36,7 +36,7 @@ class ScorecardListInfoScorecardDetial extends Component {
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>{ scorecard.facility_code }: </Text>
         <Text style={[{fontSize: getDeviceStyle(16, 15), marginTop: 0}]}>{ scorecard.uuid } </Text>
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>
-          ({this.context.translations.raisedIndicator}: {criteriasSize})
+          ({this.context.translations.raisedIndicator}: {indicatorsSize})
         </Text>
 
         { this.renderConductedDate(scorecard) }
