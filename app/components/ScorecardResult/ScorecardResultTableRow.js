@@ -19,7 +19,7 @@ export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
 
   onPress = (fieldName, indicator, isAddNew) => {
-    if (!this.props.criteria.median|| (isAddNew && this.props.isScorecardFinished))
+    if (!this.props.indicator.median|| (isAddNew && this.props.isScorecardFinished))
       return;
 
     !!this.props.onPress && this.props.onPress(fieldName, indicator);
@@ -28,7 +28,7 @@ export default class ScorecardResultTableRow extends Component {
   btnAdd = (fieldName, indicator) => {
     let color = Color.blackColor;
 
-    if (fieldName == 'suggested_action' && !this.props.criteria['suggested_action'])
+    if (fieldName == 'suggested_action' && !this.props.indicator['suggested_action'])
       color = Color.redColor;
 
     return (
@@ -37,10 +37,10 @@ export default class ScorecardResultTableRow extends Component {
         btnStyle={styles.btn}
         textStyle={styles.btnText}
         isScorecardFinished={this.props.isScorecardFinished}
-        criteria={this.props.criteria}
+        indicator={this.props.indicator}
       >
         { fieldName == 'suggested_action' &&
-          <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.criteria, color)]}> *</Text>
+          <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.indicator, color)]}> *</Text>
         }
       </ScorecardResultAddButton>
     );
@@ -50,7 +50,7 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
         <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={styles.btnEdit}>
-          <Text style={{color: Color.whiteColor, marginRight: 6}}>{JSON.parse(this.props.criteria[fieldName]).length}</Text>
+          <Text style={{color: Color.whiteColor, marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
           <Icon name={'pen'} type="FontAwesome5" style={{color: Color.whiteColor, fontSize: 14}}/>
         </TouchableOpacity>
       </View>
@@ -58,7 +58,7 @@ export default class ScorecardResultTableRow extends Component {
   }
 
   renderCell = (fieldName, indicator) => {
-    if (!this.props.criteria[fieldName]) {
+    if (!this.props.indicator[fieldName]) {
       return this.btnAdd(fieldName, indicator);
     }
 
@@ -70,7 +70,7 @@ export default class ScorecardResultTableRow extends Component {
       <View style={{ paddingHorizontal: 2}}>
         <Text style={[styles.text]}>
           {text}
-          <Text style={[{ fontSize: 18 }, !this.props.criteria['suggested_action'] ? { color: Color.redColor } : {}]}> *</Text>
+          <Text style={[{ fontSize: 18 }, !this.props.indicator['suggested_action'] ? { color: Color.redColor } : {}]}> *</Text>
         </Text>
       </View>
     )
@@ -82,21 +82,21 @@ export default class ScorecardResultTableRow extends Component {
   };
 
   _renderMedian = () => {
-    const textLabel = this.props.criteria.median ? this.props.criteria.median : this.context.translations.notVoted;
+    const textLabel = this.props.indicator.median ? this.props.indicator.median : this.context.translations.notVoted;
 
-    return <Cell data={textLabel} style={{flex: 2, alignItems: 'center'}} textStyle={!this.props.criteria.median ? { fontSize: 14, color: Color.redColor } : {}} />
+    return <Cell data={textLabel} style={{flex: 2, alignItems: 'center'}} textStyle={!this.props.indicator.median ? { fontSize: 14, color: Color.redColor } : {}} />
   }
 
   render() {
     const editableFields = ['strength',  'weakness', 'suggested_action'];
-    const indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
+    const languageIndicator = indicatorHelper.getDisplayIndicator(this.props.indicator);
 
     return (
       <TableWrapper style={styles.row} borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
-        { this._renderTextCell(indicator.content || indicator.name, 4) }
+        { this._renderTextCell(languageIndicator.content || indiclanguageIndicatorator.name, 4) }
         { this._renderMedian() }
         { editableFields.map((fieldName, index) => (
-          <Cell key={index} data={this.renderCell(fieldName, indicator)} textStyle={styles.text} style={{flex: 3}}/>
+          <Cell key={index} data={this.renderCell(fieldName, languageIndicator)} textStyle={styles.text} style={{flex: 3}}/>
         ))}
       </TableWrapper>
     )

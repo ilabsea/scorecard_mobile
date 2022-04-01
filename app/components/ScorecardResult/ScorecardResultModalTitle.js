@@ -11,7 +11,7 @@ class ScorecardResultModalTitle extends Component {
   renderIndicatorName() {
     if (this.props.selectedIndicator) {
       const indicatorName = this.props.selectedIndicator.content ? this.props.selectedIndicator.content : this.props.selectedIndicator.name;
-      return `${this.props.criteria.order}. ${indicatorName}`;
+      return `${this.props.indicator.order}. ${indicatorName}`;
     }
 
     return '';
@@ -19,7 +19,7 @@ class ScorecardResultModalTitle extends Component {
 
   render() {
     const { translations } = this.context;
-    const fieldName = translations[this.props.criteria.currentFieldName] ? translations[this.props.criteria.currentFieldName].toLowerCase() : '';
+    const fieldName = translations[this.props.indicator.currentFieldName] ? translations[this.props.indicator.currentFieldName].toLowerCase() : '';
     const subTitle = this.props.isScorecardFinished ? fieldName : `${translations.insert} ${fieldName}`;
 
     return (

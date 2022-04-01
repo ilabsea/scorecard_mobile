@@ -11,15 +11,16 @@ import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 
 import indicatorHelper from '../../helpers/indicator_helper';
-import { getVotingInfos, isVotingCriteriaRated } from '../../helpers/voting_criteria_helper';
 import votingInfoModalHelper from '../../helpers/voting_info_modal_helper';
+import { getVotingInfos, isVotingIndicatorRated } from '../../helpers/voting_indicator_helper';
+
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
-import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
+import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
+import VotingIndicatorListItemMobileStyles from '../../styles/mobile/VotingIndicatorListItemComponentStyle';
 
-const styles = getDeviceStyle(VotingCriteriaListItemTabletStyles, VotingCriteriaListItemMobileStyles);
+const styles = getDeviceStyle(VotingIndicatorListItemTabletStyles, VotingIndicatorListItemMobileStyles);
 
-export default class VotingCriteriaListItem extends Component {
+export default class VotingIndicatorListItem extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -33,8 +34,8 @@ export default class VotingCriteriaListItem extends Component {
 
   _renderContent(indicator) {
     const { translations } = this.context;
-    let containerDirectionStyle = !this.props.criteria.median && DeviceInfo.isTablet() ? { flexDirection: 'row' } : {};
-    let viewMoreContainerStyle = !this.props.criteria.median ? styles.viewMoreContainer : styles.borderedViewMoreContainer;
+    let containerDirectionStyle = !this.props.indicator.median && DeviceInfo.isTablet() ? { flexDirection: 'row' } : {};
+    let viewMoreContainerStyle = !this.props.indicator.median ? styles.viewMoreContainer : styles.borderedViewMoreContainer;
     if (!DeviceInfo.isTablet())
       viewMoreContainerStyle = styles.viewMoreContainer;
 
@@ -42,13 +43,13 @@ export default class VotingCriteriaListItem extends Component {
       <View style={[cardListItemStyle.contentWrapper, { padding: 10, paddingTop: 10, paddingBottom: 16, paddingRight: 0}, containerDirectionStyle]}>
         <View style={{flex: 1}}>
           <Text style={[cardListItemStyle.h2, styles.capitalize, styles.indicatorNameLabel]} numberOfLines={1}>
-            {this.props.criteria.order}. {indicator.content || indicator.name}
+            {this.props.indicator.order}. {indicator.content || indicator.name}
           </Text>
 
-          <VotingIndicatorListIcons criteria={this.props.criteria} />
+          <VotingIndicatorListIcons indicator={this.props.indicator} />
         </View>
 
-        { this.props.criteria.median &&
+        { this.props.indicator.median &&
           <View style={viewMoreContainerStyle}>
             <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
             <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
@@ -67,9 +68,9 @@ export default class VotingCriteriaListItem extends Component {
       selectedIndicator: indicator,
     }, () => {
       const scorecard = this.props.scorecard;
-      const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.criteria, this.context.translations);
+      const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.indicator, this.context.translations);
       const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(scorecard.uuid, this.state.selectedIndicator);
-      const modalSnapPoints = isVotingCriteriaRated(this.props.criteria.uuid) ? votingInfoSnapPoints : ['18%'];
+      const modalSnapPoints = isVotingIndicatorRated(this.props.indicator.uuid) ? votingInfoSnapPoints : ['18%'];
 
       this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
       this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);
@@ -81,13 +82,13 @@ export default class VotingCriteriaListItem extends Component {
   }
 
   render() {
-    let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria);
+    let indicator = indicatorHelper.getDisplayIndicator(this.props.indicator);
 
     return (
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
         <View style={[customStyle.card, styles.ratingItemContainer]}>
           { this._renderContent(indicator) }
-          <VotingIndicatorListMedian criteria={this.props.criteria} />
+          <VotingIndicatorListMedian indicator={this.props.indicator} />
         </View>
       </TouchableOpacity>
     )

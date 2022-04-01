@@ -6,7 +6,7 @@ import { VotingInfoListItem, VotingInfoListItems } from './VotingInfoListItems';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Participant from '../../models/Participant'
-import { getVotingParticipants } from '../../helpers/voting_criteria_helper';
+import { getVotingParticipants } from '../../helpers/voting_indicator_helper';
 import uuidv4 from '../../utils/uuidv4';
 import { participantTypes } from '../../constants/participant_constant';
 

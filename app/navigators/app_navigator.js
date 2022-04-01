@@ -5,7 +5,6 @@ import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from 
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-
 // Screens
 import HomeScreen from '../screens/Home/Home';
 import SettingScreen from '../screens/Setting/Setting';
@@ -16,14 +15,13 @@ import FacilitatorScreen from '../screens/Facilitator/Facilitator';
 import ScorecardListScreen from '../screens/ScorecardList/ScorecardList';
 import ScorecardProgressScreen from '../screens/ScorecardProgress/ScorecardProgress';
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
-import VotingCriteriaFormScreen from '../screens/VotingCriteriaForm/VotingCriteriaForm';
-import VotingCriteriaListScreen from '../screens/VotingCriteriaList/VotingCriteriaList';
+import VotingIndicatorFormScreen from '../screens/VotingIndicatorForm/VotingIndicatorForm';
+import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
 import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
 import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
 import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticipant';
-import ParticipantInformationScreen from '../screens/ParticipantInformation/ParticipantInformation';
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
@@ -101,15 +99,15 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="VotingCriteriaList"
-        component={VotingCriteriaListScreen}
+        name="VotingIndicatorList"
+        component={VotingIndicatorListScreen}
         options={({navigation}) => ({
           header: ()=> null
         })}
       />
       <Stack.Screen
-        name="VotingCriteriaForm"
-        component={VotingCriteriaFormScreen}
+        name="VotingIndicatorForm"
+        component={VotingIndicatorFormScreen}
         options={{
           header: () => null
         }}
@@ -153,13 +151,6 @@ function AppNavigator() {
       <Stack.Screen
         name="Facilitator"
         component={FacilitatorScreen}
-        options={({navigation}) => ({
-          header: () => null,
-        })}
-      />
-      <Stack.Screen
-        name="ParticipantInformation"
-        component={ParticipantInformationScreen}
         options={({navigation}) => ({
           header: () => null,
         })}

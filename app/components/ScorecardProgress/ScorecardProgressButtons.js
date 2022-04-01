@@ -64,7 +64,7 @@ class ScorecardProgressButtons extends Component {
     if (this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
-      message = translations[scorecardProgressService.getProgressMessage(this.props.criterias, this.props.scorecard)];
+      message = translations[scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard)];
 
     return (
       <Text style={{ fontSize: fontSize, color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title, paddingTop: 5}}>

@@ -3,13 +3,13 @@ import { View, Text } from 'react-native';
 
 import OutlineInfoIcon from '../components/OutlineInfoIcon';
 import DashedLine from '../components/DashedLine';
-import VotingParticipantInfo from '../components/VotingCriteria/VotingParticipantInfo';
-import VotingAverageScoreInfo from '../components/VotingCriteria/VotingAverageScoreInfo';
-import VotingMedianScoreInfo from '../components/VotingCriteria/VotingMedianInfo';
+import VotingParticipantInfo from '../components/VotingIndicator/VotingParticipantInfo';
+import VotingAverageScoreInfo from '../components/VotingIndicator/VotingAverageScoreInfo';
+import VotingMedianScoreInfo from '../components/VotingIndicator/VotingMedianInfo';
 
 import CustomStyle from '../themes/customStyle';
 import Color from '../themes/color';
-import { getVotingInfos, hasVoting, isVotingCriteriaRated } from './voting_criteria_helper';
+import { getVotingInfos, isVotingIndicatorRated } from './voting_indicator_helper';
 import indicatorHelper from './indicator_helper';
 import { titleFontSize } from '../utils/font_size_util';
 import { getDeviceStyle, containerPadding, isShortScreenDevice } from '../utils/responsive_util';
@@ -24,11 +24,11 @@ const votingInfoModalHelper = (() => {
     getModalSnapPoints
   }
 
-  function getModalContent(scorecard, indicator, criteria, translations) {
-    if (isVotingCriteriaRated(criteria.uuid))
-      return _getVotingDetail(scorecard, indicator, criteria);
+  function getModalContent(scorecard, selectedIndicator, indicator, translations) {
+    if (isVotingIndicatorRated(indicator.uuid))
+      return _getVotingDetail(scorecard, selectedIndicator, indicator);
 
-    return { first_content: _getNoDataContent(criteria, indicator, translations), second_content: null }
+    return { first_content: _getNoDataContent(indicator, selectedIndicator, translations), second_content: null }
   }
 
   function getModalSnapPoints(scorecardUuid, indicator) {
@@ -54,18 +54,18 @@ const votingInfoModalHelper = (() => {
            </Text>
   }
 
-  function  _getVotingDetail(scorecard, indicator, criteria) {
-    const indicatorId = indicatorHelper.getIndicatorId(indicator);
+  function  _getVotingDetail(scorecard, selectedIndicator, indicator) {
+    const indicatorId = indicatorHelper.getIndicatorId(selectedIndicator);
     const votingInfos = getVotingInfos(scorecard.uuid, indicatorId);
     const hasLessInfo = _hasLessInfo(votingInfos);
     const votingParticipantInfo = <VotingParticipantInfo scorecard={scorecard} />;
 
     const firstContent = <React.Fragment>
-                          { _modalTitle(criteria.order, indicator, { paddingBottom: 0 }) }
+                          { _modalTitle(indicator.order, selectedIndicator, { paddingBottom: 0 }) }
                           <DashedLine />
 
                           <View style={{ paddingHorizontal: containerPadding, paddingTop: 10 }}>
-                            <VotingMedianScoreInfo criteria={criteria} />
+                            <VotingMedianScoreInfo indicator={indicator} />
                             <VotingAverageScoreInfo votingInfos={votingInfos} />
                             { hasLessInfo && votingParticipantInfo }
                           </View>
@@ -81,11 +81,11 @@ const votingInfoModalHelper = (() => {
     }
   }
 
-  function _getNoDataContent(criteria, indicator, translations) {
+  function _getNoDataContent(indicator, selectedIndicator, translations) {
     return <React.Fragment>
               <View style={{flexDirection: 'row', paddingHorizontal: containerPadding, justifyContent: 'center', alignItems: 'center'}}>
                 <OutlineInfoIcon color={Color.warningColor} customIconContainerStyles={{ marginTop: -10 }} />
-                { _modalTitle(criteria.order, indicator, { paddingLeft: 0, paddingBottom: 5 }) }
+                { _modalTitle(indicator.order, selectedIndicator, { paddingLeft: 0, paddingBottom: 5 }) }
               </View>
               <DashedLine />
 

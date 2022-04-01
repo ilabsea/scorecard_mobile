@@ -17,7 +17,7 @@ class ScorecardResultModalListItem extends Component {
   static contextType = LocalizationContext;
 
   isSuggestedAction() {
-    return this.props.criteria.currentFieldName == 'suggested_action';
+    return this.props.indicator.currentFieldName == 'suggested_action';
   }
 
   getLabelMarginTop() {
@@ -25,7 +25,7 @@ class ScorecardResultModalListItem extends Component {
   }
 
   render() {
-    const { index, note, fieldName, isScorecardFinished, criteria, isDelete } = this.props;
+    const { index, note, fieldName, isScorecardFinished, indicator, isDelete } = this.props;
     const scrollPosition = index * getDeviceStyle(70, 50);
 
     return (
@@ -46,7 +46,7 @@ class ScorecardResultModalListItem extends Component {
             <ScorecardResultTextInput
               autoFocus={!note}
               value={note}
-              placeholder={this.context.translations[criteria.currentFieldName]}
+              placeholder={this.context.translations[indicator.currentFieldName]}
               fieldName={fieldName}
               onChangeText={this.props.onChangeText}
               customStyle={styles.inputText}

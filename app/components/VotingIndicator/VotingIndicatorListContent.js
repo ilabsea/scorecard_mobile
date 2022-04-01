@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import VotingCriteriaListItem from './VotingCriteriaListItem';
+import VotingIndicatorListItem from './VotingIndicatorListItem';
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import BottomButton from '../BottomButton';
 import Tip from '../Tip';
@@ -14,7 +14,7 @@ import { titleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import * as participantService from '../../services/participant_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { hasVoting } from '../../helpers/voting_criteria_helper';
+import { hasVoting } from '../../helpers/voting_indicator_helper';
 
 class VotingIndicatorListContent extends React.Component {
   static contextType = LocalizationContext;
@@ -25,8 +25,12 @@ class VotingIndicatorListContent extends React.Component {
   }
 
   _renderList() {
-    return this.props.votingCriterias.map((item, index) => 
-      <VotingCriteriaListItem criteria={item} key={index} scorecard={this.props.scorecard} votingInfoModalRef={this.props.votingInfoModalRef} infoModalRef={this.props.infoModalRef} />
+    return this.props.votingIndicators.map((item, index) => 
+      <VotingIndicatorListItem indicator={item} key={index}
+        scorecard={this.props.scorecard}
+        votingInfoModalRef={this.props.votingInfoModalRef}
+        infoModalRef={this.props.infoModalRef}
+      />
     );
   }
 
@@ -41,14 +45,14 @@ class VotingIndicatorListContent extends React.Component {
     return (
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingCriterias.length}</Text>
+          <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
 
           <ParticipantInfo
             participants={ participantService.getUnvoted(this.props.scorecard.uuid) }
             scorecardUuid={ this.props.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
             buttonVisible={true}
-            selectParticipant={(participant) => navigate('VotingCriteriaForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant.uuid})}
+            selectParticipant={(participant) => navigate('VotingIndicatorForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant.uuid})}
             participantModalRef={this.props.participantModalRef}
             formModalRef={this.props.formModalRef}
             closeModal={() => this.closeModal()}
@@ -64,7 +68,7 @@ class VotingIndicatorListContent extends React.Component {
     return (
       <React.Fragment>
         <ScrollView contentContainerStyle={styles.container}>
-          <Tip screenName='VotingCriteriaList' showTipModal={() => this.props.tipModalRef.current?.present()} />
+          <Tip screenName='VotingIndicatorList' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
           { this._renderContent() }
         </ScrollView>

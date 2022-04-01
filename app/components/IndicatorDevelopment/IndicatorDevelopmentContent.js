@@ -47,7 +47,7 @@ class IndicatorDevelopmentContent extends Component {
     return (
       <IndicatorDevelopmentContentHeader
         openModal={this.props.openModal}
-        hasData={!!this.props.selectedCriterias.length}
+        hasData={!!this.props.selectedIndicators.length}
         hasRating={this.state.hasRating}
         tipModalRef={this.props.tipModalRef}
       />
@@ -55,16 +55,16 @@ class IndicatorDevelopmentContent extends Component {
   }
 
   render() {
-    const hasData = !!this.props.selectedCriterias.length;
+    const hasData = !!this.props.selectedIndicators.length;
 
     return (
       <View style={{flex: 1}}
-        onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y })}
+        onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y - 22 })}
       >
         <View style={{flex: 1, paddingHorizontal: containerPadding}}>
           <IndicatorDevelopmentList
             scorecardUuid={this.props.scorecardUuid}
-            selectedCriterias={this.props.selectedCriterias}
+            selectedIndicators={this.props.selectedIndicators}
             updateSelectedIndicatorsOrder={this.props.updateSelectedIndicatorsOrder}
             hasData={hasData}
             openModal={this.props.openModal}

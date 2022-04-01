@@ -17,8 +17,8 @@ const scorecardResultHelper = (() => {
     return validSuggestedActions;
   }
 
-  function btnTextColor(isScorecardFinished, criteria, defaultColor) {
-    return (isScorecardFinished || !criteria.median) ? { color: Color.grayColor } : { color: defaultColor };
+  function btnTextColor(isScorecardFinished, indicator, defaultColor) {
+    return (isScorecardFinished || !indicator.median) ? { color: Color.grayColor } : { color: defaultColor };
   }
 })();
 

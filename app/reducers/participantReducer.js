@@ -1,12 +1,13 @@
 import realm from '../db/schema';
+import ProposedIndicator from '../models/ProposedIndicator';
 const initState = {participants: []};
 
 const getParticipants = (participants, scorecardUUID) => {
   let savedParticipants = [];
   participants.map((participant) => {
-    const proposedCriterias = realm.objects('ProposedCriteria').filtered('scorecard_uuid = "'+ scorecardUUID +'" AND participant_uuid = "'+ participant.uuid +'"');
+    const proposedIndicators = ProposedIndicator.find(scorecardUUID, participant.uuid);
     const attrs = participant
-    attrs['proposed_criterias'] = proposedCriterias;
+    attrs['proposed_indicators'] = proposedIndicators;
     savedParticipants.push(attrs);
   });
   return savedParticipants;

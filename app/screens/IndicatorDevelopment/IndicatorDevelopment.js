@@ -14,10 +14,10 @@ import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
 import { setSelectedIndicators } from '../../actions/selectedIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
-import { setVotingCriterias } from '../../actions/votingCriteriaAction';
+import { setVotingIndicators } from '../../actions/votingIndicatorAction';
 
 import Scorecard from '../../models/Scorecard';
-import votingCriteriaService from '../../services/votingCriteriaService';
+import votingIndicatorService from '../../services/voting_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
@@ -52,7 +52,7 @@ class IndicatorDevelopment extends Component {
   }
 
   updateIndicatorsData() {
-    const selectedIndicatorableIds = votingCriteriaService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
+    const selectedIndicatorableIds = votingIndicatorService.getSelectedIndicatorableIds(this.state.scorecard.uuid);
     let proposedIndicators = proposedIndicatorService.getProposedIndicators(this.state.scorecard.uuid);
     const selectedIndicators = proposedIndicatorService.getSelectedProposedIndicators(this.state.scorecard.uuid, selectedIndicatorableIds);
 
@@ -74,12 +74,12 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    votingCriteriaService.submitCriterias(this.state.scorecard.uuid, this.props.selectedIndicators, (savedCriterias) => {
-      this.props.setVotingCriterias(savedCriterias);
+    votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedIndicators) => {
+      this.props.setVotingIndicators(savedIndicators);
     });
 
     scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
-    this.props.navigation.navigate('VotingCriteriaList', { scorecard_uuid: this.state.scorecard.uuid });
+    this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
   }
 
   openModal() {
@@ -92,7 +92,7 @@ class IndicatorDevelopment extends Component {
   _renderContent() {
     return (
       <IndicatorDevelopmentContent
-        selectedCriterias={this.props.selectedIndicators}
+        selectedIndicators={this.props.selectedIndicators}
         scorecardUuid={this.props.route.params.scorecard_uuid}
         openModal={() => this.openModal()}
         updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}
@@ -145,7 +145,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedIndicators: (indicators) => dispatch(setSelectedIndicators(indicators)),
     setProposedIndicators: (indicators) => dispatch(setProposedIndicators(indicators)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
-    setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
+    setVotingIndicators: (indicators) => dispatch(setVotingIndicators(indicators)),
   };
 }
 

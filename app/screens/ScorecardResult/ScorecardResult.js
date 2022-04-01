@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import { connect } from 'react-redux';
-import { getAll } from '../../actions/votingCriteriaAction';
+import { getAll } from '../../actions/votingIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 import { getAllScorecardReferences } from '../../actions/scorecardReferenceAction';
 
@@ -37,7 +37,7 @@ class ScorecardResult extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
-      currentCriteria: {},
+      currentIndicator: {},
       selectedIndicator: {},
     };
     _this = this;
@@ -72,7 +72,7 @@ class ScorecardResult extends Component {
     return (
       <ScorecardResultTable
         scorecard={this.state.scorecard}
-        criterias={this.props.criterias}
+        indicators={this.props.indicators}
         handleShowModal={this._handleShowModal}
       />
     )
@@ -81,17 +81,17 @@ class ScorecardResult extends Component {
   _renderAccordion() {
     return (
       <ScorecardResultAccordion
-        criterias={this.props.criterias}
-        onPress={(criteria, fieldName, indicator) => this._handleShowModal(criteria, fieldName, indicator)}
+        indicators={this.props.indicators}
+        onPress={(selectedIndicator, fieldName, indicator) => this._handleShowModal(selectedIndicator, fieldName, indicator)}
         isScorecardFinished={this.state.scorecard.finished}
       />
     )
   }
 
-  _handleShowModal(criteria, fieldName, indicator) {
+  _handleShowModal(indicator, fieldName, selectedIndicator) {
     _this.setState({
-      currentCriteria: Object.assign({currentFieldName: fieldName}, criteria),
-      selectedIndicator: indicator,
+      currentIndicator: Object.assign({currentFieldName: fieldName}, indicator),
+      selectedIndicator: selectedIndicator,
     }, () => {
       _this.formRef.current?.setBodyContent(_this.getSwotModalContent());
 
@@ -103,7 +103,7 @@ class ScorecardResult extends Component {
 
   getSwotModalContent() {
     return <ScorecardResultModalContent
-            criteria={this.state.currentCriteria}
+            indicator={this.state.currentIndicator}
             onDismiss={() => this.swotModalRef.current?.dismiss()}
             selectedIndicator={this.state.selectedIndicator}
             isScorecardFinished={this.state.scorecard.finished}
@@ -151,7 +151,7 @@ class ScorecardResult extends Component {
 
 function mapStateToProps(state) {
   return {
-    criterias: state.votingCriterias.sort((a, b) => (a.order > b.order) ? 1 : -1),
+    indicators: state.votingIndicators.sort((a, b) => (a.order > b.order) ? 1 : -1),
   };
 }
 

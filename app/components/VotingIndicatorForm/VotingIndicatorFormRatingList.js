@@ -1,28 +1,28 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import CriteriaRatingItem from '../VotingCriteria/CriteriaRatingItem';
+import IndicatorRatingItem from '../VotingIndicator/IndicatorRatingItem';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaFormTabletStyles from '../../styles/tablet/VotingCriteriaFormScreenStyle';
-import VotingCriteriaFormMobileStyles from '../../styles/mobile/VotingCriteriaFormScreenStyle';
+import VotingIndicatorFormTabletStyles from '../../styles/tablet/VotingIndicatorFormScreenStyle';
+import VotingIndicatorFormMobileStyles from '../../styles/mobile/VotingIndicatorFormScreenStyle';
 
-const responsiveStyles = getDeviceStyle(VotingCriteriaFormTabletStyles, VotingCriteriaFormMobileStyles);
+const responsiveStyles = getDeviceStyle(VotingIndicatorFormTabletStyles, VotingIndicatorFormMobileStyles);
 
 class VotingIndicatorFormRatingList extends React.Component {
   render() {
     return (
-      this.props.criterias.map((criteria, index) => {
+      this.props.indicators.map((indicator, index) => {
         return (
-          <React.Fragment key={`${criteria.uuid}_${index}`}>
-            <CriteriaRatingItem
-              key={criteria.uuid}
-              criteria={criteria}
-              onPress={ (rating) => this.props.onClickRatingIcon(criteria, rating) }
+          <React.Fragment key={`${indicator.uuid}_${index}`}>
+            <IndicatorRatingItem
+              key={indicator.uuid}
+              indicator={indicator}
+              onPress={ (rating) => this.props.onClickRatingIcon(indicator, rating) }
               colIndex={index}
             />
 
-            { index < this.props.criterias.length - 1 && <View style={responsiveStyles.itemSeparator} /> }
+            { index < this.props.indicators.length - 1 && <View style={responsiveStyles.itemSeparator} /> }
           </React.Fragment>
         )
       })

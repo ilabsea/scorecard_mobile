@@ -64,7 +64,7 @@ class ScorecardService {
   }
 
   // ------Step3------
-  // upload all custom criterias then upload scorecard with its dependcy
+  // upload all custom indicators then upload scorecard with its dependcy
   uploadCustomIndicator(index, indicators, callback, errorCallback) {
     const _this = this;
     if (index == indicators.length) {

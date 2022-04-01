@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { getAll } from '../../actions/votingCriteriaAction';
+import { getAll } from '../../actions/votingIndicatorAction';
 
 import Color from '../../themes/color';
 import { navigationRef } from '../../navigators/app_navigator';
@@ -12,18 +12,18 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
 
-import votingCriteriaService from '../../services/votingCriteriaService';
-import VotingCriteria from '../../models/VotingCriteria';
-import Participant from '../../models/Participant';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
+import votingIndicatorService from '../../services/voting_indicator_service';
+import VotingIndicator from '../../models/VotingIndicator';
+import Participant from '../../models/Participant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
-import VotingCriteriaFormTabletStyles from '../../styles/tablet/VotingCriteriaFormScreenStyle';
-import VotingCriteriaFormMobileStyles from '../../styles/mobile/VotingCriteriaFormScreenStyle';
+import VotingIndicatorFormTabletStyles from '../../styles/tablet/VotingIndicatorFormScreenStyle';
+import VotingIndicatorFormMobileStyles from '../../styles/mobile/VotingIndicatorFormScreenStyle';
 
-const responsiveStyles = getDeviceStyle(VotingCriteriaFormTabletStyles, VotingCriteriaFormMobileStyles);
+const responsiveStyles = getDeviceStyle(VotingIndicatorFormTabletStyles, VotingIndicatorFormMobileStyles);
 
-class VotingCriteriaForm extends Component {
+class VotingIndicatorForm extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -32,7 +32,7 @@ class VotingCriteriaForm extends Component {
 
     this.state = {
       scorecard: { uuid: scorecard_uuid },
-      criterias: JSON.parse(JSON.stringify(VotingCriteria.getAll(scorecard_uuid))),
+      indicators: JSON.parse(JSON.stringify(VotingIndicator.getAll(scorecard_uuid))),
       isValid: false,
       participant_uuid: props.route.params.participant_uuid,
     };
@@ -42,31 +42,31 @@ class VotingCriteriaForm extends Component {
   }
 
   componentWillUnmount() {
-    votingCriteriaService.clearPlayingCriteria();
+    votingIndicatorService.clearPlayingIndicator();
 
     this.setState = (state, callback) => {
       return;
     };
   }
 
-  onClickRatingIcon(criteria, rating) {
-    criteria.ratingScore = rating.value;
+  onClickRatingIcon(indicator, rating) {
+    indicator.ratingScore = rating.value;
 
     this._checkValidForm();
   }
 
   _checkValidForm() {
-    let isValid = Object.values(this.state.criterias).every(criteria => !!criteria.ratingScore);
+    let isValid = Object.values(this.state.indicators).every(indicator => !!indicator.ratingScore);
 
     if(isValid) {
       this.setState({isValid: true});
     }
   }
 
-  _renderCriteriaRatingList() {
+  _renderIndicatorRatingList() {
     return <VotingIndicatorFormRatingList
-             criterias={this.state.criterias}
-             onClickRatingIcon={(criteria, rating) => this.onClickRatingIcon(criteria, rating)}
+             indicators={this.state.indicators}
+             onClickRatingIcon={(indicator, rating) => this.onClickRatingIcon(indicator, rating)}
            />
   }
 
@@ -89,17 +89,17 @@ class VotingCriteriaForm extends Component {
 
         <Text style={[{ paddingHorizontal: getDeviceStyle(16, 10) }, responsiveStyles.title]}>{translations.pleaseSelect}</Text>
 
-        { this._renderCriteriaRatingList() }
+        { this._renderIndicatorRatingList() }
       </ScrollView>
     )
   }
 
   _submit() {
     const { participant_uuid } = this.state;
-
-    votingCriteriaService.submitVoting(this.state.criterias, participant_uuid);
+    votingIndicatorService.submitVoting(this.state.indicators, participant_uuid);
     Participant.update(participant_uuid, { voted: true });
-    this.props.refreshVotingCriteriaState(this.state.scorecard.uuid);
+
+    this.props.refreshVotingIndicatorState(this.state.scorecard.uuid);
     this.props.navigation.goBack();
   }
 
@@ -132,11 +132,11 @@ class VotingCriteriaForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshVotingCriteriaState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
+    refreshVotingIndicatorState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
   };
 }
 
 export default connect(
   null,
   mapDispatchToProps,
-)(VotingCriteriaForm);
+)(VotingIndicatorForm);

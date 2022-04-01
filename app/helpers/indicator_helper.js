@@ -1,7 +1,7 @@
 import IndicatorService from '../services/indicator_service';
-import { find as findLanguageIndicator } from '../services/language_indicator_service';
 import Scorecard from '../models/Scorecard';
 import Indicator from '../models/Indicator';
+import LanguageIndicator from '../models/LanguageIndicator';
 import { PREDEFINED } from '../constants/indicator_constant';
 import { indicatorPhase } from '../constants/scorecard_constant';
 import uuidv4 from '../utils/uuidv4';
@@ -25,13 +25,13 @@ const indicatorHelper = (() => {
     const scorecard = scorecardObj || Scorecard.find(proposedIndicator.scorecard_uuid);
     const indicator = Indicator.find(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type);
 
-    let langIndicator = findLanguageIndicator(proposedIndicator.indicatorable_id, scorecard.audio_language_code);
+    let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.audio_language_code);
     langIndicator = langIndicator || indicator;
     langIndicator = JSON.parse(JSON.stringify(langIndicator));
     langIndicator.content = langIndicator.content || langIndicator.name;
 
     if (!scorecard.isSameLanguageCode) {
-      let textIndi = findLanguageIndicator(proposedIndicator.indicatorable_id, scorecard.text_language_code);
+      let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.text_language_code);
       langIndicator.content = !!textIndi && textIndi.content;
     }
 

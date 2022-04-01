@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
-import VotingInfoModal from '../../components/VotingCriteria/VotingInfoModal';
+import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
-import VotingIndicatorListContent from '../../components/VotingCriteria/VotingIndicatorListContent';
-import { getAll, setVotingCriterias } from '../../actions/votingCriteriaAction';
+import VotingIndicatorListContent from '../../components/VotingIndicator/VotingIndicatorListContent';
+import { getAll } from '../../actions/votingIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
-import VotingCriteria from '../../models/VotingCriteria';
 import { tipModalSnapPoints, VOTING_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
+import VotingIndicator from '../../models/VotingIndicator';
 
-class VotingCriteriaList extends Component {
+class VotingIndicatorList extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -24,7 +24,7 @@ class VotingCriteriaList extends Component {
     this.state = {
       visibleModal: false,
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
-      votingCriterias: VotingCriteria.getAll(props.route.params.scorecard_uuid),
+      votingIndicators: VotingIndicator.getAll(props.route.params.scorecard_uuid),
     };
 
     this.tipModalRef = React.createRef();
@@ -55,7 +55,7 @@ class VotingCriteriaList extends Component {
   _renderBody() {
     return <VotingIndicatorListContent
             scorecard={this.state.scorecard}
-            votingCriterias={this.state.votingCriterias}
+            votingIndicators={this.state.votingIndicators}
             tipModalRef={this.tipModalRef}
             votingInfoModalRef={this.votingInfoModalRef}
             infoModalRef={this.infoModalRef}
@@ -74,7 +74,7 @@ class VotingCriteriaList extends Component {
 
         { this._renderBody() }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingCriteriaList' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' />
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
@@ -86,14 +86,13 @@ class VotingCriteriaList extends Component {
 
 function mapStateToProps(state) {
   return {
-    votingCriterias: state.votingCriterias,
+    votingIndicators: state.votingIndicators,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshVotingCriteriaState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
-    setVotingCriterias: (criterias) => dispatch(setVotingCriterias(criterias)),
+    refreshVotingIndicatorState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
   };
 }
@@ -101,4 +100,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(VotingCriteriaList);
+)(VotingIndicatorList);

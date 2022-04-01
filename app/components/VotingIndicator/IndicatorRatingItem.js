@@ -3,32 +3,32 @@ import { View, Text } from 'react-native';
 
 import DeviceInfo from 'react-native-device-info';
 import { LocalizationContext } from '../../components/Translations';
-import VotingCriteriaRatingIcon from './VotingCriteriaRatingIcon';
-import realm from '../../db/schema';
+import VotingIndicatorRatingIcon from './VotingIndicatorRatingIcon';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
 import PlaySound from './PlaySound';
 import indicatorHelper from '../../helpers/indicator_helper';
+import Scorecard from '../../models/Scorecard';
+import LanguageRatingScale from '../../models/LanguageRatingScale';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import CriteriaRatingItemTabletStyles from '../../styles/tablet/CriteriaRatingItemComponentStyle';
-import CriteriaRatingItemMobileStyles from '../../styles/mobile/CriteriaRatingItemComponentStyle';
+import IndicatorRatingItemTabletStyles from '../../styles/tablet/IndicatorRatingItemComponentStyle';
+import IndicatorRatingItemMobileStyles from '../../styles/mobile/IndicatorRatingItemComponentStyle';
 
-const responsiveStyles = getDeviceStyle(CriteriaRatingItemTabletStyles, CriteriaRatingItemMobileStyles);
+const responsiveStyles = getDeviceStyle(IndicatorRatingItemTabletStyles, IndicatorRatingItemMobileStyles);
 
-export default class CriteriaRatingItem extends Component {
+export default class IndicatorRatingItem extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
     super(props);
-    let scorecard = realm.objects('Scorecard').filtered(`uuid='${props.criteria.scorecard_uuid}'`)[0];
+    let scorecard = Scorecard.find(props.indicator.scorecard_uuid);
 
     this.state = {
       currentScore: 0,
-      languageRatingScales: [],
       scorecard: scorecard,
-      languageRatingScales: JSON.parse(JSON.stringify(realm.objects('LanguageRatingScale').filtered(`program_id == ${scorecard.program_id}`)))
+      languageRatingScales: JSON.parse(JSON.stringify(LanguageRatingScale.findByProgramId(scorecard.program_id)))
     };
   }
 
@@ -37,7 +37,7 @@ export default class CriteriaRatingItem extends Component {
     !!this.props.onPress && this.props.onPress(rating);
   }
 
-  _findLangugaeRatingScale(ratingCode, language_code) {
+  _findLanguageRatingScale(ratingCode, language_code) {
     return this.state.languageRatingScales.filter(rating =>
       rating.rating_scale_code == ratingCode && rating.language_code == language_code
     )[0];
@@ -46,10 +46,10 @@ export default class CriteriaRatingItem extends Component {
   _getLanguageRatingScale(ratingCode) {
     const { translations } = this.context;
     const { scorecard } = this.state;
-    let rating = this._findLangugaeRatingScale(ratingCode, scorecard.audio_language_code) || {};
+    let rating = this._findLanguageRatingScale(ratingCode, scorecard.audio_language_code) || {};
 
     if (!scorecard.isSameLanguageCode) {
-      let textRating = this._findLangugaeRatingScale(ratingCode, scorecard.text_language_code);
+      let textRating = this._findLanguageRatingScale(ratingCode, scorecard.text_language_code);
       rating.content = !!textRating && textRating.content;
     }
 
@@ -63,7 +63,7 @@ export default class CriteriaRatingItem extends Component {
     let activeBgStyle = rating.value == this.state.currentScore ? {backgroundColor: 'rgba(245, 114, 0, 0.3)'} : {};
 
     return (
-      <VotingCriteriaRatingIcon
+      <VotingIndicatorRatingIcon
         key={uuidv4()}
         rating={rating}
         rowIndex={rowIndex}
@@ -91,7 +91,7 @@ export default class CriteriaRatingItem extends Component {
   }
 
   _renderRatingIcons() {
-    let indicator = indicatorHelper.getDisplayIndicator(this.props.criteria, this.state.scorecard);
+    let indicator = indicatorHelper.getDisplayIndicator(this.props.indicator, this.state.scorecard);
 
     return (
       <View style={responsiveStyles.ratingIndicatorContainer}>
@@ -100,7 +100,7 @@ export default class CriteriaRatingItem extends Component {
             containerStyle={responsiveStyles.ratingIconContainer}
           >
             <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
-              {this.props.criteria.order}. { indicator.content || indicator.name}
+              {this.props.indicator.order}. { indicator.content || indicator.name}
             </Text>
           </PlaySound>
 

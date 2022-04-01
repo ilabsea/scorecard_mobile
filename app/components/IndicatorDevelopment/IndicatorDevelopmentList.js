@@ -9,7 +9,7 @@ class IndicatorDevelopmentList extends Component {
     super(props);
 
     this.state = {
-      selectedCriterias: props.selectedCriterias,
+      selectedIndicators: props.selectedIndicators,
       isFirstVisit: false,
     }
     this.isComponentUnmounted = false;
@@ -20,8 +20,8 @@ class IndicatorDevelopmentList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!this.isComponentUnmounted && prevProps.selectedCriterias.length != this.props.selectedCriterias.length)
-      this.setState({ selectedCriterias: this.props.selectedCriterias })
+    if (!this.isComponentUnmounted && prevProps.selectedIndicators.length != this.props.selectedIndicators.length)
+      this.setState({ selectedIndicators: this.props.selectedIndicators })
   }
 
   updateFirstVisitStatus(status, index) {
@@ -45,7 +45,7 @@ class IndicatorDevelopmentList extends Component {
   }
 
   updateIndicatorsOrder(data) {
-    this.setState({ selectedCriterias: data });
+    this.setState({ selectedIndicators: data });
     this.props.updateSelectedIndicatorsOrder(data);
   }
 
@@ -55,12 +55,12 @@ class IndicatorDevelopmentList extends Component {
   }
 
   render() {
-    const selectedCriterias = this.state.selectedCriterias.filter(criteria => criteria.scorecard_uuid == this.props.scorecardUuid);
+    const selectedIndicators = this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid);
 
     return (
       <React.Fragment>
         <DraggableFlatList
-          data={selectedCriterias}
+          data={selectedIndicators}
           onDragEnd={({ data }) => this.updateIndicatorsOrder(data)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={(params) => this.renderItem(params)}

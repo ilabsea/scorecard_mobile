@@ -6,7 +6,7 @@ const iconWrapperSize = 98;
 const iconSize = 80;
 let iconSizeRatio = iconSize * 0.8;
 
-const CriteriaRatingItemComponentStyles = StyleSheet.create({
+const IndicatorRatingItemComponentStyles = StyleSheet.create({
   ratingIndicatorContainer: {
     borderColor: Color.paleGrayColor,
     shadowOffset: {width: 0, height: 1},
@@ -78,4 +78,4 @@ const CriteriaRatingItemComponentStyles = StyleSheet.create({
   }
 });
 
-export default CriteriaRatingItemComponentStyles;
+export default IndicatorRatingItemComponentStyles;

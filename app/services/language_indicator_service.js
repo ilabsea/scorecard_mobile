@@ -1,7 +1,8 @@
-import realm from '../db/schema';
 import {PREDEFINED} from '../constants/indicator_constant';
 import { languageIndicatorPhase, langIndicatorAudioPhase } from '../constants/scorecard_constant';
 import { downloadAudio } from './download_service';
+import LanguageIndicator from '../models/LanguageIndicator';
+import Scorecard from '../models/Scorecard';
 
 class LanguageIndicatorService {
   constructor() {
@@ -9,7 +10,7 @@ class LanguageIndicatorService {
   }
 
   saveAudio = (scorecardUuid, languageCode, successCallback, errorCallback) => {
-    const langIndicators = realm.objects('LanguageIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}'`);
+    const langIndicators = LanguageIndicator.findByScorecardAndLanguageCode(scorecardUuid, languageCode);
     const options = {
       items: langIndicators,
       type: 'indicator',
@@ -32,9 +33,7 @@ class LanguageIndicatorService {
       local_audio: localAudioFilePath,
     };
 
-    realm.write(() => {
-      realm.create('LanguageIndicator', attrs, 'modified');
-    });
+    LanguageIndicator.create(attrs);
 
     if (this.isStopDownload)
       return;
@@ -49,8 +48,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
     const languagesIndicators = indicator['languages_indicators'];
     if (languagesIndicators.length > 0) {
       languagesIndicators.map((languagesIndicator) => {
-        const languageIndicator = {
-          id: languagesIndicator.id.toString(),
+        const langIndicatorData = {
           content: languagesIndicator.content,
           audio: languagesIndicator.audio != null ? languagesIndicator.audio : '',
           language_code: languagesIndicator['language_code'],
@@ -59,9 +57,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
           type: PREDEFINED,
         };
 
-        realm.write(() => {
-          realm.create('LanguageIndicator', languageIndicator, 'modified');
-        });
+        LanguageIndicator.update(languagesIndicator.id.toString(), langIndicatorData);
       });
     }
     savedCount += 1;
@@ -70,18 +66,13 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
 }
 
 const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
-  const scorecard = realm.objects('Scorecard').filtered(`uuid == '${scorecardUuid}'`)[0];
-  let languageCode = type === 'audio' ? scorecard.audio_language_code : scorecard.text_language_code;
-  return realm.objects('LanguageIndicator').filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
-}
-
-const find = (indicatorId, languageCode) => {
-  return realm.objects('LanguageIndicator').filtered(`indicator_id='${indicatorId}' AND language_code='${languageCode}'`)[0];
+  const scorecard = Scorecard.find(scorecardUuid);
+  const languageCode = type === 'audio' ? scorecard.audio_language_code : scorecard.text_language_code;
+  return LanguageIndicator.findByIndicatorAndLanguageCode(indicatorId, languageCode);
 }
 
 export {
   saveLanguageIndicator,
   getLanguageIndicator,
-  find,
   LanguageIndicatorService,
 };

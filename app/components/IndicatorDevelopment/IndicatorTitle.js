@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import PlaySound from '../VotingCriteria/PlaySound';
+import PlaySound from '../VotingIndicator/PlaySound';
 import { LocalizationContext } from '../Translations';
 
 import Color from '../../themes/color';

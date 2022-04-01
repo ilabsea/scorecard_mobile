@@ -15,7 +15,7 @@ const responsiveStyles = getDeviceStyle(IndicatorDevelopmentTabletStyles, Indica
 class IndicatorDevelopmentContentHeader extends Component {
   static contextType = LocalizationContext;
 
-  _renderBtnAddCriteria() {
+  _renderBtnAddIndicator() {
     const buttonColor = this.props.hasRating ? Color.disabledBtnBg : Color.clickableColor;
 
     return (
@@ -37,7 +37,7 @@ class IndicatorDevelopmentContentHeader extends Component {
         <View style={responsiveStyles.titleContainer}>
           <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ this.context.translations.indicatorDevelopment }</Text>
 
-          { this.props.hasData && this._renderBtnAddCriteria() }
+          { this.props.hasData && this._renderBtnAddIndicator() }
         </View>
       </View>
     )

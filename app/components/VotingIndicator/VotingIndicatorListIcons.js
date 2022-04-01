@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import ratings from '../../db/jsons/ratings';
-import { getVotingIcon } from '../../helpers/voting_criteria_helper';
+import { getVotingIcon } from '../../helpers/voting_indicator_helper';
 import uuidv4 from '../../utils/uuidv4';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import VotingCriteriaListItemTabletStyles from '../../styles/tablet/VotingCriteriaListItemComponentStyle';
-import VotingCriteriaListItemMobileStyles from '../../styles/mobile/VotingCriteriaListItemComponentStyle';
+import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
+import VotingIndicatorListItemMobileStyles from '../../styles/mobile/VotingIndicatorListItemComponentStyle';
 
-const styles = getDeviceStyle(VotingCriteriaListItemTabletStyles, VotingCriteriaListItemMobileStyles);
+const styles = getDeviceStyle(VotingIndicatorListItemTabletStyles, VotingIndicatorListItemMobileStyles);
 
 const VotingIndicatorListIcons = (props) => {
   const renderRatingIcon = (icon) => {
@@ -18,7 +18,7 @@ const VotingIndicatorListIcons = (props) => {
       <View key={uuidv4()} style={[styles.ratingItem]}>
         { getVotingIcon(icon, iconSize, 0.75) }
 
-        <Text style={styles.ratingCount}>{props.criteria[icon.countMethodName]}</Text>
+        <Text style={styles.ratingCount}>{props.indicator[icon.countMethodName]}</Text>
       </View>
     )
   }

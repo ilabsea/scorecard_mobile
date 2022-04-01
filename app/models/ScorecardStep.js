@@ -1,7 +1,5 @@
 import scorecardProgress from '../db/jsons/scorecardProgress';
-import VotingCriteria from './VotingCriteria';
-import moment from "moment/min/moment-with-locales";
-import AsyncStorage from '@react-native-community/async-storage';
+import VotingIndicator from './VotingIndicator';
 import Participant from './Participant';
 import ProposedIndicator from './ProposedIndicator';
 
@@ -44,7 +42,7 @@ class ScorecardStep {
   }
 
   getIndicatorDevelopmentSubTitle(scorecard) {
-    return VotingCriteria.getAll(scorecard.uuid).length;
+    return VotingIndicator.getAll(scorecard.uuid).length;
   }
 }
 
