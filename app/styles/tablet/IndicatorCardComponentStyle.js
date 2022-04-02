@@ -46,7 +46,8 @@ const IndicatorCardComponentStyles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 20
+    height: 20,
+    zIndex: 10
   },
   raisedParticipantLabel: {
     color: Color.whiteColor,
@@ -56,6 +57,10 @@ const IndicatorCardComponentStyles = StyleSheet.create({
     fontFamily: FontFamily.title,
     fontSize: 14,
     color: Color.whiteColor,
+  },
+  indicatorLabel: {
+    textAlign: 'left',
+    fontSize: 15.7
   }
 });
 

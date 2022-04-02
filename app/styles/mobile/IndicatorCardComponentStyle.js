@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { isShortScreenDevice } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -48,7 +49,8 @@ const IndicatorCardComponentStyles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 20
+    height: 20,
+    zIndex: 10
   },
   raisedParticipantLabel: {
     color: Color.whiteColor,
@@ -58,6 +60,10 @@ const IndicatorCardComponentStyles = StyleSheet.create({
     fontFamily: FontFamily.title,
     fontSize: 14,
     color: Color.whiteColor,
+  },
+  indicatorLabel: {
+    textAlign: 'left',
+    fontSize: bodyFontSize()
   }
 });
 

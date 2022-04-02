@@ -82,11 +82,11 @@ class IndicatorCard extends Component {
 
     return (
       <View style={[styles.indicatorBoxContainer, this.props.customCardStyle, this.selectedIndicatorBoxStyle(indicator)]}>
-        <TouchableOpacity style={styles.indicatorBox} onPress={() => this.toggleIndicator(indicator)}>
-          {this.renderNumberOfParticipant()}
+        {this.renderNumberOfParticipant()}
 
+        <TouchableOpacity style={styles.indicatorBox} onPress={() => this.toggleIndicator(indicator)}>
           <View style={styles.detailContainer}>
-            <Text style={{textAlign: 'left', fontSize: bodyFontSize()}} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
+            <Text style={styles.indicatorLabel} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 
