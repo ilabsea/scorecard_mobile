@@ -40,10 +40,10 @@ export default class ParticipantInfo extends Component {
     this.checkAndCloseModal();
     this.checkAndOpenParticipantList();
 
-    if (this.state.participantUuid != this.props.participant_uuid) {
+    if (this.state.participantUuid != this.props.participantUuid) {
       this.setState({
-        currentParticipant: Participant.find(this.props.participant_uuid),
-        participantUuid: this.props.participant_uuid
+        currentParticipant: Participant.find(this.props.participantUuid),
+        participantUuid: this.props.participantUuid
       });
     }
   }
@@ -65,7 +65,7 @@ export default class ParticipantInfo extends Component {
 
   async openParticipantListModal() {
     if (await getProposedIndicatorMethod() === INDICATOR_BASE)
-      navigate('ProposedIndicatorByIndicatorBase', { scorecard_uuid: this.props.scorecard_uuid });
+      navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
       this.setState({ participantListVisible: this.props.visibleModal })
       this.props.formModalRef.current?.setBodyContent(this.getParticipantListContent());

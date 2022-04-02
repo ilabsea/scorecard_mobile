@@ -95,7 +95,7 @@ const proposedIndicatorService = (() => {
     const previousProposedIndicators = JSON.parse(await AsyncStorage.getItem('previous-proposed-indicators')) || [];
 
     previousProposedIndicators.map(proposedIndicator => {
-      if (!ProposedIndicator.findByParticipant(scorecardUuid, proposedIndicator.indicatorable_id, participantUuid)) {
+      if (!ProposedIndicator.findByParticipant(scorecardUuid, proposedIndicator.indicatorable_id, proposedIndicator.participant_uuid)) {
         const data = proposedIndicator;
         data.uuid = uuidv4();
         ProposedIndicator.create(data);

@@ -16,6 +16,7 @@ import { isBlank } from '../../utils/string_util';
 import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { participantContentHeight } from '../../constants/modal_constant';
+import Indicator from '../../models/Indicator';
 
 class AddNewIndicatorModalContent extends React.Component {
   static contextType = LocalizationContext;
@@ -80,12 +81,11 @@ class AddNewIndicatorModalContent extends React.Component {
 
   onChangeName(name) {
     const selectedIndicatorUuid = this.props.selectedCustomIndicator ? this.props.selectedCustomIndicator.uuid : null;
-    const indicatorService = new IndicatorService();
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
-      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUuid, name)
+      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
+      duplicatedIndicators: new IndicatorService().getDuplicatedIndicator(this.props.scorecardUuid, name)
     });
   }
 
@@ -119,7 +119,7 @@ class AddNewIndicatorModalContent extends React.Component {
               duplicatedIndicators={this.state.duplicatedIndicators}
               isIndicatorBase={this.props.isIndicatorBase}
               updateIndicatorList={() => this.updateIndicatorList()}
-              formRef={this.props.formRef}
+              formModalRef={this.props.formModalRef}
               participantModalRef={this.props.participantModalRef}
             />
   }
