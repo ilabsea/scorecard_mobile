@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
-import ParticipantListContent from '../ParticipantModal/ParticipantListContent';
+import ParticipantModalContent from '../ParticipantModal/ParticipantModalContent';
 import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
 import OutlinedButton from '../OutlinedButton';
@@ -37,9 +37,6 @@ export default class ParticipantInfo extends Component {
     if (this.isComponentUnmounted)
       return;
 
-    this.checkAndCloseModal();
-    this.checkAndOpenParticipantList();
-
     if (this.state.participantUuid != this.props.participantUuid) {
       this.setState({
         currentParticipant: Participant.find(this.props.participantUuid),
@@ -48,26 +45,13 @@ export default class ParticipantInfo extends Component {
     }
   }
 
-  checkAndCloseModal() {
-    // If either participantListVisible or addParticipantVisible is still true and the visibleModal is false, it means the modal is not closed yet
-    if ((!!this.state.participantListVisible || !!this.state.addParticipantVisible ) && !this.props.visibleModal)
-      this.setState({
-        participantListVisible: false,
-        addParticipantVisible: false,
-      });
-  }
-
-  checkAndOpenParticipantList() {
-    // If participantListVisible and addParticipantVisible are still false and the visibleModal is true, it means the modal is not opened yet
-    if (!this.state.participantListVisible && !this.state.addParticipantVisible && this.props.visibleModal)
-      this.openParticipantListModal();
-  }
-
   async openParticipantListModal() {
-    if (await getProposedIndicatorMethod() === INDICATOR_BASE)
+    const currentScreen = navigationRef.current?.getCurrentRoute().name;
+
+    if (await getProposedIndicatorMethod() === INDICATOR_BASE && currentScreen === 'RaisingProposed')
       navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
-      this.setState({ participantListVisible: this.props.visibleModal })
+      this.setState({ participantListVisible: true });
       this.props.formModalRef.current?.setBodyContent(this.getParticipantListContent());
 
       setTimeout(() => {
@@ -131,11 +115,12 @@ export default class ParticipantInfo extends Component {
   }
 
   getParticipantListContent() {
-    return <ParticipantListContent
-             scorecardUuid={this.props.scorecardUuid}
-             participants={this.state.participants || []}
-             showAddParticipantModal={() => this.showAddParticipantModal()}
-             onSelectParticipant={(participant) => this.selectParticipant(participant) }
+    return <ParticipantModalContent
+              scorecardUuid={this.props.scorecardUuid}
+              participants={this.state.participants || []}
+              selectedIndicator={null}
+              showAddParticipantModal={() => this.showAddParticipantModal()}
+              participantModalRef={this.props.participantModalRef}
            />
   }
 

@@ -26,7 +26,7 @@ class IndicatorCard extends Component {
   }
 
   selectedIndicatorBoxStyle = (indicator) => {
-    if (proposedIndicatorHelper.isIndicatorProposed(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
+    if (!this.props.isEdit && proposedIndicatorHelper.isIndicatorProposed(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     return {};

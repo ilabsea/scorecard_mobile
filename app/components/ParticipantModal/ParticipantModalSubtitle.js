@@ -18,15 +18,28 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
           />
   }
 
-  return (
-    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-      <Text style={{ fontSize: bodyFontSize(), marginBottom: 20, textTransform: 'capitalize', flex: 1, paddingRight: 5 }}>
-        {translations.selectRaisedParticipant} ({ translations.raised }
-        <Text style={{fontFamily: FontFamily.title, fontSize: getDeviceStyle(18, 16)}}> { props.raisedParticipant }/{props.totalParticipant} </Text>
-        { translations.pax })
-      </Text>
+  function renderRaisedParticipant() {
+    if (props.isIndicatorBase) {
+      return (
+        <React.Fragment>
+          ({ translations.raised }
+          <Text style={{fontFamily: FontFamily.title, fontSize: getDeviceStyle(18, 16)}}> { props.raisedParticipant }/{props.totalParticipant} </Text>
+          { translations.pax })
+        </React.Fragment>
+      )
+    }
+  }
 
-      { renderAddNewParticipantButton() }
+  return (
+    <View>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        <Text style={{ fontSize: bodyFontSize(), marginBottom: 20, textTransform: 'capitalize', flex: 1, paddingRight: 5 }}>
+          {translations.selectRaisedParticipant}
+          { renderRaisedParticipant() }
+        </Text>
+
+        { renderAddNewParticipantButton() }
+      </View>
     </View>
   )
 }

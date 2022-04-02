@@ -38,11 +38,11 @@ const customIndicatorService = (() => {
 
     Indicator.create(customIndicator);
     LanguageIndicator.create(customLanguageIndicator);
+    customIndicator['indicatorable_id'] = customIndicator.uuid;
 
     if (!!participantUuid)
       proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
 
-    customIndicator['indicatorable_id'] = customIndicator.uuid;
     callback(customIndicator);
   }
 
