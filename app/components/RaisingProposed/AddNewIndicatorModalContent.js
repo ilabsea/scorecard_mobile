@@ -49,12 +49,12 @@ class AddNewIndicatorModalContent extends React.Component {
 
     if (this.props.isEdit) {
       const { uuid, local_audio } = this.props.selectedCustomIndicator
-      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUUID, local_audio);
+      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUuid, local_audio);
       this.props.finishSaveOrUpdateCustomIndicator(true);
       this.clearInputs();
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUUID, indicator, this.props.participantUUID, async (customIndicator) => {
+      customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid, async (customIndicator) => {
         this.props.finishSaveOrUpdateCustomIndicator(false);
 
         if (await isProposeByIndicatorBase())
@@ -68,8 +68,8 @@ class AddNewIndicatorModalContent extends React.Component {
   }
 
   showParticipantListModal(customIndicator) {
-    const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUUID, indicator: customIndicator };
-    proposedIndicatorHelper.showParticipantListModal(this.props.formRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
+    const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: customIndicator };
+    proposedIndicatorHelper.showParticipantListModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
     this.clearInputs();
   }
 
@@ -84,8 +84,8 @@ class AddNewIndicatorModalContent extends React.Component {
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUUID, name, selectedIndicatorUuid),
-      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUUID, name)
+      isIndicatorExist: name === '' ? false : indicatorService.isIndicatorExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
+      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUuid, name)
     });
   }
 
@@ -134,8 +134,7 @@ class AddNewIndicatorModalContent extends React.Component {
 
             { this.isUniqueIndicatorOrEditing() ?
               <VoiceRecord
-                participantUUID={this.props.participantUuid}
-                scorecardUUID={this.props.scorecardUuid}
+                scorecardUuid={this.props.scorecardUuid}
                 finishRecord={(filename) => this.setState({audio: filename})}
                 audioFilePath={this.state.audio}
                 deleteAudio={() => this.setState({audio: null})}

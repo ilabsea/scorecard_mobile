@@ -43,7 +43,7 @@ class CreateNewIndicatorContent extends Component {
         isIndicatorBase={this.props.isIndicatorBase}
         showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal(null)}
         updateIndicatorList={() => this.props.updateIndicatorList()}
-        formRef={this.props.formRef}
+        formModalRef={this.props.formModalRef}
         participantModalRef={this.props.participantModalRef}
       />
     )
@@ -57,6 +57,8 @@ class CreateNewIndicatorContent extends Component {
         selectForEdit={this.props.showAddNewIndicatorModal}
         selectedCustomIndicator={this.props.selectedCustomIndicator}
         updateIndicatorList={() => this.props.updateIndicatorList()}
+        formModalRef={this.props.formModalRef}
+        participantModalRef={this.props.participantModalRef}
       />
     )
   }

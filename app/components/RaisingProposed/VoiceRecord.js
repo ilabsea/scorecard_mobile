@@ -33,7 +33,7 @@ class VoiceRecord extends Component {
 
   componentDidMount() {
     this.checkPermission();
-    this.filename = `${this.props.scorecardUUID}_${uuidv4()}.mp3`;                // Ex: 24595e3a-9054-4767-9a63-881be34a2b56_277403.mp3
+    this.filename = `${this.props.scorecardUuid}_${uuidv4()}.mp3`;                // Ex: 24595e3a-9054-4767-9a63-881be34a2b56_277403.mp3
   }
 
   componentDidUpdate() {

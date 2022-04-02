@@ -12,7 +12,6 @@ import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
 import { getRaisedParticipants } from '../../services/participant_service';
-import { navigate } from '../../navigators/app_navigator';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';

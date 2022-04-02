@@ -31,7 +31,7 @@ class ExistedIndicatorItem extends React.Component {
           isIndicatorBase={this.props.isIndicatorBase}
           isExistedIndicator={true}
           updateIndicatorList={() => this.props.updateIndicatorList()}
-          formRef={this.props.formRef}
+          formModalRef={this.props.formModalRef}
           participantModalRef={this.props.participantModalRef}
         />
       </View>

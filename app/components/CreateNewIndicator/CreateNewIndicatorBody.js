@@ -64,7 +64,7 @@ class CreateIndicatorBody extends React.Component {
 
     this.setState({ isValid: proposedIndicators.length > 0 });
     this.props.updateIndicatorList();
-    this.closeModal();
+    !!this.props.isEdit && this.closeModal();
   }
 
   showAddNewIndicatorModal(customIndicator) {
@@ -74,19 +74,6 @@ class CreateIndicatorBody extends React.Component {
         this.props.participantModalRef.current?.present();
       }, 50);
     });
-  }
-
-  renderModalContent() {
-    return <AddNewIndicatorModalContent
-              closeModal={() => this.closeModal()}
-              participantUuid={this.state.participantUuid}
-              scorecardUuid={this.props.scorecardUuid}
-              selectedCustomIndicator={this.state.selectedCustomIndicator}
-              indicators={this.props.indicators}
-              isEdit={this.props.isEdit}
-              finishSaveOrUpdateCustomIndicator={(isEdit) => this.finishSaveOrUpdateCustomIndicator(isEdit)}
-              updateIndicatorList={() => this.updateIndicatorList()}
-            />
   }
 
   renderContent() {
@@ -121,7 +108,7 @@ class CreateIndicatorBody extends React.Component {
 
   showAddNewIndicatorModal(customIndicator) {
     this.setState({ selectedCustomIndicator: customIndicator }, () => {
-      this.props.formRef.current?.setBodyContent(this.renderModalContent());
+      this.props.formModalRef.current?.setBodyContent(this.renderModalContent());
       this.props.participantModalRef.current?.present();
     });
   }
@@ -129,15 +116,15 @@ class CreateIndicatorBody extends React.Component {
   renderModalContent() {
     return <AddNewIndicatorModalContent
             closeModal={() => this.closeModal()}
-            participantUUID={this.state.participantUuid}
-            scorecardUUID={this.props.scorecardUuid}
+            participantUuid={this.state.participantUuid}
+            scorecardUuid={this.props.scorecardUuid}
             selectedCustomIndicator={this.state.selectedCustomIndicator}
             indicators={this.props.indicators}
             isEdit={this.props.isEdit}
             isIndicatorBase={this.state.isIndicatorBase}
             finishSaveOrUpdateCustomIndicator={(isEdit) => this.finishSaveOrUpdateCustomIndicator(isEdit)}
             updateIndicatorList={() => this.updateIndicatorList()}
-            formRef={this.props.formRef}
+            formModalRef={this.props.formModalRef}
             participantModalRef={this.props.participantModalRef}
           />
   }

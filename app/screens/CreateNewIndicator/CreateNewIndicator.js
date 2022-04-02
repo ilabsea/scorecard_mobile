@@ -29,7 +29,7 @@ class CreateNewIndicator extends Component {
     };
 
     this.participantModalRef = React.createRef();
-    this.formRef = React.createRef();
+    this.formModalRef = React.createRef();
 
     let previousProposedIndicators = [];
 
@@ -124,7 +124,7 @@ class CreateNewIndicator extends Component {
             save={() => this.save()}
             handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
-            formModalRef={this.formRef}
+            formModalRef={this.formModalRef}
             participantModalRef={this.participantModalRef}
           />
   }
@@ -137,7 +137,7 @@ class CreateNewIndicator extends Component {
           
           { this.renderBody() }
 
-          <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />
+          <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />
         </View>
       </TouchableWithoutFeedback>
     );

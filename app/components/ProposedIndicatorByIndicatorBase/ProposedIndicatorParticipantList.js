@@ -7,7 +7,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
-import ParticipantModalListItem from '../RaisingProposed/ParticipantModalListItem';
+import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
 import ProposedIndicatorParticipantListSubtitle from './ProposedIndicatorParticipantListSubtitle';
 
 import ProposedIndicator from '../../models/ProposedIndicator';

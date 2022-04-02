@@ -54,7 +54,7 @@ class IndicatorSelectionItems extends Component {
         isExistedIndicator={this.props.isExistedIndicator}
         updateIndicatorList={() => this.props.updateIndicatorList()}
         selectForEdit={() => this.props.selectForEdit(indicator)}
-        formRef={this.props.formRef}
+        formModalRef={this.props.formModalRef}
         participantModalRef={this.props.participantModalRef}
       >
         {this.audioButton(indicator)}
