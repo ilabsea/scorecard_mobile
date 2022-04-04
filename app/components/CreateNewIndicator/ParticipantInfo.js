@@ -9,8 +9,9 @@ import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantConte
 import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
 import { INDICATOR_BASE } from '../../constants/main_constant';
-import { navigate, navigationRef } from '../../navigators/app_navigator';
+import { navigate } from '../../navigators/app_navigator';
 import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
+import { isProposedIndicatorScreen } from '../../utils/screen_util';
 
 export default class ParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -46,9 +47,7 @@ export default class ParticipantInfo extends Component {
   }
 
   async openParticipantListModal() {
-    const currentScreen = navigationRef.current?.getCurrentRoute().name;
-
-    if (await getProposedIndicatorMethod() === INDICATOR_BASE && currentScreen === 'RaisingProposed')
+    if (await getProposedIndicatorMethod() === INDICATOR_BASE && isProposedIndicatorScreen())
       navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
       this.setState({ participantListVisible: true });
@@ -88,12 +87,8 @@ export default class ParticipantInfo extends Component {
 
   selectParticipant(participant) {
     this.dismissModal();
-
-    if (!!this.props.selectParticipant)
-      return this.props.selectParticipant(participant);
-
     this.setState({currentParticipant: participant});
-    !!this.props.onGetParticipant && this.props.onGetParticipant(participant);
+    !!this.props.selectParticipant && this.props.selectParticipant(participant);
   }
 
   showAddParticipantModal = () => {
@@ -120,6 +115,7 @@ export default class ParticipantInfo extends Component {
               participants={this.state.participants || []}
               selectedIndicator={null}
               showAddParticipantModal={() => this.showAddParticipantModal()}
+              selectParticipant={(participant) => this.selectParticipant(participant)}
               participantModalRef={this.props.participantModalRef}
            />
   }

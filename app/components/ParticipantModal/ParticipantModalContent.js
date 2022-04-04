@@ -16,6 +16,7 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { isProposedIndicatorScreen } from '../../utils/screen_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
 
@@ -34,7 +35,7 @@ class ParticipantModalContent extends React.Component {
   async componentDidMount() {
     this.setState({ isIndicatorBase: await isProposeByIndicatorBase()})
 
-    if (this.state.isIndicatorBase) {
+    if (this.state.isIndicatorBase && isProposedIndicatorScreen()) {
       const raisedParticipantUuids = [];
       this.participants.map(participant => {
         if (this.isParticipantRaised(participant.uuid))
@@ -57,24 +58,33 @@ class ParticipantModalContent extends React.Component {
   }
 
   toggleParticipant(participant) {
-    if (this.state.isIndicatorBase) {
-      let newRaisedParticipantUuids = this.state.raisedParticipantUuids;
-      if (this.isParticipantRaised(participant.uuid))
-        newRaisedParticipantUuids =  this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid != participant.uuid);
-      else
-        newRaisedParticipantUuids.push(participant.uuid);
-
-      this.setState({ raisedParticipantUuids: newRaisedParticipantUuids }, () => {
-        proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, this.props.selectedIndicator, participant.uuid);
-        setTimeout(() => {
-          !!this.props.updateIndicatorList && this.props.updateIndicatorList();
-        }, 50);
-      });
-    }
-    else {
+    if (!!this.props.selectParticipant) {
       this.props.participantModalRef.current?.dismiss();
-      navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid});
+      this.props.selectParticipant(participant);
     }
+    else
+      this.state.isIndicatorBase ? this.handleToggleParticipantOnIndicatorBase(participant)
+                                 : this.handleToggleParticipantOnParticipantBase(participant);
+  }
+
+  handleToggleParticipantOnParticipantBase(participant) {
+    this.props.participantModalRef.current?.dismiss();
+    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid});
+  }
+
+  handleToggleParticipantOnIndicatorBase(participant) {
+    let newRaisedParticipantUuids = this.state.raisedParticipantUuids;
+    if (this.isParticipantRaised(participant.uuid))
+      newRaisedParticipantUuids =  this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid != participant.uuid);
+    else
+      newRaisedParticipantUuids.push(participant.uuid);
+
+    this.setState({ raisedParticipantUuids: newRaisedParticipantUuids }, () => {
+      proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, this.props.selectedIndicator, participant.uuid);
+      setTimeout(() => {
+        !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+      }, 50);
+    });
   }
 
   renderParticipantList() {

@@ -6,6 +6,7 @@ import OutlinedButton from '../OutlinedButton';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { isProposedIndicatorScreen } from '../../utils/screen_util';
 
 const ProposedIndicatorParticipantListSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -19,7 +20,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   }
 
   function renderRaisedParticipant() {
-    if (props.isIndicatorBase) {
+    if (props.isIndicatorBase && isProposedIndicatorScreen()) {
       return (
         <React.Fragment>
           ({ translations.raised }
@@ -34,7 +35,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     <View>
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         <Text style={{ fontSize: bodyFontSize(), marginBottom: 20, textTransform: 'capitalize', flex: 1, paddingRight: 5 }}>
-          {translations.selectRaisedParticipant}
+          {translations.selectRaisedParticipant + ' '} 
           { renderRaisedParticipant() }
         </Text>
 
