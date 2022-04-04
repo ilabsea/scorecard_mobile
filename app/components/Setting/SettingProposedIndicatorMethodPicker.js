@@ -23,17 +23,19 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
   }
 
   render() {
-    return <TouchableOpacity onPress={() => this.showModal()} style={styles.mainContainer}>
-            <Text style={styles.titleLabel}>{ this.context.translations.proposedIndicatorMethod }</Text>
+    return (
+      <TouchableOpacity onPress={() => this.showModal()} style={styles.mainContainer}>
+        <Text style={styles.titleLabel}>{ this.context.translations.proposedIndicatorMethod }</Text>
 
-            <View style={styles.textContainer}>
-              <Text style={styles.valueLabel}>{ this.props.proposedIndicatorMethod == INDICATOR_BASE ? this.context.translations.indicatorBase : this.context.translations.participantBase }</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.valueLabel}>{ this.props.proposedIndicatorMethod == INDICATOR_BASE ? this.context.translations.indicatorBase : this.context.translations.participantBase }</Text>
 
-              <Text style={styles.chooseLabel}>
-                {this.context.translations.choose}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.chooseLabel}>
+            {this.context.translations.choose}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    )
   }
 }
 

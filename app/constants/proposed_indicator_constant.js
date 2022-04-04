@@ -1,10 +1,10 @@
 export const instructionVideoIds = {
   'tablet': {
-    'indicatorBase': 'EWj5dZzUBzw',
-    'participantBase': 'CYM6Z5qeuwM',
+    'indicatorBase': 'hiaRx806EkU',
+    'participantBase': 'lyfueufp6V0',
   },
   'mobile': {
-    'indicatorBase': 'LryhmFOWt2Y',
-    'participantBase': 'MbBMBCmzkJQ',
+    'indicatorBase': 'VVQopQFvzSM',
+    'participantBase': '7_4gOnFfyGA',
   }
 }

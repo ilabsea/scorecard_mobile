@@ -29,7 +29,6 @@ class ProposedIndicatorMethodDetailsContent extends React.Component {
 
           <TouchableOpacity onPress={() => this.showVideoPlayer()} style={{ flexDirection: 'row', marginTop: 30 }}>
             <Icon name='play-circle-filled' size={20} color={Color.clickableColor} style={{padding: 0, marginRight: 5, marginTop: getDeviceStyle(3, 0), height: 20}} />
-
             <Text style={{color: Color.clickableColor, fontSize: bodyFontSize()}}>{ this.context.translations.clickHereToWatchHowToProposeIndicator }</Text>
           </TouchableOpacity>
         </View>

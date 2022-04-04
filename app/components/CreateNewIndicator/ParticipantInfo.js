@@ -10,8 +10,8 @@ import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
 import { INDICATOR_BASE } from '../../constants/main_constant';
 import { navigate } from '../../navigators/app_navigator';
-import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
-import { isProposedIndicatorScreen } from '../../utils/screen_util';
+import { getProposedIndicatorMethod, isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+import { isRaisingProposedScreen } from '../../utils/screen_util';
 
 export default class ParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -28,6 +28,10 @@ export default class ParticipantInfo extends Component {
     };
 
     this.isComponentUnmounted = false;
+  }
+
+  async componentDidMount() {
+    this.isIndicatorBase = await isProposeByIndicatorBase();
   }
 
   componentWillUnmount() {
@@ -47,7 +51,7 @@ export default class ParticipantInfo extends Component {
   }
 
   async openParticipantListModal() {
-    if (await getProposedIndicatorMethod() === INDICATOR_BASE && isProposedIndicatorScreen())
+    if (await getProposedIndicatorMethod() === INDICATOR_BASE && isRaisingProposedScreen())
       navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
       this.setState({ participantListVisible: true });
@@ -114,6 +118,7 @@ export default class ParticipantInfo extends Component {
               scorecardUuid={this.props.scorecardUuid}
               participants={this.state.participants || []}
               selectedIndicator={null}
+              isIndicatorBase={this.isIndicatorBase}
               showAddParticipantModal={() => this.showAddParticipantModal()}
               selectParticipant={(participant) => this.selectParticipant(participant)}
               participantModalRef={this.props.participantModalRef}

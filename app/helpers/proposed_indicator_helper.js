@@ -5,6 +5,7 @@ import ProposedIndicator from '../models/ProposedIndicator';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
 import { getLanguageIndicator } from '../services/language_indicator_service';
+import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
 
 import ParticipantModalContent from '../components/ParticipantModal/ParticipantModalContent';
 import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
@@ -69,14 +70,16 @@ const proposedIndicatorHelper = (() => {
     participantModalRef.current?.present();
   }
 
-  function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+  async function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
+    const isIndicatorBase = await isProposeByIndicatorBase();
 
     formRef.current?.setBodyContent(
       <ParticipantModalContent scorecardUuid={scorecardUuid}
         selectedIndicator={indicator}
         showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList)}
         updateIndicatorList={() => updateIndicatorList()}
+        isIndicatorBase={isIndicatorBase}
         participantModalRef={participantModalRef}
       />
     );

@@ -27,7 +27,7 @@ class CreateIndicatorBody extends React.Component {
     const proposedIndicators = proposedIndicatorHelper.getProposedIndicators(this.props.scorecardUuid, this.state.participantUuid);
 
     this.setState({
-      isValid: (proposedIndicators != undefined && proposedIndicators.length > 0) ? true : false,
+      isValid: (proposedIndicators != undefined && proposedIndicators.length > 0),
       isIndicatorBase: await isProposeByIndicatorBase(),
     });
   }

@@ -5,7 +5,6 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
-import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
@@ -51,6 +50,7 @@ class IndicatorCard extends Component {
     else {
       proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
       setTimeout(() => {
+        !!this.props.isExistedIndicator && this.props.participantModalRef.current?.dismiss();
         !!this.props.updateIndicatorList && this.props.updateIndicatorList();
       }, 50);
     }

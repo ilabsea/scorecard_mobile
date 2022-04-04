@@ -1,22 +1,20 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import ParticipantModalListItem from './ParticipantModalListItem';
+import ParticipantModalListItemRightIcon from './ParticipantModalListItemRightIcon';
 import ParticipantModalSubtitle from './ParticipantModalSubtitle';
 
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
-import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
-import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
-import { isProposedIndicatorScreen } from '../../utils/screen_util';
+import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
 
@@ -26,16 +24,13 @@ class ParticipantModalContent extends React.Component {
     super(props);
     this.state = {
       raisedParticipantUuids: [],
-      isIndicatorBase: false,
     }
     this.participants = !!props.participants ? props.participants
                         : Participant.findByScorecard(props.scorecardUuid);
   }
 
   async componentDidMount() {
-    this.setState({ isIndicatorBase: await isProposeByIndicatorBase()})
-
-    if (this.state.isIndicatorBase && isProposedIndicatorScreen()) {
+    if (this.props.isIndicatorBase && isCreateNewIndicatorScreen()) {
       const raisedParticipantUuids = [];
       this.participants.map(participant => {
         if (this.isParticipantRaised(participant.uuid))
@@ -50,11 +45,9 @@ class ParticipantModalContent extends React.Component {
     return !!ProposedIndicator.findByParticipant(scorecardUuid, selectedIndicator.indicatorable_id, participantUuid);
   }
 
-  selectedIcon(participant) {
-    if (this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid == participant.uuid).length > 0)
-      return <Icon name='check' size={getDeviceStyle(28, 23)} color={ Color.clickableColor } />
-
-    return <View/>;
+  listItemRightIcon(participant) {
+    return <ParticipantModalListItemRightIcon participant={participant} raisedParticipantUuids={this.state.raisedParticipantUuids}
+            isIndicatorBase={this.props.isIndicatorBase} />
   }
 
   toggleParticipant(participant) {
@@ -63,7 +56,7 @@ class ParticipantModalContent extends React.Component {
       this.props.selectParticipant(participant);
     }
     else
-      this.state.isIndicatorBase ? this.handleToggleParticipantOnIndicatorBase(participant)
+      this.props.isIndicatorBase ? this.handleToggleParticipantOnIndicatorBase(participant)
                                  : this.handleToggleParticipantOnParticipantBase(participant);
   }
 
@@ -94,7 +87,7 @@ class ParticipantModalContent extends React.Component {
           <ParticipantModalListItem
             participant={participant}
             onPress={() => this.toggleParticipant(participant) }
-            rightIcon={this.selectedIcon(participant)}
+            rightIcon={this.listItemRightIcon(participant)}
           />
         </View>
       )
@@ -115,7 +108,7 @@ class ParticipantModalContent extends React.Component {
         <View style={{ padding: containerPadding, flex: 1 }}>
           <ParticipantModalSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.participants.length}
             showAddParticipantModal={() => this.props.showAddParticipantModal()}
-            isIndicatorBase={this.state.isIndicatorBase}
+            isIndicatorBase={this.props.isIndicatorBase}
           />
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>

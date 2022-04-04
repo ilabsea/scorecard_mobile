@@ -1,7 +1,11 @@
 import { navigationRef } from '../navigators/app_navigator';
 
-const isProposedIndicatorScreen = () => {
+const isRaisingProposedScreen = () => {
   return navigationRef.current?.getCurrentRoute().name === 'RaisingProposed';
 }
 
-export { isProposedIndicatorScreen };
+const isCreateNewIndicatorScreen = () => {
+  return navigationRef.current?.getCurrentRoute().name === 'CreateNewIndicator';
+}
+
+export { isRaisingProposedScreen, isCreateNewIndicatorScreen };
