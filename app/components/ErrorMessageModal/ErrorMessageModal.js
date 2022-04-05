@@ -27,8 +27,9 @@ class ErrorMessageModal extends Component {
 
   async componentDidMount() {
     const setting = await AsyncStorage.getItem('SETTING');
+
     this.setState({
-      backendUrl: setting != null ? JSON.parse(setting).backendUrl : environment.defaultEndpoint,
+      backendUrl: (setting != null && !!JSON.parse(setting).backendUrl) ? JSON.parse(setting).backendUrl : environment.defaultEndpoint,
     }, () => {
       AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
     });
