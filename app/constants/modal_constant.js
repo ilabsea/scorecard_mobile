@@ -1,4 +1,4 @@
-import { getDeviceStyle, isShortScreenDevice } from '../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice, isShortWidthScreen } from '../utils/responsive_util';
 
 export const PROPOSED_INDICATOR = 'PROPOSED_INDICATOR';
 export const INDICATOR_DEVELOPMENT = 'INDICATOR_DEVELOPMENT';
@@ -21,7 +21,7 @@ export const indicatorDevelopmentContentHeight = getDeviceStyle('75%', isShortSc
 export const swotModalSnapPoints = getDeviceStyle(['77%'], ['77%']);
 export const swotContentHeight = getDeviceStyle('75%', '75%');
 
-export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : ['65%']);
+export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
 
 export const indicatorParticipantListModalSnapPoints = getDeviceStyle(['70%'], ['70%']);
 
