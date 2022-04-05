@@ -26,10 +26,12 @@ class ParticipantAccordionContent extends Component {
       <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 20}}>
         <Text style={styles.itemTitleText}>{translations.indicatorDevelopment}</Text>
 
-        <TouchableOpacity onPress={() => this.editParticipant()} style={{flexDirection: 'row'}}>
-          <Icon name={'pen'} type="FontAwesome5" style={styles.btnEditIcon}/>
-          <Text style={styles.editButton}>{translations.edit}</Text>
-        </TouchableOpacity>
+        { !this.props.isIndicatorBase &&
+          <TouchableOpacity onPress={() => this.editParticipant()} style={{flexDirection: 'row'}}>
+            <Icon name={'pen'} type="FontAwesome5" style={styles.btnEditIcon}/>
+            <Text style={styles.editButton}>{translations.edit}</Text>
+          </TouchableOpacity>
+        }
       </View>
     )
   }

@@ -31,7 +31,7 @@ class RaisingProposed extends Component {
 
     this.tipModalRef = React.createRef();
     this.participantModalRef = React.createRef();
-    this.formRef = React.createRef();
+    this.formModalRef = React.createRef();
   }
 
   render() {
@@ -49,13 +49,13 @@ class RaisingProposed extends Component {
             visibleModal={this.state.visibleModal}
             tipModalRef={this.tipModalRef}
             participantModalRef={this.participantModalRef}
-            formModalRef={this.formRef}
+            formModalRef={this.formModalRef}
             updateModalVisible={(status) => this.setState({ visibleModal: status })}
           />
         </View>
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='RaisingProposed' />
-        <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
       </React.Fragment>

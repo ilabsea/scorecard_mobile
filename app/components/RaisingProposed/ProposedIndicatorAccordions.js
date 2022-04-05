@@ -9,6 +9,7 @@ import NoDataMessage from '../NoDataMessage';
 
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
 import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
@@ -18,7 +19,12 @@ const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProp
 class ProposedIndicatorAccordions extends Component {
   static contextType = LocalizationContext;
   state = {
-    accordionType: 'participant'
+    accordionType: 'participant',
+    isIndicatorBase: false,
+  }
+
+  async componentDidMount() {
+    this.setState({ isIndicatorBase: await isProposeByIndicatorBase() });
   }
 
   renderAccordionSwitcher() {
@@ -46,7 +52,7 @@ class ProposedIndicatorAccordions extends Component {
         <NoDataMessage
           title={translations.pleaseProposeIndicator}
           buttonLabel={translations.proposeNewIndicator}
-          onPress={() => this.props.showModal()}
+          onPress={() => this.props.startProposeIndicator()}
           customContainerStyle={responsiveStyles.noDataContainer}
         />
       </View>
@@ -63,7 +69,7 @@ class ProposedIndicatorAccordions extends Component {
         }
 
         { this.state.accordionType == 'participant' ?
-          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} />
+          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.state.isIndicatorBase} />
           :
           <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
         }

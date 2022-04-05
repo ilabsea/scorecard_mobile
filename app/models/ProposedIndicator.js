@@ -13,9 +13,11 @@ const ProposedIndicator = (() => {
     getAllDistinctTag,
     getAllDistinct,
     destroy,
-    getLastOrderNumber,
     getLastOrderNumberOfParticipant,
+    getLastOrderNumberOfIndicator,
+    getLastOrderNumberOfScorecard,
     destroyUnconfirmProposedIndicators,
+    getUnconfirmedProposedIndicators,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -41,7 +43,9 @@ const ProposedIndicator = (() => {
   }
 
   function findByParticipant(scorecardUuid, indicatorId, participantUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorId }' AND participant_uuid = '${ participantUuid }'`)[0];
+    const indicatorQuery = !!indicatorId ? `AND indicatorable_id = '${ indicatorId }'` : '';
+    const query = `scorecard_uuid = '${ scorecardUuid }' ${ indicatorQuery } AND participant_uuid = '${ participantUuid }'`;
+    return realm.objects(MODEL).filtered(query)[0];
   }
 
   function findByIndicator(scorecardUuid, indicatorableId) {
@@ -62,23 +66,36 @@ const ProposedIndicator = (() => {
     });
   }
 
-  function getLastOrderNumber(scorecardUuid) {
-    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).max('order');
-    return !orderNumber ? 0 : orderNumber;
-  }
-
   function getLastOrderNumberOfParticipant(scorecardUuid, participantUuid) {
     const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }'`).max('order');
     return !orderNumber ? 0 : orderNumber;
   }
 
-  function destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {
-    const proposedIndicators = find(scorecardUuid, participantUuid);
+  function getLastOrderNumberOfIndicator(scorecardUuid, indicatorId) {
+    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorId }'`).max('order');
+    return !orderNumber ? 0 : orderNumber;
+  }
 
-    if (proposedIndicators.length > 0) {
-      const unconfirmProposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }' AND order > ${ lastOrderNumber }`);
-      destroy(unconfirmProposedIndicators);
+  function getLastOrderNumberOfScorecard(scorecardUuid) {
+    const orderNumber = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }'`).max('order');
+    return !orderNumber ? 0 : orderNumber;
+  }
+
+  function destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {
+    const unconfirmedProposedIndicators = getUnconfirmedProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber);
+
+    if (unconfirmedProposedIndicators.length > 0) {
+      realm.write(() => {
+        realm.delete(unconfirmedProposedIndicators);
+      });
     }
+  }
+
+  function getUnconfirmedProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber) {
+    const participantQuery = !!participantUuid ? `AND participant_uuid = '${ participantUuid }'` : '';
+    const query = `scorecard_uuid = '${ scorecardUuid }' ${ participantQuery } AND order > ${ lastOrderNumber }`;
+
+    return realm.objects(MODEL).filtered(query);
   }
 })();
 

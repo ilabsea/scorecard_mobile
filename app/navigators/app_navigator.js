@@ -25,6 +25,7 @@ import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticip
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
+import VideoPlayerScreen from '../screens/VideoPlayer/VideoPlayer';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
 import FilterScorecardScreen from '../screens/FilterScorecard/FilterScorecard';
@@ -123,7 +124,7 @@ function AppNavigator() {
         name="Setting"
         component={SettingScreen}
         options={{
-          headerTitle: `${translations['setting']}`,
+          header: () => null,
         }}
       />
       <Stack.Screen
@@ -235,6 +236,13 @@ function AppNavigator() {
       <Stack.Screen
         name="FilterScorecardScreen"
         component={FilterScorecardScreen}
+        options={({navigator}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="VideoPlayer"
+        component={VideoPlayerScreen}
         options={({navigator}) => ({
           header: () => null,
         })}

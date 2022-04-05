@@ -1,13 +1,25 @@
-import Indicator from '../models/Indicator';
+import React from 'react';
 import VotingIndicator from '../models/VotingIndicator';
-import { getAttributesByColumns } from '../helpers/scorecard_attributes_helper';
+import Indicator from '../models/Indicator';
+import ProposedIndicator from '../models/ProposedIndicator';
+import { getAttributesByColumns } from './scorecard_attributes_helper';
+import proposedIndicatorService from '../services/proposed_indicator_service';
 import { getLanguageIndicator } from '../services/language_indicator_service';
+import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
+
+import ParticipantModalContent from '../components/ParticipantModal/ParticipantModalContent';
+import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
 
 const proposedIndicatorHelper = (() => {
   return {
     getProposedIndicatorAttributes,
     getOrderedSelectedProposedIndicators,
     getDisplayName,
+    showFormModal,
+    showParticipantListModal,
+    getNumberOfRaisedParticipant,
+    isIndicatorProposed,
+    getProposedIndicators,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -52,6 +64,42 @@ const proposedIndicatorHelper = (() => {
     return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
   }
 
+  function showFormModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+    // proposedIndicatorParams is equal to { scorecardUuid, indicator }
+    showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+    participantModalRef.current?.present();
+  }
+
+  async function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+    const { scorecardUuid, indicator } = proposedIndicatorParams;
+    const isIndicatorBase = await isProposeByIndicatorBase();
+
+    formRef.current?.setBodyContent(
+      <ParticipantModalContent scorecardUuid={scorecardUuid}
+        selectedIndicator={indicator}
+        showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList)}
+        updateIndicatorList={() => updateIndicatorList()}
+        isIndicatorBase={isIndicatorBase}
+        participantModalRef={participantModalRef}
+      />
+    );
+  }
+
+  function getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) {
+    if (!!participantUuid)
+      return !!ProposedIndicator.findByParticipant(scorecardUuid, indicatorId, participantUuid) ? 1 : 0;
+
+    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorId).length;
+  }
+
+  function isIndicatorProposed(scorecardUuid, indicatorId, participantUuid) {
+    return getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) > 0;
+  }
+
+  function getProposedIndicators(scorecardUuid, participantUuid) {
+    return !!participantUuid ? ProposedIndicator.find(scorecardUuid, participantUuid) : ProposedIndicator.getAllByScorecard(scorecardUuid);
+  }
+
   // private methods
 
   function _getIndicatorAttrs(proposedIndicator) {
@@ -64,6 +112,24 @@ const proposedIndicatorHelper = (() => {
     indicatorAttrs[indicator.type]['indicatorable_id'] = indicator.id;
 
     return indicatorAttrs[indicator.type];
+  }
+
+  function _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+    const { scorecardUuid, indicator } = proposedIndicatorParams;
+
+    formRef.current?.setBodyContent(
+      <AddNewParticipantContent scorecardUuid={ scorecardUuid }
+        title={indicator.name}
+        onSaveParticipant={(participant) => {
+            proposedIndicatorService.create(scorecardUuid, indicator, participant.uuid);
+            setTimeout(() => {
+              updateIndicatorList();
+              showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+            }, 50);
+          }
+        }
+      />
+    );
   }
 })();
 

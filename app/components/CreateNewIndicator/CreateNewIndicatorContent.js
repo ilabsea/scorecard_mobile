@@ -7,12 +7,18 @@ import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantIn
 import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
 import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
 import { subTitleFontSize } from '../../utils/font_size_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class CreateNewIndicatorContent extends Component {
   static contextType = LocalizationContext;
+  state = { hasParticipantSection: false }
+
+  componentDidMount() {
+    this.setState({ hasParticipantSection: !this.props.isIndicatorBase });
+  }
 
   renderParticipant() {
-    if (this.props.isSearching || this.props.isEdit)
+    if (this.props.isSearching || this.props.isEdit || !this.props.participantUuid)
       return;
 
     return (
@@ -34,8 +40,11 @@ class CreateNewIndicatorContent extends Component {
         scorecardUuid={this.props.scorecardUuid}
         participantUuid={this.props.participantUuid}
         isSearching={this.props.isSearching}
+        isIndicatorBase={this.props.isIndicatorBase}
         showAddNewIndicatorModal={() => this.props.showAddNewIndicatorModal(null)}
         updateIndicatorList={() => this.props.updateIndicatorList()}
+        formModalRef={this.props.formModalRef}
+        participantModalRef={this.props.participantModalRef}
       />
     )
   }
@@ -48,6 +57,8 @@ class CreateNewIndicatorContent extends Component {
         selectForEdit={this.props.showAddNewIndicatorModal}
         selectedCustomIndicator={this.props.selectedCustomIndicator}
         updateIndicatorList={() => this.props.updateIndicatorList()}
+        formModalRef={this.props.formModalRef}
+        participantModalRef={this.props.participantModalRef}
       />
     )
   }
@@ -55,10 +66,10 @@ class CreateNewIndicatorContent extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        { this.renderParticipant() }
+        { this.state.hasParticipantSection && this.renderParticipant() }
 
         { (!this.props.isSearching && !this.props.isEdit) &&
-          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: 20}}>
+          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 20}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>
         }

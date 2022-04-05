@@ -21,7 +21,6 @@ class CreateNewIndicatorParticipantInfo extends Component {
           participants={Participant.getNotRaised(this.props.scorecardUuid)}
           scorecardUuid={ this.props.scorecardUuid }
           participantUuid={ this.props.participantUuid }
-          navigation={this.props.navigation}
           buttonVisible={false}
           selectParticipant={(participant) => !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participant.uuid)}
           formModalRef={this.props.formModalRef}

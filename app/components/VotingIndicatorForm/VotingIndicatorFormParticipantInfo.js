@@ -17,7 +17,7 @@ class VotingIndicatorFormParticipantInfo extends React.Component {
           participants={Participant.getUnvoted(this.props.scorecardUuid)}
           scorecardUuid={ this.props.scorecardUuid }
           participantUuid={ this.props.participantUuid }
-          onGetParticipant={(participant) => this.props.onGetParticipant(participant.uuid)}
+          selectParticipant={(participant) => this.props.onGetParticipant(participant.uuid)}
           buttonVisible={false}
           participantModalRef={this.props.participantModalRef}
           formModalRef={this.props.formModalRef}

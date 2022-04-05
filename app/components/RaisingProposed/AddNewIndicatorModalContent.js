@@ -11,15 +11,15 @@ import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
-import { getLanguageIndicator } from '../../services/language_indicator_service';
-import Indicator from '../../models/Indicator';
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { isBlank } from '../../utils/string_util';
 import { containerPadding } from '../../utils/responsive_util';
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { participantContentHeight } from '../../constants/modal_constant';
+import Indicator from '../../models/Indicator';
 
 class AddNewIndicatorModalContent extends React.Component {
   static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
 
@@ -30,24 +30,6 @@ class AddNewIndicatorModalContent extends React.Component {
       isIndicatorExist: false,
       duplicatedIndicators: []
     };
-
-    this.isComponentUnmount = false;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.isComponentUnmount && this.props.selectedCustomIndicator && this.props.isVisible && !prevProps.isVisible) {
-      const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, this.props.selectedCustomIndicator.indicatorable_id, 'audio');
-
-      this.setState({
-        name: this.props.selectedCustomIndicator.name,
-        tag: this.props.selectedCustomIndicator.tag,
-        audio: languageIndicator.local_audio
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this.isComponentUnmount = true;
   }
 
   clearInputs() {
@@ -67,17 +49,29 @@ class AddNewIndicatorModalContent extends React.Component {
     };
 
     if (this.props.isEdit) {
-      const { indicatorable_id, local_audio } = this.props.selectedCustomIndicator
-      customIndicatorService.updateIndicator(indicatorable_id, indicator, this.props.scorecardUuid, local_audio);
+      const { uuid, local_audio } = this.props.selectedCustomIndicator
+      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUuid, local_audio);
       this.props.finishSaveOrUpdateCustomIndicator(true);
+      this.clearInputs();
     }
     else {
-      customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid, () => {
+      customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid, async (customIndicator) => {
         this.props.finishSaveOrUpdateCustomIndicator(false);
+
+        if (await isProposeByIndicatorBase())
+          this.showParticipantListModal(customIndicator);     // Switch the modal content to participant list
+        else {
+          !!this.props.updateIndicatorList && this.props.updateIndicatorList();
+          this.props.closeModal();
+        }
       });
     }
+  }
+
+  showParticipantListModal(customIndicator) {
+    const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: customIndicator };
+    proposedIndicatorHelper.showParticipantListModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
     this.clearInputs();
-    this.props.closeModal();
   }
 
   renderButton = () => {
@@ -87,12 +81,11 @@ class AddNewIndicatorModalContent extends React.Component {
 
   onChangeName(name) {
     const selectedIndicatorUuid = this.props.selectedCustomIndicator ? this.props.selectedCustomIndicator.uuid : null;
-    const indicatorService = new IndicatorService();
 
     this.setState({
       name,
       isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
-      duplicatedIndicators: indicatorService.getDuplicatedIndicator(this.props.scorecardUuid, name)
+      duplicatedIndicators: new IndicatorService().getDuplicatedIndicator(this.props.scorecardUuid, name)
     });
   }
 
@@ -112,7 +105,9 @@ class AddNewIndicatorModalContent extends React.Component {
   }
 
   updateIndicatorList() {
-    this.clearInputs();
+    if (!this.props.isIndicatorBase)  // To prevent the warning of can't perform state update on an unmount component
+      this.clearInputs();
+
     this.props.updateIndicatorList();
   }
 
@@ -122,7 +117,10 @@ class AddNewIndicatorModalContent extends React.Component {
               participantUuid={this.props.participantUuid}
               indicatorName={this.state.name}
               duplicatedIndicators={this.state.duplicatedIndicators}
+              isIndicatorBase={this.props.isIndicatorBase}
               updateIndicatorList={() => this.updateIndicatorList()}
+              formModalRef={this.props.formModalRef}
+              participantModalRef={this.props.participantModalRef}
             />
   }
 
@@ -136,8 +134,7 @@ class AddNewIndicatorModalContent extends React.Component {
 
             { this.isUniqueIndicatorOrEditing() ?
               <VoiceRecord
-                participantUUID={this.props.participantUuid}
-                scorecardUUID={this.props.scorecardUuid}
+                scorecardUuid={this.props.scorecardUuid}
                 finishRecord={(filename) => this.setState({audio: filename})}
                 audioFilePath={this.state.audio}
                 deleteAudio={() => this.setState({audio: null})}
@@ -146,11 +143,11 @@ class AddNewIndicatorModalContent extends React.Component {
               :
               this.renderExistedIndicator()
             }
-          </View>
+           </View>
   }
 
   render() {
-    const title = this.state.isEdit ? this.context.translations.editIndicator : this.context.translations.addNewIndicator;
+    const title = this.props.isEdit ? this.context.translations.editIndicator : this.context.translations.addNewIndicator;
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

@@ -7,15 +7,15 @@ import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_si
 const SettingScreenStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
-    flex: 1,
     paddingTop: 16,
     paddingHorizontal: 16,
+    paddingBottom: 10,
   },
   textLabel: {
     fontSize: bodyFontSize()
   },
   messageContainer: {
-    marginTop: isShortScreenDevice() ? hp('3%') : hp('8%'),
+    marginTop: isShortScreenDevice() ? hp('1%') : hp('2%'),
     marginBottom: 4,
     fontSize: getMobileFontSizeByPixelRatio(13.5, 13.5),
   }

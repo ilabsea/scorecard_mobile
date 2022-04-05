@@ -5,7 +5,6 @@ import { bodyFontSize } from '../../utils/font_size_util';
 const SettingScreenStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
-    flex: 1,
     paddingTop: 16,
     paddingHorizontal: 16,
   },

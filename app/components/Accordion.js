@@ -10,17 +10,26 @@ class Accordion extends Component {
     super(props);
 
     this.state = {
-      accordionStatuses: new Array(props.items.length)
+      accordionStatuses: !!props.accordionStatuses ? props.accordionStatuses : new Array(props.items.length),
     }
   }
 
-  toggleAccordion(index) {
+  toggleAccordion(toggleIndex) {
     let statuses = this.state.accordionStatuses;
-    statuses[index] = !statuses[index];
+    statuses[toggleIndex] = !statuses[toggleIndex];
+
+    if (!!this.props.hasAutoToggle) {
+      this.state.accordionStatuses.map((accordionStatus, index) => {
+        if (index != toggleIndex)
+          statuses[index] = false;
+      });
+    }
 
     this.setState({
       accordionStatuses: statuses
-    })
+    });
+
+    !!this.props.onToggle && this.props.onToggle(toggleIndex);
   }
 
   renderAccordion() {
@@ -29,9 +38,10 @@ class Accordion extends Component {
         <List.Accordion
           key={uuidv4()}
           title={this.props.accordionTitle(item, index)}
-          style={{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }}
+          style={[{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }, this.props.customItemStyle]}
           onPress={() => this.toggleAccordion(index)}
           expanded={this.state.accordionStatuses[index]}
+          titleStyle={this.props.titleStyle}
         >
           { this.props.accordionContent(item) }
         </List.Accordion>

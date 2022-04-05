@@ -47,7 +47,10 @@ class IndicatorSelection extends Component {
               isSearching={this.props.isSearching}
               scorecardUuid={this.props.scorecardUuid}
               participantUuid={this.props.participantUuid}
+              isIndicatorBase={this.props.isIndicatorBase}
               updateIndicatorList={() => this.props.updateIndicatorList()}
+              formModalRef={this.props.formModalRef}
+              participantModalRef={this.props.participantModalRef}
             />
           </RaisingProposedScrollView>
         }

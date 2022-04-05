@@ -28,7 +28,11 @@ class ExistedIndicatorItem extends React.Component {
           participantUuid={this.props.participantUuid}
           isPopupModalList={true}
           customCardStyle={{ marginLeft: 0, width: '100%' }}
+          isIndicatorBase={this.props.isIndicatorBase}
+          isExistedIndicator={true}
           updateIndicatorList={() => this.props.updateIndicatorList()}
+          formModalRef={this.props.formModalRef}
+          participantModalRef={this.props.participantModalRef}
         />
       </View>
     )

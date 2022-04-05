@@ -36,7 +36,7 @@ const votingInfoModalHelper = (() => {
     const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['43%', '60.5%'];
     const moreInfoSnapPoints = {
       2: getDeviceStyle(['36%', '50%'], mobileTwoLinesInfoSnapPoints),
-      3: getDeviceStyle(['42%', '58%'], mobileThreeLinesInfoSnapPoints)
+      3: getDeviceStyle(['41%', '58%'], mobileThreeLinesInfoSnapPoints)
     }
 
     const mobileLessInfoSnapPoints = isShortScreenDevice() ? ['44%'] : ['40.5%'];

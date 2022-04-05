@@ -8,6 +8,8 @@ import lockDeviceService from './lock_device_service';
 import resetLockService from './reset_lock_service';
 import { ERROR_UNPROCESSABLE } from '../constants/error_constant';
 import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';
+import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
+import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
 
 const authenticationService = (() => {
   return {
@@ -60,15 +62,15 @@ const authenticationService = (() => {
     });
   }
 
-  function saveSignInInfo(state) {
-    const { backendUrl, email, password, locale } = state;
+  async function saveSignInInfo(state) {
+    const { backendUrl, email, password } = state;
 
     AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
     AsyncStorage.setItem('SETTING', JSON.stringify({
       backendUrl: backendUrl,
       email: email,
       password: password,
-      locale: locale
+      proposedIndicatorMethod: await isProposeByIndicatorBase() ? INDICATOR_BASE : PARTICIPANT_BASE,
     }));
   }
 

@@ -60,6 +60,7 @@
     "react-native-vector-icons": "^7.1.0",
     "react-native-walkthrough-tooltip": "^1.1.11",
     "react-native-webview": "^11.0.0",
+    "react-native-youtube": "^2.0.2",
     "react-redux": "^7.2.1",
     "realm": "^6.1.0",
     "redux": "^4.0.5",

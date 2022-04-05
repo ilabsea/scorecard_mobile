@@ -10,9 +10,11 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import Participant from '../../models/Participant';
-import { getRaisedParticipants } from '../../services/participant_service';
 import { navigate } from '../../navigators/app_navigator';
+import { getRaisedParticipants } from '../../services/participant_service';
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
 import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
@@ -21,17 +23,24 @@ const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProp
 
 class ListUser extends Component {
   static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      visibleModal: false,
-    }
-  }
 
   closeModal() {
     this.props.updateModalVisible(false)
     this.props.participantModalRef.current?.dismiss();
+  }
+
+  _goToCreateNewIndicator(participant_uuid) {
+    const params = !!participant_uuid ? { scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid } : { scorecard_uuid: this.props.scorecardUuid };
+    navigate('CreateNewIndicator', params);
+  }
+
+  async startProposeIndicator() {
+    if (await isProposeByIndicatorBase())
+      this._goToCreateNewIndicator(null);
+    else {
+      const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: null };
+      proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams, null);
+    }
   }
 
   render() {
@@ -52,7 +61,6 @@ class ListUser extends Component {
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
               selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
-              visibleModal={this.props.visibleModal}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}
               formModalRef={this.props.formModalRef}
@@ -65,6 +73,7 @@ class ListUser extends Component {
           raisedParticipants={raisedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
           showModal={() => this.props.updateModalVisible(true)}
+          startProposeIndicator={() => this.startProposeIndicator()}
         />
       </View>
     );

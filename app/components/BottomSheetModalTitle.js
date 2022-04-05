@@ -11,7 +11,7 @@ const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobile
 const BottomSheetModalTitle = (props) => {
   return (
     <View>
-      <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]}>
+      <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]} numberOfLines={1}>
         { props.title }
       </Text>
       <DashedLine containerStyle={props.dashedLineStyle} />

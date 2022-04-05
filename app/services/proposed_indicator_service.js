@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ProposedIndicator from '../models/ProposedIndicator';
 import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
+import scorecardProposedIndicatorHelper from '../helpers/scorecard_proposed_indicator_helper';
 import uuidv4 from '../utils/uuidv4';
 import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
 
@@ -37,7 +38,7 @@ const proposedIndicatorService = (() => {
       indicatorable_name: indicator.name,
       participant_uuid: participantUuid,
       tag: indicator.tag,
-      order: parseInt(ProposedIndicator.getLastOrderNumber(scorecardUuid)) + 1,
+      order: scorecardProposedIndicatorHelper.getCurrentOrderNumber(scorecardUuid),
     };
 
     ProposedIndicator.create(attrs);
@@ -90,11 +91,11 @@ const proposedIndicatorService = (() => {
     // Remove the proposed indicators that the user does not confirm to save
     ProposedIndicator.destroyUnconfirmProposedIndicators(scorecardUuid, participantUuid, lastOrderNumber);
 
-    // Recreate the saved proposed indicators that the user unselect and does not confirm to save
-    const previousProposedIndicators = JSON.parse(await AsyncStorage.getItem('previous-proposed-indicators'));
+    // Recreate the saved proposed indicators that the user unselected and does not confirm to save
+    const previousProposedIndicators = JSON.parse(await AsyncStorage.getItem('previous-proposed-indicators')) || [];
 
     previousProposedIndicators.map(proposedIndicator => {
-      if (!ProposedIndicator.findByParticipant(scorecardUuid, proposedIndicator.indicatorable_id, participantUuid)) {
+      if (!ProposedIndicator.findByParticipant(scorecardUuid, proposedIndicator.indicatorable_id, proposedIndicator.participant_uuid)) {
         const data = proposedIndicator;
         data.uuid = uuidv4();
         ProposedIndicator.create(data);

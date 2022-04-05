@@ -38,8 +38,8 @@ const participantHelper = (() => {
 
     proposedIndicators.map(indicator => {
       const participant = Participant.find(indicator.participant_uuid);
-
-      participantOrderNumbers.push(participant.order + 1);
+      if (!!participant)
+        participantOrderNumbers.push(participant.order + 1);
     });
 
     return participantOrderNumbers.sort((a, b) => a > b);

@@ -20,3 +20,9 @@ export const indicatorDevelopmentContentHeight = getDeviceStyle('75%', isShortSc
 
 export const swotModalSnapPoints = getDeviceStyle(['77%'], ['77%']);
 export const swotContentHeight = getDeviceStyle('75%', '75%');
+
+export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : ['65%']);
+
+export const indicatorParticipantListModalSnapPoints = getDeviceStyle(['70%'], ['70%']);
+
+export const indicatorParticipantListModalHeight = getDeviceStyle('68%', '68%');

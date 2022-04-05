@@ -34,6 +34,7 @@ class ParticipantAccordion extends Component {
       <ParticipantAccordionContent
         scorecardUuid={_this.props.scorecardUuid}
         participantUuid={participant.uuid}
+        isIndicatorBase={_this.props.isIndicatorBase}
       />
     )
   }

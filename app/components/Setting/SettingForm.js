@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, Keyboard } from 'react-native';
+import { View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TextInput } from 'react-native-paper';
 
 import {LocalizationContext} from '../Translations';
-import SelectPicker from '../SelectPicker';
 import TextFieldInput from '../TextFieldInput';
+import SettingSelectPickers from './SettingSelectPickers';
 
-import {localeDictionary} from '../../constants/locale_constant';
 import { environment } from '../../config/environment';
 
 class SettingForm extends Component {
@@ -19,8 +18,6 @@ class SettingForm extends Component {
       backendUrl: 'https://isaf.digital-csc.org',
       email: '',
       password: '',
-      locales: [],
-      locale: 'km',
       backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
@@ -28,36 +25,24 @@ class SettingForm extends Component {
     };
 
     this.langugageController;
+
+    this.pickersRef = React.createRef();
   }
 
   componentDidMount = async () => {
-    const { appLanguage } = this.context;
-    let setting = {
-      locales: this.getLocales(),
-      locale: appLanguage,
-    };
+    const value = JSON.parse(await AsyncStorage.getItem('SETTING'));
 
-    try {
-      const value = await AsyncStorage.getItem('SETTING');
-
-      if (value !== null) {
-        setting = Object.assign(setting, JSON.parse(value))
-      }
-      setting.locale = appLanguage;
-      this.setState(setting, () => this.props.updateValidationStatus());
-    } catch (error) {
-      this.setState(setting);
+    if (value !== null && !!value.email) {
+      this.setState({
+        backendUrl: value.backendUrl,
+        email: value.email,
+        password: value.password,
+      }, () => this.props.updateValidationStatus());
     }
   }
 
-  getLocales = () => {
-    const {translations} = this.context;
-    let locales = translations.getAvailableLanguages();
-    return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
-  };
-
   closeDropDown = () => {
-    this.languageController.close()
+    this.pickersRef.current?.closeDropdownPickers();
   }
 
   onChangeText = (fieldName, value) => {
@@ -132,39 +117,11 @@ class SettingForm extends Component {
     )
   }
 
-  changeLocale = (locale) => {
-    const {setAppLanguage} = this.context;
-    this.setState({locale: locale.value});
-    setAppLanguage(locale.value);
-  }
-
-  _renderChooseLanugage = () => {
-    const {translations} = this.context;
-    const {locales, locale} = this.state;
-
-    return (
-      <SelectPicker
-        items={locales}
-        selectedItem={locale}
-        label={translations["language"]}
-        placeholder={translations["selectLanguage"]}
-        searchablePlaceholder={translations["searchForLanguage"]}
-        zIndex={6000}
-        showCustomArrow={true}
-        onChangeItem={this.changeLocale}
-        mustHasDefaultValue={true}
-        controller={(instance) => this.languageController = instance}
-        onOpen={() => Keyboard.dismiss()}
-        customDropDownContainerStyle={{marginTop: -5}}
-      />
-    );
-  };
-
   render() {
     return (
       <View>
         {this._renderForm()}
-        {this._renderChooseLanugage()}
+        <SettingSelectPickers ref={this.pickersRef} formRef={this.props.formRef} formModalRef={this.props.formModalRef} proposedIndicatorMethod={this.props.proposedIndicatorMethod} />
       </View>
     )
   }

@@ -17,6 +17,8 @@ class RaisingProposedCustomIndicatorList extends Component {
           scorecardUuid={this.props.scorecardUuid}
           selectForEdit={(indicator) => this.props.selectForEdit(indicator)}
           updateIndicatorList={() => this.props.updateIndicatorList()}
+          formModalRef={this.props.formModalRef}
+          participantModalRef={this.props.participantModalRef}
         />
       </RaisingProposedScrollView>
     )
