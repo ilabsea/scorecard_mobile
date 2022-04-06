@@ -1,15 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import {LocalizationContext} from '../Translations';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import Accordion from '../Accordion';
-import ProposedIndicatorMethodDetailsTitle from './ProposedIndicatorMethodDetailsTitle';
 import ProposedIndicatorMethodDetailsContent from './ProposedIndicatorMethodDetailsContent';
 
 import settingHelper from '../../helpers/setting_helper';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
@@ -34,7 +35,15 @@ class ProposedIndicatorMethodDetails extends React.Component {
   }
 
   renderAccordionTitle(item) {
-    return <ProposedIndicatorMethodDetailsTitle selectedMethod={_this.state.selectedMethod} proposeMethod={item} />
+    return <View style={{flex: 2}}><Text style={{fontSize: bodyFontSize()}}>{item.label}</Text></View>
+  }
+
+  renderAccordionTitleStatus(item) {
+    const {translations} = _this.context;
+    const selectLabel = _this.state.selectedMethod === item.value ? translations.selected : translations.select;
+    const textColor = _this.state.selectedMethod === item.value ? Color.lightGrayColor : Color.clickableColor;
+
+    return <Text style={{ color: textColor, fontFamily: FontFamily.title, fontSize: bodyFontSize() }}>{ selectLabel }</Text>
   }
 
   renderAccordionContent(item) {
@@ -62,8 +71,10 @@ class ProposedIndicatorMethodDetails extends React.Component {
         <View style={{padding: containerPadding}}>
           <Accordion
             items={proposedIndicatorMethods}
-            accordionTitle={this.renderAccordionTitle}
+            leftComponent={this.renderAccordionTitle}
+            accordionTitle={this.renderAccordionTitleStatus}
             accordionContent={this.renderAccordionContent}
+            titleStyle={{ textAlign: 'right' }}
             customItemStyle={{ backgroundColor: '#f9f9fa', borderWidth: 1, borderColor: Color.paleGrayColor }}
             accordionStatuses={this.props.accordionStatuses}
             hasAutoToggle={true}

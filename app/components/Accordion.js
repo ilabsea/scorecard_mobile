@@ -36,12 +36,14 @@ class Accordion extends Component {
     return this.props.items.map((item, index) => {
       return (
         <List.Accordion
+          {...this.props}
           key={uuidv4()}
           title={this.props.accordionTitle(item, index)}
           style={[{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }, this.props.customItemStyle]}
           onPress={() => this.toggleAccordion(index)}
           expanded={this.state.accordionStatuses[index]}
           titleStyle={this.props.titleStyle}
+          left={(e) => !!this.props.leftComponent && this.props.leftComponent(item)}
         >
           { this.props.accordionContent(item) }
         </List.Accordion>
