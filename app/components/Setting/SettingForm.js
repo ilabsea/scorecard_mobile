@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import SettingSelectPickers from './SettingSelectPickers';
+import SettingUrlEndpointPicker from './SettingUrlEndpointPicker';
 
 import { environment } from '../../config/environment';
 
@@ -42,7 +43,7 @@ class SettingForm extends Component {
   }
 
   closeDropDown = () => {
-    this.pickersRef.current?.closeDropdownPickers();
+    // this.pickersRef.current?.closeDropdownPickers();
   }
 
   onChangeText = (fieldName, value) => {
@@ -72,7 +73,9 @@ class SettingForm extends Component {
 
     return (
       <View>
-        <TextFieldInput
+        <SettingUrlEndpointPicker />
+
+        {/* <TextFieldInput
           value={backendUrl}
           label={backendUrlLabel}
           placeholder={translations["enterServerUrl"]}
@@ -80,7 +83,7 @@ class SettingForm extends Component {
           onChangeText={this.onChangeText}
           message={translations[backendUrlErrorMsg]}
           onFocus={() => this.closeDropDown()}
-        />
+        /> */}
 
         <TextFieldInput
           value={email}

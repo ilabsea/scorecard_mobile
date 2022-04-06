@@ -3,9 +3,10 @@ import { Keyboard, View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
+import CustomSelectPicker from '../CustomSelectPicker';
 
 import {localeDictionary} from '../../constants/locale_constant';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
+// import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
 
 class SettingSelectPickers extends React.Component {
   static contextType = LocalizationContext;
@@ -15,6 +16,7 @@ class SettingSelectPickers extends React.Component {
     this.state = {
       locales: [],
       locale: 'km',
+      isDropdownOpen: false
     }
   }
 
@@ -40,20 +42,31 @@ class SettingSelectPickers extends React.Component {
     const {translations} = this.context;
     const {locales, locale} = this.state;
 
+    const staticLocales = [
+      { label: 'Khmer', value: 'km' },
+      { label: 'English', value: 'en' }
+    ]
+
     return (
-      <SelectPicker
-        items={locales}
-        selectedItem={locale}
-        label={translations["language"]}
-        placeholder={translations["selectLanguage"]}
-        searchablePlaceholder={translations["searchForLanguage"]}
-        zIndex={5000}
-        showCustomArrow={true}
-        onChangeItem={this.changeLocale}
-        mustHasDefaultValue={true}
-        controller={(instance) => this.languageController = instance}
-        onOpen={() => Keyboard.dismiss()}
-        customDropDownContainerStyle={{marginTop: 27}}
+      // <SelectPicker
+      //   items={locales}
+      //   selectedItem={locale}
+      //   label={translations["language"]}
+      //   placeholder={translations["selectLanguage"]}
+      //   searchablePlaceholder={translations["searchForLanguage"]}
+      //   zIndex={5000}
+      //   showCustomArrow={true}
+      //   onChangeItem={this.changeLocale}
+      //   mustHasDefaultValue={true}
+      //   controller={(instance) => this.languageController = instance}
+      //   onOpen={() => Keyboard.dismiss()}
+      //   customDropDownContainerStyle={{marginTop: 27}}
+      // />
+
+      <CustomSelectPicker
+        items={staticLocales}
+        selectedItem={this.state.locale}
+        onSelectItem={(item) => this.setState({ locale: item.value })}
       />
     );
   }
