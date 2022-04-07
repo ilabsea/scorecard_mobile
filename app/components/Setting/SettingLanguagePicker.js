@@ -5,8 +5,7 @@ import {LocalizationContext} from '../Translations';
 import SelectPicker from '../SelectPicker';
 import CustomSelectPicker from '../CustomSelectPicker';
 
-import {localeDictionary} from '../../constants/locale_constant';
-// import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
+import {locales} from '../../constants/locale_constant';
 
 class SettingSelectPickers extends React.Component {
   static contextType = LocalizationContext;
@@ -14,24 +13,14 @@ class SettingSelectPickers extends React.Component {
     super(props);
 
     this.state = {
-      locales: [],
       locale: 'km',
       isDropdownOpen: false
     }
   }
 
   async componentDidMount() {
-    this.setState({
-      locales: this.getLocales(),
-      locale: this.context.appLanguage,
-    });
+    this.setState({ locale: this.context.appLanguage });
   }
-
-  getLocales = () => {
-    const {translations} = this.context;
-    let locales = translations.getAvailableLanguages();
-    return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
-  };
 
   changeLocale = (locale) => {
     this.setState({locale: locale.value});
@@ -39,14 +28,6 @@ class SettingSelectPickers extends React.Component {
   }
 
   renderChooseLanguage() {
-    const {translations} = this.context;
-    const {locales, locale} = this.state;
-
-    const staticLocales = [
-      { label: 'Khmer', value: 'km' },
-      { label: 'English', value: 'en' }
-    ]
-
     return (
       // <SelectPicker
       //   items={locales}
@@ -64,8 +45,13 @@ class SettingSelectPickers extends React.Component {
       // />
 
       <CustomSelectPicker
-        items={staticLocales}
+        items={locales}
         selectedItem={this.state.locale}
+        zIndex={6000}
+        label={this.context.translations.language}
+        isRequired={true}
+        itemIndex={0}
+        customWrapperStyle={{ marginTop: 39 }}
         onSelectItem={(item) => this.setState({ locale: item.value })}
       />
     );

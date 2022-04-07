@@ -34,6 +34,12 @@ class SettingUrlEndpointPicker extends React.Component {
         <CustomSelectPicker
           items={endpointUrls}
           selectedItem={this.state.selectedEndpoint}
+          zIndex={6000}
+          label={this.context.translations.serverUrl}
+          isRequired={true}
+          itemIndex={0}
+          showSubtitle={true}
+          customWrapperStyle={{ marginBottom: 32 }}
           onSelectItem={(item) => this.setState({ selectedEndpoint: item.value })}
         />
       </View>
