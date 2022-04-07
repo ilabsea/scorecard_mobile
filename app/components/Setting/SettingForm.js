@@ -16,7 +16,7 @@ class SettingForm extends Component {
     super(props);
 
     this.state = {
-      backendUrl: 'https://isaf.digital-csc.org',
+      backendUrl: props.backendUrl,
       email: '',
       password: '',
       backendUrlErrorMsg: '',
@@ -33,7 +33,7 @@ class SettingForm extends Component {
     const value = JSON.parse(await AsyncStorage.getItem('SETTING'));
     if (value !== null && !!value.email) {
       this.setState({
-        backendUrl: value.backendUrl,
+        // backendUrl: value.backendUrl,
         email: value.email,
         password: value.password,
       }, () => this.props.updateValidationStatus());
@@ -67,8 +67,7 @@ class SettingForm extends Component {
 
   _renderForm = () => {
     const {translations} = this.context;
-    const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
-    const backendUrlLabel = `${translations['serverUrl']} *`;
+    const {backendUrl, email, password, emailErrorMsg, passwordErrorMsg} = this.state;
     const emailLabel = `${translations['email']} *`;
     const passwordLabel = `${translations['password']} *`;
     const removeScorecardValue = `${environment.removeScorecardDay} ${translations.days}`;
@@ -76,18 +75,9 @@ class SettingForm extends Component {
     return (
       <View>
         <SettingUrlEndpointPicker openPickerId={this.state.openPickerId} setOpenPickerId={this.setOpenPickerId}
-          backendUrl={this.props.backendUrl}
+          backendUrl={backendUrl}
+          updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
         />
-
-        {/* <TextFieldInput
-          value={backendUrl}
-          label={backendUrlLabel}
-          placeholder={translations["enterServerUrl"]}
-          fieldName="backendUrl"
-          onChangeText={this.onChangeText}
-          message={translations[backendUrlErrorMsg]}
-          onFocus={() => this.closeDropDown()}
-        /> */}
 
         <TextFieldInput
           value={email}
