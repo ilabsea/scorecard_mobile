@@ -19,7 +19,6 @@ class SettingForm extends Component {
       backendUrl: props.backendUrl,
       email: '',
       password: '',
-      backendUrlErrorMsg: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
       showPasswordIcon: 'eye',

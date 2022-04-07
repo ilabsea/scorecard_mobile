@@ -333,5 +333,7 @@
   "detailOfProposedIndicatorMethods": "Detail of the proposed indicator methods",
   "select": "Select",
   "selected": "Selected",
-  "raised": "Raised"
+  "raised": "Raised",
+  "endpointLabelRequireMsg": "Endpoint label is required",
+  "endpointValueRequireMsg": "Endpoint value is required"
 }

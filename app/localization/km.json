@@ -333,5 +333,7 @@
   "detailOfProposedIndicatorMethods": "ព័ត៌មានលម្អិតអំពីវិធីសាស្ត្របំផុសលក្ខណៈវិនិច្ឆ័យ",
   "select": "ជ្រើសរើស",
   "selected": "បានជ្រើសរើស",
-  "raised": "បានស្នើ"
+  "raised": "បានស្នើ",
+  "endpointLabelRequireMsg": "ត្រូវ​ការឈ្មោះអាស័យដ្ឋានម៉ាស៊ីនមេ",
+  "endpointValueRequireMsg": "ត្រូវ​ការអាស័យដ្ឋានម៉ាស៊ីនមេ"
 }

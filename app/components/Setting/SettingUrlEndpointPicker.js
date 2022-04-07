@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import CustomSelectPicker from '../CustomSelectPicker';
+import SettingUrlEndpointForm from './SettingUrlEndpointForm';
 // import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 // import { environment } from '../../config/environment';
 
@@ -13,6 +14,7 @@ const SettingUrlEndpointPicker = (props) => {
   const endpointUrls = [
     { label: 'ISAF Staging Server', value: 'https://isaf-stg.digital-csc.org' },
     { label: 'ISAF Production Server', value: 'https://isaf.digital-csc.org' },
+    { label: 'Local Server', value: 'http://192.168.0.103:3000' },
   ];
 
   function onChangeEndpoint(item) {
@@ -21,7 +23,7 @@ const SettingUrlEndpointPicker = (props) => {
   }
 
   return (
-    <View>
+    <View style={{marginBottom: 15}}>
       <CustomSelectPicker
         id={1}
         openId={props.openPickerId}
@@ -33,9 +35,11 @@ const SettingUrlEndpointPicker = (props) => {
         isRequired={true}
         itemIndex={0}
         showSubtitle={true}
-        customWrapperStyle={{ marginBottom: 32 }}
+        customWrapperStyle={{ marginBottom: 0, marginTop: 5 }}
         onSelectItem={(item) => onChangeEndpoint(item)}
       />
+
+      <SettingUrlEndpointForm />
     </View>
   )
 }

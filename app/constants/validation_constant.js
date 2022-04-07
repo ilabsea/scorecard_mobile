@@ -57,6 +57,16 @@ const validationConstant = {
       message: '^indicatorNameRequireMsg',
     }
   },
+  endpointLabel: {
+    presence: {
+      message: '^endpointLabelRequireMsg',
+    }
+  },
+  enpointValue: {
+    presence: {
+      message: '^endpointValueRequireMsg',
+    }
+  }
 };
 
 export default validationConstant;
