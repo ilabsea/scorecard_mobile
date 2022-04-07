@@ -176,6 +176,7 @@ class SettingBodyContent extends React.Component {
             updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
             formRef={this.props.formRef}
             formModalRef={this.props.formModalRef}
+            backendUrl={this.props.backendUrl}
           />
 
           { this.renderBottomSection() }

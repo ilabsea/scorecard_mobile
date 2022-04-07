@@ -18,7 +18,6 @@ const selectPickerStyle = StyleSheet.create({
   },
   mainContainer: {
     borderRadius: 4,
-    // borderColor: Color.inputBorderLineColor,
     height: 58,
   },
   dropDownContainer: {

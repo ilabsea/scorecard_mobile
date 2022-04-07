@@ -23,16 +23,14 @@ class SettingForm extends Component {
       emailErrorMsg: '',
       passwordErrorMsg: '',
       showPasswordIcon: 'eye',
+      openPickerId: null
     };
 
     this.langugageController;
-
-    this.pickersRef = React.createRef();
   }
 
   componentDidMount = async () => {
     const value = JSON.parse(await AsyncStorage.getItem('SETTING'));
-
     if (value !== null && !!value.email) {
       this.setState({
         backendUrl: value.backendUrl,
@@ -43,7 +41,7 @@ class SettingForm extends Component {
   }
 
   closeDropDown = () => {
-    // this.pickersRef.current?.closeDropdownPickers();
+    this.setState({ openPickerId: null })
   }
 
   onChangeText = (fieldName, value) => {
@@ -63,6 +61,10 @@ class SettingForm extends Component {
     )
   }
 
+  setOpenPickerId = (openId) => {
+    this.setState({ openPickerId: openId });
+  }
+
   _renderForm = () => {
     const {translations} = this.context;
     const {backendUrl, email, password, backendUrlErrorMsg, emailErrorMsg, passwordErrorMsg} = this.state;
@@ -73,7 +75,9 @@ class SettingForm extends Component {
 
     return (
       <View>
-        <SettingUrlEndpointPicker />
+        <SettingUrlEndpointPicker openPickerId={this.state.openPickerId} setOpenPickerId={this.setOpenPickerId}
+          backendUrl={this.props.backendUrl}
+        />
 
         {/* <TextFieldInput
           value={backendUrl}
@@ -124,8 +128,12 @@ class SettingForm extends Component {
     return (
       <View>
         {this._renderForm()}
-        <SettingSelectPickers ref={this.pickersRef} formRef={this.props.formRef} formModalRef={this.props.formModalRef}
-          proposedIndicatorMethod={this.props.proposedIndicatorMethod} email={this.state.email}
+        <SettingSelectPickers formRef={this.props.formRef}
+          formModalRef={this.props.formModalRef}
+          proposedIndicatorMethod={this.props.proposedIndicatorMethod}
+          openPickerId={this.state.openPickerId}
+          setOpenPickerId={this.setOpenPickerId}
+          email={this.state.email}
         />
       </View>
     )

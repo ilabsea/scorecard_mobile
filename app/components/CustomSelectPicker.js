@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -10,9 +10,13 @@ import { bodyFontSize, smallTextFontSize } from '../utils/font_size_util';
 
 export default function CustomSelectPicker(props) {
   const { translations } = useContext(LocalizationContext);
-  const [open, setOpen] = useState(false);
+  const [open] = useState(false);
   const [value, setValue] = useState(props.selectedItem);
   const [items, setItems] = useState(props.items);
+
+  const setOpen = useCallback((open) => {
+    props.setOpenId(open ? props.id : null);
+  }, []);
 
   function onSelectItem(item) {
     setValue(item.value);
@@ -68,7 +72,7 @@ export default function CustomSelectPicker(props) {
 
       <DropDownPicker
         listMode="SCROLLVIEW"
-        open={open}
+        open={props.openId === props.id}
         value={value}
         items={items}
         setValue={setValue}

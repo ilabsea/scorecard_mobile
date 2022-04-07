@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Menu, Divider } from 'react-native-paper';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';
+import { environment } from '../../config/environment';
 
 class SettingMenu extends Component {
   static contextType = LocalizationContext;
@@ -13,11 +15,29 @@ class SettingMenu extends Component {
     this.state = {
       isVisible: false,
     };
+    this.getBackendUrl();
   }
 
-  navigate = (screen) => {
+  componentDidMount() {
+    this.focusListener = this.props.navigation.addListener("focus", async () => {
+      this.getBackendUrl();
+    });
+  }
+  
+  componentWillUnmount() {
+    this.focusListener && this.focusListener();
+  }
+
+  getBackendUrl() {
+    AsyncStorage.getItem('SETTING', (err, result) => {
+      const savedSetting = JSON.parse(result);
+      this.backendUrl = (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
+    });
+  }
+
+  navigate = (screen, params) => {
     this.setState({ isVisible: false });
-    this.props.navigation.navigate(screen);
+    this.props.navigation.navigate(screen, params);
   }
 
   render() {
@@ -35,13 +55,13 @@ class SettingMenu extends Component {
         }
       >
         <Menu.Item
-          onPress={() => this.navigate('Setting')}
+          onPress={() => this.navigate('Setting', { backend_url: this.backendUrl })}
           title={translations.setting}
           icon='wrench'
         />
         <Divider />
         <Menu.Item
-          onPress={() => this.navigate('About')}
+          onPress={() => this.navigate('About', null)}
           title={translations.about}
           icon='information'
         />
