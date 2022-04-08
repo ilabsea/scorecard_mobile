@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -17,6 +17,13 @@ export default function CustomSelectPicker(props) {
   const setOpen = useCallback((open) => {
     props.setOpenId(open ? props.id : null);
   }, []);
+
+  useEffect(() => {
+    setItems(props.items);
+
+    if (value !== props.selectedItem)
+      setValue(props.selectedItem);
+  }, [props.selectedItem, props.items]);
 
   function onSelectItem(item) {
     setValue(item.value);

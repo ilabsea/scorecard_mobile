@@ -1,14 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { View } from 'react-native';
 
-import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
-import TextFieldInput from '../TextFieldInput';
-import SaveButton from '../SaveButton';
+import SettingUrlEndpointFormToggleButton from './SettingUrlEndpointFormToggleButton';
+import SettingUrlEndpointFormInputs from './SettingUrlEndpointFormInputs';
 
-import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import endpointFormService from '../../services/endpoint_form_service';
+import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
 
 class SettingUrlEndpointForm extends React.Component {
   static contextType = LocalizationContext
@@ -27,59 +25,68 @@ class SettingUrlEndpointForm extends React.Component {
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = '';
+    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.props.endpointUrls);
+
     this.setState(state, () => {
-      this.setState({ isFormValid: endpointFormService.isValidForm(this.state.endpointLabel, this.state.endpointValue) })
+      this.setState({ isFormValid: endpointFormService.isValidForm(this.state.endpointLabel, this.state.endpointValue, this.props.endpointUrls) })
+    });
+  }
+
+  // getErrorMessage(fieldName, value) {
+  //   const isValueField = fieldName === ENDPOINT_VALUE_FIELDNAME;
+  //   const isFieldExisted = isValueField ? endpointFormService.isValueExisted(value, this.props.endpointUrls)
+  //                                       : endpointFormService.isLabelExisted(value, this.props.endpointUrls);
+
+  //   if (isFieldExisted)
+  //     return fieldName = isValueField ? this.context.translations.endpointValueIsExisted : this.context.translations.endpointLabelIsExisted;
+
+  //   if (isValueField && !endpointFormService.isValidEndpointValue(value))
+  //     return !!value ? this.context.translations.endpointValueIsNotValid : this.context.translations.endpointValueRequireMsg;
+
+  //   return '';
+  // }
+
+  saveEndpoint() {
+    endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue);
+    this.props.saveNewEndpoint(this.state.endpointLabel, this.state.endpointValue);
+    this.clearData();
+    this.setState({ isFormVisible: false });
+  }
+
+  clearData() {
+    const fieldNames = [ ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME ];
+    fieldNames.map(fieldName => {
+      let state = {};
+      state[fieldName] = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'https://' : '';
+      state[`${fieldName}ErrorMsg`] = '';
+      this.setState(state);
     });
   }
 
   renderForm() {
-    return (
-      <View style={{flexDirection: 'row', height: 120}}>
-        <View style={{flex: 1, paddingRight: 10}}>
-          <TextFieldInput
-            value={this.state.endpointLabel}
-            label='Endpoint Label'
-            placeholder='Enter endpoint label'
-            fieldName="endpointLabel"
-            onChangeText={this.onChangeText}
-            message={this.context.translations[this.state.endpointLabelErrorMsg]}
-          />
-        </View>
+    const {translations} = this.context;
+    return <SettingUrlEndpointFormInputs
+             endpointLabel={this.state.endpointLabel}
+             endpointValue={this.state.endpointValue}
+             endpointLabelErrorMsg={translations[this.state.endpointLabelErrorMsg]}
+             endpointValueErrorMsg={translations[this.state.endpointValueErrorMsg]}
+             isFormValid={this.state.isFormValid}
+             onChangeText={this.onChangeText}
+             saveEndpoint={() => this.saveEndpoint()}
+           />
+  }
 
-        <View style={{flex: 1}}>
-          <TextFieldInput
-            value={this.state.endpointValue}
-            label='URL Endpoint'
-            placeholder='Enter URL endpoint'
-            fieldName="endpointValue"
-            onChangeText={this.onChangeText}
-            message={this.context.translations[this.state.endpointValueErrorMsg]}
-          />
-        </View>
-
-        <SaveButton label='Save' customStyle={{ marginTop: 10 }} disabled={!this.state.isFormValid} />
-      </View>
-    )
+  toggleForm() {
+    this.setState({ isFormVisible: !this.state.isFormVisible });
+    this.clearData();
   }
 
   render() {
     return (
       <View style={{marginBottom: this.state.isFormVisible ? -28 : 0}}>
-        <View style={{ alignItems: 'flex-start' }}>
-          <TouchableOpacity onPress={() => this.setState({ isFormVisible: !this.state.isFormVisible })} style={{flexDirection: 'row'}}>
-            <Icon size={22}
-              name={this.state.isFormVisible ? 'remove-circle' : 'add-circle'}
-              style={{marginRight: 5, marginTop: 2}}
-              color={Color.clickableColor}
-            />
-
-            <Text style={{fontSize: bodyFontSize(), color: Color.clickableColor}}>
-              { this.state.isFormVisible ? 'Hide the form' : 'Add new URL endpoint' }
-            </Text>
-          </TouchableOpacity>
-        </View>
-
+        <SettingUrlEndpointFormToggleButton isFormVisible={this.state.isFormVisible}
+          toggleForm={() => this.toggleForm()}
+        />
         { this.state.isFormVisible && this.renderForm() }
       </View>
     )

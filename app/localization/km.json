@@ -334,6 +334,15 @@
   "select": "ជ្រើសរើស",
   "selected": "បានជ្រើសរើស",
   "raised": "បានស្នើ",
-  "endpointLabelRequireMsg": "ត្រូវ​ការឈ្មោះអាស័យដ្ឋានម៉ាស៊ីនមេ",
-  "endpointValueRequireMsg": "ត្រូវ​ការអាស័យដ្ឋានម៉ាស៊ីនមេ"
+  "endpointLabelRequireMsg": "ត្រូវ​ការឈ្មោះតំណាង",
+  "endpointValueRequireMsg": "ត្រូវ​ការអាស័យដ្ឋានម៉ាស៊ីនមេ",
+  "endpointLabelIsExisted": "ឈ្មោះមានរួចហើយ",
+  "endpointValueIsExisted": "អាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
+  "endpointValueIsNotValid": "អាស័យដ្ឋានម៉ាស៊ីនមេមិនត្រឹមត្រូវ",
+  "addNewUrlEndpoint": "បន្ថែមអាស័យដ្ឋានម៉ាស៊ីនមេ",
+  "closeTheForm": "បិទការបន្ថែម",
+  "endpointLabel": "ឈ្មោះតំណាង",
+  "UrlEndpoint": "អាស័យដ្ឋានម៉ាស៊ីនមេ",
+  "enterEndpointLabel": "សូមបញ្ចូលឈ្មោះតំណាង",
+  "enterUrlEndpoint": "សូមបញ្ចូលអាស័យដ្ឋាន"
 }
