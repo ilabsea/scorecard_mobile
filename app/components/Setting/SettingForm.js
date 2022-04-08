@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { TextInput } from 'react-native-paper';
 
 import {LocalizationContext} from '../Translations';
-import TextFieldInput from '../TextFieldInput';
 import SettingSelectPickers from './SettingSelectPickers';
 import SettingUrlEndpointPicker from './SettingUrlEndpointPicker';
-
-import { environment } from '../../config/environment';
+import SettingFormInputs from './SettingFormInputs';
 
 class SettingForm extends Component {
   static contextType = LocalizationContext
@@ -21,7 +18,6 @@ class SettingForm extends Component {
       password: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
-      showPasswordIcon: 'eye',
       openPickerId: null
     };
 
@@ -38,10 +34,6 @@ class SettingForm extends Component {
     }
   }
 
-  closeDropDown = () => {
-    this.setState({ openPickerId: null })
-  }
-
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
@@ -49,73 +41,35 @@ class SettingForm extends Component {
     this.setState(state, () => this.props.updateValidationStatus());
   }
 
-  _renderShowPasswordIcon = () => {
-    return (
-      <TextInput.Icon
-        name={this.state.showPasswordIcon}
-        color="#959595"
-        onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
-      />
-    )
-  }
-
   setOpenPickerId = (openId) => {
     this.setState({ openPickerId: openId });
   }
 
-  _renderForm = () => {
-    const {translations} = this.context;
-    const {backendUrl, email, password, emailErrorMsg, passwordErrorMsg} = this.state;
-    const emailLabel = `${translations['email']} *`;
-    const passwordLabel = `${translations['password']} *`;
-    const removeScorecardValue = `${environment.removeScorecardDay} ${translations.days}`;
-
+  renderUrlEndpointPicker = () => {
     return (
-      <View>
-        <SettingUrlEndpointPicker openPickerId={this.state.openPickerId} setOpenPickerId={this.setOpenPickerId}
-          backendUrl={backendUrl}
-          updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
-        />
-
-        <TextFieldInput
-          value={email}
-          label={emailLabel}
-          placeholder={translations["enterEmail"]}
-          fieldName="email"
-          onChangeText={this.onChangeText}
-          message={translations[emailErrorMsg]}
-          onFocus={() => this.closeDropDown()}
-          keyboardType='email-address'
-          caretHidden={false}
-        />
-
-        <TextFieldInput
-          value={password}
-          label={passwordLabel}
-          placeholder={translations["enterPassword"]}
-          fieldName="password"
-          onChangeText={this.onChangeText}
-          message={translations[passwordErrorMsg]}
-          secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
-          onFocus={() => this.closeDropDown()}
-          right={this._renderShowPasswordIcon()}
-        />
-
-        <TextFieldInput
-          value={removeScorecardValue}
-          label={translations.submittedScorecardWillBeRemovedIn}
-          fieldName="removeScorecardDuration"
-          onChangeText={this.onChangeText}
-          disabled={true}
-        />
-      </View>
+      <SettingUrlEndpointPicker openPickerId={this.state.openPickerId} setOpenPickerId={this.setOpenPickerId}
+        backendUrl={this.state.backendUrl}
+        updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
+      />
     )
+  }
+
+  renderFormInputs() {
+    return <SettingFormInputs
+             email={this.state.email}
+             password={this.state.password}
+             emailErrorMsg={this.state.emailErrorMsg}
+             passwordErrorMsg={this.state.passwordErrorMsg}
+             onChangeText={this.onChangeText}
+             closeDropDown={() => this.setState({ openPickerId: null })}
+           />
   }
 
   render() {
     return (
       <View>
-        {this._renderForm()}
+        {this.renderUrlEndpointPicker()}
+        { this.renderFormInputs() }
         <SettingSelectPickers formRef={this.props.formRef}
           formModalRef={this.props.formModalRef}
           proposedIndicatorMethod={this.props.proposedIndicatorMethod}
