@@ -27,6 +27,9 @@ export default function CustomSelectPicker(props) {
   }, [props.selectedItem, props.items]);
 
   function onSelectItem(item) {
+    if (!!item.disabled)
+      return;
+
     setValue(item.value);
     setOpen(false);
     props.onSelectItem(item);
@@ -35,7 +38,7 @@ export default function CustomSelectPicker(props) {
   function renderListItem(params) {
     return (
       <TouchableOpacity onPress={() => onSelectItem(params.item)} style={{padding: 10}}>
-        <Text style={{fontSize: bodyFontSize()}}>{ params.item.label }</Text>
+        <Text style={{fontSize: bodyFontSize(), color: !!params.item.disabled ? Color.lightGrayColor : Color.blackColor}}>{ params.item.label }</Text>
         { props.showSubtitle &&
           <Text style={{fontSize: smallTextFontSize(), color: Color.grayColor, marginTop: -10}}>{ params.item.value }</Text>
         }
