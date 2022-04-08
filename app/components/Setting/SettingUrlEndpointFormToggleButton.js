@@ -14,13 +14,13 @@ class SettingUrlEndpointFormToggleButton  extends React.Component {
       <View style={{ alignItems: 'flex-start' }}>
         <TouchableOpacity onPress={() => this.props.toggleForm()} style={{flexDirection: 'row'}}>
           <Icon size={22}
-            name={this.props.isFormVisible ? 'remove-circle' : 'add-circle'}
+            name='add-circle'
             style={{marginRight: 5, marginTop: 2}}
             color={Color.clickableColor}
           />
 
           <Text style={{fontSize: bodyFontSize(), color: Color.clickableColor}}>
-            { this.props.isFormVisible ? this.context.translations.closeTheForm : this.context.translations.addNewUrlEndpoint }
+            { this.context.translations.addNewUrlEndpoint }
           </Text>
         </TouchableOpacity>
       </View>

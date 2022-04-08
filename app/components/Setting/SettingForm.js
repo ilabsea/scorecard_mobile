@@ -50,6 +50,8 @@ class SettingForm extends Component {
       <SettingUrlEndpointPicker openPickerId={this.state.openPickerId} setOpenPickerId={this.setOpenPickerId}
         backendUrl={this.state.backendUrl}
         updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
+        formRef={this.props.formRef}
+        formModalRef={this.props.formModalRef}
       />
     )
   }

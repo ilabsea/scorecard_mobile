@@ -334,9 +334,9 @@
   "select": "ជ្រើសរើស",
   "selected": "បានជ្រើសរើស",
   "raised": "បានស្នើ",
-  "endpointLabelRequireMsg": "ត្រូវ​ការឈ្មោះតំណាង",
+  "endpointLabelRequireMsg": "ត្រូវ​ការឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេ",
   "endpointValueRequireMsg": "ត្រូវ​ការអាស័យដ្ឋានម៉ាស៊ីនមេ",
-  "endpointLabelIsExisted": "ឈ្មោះមានរួចហើយ",
+  "endpointLabelIsExisted": "ឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
   "endpointValueIsExisted": "អាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
   "endpointValueIsNotValid": "អាស័យដ្ឋានម៉ាស៊ីនមេមិនត្រឹមត្រូវ",
   "addNewUrlEndpoint": "បន្ថែមអាស័យដ្ឋានម៉ាស៊ីនមេ",
@@ -344,5 +344,6 @@
   "endpointLabel": "ឈ្មោះតំណាង",
   "UrlEndpoint": "អាស័យដ្ឋានម៉ាស៊ីនមេ",
   "enterEndpointLabel": "សូមបញ្ចូលឈ្មោះតំណាង",
-  "enterUrlEndpoint": "សូមបញ្ចូលអាស័យដ្ឋាន"
+  "enterUrlEndpoint": "សូមបញ្ចូលអាស័យដ្ឋាន",
+  "pleaseEnterInformationBelow": "សូមបញ្ចូលព័ត៌មានខាងក្រោម"
 }

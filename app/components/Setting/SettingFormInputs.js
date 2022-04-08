@@ -22,7 +22,6 @@ class SettingFormInputs extends React.Component {
     )
   }
 
-
   render() {
     const {translations} = this.context;
     const {email, password, emailErrorMsg, passwordErrorMsg} = this.props;

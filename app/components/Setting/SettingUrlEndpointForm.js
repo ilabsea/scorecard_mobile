@@ -1,12 +1,18 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
+import styles from '../../themes/modalStyle';
 import {LocalizationContext} from '../Translations';
-import SettingUrlEndpointFormToggleButton from './SettingUrlEndpointFormToggleButton';
-import SettingUrlEndpointFormInputs from './SettingUrlEndpointFormInputs';
+import TextFieldInput from '../TextFieldInput';
+import BottomSheetModalTitle from '../BottomSheetModalTitle';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
+import { settingEndpointContentHeight } from '../../constants/modal_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
+import { containerPadding } from '../../utils/responsive_util';
 
 class SettingUrlEndpointForm extends React.Component {
   static contextType = LocalizationContext
@@ -17,7 +23,6 @@ class SettingUrlEndpointForm extends React.Component {
       endpointValue: 'https://',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
-      isFormVisible: false,
       isFormValid: false,
     }
   }
@@ -34,9 +39,8 @@ class SettingUrlEndpointForm extends React.Component {
 
   saveEndpoint() {
     endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue);
-    this.props.saveNewEndpoint(this.state.endpointLabel, this.state.endpointValue);
+    this.props.saveNewEndpoint(this.state.endpointValue);
     this.clearData();
-    this.setState({ isFormVisible: false });
   }
 
   clearData() {
@@ -49,33 +53,49 @@ class SettingUrlEndpointForm extends React.Component {
     });
   }
 
-  renderForm() {
-    const {translations} = this.context;
-    return <SettingUrlEndpointFormInputs
-             endpointLabel={this.state.endpointLabel}
-             endpointValue={this.state.endpointValue}
-             endpointLabelErrorMsg={translations[this.state.endpointLabelErrorMsg]}
-             endpointValueErrorMsg={translations[this.state.endpointValueErrorMsg]}
-             isFormValid={this.state.isFormValid}
-             onChangeText={this.onChangeText}
-             saveEndpoint={() => this.saveEndpoint()}
-           />
+  renderFormInputs() {
+    const { translations } = this.context;
+
+    return (
+      <View>
+        <TextFieldInput
+          value={this.state.endpointLabel}
+          label={this.context.translations.endpointLabel}
+          placeholder={this.context.translations.enterEndpointLabel}
+          fieldName={ENDPOINT_LABEL_FIELDNAME}
+          onChangeText={this.onChangeText}
+          message={translations[this.state.endpointLabelErrorMsg]}
+        />
+
+        <TextFieldInput
+          value={this.state.endpointValue}
+          label={this.context.translations.UrlEndpoint}
+          placeholder={this.context.translations.enterUrlEndpoint}
+          fieldName={ENDPOINT_VALUE_FIELDNAME}
+          onChangeText={this.onChangeText}
+          message={translations[this.state.endpointValueErrorMsg]}
+        />
+      </View>
+    )
   }
 
-  toggleForm() {
-    this.setState({ isFormVisible: !this.state.isFormVisible });
-    this.clearData();
+  renderForm() {
+    return (
+      <View style={{ height: hp(settingEndpointContentHeight)}}>
+        <BottomSheetModalTitle title={ this.context.translations.addNewUrlEndpoint } />
+        <View style={{ padding: containerPadding, flexGrow: 1}}>
+          <Text style={[styles.title, { marginBottom: 20, fontSize: bodyFontSize() }]}>{ this.context.translations.pleaseEnterInformationBelow }</Text>
+
+          { this.renderFormInputs() }
+        </View>
+
+        <FormBottomSheetButton isValid={this.state.isFormValid} save={() => this.saveEndpoint()} />
+      </View>
+    )
   }
 
   render() {
-    return (
-      <View style={{marginBottom: this.state.isFormVisible ? -28 : 0}}>
-        <SettingUrlEndpointFormToggleButton isFormVisible={this.state.isFormVisible}
-          toggleForm={() => this.toggleForm()}
-        />
-        { this.state.isFormVisible && this.renderForm() }
-      </View>
-    )
+    return this.renderForm()
   }
 }
 

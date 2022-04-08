@@ -4,7 +4,9 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import SettingUrlEndpointForm from './SettingUrlEndpointForm';
+import SettingUrlEndpointFormToggleButton from './SettingUrlEndpointFormToggleButton';
 import endpointFormService from '../../services/endpoint_form_service';
+import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
 
 const SettingUrlEndpointPicker = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -25,12 +27,19 @@ const SettingUrlEndpointPicker = (props) => {
     props.updateBackendUrl(item.value);
   }
 
-  function saveNewEndpoint(endpointLabel, endpointValue) {
+  function saveNewEndpoint(endpointValue) {
     props.updateBackendUrl(endpointValue);
     loadEndpointUrls();
     setTimeout(() => {
       setSelectedEndpoint(endpointValue);
+      props.formModalRef.current?.dismiss();
     }, 50);
+  }
+
+  function toggleForm() {
+    props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
+    props.formRef.current?.setBodyContent(<SettingUrlEndpointForm saveNewEndpoint={saveNewEndpoint} endpointUrls={endpointUrls}/>);
+    props.formModalRef.current?.present();
   }
 
   return (
@@ -50,7 +59,7 @@ const SettingUrlEndpointPicker = (props) => {
         onSelectItem={(item) => onChangeEndpoint(item)}
       />
 
-      <SettingUrlEndpointForm saveNewEndpoint={saveNewEndpoint} endpointUrls={endpointUrls} />
+      <SettingUrlEndpointFormToggleButton toggleForm={() => toggleForm()} />
     </View>
   )
 }
