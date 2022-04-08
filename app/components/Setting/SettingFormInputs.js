@@ -22,46 +22,53 @@ class SettingFormInputs extends React.Component {
     )
   }
 
-  render() {
-    const {translations} = this.context;
-    const {email, password, emailErrorMsg, passwordErrorMsg} = this.props;
-    const emailLabel = `${translations.email} *`;
-    const passwordLabel = `${translations.password} *`;
-    const removeScorecardValue = `${environment.removeScorecardDay} ${translations.days}`;
+  renderEmailTextInput() {
+    const { translations } = this.context;
+    return <TextFieldInput
+              value={this.props.email}
+              label={`${translations.email} *`}
+              placeholder={translations["enterEmail"]}
+              fieldName="email"
+              onChangeText={this.props.onChangeText}
+              message={translations[this.props.emailErrorMsg]}
+              onFocus={() => this.props.closeDropDown()}
+              keyboardType='email-address'
+              caretHidden={false}
+            />
+  }
 
+  renderPasswordTextInput() {
+    const {translations} = this.context;
+    return <TextFieldInput
+            value={this.props.password}
+            label={`${translations.password} *`}
+            placeholder={translations["enterPassword"]}
+            fieldName="password"
+            onChangeText={this.props.onChangeText}
+            message={translations[this.props.passwordErrorMsg]}
+            secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
+            onFocus={() => this.props.closeDropDown()}
+            right={this.renderShowPasswordIcon()}
+          />
+  }
+
+  renderRemoveDayTextInput() {
+    const {translations} = this.context;
+    return <TextFieldInput
+            value={`${environment.removeScorecardDay} ${translations.days}`}
+            label={translations.submittedScorecardWillBeRemovedIn}
+            fieldName="removeScorecardDuration"
+            onChangeText={this.props.onChangeText}
+            disabled={true}
+          />
+  }
+
+  render() {
     return (
       <View>
-        <TextFieldInput
-          value={email}
-          label={emailLabel}
-          placeholder={translations["enterEmail"]}
-          fieldName="email"
-          onChangeText={this.props.onChangeText}
-          message={translations[emailErrorMsg]}
-          onFocus={() => this.props.closeDropDown()}
-          keyboardType='email-address'
-          caretHidden={false}
-        />
-
-        <TextFieldInput
-          value={password}
-          label={passwordLabel}
-          placeholder={translations["enterPassword"]}
-          fieldName="password"
-          onChangeText={this.props.onChangeText}
-          message={translations[passwordErrorMsg]}
-          secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
-          onFocus={() => this.props.closeDropDown()}
-          right={this.renderShowPasswordIcon()}
-        />
-
-        <TextFieldInput
-          value={removeScorecardValue}
-          label={translations.submittedScorecardWillBeRemovedIn}
-          fieldName="removeScorecardDuration"
-          onChangeText={this.props.onChangeText}
-          disabled={true}
-        />
+        { this.renderEmailTextInput() }
+        { this.renderPasswordTextInput() }
+        { this.renderRemoveDayTextInput() }
       </View>
     )
   }
