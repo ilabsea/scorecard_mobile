@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import SettingUrlEndpointForm from './SettingUrlEndpointForm';
-import SettingUrlEndpointFormToggleButton from './SettingUrlEndpointFormToggleButton';
+import SettingUrlEndpointAddNewButton from './SettingUrlEndpointAddNewButton';
 import endpointFormService from '../../services/endpoint_form_service';
 import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
 
@@ -36,14 +36,19 @@ const SettingUrlEndpointPicker = (props) => {
     }, 50);
   }
 
-  function toggleForm() {
+  function openForm() {
     props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
     props.formRef.current?.setBodyContent(<SettingUrlEndpointForm saveNewEndpoint={saveNewEndpoint} endpointUrls={endpointUrls}/>);
     props.formModalRef.current?.present();
+    props.closeDropDown();
+  }
+
+  function addNewUrlEnpointItem() {
+    return <SettingUrlEndpointAddNewButton onPress={() => openForm()} />
   }
 
   return (
-    <View style={{marginBottom: 15}}>
+    <View style={{marginBottom: 30, marginTop: 5}}>
       <CustomDropdownPicker
         id={1}
         openId={props.openPickerId}
@@ -57,9 +62,8 @@ const SettingUrlEndpointPicker = (props) => {
         showSubtitle={true}
         customWrapperStyle={{ marginBottom: 0, marginTop: 5 }}
         onSelectItem={(item) => onChangeEndpoint(item)}
+        lastListItem={addNewUrlEnpointItem()}
       />
-
-      <SettingUrlEndpointFormToggleButton toggleForm={() => toggleForm()} />
     </View>
   )
 }

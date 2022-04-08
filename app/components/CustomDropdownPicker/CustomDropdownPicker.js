@@ -35,6 +35,9 @@ export default function CustomDropdownPicker(props) {
   }
 
   function renderListItem(params) {
+    if (!params.item.value && props.lastListItem)
+      return props.lastListItem;
+
     return <CustomDropdownPickerItem params={params} showSubtitle={props.showSubtitle}
              onSelectItem={() => onSelectItem(params.item)}
            />
