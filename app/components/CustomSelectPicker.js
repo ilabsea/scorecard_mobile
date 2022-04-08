@@ -79,6 +79,7 @@ export default function CustomSelectPicker(props) {
       </Text>
 
       <DropDownPicker
+        {...props}
         listMode="SCROLLVIEW"
         open={props.openId === props.id}
         value={value}
