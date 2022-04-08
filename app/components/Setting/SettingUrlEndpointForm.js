@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import styles from '../../themes/modalStyle';
@@ -12,7 +13,7 @@ import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
 import { settingEndpointContentHeight } from '../../constants/modal_constant';
 import { bodyFontSize } from '../../utils/font_size_util';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 
 class SettingUrlEndpointForm extends React.Component {
   static contextType = LocalizationContext
@@ -24,7 +25,9 @@ class SettingUrlEndpointForm extends React.Component {
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
       isFormValid: false,
+      isEndpointValueFocused: false
     }
+    this.scrollViewRef = React.createRef();
   }
 
   onChangeText = (fieldName, value) => {
@@ -53,11 +56,21 @@ class SettingUrlEndpointForm extends React.Component {
     });
   }
 
+  onEndpointValueFocused() {
+    this.setState({ isEndpointValueFocused: true }, () => {
+      setTimeout(() => {
+        const scrollPosition = getDeviceStyle(70, 70);
+        this.scrollViewRef.scrollTo({ y: scrollPosition, animated: true })
+      }, 50);
+    });
+  }
+
   renderFormInputs() {
     const { translations } = this.context;
 
     return (
-      <View>
+      <ScrollView ref={ref => this.scrollViewRef = ref}
+        contentContainerStyle={{paddingHorizontal: containerPadding, paddingTop: 4, paddingBottom: this.state.isEndpointValueFocused  ? 150 : 0}}>
         <TextFieldInput
           value={this.state.endpointLabel}
           label={this.context.translations.endpointLabel}
@@ -74,8 +87,10 @@ class SettingUrlEndpointForm extends React.Component {
           fieldName={ENDPOINT_VALUE_FIELDNAME}
           onChangeText={this.onChangeText}
           message={translations[this.state.endpointValueErrorMsg]}
+          onFocus={() => this.onEndpointValueFocused()}
+          onBlur={() => this.setState({ isEndpointValueFocused: false })}
         />
-      </View>
+      </ScrollView>
     )
   }
 
@@ -83,11 +98,11 @@ class SettingUrlEndpointForm extends React.Component {
     return (
       <View style={{ height: hp(settingEndpointContentHeight)}}>
         <BottomSheetModalTitle title={ this.context.translations.addNewUrlEndpoint } />
-        <View style={{ padding: containerPadding, flexGrow: 1}}>
+        <View style={{ padding: containerPadding, paddingBottom: 0}}>
           <Text style={[styles.title, { marginBottom: 20, fontSize: bodyFontSize() }]}>{ this.context.translations.pleaseEnterInformationBelow }</Text>
-
-          { this.renderFormInputs() }
         </View>
+
+        { this.renderFormInputs() }
 
         <FormBottomSheetButton isValid={this.state.isFormValid} save={() => this.saveEndpoint()} />
       </View>

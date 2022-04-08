@@ -18,10 +18,9 @@ const endpointFormService = (() => {
   function isValidForm(endpointLabel, endpointValue, endpointUrls) {
     const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
     const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
-    let isFormValid = true;
 
-    if (endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, endpointUrls))
-      isFormValid = false;
+    if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, endpointUrls))
+      return false;
 
     return isValidEndpointValue(endpointValue);
   }
