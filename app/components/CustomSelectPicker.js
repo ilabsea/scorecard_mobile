@@ -70,6 +70,7 @@ export default function CustomSelectPicker(props) {
   };
 
   const titleZindex = parseInt(props.zIndex) + 1;
+  const unselectedBorderStyle = !!props.unselectedBorder ? props.unselectedBorder : styles.unselectedBorder;
 
   return (
     <View style={[ styles.wrapperContainer, props.customWrapperStyle ]}>
@@ -86,11 +87,15 @@ export default function CustomSelectPicker(props) {
         setItems={setItems}
         setOpen={setOpen}
         zIndex={props.zIndex}
-        style={[styles.mainContainer, props.customMainContainerStyle, open ? styles.selectedBorder : styles.unselectedBorder ]}
+        style={[styles.mainContainer, props.customMainContainerStyle, props.openId === props.id ? styles.selectedBorder : unselectedBorderStyle ]}
         dropDownContainerStyle={styles.dropDownContainer}
         renderListItem={renderListItem}
         ArrowUpIconComponent={renderArrowIcon}
         ArrowDownIconComponent={renderArrowIcon}
+        disabled={props.disabled}
+        disabledStyle={{ opacity: 0.5 }}
+        onOpen={() => !!props.onOpen && props.onOpen()}
+        onClose={() => !!props.onClose && props.onClose()}
       />
     </View>
   );

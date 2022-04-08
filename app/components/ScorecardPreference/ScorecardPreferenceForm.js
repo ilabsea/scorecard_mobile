@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
-import SelectPicker from '../SelectPicker';
+import CustomSelectPicker from '../CustomSelectPicker';
 import HeaderTitle from '../HeaderTitle';
 import DatePicker from '../DatePicker';
 
 import Color from '../../themes/color';
 import { todayDate } from '../../utils/date_util';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
-import { isShortScreenDevice, containerPadding, containerPaddingTop, getDeviceStyle } from '../../utils/responsive_util';
+import { containerPadding, containerPaddingTop, getDeviceStyle } from '../../utils/responsive_util';
 
 class ScorecardPreferenceForm extends Component {
   static contextType = LocalizationContext;
@@ -26,6 +27,7 @@ class ScorecardPreferenceForm extends Component {
       textLocale: props.scorecard.text_language_code || '',
       audioLocale: props.scorecard.audio_language_code || '',
       openDropDownType: null,
+      openPickerId: null,
     };
 
     this.textLanguageController;
@@ -43,10 +45,10 @@ class ScorecardPreferenceForm extends Component {
   }
 
   closeAllSelectBox = () => {
-    this.textLanguageController.close();
-    this.audioLanguageController.close();
+    this.setState({ openPickerId: null });
   }
 
+  // Refactor these functions
   changeTextLocale = (item) => {
     this.setState({ textLocale: item.value });
     this.props.changeValue('textLocale', item.value);
@@ -68,15 +70,13 @@ class ScorecardPreferenceForm extends Component {
   
   onTextLanguageOpen = () => {
     this.setState({ openDropDownType: 'text' });
-    this.audioLanguageController.close();
 
-    if (isShortScreenDevice())
+    if (!DeviceInfo.isTablet())
       this.updateContainerPadding(true);
   }
 
   onAudioLanguageOpen = () => {
     this.setState({ openDropDownType: 'audio' });
-    this.textLanguageController.close();
     this.updateContainerPadding(true);
   }
 
@@ -98,35 +98,38 @@ class ScorecardPreferenceForm extends Component {
           scorecard={this.props.scorecard}
         />
 
-        <SelectPicker
+        <CustomSelectPicker
+          id={1}
+          openId={this.state.openPickerId}
+          setOpenId={(openId) => this.setState({ openPickerId: openId })}
           items={this.props.languages}
           selectedItem={this.state.textLocale}
-          label={translations["textDisplayIn"]}
-          placeholder={translations["selectLanguage"]}
-          searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={6000}
-          onChangeItem={this.changeTextLocale}
-          customDropDownContainerStyle={{marginTop: 10}}
-          mustHasDefaultValue={true}
-          controller={(instance) => this.textLanguageController = instance}
+          label={translations.textDisplayIn}
+          itemIndex={0}
+          customWrapperStyle={{ marginBottom: 0, marginTop: 20 }}
+          unselectedBorder={{ borderColor: Color.grayColor, borderWidth: 2 }}
+          disabled={hasScorecardDownload}
+          onSelectItem={(item) => this.changeTextLocale(item)}
           onOpen={() => this.onTextLanguageOpen()}
           onClose={() => this.onCloseDropDown('text')}
-          disabled={hasScorecardDownload}
         />
 
-        <SelectPicker
+        <CustomSelectPicker
+          id={2}
+          openId={this.state.openPickerId}
+          setOpenId={(openId) => this.setState({ openPickerId: openId })}
           items={this.props.languages}
           selectedItem={this.state.audioLocale}
-          label={translations["audioPlayIn"]}
-          placeholder={translations["selectLanguage"]}
-          searchablePlaceholder={translations["searchForLanguage"]}
           zIndex={5000}
-          onChangeItem={this.changeAudioLocale}
-          mustHasDefaultValue={true}
-          controller={(instance) => this.audioLanguageController = instance}
-          onOpen={() => this.onAudioLanguageOpen()}
-          onClose={() => this.onCloseDropDown('audio')}
+          label={translations.audioPlayIn}
+          itemIndex={0}
+          customWrapperStyle={{ marginBottom: 0, marginTop: 30 }}
+          unselectedBorder={{ borderColor: Color.grayColor, borderWidth: 2 }}
           disabled={hasScorecardDownload}
+          onSelectItem={(item) => this.changeAudioLocale(item)}
+          onOpen={() => this.onTextLanguageOpen()}
+          onClose={() => this.onCloseDropDown('audio')}
         />
       </View>
     );

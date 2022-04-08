@@ -32,20 +32,6 @@ class SettingUrlEndpointForm extends React.Component {
     });
   }
 
-  // getErrorMessage(fieldName, value) {
-  //   const isValueField = fieldName === ENDPOINT_VALUE_FIELDNAME;
-  //   const isFieldExisted = isValueField ? endpointFormService.isValueExisted(value, this.props.endpointUrls)
-  //                                       : endpointFormService.isLabelExisted(value, this.props.endpointUrls);
-
-  //   if (isFieldExisted)
-  //     return fieldName = isValueField ? this.context.translations.endpointValueIsExisted : this.context.translations.endpointLabelIsExisted;
-
-  //   if (isValueField && !endpointFormService.isValidEndpointValue(value))
-  //     return !!value ? this.context.translations.endpointValueIsNotValid : this.context.translations.endpointValueRequireMsg;
-
-  //   return '';
-  // }
-
   saveEndpoint() {
     endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue);
     this.props.saveNewEndpoint(this.state.endpointLabel, this.state.endpointValue);
