@@ -4,7 +4,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
-import CustomSelectPicker from '../CustomSelectPicker';
+import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import HeaderTitle from '../HeaderTitle';
 import DatePicker from '../DatePicker';
 
@@ -98,7 +98,7 @@ class ScorecardPreferenceForm extends Component {
           scorecard={this.props.scorecard}
         />
 
-        <CustomSelectPicker
+        <CustomDropdownPicker
           id={1}
           openId={this.state.openPickerId}
           setOpenId={(openId) => this.setState({ openPickerId: openId })}
@@ -115,7 +115,7 @@ class ScorecardPreferenceForm extends Component {
           onClose={() => this.onCloseDropDown('text')}
         />
 
-        <CustomSelectPicker
+        <CustomDropdownPicker
           id={2}
           openId={this.state.openPickerId}
           setOpenId={(openId) => this.setState({ openPickerId: openId })}

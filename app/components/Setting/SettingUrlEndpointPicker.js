@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import CustomSelectPicker from '../CustomSelectPicker';
+import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import SettingUrlEndpointForm from './SettingUrlEndpointForm';
 import endpointFormService from '../../services/endpoint_form_service';
 
@@ -35,7 +35,7 @@ const SettingUrlEndpointPicker = (props) => {
 
   return (
     <View style={{marginBottom: 15}}>
-      <CustomSelectPicker
+      <CustomDropdownPicker
         id={1}
         openId={props.openPickerId}
         setOpenId={(openId) => props.setOpenPickerId(openId)}

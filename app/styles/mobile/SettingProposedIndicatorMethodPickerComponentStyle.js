@@ -4,8 +4,8 @@ import { bodyFontSize } from '../../utils/font_size_util';
 
 const SettingProposedIndicatorMethodPickerComponentStyles = StyleSheet.create({
   mainContainer: {
-    borderWidth: 2,
-    borderColor: Color.grayColor,
+    borderWidth: 1,
+    borderColor: Color.inputBorderLineColor,
     borderRadius: 4,
     marginTop: 5,
     height: 55,

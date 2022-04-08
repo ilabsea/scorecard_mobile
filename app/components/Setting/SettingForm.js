@@ -32,7 +32,6 @@ class SettingForm extends Component {
     const value = JSON.parse(await AsyncStorage.getItem('SETTING'));
     if (value !== null && !!value.email) {
       this.setState({
-        // backendUrl: value.backendUrl,
         email: value.email,
         password: value.password,
       }, () => this.props.updateValidationStatus());

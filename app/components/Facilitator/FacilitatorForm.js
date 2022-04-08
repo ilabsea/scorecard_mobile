@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import Color from '../../themes/color';
-import CustomSelectPicker from '../CustomSelectPicker';
+import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import {LocalizationContext} from '../Translations';
 import { environment } from '../../config/environment';
 
@@ -62,7 +62,7 @@ class FacilitatorForm extends Component {
         pickerzIndex -= 1000;
 
         return (
-          <CustomSelectPicker
+          <CustomDropdownPicker
             key={index}
             id={index + 1}
             isRequire={ index == 0 || index == 1 }

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import {LocalizationContext} from '../Translations';
-import CustomSelectPicker from '../CustomSelectPicker';
+import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import {locales} from '../../constants/locale_constant';
 
 const SettingSelectPickers = (props) => {
@@ -14,7 +14,7 @@ const SettingSelectPickers = (props) => {
   }
 
   return (
-    <CustomSelectPicker
+    <CustomDropdownPicker
       id={2}
       openId={props.openPickerId}
       setOpenId={(openId) => props.setOpenPickerId(openId)}
