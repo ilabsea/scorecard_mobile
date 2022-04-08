@@ -9,7 +9,8 @@ import styles from '../themes/selectPickerStyle';
 import { bodyFontSize, smallTextFontSize } from '../utils/font_size_util';
 
 export default function CustomSelectPicker(props) {
-  const { translations } = useContext(LocalizationContext);
+  const { translations, appLanguage } = useContext(LocalizationContext);
+  DropDownPicker.setLanguage(appLanguage);
   const [open] = useState(false);
   const [value, setValue] = useState(props.selectedItem);
   const [items, setItems] = useState(props.items);
@@ -101,3 +102,11 @@ export default function CustomSelectPicker(props) {
     </View>
   );
 }
+
+DropDownPicker.addTranslation('km', {
+  NOTHING_TO_SHOW: 'មិនមានព័ត៌មានសម្រាប់បង្ហាញ'
+});
+
+DropDownPicker.addTranslation('en', {
+  NOTHING_TO_SHOW: 'Nothing available to display'
+});
