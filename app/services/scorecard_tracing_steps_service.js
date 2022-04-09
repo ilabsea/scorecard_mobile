@@ -8,13 +8,14 @@ const scorecardTracingStepsService = (() => {
     trace,
   }
 
-  async function trace(scorecardUuid, step) {
+  async function trace(scorecardUuid, step, email = null) {
     let setting = await AsyncStorage.getItem('SETTING');
     setting = JSON.parse(setting);
+    const loggedInEmail = setting.email || email;
 
     await analytics().logEvent(scorecardTrackingSteps[step], {
       scorecard_uuid: scorecardUuid,
-      user: setting.email,
+      user: loggedInEmail || null,
     });
   }
 })();

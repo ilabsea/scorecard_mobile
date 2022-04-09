@@ -121,7 +121,9 @@ class SettingForm extends Component {
     return (
       <View>
         {this._renderForm()}
-        <SettingSelectPickers ref={this.pickersRef} formRef={this.props.formRef} formModalRef={this.props.formModalRef} proposedIndicatorMethod={this.props.proposedIndicatorMethod} />
+        <SettingSelectPickers ref={this.pickersRef} formRef={this.props.formRef} formModalRef={this.props.formModalRef}
+          proposedIndicatorMethod={this.props.proposedIndicatorMethod} email={this.state.email}
+        />
       </View>
     )
   }

@@ -15,5 +15,10 @@ export const scorecardTrackingSteps = {
   7: 'finished_voting',
   8: 'finished_scorecard_result',
   9: 'scorecard_completed',
-  10: 'scorecard_submitted'
+  10: 'scorecard_submitted',
+  11: 'propose_by_indicator_base',
+  12: 'propose_by_participant_base',
 };
+
+export const INDICATOR_BASE_STEP = 11;
+export const PARTICIPANT_BASE_STEP = 12;

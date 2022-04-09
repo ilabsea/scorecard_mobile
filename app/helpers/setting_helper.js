@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
+import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
 
 const settingHelper = (() => {
   return {
@@ -8,6 +9,7 @@ const settingHelper = (() => {
     getProposedIndicatorMethodStatuses,
     getProposedIndicatorMethodByIndex,
     checkDefaultProposedIndicatorMethod,
+    getProposedIndicatorMethodTracingStep,
   };
 
   async function changeable(newEndpoint) {
@@ -46,6 +48,10 @@ const settingHelper = (() => {
       savedSetting = { proposedIndicatorMethod: INDICATOR_BASE };
 
     AsyncStorage.setItem('SETTING', JSON.stringify(savedSetting));
+  }
+
+  function getProposedIndicatorMethodTracingStep(index) {
+    return getProposedIndicatorMethodByIndex(index) === INDICATOR_BASE ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
   }
 })();
 
