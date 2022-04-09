@@ -32,7 +32,6 @@ class ParticipantModalContent extends React.Component {
   }
 
   async componentDidMount() {
-    // if (this.props.isIndicatorBase && isCreateNewIndicatorScreen()) {
     if (this.isCreateIndicatorByIndicatorBase) {
       const raisedParticipantUuids = [];
       this.participants.map(participant => {

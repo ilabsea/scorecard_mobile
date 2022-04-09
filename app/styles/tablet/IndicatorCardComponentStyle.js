@@ -12,7 +12,7 @@ const IndicatorCardComponentStyles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     borderRadius: cardBorderRadius,
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 17,
     marginHorizontal: 8,
     width: itemWidth,
     height: itemHeight,
@@ -39,24 +39,26 @@ const IndicatorCardComponentStyles = StyleSheet.create({
   },
   raisedParticipantBadge: {
     position: 'absolute',
-    top: -10,
+    top: -12,
     left: 10,
-    backgroundColor: Color.clickableColor,
+    backgroundColor: Color.whiteColor,
+    borderColor: Color.grayColor,
+    borderWidth: 1.4,
     paddingHorizontal: 4,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 20,
+    height: 22,
     zIndex: 10
   },
   raisedParticipantLabel: {
-    color: Color.whiteColor,
+    color: Color.clickableColor,
     fontSize: 12
   },
   raisedLabel: {
     fontFamily: FontFamily.title,
     fontSize: 14,
-    color: Color.whiteColor,
+    color: Color.clickableColor,
   },
   indicatorLabel: {
     textAlign: 'left',
