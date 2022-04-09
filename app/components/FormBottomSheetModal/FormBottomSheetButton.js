@@ -19,6 +19,7 @@ const FormBottomSheetButton = (props) => {
         disabled={!props.isValid}
         onPress={() => props.save()}
         label={translations.save}
+        customStyle={{ flex: 1, marginLeft: 0 }}
       />
     </View>
   )

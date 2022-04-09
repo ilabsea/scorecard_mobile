@@ -8,6 +8,7 @@ import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import ParticipantModalListItem from './ParticipantModalListItem';
 import ParticipantModalListItemRightIcon from './ParticipantModalListItemRightIcon';
 import ParticipantModalSubtitle from './ParticipantModalSubtitle';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
@@ -27,10 +28,12 @@ class ParticipantModalContent extends React.Component {
     }
     this.participants = !!props.participants ? props.participants
                         : Participant.findByScorecard(props.scorecardUuid);
+    this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 
   async componentDidMount() {
-    if (this.props.isIndicatorBase && isCreateNewIndicatorScreen()) {
+    // if (this.props.isIndicatorBase && isCreateNewIndicatorScreen()) {
+    if (this.isCreateIndicatorByIndicatorBase) {
       const raisedParticipantUuids = [];
       this.participants.map(participant => {
         if (this.isParticipantRaised(participant.uuid))
@@ -105,7 +108,7 @@ class ParticipantModalContent extends React.Component {
       <View style={{ height: hp(participantContentHeight) }}>
         <BottomSheetModalTitle title={ !!this.props.selectedIndicator ? this.props.selectedIndicator.name : this.context.translations.proposedIndicator } />
 
-        <View style={{ padding: containerPadding, flex: 1 }}>
+        <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
           <ParticipantModalSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.participants.length}
             showAddParticipantModal={() => this.props.showAddParticipantModal()}
             isIndicatorBase={this.props.isIndicatorBase}
@@ -115,6 +118,10 @@ class ParticipantModalContent extends React.Component {
             { this.participants.length > 0 ? this.renderParticipantList() : this.renderNoMessage() }
           </ScrollView>
         </View>
+
+        { this.isCreateIndicatorByIndicatorBase &&
+          <FormBottomSheetButton isValid={true} save={() => this.props.participantModalRef.current?.dismiss()} />
+        }
       </View>
     )
   }
