@@ -60,13 +60,15 @@ const endpointFormService = (() => {
     AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
   }
 
-  async function getEndpointUrls() {
+  async function getEndpointUrls(defaultEndpoint) {
     let endpointUrls = JSON.parse(await AsyncStorage.getItem('ENDPOINT_URLS'));
 
     if (!endpointUrls) {
       endpointUrls = defaultEndpointUrls;
       AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
     }
+
+    handleEndpointMigration(defaultEndpoint, endpointUrls);
     endpointUrls.push({ label: 'Add new URL endpoint', value: '' });
 
     return endpointUrls;
@@ -88,6 +90,14 @@ const endpointFormService = (() => {
   // private method
   function validateField(fieldName, value) {
     validationService(fieldName, value === '' ? undefined : value);
+  }
+
+  function handleEndpointMigration(defaultEndpoint, endpointUrls) {
+    if (!isEndpointExisted('', defaultEndpoint, endpointUrls)) {
+      let newEndpointUrls = endpointUrls;
+      newEndpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint });
+      AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(newEndpointUrls));
+    }
   }
 })();
 

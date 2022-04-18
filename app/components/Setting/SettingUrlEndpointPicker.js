@@ -18,7 +18,7 @@ const SettingUrlEndpointPicker = (props) => {
   }, [selectedEndpoint]);
 
   async function loadEndpointUrls() {
-    setEndpointUrls(await endpointFormService.getEndpointUrls());
+    setEndpointUrls(await endpointFormService.getEndpointUrls(props.backendUrl));
     setSelectedEndpoint(props.backendUrl);
   }
 
