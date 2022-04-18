@@ -76,6 +76,7 @@ class SettingUrlEndpointForm extends React.Component {
           label={this.context.translations.endpointLabel}
           placeholder={this.context.translations.enterEndpointLabel}
           fieldName={ENDPOINT_LABEL_FIELDNAME}
+          isRequire={true}
           onChangeText={this.onChangeText}
           message={translations[this.state.endpointLabelErrorMsg]}
         />
@@ -85,6 +86,7 @@ class SettingUrlEndpointForm extends React.Component {
           label={this.context.translations.UrlEndpoint}
           placeholder={this.context.translations.enterUrlEndpoint}
           fieldName={ENDPOINT_VALUE_FIELDNAME}
+          isRequire={true}
           onChangeText={this.onChangeText}
           message={translations[this.state.endpointValueErrorMsg]}
           onFocus={() => this.onEndpointValueFocused()}

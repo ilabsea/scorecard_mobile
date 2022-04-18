@@ -1,17 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
-import { defaultEndpointUrls, urlPrefixes } from '../constants/url_constant';
+import { defaultEndpointUrls } from '../constants/url_constant';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
-import { isIpAddress } from '../utils/string_util';
+import urlUtil from '../utils/url_util';
 
 const endpointFormService = (() => {
   return {
     isValidForm,
-    isValidEndpointValue,
     saveEndpointUrls,
-    isEndpointExisted,
-    isLabelExisted,
-    isValueExisted,
     getEndpointUrls,
     getErrorMessage,
   }
@@ -23,36 +19,7 @@ const endpointFormService = (() => {
     if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, endpointUrls))
       return false;
 
-    return isValidEndpointValue(endpointValue);
-  }
-
-  function isValidEndpointValue(endpointValue) {
-    const endpointUrl = endpointValue.replace(/\s/gm, '');
-
-    // Check if the endpointUrl contains only 'https://' or 'http://'
-    if (endpointUrl === urlPrefixes[0] || endpointUrl === urlPrefixes[1])
-      return false;
-
-    // Check if the endpointUrl has 'https://' or 'http://' as prefix
-    for(let i = 0; i < urlPrefixes.length; i++) {
-      if (endpointUrl.lastIndexOf(urlPrefixes[i]) == 0) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  function isEndpointExisted(endpointLabel, endpointValue, endpointUrls) {
-    return isLabelExisted(endpointLabel, endpointUrls) || isValueExisted(endpointValue, endpointUrls);
-  }
-
-  function isLabelExisted(endpointLabel, endpointUrls) {
-    return endpointUrls.filter(endpoint => endpoint.label === endpointLabel).length > 0;
-  }
-
-  function isValueExisted(endpointValue, endpointUrls) {
-    return endpointUrls.filter(endpoint => endpoint.value === endpointValue).length > 0;
+    return urlUtil.isUrlValid(endpointValue);
   }
 
   async function saveEndpointUrls(newLabel, newValue) {
@@ -82,7 +49,7 @@ const endpointFormService = (() => {
     if (isFieldExisted)
       return fieldName = isValueField ? 'endpointValueIsExisted' : 'endpointLabelIsExisted';
 
-    if (isValueField && !isValidEndpointValue(value))
+    if (isValueField && !urlUtil.isUrlValid(value))
       return !!value ? 'endpointValueIsNotValid' : 'endpointValueRequireMsg';
 
     return '';
@@ -93,15 +60,27 @@ const endpointFormService = (() => {
     validationService(fieldName, value === '' ? undefined : value);
   }
 
+  // If the endpoint from previous version if not exist, add the endpoint to the list item
+  // If the endpoint is an IP address, the label will be "Local Develoment Server"
+  // If the endpoint is not an IP address, the label will be "Development Server"
   function handleEndpointMigration(defaultEndpoint, endpointUrls) {
-    console.log('is IP address == ', isIpAddress(defaultEndpoint))
-
     if (!isEndpointExisted('', defaultEndpoint, endpointUrls)) {
       let newEndpointUrls = endpointUrls;
-      const endpointLabel = isIpAddress(defaultEndpoint) ? 'Local Development Server' : 'Development Server';
-      newEndpointUrls.push({ label: endpointLabel, value: defaultEndpoint });
+      newEndpointUrls.push({ label: urlUtil.getUrlDefaultLabel(defaultEndpoint), value: defaultEndpoint });
       AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(newEndpointUrls));
     }
+  }
+
+  function isEndpointExisted(endpointLabel, endpointValue, endpointUrls) {
+    return isLabelExisted(endpointLabel, endpointUrls) || isValueExisted(endpointValue, endpointUrls);
+  }
+
+  function isLabelExisted(endpointLabel, endpointUrls) {
+    return endpointUrls.filter(endpoint => endpoint.label === endpointLabel).length > 0;
+  }
+
+  function isValueExisted(endpointValue, endpointUrls) {
+    return endpointUrls.filter(endpoint => endpoint.value === endpointValue).length > 0;
   }
 })();
 
