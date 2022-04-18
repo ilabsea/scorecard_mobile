@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
 import { defaultEndpointUrls, urlPrefixes } from '../constants/url_constant';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
+import { isIpAddress } from '../utils/string_util';
 
 const endpointFormService = (() => {
   return {
@@ -93,9 +94,12 @@ const endpointFormService = (() => {
   }
 
   function handleEndpointMigration(defaultEndpoint, endpointUrls) {
+    console.log('is IP address == ', isIpAddress(defaultEndpoint))
+
     if (!isEndpointExisted('', defaultEndpoint, endpointUrls)) {
       let newEndpointUrls = endpointUrls;
-      newEndpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint });
+      const endpointLabel = isIpAddress(defaultEndpoint) ? 'Local Development Server' : 'Development Server';
+      newEndpointUrls.push({ label: endpointLabel, value: defaultEndpoint });
       AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(newEndpointUrls));
     }
   }
