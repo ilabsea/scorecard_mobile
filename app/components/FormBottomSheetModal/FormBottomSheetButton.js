@@ -4,7 +4,6 @@ import {View} from 'react-native';
 import {LocalizationContext} from '../Translations';
 import SaveButton from '../SaveButton';
 
-import Color from '../../themes/color';
 import styles from '../../themes/participantListItemStyle';
 import { containerPadding } from '../../utils/responsive_util';
 
@@ -13,7 +12,7 @@ const FormBottomSheetButton = (props) => {
 
   return (
     <View style={[styles.btnWrapper,
-      { margin: containerPadding, paddingTop: containerPadding, borderTopWidth: 1, borderTopColor: Color.lightGrayColor }]}
+      { margin: containerPadding, paddingTop: containerPadding }]}
     >
       <SaveButton
         disabled={!props.isValid}
