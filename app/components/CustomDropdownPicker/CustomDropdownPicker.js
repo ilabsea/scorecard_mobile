@@ -39,7 +39,7 @@ export default function CustomDropdownPicker(props) {
       return props.lastListItem;
 
     return <CustomDropdownPickerItem params={params} showSubtitle={props.showSubtitle}
-             onSelectItem={() => onSelectItem(params.item)}
+             onSelectItem={() => onSelectItem(params.item)} selectedItem={value}
            />
   }
 
