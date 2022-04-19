@@ -9,6 +9,7 @@ import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import Accordion from '../Accordion';
 import ProposedIndicatorMethodDetailsContent from './ProposedIndicatorMethodDetailsContent';
 
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import settingHelper from '../../helpers/setting_helper';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
@@ -51,6 +52,8 @@ class ProposedIndicatorMethodDetails extends React.Component {
   }
 
   onToggle(toggleIndex) {
+    scorecardTracingStepsService.trace(null, settingHelper.getProposedIndicatorMethodTracingStep(toggleIndex), this.props.email);
+
     _this.setState({ selectedMethod: settingHelper.getProposedIndicatorMethodByIndex(toggleIndex)}, () => {
       _this.savedSetting.proposedIndicatorMethod = this.state.selectedMethod;
       AsyncStorage.setItem('SETTING', JSON.stringify(_this.savedSetting));

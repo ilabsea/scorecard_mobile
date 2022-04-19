@@ -18,7 +18,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
   async showModal() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING')) || null;
     const accordionStatuses = settingHelper.getProposedIndicatorMethodStatuses(savedSetting);
-    this.props.formRef.current?.setBodyContent(<ProposedIndicatorMethodDetails accordionStatuses={accordionStatuses} />);
+    this.props.formRef.current?.setBodyContent(<ProposedIndicatorMethodDetails accordionStatuses={accordionStatuses} email={this.props.email} />);
     this.props.formModalRef.current?.present();
   }
 

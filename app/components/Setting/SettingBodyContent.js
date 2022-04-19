@@ -8,6 +8,7 @@ import SettingForm from './SettingForm';
 import SettingBottomSection from './SettingBottomSection';
 
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
+import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../../constants/scorecard_step_constant';
 import Color from '../../themes/color';
 import { navigationRef } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
@@ -18,7 +19,9 @@ import authenticationFormService from '../../services/authentication_form_servic
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import internetConnectionService from '../../services/internet_connection_service';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
 import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
@@ -90,8 +93,10 @@ class SettingBodyContent extends React.Component {
   authenticate() {
     const { email, password } = this.settingFormRef.current.state;
 
-    authenticationService.authenticate(email, password, () => {
+    authenticationService.authenticate(email, password, async () => {
       this.setState({ isLoading: false });
+      const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
+      scorecardTracingStepsService.trace(null, tracingStep, email);
       navigationRef.current?.goBack();
     }, async (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
