@@ -13,7 +13,7 @@ export const getScorecardListInstructionModalMarginTop = (headerHeight) => {
   if (DeviceInfo.isTablet())
     return (headerHeight + wp('25.5%')) * -1;
 
-  let extraMargin = isShortScreenDevice() ? wp('10%') : isShortWidthScreen() ? wp('29.5%') : wp('22%');
+  let extraMargin = isShortScreenDevice() ? wp('10%') : isShortWidthScreen() ? wp('29.5%') : wp('28%');
   return (headerHeight + extraMargin) * -1;
 }
 
