@@ -46,18 +46,20 @@ const endpointFormService = (() => {
     const endpointErrorMessage = {
       'endpointValue': {
         'alreadyExistedMsg': 'endpointValueIsExisted',
-        'invalidMsg': !urlUtil.isUrlValid(value) ? 'endpointValueIsNotValid' : '',
         'blankMsg': 'endpointValueRequireMsg',
+        'invalidMsg': !urlUtil.isUrlValid(value) ? 'endpointValueIsNotValid' : '',
       },
       'endpointLabel': {
         'alreadyExistedMsg': 'endpointLabelIsExisted',
-        'invalidMsg': '',
         'blankMsg': 'endpointLabelRequireMsg',
+        'invalidMsg': '',
       }
     };
 
+    if (!value) return endpointErrorMessage[fieldName]['blankMsg'];
+
     const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
-    const messageType = !value ? 'blankMsg' : isFieldExisted(type, value, endpointUrls) ? 'alreadyExistedMsg' : 'invalidMsg';
+    const messageType = isFieldExisted(type, value, endpointUrls) ? 'alreadyExistedMsg' : 'invalidMsg';
     return endpointErrorMessage[fieldName][messageType];
   }
 
@@ -72,7 +74,7 @@ const endpointFormService = (() => {
   function handleEndpointMigration(defaultEndpoint, endpointUrls) {
     if (!isEndpointExisted('', defaultEndpoint, endpointUrls)) {
       let newEndpointUrls = endpointUrls;
-      newEndpointUrls.push({ label: urlUtil.getUrlDefaultLabel(defaultEndpoint), value: defaultEndpoint });
+      newEndpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint });
       AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(newEndpointUrls));
     }
   }
