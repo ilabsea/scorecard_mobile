@@ -43,16 +43,22 @@ const endpointFormService = (() => {
   }
 
   function getErrorMessage(fieldName, value, endpointUrls) {
-    const isValueField = fieldName === ENDPOINT_VALUE_FIELDNAME;
-    const isFieldExisted = isValueField ? isValueExisted(value, endpointUrls) : isLabelExisted(value, endpointUrls);
+    const endpointErrorMessage = {
+      'endpointValue': {
+        'alreadyExistedMsg': 'endpointValueIsExisted',
+        'invalidMsg': !urlUtil.isUrlValid(value) ? 'endpointValueIsNotValid' : '',
+        'blankMsg': 'endpointValueRequireMsg',
+      },
+      'endpointLabel': {
+        'alreadyExistedMsg': 'endpointLabelIsExisted',
+        'invalidMsg': '',
+        'blankMsg': 'endpointLabelRequireMsg',
+      }
+    };
 
-    if (isFieldExisted)
-      return fieldName = isValueField ? 'endpointValueIsExisted' : 'endpointLabelIsExisted';
-
-    if (isValueField && !urlUtil.isUrlValid(value))
-      return !!value ? 'endpointValueIsNotValid' : 'endpointValueRequireMsg';
-
-    return '';
+    const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
+    const messageType = !value ? 'blankMsg' : isFieldExisted(type, value, endpointUrls) ? 'alreadyExistedMsg' : 'invalidMsg';
+    return endpointErrorMessage[fieldName][messageType];
   }
 
   // private method
@@ -72,15 +78,11 @@ const endpointFormService = (() => {
   }
 
   function isEndpointExisted(endpointLabel, endpointValue, endpointUrls) {
-    return isLabelExisted(endpointLabel, endpointUrls) || isValueExisted(endpointValue, endpointUrls);
+    return isFieldExisted('label', endpointLabel, endpointUrls) || isFieldExisted('value', endpointValue, endpointUrls);
   }
 
-  function isLabelExisted(endpointLabel, endpointUrls) {
-    return endpointUrls.filter(endpoint => endpoint.label === endpointLabel).length > 0;
-  }
-
-  function isValueExisted(endpointValue, endpointUrls) {
-    return endpointUrls.filter(endpoint => endpoint.value === endpointValue).length > 0;
+  function isFieldExisted(type, value, endpointUrls) {
+    return endpointUrls.filter(endpoint => endpoint[type] === value).length > 0;
   }
 })();
 
