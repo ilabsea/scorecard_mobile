@@ -10,6 +10,7 @@ const endpointFormService = (() => {
     saveEndpointUrls,
     getEndpointUrls,
     getErrorMessage,
+    isEndpointExisted,
   }
 
   function isValidForm(endpointLabel, endpointValue, endpointUrls) {
@@ -28,17 +29,14 @@ const endpointFormService = (() => {
     AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
   }
 
-  async function getEndpointUrls(defaultEndpoint) {
+  async function getEndpointUrls() {
     let endpointUrls = JSON.parse(await AsyncStorage.getItem('ENDPOINT_URLS'));
 
     if (!endpointUrls) {
       endpointUrls = defaultEndpointUrls;
       AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
     }
-
-    handleEndpointMigration(defaultEndpoint, endpointUrls);
     endpointUrls.push({ label: 'Add new URL endpoint', value: '' });
-
     return endpointUrls;
   }
 
@@ -66,17 +64,6 @@ const endpointFormService = (() => {
   // private method
   function validateField(fieldName, value) {
     validationService(fieldName, value === '' ? undefined : value);
-  }
-
-  // If the endpoint from previous version if not exist, add the endpoint to the list item
-  // If the endpoint is an IP address, the label will be "Local Develoment Server"
-  // If the endpoint is not an IP address, the label will be "Development Server"
-  function handleEndpointMigration(defaultEndpoint, endpointUrls) {
-    if (!isEndpointExisted('', defaultEndpoint, endpointUrls)) {
-      let newEndpointUrls = endpointUrls;
-      newEndpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint });
-      AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(newEndpointUrls));
-    }
   }
 
   function isEndpointExisted(endpointLabel, endpointValue, endpointUrls) {

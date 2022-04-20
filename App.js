@@ -19,6 +19,7 @@ import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
 import Color from './app/themes/color';
 
 import scorecardDeletionService from './app/services/scorecard_deletion_service';
+import endpointMigrationService from './app/services/endpoint_migration_service';
 
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
@@ -72,6 +73,7 @@ const App: () => React$Node = () => {
 
     notificationService.handleAppOpenFromNotification();
     settingHelper.checkDefaultProposedIndicatorMethod();
+    endpointMigrationService.handleEndpointMigration();
   });
 
   return (
