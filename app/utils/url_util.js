@@ -4,21 +4,21 @@ const urlUtil = (() => {
   }
 
   function isUrlValid(url) {
-    const urlValidationPattern = `\\bhttps?://(${domainNameValidationPattern()}|${ipAddressValidationPattern()})`
+    const urlValidationPattern = `^https?://(${domainNameValidationPattern()}|${ipAddressValidationPattern()})$`
     const regexp = new RegExp(urlValidationPattern);
     return regexp.test(url);
   }
 
   function ipAddressValidationPattern() {
     const octetsPattern = '[0-9]{1,3}';
-    const portParttern = '[0-9]{1,5}';
-    return `${octetsPattern}\\.${octetsPattern}\\.${octetsPattern}\\.${octetsPattern}\\:${portParttern}$`;
+    const portPattern = '[0-9]{1,5}';
+    return `${octetsPattern}[.]${octetsPattern}[.]${octetsPattern}[.]${octetsPattern}[:]${portPattern}`;
   }
 
   function domainNameValidationPattern() {
-    const addressPattern = `[A-Za-z0-9\!\@\#\$\%\^\&\*\)\(+\=\._-]`;
-    const postFixPattern = `+(\\.[a-z]{2,})$`;
-    return `${addressPattern}${postFixPattern}`
+    const addressPattern = `[a-z0-9]([-_]{1})?([.]{1})?`;
+    const entityTypePattern = `([.][a-z]{2,})([/])?`;
+    return `(${addressPattern})+${entityTypePattern}`
   }
 })();
 
