@@ -333,5 +333,17 @@
   "detailOfProposedIndicatorMethods": "Detail of the proposed indicator methods",
   "select": "Select",
   "selected": "Selected",
-  "raised": "Raised"
+  "raised": "Raised",
+  "endpointLabelRequireMsg": "Endpoint label is required",
+  "endpointValueRequireMsg": "Endpoint value is required",
+  "endpointLabelIsExisted": "Endpoint label is existed",
+  "endpointValueIsExisted": "Endpoint value is existed",
+  "endpointValueIsNotValid": "Endpoint value is not valid",
+  "addNewUrlEndpoint": "Add new URL endpoint",
+  "closeTheForm": "Close the form",
+  "endpointLabel": "Endpoint label",
+  "UrlEndpoint": "URL endpoint",
+  "enterEndpointLabel": "Enter endpoint label",
+  "enterUrlEndpoint": "Enter URL endpoint",
+  "pleaseEnterInformationBelow": "Please enter information below"
 }

@@ -1,66 +1,33 @@
-import React from 'react';
-import { Keyboard, View } from 'react-native';
+import React, { useState, useContext } from 'react';
 
 import {LocalizationContext} from '../Translations';
-import SelectPicker from '../SelectPicker';
+import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
+import {locales} from '../../constants/locale_constant';
 
-import {localeDictionary} from '../../constants/locale_constant';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
+const SettingSelectPickers = (props) => {
+  const { translations, appLanguage, setAppLanguage } = useContext(LocalizationContext);
+  const [locale, setLocale] = useState(appLanguage);
 
-class SettingSelectPickers extends React.Component {
-  static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      locales: [],
-      locale: 'km',
-    }
+  function changeLocale(locale) {
+    setLocale(locale.value);
+    setAppLanguage(locale.value);
   }
 
-  async componentDidMount() {
-    this.setState({
-      locales: this.getLocales(),
-      locale: this.context.appLanguage,
-    });
-  }
-
-  getLocales = () => {
-    const {translations} = this.context;
-    let locales = translations.getAvailableLanguages();
-    return locales.map((locale) => ({label: localeDictionary[locale], value: locale}));
-  };
-
-  changeLocale = (locale) => {
-    this.setState({locale: locale.value});
-    this.context.setAppLanguage(locale.value);
-  }
-
-  renderChooseLanguage() {
-    const {translations} = this.context;
-    const {locales, locale} = this.state;
-
-    return (
-      <SelectPicker
-        items={locales}
-        selectedItem={locale}
-        label={translations["language"]}
-        placeholder={translations["selectLanguage"]}
-        searchablePlaceholder={translations["searchForLanguage"]}
-        zIndex={5000}
-        showCustomArrow={true}
-        onChangeItem={this.changeLocale}
-        mustHasDefaultValue={true}
-        controller={(instance) => this.languageController = instance}
-        onOpen={() => Keyboard.dismiss()}
-        customDropDownContainerStyle={{marginTop: 27}}
-      />
-    );
-  }
-
-  render() {
-    return this.renderChooseLanguage()
-  }
+  return (
+    <CustomDropdownPicker
+      id={2}
+      openId={props.openPickerId}
+      setOpenId={(openId) => props.setOpenPickerId(openId)}
+      items={locales}
+      selectedItem={locale}
+      zIndex={6000}
+      label={translations.language}
+      isRequired={true}
+      itemIndex={0}
+      customWrapperStyle={{ marginTop: 39 }}
+      onSelectItem={(item) => changeLocale(item)}
+    />
+  )
 }
 
 export default SettingSelectPickers;

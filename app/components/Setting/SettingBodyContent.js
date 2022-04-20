@@ -162,7 +162,7 @@ class SettingBodyContent extends React.Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: Color.whiteColor }}>
+      <ScrollView nestedScrollEnabled={true} contentContainerStyle={{ flexGrow: 1, backgroundColor: Color.whiteColor }}>
         <Pressable style={responsiveStyles.container}>
           <Spinner
             visible={this.state.isLoading}
@@ -176,6 +176,7 @@ class SettingBodyContent extends React.Component {
             updateValidationStatus={async () => this.setState({ isValid: await this.isFormValid(), isLocked: await lockDeviceService.isLocked(FAILED_SIGN_IN_ATTEMPT) })}
             formRef={this.props.formRef}
             formModalRef={this.props.formModalRef}
+            backendUrl={this.props.backendUrl}
           />
 
           { this.renderBottomSection() }

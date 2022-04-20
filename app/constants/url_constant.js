@@ -6,3 +6,10 @@ export const validScorecardUrls = [
   'https://isaf-stg.digital-csc.org',
   'http://isaf-stg.digital-csc.org',
 ];
+
+export const defaultEndpointUrls = [
+  { label: 'ISAF Staging Server', value: 'https://isaf-stg.digital-csc.org' },
+  { label: 'ISAF Production Server', value: 'https://isaf.digital-csc.org' },
+]
+
+export const urlPrefixes = ['https://', 'http://'];

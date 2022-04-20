@@ -8,7 +8,6 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 
 import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 import internetConnectionService from '../../services/internet_connection_service';
-import { settingModalSnapPoints } from '../../constants/modal_constant';
 import { INDICATOR_BASE } from '../../constants/main_constant';
 
 
@@ -43,11 +42,6 @@ class Setting extends Component {
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  onTouchWithoutFeedback = () => {
-    Keyboard.dismiss();
-    this.bodyRef.current?.settingFormRef.current?.closeDropDown();
-  }
-
   renderBodyContent() {
     return <SettingBodyContent
               ref={this.bodyRef}
@@ -55,6 +49,7 @@ class Setting extends Component {
               formModalRef={this.formModalRef}
               hasInternetConnection={this.state.hasInternetConnection}
               proposedIndicatorMethod={this.state.proposedIndicatorMethod}
+              backendUrl={this.props.route.params.backend_url}
            />
   }
 
@@ -67,13 +62,13 @@ class Setting extends Component {
     const {translations} = this.context;
 
     return (
-      <TouchableWithoutFeedback onPress={() => this.onTouchWithoutFeedback()}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
           <NavigationHeader title={translations.setting} onBackPress={() => this.props.navigation.goBack()} />
 
           { this.renderBodyContent() }
 
-          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={settingModalSnapPoints} onDismissModal={() => this.onDismissModal()} />
+          <FormBottomSheetModal ref={this.formRef} formModalRef={this.formModalRef} snapPoints={[]} onDismissModal={() => this.onDismissModal()} />
         </View>
       </TouchableWithoutFeedback>
     );

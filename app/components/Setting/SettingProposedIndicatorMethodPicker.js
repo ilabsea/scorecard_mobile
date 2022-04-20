@@ -7,6 +7,7 @@ import ProposedIndicatorMethodDetails from './ProposedIndicatorMethodDetails';
 
 import settingHelper from '../../helpers/setting_helper';
 import { INDICATOR_BASE } from '../../constants/main_constant';
+import { settingModalSnapPoints } from '../../constants/modal_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import proposedIndicatorMethodPickerTabletStyles from '../../styles/tablet/SettingProposedIndicatorMethodPickerComponentStyle';
 import proposedIndicatorMethodPickerMobileStyles from '../../styles/mobile/SettingProposedIndicatorMethodPickerComponentStyle';
@@ -18,6 +19,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
   async showModal() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING')) || null;
     const accordionStatuses = settingHelper.getProposedIndicatorMethodStatuses(savedSetting);
+    this.props.formRef.current?.setSnapPoints(settingModalSnapPoints);
     this.props.formRef.current?.setBodyContent(<ProposedIndicatorMethodDetails accordionStatuses={accordionStatuses} email={this.props.email} />);
     this.props.formModalRef.current?.present();
   }

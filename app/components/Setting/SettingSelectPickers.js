@@ -14,10 +14,6 @@ class SettingSelectPickers extends React.Component {
     this.indicatorMethodRef = React.createRef();
   }
 
-  closeDropdownPickers() {
-    this.languagePickerRef.current?.languageController.close();
-  }
-
   render() {
     return (
       <View>
@@ -29,7 +25,10 @@ class SettingSelectPickers extends React.Component {
           email={this.props.email}
         />
 
-        <SettingLanguagePicker ref={this.languagePickerRef} indicatorMethodRef={this.indicatorMethodRef} />
+        <SettingLanguagePicker
+          openPickerId={this.props.openPickerId}
+          setOpenPickerId={this.props.setOpenPickerId}
+        />
       </View>
     )
   }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import SelectPicker from '../SelectPicker';
+import Color from '../../themes/color';
+import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import {LocalizationContext} from '../Translations';
 import { environment } from '../../config/environment';
 
@@ -10,8 +11,6 @@ class FacilitatorForm extends Component {
 
   constructor(props) {
     super(props);
-    this.controllers = new Array(environment.numberOfFacilitators);
-
     this.state = {
       openIndex: null,
       inlineIcons: new Array(environment.numberOfFacilitators),
@@ -26,13 +25,6 @@ class FacilitatorForm extends Component {
     if (exceptIndex == 2 || exceptIndex == 3) {
       this.setState({ openIndex: exceptIndex });
       this.props.updateContainerPadding(190);
-    }
-
-    for (let i = 0; i < this.controllers.length; i++) {
-      if (exceptIndex == i)
-        continue;
-
-      this.controllers[i].close();
     }
   }
 
@@ -62,6 +54,7 @@ class FacilitatorForm extends Component {
     const {translations} = this.context;
     let pickerzIndex = 9000;
     let itemIndex = 0;
+
     return Array(environment.numberOfFacilitators)
       .fill()
       .map((_, index) => {
@@ -69,32 +62,34 @@ class FacilitatorForm extends Component {
         pickerzIndex -= 1000;
 
         return (
-          <SelectPicker
+          <CustomDropdownPicker
             key={index}
+            id={index + 1}
+            isRequire={ index == 0 || index == 1 }
+            openId={this.state.openPickerId}
+            setOpenId={(openId) => this.setState({ openPickerId: openId })}
             items={this.props.facilitators}
             selectedItem={this.getSelectedFacilitator(this.props.selectedFacilitators[index])}
-            isRequire={index == 0 || index == 1}
-            label={translations['facilitator']}
-            placeholder={translations['selectFacilitator']}
-            searchablePlaceholder={translations['searchForFacilitator']}
             zIndex={pickerzIndex}
-            customContainerStyle={index == 0 ? {marginTop: 0} : {}}
-            customLabelStyle={[{zIndex: pickerzIndex + 1}, index == 0 ? { marginTop: -10 } : {}]}
-            showCustomArrow={true}
-            onChangeItem={(text) => this.props.onChangeFacilitator(text, index)}
-            itemIndex={itemIndex}
-            mustHasDefaultValue={false}
-            controller={(instance) => this.controllers[index] = instance}
+            label={translations.facilitator}
+            placeholder={translations['selectFacilitator']}
+            itemIndex={0}
+            customWrapperStyle={{ marginBottom: 15, marginTop: 20 }}
+            unselectedBorder={{ borderColor: Color.grayColor, borderWidth: 2 }}
+            onSelectItem={(item) => this.props.onChangeFacilitator(item, index)}
             onOpen={() => this.onOpen(index)}
             onClose={() => this.onDropdownClose(index)}
             searchable={true}
+            searchPlaceholder={translations.searchForFacilitator}
+            searchContainerStyle={{paddingHorizontal: 0, paddingVertical: 5, borderBottomColor: Color.lightGrayColor}}
+            searchTextInputStyle={{borderWidth: 0}}
             searchTextInputProps={{
               ref: (searchInputRef) => this.searchRef = searchInputRef,
               inlineImageLeft: this.state.inlineIcons[index],
               inlineImagePadding: 6,
             }}
           />
-        );
+        )
       });
   };
 
