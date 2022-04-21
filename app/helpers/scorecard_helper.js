@@ -57,7 +57,7 @@ const scorecardHelper = (() => {
     const milestoneIcons = {
       finished: { name: 'check', color: Color.successColor },
       submitted: { name: 'lock', color: Color.lightGrayColor },
-      in_review: { name: 'lock', color: Color.lightGrayColor },
+      in_review: { name: 'check', color: Color.lightGrayColor },
       default: { name: 'hourglass-half', color: scorecardTypeColor(scorecard) }
     };
 
