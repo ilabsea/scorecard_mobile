@@ -5,6 +5,13 @@
     <queries>
         <package android:name="org.instedd.ilabsea.community_scorecard.store" />
         <package android:name="org.instedd.ilabsea.community_scorecard.services" />
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND"/>
+            <data android:mimeType="*/*" />
+        </intent>
     </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
