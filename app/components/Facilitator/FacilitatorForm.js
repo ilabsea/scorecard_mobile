@@ -18,7 +18,7 @@ class FacilitatorForm extends Component {
   }
 
   getSelectedFacilitator = (facilitator) => {
-    return (facilitator != undefined && facilitator != null) ? facilitator.value : null
+    return (facilitator != undefined && facilitator != null) ? facilitator.value.toString() : null
   }
 
   closeSelectBox = (exceptIndex) => {

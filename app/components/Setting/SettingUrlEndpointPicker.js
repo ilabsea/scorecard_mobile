@@ -20,6 +20,7 @@ const SettingUrlEndpointPicker = (props) => {
   async function loadEndpointUrls() {
     setEndpointUrls(await endpointFormService.getEndpointUrls());
     setSelectedEndpoint(props.backendUrl);
+    endpointFormService.setTemporarySelectedEndpoint(selectedEndpoint);
   }
 
   function onChangeEndpoint(item) {

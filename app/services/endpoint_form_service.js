@@ -11,6 +11,8 @@ const endpointFormService = (() => {
     getEndpointUrls,
     getErrorMessage,
     isEndpointExisted,
+    setTemporarySelectedEndpoint,
+    getTemporarySelectedEndpoint,
   }
 
   function isValidForm(endpointLabel, endpointValue, endpointUrls) {
@@ -59,6 +61,14 @@ const endpointFormService = (() => {
     const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
     const messageType = isFieldExisted(type, value, endpointUrls) ? 'alreadyExistedMsg' : 'invalidMsg';
     return endpointErrorMessage[fieldName][messageType];
+  }
+
+  function setTemporarySelectedEndpoint(endpointUrl) {
+    AsyncStorage.setItem('TEMP_ENDPOINT_URL', endpointUrl)
+  }
+
+  async function getTemporarySelectedEndpoint() {
+    return await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
   }
 
   // private method

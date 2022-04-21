@@ -7,6 +7,7 @@ import { environment } from '../../config/environment';
 import NavigationHeader from '../../components/NavigationHeader';
 import { navigationRef } from '../../navigators/app_navigator';
 import internetConnectionService from '../../services/internet_connection_service';
+import endpointFormService from '../../services/endpoint_form_service';
 
 class VideoPlayer extends React.Component {
   static contextType = LocalizationContext;
@@ -33,10 +34,10 @@ class VideoPlayer extends React.Component {
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
-  goBack() {
+  async goBack() {
     navigationRef.current?.reset({ index: 1, routes: [
       { name: 'Home' },
-      { name: 'Setting' }
+      { name: 'Setting' , params: {backend_url: await endpointFormService.getTemporarySelectedEndpoint()} }
     ]});
   }
 
