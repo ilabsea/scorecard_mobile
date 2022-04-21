@@ -18,25 +18,25 @@ class LocationSearchBox extends Component {
 
     return (
       <View style={styles.container}>
-        <Item rounded style={[styles.inputContainer, this.props.searchedLocation ? { marginRight: 10 } : {}]}>
+        <Item rounded style={styles.inputContainer}>
           <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
           <Input
             placeholder={ translations.searchLocation }
             value={this.props.searchedLocation}
             clearButtonMode='always'
-            style={[styles.searchInput, !!this.props.searchedLocation ? { marginRight: 10 } : {}]}
+            style={styles.searchInput}
             onChangeText={(text) => this.props.onChangeText(text)}
             onFocus={() => this.props.updateFocusStatus(true)}
             onBlur={() => this.props.updateFocusStatus(false)}
             placeholderTextColor={placeholderColor}
           />
-        </Item>
 
-        { !!this.props.searchedLocation &&
-          <TouchableOpacity onPress={() => this.props.onClearSearch()} style={{justifyContent: 'center', width: pressableItemSize(), alignItems: 'center'}}>
-            <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: Color.grayColor}} />
-          </TouchableOpacity>
-        }
+          { !!this.props.searchedLocation &&
+            <TouchableOpacity onPress={() => this.props.onClearSearch()} style={{justifyContent: 'center', width: pressableItemSize(), alignItems: 'center'}}>
+              <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: Color.grayColor}} />
+            </TouchableOpacity>
+          }
+        </Item>
       </View>
     )
   }
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 0,
     paddingBottom: 0,
+    marginRight: 2
   }
 });
 
