@@ -21,7 +21,7 @@ const SettingSelectPickers = (props) => {
     props.formRef.current?.setBodyContent(
       <BottomSheetPickerContent
         title='selectLanguage'
-        isDynamicTitle={true}
+        isDynamicTitle={false}
         items={locales}
         selectedItem={locale}
         contentHeight={settingLanguageContentHeight}
@@ -37,7 +37,6 @@ const SettingSelectPickers = (props) => {
       label={translations.selectLanguage}
       items={locales}
       selectedItem={locale}
-      selectedItemLabel={locales[locale == 'km' ? 0 : 1].label}
       showPicker={() => showPicker()}
       showSubtitle={false}
       customContainerStyle={{ marginTop: 38 }}

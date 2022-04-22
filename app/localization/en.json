@@ -345,5 +345,6 @@
   "UrlEndpoint": "URL endpoint",
   "enterEndpointLabel": "Enter endpoint label",
   "enterUrlEndpoint": "Enter URL endpoint",
-  "pleaseEnterInformationBelow": "Please enter information below"
+  "pleaseEnterInformationBelow": "Please enter information below",
+  "selectEndpointUrl": "Select endpoint URL"
 }

@@ -39,12 +39,19 @@ class BottomSheetPicker extends React.Component {
     return selectedItem.length > 0 ? selectedItem[0].label : this.props.label;
   }
 
+  showPicker() {
+    if (this.props.disabled)
+      return
+
+    this.props.showPicker()
+  }
+
   render() {
     return (
       <View style={[styles.mainContainer, this.props.customContainerStyle]}>
         <Text style={styles.titleLabel}>{ this.props.title }</Text>
 
-        <TouchableOpacity onPress={() => this.props.showPicker()}>
+        <TouchableOpacity onPress={() => this.showPicker()}>
           <View style={styles.textContainer}>
             <View style={{flex: 1}}>
               <Text style={styles.itemTitle}>{ this.getLabel() }</Text>

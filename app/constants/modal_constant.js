@@ -36,3 +36,6 @@ export const settingEndpointContentHeight = getDeviceStyle('74%', isShortScreenD
 export const indicatorParticipantListModalSnapPoints = getDeviceStyle(['70%'], ['70%']);
 
 export const indicatorParticipantListModalHeight = getDeviceStyle('68%', '68%');
+
+export const scorecardPreferenceLangaugePickerSnapPoints = getDeviceStyle(['40%'], ['50%']);
+export const scorecardPreferenceLanguagePickerContentHeight = getDeviceStyle('38%',  '48%');

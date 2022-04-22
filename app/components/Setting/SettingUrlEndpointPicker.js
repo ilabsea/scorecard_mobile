@@ -77,10 +77,9 @@ const SettingUrlEndpointPicker = (props) => {
     <View style={{marginBottom: 30, marginTop: 5}}>
       <BottomSheetPicker
         title={translations.serverUrl}
-        label='Select server URL'
+        label={translations.selectEndpointUrl}
         items={endpointUrls}
         selectedItem={selectedEndpoint}
-        selectedItemLabel={selectedEndpoint}
         showSubtitle={true}
         showPicker={() => showBottomSheetModal('dropdown_picker')}
         customContainerStyle={{ marginTop: 10 }}
