@@ -91,7 +91,6 @@ class ScorecardPreference extends Component {
   }
 
   saveSelectedData = () => {
-    this.formRef.current.closeAllSelectBox()
     const {date, textLocale, audioLocale} = this.state;
     scorecardPreferenceService.saveSelectedData(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 2);
@@ -219,7 +218,7 @@ class ScorecardPreference extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={() => this.formRef.current.closeAllSelectBox()}>
+      <TouchableWithoutFeedback>
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={this.context.translations['getStarted']}

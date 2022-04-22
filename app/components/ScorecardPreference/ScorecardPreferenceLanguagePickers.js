@@ -22,8 +22,8 @@ class ScorecardPreferenceLanguagePickers extends React.Component {
 
   showPicker(type, selectedItem) {
     const titles = {
-      TEXT_LANG: this.context.translations.textDisplayIn,
-      AUDIO_LANG: this.context.translations.audioPlayIn,
+      'TEXT_LANG': this.context.translations.textDisplayIn,
+      'AUDIO_LANG': this.context.translations.audioPlayIn,
     }
 
     this.props.pickerRef.current?.setSnapPoints(scorecardPreferenceLangaugePickerSnapPoints);

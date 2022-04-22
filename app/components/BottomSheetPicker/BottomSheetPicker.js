@@ -3,13 +3,15 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import BottomSheetPickerTabletStyles from '../../styles/tablet/BottomSheetPickerComponentStyle';
 import BottomSheetPickerMobileStyles from '../../styles/mobile/BottomSheetPickerComponentStyle';
 
 const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMobileStyles);
 
-let  _this = null;
+const BORDER = 'border';
+const TEXT = 'text';
 
 class BottomSheetPicker extends React.Component {
   static contextType = LocalizationContext;
@@ -22,7 +24,6 @@ class BottomSheetPicker extends React.Component {
 
     this.formRef = React.createRef();
     this.formModalRef = React.createRef();
-    _this = this;
   }
 
   componentDidUpdate() {
@@ -46,19 +47,28 @@ class BottomSheetPicker extends React.Component {
     this.props.showPicker()
   }
 
+  getDisableStyle(type) {
+    const styles = {
+      'border': { borderColor: Color.disableCardColor },
+      'text': { color: Color.lightGrayColor }
+    }
+
+    return this.props.disabled ? styles[type] : { };
+  }
+
   render() {
     return (
-      <View style={[styles.mainContainer, this.props.customContainerStyle]}>
-        <Text style={styles.titleLabel}>{ this.props.title }</Text>
+      <View style={[styles.mainContainer, this.props.customContainerStyle, this.getDisableStyle(BORDER)]}>
+        <Text style={[styles.titleLabel, this.getDisableStyle(TEXT)]}>{ this.props.title }</Text>
 
         <TouchableOpacity onPress={() => this.showPicker()}>
           <View style={styles.textContainer}>
             <View style={{flex: 1}}>
-              <Text style={styles.itemTitle}>{ this.getLabel() }</Text>
-              { this.props.showSubtitle && <Text style={styles.itemSubtitle}>{ this.props.selectedItem }</Text> }
+              <Text style={[styles.itemTitle, this.getDisableStyle(TEXT)]}>{ this.getLabel() }</Text>
+              { this.props.showSubtitle && <Text style={[styles.itemSubtitle, this.getDisableStyle(TEXT)]}>{ this.props.selectedItem }</Text> }
             </View>
 
-            <Text style={styles.chooseLabel}>
+            <Text style={[styles.chooseLabel, this.getDisableStyle(TEXT)]}>
               {this.context.translations.choose}
             </Text>
           </View>

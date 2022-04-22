@@ -26,7 +26,7 @@ class BottomSheetPickerContentListItem extends React.Component {
           </View>
 
 
-          { this.props.selectedItem === item.value && <MaterialIcon name='check' color={Color.clickableColor} size={20} /> }
+          { this.props.selectedItem === item.value && <MaterialIcon name='check' color={Color.clickableColor} size={22} /> }
         </TouchableOpacity>
       )
     })
