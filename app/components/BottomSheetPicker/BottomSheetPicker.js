@@ -9,13 +9,34 @@ import BottomSheetPickerMobileStyles from '../../styles/mobile/BottomSheetPicker
 
 const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMobileStyles);
 
+let  _this = null;
+
 class BottomSheetPicker extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    this.state = {
+      listItems: props.items || [],
+      label: props.label
+    }
 
     this.formRef = React.createRef();
     this.formModalRef = React.createRef();
+    _this = this;
+  }
+
+  componentDidUpdate() {
+    if (!!this.props.items && this.props.items != this.state.listItems) {
+      this.setState({
+        listItems: this.props.items,
+        label: this.getLabel()
+      });
+    }
+  }
+
+  getLabel() {
+    const selectedItem = this.state.listItems.filter(item => item.value === this.props.selectedItem);
+    return selectedItem.length > 0 ? selectedItem[0].label : this.props.label;
   }
 
   render() {
@@ -23,10 +44,12 @@ class BottomSheetPicker extends React.Component {
       <View style={[styles.mainContainer, this.props.customContainerStyle]}>
         <Text style={styles.titleLabel}>{ this.props.title }</Text>
 
-        <TouchableOpacity onPress={() => this.props.showModal()}>
+        <TouchableOpacity onPress={() => this.props.showPicker()}>
           <View style={styles.textContainer}>
-            {/* Selected value or label */}
-            <Text style={styles.valueLabel}>{ this.props.selectedItemLabel || this.props.label }</Text>
+            <View style={{flex: 1}}>
+              <Text style={styles.itemTitle}>{ this.getLabel() }</Text>
+              { this.props.showSubtitle && <Text style={styles.itemSubtitle}>{ this.props.selectedItem }</Text> }
+            </View>
 
             <Text style={styles.chooseLabel}>
               {this.context.translations.choose}
@@ -45,5 +68,6 @@ export default BottomSheetPicker;
   title="Facilitator 1"
   label="Select facilitator"
   selectedItem={1}
-  showModal={() => {}}
+  showSubtitle={true|false}
+  showPicker={() => {}}
 /> */}

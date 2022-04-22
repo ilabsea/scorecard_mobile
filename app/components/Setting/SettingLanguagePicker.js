@@ -4,7 +4,7 @@ import {LocalizationContext} from '../Translations';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 import {locales} from '../../constants/locale_constant';
-import { settingLanguageSnapPoints } from '../../constants/modal_constant';
+import { settingLanguageSnapPoints, settingLanguageContentHeight } from '../../constants/modal_constant';
 
 const SettingSelectPickers = (props) => {
   const { translations, appLanguage, setAppLanguage } = useContext(LocalizationContext);
@@ -13,9 +13,10 @@ const SettingSelectPickers = (props) => {
   function changeLocale(locale) {
     setLocale(locale.value);
     setAppLanguage(locale.value);
+    props.formModalRef.current?.dismiss();
   }
 
-  function showModal() {
+  function showPicker() {
     props.formRef.current?.setSnapPoints(settingLanguageSnapPoints);
     props.formRef.current?.setBodyContent(
       <BottomSheetPickerContent
@@ -23,6 +24,7 @@ const SettingSelectPickers = (props) => {
         isDynamicTitle={true}
         items={locales}
         selectedItem={locale}
+        contentHeight={settingLanguageContentHeight}
         onSelectItem={(item) => changeLocale(item)}
       />
     );
@@ -33,9 +35,11 @@ const SettingSelectPickers = (props) => {
     <BottomSheetPicker
       title={translations.language}
       label={translations.selectLanguage}
+      items={locales}
       selectedItem={locale}
       selectedItemLabel={locales[locale == 'km' ? 0 : 1].label}
-      showModal={() => showModal()}
+      showPicker={() => showPicker()}
+      showSubtitle={false}
       customContainerStyle={{ marginTop: 38 }}
     />
   )

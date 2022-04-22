@@ -12,7 +12,7 @@ import { settingModalSnapPoints } from '../../constants/modal_constant';
 class SettingProposedIndicatorMethodPicker extends React.Component {
   static contextType = LocalizationContext;
 
-  async showModal() {
+  async showPicker() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING')) || null;
     const accordionStatuses = settingHelper.getProposedIndicatorMethodStatuses(savedSetting);
     this.props.formRef.current?.setSnapPoints(settingModalSnapPoints);
@@ -26,7 +26,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
         title={this.context.translations.proposedIndicatorMethod}
         label={this.props.proposedIndicatorMethod == INDICATOR_BASE ? this.context.translations.indicatorBase : this.context.translations.participantBase}
         selectedValue={this.props.proposedIndicatorMethod}
-        showModal={() => this.showModal()}
+        showPicker={() => this.showPicker()}
       />
     )
   }

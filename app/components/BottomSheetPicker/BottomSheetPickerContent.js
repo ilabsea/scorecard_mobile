@@ -1,15 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StyleSheet, Pressable } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, StyleSheet, Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Input, Item, Icon } from 'native-base';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import Color from '../../themes/color';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
+import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
 import { containerPadding } from '../../utils/responsive_util';
-import { pressableItemSize, listItemPaddingVertical } from '../../utils/component_util';
 
 class BottomSheetPickerContent extends React.Component {
   static contextType = LocalizationContext;
@@ -23,22 +21,18 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderListItem() {
-    return this.props.items.map((item, index) => {
-      return (
-        <TouchableOpacity key={index}
-          onPress={() => this.onSelectItem(item)}
-          style={[styles.itemContainer, { borderBottomWidth: index == this.props.items.length - 1 ? 0 : 1 }]}
-        >
-          <Text style={{flex: 1}}>{ item.label }</Text>
-          { this.state.selectedItem === item.value && <MaterialIcon name='check' color={Color.clickableColor} size={20} /> }
-        </TouchableOpacity>
-      )
-    })
+    return <BottomSheetPickerContentListItem
+              items={this.props.items}
+              selectedItem={this.state.selectedItem}
+              onSelectItem={(item) => this.onSelectItem(item)}
+              lastListItem={this.props.lastListItem}
+              showSubtitle={this.props.showSubtitle}
+           />
   }
 
   renderList() {
     return (
-      <ScrollView contentContainerStyle={{ padding: containerPadding, paddingTop: 10, flexGrow: 1, paddingBottom: 20 }}>
+      <ScrollView contentContainerStyle={[styles.scrollViewContainer, this.props.scrollViewStyle]}>
         <Pressable>{ this.renderListItem() }</Pressable>
       </ScrollView>
     )
@@ -49,7 +43,7 @@ class BottomSheetPickerContent extends React.Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp('48%'), backgroundColor: Color.whiteColor, paddingBottom: 15}}>
+        <View style={{height: hp(this.props.contentHeight), backgroundColor: Color.whiteColor, paddingBottom: 15}}>
           <BottomSheetModalTitle title={modalTitle} />
           { this.renderList() }
         </View>
@@ -59,12 +53,12 @@ class BottomSheetPickerContent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: 'row',
-    height: pressableItemSize(listItemPaddingVertical),
-    borderColor: Color.paleGrayColor,
-    alignItems: 'center'
-  }
+  scrollViewContainer: {
+    padding: containerPadding,
+    paddingTop: 10,
+    flexGrow: 1,
+    paddingBottom: 20
+  },
 });
 
 export default BottomSheetPickerContent;

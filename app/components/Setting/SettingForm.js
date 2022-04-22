@@ -18,7 +18,6 @@ class SettingForm extends Component {
       password: '',
       emailErrorMsg: '',
       passwordErrorMsg: '',
-      openPickerId: null
     };
 
     this.langugageController;
@@ -41,18 +40,13 @@ class SettingForm extends Component {
     this.setState(state, () => this.props.updateValidationStatus());
   }
 
-  setOpenPickerId = (openId) => {
-    this.setState({ openPickerId: openId });
-  }
-
   renderUrlEndpointPicker = () => {
     return (
-      <SettingUrlEndpointPicker openPickerId={this.state.openPickerId} setOpenPickerId={this.setOpenPickerId}
+      <SettingUrlEndpointPicker
         backendUrl={this.state.backendUrl}
         updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
         formRef={this.props.formRef}
         formModalRef={this.props.formModalRef}
-        closeDropDown={() => this.setState({ openPickerId: null })}
       />
     )
   }
@@ -64,7 +58,6 @@ class SettingForm extends Component {
              emailErrorMsg={this.state.emailErrorMsg}
              passwordErrorMsg={this.state.passwordErrorMsg}
              onChangeText={this.onChangeText}
-             closeDropDown={() => this.setState({ openPickerId: null })}
            />
   }
 

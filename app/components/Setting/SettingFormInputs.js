@@ -31,7 +31,6 @@ class SettingFormInputs extends React.Component {
               fieldName="email"
               onChangeText={this.props.onChangeText}
               message={translations[this.props.emailErrorMsg]}
-              onFocus={() => this.props.closeDropDown()}
               keyboardType='email-address'
               caretHidden={false}
             />
@@ -47,7 +46,6 @@ class SettingFormInputs extends React.Component {
             onChangeText={this.props.onChangeText}
             message={translations[this.props.passwordErrorMsg]}
             secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
-            onFocus={() => this.props.closeDropDown()}
             right={this.renderShowPasswordIcon()}
           />
   }

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { pressableItemSize, listItemPaddingVertical } from '../../utils/component_util';
 
 const BottomSheetPickerComponentStyles = StyleSheet.create({
   mainContainer: {
@@ -26,16 +27,27 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     height: '100%',
     paddingLeft: 14
   },
-  valueLabel: {
-    flex: 1,
-    fontSize: bodyFontSize()
+  itemTitle: {
+    fontSize: bodyFontSize(),
+  },
+  itemSubtitle: {
+    // fontSize: smallTextFontSize(),
+    fontSize: 13,
+    color: Color.grayColor,
+    marginTop: -10
   },
   chooseLabel: {
     color: Color.clickableColor,
     paddingRight: 12,
     textTransform: 'uppercase',
     fontSize: bodyFontSize()
-  }
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    height: pressableItemSize(listItemPaddingVertical),
+    borderColor: Color.paleGrayColor,
+    alignItems: 'center',
+  },
 });
 
 export default BottomSheetPickerComponentStyles;
