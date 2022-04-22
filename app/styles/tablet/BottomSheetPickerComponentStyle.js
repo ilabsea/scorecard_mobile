@@ -2,14 +2,14 @@ import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { bodyFontSize } from '../../utils/font_size_util';
 
-const SettingProposedIndicatorMethodPickerComponentStyles = StyleSheet.create({
+const BottomSheetPickerComponentStyles = StyleSheet.create({
   mainContainer: {
     borderWidth: 1,
     borderColor: Color.inputBorderLineColor,
     borderRadius: 4,
     marginTop: 5,
-    height: 55,
-    position: 'relative'
+    height: 58,
+    position: 'relative',
   },
   titleLabel: {
     backgroundColor: Color.whiteColor,
@@ -32,10 +32,10 @@ const SettingProposedIndicatorMethodPickerComponentStyles = StyleSheet.create({
   },
   chooseLabel: {
     color: Color.clickableColor,
-    paddingRight: 12,
+    paddingRight: 20,
     textTransform: 'uppercase',
     fontSize: bodyFontSize()
   }
 });
 
-export default SettingProposedIndicatorMethodPickerComponentStyles;
+export default BottomSheetPickerComponentStyles;

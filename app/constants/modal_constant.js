@@ -24,6 +24,8 @@ export const swotContentHeight = getDeviceStyle('75%', '75%');
 export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
 export const settingContentHeight = getDeviceStyle('54%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);
 
+export const settingLanguageSnapPoints = getDeviceStyle(['25%'], ['40%']);
+
 export const settingEndpointModalSnapPoints = getDeviceStyle(['76%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
 export const settingEndpointContentHeight = getDeviceStyle('74%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);
 

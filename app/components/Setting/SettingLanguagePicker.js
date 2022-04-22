@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
 
 import {LocalizationContext} from '../Translations';
-import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
+import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
+import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 import {locales} from '../../constants/locale_constant';
+import { settingLanguageSnapPoints } from '../../constants/modal_constant';
 
 const SettingSelectPickers = (props) => {
   const { translations, appLanguage, setAppLanguage } = useContext(LocalizationContext);
@@ -13,19 +15,28 @@ const SettingSelectPickers = (props) => {
     setAppLanguage(locale.value);
   }
 
+  function showModal() {
+    props.formRef.current?.setSnapPoints(settingLanguageSnapPoints);
+    props.formRef.current?.setBodyContent(
+      <BottomSheetPickerContent
+        title='selectLanguage'
+        isDynamicTitle={true}
+        items={locales}
+        selectedItem={locale}
+        onSelectItem={(item) => changeLocale(item)}
+      />
+    );
+    props.formModalRef.current?.present();
+  }
+
   return (
-    <CustomDropdownPicker
-      id={2}
-      openId={props.openPickerId}
-      setOpenId={(openId) => props.setOpenPickerId(openId)}
-      items={locales}
+    <BottomSheetPicker
+      title={translations.language}
+      label={translations.selectLanguage}
       selectedItem={locale}
-      zIndex={6000}
-      label={translations.language}
-      isRequired={true}
-      itemIndex={0}
-      customWrapperStyle={{ marginTop: 39 }}
-      onSelectItem={(item) => changeLocale(item)}
+      selectedItemLabel={locales[locale == 'km' ? 0 : 1].label}
+      showModal={() => showModal()}
+      customContainerStyle={{ marginTop: 38 }}
     />
   )
 }

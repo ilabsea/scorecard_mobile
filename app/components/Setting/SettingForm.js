@@ -76,8 +76,6 @@ class SettingForm extends Component {
         <SettingSelectPickers formRef={this.props.formRef}
           formModalRef={this.props.formModalRef}
           proposedIndicatorMethod={this.props.proposedIndicatorMethod}
-          openPickerId={this.state.openPickerId}
-          setOpenPickerId={this.setOpenPickerId}
           email={this.state.email}
         />
       </View>

@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import SettingLanguagePicker from './SettingLanguagePicker';
 import SettingProposedIndicatorMethodPicker from './SettingProposedIndicatorMethodPicker';
+import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 
 class SettingSelectPickers extends React.Component {
   static contextType = LocalizationContext;
@@ -26,8 +27,8 @@ class SettingSelectPickers extends React.Component {
         />
 
         <SettingLanguagePicker
-          openPickerId={this.props.openPickerId}
-          setOpenPickerId={this.props.setOpenPickerId}
+          formRef={this.props.formRef}
+          formModalRef={this.props.formModalRef}
         />
       </View>
     )
