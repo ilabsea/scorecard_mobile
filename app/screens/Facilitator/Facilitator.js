@@ -8,14 +8,15 @@ import BottomButton from '../../components/BottomButton';
 import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { environment } from '../../config/environment';
-
 import Color from '../../themes/color';
-
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
 
 class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
@@ -32,6 +33,8 @@ class FacilitatorScreen extends Component {
     };
 
     this.formRef = React.createRef();
+    this.pickerRef = React.createRef();
+    this.pickerModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -139,6 +142,8 @@ class FacilitatorScreen extends Component {
 
                 <FacilitatorForm
                   ref={this.formRef}
+                  pickerRef={this.pickerRef}
+                  pickerModalRef={this.pickerModalRef}
                   facilitators={this.state.facilitators}
                   selectedFacilitators={this.state.selectedFacilitators}
                   onChangeFacilitator={this.onChangeFacilitator}
@@ -151,6 +156,8 @@ class FacilitatorScreen extends Component {
           { this.renderNextButton() }
 
           { this.renderErrorMessageModal() }
+
+          <FormBottomSheetModal ref={this.pickerRef} formModalRef={this.pickerModalRef} snapPoints={facilitatorPickerSnapPoints} onDismissModal={() => this.pickerRef.current?.setBodyContent(null)} />
         </View>
       </TouchableWithoutFeedback>
     );

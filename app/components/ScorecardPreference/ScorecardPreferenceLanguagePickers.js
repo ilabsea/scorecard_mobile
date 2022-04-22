@@ -4,10 +4,7 @@ import {LocalizationContext} from '../Translations';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 
-import {
-  scorecardPreferenceLangaugePickerSnapPoints,
-  scorecardPreferenceLanguagePickerContentHeight
-} from '../../constants/modal_constant';
+import { scorecardPreferenceLanguagePickerContentHeight } from '../../constants/modal_constant';
 
 const TEXT_LANG = 'TEXT_LANG';
 const AUDIO_LANG = 'AUDIO_LANG';
@@ -26,7 +23,6 @@ class ScorecardPreferenceLanguagePickers extends React.Component {
       'AUDIO_LANG': this.context.translations.audioPlayIn,
     }
 
-    this.props.pickerRef.current?.setSnapPoints(scorecardPreferenceLangaugePickerSnapPoints);
     this.props.pickerRef.current?.setBodyContent(
       <BottomSheetPickerContent
         title={ titles[type] }

@@ -39,3 +39,7 @@ export const indicatorParticipantListModalHeight = getDeviceStyle('68%', '68%');
 
 export const scorecardPreferenceLangaugePickerSnapPoints = getDeviceStyle(['40%'], ['50%']);
 export const scorecardPreferenceLanguagePickerContentHeight = getDeviceStyle('38%',  '48%');
+
+export const facilitatorPickerSnapPoints = getDeviceStyle(['50%', '100%'], ['65%', '100%']);
+export const facilitatorPickerContentHeight = getDeviceStyle('48%', '63%');
+export const facilitatorPickerContentExpanedHeight = '98%';
