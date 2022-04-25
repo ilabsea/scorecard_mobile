@@ -49,7 +49,7 @@ class BottomSheetPickerContent extends React.Component {
     )
   }
 
-  searching(text) {
+  searchFacilitator(text) {
     const filteredFacilitator = !!text ? this.props.items.filter(item => item.label.toLowerCase().includes(text.toLowerCase())) : this.props.items;
     this.setState({
       searchedFacilitator: text,
@@ -60,8 +60,9 @@ class BottomSheetPickerContent extends React.Component {
   renderSearchBox() {
     return <SearchBox
               value={this.state.searchedFacilitator}
-              onChangeText={(text) => this.searching(text)}
+              onChangeText={(text) => this.searchFacilitator(text)}
               onFocus={(status) => this.props.onSearchBoxFocus()}
+              onClearSearch={() => this.searchFacilitator('')}
            />
   }
 
