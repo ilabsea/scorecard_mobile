@@ -8,7 +8,8 @@ import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 
 import endpointFormService from '../../services/endpoint_form_service';
-import { settingEndpointModalSnapPoints, settingEndpointPickerSnapPoints, settingEndpointPickerContentHeight } from '../../constants/modal_constant';
+import settingHelper from '../../helpers/setting_helper';
+import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
 
 const SettingUrlEndpointPicker = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -46,7 +47,7 @@ const SettingUrlEndpointPicker = (props) => {
 
   function showBottomSheetModal(type) {
     const modals = {
-      'dropdown_picker': { content: renderBottomSheetPickerContent(), snapPoints: settingEndpointPickerSnapPoints },
+      'dropdown_picker': { content: renderBottomSheetPickerContent(), snapPoints: settingHelper.getEndpointPickerHeight('snap_points', endpointUrls) },
       'form_create': { content: renderSettingUrlEndpointForm(), snapPoints: settingEndpointModalSnapPoints },
     };
 
@@ -62,10 +63,10 @@ const SettingUrlEndpointPicker = (props) => {
   function renderBottomSheetPickerContent() {
     return <BottomSheetPickerContent
             title={translations.serverUrl}
-            isDynamicTitle={false}
             items={endpointUrls}
             selectedItem={selectedEndpoint}
-            contentHeight={settingEndpointPickerContentHeight}
+            isRequire={true}
+            contentHeight={settingHelper.getEndpointPickerHeight('content', endpointUrls)}
             onSelectItem={(item) => onChangeEndpoint(item)}
             lastListItem={addNewUrlEnpointItem()}
             scrollViewStyle={{ paddingBottom: 0 }}
@@ -80,6 +81,7 @@ const SettingUrlEndpointPicker = (props) => {
         label={translations.selectEndpointUrl}
         items={endpointUrls}
         selectedItem={selectedEndpoint}
+        isRequire={true}
         showSubtitle={true}
         showPicker={() => showBottomSheetModal('dropdown_picker')}
         customContainerStyle={{ marginTop: 10 }}

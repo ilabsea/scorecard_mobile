@@ -20,8 +20,7 @@ const SettingSelectPickers = (props) => {
     props.formRef.current?.setSnapPoints(settingLanguageSnapPoints);
     props.formRef.current?.setBodyContent(
       <BottomSheetPickerContent
-        title='selectLanguage'
-        isDynamicTitle={false}
+        title={ translations.selectLanguage }
         items={locales}
         selectedItem={locale}
         contentHeight={settingLanguageContentHeight}

@@ -26,7 +26,6 @@ class ScorecardPreferenceLanguagePickers extends React.Component {
     this.props.pickerRef.current?.setBodyContent(
       <BottomSheetPickerContent
         title={ titles[type] }
-        isDynamicTitle={false}
         items={this.props.languages}
         selectedItem={selectedItem}
         contentHeight={scorecardPreferenceLanguagePickerContentHeight}

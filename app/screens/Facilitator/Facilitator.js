@@ -82,7 +82,6 @@ class FacilitatorScreen extends Component {
   }
 
   saveSelectedData = () => {
-    this.formRef.current.closeSelectBox(null);
     facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 3);
     this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
@@ -113,7 +112,7 @@ class FacilitatorScreen extends Component {
     const {translations} = this.context;
 
     return (
-      <TouchableWithoutFeedback onPress={() => this.formRef.current.closeSelectBox(null)}>
+      <TouchableWithoutFeedback>
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations['getStarted']}
@@ -134,9 +133,7 @@ class FacilitatorScreen extends Component {
                 overlayColor={Color.loadingBackgroundColor}
               />
 
-              <Pressable onPress={() => this.formRef.current.closeSelectBox(null)}
-                style={{paddingBottom: this.state.containerPaddingBottom}}
-              >
+              <Pressable style={{paddingBottom: this.state.containerPaddingBottom}}>
                 <HeaderTitle
                   headline="facilitatorList"
                   subheading="pleaseFillInformationBelow"

@@ -12,14 +12,18 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     height: 58,
     position: 'relative'
   },
-  titleLabel: {
-    backgroundColor: Color.whiteColor,
-    color: Color.inputBorderLineColor,
-    fontSize: 12,
+  titleContainer: {
+    flexDirection: 'row',
     marginLeft: 12,
     paddingHorizontal: 6,
     position: 'absolute',
     top: -12,
+    backgroundColor: Color.whiteColor,
+  },
+  titleLabel: {
+    backgroundColor: Color.whiteColor,
+    color: Color.inputBorderLineColor,
+    fontSize: 12,
   },
   textContainer: {
     flexDirection: 'row',

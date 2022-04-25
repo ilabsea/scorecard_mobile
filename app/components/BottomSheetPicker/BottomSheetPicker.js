@@ -5,6 +5,7 @@ import {LocalizationContext} from '../Translations';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { requireSignFontSize } from '../../utils/font_size_util';
 import BottomSheetPickerTabletStyles from '../../styles/tablet/BottomSheetPickerComponentStyle';
 import BottomSheetPickerMobileStyles from '../../styles/mobile/BottomSheetPickerComponentStyle';
 
@@ -59,7 +60,10 @@ class BottomSheetPicker extends React.Component {
   render() {
     return (
       <View style={[styles.mainContainer, this.props.customContainerStyle, this.getDisableStyle(BORDER)]}>
-        <Text style={[styles.titleLabel, this.getDisableStyle(TEXT)]}>{ this.props.title }</Text>
+        <View style={styles.titleContainer}>
+          <Text style={[styles.titleLabel, this.getDisableStyle(TEXT)]}>{ this.props.title }</Text>
+          { this.props.isRequire && <Text style={{color: Color.redColor, marginTop: -2, fontSize: requireSignFontSize()}}> *</Text> }
+        </View>
 
         <TouchableOpacity onPress={() => this.showPicker()}>
           <View style={styles.textContainer}>

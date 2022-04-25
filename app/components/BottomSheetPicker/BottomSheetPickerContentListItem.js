@@ -22,7 +22,7 @@ class BottomSheetPickerContentListItem extends React.Component {
         >
           <View style={{flex: 1}}>
             <Text style={[styles.itemTitle, { color: this.itemColor(item, Color.blackColor) }]}>{ item.label }</Text>
-            { this.props.showSubtitle && <Text style={[styles.itemSubtitle, { color: this.itemColor(item, Color.graycolor) }]}>{ item.value }</Text> }
+            { this.props.showSubtitle && <Text style={[styles.itemSubtitle, { color: this.itemColor(item, Color.grayColor) }]}>{ item.value }</Text> }
           </View>
 
           { this.hasSelected(item) && <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} /> }
@@ -32,7 +32,7 @@ class BottomSheetPickerContentListItem extends React.Component {
   }
 
   hasSelected(item) {
-    return item.disabled || item === this.props.selectedItem;
+    return item.disabled || item.value === this.props.selectedItem;
   }
 
   itemColor(item, defaultColor) {

@@ -67,12 +67,10 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   render() {
-    const modalTitle = this.props.isDynamicTitle ? this.context.translations[this.props.title] : this.props.title;
-
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor, paddingBottom: 15}}>
-          <BottomSheetModalTitle title={modalTitle} />
+          <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire} />
 
           { this.props.hasSearchBox && this.renderSearchBox() }
           { this.renderList() }

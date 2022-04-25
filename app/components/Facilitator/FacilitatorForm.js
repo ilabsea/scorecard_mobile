@@ -42,7 +42,7 @@ class FacilitatorForm extends Component {
       <BottomSheetPickerContent
         ref={this.pickerContentRef}
         title={title}
-        isDynamicTitle={false}
+        isRequire={index == 0 || index == 1}
         items={this.props.facilitators}
         selectedItem={this.getSelectedFacilitator(this.props.selectedFacilitators[index])}
         contentHeight={facilitatorPickerContentHeight}
@@ -60,7 +60,7 @@ class FacilitatorForm extends Component {
     return Array(environment.numberOfFacilitators)
       .fill()
       .map((_, index) => {
-        const title = `${translations.facilitator} ${index + 1}${index == 0 || index == 1 ? ' *' : ''}`
+        const title = `${translations.facilitator} ${index + 1}`
 
         return <BottomSheetPicker
                   key={index}
@@ -69,6 +69,7 @@ class FacilitatorForm extends Component {
                   items={this.props.facilitators}
                   selectedItem={this.getSelectedFacilitator(this.props.selectedFacilitators[index])}
                   showSubtitle={false}
+                  isRequire={index == 0 || index == 1}
                   customContainerStyle={{ marginTop: 40 }}
                   showPicker={() => this.showPicker(title, index)}
                />

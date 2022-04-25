@@ -24,11 +24,8 @@ export const swotContentHeight = getDeviceStyle('75%', '75%');
 export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
 export const settingContentHeight = getDeviceStyle('54%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);
 
-export const settingEndpointPickerSnapPoints = getDeviceStyle(['31%'], ['50%']);
-export const settingEndpointPickerContentHeight = getDeviceStyle('29%', '48%');
-
-export const settingLanguageSnapPoints = getDeviceStyle(['24%'], ['40%']);
-export const settingLanguageContentHeight = getDeviceStyle('22%', '38%');
+export const settingLanguageSnapPoints = getDeviceStyle(['28%'], ['30%']);
+export const settingLanguageContentHeight = getDeviceStyle('27%', '28%');
 
 export const settingEndpointModalSnapPoints = getDeviceStyle(['76%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
 export const settingEndpointContentHeight = getDeviceStyle('74%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);
@@ -37,9 +34,9 @@ export const indicatorParticipantListModalSnapPoints = getDeviceStyle(['70%'], [
 
 export const indicatorParticipantListModalHeight = getDeviceStyle('68%', '68%');
 
-export const scorecardPreferenceLangaugePickerSnapPoints = getDeviceStyle(['40%'], ['50%']);
-export const scorecardPreferenceLanguagePickerContentHeight = getDeviceStyle('38%',  '48%');
+export const scorecardPreferenceLangaugePickerSnapPoints = ['60%'];
+export const scorecardPreferenceLanguagePickerContentHeight = '58%';
 
-export const facilitatorPickerSnapPoints = getDeviceStyle(['50%', '100%'], ['65%', '100%']);
-export const facilitatorPickerContentHeight = getDeviceStyle('48%', '63%');
+export const facilitatorPickerSnapPoints = getDeviceStyle(['60%', '100%'], ['65%', '100%']);
+export const facilitatorPickerContentHeight = getDeviceStyle('58%', '63%');
 export const facilitatorPickerContentExpanedHeight = '98%';
