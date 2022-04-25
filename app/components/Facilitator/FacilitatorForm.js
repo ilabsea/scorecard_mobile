@@ -18,6 +18,20 @@ class FacilitatorForm extends Component {
       openIndex: null,
       inlineIcons: new Array(environment.numberOfFacilitators),
     };
+
+    this.pickerContentRef = React.createRef();
+    this.isComponentUnmounted = false;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.isComponentUnmounted && prevProps.bottomSheetModalIndex != this.props.bottomSheetModalIndex) {
+      const modalContentHeight = this.props.bottomSheetModalIndex === 1 ? '98%' : facilitatorPickerContentHeight;
+      this.pickerContentRef.current?.setContentHeight(modalContentHeight);
+    }
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmounted = true;
   }
 
   getSelectedFacilitator = (facilitator) => {
@@ -53,14 +67,21 @@ class FacilitatorForm extends Component {
     this.setState({ inlineIcons });
   }
 
+  onSearchBoxFocus() {
+    this.props.pickerModalRef.current?.expand();
+  }
+
   showPicker(title, index) {
     this.props.pickerRef.current?.setBodyContent(
       <BottomSheetPickerContent
+        ref={this.pickerContentRef}
         title={title}
         isDynamicTitle={false}
         items={this.props.facilitators}
         selectedItem={this.getSelectedFacilitator(this.props.selectedFacilitators[index])}
         contentHeight={facilitatorPickerContentHeight}
+        hasSearchBox={true}
+        onSearchBoxFocus={() => this.onSearchBoxFocus()}
         onSelectItem={(item) => this.props.onChangeFacilitator(item, index)}
       />
     );
@@ -84,7 +105,6 @@ class FacilitatorForm extends Component {
                   items={this.props.facilitators}
                   selectedItem={this.getSelectedFacilitator(this.props.selectedFacilitators[index])}
                   showSubtitle={false}
-                  contentHeight='50%'
                   customContainerStyle={{ marginTop: 40 }}
                   showPicker={() => this.showPicker(title, index)}
                />

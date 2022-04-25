@@ -21,15 +21,22 @@ class BottomSheetPickerContentListItem extends React.Component {
           style={[styles.itemContainer, { borderBottomWidth: index == this.props.items.length - 1 ? 0 : 1 }]}
         >
           <View style={{flex: 1}}>
-            <Text style={styles.itemTitle}>{ item.label }</Text>
-            { this.props.showSubtitle && <Text style={styles.itemSubtitle}>{ item.value }</Text> }
+            <Text style={[styles.itemTitle, { color: this.itemColor(item, Color.blackColor) }]}>{ item.label }</Text>
+            { this.props.showSubtitle && <Text style={[styles.itemSubtitle, { color: this.itemColor(item, Color.graycolor) }]}>{ item.value }</Text> }
           </View>
 
-
-          { this.props.selectedItem === item.value && <MaterialIcon name='check' color={Color.clickableColor} size={22} /> }
+          { this.hasSelected(item) && <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} /> }
         </TouchableOpacity>
       )
     })
+  }
+
+  hasSelected(item) {
+    return item.disabled || item === this.props.selectedItem;
+  }
+
+  itemColor(item, defaultColor) {
+    return (item.disabled && item.value != this.props.selectedItem) ? Color.disableCardColor : defaultColor;
   }
 
   render() {

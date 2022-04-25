@@ -30,6 +30,7 @@ class FacilitatorScreen extends Component {
       isLoading: false,
       modalVisible: false,
       errorType: null,
+      bottomSheetModalIndex: -1
     };
 
     this.formRef = React.createRef();
@@ -65,6 +66,7 @@ class FacilitatorScreen extends Component {
       isError: selectedFacilitators[0] === null || selectedFacilitators[1] === null
     });
     this.updateFacilitators();
+    this.pickerModalRef.current?.dismiss();
   }
 
   updateFacilitators = () => {
@@ -148,6 +150,7 @@ class FacilitatorScreen extends Component {
                   selectedFacilitators={this.state.selectedFacilitators}
                   onChangeFacilitator={this.onChangeFacilitator}
                   updateContainerPadding={(value) => this.setState({ containerPaddingBottom: value })}
+                  bottomSheetModalIndex={this.state.bottomSheetModalIndex}
                 />
               </Pressable>
             </ScrollView>
@@ -157,7 +160,9 @@ class FacilitatorScreen extends Component {
 
           { this.renderErrorMessageModal() }
 
-          <FormBottomSheetModal ref={this.pickerRef} formModalRef={this.pickerModalRef} snapPoints={facilitatorPickerSnapPoints} onDismissModal={() => this.pickerRef.current?.setBodyContent(null)} />
+          <FormBottomSheetModal ref={this.pickerRef} formModalRef={this.pickerModalRef} snapPoints={facilitatorPickerSnapPoints} onDismissModal={() => this.pickerRef.current?.setBodyContent(null)}
+            onChange={(index) => this.setState({ bottomSheetModalIndex: index })}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

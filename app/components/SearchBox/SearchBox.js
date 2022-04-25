@@ -26,8 +26,8 @@ class SearchBox extends React.Component {
             clearButtonMode='always'
             style={styles.searchInput}
             onChangeText={(text) => this.props.onChangeText(text)}
-            onFocus={() => this.props.updateFocusStatus(true)}
-            onBlur={() => this.props.updateFocusStatus(false)}
+            onFocus={() => !!this.props.onFocus && this.props.onFocus(true)}
+            onBlur={() => !!this.props.onBlur && this.props.onBlur(false)}
             placeholderTextColor={placeholderColor}
           />
 
@@ -53,10 +53,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    paddingBottom: 12,
-    borderBottomWidth: 0.5,
+    paddingBottom: 5,
     borderBottomColor: Color.paleGrayColor,
     flexDirection: 'row',
+    marginTop: 5,
   },
   searchInput: {
     fontFamily: FontFamily.body,
