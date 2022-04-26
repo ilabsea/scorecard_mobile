@@ -10,7 +10,7 @@ const Facilitator = (() => {
   }
 
   function getAll(scorecardUuid) {
-    return realm.objects('Facilitator').filtered(`scorecard_uuid='${scorecardUuid}'`);
+    return realm.objects('Facilitator').filtered(`scorecard_uuid='${scorecardUuid}' SORT(order ASC)`);
   }
 
   function create(data) {
