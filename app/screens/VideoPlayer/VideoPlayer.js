@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, BackHandler } from 'react-native';
 import YouTube from 'react-native-youtube';
 
 import { LocalizationContext } from '../../components/Translations';
@@ -27,11 +27,17 @@ class VideoPlayer extends React.Component {
         !hasConnection && internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection);
       }
     });
+
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.goBack();
+      return true;
+    });
   }
 
   componentWillUnmount() {
     this.isComponnetUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
+    this.backHandler.remove();
   }
 
   async goBack() {
