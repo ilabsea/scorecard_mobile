@@ -8,14 +8,15 @@ import BottomButton from '../../components/BottomButton';
 import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';
 import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { environment } from '../../config/environment';
-
 import Color from '../../themes/color';
-
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
 
 class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
@@ -29,9 +30,12 @@ class FacilitatorScreen extends Component {
       isLoading: false,
       modalVisible: false,
       errorType: null,
+      bottomSheetModalIndex: -1
     };
 
     this.formRef = React.createRef();
+    this.pickerRef = React.createRef();
+    this.pickerModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -62,6 +66,7 @@ class FacilitatorScreen extends Component {
       isError: selectedFacilitators[0] === null || selectedFacilitators[1] === null
     });
     this.updateFacilitators();
+    this.pickerModalRef.current?.dismiss();
   }
 
   updateFacilitators = () => {
@@ -77,7 +82,6 @@ class FacilitatorScreen extends Component {
   }
 
   saveSelectedData = () => {
-    this.formRef.current.closeSelectBox(null);
     facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 3);
     this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
@@ -108,7 +112,7 @@ class FacilitatorScreen extends Component {
     const {translations} = this.context;
 
     return (
-      <TouchableWithoutFeedback onPress={() => this.formRef.current.closeSelectBox(null)}>
+      <TouchableWithoutFeedback>
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={translations['getStarted']}
@@ -129,9 +133,7 @@ class FacilitatorScreen extends Component {
                 overlayColor={Color.loadingBackgroundColor}
               />
 
-              <Pressable onPress={() => this.formRef.current.closeSelectBox(null)}
-                style={{paddingBottom: this.state.containerPaddingBottom}}
-              >
+              <Pressable style={{paddingBottom: this.state.containerPaddingBottom}}>
                 <HeaderTitle
                   headline="facilitatorList"
                   subheading="pleaseFillInformationBelow"
@@ -139,10 +141,13 @@ class FacilitatorScreen extends Component {
 
                 <FacilitatorForm
                   ref={this.formRef}
+                  pickerRef={this.pickerRef}
+                  pickerModalRef={this.pickerModalRef}
                   facilitators={this.state.facilitators}
                   selectedFacilitators={this.state.selectedFacilitators}
                   onChangeFacilitator={this.onChangeFacilitator}
                   updateContainerPadding={(value) => this.setState({ containerPaddingBottom: value })}
+                  bottomSheetModalIndex={this.state.bottomSheetModalIndex}
                 />
               </Pressable>
             </ScrollView>
@@ -151,6 +156,10 @@ class FacilitatorScreen extends Component {
           { this.renderNextButton() }
 
           { this.renderErrorMessageModal() }
+
+          <FormBottomSheetModal ref={this.pickerRef} formModalRef={this.pickerModalRef} snapPoints={facilitatorPickerSnapPoints} onDismissModal={() => this.pickerRef.current?.setBodyContent(null)}
+            onChange={(index) => this.setState({ bottomSheetModalIndex: index })}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

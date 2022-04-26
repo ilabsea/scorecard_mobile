@@ -47,16 +47,11 @@ class DatePicker extends Component {
     this.setState({ isPickerVisible: false });
   }
 
-  showDatePicker = () => {
-    this.setState({ isPickerVisible: true });
-    this.props.onOpenPicker();
-  }
-
   _renderDate = () => {
     return (
       <TouchableOpacity
         style={styles.pickerContainer}
-        onPress={() => this.showDatePicker()}
+        onPress={() => this.setState({ isPickerVisible: true })}
       >
         <Icon
           color={Color.inputBorderLineColor}

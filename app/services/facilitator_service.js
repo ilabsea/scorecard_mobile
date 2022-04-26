@@ -36,7 +36,10 @@ const facilitatorService = (() => {
       name: caf.label,
       position: index === 0 ? 'lead' : 'other',
       scorecard_uuid: scorecardUuid,
+      order: index + 1
     };
+
+    console.log('create facilitator == ', attrs)
 
     Facilitator.create(attrs);
   }

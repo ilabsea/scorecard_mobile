@@ -345,5 +345,6 @@
   "UrlEndpoint": "អាស័យដ្ឋានម៉ាស៊ីនមេ",
   "enterEndpointLabel": "សូមបញ្ចូលឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេ",
   "enterUrlEndpoint": "សូមបញ្ចូលអាស័យដ្ឋាន",
-  "pleaseEnterInformationBelow": "សូមបញ្ចូលព័ត៌មានខាងក្រោម"
+  "pleaseEnterInformationBelow": "សូមបញ្ចូលព័ត៌មានខាងក្រោម",
+  "selectEndpointUrl": "ជ្រើសរើសអាស័យដ្ឋានម៉ាស៊ីនមេ"
 }

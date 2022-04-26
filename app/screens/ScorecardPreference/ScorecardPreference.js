@@ -7,6 +7,7 @@ import ProgressHeader from '../../components/ProgressHeader';
 import ScorecardPreferenceForm from '../../components/ScorecardPreference/ScorecardPreferenceForm';
 import ScorecardPreferenceButtons from '../../components/ScorecardPreference/ScorecardPreferenceButtons';
 import ScorecardPreferenceModals from '../../components/ScorecardPreference/ScorecardPreferenceModals';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
@@ -15,6 +16,7 @@ import scorecardSyncService from '../../services/scorecard_sync_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
+import { scorecardPreferenceLangaugePickerSnapPoints } from '../../constants/modal_constant';
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -50,6 +52,8 @@ class ScorecardPreference extends Component {
 
     _this = this;
     this.formRef = React.createRef();
+    this.pickerModalRef = React.createRef();
+    this.pickerRef =  React.createRef();
     this.unsubscribeNetInfo;
   }
 
@@ -65,7 +69,7 @@ class ScorecardPreference extends Component {
     scorecardPreferenceService.loadProgramLanguage(this.state.scorecard, appLanguage,
       (languageSet) => {
         this.setState({
-          languages: languageSet.languages,
+          languages: languageSet.languages.sort((a, b) => a.label > b.label),
           textLocale: languageSet.textLocale,
           audioLocale: languageSet.audioLocale,
         });
@@ -87,7 +91,6 @@ class ScorecardPreference extends Component {
   }
 
   saveSelectedData = () => {
-    this.formRef.current.closeAllSelectBox()
     const {date, textLocale, audioLocale} = this.state;
     scorecardPreferenceService.saveSelectedData(this.props.route.params.scorecard_uuid, date, textLocale, audioLocale);
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 2);
@@ -207,13 +210,15 @@ class ScorecardPreference extends Component {
         scorecard={this.state.scorecard}
         textLocale={this.state.textLocale}
         audioLocale={this.state.audioLocale}
+        pickerRef={this.pickerRef}
+        pickerModalRef={this.pickerModalRef}
       />
     )
   }
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={() => this.formRef.current.closeAllSelectBox()}>
+      <TouchableWithoutFeedback>
         <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
           <ProgressHeader
             title={this.context.translations['getStarted']}
@@ -224,6 +229,10 @@ class ScorecardPreference extends Component {
           { this.renderBottomButtons() }
 
           { this.renderModals() }
+
+          <FormBottomSheetModal ref={this.pickerRef} formModalRef={this.pickerModalRef} snapPoints={scorecardPreferenceLangaugePickerSnapPoints}
+            onDismissModal={() => this.pickerRef.current?.setBodyContent(null)}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

@@ -21,7 +21,7 @@ const DatePickerComponentStyles = StyleSheet.create({
     height: 60,
     paddingLeft: 14,
     borderColor: Color.inputBorderLineColor,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center'

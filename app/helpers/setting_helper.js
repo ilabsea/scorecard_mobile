@@ -10,6 +10,7 @@ const settingHelper = (() => {
     getProposedIndicatorMethodByIndex,
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
+    getEndpointPickerHeight,
   };
 
   async function changeable(newEndpoint) {
@@ -52,6 +53,14 @@ const settingHelper = (() => {
 
   function getProposedIndicatorMethodTracingStep(index) {
     return getProposedIndicatorMethodByIndex(index) === INDICATOR_BASE ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
+  }
+
+  function getEndpointPickerHeight(type, endpointUrls) {
+    const heights = {
+      'snap_points': endpointUrls.length > 3 ? ['60%'] : ['40%'],
+      'content': endpointUrls.length > 3 ? '58%' : '38%]'
+    }
+    return heights[type];
   }
 })();
 

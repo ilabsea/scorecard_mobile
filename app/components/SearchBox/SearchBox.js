@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Input, Item, Icon } from 'native-base';
 
@@ -9,7 +9,7 @@ import { bodyFontSize } from '../../utils/font_size_util';
 
 import { LocalizationContext } from '../../components/Translations';
 
-class LocationSearchBox extends Component {
+class SearchBox extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
@@ -22,16 +22,16 @@ class LocationSearchBox extends Component {
           <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
           <Input
             placeholder={ translations.searchLocation }
-            value={this.props.searchedLocation}
+            value={this.props.value}
             clearButtonMode='always'
             style={styles.searchInput}
             onChangeText={(text) => this.props.onChangeText(text)}
-            onFocus={() => this.props.updateFocusStatus(true)}
-            onBlur={() => this.props.updateFocusStatus(false)}
+            onFocus={() => !!this.props.onFocus && this.props.onFocus(true)}
+            onBlur={() => !!this.props.onBlur && this.props.onBlur(false)}
             placeholderTextColor={placeholderColor}
           />
 
-          { !!this.props.searchedLocation &&
+          { !!this.props.value &&
             <TouchableOpacity onPress={() => this.props.onClearSearch()} style={{justifyContent: 'center', width: pressableItemSize(), alignItems: 'center'}}>
               <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: Color.grayColor}} />
             </TouchableOpacity>
@@ -53,10 +53,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    paddingBottom: 12,
-    borderBottomWidth: 0.5,
+    paddingBottom: 5,
     borderBottomColor: Color.paleGrayColor,
     flexDirection: 'row',
+    marginTop: 5,
   },
   searchInput: {
     fontFamily: FontFamily.body,
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LocationSearchBox;
+export default SearchBox;

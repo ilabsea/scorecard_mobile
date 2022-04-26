@@ -4,9 +4,9 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
-import CustomDropdownPicker from '../CustomDropdownPicker/CustomDropdownPicker';
 import HeaderTitle from '../HeaderTitle';
 import DatePicker from '../DatePicker';
+import ScorecardPreferenceLanguagePickers from './ScorecardPreferenceLanguagePickers'
 
 import Color from '../../themes/color';
 import { todayDate } from '../../utils/date_util';
@@ -27,7 +27,6 @@ class ScorecardPreferenceForm extends Component {
       textLocale: props.scorecard.text_language_code || '',
       audioLocale: props.scorecard.audio_language_code || '',
       openDropDownType: null,
-      openPickerId: null,
     };
 
     this.textLanguageController;
@@ -42,21 +41,6 @@ class ScorecardPreferenceForm extends Component {
       };
 
     return {};
-  }
-
-  closeAllSelectBox = () => {
-    this.setState({ openPickerId: null });
-  }
-
-  // Refactor these functions
-  changeTextLocale = (item) => {
-    this.setState({ textLocale: item.value });
-    this.props.changeValue('textLocale', item.value);
-  }
-
-  changeAudioLocale = (item) => {
-    this.setState({ audioLocale: item.value });
-    this.props.changeValue('audioLocale', item.value);
   }
 
   changeDate = (date) => {
@@ -85,52 +69,39 @@ class ScorecardPreferenceForm extends Component {
       this.updateContainerPadding(false);
   }
 
-  renderForm = () => {
-    const {translations} = this.context;
+  onChangeLocale(type, item) {
+    const languages = {
+      'TEXT_LANG': { state: { textLocale: item.value }, label: 'textLocale' },
+      'AUDIO_LANG': { state: { audioLocale: item.value }, label: 'audioLocale' }
+    };
+    this.setState(languages[type].state);
+    this.props.changeValue(languages[type].label, item.value)
+  }
+
+  renderLanguagePickers() {
     const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.props.scorecard.uuid);
 
+    return <ScorecardPreferenceLanguagePickers
+              languages={this.props.languages}
+              textLocale={this.state.textLocale}
+              audioLocale={this.state.audioLocale}
+              onChangeLocale={(type, item) => this.onChangeLocale(type, item)}
+              pickerRef={this.props.pickerRef}
+              pickerModalRef={this.props.pickerModalRef}
+              disabled={hasScorecardDownload}
+           />
+  }
+
+  renderForm = () => {
     return (
       <View style={{marginTop: 10}}>
         <DatePicker
           date={this.state.date}
           onChangeDate={this.changeDate}
-          onOpenPicker={() => this.closeAllSelectBox()}
           scorecard={this.props.scorecard}
         />
 
-        <CustomDropdownPicker
-          id={1}
-          openId={this.state.openPickerId}
-          setOpenId={(openId) => this.setState({ openPickerId: openId })}
-          items={this.props.languages}
-          selectedItem={this.state.textLocale}
-          zIndex={6000}
-          label={translations.textDisplayIn}
-          itemIndex={0}
-          customWrapperStyle={{ marginBottom: 0, marginTop: 20 }}
-          unselectedBorder={{ borderColor: Color.grayColor, borderWidth: 2 }}
-          disabled={hasScorecardDownload}
-          onSelectItem={(item) => this.changeTextLocale(item)}
-          onOpen={() => this.onTextLanguageOpen()}
-          onClose={() => this.onCloseDropDown('text')}
-        />
-
-        <CustomDropdownPicker
-          id={2}
-          openId={this.state.openPickerId}
-          setOpenId={(openId) => this.setState({ openPickerId: openId })}
-          items={this.props.languages}
-          selectedItem={this.state.audioLocale}
-          zIndex={5000}
-          label={translations.audioPlayIn}
-          itemIndex={0}
-          customWrapperStyle={{ marginBottom: 0, marginTop: 30 }}
-          unselectedBorder={{ borderColor: Color.grayColor, borderWidth: 2 }}
-          disabled={hasScorecardDownload}
-          onSelectItem={(item) => this.changeAudioLocale(item)}
-          onOpen={() => this.onTextLanguageOpen()}
-          onClose={() => this.onCloseDropDown('audio')}
-        />
+        { this.renderLanguagePickers() }
       </View>
     );
   };

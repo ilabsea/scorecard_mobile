@@ -78,3 +78,7 @@ export const accordionItemFontSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(14, 13);
   return getDeviceStyle(16, mobileFontSize);
 }
+
+export const requireSignFontSize = () => {
+  return 14;
+}

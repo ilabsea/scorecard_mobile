@@ -3,11 +3,11 @@ import { View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../../components/Translations';
-import LocationSearchBox from '../../components/FilterScorecard/LocationSearchBox';
 import LocationList from '../../components/FilterScorecard/LocationList';
 import FilterScorecardHeader from '../../components/FilterScorecard/FilterScorecardHeader';
 import FilterScorecardStatusAndTypeOptions from '../../components/FilterScorecard/FilterScorecardStatusAndTypeOptions';
 import FilterScorecardApplyButton from '../../components/FilterScorecard/FilterScorecardApplyButton';
+import SearchBox from '../../components/SearchBox/SearchBox';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
@@ -88,14 +88,13 @@ class FilterScorecard extends Component {
   }
 
   renderLocationSearchBox() {
-    return (
-      <LocationSearchBox
-        searchedLocation={this.state.searchedProvince}
-        onChangeText={(text) => this.setState({ searchedProvince: text, isReset: false })}
-        onClearSearch={() => this.setState({ searchedProvince: '' })}
-        updateFocusStatus={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
-      />
-    )
+    return <SearchBox
+              value={this.state.searchedProvince}
+              onChangeText={(text) => this.setState({ searchedProvince: text, isReset: false })}
+              onClearSearch={() => this.setState({ searchedProvince: '' })}
+              onFocus={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
+              onBlur={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
+           />
   }
 
   renderLocationList() {
