@@ -12,7 +12,7 @@ class ScorecardResultTable extends Component {
 
   render() {
     const { translations } = this.context;
-    let tableHead = ['criteria', 'score', 'strength', 'weakness', 'suggested_action'];
+    let tableHead = ['indicator', 'score', 'strength', 'weakness', 'suggested_action'];
     tableHead = tableHead.map(x => translations[x]);
 
     return (
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     margin: 6,
     textAlign: 'center',
     fontFamily: FontFamily.title,
-    fontSize: 18
+    fontSize: 18,
   },
 });
 

@@ -64,7 +64,8 @@ const endpointFormService = (() => {
   }
 
   function setTemporarySelectedEndpoint(endpointUrl) {
-    AsyncStorage.setItem('TEMP_ENDPOINT_URL', endpointUrl)
+    if (!!endpointUrl)
+      AsyncStorage.setItem('TEMP_ENDPOINT_URL', endpointUrl)
   }
 
   async function getTemporarySelectedEndpoint() {
