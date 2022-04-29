@@ -4,6 +4,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { CUSTOM } from '../../constants/main_constant';
 import BottomSheetPickerTabletStyles from '../../styles/tablet/BottomSheetPickerComponentStyle';
 import BottomSheetPickerMobileStyles from '../../styles/mobile/BottomSheetPickerComponentStyle';
 
@@ -22,7 +23,13 @@ class BottomSheetPickerContentListItem extends React.Component {
             { this.props.showSubtitle && <Text style={[styles.itemSubtitle, { color: this.itemColor(item, Color.grayColor) }]}>{ item.value }</Text> }
           </View>
 
-          { this.hasSelected(item) && <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} /> }
+          { this.hasSelected(item) && <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} style={{marginRight: item.type == CUSTOM ? 20 : 0}} /> }
+
+          { item.type == CUSTOM && 
+            <TouchableOpacity onPress={() => this.props.showEditForm(item)} style={styles.editButton} >
+              <MaterialIcon name='edit' color={Color.clickableColor} size={20} />
+            </TouchableOpacity>
+          }
         </TouchableOpacity>
       )
     })

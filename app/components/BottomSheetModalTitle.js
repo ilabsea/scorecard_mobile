@@ -18,7 +18,7 @@ const BottomSheetModalTitle = (props) => {
           { props.isRequire && <Text style={[{color: Color.redColor}, responsiveStyles.headerTitle]}> *</Text> }
         </Text>
 
-        { !!props.rightButton &&
+        { (!!props.hasAddButton && !!props.rightButton) &&
           <View style={props.rightContainerStyle}>{ props.rightButton }</View>
         }
       </View>

@@ -14,8 +14,6 @@ import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton
 
 import { containerPadding } from '../../utils/responsive_util';
 
-let _this = null;
-
 class BottomSheetPickerContent extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
@@ -26,8 +24,6 @@ class BottomSheetPickerContent extends React.Component {
       items: this.props.items,
       contentHeight: this.props.contentHeight,
     };
-
-    _this = this;
   }
 
   setContentHeight(contentHeight) {
@@ -48,6 +44,7 @@ class BottomSheetPickerContent extends React.Component {
               selectedItem={this.state.selectedItem}
               onSelectItem={(item) => this.onSelectItem(item)}
               showSubtitle={this.props.showSubtitle}
+              showEditForm={this.props.showEditForm}
            />
   }
 
@@ -86,9 +83,9 @@ class BottomSheetPickerContent extends React.Component {
 
   renderBottomSection() {
     return <View style={{paddingTop: 10}}>
-              <EndpointUrlTermConditions/>
+              { this.props.hasTermConditions && <EndpointUrlTermConditions/> }
 
-              <FormBottomSheetButton isValid={true} save={() => _this.props.changeSelectedEndpoint()}
+              <FormBottomSheetButton isValid={true} save={() => this.props.changeSelectedEndpoint()}
                 wrapperStyle={{paddingTop: 0, marginTop: 10}}
                 label={this.context.translations.change}
               />
@@ -102,6 +99,7 @@ class BottomSheetPickerContent extends React.Component {
           <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire}
             rightContainerStyle={{marginTop: -10}}
             rightButton={this.renderRightButton()}
+            hasAddButton={this.props.hasAddButton}
           />
 
           { this.props.hasSearchBox && this.renderSearchBox() }

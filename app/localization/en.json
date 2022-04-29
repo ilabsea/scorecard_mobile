@@ -354,5 +354,8 @@
   "willNotBeAbleToContinueTheSetup": "will not be able to continue the setup",
   "willNotBeAbleToSubmitTheScorecard": "will not be able to submit the scorecard",
   "willNotBeAbleToSharePDF": "will  not be able to share the scorecard PDF file",
-  "changingEnpiontUrlWillAffectTheScorecard": "Changing the server address will affect the scorecard you currently have."
+  "changingEnpiontUrlWillAffectTheScorecard": "Changing the server address will affect the scorecard you currently have",
+  "saveAndChange": "Save and Change",
+  "deleteUrlEndpoint": "Delete URL endpoint",
+  "cannotDeleteThisUrlEndpoint": "Cannot delete this URL endpoint because it is being selected"
 }

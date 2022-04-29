@@ -36,12 +36,17 @@ class SettingUrlEndpointPicker extends React.Component {
   showBottomSheetModal(type) {
     const modals = {
       'dropdown_picker': { content: this.renderBottomSheetPickerContent(), snapPoints: settingHelper.getEndpointPickerHeight('snap_points', this.state.endpointUrls) },
-      'form_create': { content: this.renderSettingUrlEndpointForm(), snapPoints: settingEndpointModalSnapPoints },
+      'form_create': { content: this.renderSettingUrlEndpointForm(null), snapPoints: settingEndpointModalSnapPoints },
     };
 
     this.props.formRef.current?.setSnapPoints(modals[type].snapPoints);
     this.props.formRef.current?.setBodyContent(modals[type].content);
     this.props.formModalRef.current?.present();
+  }
+
+  showEditForm(item) {
+    this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
+    this.props.formRef.current?.setBodyContent(this.renderSettingUrlEndpointForm(item));
   }
 
   renderBottomSheetPickerContent() {
@@ -56,20 +61,31 @@ class SettingUrlEndpointPicker extends React.Component {
             showSubtitle={true}
             showEndpointUrlForm={() => this.showBottomSheetModal('form_create')}
             changeSelectedEndpoint={() => this.changeSelectedEndpoint()}
+            showEditForm={(item) => this.showEditForm(item)}
+            hasTermConditions={true}
+            hasAddButton={true}
           />
   }
 
   saveNewEndpoint(endpointValue) {
     this.props.updateBackendUrl(endpointValue);
-    this.loadEndpointUrls();
+    this.setState({ selectedEndpoint: endpointValue });
+    this.reloadEndpoint();
+  }
+
+  reloadEndpoint() {
     setTimeout(() => {
-      this.setState({ selectedEndpoint: endpointValue })
+      this.loadEndpointUrls();
       this.props.formModalRef.current?.dismiss();
     }, 50);
   }
 
-  renderSettingUrlEndpointForm() {
-    return <SettingUrlEndpointForm saveNewEndpoint={this.saveNewEndpoint} endpointUrls={this.state.endpointUrls}/>
+  renderSettingUrlEndpointForm(editEndpoint) {
+    return <SettingUrlEndpointForm saveNewEndpoint={(endpointValue) => this.saveNewEndpoint(endpointValue)}
+              endpointUrls={this.state.endpointUrls} editEndpoint={editEndpoint}
+              selectedEndpoint={this.state.selectedEndpoint}
+              reloadEndpoint={() => this.reloadEndpoint()}
+           />
   }
 
   changeSelectedEndpoint() {
