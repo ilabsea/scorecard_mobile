@@ -12,9 +12,6 @@ const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMo
 class BottomSheetPickerContentListItem extends React.Component {
   renderListItem() {
     return this.props.items.map((item, index) => {
-      if (!item.value && this.props.lastListItem)
-        return this.props.lastListItem;
-
       return (
         <TouchableOpacity key={index}
           onPress={() => this.props.onSelectItem(item)}

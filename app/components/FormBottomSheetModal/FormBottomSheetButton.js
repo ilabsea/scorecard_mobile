@@ -12,12 +12,12 @@ const FormBottomSheetButton = (props) => {
 
   return (
     <View style={[styles.btnWrapper,
-      { margin: containerPadding, paddingTop: containerPadding }]}
+      { margin: containerPadding, paddingTop: containerPadding }, props.wrapperStyle]}
     >
       <SaveButton
         disabled={!props.isValid}
         onPress={() => props.save()}
-        label={translations.save}
+        label={props.label || translations.save}
         customStyle={{ flex: 1, marginLeft: 0 }}
       />
     </View>

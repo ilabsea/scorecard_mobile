@@ -12,10 +12,16 @@ const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobile
 const BottomSheetModalTitle = (props) => {
   return (
     <View>
-      <Text style={[styles.title, responsiveStyles.headerTitle, { padding: containerPadding }]} numberOfLines={1}>
-        { props.title }
-        { props.isRequire && <Text style={[{color: Color.redColor}, responsiveStyles.headerTitle]}> *</Text> }
-      </Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: containerPadding}}>
+        <Text style={[styles.title, responsiveStyles.headerTitle]} numberOfLines={1}>
+          { props.title }
+          { props.isRequire && <Text style={[{color: Color.redColor}, responsiveStyles.headerTitle]}> *</Text> }
+        </Text>
+
+        { !!props.rightButton &&
+          <View style={props.rightContainerStyle}>{ props.rightButton }</View>
+        }
+      </View>
       <DashedLine containerStyle={props.dashedLineStyle} />
     </View>
   )

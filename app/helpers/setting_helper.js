@@ -57,8 +57,10 @@ const settingHelper = (() => {
 
   function getEndpointPickerHeight(type, endpointUrls) {
     const heights = {
-      'snap_points': endpointUrls.length > 3 ? ['60%'] : ['40%'],
-      'content': endpointUrls.length > 3 ? '58%' : '38%]'
+      // 'snap_points': endpointUrls.length > 3 ? ['60%'] : ['40%'],
+      // 'content': endpointUrls.length > 3 ? '58%' : '38%]'
+      'snap_points': ['75%'],
+      'content': '73%'
     }
     return heights[type];
   }

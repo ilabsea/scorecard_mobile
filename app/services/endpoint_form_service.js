@@ -38,7 +38,7 @@ const endpointFormService = (() => {
       endpointUrls = defaultEndpointUrls;
       AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
     }
-    endpointUrls.push({ label: 'Add new URL endpoint', value: '' });
+
     return endpointUrls;
   }
 

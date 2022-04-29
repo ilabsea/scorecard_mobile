@@ -8,6 +8,10 @@ import Color from '../../themes/color';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
 import SearchBox from '../SearchBox/SearchBox';
+import OutlinedButton from '../OutlinedButton';
+import EndpointUrlTermConditions from '../EndpointUrlTermConditions';
+import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
+
 import { containerPadding } from '../../utils/responsive_util';
 
 class BottomSheetPickerContent extends React.Component {
@@ -36,7 +40,6 @@ class BottomSheetPickerContent extends React.Component {
               items={this.state.items}
               selectedItem={this.state.selectedItem}
               onSelectItem={(item) => this.onSelectItem(item)}
-              lastListItem={this.props.lastListItem}
               showSubtitle={this.props.showSubtitle}
            />
   }
@@ -66,14 +69,37 @@ class BottomSheetPickerContent extends React.Component {
            />
   }
 
+  renderRightButton() {
+    return <OutlinedButton
+            icon="plus"
+            label={this.context.translations.addNewUrlEndpoint}
+            onPress={() => this.props.showEndpointUrlForm() }
+          />
+  }
+
+  renderBottomSection() {
+    return <View style={{paddingTop: 10}}>
+             <EndpointUrlTermConditions/>
+
+             <FormBottomSheetButton isValid={true} save={() => console.log('save')}
+              wrapperStyle={{paddingTop: 0, marginTop: 10}}
+              label='ធ្វើការផ្លាស់ប្ដូរ'
+             />
+           </View>
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor, paddingBottom: 15}}>
-          <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire} />
+        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor}}>
+          <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire}
+            rightContainerStyle={{marginTop: -10}}
+            rightButton={this.renderRightButton()}
+          />
 
           { this.props.hasSearchBox && this.renderSearchBox() }
           { this.renderList() }
+          { this.renderBottomSection() }
         </View>
       </TouchableWithoutFeedback>
     )

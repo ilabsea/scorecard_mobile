@@ -41,9 +41,9 @@ const SettingUrlEndpointPicker = (props) => {
     }, 50);
   }
 
-  function addNewUrlEnpointItem() {
-    return <SettingUrlEndpointAddNewButton key={endpointUrls.length} onPress={() => showBottomSheetModal('form_create')} />
-  }
+  // function addNewUrlEnpointItem() {
+  //   return <SettingUrlEndpointAddNewButton key={endpointUrls.length} onPress={() => showBottomSheetModal('form_create')} />
+  // }
 
   function showBottomSheetModal(type) {
     const modals = {
@@ -68,9 +68,9 @@ const SettingUrlEndpointPicker = (props) => {
             isRequire={true}
             contentHeight={settingHelper.getEndpointPickerHeight('content', endpointUrls)}
             onSelectItem={(item) => onChangeEndpoint(item)}
-            lastListItem={addNewUrlEnpointItem()}
             scrollViewStyle={{ paddingBottom: 0 }}
             showSubtitle={true}
+            showEndpointUrlForm={() => showBottomSheetModal('form_create')}
           />
   }
 

@@ -346,5 +346,13 @@
   "enterEndpointLabel": "សូមបញ្ចូលឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេ",
   "enterUrlEndpoint": "សូមបញ្ចូលអាស័យដ្ឋាន",
   "pleaseEnterInformationBelow": "សូមបញ្ចូលព័ត៌មានខាងក្រោម",
-  "selectEndpointUrl": "ជ្រើសរើសអាស័យដ្ឋានម៉ាស៊ីនមេ"
+  "selectEndpointUrl": "ជ្រើសរើសអាស័យដ្ឋានម៉ាស៊ីនមេ",
+  "change": "ធ្វើការផ្លាស់ប្ដូរ",
+  "runningScorecard": "ប័ណ្ណដាក់ពិន្ទុកំពុងដំណើរការ",
+  "finishedScorecard": "ប័ណ្ណដាក់ពិន្ទុបានបញ្ចប់",
+  "CompletedScorecard": "ប័ណ្ណដាក់ពិន្ទុដែលបានអនុវត្តរួចរាល់",
+  "willNotBeAbleToContinueTheSetup": "នឹងមិនអាចធ្វើការអនុវត្តបន្ដទៅមុខបាន",
+  "willNotBeAbleToSubmitTheScorecard": "នឹងមិនអាចធ្វើការដាក់ស្នើ",
+  "willNotBeAbleToSharePDF": "នឹងមិនអាចធ្វើការចែករំលែកឯកសារ PDF",
+  "changingEnpiontUrlWillAffectTheScorecard": "ការផ្លាស់ប្ដូរអាស័យដ្ឋានម៉ាសុីនមេនឹងធ្វើឲ្យមានផលប៉ះពាល់ទៅដល់ប័ណ្ណដាក់ពិន្ទុដែលអ្នកកំពុងមាន"
 }
