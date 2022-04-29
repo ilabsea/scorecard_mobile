@@ -34,7 +34,7 @@ class EndpointUrlTermConditions extends React.Component {
   render() {
     return (
       <View style={{paddingHorizontal: containerPadding}}>
-        <Text style={{fontSize: smallTextFontSize()}}>{ this.context.translations.changingEnpiontUrlWillAffectTheScorecard }</Text>
+        <Text style={{fontSize: smallTextFontSize()}}>{ this.context.translations.changingEnpiontUrlWillAffectTheScorecard }:</Text>
         { this.renderList() }
       </View>
     )

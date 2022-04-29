@@ -14,13 +14,20 @@ import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton
 
 import { containerPadding } from '../../utils/responsive_util';
 
+let _this = null;
+
 class BottomSheetPickerContent extends React.Component {
   static contextType = LocalizationContext;
-  state = {
-    selectedItem: this.props.selectedItem,
-    searchedFacilitator: '',
-    items: this.props.items,
-    contentHeight: this.props.contentHeight,
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItem: this.props.selectedItem,
+      searchedFacilitator: '',
+      items: this.props.items,
+      contentHeight: this.props.contentHeight,
+    };
+
+    _this = this;
   }
 
   setContentHeight(contentHeight) {
@@ -79,12 +86,12 @@ class BottomSheetPickerContent extends React.Component {
 
   renderBottomSection() {
     return <View style={{paddingTop: 10}}>
-             <EndpointUrlTermConditions/>
+              <EndpointUrlTermConditions/>
 
-             <FormBottomSheetButton isValid={true} save={() => console.log('save')}
-              wrapperStyle={{paddingTop: 0, marginTop: 10}}
-              label='ធ្វើការផ្លាស់ប្ដូរ'
-             />
+              <FormBottomSheetButton isValid={true} save={() => _this.props.changeSelectedEndpoint()}
+                wrapperStyle={{paddingTop: 0, marginTop: 10}}
+                label={this.context.translations.change}
+              />
            </View>
   }
 
