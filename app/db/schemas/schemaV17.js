@@ -28,7 +28,7 @@ const schemaV17 = {
     if (oldRealm.schemaVersion < 17) {
       const oldFacilitators = oldRealm.objects('Scorecard');
       const newFacilitators = newRealm.objects('Scorecard');
-      const savedSetting = await AsyncStorage.getItem('SETTING');
+      const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
 
       oldFacilitators.map((oldFacilitator, index) => {
         if (!oldFacilitator.endpoint_url)

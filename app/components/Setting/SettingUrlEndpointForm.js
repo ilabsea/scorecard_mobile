@@ -25,9 +25,14 @@ class SettingUrlEndpointForm extends React.Component {
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
       isFormValid: props.editEndpoint ? true : false,
-      isEndpointValueFocused: false
+      isEndpointValueFocused: false,
+      isAllowToDeleteOrEdit: false
     }
     this.scrollViewRef = React.createRef();
+  }
+
+  async componentDidMount() {
+    this.setState({ isAllowToDeleteOrEdit: this.props.editEndpoint ? await endpointFormService.isAllowToDeleteOrEdit(this.props.editEndpoint, this.props.selectedEndpoint) : true });
   }
 
   onChangeText = (fieldName, value) => {
@@ -95,6 +100,7 @@ class SettingUrlEndpointForm extends React.Component {
 
         { !!this.props.editEndpoint &&
           <SettingUrlEndpointDeleteButton editEndpoint={this.props.editEndpoint}
+            isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
             selectedEndpoint={this.props.selectedEndpoint}
             reloadEndpoint={() => this.props.reloadEndpoint()}
           />
@@ -112,7 +118,10 @@ class SettingUrlEndpointForm extends React.Component {
 
         { this.renderFormInputs() }
 
-        <FormBottomSheetButton label={this.props.editEndpoint ? translations.saveAndChange : translations.save} isValid={this.state.isFormValid} save={() => this.saveEndpoint()} />
+        <FormBottomSheetButton label={this.props.editEndpoint ? translations.saveAndChange : translations.save}
+          isValid={this.state.isAllowToDeleteOrEdit && this.state.isFormValid}
+          save={() => this.saveEndpoint()}
+        />
       </View>
     )
   }

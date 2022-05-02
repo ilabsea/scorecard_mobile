@@ -4,6 +4,7 @@ import { defaultEndpointUrls } from '../constants/url_constant';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
 import { CUSTOM, DEFAULT } from '../constants/main_constant';
 import urlUtil from '../utils/url_util';
+import Scorecard from '../models/Scorecard';
 
 const ENDPOINT_URLS = 'ENDPOINT_URLS';
 
@@ -17,7 +18,7 @@ const endpointFormService = (() => {
     setTemporarySelectedEndpoint,
     getTemporarySelectedEndpoint,
     deleteEndpointUrl,
-    isAllowToDelete,
+    isAllowToDeleteOrEdit,
   }
 
   function isValidForm(endpointLabel, endpointValue, endpointUrls, editEndpoint) {
@@ -90,8 +91,11 @@ const endpointFormService = (() => {
     AsyncStorage.setItem(ENDPOINT_URLS, JSON.stringify(endpointUrls));
   }
 
-  function isAllowToDelete(editEndpoint, selectedEndpoint) {
-    return !!editEndpoint && editEndpoint.value != selectedEndpoint;
+  async function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint) {
+    if (!await Scorecard.containEndpointUrl(editEndpoint.value))
+      return !!editEndpoint && editEndpoint.value != selectedEndpoint;
+    
+    return false;
   }
 
   // private method

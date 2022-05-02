@@ -37,7 +37,7 @@ const newScorecardService = (() => {
   function joinScorecard(scorecardUuid, errorScorecardCallback, successCallback, errorCallback) {
     const scorecardService = new ScorecardService();
 
-    scorecardService.find(scorecardUuid, (responseData) => {
+    scorecardService.find(scorecardUuid, async (responseData) => {
       AsyncStorage.setItem('IS_CONNECTED', 'true');
       if (responseData === null || !scorecardHelper.isScorecardAvailable(responseData)) {
         const errorType = responseData === null ? ERROR_SCORECARD : scorecardHelper.getScorecardErrorType(responseData);
@@ -46,7 +46,7 @@ const newScorecardService = (() => {
       }
       else {
         resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
-        Scorecard.upsert(responseData);
+        await Scorecard.upsert(responseData);
         loadProgramLanguage(responseData.program_id, (response) => {
           scorecardTracingStepsService.trace(scorecardUuid, 0);
           successCallback();

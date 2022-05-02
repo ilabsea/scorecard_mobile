@@ -16,7 +16,7 @@ class SettingUrlEndpointFormTitle extends React.Component {
       <View style={{ padding: containerPadding, paddingBottom: 5}}>
         <Text style={[styles.title, { fontSize: bodyFontSize() }]}>{ this.context.translations.pleaseEnterInformationBelow }</Text>
 
-        { !endpointFormService.isAllowToDelete(this.props.editEndpoint, this.props.selectedEndpoint) &&
+        { !endpointFormService.isAllowToDeleteOrEdit(this.props.editEndpoint, this.props.selectedEndpoint) &&
           <Text style={{ fontSize: smallTextFontSize(), color: Color.redColor, marginTop: -10 }}>{ this.context.translations.cannotDeleteThisUrlEndpoint }</Text>
         }
       </View>

@@ -20,6 +20,7 @@ const Scorecard = (() => {
     getSubmittedExpired,
     getAllProvinces,
     getScorecardsInReview,
+    containEndpointUrl,
   }
 
   function getAll() {
@@ -40,10 +41,12 @@ const Scorecard = (() => {
     }
   }
 
-  function upsert(response) {
+  async function upsert(response) {
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
+    const data = await _buildData(response);
+
     realm.write(() => {
-      realm.create('Scorecard', _buildData(response), 'modified');
+      realm.create('Scorecard', data, 'modified');
     });
   }
 
@@ -112,9 +115,20 @@ const Scorecard = (() => {
     return realm.objects('Scorecard').filtered(`milestone = '${IN_REVIEW}'`);
   }
 
+  async function containEndpointUrl(editEndpoint) {
+    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const endpointUrl = `${savedSetting.email}@${editEndpoint}`;
+    const scorecards = getAll();
+
+    return scorecards.filter(scorecard => scorecard.endpoint_url === endpointUrl).length > 0;
+  }
+
   // Private
 
-  function _buildData(response) {
+  async function _buildData(response) {
+    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const endpointUrl = `${savedSetting.email}@${savedSetting.backendUrl}`;
+
     return ({
       uuid: response.uuid,
       unit_type: _getStringValue(response.unit_type_name),
@@ -134,7 +148,8 @@ const Scorecard = (() => {
       downloaded_at: new Date(),
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
       planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
-      planned_end_date: Moment(response.planned_end_date).format(apiDateFormat)
+      planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
+      endpoint_url: endpointUrl,
     })
   }
 

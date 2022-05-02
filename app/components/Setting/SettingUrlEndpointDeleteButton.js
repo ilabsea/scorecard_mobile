@@ -18,8 +18,6 @@ class SettingUrlEndpointDeleteButton extends React.Component {
     this.state = {
       visibleConfirmModal: false
     }
-
-    this.isAllowToDelete = endpointFormService.isAllowToDelete(props.editEndpoint, props.selectedEndpoint);
   }
 
   deleteEndpoint() {
@@ -29,7 +27,7 @@ class SettingUrlEndpointDeleteButton extends React.Component {
   }
 
   buttonColor() {
-    return this.isAllowToDelete ? Color.redColor : Color.disabledBtnBg
+    return this.props.isAllowToDeleteOrEdit ? Color.redColor : Color.disabledBtnBg
   }
 
   render() {
@@ -38,7 +36,7 @@ class SettingUrlEndpointDeleteButton extends React.Component {
 
     return (
       <React.Fragment>
-        <TouchableOpacity onPress={() => this.setState({ visibleConfirmModal: true })} style={styles.container} disabled={!this.isAllowToDelete}>
+        <TouchableOpacity onPress={() => this.setState({ visibleConfirmModal: true })} style={styles.container} disabled={!this.props.isAllowToDeleteOrEdit}>
           <Icon name='delete' size={20} color={this.buttonColor()} style={{ padding: 0, marginTop: getDeviceStyle(-2, 0) }} />
           <Text style={[styles.label, { color: this.buttonColor() }]}>{ translations.deleteUrlEndpoint }</Text>
         </TouchableOpacity>
