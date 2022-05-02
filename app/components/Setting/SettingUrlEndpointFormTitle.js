@@ -8,7 +8,6 @@ import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 import endpointFormService from '../../services/endpoint_form_service';
 
-
 class SettingUrlEndpointFormTitle extends React.Component {
   static contextType = LocalizationContext;
 

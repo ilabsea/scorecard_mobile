@@ -9,14 +9,21 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util'
 import endpointFormService from '../../services/endpoint_form_service';
 
+import MessageModal from '../MessageModal';
+
 class SettingUrlEndpointDeleteButton extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
+    this.state = {
+      visibleConfirmModal: false
+    }
+
     this.isAllowToDelete = endpointFormService.isAllowToDelete(props.editEndpoint, props.selectedEndpoint);
   }
 
   deleteEndpoint() {
+    this.setState({ visibleConfirmModal: false });
     endpointFormService.deleteEndpointUrl(this.props.editEndpoint);
     this.props.reloadEndpoint();
   }
@@ -26,11 +33,25 @@ class SettingUrlEndpointDeleteButton extends React.Component {
   }
 
   render() {
+    const { translations } = this.context;
+    const endpointUrl = <Text style={{fontWeight: 'bold'}}>{ this.props.editEndpoint.value }</Text>
+
     return (
-      <TouchableOpacity onPress={() => this.deleteEndpoint()} style={styles.container}>
-        <Icon name='delete' size={20} color={this.buttonColor()} style={{ padding: 0, marginTop: getDeviceStyle(-2, 0) }} />
-        <Text style={[styles.label, { color: this.buttonColor() }]}>{ this.context.translations.deleteUrlEndpoint }</Text>
-      </TouchableOpacity>
+      <React.Fragment>
+        <TouchableOpacity onPress={() => this.setState({ visibleConfirmModal: true })} style={styles.container} disabled={!this.isAllowToDelete}>
+          <Icon name='delete' size={20} color={this.buttonColor()} style={{ padding: 0, marginTop: getDeviceStyle(-2, 0) }} />
+          <Text style={[styles.label, { color: this.buttonColor() }]}>{ translations.deleteUrlEndpoint }</Text>
+        </TouchableOpacity>
+
+        <MessageModal
+          visible={this.state.visibleConfirmModal}
+          onDismiss={() => this.setState({ visibleConfirmModal: false })}
+          description={translations.formatString(translations.doYouWantToDeleteThisUrlEndpoint, endpointUrl)}
+          hasConfirmButton={true}
+          confirmButtonLabel={translations.ok}
+          onPressConfirmButton={() => this.deleteEndpoint()}
+        />
+      </React.Fragment>
     )
   }
 }
