@@ -114,7 +114,9 @@ class SettingUrlEndpointForm extends React.Component {
     return (
       <View style={{ height: hp(settingEndpointContentHeight)}}>
         <BottomSheetModalTitle title={ this.context.translations.addNewUrlEndpoint } />
-        <SettingUrlEndpointFormTitle editEndpoint={this.props.editEndpoint} selectedEndpoint={this.props.selectedEndpoint} />
+        <SettingUrlEndpointFormTitle editEndpoint={this.props.editEndpoint} selectedEndpoint={this.props.selectedEndpoint}
+          isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
+        />
 
         { this.renderFormInputs() }
 

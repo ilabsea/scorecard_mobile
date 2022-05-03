@@ -28,6 +28,7 @@ class ScorecardListScrollView extends React.Component {
           onPress={() => this.props.selectScorecard(scorecard)}
           scorecard={scorecard}
           showDeleteModal={() => this.props.showDeleteModal(scorecard)}
+          currentSignInData={this.props.currentSignInData}
         />
       )
     ));

@@ -13,6 +13,7 @@ import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
+import settingHelper from '../../helpers/setting_helper';
 import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
@@ -32,12 +33,16 @@ class ScorecardProgress extends Component {
       messageModalTitle: null,
       messageModalDescription: null,
       isLoading: false,
+      hasValidUserAndEndpoint: false,
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { user_email, endpoint } = await settingHelper.getCurrentSignInData();
+    this.setState({ hasValidUserAndEndpoint: Scorecard.hasValidUserAndEndpoint(this.state.scorecard.uuid, user_email, endpoint) });
+
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
@@ -122,6 +127,7 @@ class ScorecardProgress extends Component {
 
         <ScorecardProgressScrollView scorecard={this.state.scorecard}
           updateScorecard={(scorecard) => this.setState({ scorecard }) }
+          hasValidUserAndEndpoint={this.state.hasValidUserAndEndpoint}
         />
 
         <ScorecardProgressButtons
@@ -131,6 +137,7 @@ class ScorecardProgress extends Component {
           indicators={this.props.indicators}
           submitToServer={() => this.submitToServer()}
           updateScorecard={() => this.updateScorecard()}
+          hasValidUserAndEndpoint={this.state.hasValidUserAndEndpoint}
         />
 
         <ErrorMessageModal

@@ -27,10 +27,13 @@ export default class MilestoneCard extends Component {
     const { translations } = this.context;
     const { index, onPress } = this.props;
     let isDone = this._isDone();
-    let isDisabled = this._isDisabled();
+    // let isDisabled = this._isDisabled();
+    let isDisabled = !this.props.hasValidUserAndEndpoint || this._isDisabled();
     let cardStyle = isDisabled ? { backgroundColor: Color.disableCardColor } : {};
     let labelStyle = isDisabled ? { color: '#5b5b5b' } : {};
+    // let titleStyle = isDone ? { color: '#5b5b5b', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
     let titleStyle = isDone ? { color: '#5b5b5b', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
+    const disabledTitleStyle = isDisabled ? { color: '#5b5b5b' } : {}
 
     if (index == this.props.progressIndex && !this.props.isScorecardFinished) {
       titleStyle = { color: Color.blackColor, fontFamily: FontFamily.title};
@@ -42,7 +45,7 @@ export default class MilestoneCard extends Component {
         style={[CustomStyle.card, responsiveStyles.card, cardStyle]}>
 
         <View style={responsiveStyles.cardTitleContainer}>
-          <Text style={[responsiveStyles.cardTitle, titleStyle]}>{this.props.title}</Text>
+          <Text style={[responsiveStyles.cardTitle, titleStyle, disabledTitleStyle]}>{this.props.title}</Text>
           { (index < this.props.progressIndex && !!this.props.subTitle) &&
             <Text style={[responsiveStyles.cardSubTitle, labelStyle]}>{this.props.subTitle}</Text>
           }
@@ -56,7 +59,7 @@ export default class MilestoneCard extends Component {
         }
 
         { (index == this.props.progressIndex && !this.props.isScorecardFinished) &&
-          <View style={responsiveStyles.btnResume}>
+          <View style={[responsiveStyles.btnResume, isDisabled ? { backgroundColor: Color.grayColor } : {}]}>
             <Text style={responsiveStyles.btnResumeText}>{translations['resume']}</Text>
           </View>
         }

@@ -47,7 +47,7 @@ export default class ScorecardItem extends Component {
         renderRightActions={this.renderDeleteAction}
       >
         <TouchableOpacity onPress={this.props.onPress} style={responsiveStyles.itemContainer} >
-          <ScorecardListIcon scorecard={scorecard} />
+          <ScorecardListIcon scorecard={scorecard} currentSignInData={this.props.currentSignInData} />
 
           <ScorecardListInfo scorecard={scorecard} />
         </TouchableOpacity>

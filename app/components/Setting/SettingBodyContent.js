@@ -120,11 +120,11 @@ class SettingBodyContent extends React.Component {
       return;
     }
 
-    const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
-    if (!changeableSetting) {
-      this.setState({ visibleModal: true });
-      return;
-    }
+    // const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
+    // if (!changeableSetting) {
+    //   this.setState({ visibleModal: true });
+    //   return;
+    // }
 
     this.clearErrorMessage();
     if (!await this.isFormValid())

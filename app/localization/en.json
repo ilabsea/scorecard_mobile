@@ -357,6 +357,6 @@
   "changingEnpiontUrlWillAffectTheScorecard": "Changing the server address will affect the scorecard you currently have",
   "saveAndChange": "Save and Change",
   "deleteUrlEndpoint": "Delete URL endpoint",
-  "cannotDeleteThisUrlEndpoint": "Cannot delete this URL endpoint because it is being selected",
+  "cannotEditOrDeleteThisUrlEndpoint": "Cannot edit or delete this URL endpoint because it is being selected or being used by the scorecard",
   "doYouWantToDeleteThisUrlEndpoint": "Do you want to delete this URL endpoint ({0})?"
 }

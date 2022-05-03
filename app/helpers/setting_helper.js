@@ -11,6 +11,7 @@ const settingHelper = (() => {
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
+    getCurrentSignInData,
   };
 
   async function changeable(newEndpoint) {
@@ -63,6 +64,11 @@ const settingHelper = (() => {
       'content': '73%'
     }
     return heights[type];
+  }
+
+  async function getCurrentSignInData() {
+    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    return { user_email: savedSetting.email, endpoint: savedSetting.backendUrl }
   }
 })();
 

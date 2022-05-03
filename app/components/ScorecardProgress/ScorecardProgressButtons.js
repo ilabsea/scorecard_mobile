@@ -60,8 +60,10 @@ class ScorecardProgressButtons extends Component {
     let message = '';
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
-
-    if (this.props.scorecard.isUploaded)
+    
+    if (!this.props.hasValidUserAndEndpoint)
+      message = 'Endpoint has been change';
+    else if (this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
       message = translations[scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard)];
