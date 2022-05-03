@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import AppIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import Scorecard from '../../models/Scorecard';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardItemTabletStyles from '../../styles/tablet/ScorecardItemComponentStyle';
@@ -13,9 +12,7 @@ const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItem
 
 class ScorecardListIcon extends Component {
   renderLockIcon() {
-    const { owner, endpoint } = this.props.currentSignInData;
-
-    if (!!owner && !Scorecard.hasValidOwnerAndEndpoint(this.props.scorecard.uuid, owner, endpoint))
+    if (!this.props.hasValidOwnerAndEndpoint)
       return <MaterialIcon name='error' size={16} color='#808080' style={{position: 'absolute', top: -2, right: 0, backgroundColor: 'white'}} />
   }
 

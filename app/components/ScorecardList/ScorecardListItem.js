@@ -9,6 +9,7 @@ import ScorecardListInfo from './ScorecardListInfo';
 
 import Color from '../../themes/color';
 import uuidV4 from '../../utils/uuidv4';
+import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardItemTabletStyles from '../../styles/tablet/ScorecardItemComponentStyle';
@@ -39,16 +40,17 @@ export default class ScorecardItem extends Component {
 
   render() {
     let scorecard = this.props.scorecard || {};
+    const { owner, endpoint } = this.props.currentSignInData;
+    const hasValidOwnerAndEndpoint = !!owner && Scorecard.hasValidOwnerAndEndpoint(this.props.scorecard.uuid, owner, endpoint);
 
     return (
       <Swipeable key={uuidV4()}
         ref={ref => { this.itemRef = ref }}
-        enabled={!scorecard.isUploaded}
+        enabled={hasValidOwnerAndEndpoint && !scorecard.isUploaded}
         renderRightActions={this.renderDeleteAction}
       >
         <TouchableOpacity onPress={this.props.onPress} style={responsiveStyles.itemContainer} >
-          <ScorecardListIcon scorecard={scorecard} currentSignInData={this.props.currentSignInData} />
-
+          <ScorecardListIcon scorecard={scorecard} hasValidOwnerAndEndpoint={hasValidOwnerAndEndpoint} />
           <ScorecardListInfo scorecard={scorecard} />
         </TouchableOpacity>
       </Swipeable>
