@@ -18,14 +18,14 @@ class ScorecardProgressScrollView extends React.Component {
     scorecardSyncService.syncScorecard(this.props.scorecard.uuid, (scorecard) => {
       this.setState({ isLoading: false });
       this.props.updateScorecard(scorecard);
-    });
+    }, (error) => this.setState({ isLoading: false }));
   }
 
   render() {
     return (
       <PullToRefreshScrollView
         containerStyle={responsiveStyles.container}
-        allowPullToRefresh={isScorecardInReview(this.props.scorecard)}
+        allowPullToRefresh={this.props.hasValidOwnerAndEndpoint && isScorecardInReview(this.props.scorecard)}
         syncData={() => this.syncScorecard()}
         isLoading={this.state.isLoading}
         updateLoadingState={(isLoading) => this.setState({ isLoading })}
