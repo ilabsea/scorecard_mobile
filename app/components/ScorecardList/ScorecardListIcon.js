@@ -16,7 +16,7 @@ class ScorecardListIcon extends Component {
     const { owner, endpoint } = this.props.currentSignInData;
 
     if (!!owner && !Scorecard.hasValidOwnerAndEndpoint(this.props.scorecard.uuid, owner, endpoint))
-      return <MaterialIcon name='error' size={16} color='gray' style={{position: 'absolute', top: -2, right: 0, backgroundColor: 'white'}} />
+      return <MaterialIcon name='error' size={16} color='#808080' style={{position: 'absolute', top: -2, right: 0, backgroundColor: 'white'}} />
   }
 
   render() {

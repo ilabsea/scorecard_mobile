@@ -121,6 +121,7 @@ class ScorecardProgress extends Component {
           scorecard={this.state.scorecard}
           updateLoadingStatus={(status) => this.setState({isLoading: status})}
           updateErrorMessageModal={(errorType, visibleModal) => this.setState({ errorType, visibleModal })}
+          hasValidOwnerAndEndpoint={this.state.hasValidOwnerAndEndpoint}
         />
 
         <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
