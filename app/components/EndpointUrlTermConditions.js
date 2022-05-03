@@ -20,12 +20,13 @@ class EndpointUrlTermConditions extends React.Component {
 
     return terms.map((term, index) => {
       return (
-        <View key={index} style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 16}}>
-          <Icon name="circle" size={6} color={Color.blackColor} />
-          <View style={{flexDirection: 'row', marginLeft: 6}}>
+        <View key={index} style={{flexDirection: 'row', paddingLeft: 10}}>
+          <Icon name="circle" size={6} color={Color.blackColor} style={{marginTop: 6}} />
+
+          <Text style={{flexDirection: 'row', marginLeft: 6, flexWrap: 'nowrap'}}>
             <Text style={{fontFamily: FontFamily.title, fontSize: smallTextFontSize()}}>{ term.label }: </Text>
             <Text style={{fontSize: smallTextFontSize()}}>{ term.description }</Text>
-          </View>
+          </Text>
         </View>
       )
     });
@@ -34,7 +35,7 @@ class EndpointUrlTermConditions extends React.Component {
   render() {
     return (
       <View style={{paddingHorizontal: containerPadding}}>
-        <Text style={{fontSize: smallTextFontSize()}}>{ this.context.translations.changingEnpiontUrlWillAffectTheScorecard }:</Text>
+        <Text style={{fontSize: smallTextFontSize(), flexWrap: 'nowrap'}}>{ this.context.translations.changingEnpiontUrlWillAffectTheScorecard }:</Text>
         { this.renderList() }
       </View>
     )

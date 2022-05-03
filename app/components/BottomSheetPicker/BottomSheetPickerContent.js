@@ -9,7 +9,6 @@ import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
 import SearchBox from '../SearchBox/SearchBox';
 import OutlinedButton from '../OutlinedButton';
-import EndpointUrlTermConditions from '../EndpointUrlTermConditions';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import { containerPadding } from '../../utils/responsive_util';
@@ -39,6 +38,8 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderListItem() {
+    console.log('server url = ', this.state.items)
+
     return <BottomSheetPickerContentListItem
               items={this.state.items}
               selectedItem={this.state.selectedItem}
@@ -76,14 +77,14 @@ class BottomSheetPickerContent extends React.Component {
   renderRightButton() {
     return <OutlinedButton
             icon="plus"
-            label={this.context.translations.addNewUrlEndpoint}
+            label={this.context.translations.addNew}
             onPress={() => this.props.showEndpointUrlForm() }
           />
   }
 
   renderBottomSection() {
     return <View style={{paddingTop: 10}}>
-              { this.props.hasTermConditions && <EndpointUrlTermConditions/> }
+              { !!this.props.bottomInfoMessage && this.props.bottomInfoMessage }
 
               <FormBottomSheetButton isValid={true} save={() => this.props.changeSelectedEndpoint()}
                 wrapperStyle={{paddingTop: 0, marginTop: 10}}

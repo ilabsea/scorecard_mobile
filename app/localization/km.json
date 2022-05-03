@@ -360,5 +360,6 @@
   "cannotEditOrDeleteThisUrlEndpoint": "អាស័យដ្ឋានម៉ាសុីនមេនេះមិនអាចធ្វើការកែប្រែ ឬលុបបានទេព្រោះវាកំពុងត្រូវបានជ្រើសរើស ឬត្រូវបានប្រើប្រាស់ដោយប័ណ្ណដាក់ពិន្ទុ",
   "doYouWantToDeleteThisUrlEndpoint": "តើអ្នកពិតជាចង់លុបអាស័យដ្ឋានម៉ាសុីនមេ ({0}) នេះមែនទេ?",
   "theOwnerHasBeenChanged": "អ្នកអនុវត្តប័ណ្ណដាក់ពិន្ទុត្រូវបានផ្លាស់ប្ដូរ",
-  "theUrlEndpointHasBeenChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ"
+  "theUrlEndpointHasBeenChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ",
+  "editUrlEndpoint": "កែប្រែអាស័យដ្ឋានម៉ាសុីនមេ"
 }
