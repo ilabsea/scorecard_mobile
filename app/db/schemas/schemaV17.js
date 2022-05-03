@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
-
 import ProgramLanguage from '../migrations/v3/programLanguage';
 import Scorecard from '../migrations/v17/scorecard';
 import ProposedIndicator from '../migrations/v12/proposedIndicator';
@@ -24,17 +22,13 @@ const changedSchemas = [
 const schemaV17 = {
   schema: schemaHelper.getSchemas(changedSchemas),
   schemaVersion: 17,
-  migration: async (oldRealm, newRealm) => {
+  migration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 17) {
-      const oldFacilitators = oldRealm.objects('Scorecard');
-      const newFacilitators = newRealm.objects('Scorecard');
-      const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+      const oldObjects = oldRealm.objects('Scorecard');
+      const newObjects = newRealm.objects('Scorecard');
 
-      oldFacilitators.map((oldFacilitator, index) => {
-        if (!oldFacilitator.endpoint_url)
-          newFacilitators[index].endpoint_url = !!savedSetting ? `${savedSetting.email}@${savedSetting.backendUrl}` : '';
-        else
-          newFacilitators[index].endpoint_url = oldFacilitator.endpoint_url;
+      oldObjects.map((oldObject, index) => {
+        newObjects[index].endpoint_url = !oldObject.endpoint_url ? '' : oldObject.endpoint_url ;
       });
     }
   }
