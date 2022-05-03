@@ -33,15 +33,15 @@ class ScorecardProgress extends Component {
       messageModalTitle: null,
       messageModalDescription: null,
       isLoading: false,
-      hasValidUserAndEndpoint: false,
+      hasValidOwnerAndEndpoint: false,
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
   }
 
   async componentDidMount() {
-    const { user_email, endpoint } = await settingHelper.getCurrentSignInData();
-    this.setState({ hasValidUserAndEndpoint: Scorecard.hasValidUserAndEndpoint(this.state.scorecard.uuid, user_email, endpoint) });
+    const { owner, endpoint } = await settingHelper.getCurrentSignInData();
+    this.setState({ hasValidOwnerAndEndpoint: Scorecard.hasValidOwnerAndEndpoint(this.state.scorecard.uuid, owner, endpoint) });
 
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
@@ -127,7 +127,7 @@ class ScorecardProgress extends Component {
 
         <ScorecardProgressScrollView scorecard={this.state.scorecard}
           updateScorecard={(scorecard) => this.setState({ scorecard }) }
-          hasValidUserAndEndpoint={this.state.hasValidUserAndEndpoint}
+          hasValidOwnerAndEndpoint={this.state.hasValidOwnerAndEndpoint}
         />
 
         <ScorecardProgressButtons
@@ -137,7 +137,7 @@ class ScorecardProgress extends Component {
           indicators={this.props.indicators}
           submitToServer={() => this.submitToServer()}
           updateScorecard={() => this.updateScorecard()}
-          hasValidUserAndEndpoint={this.state.hasValidUserAndEndpoint}
+          hasValidOwnerAndEndpoint={this.state.hasValidOwnerAndEndpoint}
         />
 
         <ErrorMessageModal

@@ -35,7 +35,7 @@ class ScorecardProgressScrollView extends React.Component {
         <VerticalProgressStep
           progressIndex={this.props.scorecard.status || 3}
           scorecard={this.props.scorecard}
-          hasValidUserAndEndpoint={this.props.hasValidUserAndEndpoint}
+          hasValidOwnerAndEndpoint={this.props.hasValidOwnerAndEndpoint}
         />
       </PullToRefreshScrollView>
     )

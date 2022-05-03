@@ -1,5 +1,9 @@
+// import AsyncStorage from '@react-native-community/async-storage';
+
 import { VOTING } from '../constants/scorecard_step_constant';
 import VotingIndicator from '../models/VotingIndicator';
+import Scorecard from '../models/Scorecard';
+import settingHelper from '../helpers/setting_helper';
 
 const scorecardProgressService = (() => {
   return {
@@ -19,7 +23,10 @@ const scorecardProgressService = (() => {
     return votingIndicators.filter(votingIndicator => !votingIndicator.suggested_action).length > 0 ? false : true;
   }
 
-  function getProgressMessage(indicators, scorecard) {
+  async function getProgressMessage(indicators, scorecard, hasValidOwnerAndEndpoint) {
+    if (!hasValidOwnerAndEndpoint)
+      return await _getInvalidOwnerAndEndpointMessage(scorecard.uuid);
+
     if (scorecard.finished)
       return '';
 
@@ -31,6 +38,20 @@ const scorecardProgressService = (() => {
     ]
     const infoMessages = messages.filter(message => message.label);
     return infoMessages.length > 0 ? infoMessages[0].label : '';
+  }
+
+  // private method
+  async function _getInvalidOwnerAndEndpointMessage(scorecardUuid) {
+    const { owner, endpoint } = await settingHelper.getCurrentSignInData();
+    const scorecard = Scorecard.find(scorecardUuid)
+    const scorecardEndpointData = scorecard.endpoint_url.split('@');
+    const scorecardOwner = `${scorecardEndpointData[0]}@${scorecardEndpointData[1]}`;
+    const scorecardEndpoint = scorecardEndpointData[2];
+
+    if (owner === scorecardOwner && endpoint === scorecardEndpoint)
+      return '';
+
+    return endpoint != scorecardEndpoint ? 'theUrlEndpointHasBeenChanged' : 'theOwnerHasBeenChanged';
   }
 })();
 

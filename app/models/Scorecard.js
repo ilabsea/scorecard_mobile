@@ -21,7 +21,7 @@ const Scorecard = (() => {
     getAllProvinces,
     getScorecardsInReview,
     containEndpointUrl,
-    hasValidUserAndEndpoint,
+    hasValidOwnerAndEndpoint,
   }
 
   function getAll() {
@@ -124,12 +124,12 @@ const Scorecard = (() => {
     return scorecards.filter(scorecard => scorecard.endpoint_url === endpointUrl).length > 0;
   }
 
-  function hasValidUserAndEndpoint(scorecardUuid, userEmail, endpoint) {
-    if (!userEmail || !endpoint)
+  function hasValidOwnerAndEndpoint(scorecardUuid, owner, endpoint) {
+    if (!owner || !endpoint)
       return false;
 
     const scorecard = find(scorecardUuid);
-    return scorecard.endpoint_url === `${userEmail}@${endpoint}`;
+    return scorecard.endpoint_url === `${owner}@${endpoint}`;
   }
 
   // Private

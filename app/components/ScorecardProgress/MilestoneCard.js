@@ -27,11 +27,9 @@ export default class MilestoneCard extends Component {
     const { translations } = this.context;
     const { index, onPress } = this.props;
     let isDone = this._isDone();
-    // let isDisabled = this._isDisabled();
-    let isDisabled = !this.props.hasValidUserAndEndpoint || this._isDisabled();
+    let isDisabled = !this.props.hasValidOwnerAndEndpoint || this._isDisabled();
     let cardStyle = isDisabled ? { backgroundColor: Color.disableCardColor } : {};
     let labelStyle = isDisabled ? { color: '#5b5b5b' } : {};
-    // let titleStyle = isDone ? { color: '#5b5b5b', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
     let titleStyle = isDone ? { color: '#5b5b5b', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
     const disabledTitleStyle = isDisabled ? { color: '#5b5b5b' } : {}
 

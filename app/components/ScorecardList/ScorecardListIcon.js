@@ -13,9 +13,9 @@ const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItem
 
 class ScorecardListIcon extends Component {
   renderLockIcon() {
-    const { user_email, endpoint } = this.props.currentSignInData;
+    const { owner, endpoint } = this.props.currentSignInData;
 
-    if (!!user_email && !Scorecard.hasValidUserAndEndpoint(this.props.scorecard.uuid, user_email, endpoint))
+    if (!!owner && !Scorecard.hasValidOwnerAndEndpoint(this.props.scorecard.uuid, owner, endpoint))
       return <MaterialIcon name='error' size={16} color='gray' style={{position: 'absolute', top: -2, right: 0, backgroundColor: 'white'}} />
   }
 

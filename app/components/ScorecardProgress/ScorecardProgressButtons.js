@@ -21,9 +21,27 @@ import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 
 class ScorecardProgressButtons extends Component {
   static contextType = LocalizationContext;
-  state = {
-    visibleConfirmModal: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      visibleConfirmModal: false,
+      progressMessage: '',
+    };
+    this.componentIsUnmount = false;
+  }
+
+  componentDidMount() { this.loadProgressMessage(); }
+
+  componentWillUnmount() { this.componentIsUnmount = true; }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.componentIsUnmount && prevProps.hasValidOwnerAndEndpoint != this.props.hasValidOwnerAndEndpoint)
+      this.loadProgressMessage();
+  }
+
+  async loadProgressMessage() {
+    this.setState({ progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard, this.props.hasValidOwnerAndEndpoint) });
+  }
 
   finishScorecard() {
     Scorecard.update(this.props.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
@@ -60,13 +78,11 @@ class ScorecardProgressButtons extends Component {
     let message = '';
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
-    
-    if (!this.props.hasValidUserAndEndpoint)
-      message = 'Endpoint has been change';
-    else if (this.props.scorecard.isUploaded)
+
+    if (this.props.hasValidOwnerAndEndpoint && this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
-      message = translations[scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard)];
+      message = translations[this.state.progressMessage]
 
     return (
       <Text style={{ fontSize: fontSize, color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title, paddingTop: 5}}>
