@@ -53,7 +53,7 @@ class ScorecardProgressButtons extends Component {
   renderBtnFinish() {
     return (
       <BottomButton
-        disabled={!scorecardProgressService.isAllowToFinish(this.props.scorecard)}
+        disabled={!this.props.hasValidOwnerAndEndpoint || !scorecardProgressService.isAllowToFinish(this.props.scorecard)}
         onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
@@ -69,6 +69,7 @@ class ScorecardProgressButtons extends Component {
         submitToServer={() => this.props.submitToServer()}
         progressPercentag={this.props.progressPercentag}
         showProgress={this.props.showProgress}
+        hasValidOwnerAndEndpoint={this.props.hasValidOwnerAndEndpoint}
       />
     )
   }

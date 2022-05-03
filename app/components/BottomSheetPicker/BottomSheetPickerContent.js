@@ -104,7 +104,7 @@ class BottomSheetPickerContent extends React.Component {
 
           { this.props.hasSearchBox && this.renderSearchBox() }
           { this.renderList() }
-          { this.renderBottomSection() }
+          { this.props.hasBottomButton && this.renderBottomSection() }
         </View>
       </TouchableWithoutFeedback>
     )

@@ -64,6 +64,7 @@ class SettingUrlEndpointPicker extends React.Component {
             showEditForm={(item) => this.showEditForm(item)}
             hasTermConditions={true}
             hasAddButton={true}
+            hasBottomButton={true}
           />
   }
 
