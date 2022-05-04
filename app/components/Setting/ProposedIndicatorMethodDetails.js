@@ -63,8 +63,8 @@ class ProposedIndicatorMethodDetails extends React.Component {
   render() {
     const { translations } = this.context;
     const proposedIndicatorMethods = [
-      { label: translations.indicatorBase, value: INDICATOR_BASE, description: translations.indicatorBaseDescription },
-      { label: translations.participantBase, value: PARTICIPANT_BASE, description: translations.participantBaseDescription }
+      { label: translations.indicatorBased, value: INDICATOR_BASE, description: translations.indicatorBasedDescription },
+      { label: translations.participantBased, value: PARTICIPANT_BASE, description: translations.participantBasedDescription }
     ];
 
     return (
