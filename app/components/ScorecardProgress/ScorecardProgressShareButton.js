@@ -24,11 +24,11 @@ class ScorecardProgressShareButton extends Component {
   }
 
   isDisabled() {
-    return !this.props.hasValidOwnerAndEndpoint || isScorecardInReview(this.props.scorecard)
+    return !this.props.hasMatchedEndpointUrl || isScorecardInReview(this.props.scorecard)
   }
 
   renderWarningIcon() {
-    if (!this.props.hasValidOwnerAndEndpoint)
+    if (!this.props.hasMatchedEndpointUrl)
       return <MaterialIcon name='error' size={17} color={ Color.whiteColor }
                 style={{ position: 'absolute', top: -6, right: -8}}
              />

@@ -36,7 +36,7 @@ export default class VerticalProgressStep extends Component {
         onPress={() => this.onPress(step) }
         isScorecardFinished={this.props.scorecard.finished}
         isScorecardUploaded={this.props.scorecard.isUploaded}
-        hasValidOwnerAndEndpoint={this.props.hasValidOwnerAndEndpoint}
+        hasMatchedEndpointUrl={this.props.hasMatchedEndpointUrl}
       />
     )
   }

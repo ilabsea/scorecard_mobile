@@ -33,14 +33,13 @@ class ScorecardList extends Component {
       isLoading: false,
       visibleErrorModal: false,
       headerHeight: 0,
-      currentSignInData: {}
+      endpointUrl: '',
     }
   }
 
   async componentDidMount() {
     this.updateMilestone();
-
-    this.setState({ currentSignInData: await settingHelper.getCurrentSignInData() })
+    this.setState({ endpointUrl: await settingHelper.getEndpointUrl() })
 
     this.focusListener = this.props.navigation.addListener("focus", async () => {
       this.setState({ isLoading: true });
@@ -133,7 +132,7 @@ class ScorecardList extends Component {
             selectedScorecard={this.state.selectedScorecard}
             selectScorecard={(scorecard) => this.onPress(scorecard)}
             showDeleteModal={(scorecard) => this.setState({ visibleModal: true, selectedScorecard: scorecard })}
-            currentSignInData={this.state.currentSignInData}
+            endpointUrl={this.state.endpointUrl}
           />
         }
 

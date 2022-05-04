@@ -25,7 +25,7 @@ class ScorecardProgressScrollView extends React.Component {
     return (
       <PullToRefreshScrollView
         containerStyle={responsiveStyles.container}
-        allowPullToRefresh={this.props.hasValidOwnerAndEndpoint && isScorecardInReview(this.props.scorecard)}
+        allowPullToRefresh={this.props.hasMatchedEndpointUrl && isScorecardInReview(this.props.scorecard)}
         syncData={() => this.syncScorecard()}
         isLoading={this.state.isLoading}
         updateLoadingState={(isLoading) => this.setState({ isLoading })}
@@ -35,7 +35,7 @@ class ScorecardProgressScrollView extends React.Component {
         <VerticalProgressStep
           progressIndex={this.props.scorecard.status || 3}
           scorecard={this.props.scorecard}
-          hasValidOwnerAndEndpoint={this.props.hasValidOwnerAndEndpoint}
+          hasMatchedEndpointUrl={this.props.hasMatchedEndpointUrl}
         />
       </PullToRefreshScrollView>
     )

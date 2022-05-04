@@ -11,7 +11,7 @@ const settingHelper = (() => {
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
-    getCurrentSignInData,
+    getEndpointUrl,
   };
 
   async function changeable(newEndpoint) {
@@ -64,13 +64,12 @@ const settingHelper = (() => {
     return heights[type];
   }
 
-  async function getCurrentSignInData() {
+  async function getEndpointUrl() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
-
     if (!savedSetting || !savedSetting.email)
-      return { owner: '', endpoint: '' };
+      return '';
 
-    return { owner: savedSetting.email, endpoint: savedSetting.backendUrl }
+    return `${savedSetting.email}@${savedSetting.backendUrl}`;
   }
 })();
 

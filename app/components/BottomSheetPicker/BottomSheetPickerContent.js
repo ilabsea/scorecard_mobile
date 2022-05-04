@@ -73,7 +73,7 @@ class BottomSheetPickerContent extends React.Component {
 
   renderBottomSection() {
     return <BottomSheetPickerContentBottomSection bottomInfoMessage={this.props.bottomInfoMessage}
-            changeSelectedEndpoint={() => this.props.changeSelectedEndpoint()} />
+            onPressButton={() => this.props.onPressBottomButton()} />
   }
 
   render() {

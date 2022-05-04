@@ -33,15 +33,15 @@ class ScorecardProgress extends Component {
       messageModalTitle: null,
       messageModalDescription: null,
       isLoading: false,
-      hasValidOwnerAndEndpoint: false,
+      hasMatchedEndpointUrl: false,
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
   }
 
   async componentDidMount() {
-    const { owner, endpoint } = await settingHelper.getCurrentSignInData();
-    this.setState({ hasValidOwnerAndEndpoint: Scorecard.hasValidOwnerAndEndpoint(this.state.scorecard.uuid, owner, endpoint) });
+    const endpointUrl = await settingHelper.getEndpointUrl();
+    this.setState({ hasMatchedEndpointUrl: Scorecard.hasMatchedEndpointUrl(this.state.scorecard.uuid, endpointUrl) });
 
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
@@ -121,14 +121,14 @@ class ScorecardProgress extends Component {
           scorecard={this.state.scorecard}
           updateLoadingStatus={(status) => this.setState({isLoading: status})}
           updateErrorMessageModal={(errorType, visibleModal) => this.setState({ errorType, visibleModal })}
-          hasValidOwnerAndEndpoint={this.state.hasValidOwnerAndEndpoint}
+          hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
         />
 
         <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
         <ScorecardProgressScrollView scorecard={this.state.scorecard}
           updateScorecard={(scorecard) => this.setState({ scorecard }) }
-          hasValidOwnerAndEndpoint={this.state.hasValidOwnerAndEndpoint}
+          hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
         />
 
         <ScorecardProgressButtons
@@ -138,7 +138,7 @@ class ScorecardProgress extends Component {
           indicators={this.props.indicators}
           submitToServer={() => this.submitToServer()}
           updateScorecard={() => this.updateScorecard()}
-          hasValidOwnerAndEndpoint={this.state.hasValidOwnerAndEndpoint}
+          hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
         />
 
         <ErrorMessageModal

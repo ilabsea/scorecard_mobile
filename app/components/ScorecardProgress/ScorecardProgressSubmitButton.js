@@ -34,7 +34,7 @@ class ScorecardProgressSubmitButton extends Component {
   }
 
   isButtonDisable = () => {
-    if (!this.props.hasValidOwnerAndEndpoint || this.props.showProgress || this.props.scorecard.isUploaded || !this.props.scorecard.finished)
+    if (!this.props.hasMatchedEndpointUrl || this.props.showProgress || this.props.scorecard.isUploaded || !this.props.scorecard.finished)
       return true;
 
     return false;

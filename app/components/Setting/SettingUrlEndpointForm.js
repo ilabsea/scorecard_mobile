@@ -26,13 +26,9 @@ class SettingUrlEndpointForm extends React.Component {
       endpointValueErrorMsg: '',
       isFormValid: props.editEndpoint ? true : false,
       isEndpointValueFocused: false,
-      isAllowToDeleteOrEdit: false
+      isAllowToDeleteOrEdit: props.editEndpoint ? endpointFormService.isAllowToDeleteOrEdit(props.editEndpoint, props.selectedEndpoint) : true
     }
     this.scrollViewRef = React.createRef();
-  }
-
-  async componentDidMount() {
-    this.setState({ isAllowToDeleteOrEdit: this.props.editEndpoint ? await endpointFormService.isAllowToDeleteOrEdit(this.props.editEndpoint, this.props.selectedEndpoint) : true });
   }
 
   onChangeText = (fieldName, value) => {

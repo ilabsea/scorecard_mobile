@@ -40,17 +40,16 @@ export default class ScorecardItem extends Component {
 
   render() {
     let scorecard = this.props.scorecard || {};
-    const { owner, endpoint } = this.props.currentSignInData;
-    const hasValidOwnerAndEndpoint = !!owner && Scorecard.hasValidOwnerAndEndpoint(this.props.scorecard.uuid, owner, endpoint);
+    const hasMatchedEndpointUrl = Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid, this.props.endpointUrl);
 
     return (
       <Swipeable key={uuidV4()}
         ref={ref => { this.itemRef = ref }}
-        enabled={hasValidOwnerAndEndpoint && !scorecard.isUploaded}
+        enabled={hasMatchedEndpointUrl && !scorecard.isUploaded}
         renderRightActions={this.renderDeleteAction}
       >
         <TouchableOpacity onPress={this.props.onPress} style={responsiveStyles.itemContainer} >
-          <ScorecardListIcon scorecard={scorecard} hasValidOwnerAndEndpoint={hasValidOwnerAndEndpoint} />
+          <ScorecardListIcon scorecard={scorecard} hasMatchedEndpointUrl={hasMatchedEndpointUrl} />
           <ScorecardListInfo scorecard={scorecard} />
         </TouchableOpacity>
       </Swipeable>

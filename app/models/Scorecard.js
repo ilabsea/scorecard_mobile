@@ -20,8 +20,8 @@ const Scorecard = (() => {
     getSubmittedExpired,
     getAllProvinces,
     getScorecardsInReview,
-    allScorecardContainEndpointUrl,
-    hasValidOwnerAndEndpoint,
+    allScorecardContainEndpoint,
+    hasMatchedEndpointUrl,
   }
 
   function getAll() {
@@ -116,27 +116,23 @@ const Scorecard = (() => {
     return realm.objects('Scorecard').filtered(`milestone = '${IN_REVIEW}'`);
   }
 
-  async function allScorecardContainEndpointUrl(editEndpoint) {
-    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
-    const endpointUrl = `${savedSetting.email}@${editEndpoint}`;
+  // Compare the selected endpoint with the endpoint stored in the scorecard (exclude the user)
+  function allScorecardContainEndpoint(editEndpoint) {
     const scorecards = getAll();
-
-    return scorecards.filter(scorecard => scorecard.endpoint_url === endpointUrl).length > 0;
+    return scorecards.filter(scorecard => _getEndpoint(scorecard.endpoint_url) === editEndpoint).length > 0;
   }
 
-  function hasValidOwnerAndEndpoint(scorecardUuid, owner, endpoint) {
-    if (!owner || !endpoint)
-      return false;
+  function hasMatchedEndpointUrl(scorecardUuid, endpointUrl) {
+    if (!endpointUrl) return false;
 
     const scorecard = find(scorecardUuid);
-    return scorecard.endpoint_url === `${owner}@${endpoint}`;
+    return !!scorecard ? scorecard.endpoint_url === endpointUrl : false;
   }
 
   // Private
 
   async function _buildData(response) {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
-    const endpointUrl = `${savedSetting.email}@${savedSetting.backendUrl}`;
 
     return ({
       uuid: response.uuid,
@@ -158,12 +154,16 @@ const Scorecard = (() => {
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
       planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
       planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
-      endpoint_url: endpointUrl,
+      endpoint_url: `${savedSetting.email}@${savedSetting.backendUrl}`,
     })
   }
 
   function _getStringValue(value) {
     return !!value ? value : '';
+  }
+
+  function _getEndpoint(endpointUrl) {
+    return !!endpointUrl ? endpointUrl.split('@')[2] : '';
   }
 })();
 

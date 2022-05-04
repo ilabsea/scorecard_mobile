@@ -30,9 +30,14 @@ class SettingUrlEndpointDeleteButton extends React.Component {
     return this.props.isAllowToDeleteOrEdit ? Color.redColor : Color.disabledBtnBg
   }
 
+  getBoldLabel(label) {
+    return <Text style={{fontWeight: 'bold'}}>{ label }</Text>
+  }
+
   render() {
     const { translations } = this.context;
-    const endpointUrl = <Text style={{fontWeight: 'bold'}}>{ this.props.editEndpoint.value }</Text>
+    const endpointLabel = this.getBoldLabel(this.props.editEndpoint.label);
+    const endpointUrl = this.getBoldLabel(this.props.editEndpoint.value);
 
     return (
       <React.Fragment>
@@ -46,7 +51,7 @@ class SettingUrlEndpointDeleteButton extends React.Component {
         <MessageModal
           visible={this.state.visibleConfirmModal}
           onDismiss={() => this.setState({ visibleConfirmModal: false })}
-          description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointUrl)}
+          description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointLabel, endpointUrl)}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
           onPressConfirmButton={() => this.deleteEndpoint()}

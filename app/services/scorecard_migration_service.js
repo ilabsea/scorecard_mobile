@@ -7,11 +7,10 @@ const scorecardMigrationService = (() => {
   }
 
   async function handleScorecardEndpointUrlMigration() {
-    const { owner, endpoint } = await settingHelper.getCurrentSignInData();
+    const endpointUrl = await settingHelper.getEndpointUrl();
     const scorecards = Scorecard.getAll();
-    const endpointUrl = `${owner}@${endpoint}`;
 
-    if (!owner) return;
+    if (!endpointUrl) return;
 
     scorecards.map(scorecard => {
       if (!scorecard.endpoint_url) {

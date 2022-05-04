@@ -35,12 +35,12 @@ class ScorecardProgressButtons extends Component {
   componentWillUnmount() { this.componentIsUnmount = true; }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.componentIsUnmount && prevProps.hasValidOwnerAndEndpoint != this.props.hasValidOwnerAndEndpoint)
+    if (!this.componentIsUnmount && prevProps.hasMatchedEndpointUrl != this.props.hasMatchedEndpointUrl)
       this.loadProgressMessage();
   }
 
   async loadProgressMessage() {
-    this.setState({ progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard, this.props.hasValidOwnerAndEndpoint) });
+    this.setState({ progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard, this.props.hasMatchedEndpointUrl) });
   }
 
   finishScorecard() {
@@ -53,7 +53,7 @@ class ScorecardProgressButtons extends Component {
   renderBtnFinish() {
     return (
       <BottomButton
-        disabled={!this.props.hasValidOwnerAndEndpoint || !scorecardProgressService.isAllowToFinish(this.props.scorecard)}
+        disabled={!this.props.hasMatchedEndpointUrl || !scorecardProgressService.isAllowToFinish(this.props.scorecard)}
         onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
@@ -69,7 +69,7 @@ class ScorecardProgressButtons extends Component {
         submitToServer={() => this.props.submitToServer()}
         progressPercentag={this.props.progressPercentag}
         showProgress={this.props.showProgress}
-        hasValidOwnerAndEndpoint={this.props.hasValidOwnerAndEndpoint}
+        hasMatchedEndpointUrl={this.props.hasMatchedEndpointUrl}
       />
     )
   }
@@ -80,7 +80,7 @@ class ScorecardProgressButtons extends Component {
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
 
-    if (this.props.hasValidOwnerAndEndpoint && this.props.scorecard.isUploaded)
+    if (this.props.hasMatchedEndpointUrl && this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
       message = translations[this.state.progressMessage]

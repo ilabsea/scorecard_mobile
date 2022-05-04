@@ -12,7 +12,7 @@ const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItem
 
 class ScorecardListIcon extends Component {
   renderWarningIcon() {
-    if (!this.props.hasValidOwnerAndEndpoint)
+    if (!this.props.hasMatchedEndpointUrl)
       return <MaterialIcon name='error' size={16} color='#808080' style={{position: 'absolute', top: -2, right: 0, backgroundColor: 'white'}} />
   }
 

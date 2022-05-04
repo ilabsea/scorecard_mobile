@@ -91,8 +91,8 @@ const endpointFormService = (() => {
     AsyncStorage.setItem(ENDPOINT_URLS, JSON.stringify(endpointUrls));
   }
 
-  async function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint) {
-    if (!await Scorecard.allScorecardContainEndpointUrl(editEndpoint.value))
+  function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint) {
+    if (!Scorecard.allScorecardContainEndpoint(editEndpoint.value))
       return !!editEndpoint && editEndpoint.value != selectedEndpoint;
     
     return false;
