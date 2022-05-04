@@ -36,7 +36,9 @@ class SettingUrlEndpointDeleteButton extends React.Component {
 
     return (
       <React.Fragment>
-        <TouchableOpacity onPress={() => this.setState({ visibleConfirmModal: true })} style={styles.container} disabled={!this.props.isAllowToDeleteOrEdit}>
+        <TouchableOpacity onPress={() => this.setState({ visibleConfirmModal: true })} style={[styles.container, { marginTop: getDeviceStyle(0, -10) }]}
+          disabled={!this.props.isAllowToDeleteOrEdit}
+        >
           <Icon name='delete' size={20} color={this.buttonColor()} style={{ padding: 0, marginTop: getDeviceStyle(-2, 0) }} />
           <Text style={[styles.label, { color: this.buttonColor() }]}>{ translations.deleteServerUrl }</Text>
         </TouchableOpacity>
