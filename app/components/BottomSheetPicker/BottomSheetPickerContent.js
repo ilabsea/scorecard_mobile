@@ -8,7 +8,6 @@ import Color from '../../themes/color';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
 import SearchBox from '../SearchBox/SearchBox';
-import OutlinedButton from '../OutlinedButton';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import { containerPadding } from '../../utils/responsive_util';
@@ -72,14 +71,6 @@ class BottomSheetPickerContent extends React.Component {
            />
   }
 
-  renderRightButton() {
-    return <OutlinedButton
-            icon="plus"
-            label={this.context.translations.addNew}
-            onPress={() => this.props.showEndpointUrlForm() }
-          />
-  }
-
   renderBottomSection() {
     return <View style={{paddingTop: 10}}>
               { !!this.props.bottomInfoMessage && this.props.bottomInfoMessage }
@@ -97,7 +88,7 @@ class BottomSheetPickerContent extends React.Component {
         <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor}}>
           <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire}
             rightContainerStyle={{marginTop: -10}}
-            rightButton={this.renderRightButton()}
+            onPressRightButton={() => this.props.onPressRightButton()}
             hasAddButton={this.props.hasAddButton}
           />
 

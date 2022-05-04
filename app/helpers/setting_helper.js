@@ -67,7 +67,7 @@ const settingHelper = (() => {
   async function getCurrentSignInData() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
 
-    if (!savedSetting || !savedSetting.owner)
+    if (!savedSetting || !savedSetting.email)
       return { owner: '', endpoint: '' };
 
     return { owner: savedSetting.email, endpoint: savedSetting.backendUrl }

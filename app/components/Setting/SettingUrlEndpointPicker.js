@@ -60,7 +60,7 @@ class SettingUrlEndpointPicker extends React.Component {
             onSelectItem={(item) => this.setState({ currentSelectedEndpoint: item.value })}
             scrollViewStyle={{ paddingBottom: 0 }}
             showSubtitle={true}
-            showEndpointUrlForm={() => this.showBottomSheetModal('form_create')}
+            onPressRightButton={() => this.showBottomSheetModal('form_create')}
             changeSelectedEndpoint={() => this.changeSelectedEndpoint()}
             showEditForm={(item) => this.showEditForm(item)}
             hasAddButton={true}
