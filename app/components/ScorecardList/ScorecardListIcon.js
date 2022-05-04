@@ -11,7 +11,7 @@ import ScorecardItemMobileStyles from '../../styles/mobile/ScorecardItemComponen
 const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItemMobileStyles);
 
 class ScorecardListIcon extends Component {
-  renderLockIcon() {
+  renderWarningIcon() {
     if (!this.props.hasValidOwnerAndEndpoint)
       return <MaterialIcon name='error' size={16} color='#808080' style={{position: 'absolute', top: -2, right: 0, backgroundColor: 'white'}} />
   }
@@ -28,7 +28,7 @@ class ScorecardListIcon extends Component {
           <AppIcon name={icon.name} size={20} color={scorecardColor} />
         }
         
-        { this.renderLockIcon() }
+        { this.renderWarningIcon() }
       </View>
     )
   }

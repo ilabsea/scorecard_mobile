@@ -8,7 +8,7 @@ import { smallTextFontSize } from '../utils/font_size_util';
 import Color from '../themes/color';
 import { FontFamily } from '../assets/stylesheets/theme/font';
 
-class EndpointUrlTermConditions extends React.Component {
+class EndpointUrlWarningMessages extends React.Component {
   static contextType = LocalizationContext;
   renderList() {
     const { translations } = this.context;
@@ -42,4 +42,4 @@ class EndpointUrlTermConditions extends React.Component {
   }
 }
 
-export default EndpointUrlTermConditions;
+export default EndpointUrlWarningMessages;

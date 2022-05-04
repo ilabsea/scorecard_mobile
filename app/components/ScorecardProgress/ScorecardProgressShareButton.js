@@ -27,7 +27,7 @@ class ScorecardProgressShareButton extends Component {
     return !this.props.hasValidOwnerAndEndpoint || isScorecardInReview(this.props.scorecard)
   }
 
-  renderInvalidOwnerAndEndpointIcon() {
+  renderWarningIcon() {
     if (!this.props.hasValidOwnerAndEndpoint)
       return <MaterialIcon name='error' size={17} color={ Color.whiteColor }
                 style={{ position: 'absolute', top: -6, right: -8}}
@@ -41,7 +41,7 @@ class ScorecardProgressShareButton extends Component {
       >
         <MaterialIcon name="share" size={22} color={ this.isDisabled() ? Color.disabledBtnBg : Color.whiteColor } />
 
-        { this.renderInvalidOwnerAndEndpointIcon() }
+        { this.renderWarningIcon() }
       </TouchableOpacity>
     );
   }

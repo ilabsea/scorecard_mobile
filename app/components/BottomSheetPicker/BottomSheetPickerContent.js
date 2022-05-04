@@ -7,8 +7,8 @@ import {LocalizationContext} from '../Translations';
 import Color from '../../themes/color';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
+import BottomSheetPickerContentBottomSection from './BottomSheetPickerContentBottomSection';
 import SearchBox from '../SearchBox/SearchBox';
-import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import { containerPadding } from '../../utils/responsive_util';
 
@@ -72,14 +72,8 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderBottomSection() {
-    return <View style={{paddingTop: 10}}>
-              { !!this.props.bottomInfoMessage && this.props.bottomInfoMessage }
-
-              <FormBottomSheetButton isValid={true} save={() => this.props.changeSelectedEndpoint()}
-                wrapperStyle={{paddingTop: 0, marginTop: 10}}
-                label={this.context.translations.change}
-              />
-           </View>
+    return <BottomSheetPickerContentBottomSection bottomInfoMessage={this.props.bottomInfoMessage}
+            changeSelectedEndpoint={() => this.props.changeSelectedEndpoint()} />
   }
 
   render() {

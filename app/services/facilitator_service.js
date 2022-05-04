@@ -39,8 +39,6 @@ const facilitatorService = (() => {
       order: index + 1
     };
 
-    console.log('create facilitator == ', attrs)
-
     Facilitator.create(attrs);
   }
 

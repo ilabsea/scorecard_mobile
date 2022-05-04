@@ -92,7 +92,7 @@ const endpointFormService = (() => {
   }
 
   async function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint) {
-    if (!await Scorecard.containEndpointUrl(editEndpoint.value))
+    if (!await Scorecard.allScorecardContainEndpointUrl(editEndpoint.value))
       return !!editEndpoint && editEndpoint.value != selectedEndpoint;
     
     return false;

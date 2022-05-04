@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import SettingUrlEndpointForm from './SettingUrlEndpointForm';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
-import EndpointUrlTermConditions from '../EndpointUrlTermConditions';
+import EndpointUrlWarningMessages from '../EndpointUrlWarningMessages';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
@@ -65,7 +65,7 @@ class SettingUrlEndpointPicker extends React.Component {
             showEditForm={(item) => this.showEditForm(item)}
             hasAddButton={true}
             hasBottomButton={true}
-            bottomInfoMessage={<EndpointUrlTermConditions/>}
+            bottomInfoMessage={<EndpointUrlWarningMessages/>}
           />
   }
 

@@ -20,7 +20,7 @@ const Scorecard = (() => {
     getSubmittedExpired,
     getAllProvinces,
     getScorecardsInReview,
-    containEndpointUrl,
+    allScorecardContainEndpointUrl,
     hasValidOwnerAndEndpoint,
   }
 
@@ -116,7 +116,7 @@ const Scorecard = (() => {
     return realm.objects('Scorecard').filtered(`milestone = '${IN_REVIEW}'`);
   }
 
-  async function containEndpointUrl(editEndpoint) {
+  async function allScorecardContainEndpointUrl(editEndpoint) {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     const endpointUrl = `${savedSetting.email}@${editEndpoint}`;
     const scorecards = getAll();
