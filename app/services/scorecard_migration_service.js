@@ -11,6 +11,8 @@ const scorecardMigrationService = (() => {
     const scorecards = Scorecard.getAll();
     const endpointUrl = `${owner}@${endpoint}`;
 
+    if (!owner) return;
+
     scorecards.map(scorecard => {
       if (!scorecard.endpoint_url) {
         Scorecard.update(scorecard.uuid, { endpoint_url: endpointUrl });

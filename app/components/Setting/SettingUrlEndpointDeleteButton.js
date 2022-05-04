@@ -38,13 +38,13 @@ class SettingUrlEndpointDeleteButton extends React.Component {
       <React.Fragment>
         <TouchableOpacity onPress={() => this.setState({ visibleConfirmModal: true })} style={styles.container} disabled={!this.props.isAllowToDeleteOrEdit}>
           <Icon name='delete' size={20} color={this.buttonColor()} style={{ padding: 0, marginTop: getDeviceStyle(-2, 0) }} />
-          <Text style={[styles.label, { color: this.buttonColor() }]}>{ translations.deleteUrlEndpoint }</Text>
+          <Text style={[styles.label, { color: this.buttonColor() }]}>{ translations.deleteServerUrl }</Text>
         </TouchableOpacity>
 
         <MessageModal
           visible={this.state.visibleConfirmModal}
           onDismiss={() => this.setState({ visibleConfirmModal: false })}
-          description={translations.formatString(translations.doYouWantToDeleteThisUrlEndpoint, endpointUrl)}
+          description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointUrl)}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
           onPressConfirmButton={() => this.deleteEndpoint()}

@@ -103,7 +103,7 @@ class SettingUrlEndpointPicker extends React.Component {
       <View style={{marginBottom: 30, marginTop: 5}}>
         <BottomSheetPicker
           title={translations.serverUrl}
-          label={translations.selectEndpointUrl}
+          label={translations.selectServerUrl}
           items={this.state.endpointUrls}
           selectedItem={this.state.selectedEndpoint}
           isRequire={true}

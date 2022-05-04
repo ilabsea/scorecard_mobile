@@ -1,9 +1,9 @@
 const validationConstant = {
-  backendUrl: {
-    presence: {
-      message: '^serverUrlRequireMsg',
-    },
-  },
+  // backendUrl: {
+  //   presence: {
+  //     message: '^serverUrlRequireMsg',
+  //   },
+  // },
   email: {
     presence: {
       message: '^emailRequireMsg',
@@ -59,12 +59,12 @@ const validationConstant = {
   },
   endpointLabel: {
     presence: {
-      message: '^endpointLabelRequireMsg',
+      message: '^serverLabelRequireMsg',
     }
   },
   enpointValue: {
     presence: {
-      message: '^endpointValueRequireMsg',
+      message: '^serverUrlRequireMsg',
     }
   }
 };

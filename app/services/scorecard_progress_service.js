@@ -51,7 +51,7 @@ const scorecardProgressService = (() => {
     if (owner === scorecardOwner && endpoint === scorecardEndpoint)
       return '';
 
-    return endpoint != scorecardEndpoint ? 'theUrlEndpointHasBeenChanged' : 'theOwnerHasBeenChanged';
+    return endpoint != scorecardEndpoint ? 'theServerUrlHasBeenChanged' : 'theOwnerHasBeenChanged';
   }
 })();
 

@@ -38,8 +38,6 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderListItem() {
-    console.log('server url = ', this.state.items)
-
     return <BottomSheetPickerContentListItem
               items={this.state.items}
               selectedItem={this.state.selectedItem}

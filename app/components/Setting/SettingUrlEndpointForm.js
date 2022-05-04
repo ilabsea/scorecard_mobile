@@ -8,7 +8,7 @@ import TextFieldInput from '../TextFieldInput';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 import SettingUrlEndpointDeleteButton from './SettingUrlEndpointDeleteButton';
-import SettingUrlEndpointFormTitle from './SettingUrlEndpointFormTitle';
+import { SettingUrlEndpointTitle, SettingUrlEndpointFormWarningMessage } from './SettingUrlEndpointFormLabel';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
@@ -78,8 +78,8 @@ class SettingUrlEndpointForm extends React.Component {
         contentContainerStyle={{paddingHorizontal: containerPadding, paddingTop: 4, paddingBottom: this.state.isEndpointValueFocused  ? 150 : 0}}>
         <TextFieldInput
           value={this.state.endpointLabel}
-          label={this.context.translations.endpointLabel}
-          placeholder={this.context.translations.enterEndpointLabel}
+          label={this.context.translations.serverLabel}
+          placeholder={this.context.translations.enterServerLabel}
           fieldName={ENDPOINT_LABEL_FIELDNAME}
           isRequire={true}
           onChangeText={this.onChangeText}
@@ -88,8 +88,8 @@ class SettingUrlEndpointForm extends React.Component {
 
         <TextFieldInput
           value={this.state.endpointValue}
-          label={this.context.translations.UrlEndpoint}
-          placeholder={this.context.translations.enterUrlEndpoint}
+          label={this.context.translations.serverUrl}
+          placeholder={this.context.translations.enterServerUrl}
           fieldName={ENDPOINT_VALUE_FIELDNAME}
           isRequire={true}
           onChangeText={this.onChangeText}
@@ -113,16 +113,17 @@ class SettingUrlEndpointForm extends React.Component {
     const { translations } = this.context;
     return (
       <View style={{ height: hp(settingEndpointContentHeight)}}>
-        <BottomSheetModalTitle title={ !!this.props.editEndpoint ? this.context.translations.editUrlEndpoint : this.context.translations.addNewUrlEndpoint } />
-        <SettingUrlEndpointFormTitle editEndpoint={this.props.editEndpoint} selectedEndpoint={this.props.selectedEndpoint}
-          isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
-        />
+        <BottomSheetModalTitle title={ !!this.props.editEndpoint ? this.context.translations.editServerUrl : this.context.translations.addNewServerURL } />
+        <SettingUrlEndpointTitle />
 
         { this.renderFormInputs() }
+
+        { !this.state.isAllowToDeleteOrEdit && <SettingUrlEndpointFormWarningMessage/> }
 
         <FormBottomSheetButton label={this.props.editEndpoint ? translations.saveAndChange : translations.save}
           isValid={this.state.isAllowToDeleteOrEdit && this.state.isFormValid}
           save={() => this.saveEndpoint()}
+          wrapperStyle={{marginTop: 0, paddingTop: 10}}
         />
       </View>
     )

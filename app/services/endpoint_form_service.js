@@ -58,13 +58,13 @@ const endpointFormService = (() => {
   function getErrorMessage(fieldName, value, endpointUrls, editEndpoint) {
     const endpointErrorMessage = {
       'endpointValue': {
-        'alreadyExistedMsg': 'endpointValueIsExisted',
-        'blankMsg': 'endpointValueRequireMsg',
-        'invalidMsg': !urlUtil.isUrlValid(value) ? 'endpointValueIsNotValid' : '',
+        'alreadyExistedMsg': 'serverUrlIsExisted',
+        'blankMsg': 'serverUrlRequireMsg',
+        'invalidMsg': !urlUtil.isUrlValid(value) ? 'serverUrlIsNotValid' : '',
       },
       'endpointLabel': {
-        'alreadyExistedMsg': 'endpointLabelIsExisted',
-        'blankMsg': 'endpointLabelRequireMsg',
+        'alreadyExistedMsg': 'serverLabelIsExisted',
+        'blankMsg': 'serverLabelRequireMsg',
         'invalidMsg': '',
       }
     };
