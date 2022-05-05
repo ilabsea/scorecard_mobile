@@ -34,14 +34,18 @@ class ScorecardProgress extends Component {
       messageModalDescription: null,
       isLoading: false,
       hasMatchedEndpointUrl: false,
+      isEditable: false,
+      isSyncing: false
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
   }
 
   async componentDidMount() {
-    const endpointUrl = await settingHelper.getEndpointUrl();
-    this.setState({ hasMatchedEndpointUrl: Scorecard.hasMatchedEndpointUrl(this.state.scorecard.uuid, endpointUrl) });
+    this.setState({
+      hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.state.scorecard.uuid),
+      isEditable: await Scorecard.isEditable(this.state.scorecard),
+    });
 
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
@@ -79,6 +83,7 @@ class ScorecardProgress extends Component {
           this.setState({
             showProgress: false,
             visibleModal: false,
+            isEditable: false,
           });
         }, 500);
         scorecardTracingStepsService.trace(this.state.scorecard.uuid, 10);
@@ -106,11 +111,12 @@ class ScorecardProgress extends Component {
     }, 60000);
   }
 
-  updateScorecard() {
+  async updateScorecard() {
     const scorecardUuid = this.props.currentScorecard ? this.props.currentScorecard.uuid : this.props.route.params.uuid;
 
     this.setState({
-      scorecard: Scorecard.find(scorecardUuid)
+      scorecard: Scorecard.find(scorecardUuid),
+      isEditable: await Scorecard.isEditable(this.state.scorecard),
     });
   }
 
@@ -122,13 +128,16 @@ class ScorecardProgress extends Component {
           updateLoadingStatus={(status) => this.setState({isLoading: status})}
           updateErrorMessageModal={(errorType, visibleModal) => this.setState({ errorType, visibleModal })}
           hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
+          isSyncing={this.state.isSyncing}
         />
 
         <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
         <ScorecardProgressScrollView scorecard={this.state.scorecard}
           updateScorecard={(scorecard) => this.setState({ scorecard }) }
-          hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
+          isEditable={this.state.isEditable}
+          navigation={this.props.navigation}
+          updateSyncStatus={(isSyncing) => this.setState({ isSyncing })}
         />
 
         <ScorecardProgressButtons
@@ -138,7 +147,6 @@ class ScorecardProgress extends Component {
           indicators={this.props.indicators}
           submitToServer={() => this.submitToServer()}
           updateScorecard={() => this.updateScorecard()}
-          hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
         />
 
         <ErrorMessageModal

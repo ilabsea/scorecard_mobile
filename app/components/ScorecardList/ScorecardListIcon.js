@@ -5,6 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import Scorecard from '../../models/Scorecard';
 import ScorecardItemTabletStyles from '../../styles/tablet/ScorecardItemComponentStyle';
 import ScorecardItemMobileStyles from '../../styles/mobile/ScorecardItemComponentStyle';
 

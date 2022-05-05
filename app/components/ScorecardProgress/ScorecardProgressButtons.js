@@ -26,21 +26,17 @@ class ScorecardProgressButtons extends Component {
     this.state = {
       visibleConfirmModal: false,
       progressMessage: '',
+      isRefreshable: false,
+      isAllowToFinish: false,
     };
-    this.componentIsUnmount = false;
   }
 
-  componentDidMount() { this.loadProgressMessage(); }
-
-  componentWillUnmount() { this.componentIsUnmount = true; }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.componentIsUnmount && prevProps.hasMatchedEndpointUrl != this.props.hasMatchedEndpointUrl)
-      this.loadProgressMessage();
-  }
-
-  async loadProgressMessage() {
-    this.setState({ progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard, this.props.hasMatchedEndpointUrl) });
+  async componentDidMount() {
+    this.setState({
+      isRefreshable: await Scorecard.isRefreshable(this.props.scorecard),
+      progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard),
+      isAllowToFinish: await scorecardProgressService.isAllowToFinish(this.props.scorecard)
+    });
   }
 
   finishScorecard() {
@@ -53,7 +49,7 @@ class ScorecardProgressButtons extends Component {
   renderBtnFinish() {
     return (
       <BottomButton
-        disabled={!this.props.hasMatchedEndpointUrl || !scorecardProgressService.isAllowToFinish(this.props.scorecard)}
+        disabled={!this.state.isAllowToFinish}
         onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
@@ -69,7 +65,6 @@ class ScorecardProgressButtons extends Component {
         submitToServer={() => this.props.submitToServer()}
         progressPercentag={this.props.progressPercentag}
         showProgress={this.props.showProgress}
-        hasMatchedEndpointUrl={this.props.hasMatchedEndpointUrl}
       />
     )
   }
@@ -80,7 +75,7 @@ class ScorecardProgressButtons extends Component {
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
 
-    if (this.props.hasMatchedEndpointUrl && this.props.scorecard.isUploaded)
+    if (this.state.isRefreshable)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
       message = translations[this.state.progressMessage]

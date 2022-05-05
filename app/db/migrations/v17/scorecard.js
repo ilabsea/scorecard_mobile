@@ -1,10 +1,15 @@
 'use strict';
 
 import scorecardProgress from '../../jsons/scorecardProgress';
+import { SUBMITTED } from '../../../constants/milestone_constant';
 
 class Scorecard {
   get isInLastPhase() {
     return this.status == scorecardProgress[scorecardProgress.length - 1].value;
+  }
+
+  get isCompleted() {
+    return this.milestone === SUBMITTED;
   }
 
   get isUploaded() {

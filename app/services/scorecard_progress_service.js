@@ -9,8 +9,8 @@ const scorecardProgressService = (() => {
     getProgressMessage,
   }
 
-  function isAllowToFinish(scorecard) {
-    if (scorecard.finished)
+  async function isAllowToFinish(scorecard) {
+    if (scorecard.finished || !await Scorecard.hasMatchedEndpointUrl(scorecard.uuid))
       return false;
 
     const votingIndicators = VotingIndicator.getAll(scorecard.uuid);
@@ -21,8 +21,8 @@ const scorecardProgressService = (() => {
     return votingIndicators.filter(votingIndicator => !votingIndicator.suggested_action).length > 0 ? false : true;
   }
 
-  async function getProgressMessage(indicators, scorecard, hasMatchedEndpointUrl) {
-    if (!hasMatchedEndpointUrl)
+  async function getProgressMessage(indicators, scorecard) {
+    if (!await Scorecard.hasMatchedEndpointUrl(scorecard.uuid))
       return await _getInvalidUserAndEndpointMessage(scorecard.uuid);
 
     if (scorecard.finished)

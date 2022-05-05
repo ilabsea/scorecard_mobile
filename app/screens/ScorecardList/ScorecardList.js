@@ -17,7 +17,6 @@ import { set } from '../../actions/currentScorecardAction';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
 import scorecardFilterService from '../../services/scorecard_filter_service';
 import scorecardHelper from '../../helpers/scorecard_helper';
-import settingHelper from '../../helpers/setting_helper';
 import Color from '../../themes/color';
 
 class ScorecardList extends Component {
@@ -33,13 +32,11 @@ class ScorecardList extends Component {
       isLoading: false,
       visibleErrorModal: false,
       headerHeight: 0,
-      endpointUrl: '',
     }
   }
 
   async componentDidMount() {
     this.updateMilestone();
-    this.setState({ endpointUrl: await settingHelper.getEndpointUrl() })
 
     this.focusListener = this.props.navigation.addListener("focus", async () => {
       this.setState({ isLoading: true });
@@ -132,7 +129,6 @@ class ScorecardList extends Component {
             selectedScorecard={this.state.selectedScorecard}
             selectScorecard={(scorecard) => this.onPress(scorecard)}
             showDeleteModal={(scorecard) => this.setState({ visibleModal: true, selectedScorecard: scorecard })}
-            endpointUrl={this.state.endpointUrl}
           />
         }
 

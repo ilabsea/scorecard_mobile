@@ -14,6 +14,7 @@ class ScorecardProgressHeader extends Component {
       ? <ScorecardProgressShareButton scorecard={this.props.scorecard} updateLoadingStatus={this.props.updateLoadingStatus}
           updateErrorMessageModal={this.props.updateErrorMessageModal}
           hasMatchedEndpointUrl={this.props.hasMatchedEndpointUrl}
+          isSyncing={this.props.isSyncing}
         />
       : <ScorecardProgressCircle scorecardUuid={this.props.scorecard.uuid} />;
   }
