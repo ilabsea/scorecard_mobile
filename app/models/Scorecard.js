@@ -3,7 +3,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Moment from 'moment';
 import { DOWNLOADED, RUNNING, SUBMITTED, IN_REVIEW } from '../constants/milestone_constant';
 import { apiDateFormat } from '../constants/date_format_constant';
+import { INDICATOR_DEVELOPMENT } from '../constants/scorecard_step_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
+import settingHelper from '../helpers/setting_helper';
 
 const Scorecard = (() => {
   return {
@@ -20,6 +22,14 @@ const Scorecard = (() => {
     getSubmittedExpired,
     getAllProvinces,
     getScorecardsInReview,
+    allScorecardContainEndpoint,
+    hasMatchedEndpointUrl,
+    isEditable,
+    isStepEditable,
+    stepIsDone,
+    isRefreshable,
+    isDeleteable,
+    isShareable,
   }
 
   function getAll() {
@@ -40,10 +50,12 @@ const Scorecard = (() => {
     }
   }
 
-  function upsert(response) {
+  async function upsert(response) {
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
+    const data = await _buildData(response);
+
     realm.write(() => {
-      realm.create('Scorecard', _buildData(response), 'modified');
+      realm.create('Scorecard', data, 'modified');
     });
   }
 
@@ -112,9 +124,54 @@ const Scorecard = (() => {
     return realm.objects('Scorecard').filtered(`milestone = '${IN_REVIEW}'`);
   }
 
+  async function isEditable(scorecard) {
+    return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.finished;
+  }
+
+  async function isStepEditable(scorecard, currentStep) {
+    const scorecardProgressStep = scorecard.status || INDICATOR_DEVELOPMENT;
+    return await isEditable(scorecard) && scorecardProgressStep >= currentStep;
+  }
+
+  function stepIsDone(scorecard, currentStep) {
+    if (scorecard.finished)
+      return true;
+
+    const scorecardProgressStep = scorecard.status || INDICATOR_DEVELOPMENT;
+    return scorecardProgressStep > currentStep;
+  }
+
+  // Compare the selected endpoint with the endpoint stored in the scorecard (exclude the user)
+  function allScorecardContainEndpoint(editEndpoint) {
+    const scorecards = getAll();
+    return scorecards.filter(scorecard => _getEndpoint(scorecard.endpoint_url) === editEndpoint).length > 0;
+  }
+
+  async function hasMatchedEndpointUrl(scorecardUuid) {
+    const endpointUrl = await settingHelper.getEndpointUrl();
+    if (!endpointUrl) return false;
+
+    const scorecard = find(scorecardUuid);
+    return !!scorecard ? scorecard.endpoint_url === endpointUrl : false;
+  }
+
+  async function isRefreshable(scorecard) {
+    return await hasMatchedEndpointUrl(scorecard.uuid) && scorecard.isUploaded;
+  }
+
+  async function isDeleteable(scorecard) {
+    return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.isUploaded;
+  }
+
+  async function isShareable(scorecard) {
+    return await hasMatchedEndpointUrl(scorecard.uuid) && scorecard.isCompleted;
+  }
+
   // Private
 
-  function _buildData(response) {
+  async function _buildData(response) {
+    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+
     return ({
       uuid: response.uuid,
       unit_type: _getStringValue(response.unit_type_name),
@@ -134,12 +191,17 @@ const Scorecard = (() => {
       downloaded_at: new Date(),
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
       planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
-      planned_end_date: Moment(response.planned_end_date).format(apiDateFormat)
+      planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
+      endpoint_url: `${savedSetting.email}@${savedSetting.backendUrl}`,
     })
   }
 
   function _getStringValue(value) {
     return !!value ? value : '';
+  }
+
+  function _getEndpoint(endpointUrl) {
+    return !!endpointUrl ? endpointUrl.split('@')[2] : '';
   }
 })();
 

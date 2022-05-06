@@ -23,19 +23,22 @@ export default class VerticalProgressStep extends Component {
     navigate(step.routeName, { scorecard_uuid: this.props.scorecard.uuid, local_ngo_id: this.props.scorecard.local_ngo_id });
   }
 
-  _renderMilestoneCard(step) {
+  _renderMilestoneCard(step, index) {
     const { translations } = this.context;
 
     return (
       <MilestoneCard
-        key={uuidv4()}
+        key={index}
         title={ translations[step.headerTitle] }
         subTitle={ this._getSubTitle(step) }
-        index={ step.value }
-        progressIndex={ this.props.progressIndex }
+        currentStep={ step.value }
+        progressStep={ this.props.progressStep }
         onPress={() => this.onPress(step) }
         isScorecardFinished={this.props.scorecard.finished}
         isScorecardUploaded={this.props.scorecard.isUploaded}
+        scorecard={this.props.scorecard}
+        navigation={this.props.navigation}
+        isScorecardEditable={this.props.isEditable}
       />
     )
   }
@@ -65,7 +68,7 @@ export default class VerticalProgressStep extends Component {
   }
 
   _renderLine(index) {
-    let lineStyle = index < this.props.progressIndex ? { backgroundColor: Color.headerColor } : {};
+    let lineStyle = index < this.props.progressStep ? { backgroundColor: Color.headerColor } : {};
 
     return (
       <View style={[styles.line, lineStyle]} key={uuidv4()}></View>
@@ -73,12 +76,12 @@ export default class VerticalProgressStep extends Component {
   }
 
   _renderList() {
-    const { translations, appLanguage } = this.context;
+    const { appLanguage } = this.context;
     let doms = [];
     let steps = new ScorecardStep().getAllWithSubTitle(this.props.scorecard, appLanguage);
 
     for(let i=0; i<steps.length; i++) {
-      doms.push(this._renderMilestoneCard(steps[i]));
+      doms.push(this._renderMilestoneCard(steps[i], i));
 
       if (i < steps.length-1) {
         doms.push(this._renderLine(i))

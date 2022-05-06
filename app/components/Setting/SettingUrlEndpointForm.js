@@ -1,31 +1,34 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import styles from '../../themes/modalStyle';
 import {LocalizationContext} from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
+import SettingUrlEndpointDeleteButton from './SettingUrlEndpointDeleteButton';
+import { SettingUrlEndpointTitle, SettingUrlEndpointFormWarningMessage } from './SettingUrlEndpointFormLabel';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
 import { settingEndpointContentHeight } from '../../constants/modal_constant';
-import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
+import EndpointUrl from '../../models/EndpointUrl';
 
 class SettingUrlEndpointForm extends React.Component {
   static contextType = LocalizationContext
   constructor(props) {
     super(props);
     this.state = {
-      endpointLabel: '',
-      endpointValue: 'https://',
+      endpointLabel: props.editEndpoint ? props.editEndpoint.label : '',
+      endpointValue: props.editEndpoint ? props.editEndpoint.value : 'https://',
+      endpointUuid: props.editEndpoint ? EndpointUrl.findByUrlValue(props.editEndpoint.value).uuid : '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
-      isFormValid: false,
-      isEndpointValueFocused: false
+      isFormValid: props.editEndpoint ? true : false,
+      isEndpointValueFocused: false,
+      isAllowToDeleteOrEdit: props.editEndpoint ? endpointFormService.isAllowToDeleteOrEdit(props.editEndpoint, props.selectedEndpoint) : true
     }
     this.scrollViewRef = React.createRef();
   }
@@ -33,15 +36,15 @@ class SettingUrlEndpointForm extends React.Component {
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.props.endpointUrls);
+    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.props.editEndpoint);
 
     this.setState(state, () => {
-      this.setState({ isFormValid: endpointFormService.isValidForm(this.state.endpointLabel, this.state.endpointValue, this.props.endpointUrls) })
+      this.setState({ isFormValid: endpointFormService.isValidForm(this.state.endpointLabel, this.state.endpointValue, this.props.editEndpoint) })
     });
   }
 
   saveEndpoint() {
-    endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue);
+    endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue, this.state.endpointUuid);
     this.props.saveNewEndpoint(this.state.endpointValue);
     this.clearData();
   }
@@ -73,8 +76,8 @@ class SettingUrlEndpointForm extends React.Component {
         contentContainerStyle={{paddingHorizontal: containerPadding, paddingTop: 4, paddingBottom: this.state.isEndpointValueFocused  ? 150 : 0}}>
         <TextFieldInput
           value={this.state.endpointLabel}
-          label={this.context.translations.endpointLabel}
-          placeholder={this.context.translations.enterEndpointLabel}
+          label={this.context.translations.serverLabel}
+          placeholder={this.context.translations.enterServerLabel}
           fieldName={ENDPOINT_LABEL_FIELDNAME}
           isRequire={true}
           onChangeText={this.onChangeText}
@@ -83,8 +86,8 @@ class SettingUrlEndpointForm extends React.Component {
 
         <TextFieldInput
           value={this.state.endpointValue}
-          label={this.context.translations.UrlEndpoint}
-          placeholder={this.context.translations.enterUrlEndpoint}
+          label={this.context.translations.serverUrl}
+          placeholder={this.context.translations.enterServerUrl}
           fieldName={ENDPOINT_VALUE_FIELDNAME}
           isRequire={true}
           onChangeText={this.onChangeText}
@@ -92,21 +95,44 @@ class SettingUrlEndpointForm extends React.Component {
           onFocus={() => this.onEndpointValueFocused()}
           onBlur={() => this.setState({ isEndpointValueFocused: false })}
         />
+
+        { !!this.props.editEndpoint &&
+          <SettingUrlEndpointDeleteButton editEndpoint={this.props.editEndpoint}
+            isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
+            selectedEndpoint={this.props.selectedEndpoint}
+            endpointUuid={this.state.endpointUuid}
+            reloadEndpoint={() => this.reloadEndpoint()}
+          />
+        }
       </ScrollView>
     )
   }
 
+  reloadEndpoint() {
+    this.setState({
+      endpointLabel: '',
+      endpointValue: 'https://',
+      endpointUuid: '',
+    });
+    this.props.reloadEndpoint();
+  }
+
   renderForm() {
+    const { translations } = this.context;
     return (
       <View style={{ height: hp(settingEndpointContentHeight)}}>
-        <BottomSheetModalTitle title={ this.context.translations.addNewUrlEndpoint } />
-        <View style={{ padding: containerPadding, paddingBottom: 0}}>
-          <Text style={[styles.title, { marginBottom: 20, fontSize: bodyFontSize() }]}>{ this.context.translations.pleaseEnterInformationBelow }</Text>
-        </View>
+        <BottomSheetModalTitle title={ !!this.props.editEndpoint ? this.context.translations.editServerUrl : this.context.translations.addNewServerURL } />
+        <SettingUrlEndpointTitle />
 
         { this.renderFormInputs() }
 
-        <FormBottomSheetButton isValid={this.state.isFormValid} save={() => this.saveEndpoint()} />
+        { !this.state.isAllowToDeleteOrEdit && <SettingUrlEndpointFormWarningMessage/> }
+
+        <FormBottomSheetButton label={this.props.editEndpoint ? translations.saveAndChange : translations.save}
+          isValid={this.state.isAllowToDeleteOrEdit && this.state.isFormValid}
+          save={() => this.saveEndpoint()}
+          wrapperStyle={{marginTop: 0, paddingTop: 10}}
+        />
       </View>
     )
   }

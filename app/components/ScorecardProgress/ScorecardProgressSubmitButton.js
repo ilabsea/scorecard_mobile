@@ -7,6 +7,7 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { isScorecardInReview } from '../../utils/scorecard_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import Scorecard from '../../models/Scorecard';
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
 
@@ -14,6 +15,11 @@ const responsiveStyles = getDeviceStyle(ScorecardProgressTabletStyles, Scorecard
 
 class ScorecardProgressSubmitButton extends Component {
   static contextType = LocalizationContext;
+  state = { hasMatchedEndpointUrl: false }
+
+  async componentDidMount() {
+    this.setState({ hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid) });
+  }
 
   renderProgressBar() {
     if (this.props.showProgress) {
@@ -34,7 +40,7 @@ class ScorecardProgressSubmitButton extends Component {
   }
 
   isButtonDisable = () => {
-    if (this.props.showProgress || this.props.scorecard.isUploaded || !this.props.scorecard.finished)
+    if (!this.state.hasMatchedEndpointUrl || this.props.showProgress || this.props.scorecard.isUploaded || !this.props.scorecard.finished)
       return true;
 
     return false;

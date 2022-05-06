@@ -7,16 +7,21 @@ import {LocalizationContext} from '../Translations';
 import Color from '../../themes/color';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
+import BottomSheetPickerContentBottomSection from './BottomSheetPickerContentBottomSection';
 import SearchBox from '../SearchBox/SearchBox';
+
 import { containerPadding } from '../../utils/responsive_util';
 
 class BottomSheetPickerContent extends React.Component {
   static contextType = LocalizationContext;
-  state = {
-    selectedItem: this.props.selectedItem,
-    searchedFacilitator: '',
-    items: this.props.items,
-    contentHeight: this.props.contentHeight,
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItem: this.props.selectedItem,
+      searchedFacilitator: '',
+      items: this.props.items,
+      contentHeight: this.props.contentHeight,
+    };
   }
 
   setContentHeight(contentHeight) {
@@ -36,8 +41,8 @@ class BottomSheetPickerContent extends React.Component {
               items={this.state.items}
               selectedItem={this.state.selectedItem}
               onSelectItem={(item) => this.onSelectItem(item)}
-              lastListItem={this.props.lastListItem}
               showSubtitle={this.props.showSubtitle}
+              showEditForm={this.props.showEditForm}
            />
   }
 
@@ -66,14 +71,24 @@ class BottomSheetPickerContent extends React.Component {
            />
   }
 
+  renderBottomSection() {
+    return <BottomSheetPickerContentBottomSection bottomInfoMessage={this.props.bottomInfoMessage}
+            onPressButton={() => this.props.onPressBottomButton()} />
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor, paddingBottom: 15}}>
-          <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire} />
+        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor}}>
+          <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire}
+            rightContainerStyle={{marginTop: -10}}
+            onPressRightButton={() => this.props.onPressRightButton()}
+            hasAddButton={this.props.hasAddButton}
+          />
 
           { this.props.hasSearchBox && this.renderSearchBox() }
           { this.renderList() }
+          { this.props.hasBottomButton && this.renderBottomSection() }
         </View>
       </TouchableWithoutFeedback>
     )

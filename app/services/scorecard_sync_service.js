@@ -29,13 +29,13 @@ const scorecardSyncService = (() => {
     const scorecards = Scorecard.getScorecardsInReview();
 
     scorecards.map(scorecard => {
-      syncScorecard(scorecard.uuid, null);
+      syncScorecard(scorecard.uuid, null, null);
     });
 
     !!callback && callback();
   }
 
-  function syncScorecard(scorecardUuid, callback) {
+  function syncScorecard(scorecardUuid, callback, errorCallback) {
     new ScorecardService().find(scorecardUuid, (responseData) => {
       if (!!responseData && responseData.status === COMPLETED) {
         Scorecard.update(scorecardUuid, { milestone: SUBMITTED }, (newScorecard) => {
@@ -45,7 +45,9 @@ const scorecardSyncService = (() => {
       }
 
       !!callback && callback(Scorecard.find(scorecardUuid));
-    }, null);
+    }, (error) => {
+      !!errorCallback && errorCallback(error);
+    });
   }
 
   // private method

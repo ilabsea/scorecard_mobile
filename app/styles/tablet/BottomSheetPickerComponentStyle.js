@@ -52,6 +52,12 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     borderColor: Color.paleGrayColor,
     alignItems: 'center',
   },
+  editButton: {
+    width: pressableItemSize(), 
+    height: pressableItemSize(),
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default BottomSheetPickerComponentStyles;

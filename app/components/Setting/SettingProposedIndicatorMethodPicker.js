@@ -24,7 +24,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
     return (
       <BottomSheetPicker
         title={this.context.translations.proposedIndicatorMethod}
-        label={this.props.proposedIndicatorMethod == INDICATOR_BASE ? this.context.translations.indicatorBase : this.context.translations.participantBase}
+        label={this.props.proposedIndicatorMethod == INDICATOR_BASE ? this.context.translations.indicatorBased : this.context.translations.participantBased}
         selectedValue={this.props.proposedIndicatorMethod}
         showPicker={() => this.showPicker()}
       />

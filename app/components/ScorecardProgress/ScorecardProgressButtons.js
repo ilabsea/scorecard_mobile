@@ -21,9 +21,23 @@ import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 
 class ScorecardProgressButtons extends Component {
   static contextType = LocalizationContext;
-  state = {
-    visibleConfirmModal: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      visibleConfirmModal: false,
+      progressMessage: '',
+      isRefreshable: false,
+      isAllowToFinish: false,
+    };
+  }
+
+  async componentDidMount() {
+    this.setState({
+      isRefreshable: await Scorecard.isRefreshable(this.props.scorecard),
+      progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard),
+      isAllowToFinish: await scorecardProgressService.isAllowToFinish(this.props.scorecard)
+    });
+  }
 
   finishScorecard() {
     Scorecard.update(this.props.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
@@ -35,7 +49,7 @@ class ScorecardProgressButtons extends Component {
   renderBtnFinish() {
     return (
       <BottomButton
-        disabled={!scorecardProgressService.isAllowToFinish(this.props.scorecard)}
+        disabled={!this.state.isAllowToFinish}
         onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
@@ -61,10 +75,10 @@ class ScorecardProgressButtons extends Component {
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
 
-    if (this.props.scorecard.isUploaded)
+    if (this.state.isRefreshable)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
-      message = translations[scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard)];
+      message = translations[this.state.progressMessage]
 
     return (
       <Text style={{ fontSize: fontSize, color: Color.redColor, textAlign: 'center', fontFamily: FontFamily.title, paddingTop: 5}}>

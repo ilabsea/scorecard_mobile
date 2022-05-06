@@ -8,7 +8,8 @@ import ScorecardListIcon from './ScorecardListIcon';
 import ScorecardListInfo from './ScorecardListInfo';
 
 import Color from '../../themes/color';
-import uuidV4 from '../../utils/uuidv4';
+import uuidv4 from '../../utils/uuidv4';
+import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ScorecardItemTabletStyles from '../../styles/tablet/ScorecardItemComponentStyle';
@@ -22,6 +23,21 @@ export default class ScorecardItem extends Component {
   constructor(props) {
     super(props);
     this.itemRef = null;
+    this.state = {
+      hasMatchedEndpointUrl: false,
+      isDeleteable: false,
+    }
+  }
+
+  componentDidMount() {
+    this.checkCondition();
+  }
+
+  async checkCondition() {
+    this.setState({
+      hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid),
+      isDeleteable: await Scorecard.isDeleteable(this.props.scorecard)
+    });
   }
 
   deleteScorecard = () => {
@@ -41,14 +57,13 @@ export default class ScorecardItem extends Component {
     let scorecard = this.props.scorecard || {};
 
     return (
-      <Swipeable key={uuidV4()}
+      <Swipeable key={uuidv4()}
         ref={ref => { this.itemRef = ref }}
-        enabled={!scorecard.isUploaded}
+        enabled={this.state.isDeleteable}
         renderRightActions={this.renderDeleteAction}
       >
         <TouchableOpacity onPress={this.props.onPress} style={responsiveStyles.itemContainer} >
-          <ScorecardListIcon scorecard={scorecard} />
-
+          <ScorecardListIcon scorecard={scorecard} hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl} />
           <ScorecardListInfo scorecard={scorecard} />
         </TouchableOpacity>
       </Swipeable>

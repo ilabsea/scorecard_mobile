@@ -1,57 +1,51 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
-import { defaultEndpointUrls } from '../constants/url_constant';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
+import { CUSTOM } from '../constants/main_constant';
 import urlUtil from '../utils/url_util';
+import uuidv4 from '../utils/uuidv4';
+import Scorecard from '../models/Scorecard';
+import EndpointUrl from '../models/EndpointUrl';
+
+const ENDPOINT_URLS = 'ENDPOINT_URLS';
 
 const endpointFormService = (() => {
   return {
     isValidForm,
     saveEndpointUrls,
-    getEndpointUrls,
     getErrorMessage,
-    isEndpointExisted,
     setTemporarySelectedEndpoint,
     getTemporarySelectedEndpoint,
+    isAllowToDeleteOrEdit,
   }
 
-  function isValidForm(endpointLabel, endpointValue, endpointUrls) {
+  function isValidForm(endpointLabel, endpointValue, editEndpoint) {
     const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
     const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
 
-    if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, endpointUrls))
+    if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, editEndpoint))
       return false;
 
     return urlUtil.isUrlValid(endpointValue);
   }
 
-  async function saveEndpointUrls(newLabel, newValue) {
-    let endpointUrls = JSON.parse(await AsyncStorage.getItem('ENDPOINT_URLS'));
-    endpointUrls.push({ label: newLabel, value: newValue });
-    AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
+  async function saveEndpointUrls(newLabel, newValue, endpointUuid) {
+    if (!!endpointUuid)
+      EndpointUrl.update(endpointUuid, { label: newLabel, value: newValue });
+    else
+      EndpointUrl.create({uuid: uuidv4(), label: newLabel, value: newValue, type: CUSTOM});
   }
 
-  async function getEndpointUrls() {
-    let endpointUrls = JSON.parse(await AsyncStorage.getItem('ENDPOINT_URLS'));
-
-    if (!endpointUrls) {
-      endpointUrls = defaultEndpointUrls;
-      AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
-    }
-    endpointUrls.push({ label: 'Add new URL endpoint', value: '' });
-    return endpointUrls;
-  }
-
-  function getErrorMessage(fieldName, value, endpointUrls) {
+  function getErrorMessage(fieldName, value, editEndpoint) {
     const endpointErrorMessage = {
       'endpointValue': {
-        'alreadyExistedMsg': 'endpointValueIsExisted',
-        'blankMsg': 'endpointValueRequireMsg',
-        'invalidMsg': !urlUtil.isUrlValid(value) ? 'endpointValueIsNotValid' : '',
+        'alreadyExistedMsg': 'serverUrlIsExisted',
+        'blankMsg': 'serverUrlRequireMsg',
+        'invalidMsg': !urlUtil.isUrlValid(value) ? 'serverUrlIsNotValid' : '',
       },
       'endpointLabel': {
-        'alreadyExistedMsg': 'endpointLabelIsExisted',
-        'blankMsg': 'endpointLabelRequireMsg',
+        'alreadyExistedMsg': 'serverLabelIsExisted',
+        'blankMsg': 'serverLabelRequireMsg',
         'invalidMsg': '',
       }
     };
@@ -59,7 +53,7 @@ const endpointFormService = (() => {
     if (!value) return endpointErrorMessage[fieldName]['blankMsg'];
 
     const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
-    const messageType = isFieldExisted(type, value, endpointUrls) ? 'alreadyExistedMsg' : 'invalidMsg';
+    const messageType = isFieldExisted(type, value, editEndpoint) ? 'alreadyExistedMsg' : 'invalidMsg';
     return endpointErrorMessage[fieldName][messageType];
   }
 
@@ -72,17 +66,29 @@ const endpointFormService = (() => {
     return await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
   }
 
+  function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint) {
+    if (!Scorecard.allScorecardContainEndpoint(editEndpoint.value))
+      return !!editEndpoint && editEndpoint.value != selectedEndpoint;
+    
+    return false;
+  }
+
   // private method
   function validateField(fieldName, value) {
     validationService(fieldName, value === '' ? undefined : value);
   }
 
-  function isEndpointExisted(endpointLabel, endpointValue, endpointUrls) {
-    return isFieldExisted('label', endpointLabel, endpointUrls) || isFieldExisted('value', endpointValue, endpointUrls);
+  function isEndpointExisted(endpointLabel, endpointValue, editEndpoint) {
+    return isFieldExisted('label', endpointLabel, editEndpoint) || isFieldExisted('value', endpointValue, editEndpoint);
   }
 
-  function isFieldExisted(type, value, endpointUrls) {
-    return endpointUrls.filter(endpoint => endpoint[type] === value).length > 0;
+  function isFieldExisted(type, value, editEndpoint) {
+    const isSameEditEndpoint = !!editEndpoint ? editEndpoint[type] === value : false;
+    const isExist = {
+      'label': EndpointUrl.findByLabel(value),
+      'value': EndpointUrl.findByUrlValue(value),
+    }
+    return !isSameEditEndpoint && isExist[type];
   }
 })();
 

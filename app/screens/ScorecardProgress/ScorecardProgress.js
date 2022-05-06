@@ -13,6 +13,7 @@ import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
+import settingHelper from '../../helpers/setting_helper';
 import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
@@ -32,12 +33,20 @@ class ScorecardProgress extends Component {
       messageModalTitle: null,
       messageModalDescription: null,
       isLoading: false,
+      hasMatchedEndpointUrl: false,
+      isEditable: false,
+      isSyncing: false
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.setState({
+      hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.state.scorecard.uuid),
+      isEditable: await Scorecard.isEditable(this.state.scorecard),
+    });
+
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       this.setState({ hasInternetConnection: hasConnection });
     });
@@ -74,6 +83,7 @@ class ScorecardProgress extends Component {
           this.setState({
             showProgress: false,
             visibleModal: false,
+            isEditable: false,
           });
         }, 500);
         scorecardTracingStepsService.trace(this.state.scorecard.uuid, 10);
@@ -101,11 +111,12 @@ class ScorecardProgress extends Component {
     }, 60000);
   }
 
-  updateScorecard() {
+  async updateScorecard() {
     const scorecardUuid = this.props.currentScorecard ? this.props.currentScorecard.uuid : this.props.route.params.uuid;
 
     this.setState({
-      scorecard: Scorecard.find(scorecardUuid)
+      scorecard: Scorecard.find(scorecardUuid),
+      isEditable: await Scorecard.isEditable(this.state.scorecard),
     });
   }
 
@@ -116,12 +127,17 @@ class ScorecardProgress extends Component {
           scorecard={this.state.scorecard}
           updateLoadingStatus={(status) => this.setState({isLoading: status})}
           updateErrorMessageModal={(errorType, visibleModal) => this.setState({ errorType, visibleModal })}
+          hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl}
+          isSyncing={this.state.isSyncing}
         />
 
         <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
         <ScorecardProgressScrollView scorecard={this.state.scorecard}
           updateScorecard={(scorecard) => this.setState({ scorecard }) }
+          isEditable={this.state.isEditable}
+          navigation={this.props.navigation}
+          updateSyncStatus={(isSyncing) => this.setState({ isSyncing })}
         />
 
         <ScorecardProgressButtons
