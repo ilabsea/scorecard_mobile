@@ -7,6 +7,8 @@ import proposedIndicatorService from '../services/proposed_indicator_service';
 import { getLanguageIndicator } from '../services/language_indicator_service';
 import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
 
+import { navigate } from '../navigators/app_navigator';
+
 import ParticipantModalContent from '../components/ParticipantModal/ParticipantModalContent';
 import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
 
@@ -119,15 +121,20 @@ const proposedIndicatorHelper = (() => {
 
     formRef.current?.setBodyContent(
       <AddNewParticipantContent scorecardUuid={ scorecardUuid }
-        title={indicator.name}
+        title={!!indicator ? indicator.name : ''}
         onSaveParticipant={(participant) => {
+          if (!!indicator) {
             proposedIndicatorService.create(scorecardUuid, indicator, participant.uuid);
             setTimeout(() => {
               updateIndicatorList();
               showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
             }, 50);
           }
-        }
+          else {
+            participantModalRef.current?.dismiss();
+            navigate('CreateNewIndicator', { scorecard_uuid: proposedIndicatorParams.scorecardUuid, participant_uuid: participant.uuid });
+          }
+        }}
       />
     );
   }
