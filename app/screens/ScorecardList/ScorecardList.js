@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -29,7 +29,8 @@ class ScorecardList extends Component {
       isConfirmModal: true,
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
-      isLoading: false,
+      // isLoading: false,
+      isLoading: true,
       visibleErrorModal: false,
       headerHeight: 0,
     }
@@ -38,13 +39,15 @@ class ScorecardList extends Component {
   async componentDidMount() {
     this.updateMilestone();
 
-    this.focusListener = this.props.navigation.addListener("focus", async () => {
+    this.focusListener = this.props.navigation.addListener("focus", () => {
       this.setState({ isLoading: true });
 
-      this.setState({
-        scorecards: await scorecardFilterService.getFilteredScorecards(),
-        isLoading: false,
-      });
+      setTimeout(async () => {
+        this.setState({
+          scorecards: await scorecardFilterService.getFilteredScorecards(),
+          isLoading: false,
+        });
+      }, 100);
     });
   }
 
@@ -126,7 +129,6 @@ class ScorecardList extends Component {
         { !this.state.isLoading &&
           <ScorecardListScrollView
             scorecards={this.state.scorecards}
-            selectedScorecard={this.state.selectedScorecard}
             selectScorecard={(scorecard) => this.onPress(scorecard)}
             showDeleteModal={(scorecard) => this.setState({ visibleModal: true, selectedScorecard: scorecard })}
           />

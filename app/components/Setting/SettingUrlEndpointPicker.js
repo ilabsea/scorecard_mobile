@@ -10,6 +10,7 @@ import EndpointUrlWarningMessages from '../EndpointUrlWarningMessages';
 import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
 import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
+import EndpointUrl from '../../models/EndpointUrl';
 
 class SettingUrlEndpointPicker extends React.Component {
   static contextType = LocalizationContext;
@@ -18,7 +19,7 @@ class SettingUrlEndpointPicker extends React.Component {
     this.state = {
       selectedEndpoint: '',
       currentSelectedEndpoint: '',
-      endpointUrls: []
+      endpointUrls: [],
     }
   }
 
@@ -26,9 +27,9 @@ class SettingUrlEndpointPicker extends React.Component {
     this.loadEndpointUrls();
   }
 
-  async loadEndpointUrls() {
+  loadEndpointUrls() {
     this.setState({
-      endpointUrls: await endpointFormService.getEndpointUrls(),
+      endpointUrls: EndpointUrl.getAll(),
       selectedEndpoint: this.props.backendUrl,
       currentSelectedEndpoint: this.props.backendUrl,
     });
@@ -79,12 +80,12 @@ class SettingUrlEndpointPicker extends React.Component {
     setTimeout(() => {
       this.loadEndpointUrls();
       this.props.formModalRef.current?.dismiss();
-    }, 50);
+    }, 100);
   }
 
   renderSettingUrlEndpointForm(editEndpoint) {
     return <SettingUrlEndpointForm saveNewEndpoint={(endpointValue) => this.saveNewEndpoint(endpointValue)}
-              endpointUrls={this.state.endpointUrls} editEndpoint={editEndpoint}
+              editEndpoint={editEndpoint}
               selectedEndpoint={this.state.selectedEndpoint}
               reloadEndpoint={() => this.reloadEndpoint()}
            />

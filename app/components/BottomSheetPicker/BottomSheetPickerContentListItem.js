@@ -28,7 +28,7 @@ class BottomSheetPickerContentListItem extends React.Component {
           }
 
           { (!!this.props.showEditForm && item.type == CUSTOM) && 
-            <TouchableOpacity onPress={() => this.props.showEditForm(item)} style={styles.editButton} >
+            <TouchableOpacity onPress={() => this.props.showEditForm(item)} style={[styles.editButton, { borderWidth: 0, alignItems: 'flex-end' }]} >
               <MaterialIcon name='edit' color={Color.clickableColor} size={20} />
             </TouchableOpacity>
           }

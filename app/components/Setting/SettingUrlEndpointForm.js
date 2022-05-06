@@ -14,6 +14,7 @@ import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
 import { settingEndpointContentHeight } from '../../constants/modal_constant';
 import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
+import EndpointUrl from '../../models/EndpointUrl';
 
 class SettingUrlEndpointForm extends React.Component {
   static contextType = LocalizationContext
@@ -22,6 +23,7 @@ class SettingUrlEndpointForm extends React.Component {
     this.state = {
       endpointLabel: props.editEndpoint ? props.editEndpoint.label : '',
       endpointValue: props.editEndpoint ? props.editEndpoint.value : 'https://',
+      endpointUuid: props.editEndpoint ? EndpointUrl.findByUrlValue(props.editEndpoint.value).uuid : '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
       isFormValid: props.editEndpoint ? true : false,
@@ -34,15 +36,15 @@ class SettingUrlEndpointForm extends React.Component {
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.props.endpointUrls, this.props.editEndpoint);
+    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.props.editEndpoint);
 
     this.setState(state, () => {
-      this.setState({ isFormValid: endpointFormService.isValidForm(this.state.endpointLabel, this.state.endpointValue, this.props.endpointUrls, this.props.editEndpoint) })
+      this.setState({ isFormValid: endpointFormService.isValidForm(this.state.endpointLabel, this.state.endpointValue, this.props.editEndpoint) })
     });
   }
 
   saveEndpoint() {
-    endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue, this.props.editEndpoint);
+    endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue, this.state.endpointUuid);
     this.props.saveNewEndpoint(this.state.endpointValue);
     this.clearData();
   }
@@ -98,11 +100,21 @@ class SettingUrlEndpointForm extends React.Component {
           <SettingUrlEndpointDeleteButton editEndpoint={this.props.editEndpoint}
             isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
             selectedEndpoint={this.props.selectedEndpoint}
-            reloadEndpoint={() => this.props.reloadEndpoint()}
+            endpointUuid={this.state.endpointUuid}
+            reloadEndpoint={() => this.reloadEndpoint()}
           />
         }
       </ScrollView>
     )
+  }
+
+  reloadEndpoint() {
+    this.setState({
+      endpointLabel: '',
+      endpointValue: 'https://',
+      endpointUuid: '',
+    });
+    this.props.reloadEndpoint();
   }
 
   renderForm() {

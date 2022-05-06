@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import ListSectionTitle from '../ListSectionTitle';
@@ -23,7 +23,7 @@ class ScorecardListScrollView extends React.Component {
   }
 
   renderScorecardItems(scorecards) {
-    return (scorecards.map((scorecard, index) => (
+    return (scorecards.map(scorecard => (
         <ScorecardListItem key={uuidv4()}
           onPress={() => this.props.selectScorecard(scorecard)}
           scorecard={scorecard}
@@ -43,7 +43,7 @@ class ScorecardListScrollView extends React.Component {
     for (let i = 0; i<finishedScorecards.length; i++) {
       const date = scorecardHelper.getTranslatedDate(finishedScorecards[i].date, this.context.appLanguage, 'MMM YYYY');
 
-      doms.push(<ListSectionTitle title={date} key={`title-${i}`} />)
+      doms.push(<ListSectionTitle title={date} key={uuidv4()} />)
       doms.push(<View key={uuidv4()}>{this.renderScorecardItems(finishedScorecards[i].scorecards)}</View>);
     }
 

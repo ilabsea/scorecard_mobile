@@ -7,7 +7,7 @@ import Color from '../../themes/color';
 import { pressableItemSize } from '../../utils/component_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util'
-import endpointFormService from '../../services/endpoint_form_service';
+import EndpointUrl from '../../models/EndpointUrl';
 
 import MessageModal from '../MessageModal';
 
@@ -18,11 +18,16 @@ class SettingUrlEndpointDeleteButton extends React.Component {
     this.state = {
       visibleConfirmModal: false
     }
+
+    this.endpointLabel = this.getBoldLabel(props.editEndpoint.label);
+    this.endpointUrl = this.getBoldLabel(props.editEndpoint.value);
   }
 
   deleteEndpoint() {
     this.setState({ visibleConfirmModal: false });
-    endpointFormService.deleteEndpointUrl(this.props.editEndpoint);
+    this.endpointLabel = '';
+    this.endpointUrl = '';
+    EndpointUrl.destroy(this.props.endpointUuid);
     this.props.reloadEndpoint();
   }
 
@@ -36,8 +41,6 @@ class SettingUrlEndpointDeleteButton extends React.Component {
 
   render() {
     const { translations } = this.context;
-    const endpointLabel = this.getBoldLabel(this.props.editEndpoint.label);
-    const endpointUrl = this.getBoldLabel(this.props.editEndpoint.value);
 
     return (
       <React.Fragment>
@@ -51,7 +54,7 @@ class SettingUrlEndpointDeleteButton extends React.Component {
         <MessageModal
           visible={this.state.visibleConfirmModal}
           onDismiss={() => this.setState({ visibleConfirmModal: false })}
-          description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointLabel, endpointUrl)}
+          description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, this.endpointLabel, this.endpointUrl)}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
           onPressConfirmButton={() => this.deleteEndpoint()}

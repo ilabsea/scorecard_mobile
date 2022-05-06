@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { defaultEndpointUrls } from '../constants/url_constant';
-import endpointFormService from './endpoint_form_service';
+import { CUSTOM, DEFAULT } from '../constants/main_constant';
+import EndpointUrl from '../models/EndpointUrl';
 
 const endpointMigrationService = (() => {
   return {
@@ -11,11 +12,15 @@ const endpointMigrationService = (() => {
   async function handleEndpointMigration() {
     let endpointUrls = JSON.parse(await AsyncStorage.getItem('ENDPOINT_URLS')) || defaultEndpointUrls;
     const defaultEndpoint = JSON.parse(await AsyncStorage.getItem('SETTING')).backendUrl;
+    endpointUrls = endpointUrls.filter(endpointUrl => endpointUrl.type != DEFAULT && endpointUrl.value != defaultEndpoint)
 
-    if (defaultEndpoint && !endpointFormService.isEndpointExisted('', defaultEndpoint, endpointUrls)) {
-      endpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint });
-      AsyncStorage.setItem('ENDPOINT_URLS', JSON.stringify(endpointUrls));
-    }
+    if (defaultEndpoint && !EndpointUrl.isExist('', defaultEndpoint))
+      endpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint, type: CUSTOM });
+
+    endpointUrls.map(endpointUrl => {
+      if (!EndpointUrl.isExist(endpointUrl.label, endpointUrl.value))
+        EndpointUrl.create({ label: endpointUrl.label, value: endpointUrl.value, type: !!endpointUrl.type ? endpointUrl.type : DEFAULT });
+    });
   }
 })();
 
