@@ -12,9 +12,11 @@ const endpointMigrationService = (() => {
   async function handleEndpointMigration() {
     let endpointUrls = JSON.parse(await AsyncStorage.getItem('ENDPOINT_URLS')) || defaultEndpointUrls;
     const defaultEndpoint = JSON.parse(await AsyncStorage.getItem('SETTING')).backendUrl;
-    endpointUrls = endpointUrls.filter(endpointUrl => endpointUrl.type != DEFAULT && endpointUrl.value != defaultEndpoint)
 
-    if (defaultEndpoint && !EndpointUrl.isExist('', defaultEndpoint))
+    if (!!defaultEndpoint)
+      endpointUrls = endpointUrls.filter(endpointUrl => endpointUrl.type != DEFAULT && endpointUrl.value != defaultEndpoint)
+
+    if (!!defaultEndpoint && !EndpointUrl.isExist('', defaultEndpoint))
       endpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint, type: CUSTOM });
 
     endpointUrls.map(endpointUrl => {

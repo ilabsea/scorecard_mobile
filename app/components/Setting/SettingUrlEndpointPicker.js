@@ -67,6 +67,7 @@ class SettingUrlEndpointPicker extends React.Component {
             hasAddButton={true}
             hasBottomButton={true}
             bottomInfoMessage={<EndpointUrlWarningMessages/>}
+            isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
           />
   }
 
