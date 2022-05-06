@@ -18,9 +18,10 @@ class BottomSheetPickerContent extends React.Component {
     super(props);
     this.state = {
       selectedItem: this.props.selectedItem,
-      searchedFacilitator: '',
+      searchedItem: '',
       items: this.props.items,
       contentHeight: this.props.contentHeight,
+      isButtonDisabled: true,
     };
   }
 
@@ -32,7 +33,11 @@ class BottomSheetPickerContent extends React.Component {
     if (item.disabled)
       return;
 
-    this.setState({ selectedItem: item.value });
+    this.setState({
+      selectedItem: item.value,
+      isButtonDisabled: !!this.props.isSelctedItemMatched ? this.props.isSelctedItemMatched(item.value) : false
+    });
+
     this.props.onSelectItem(item)
   }
 
@@ -57,14 +62,14 @@ class BottomSheetPickerContent extends React.Component {
   searchFacilitator(text) {
     const filteredFacilitator = !!text ? this.props.items.filter(item => item.label.toLowerCase().includes(text.toLowerCase())) : this.props.items;
     this.setState({
-      searchedFacilitator: text,
+      searchedItem: text,
       items: filteredFacilitator
     });
   }
 
   renderSearchBox() {
     return <SearchBox
-              value={this.state.searchedFacilitator}
+              value={this.state.searchedItem}
               onChangeText={(text) => this.searchFacilitator(text)}
               onFocus={(status) => this.props.onSearchBoxFocus()}
               onClearSearch={() => this.searchFacilitator('')}
@@ -73,7 +78,7 @@ class BottomSheetPickerContent extends React.Component {
 
   renderBottomSection() {
     return <BottomSheetPickerContentBottomSection bottomInfoMessage={this.props.bottomInfoMessage}
-            onPressButton={() => this.props.onPressBottomButton()} />
+            onPressButton={() => this.props.onPressBottomButton()} isButtonDisabled={this.state.isButtonDisabled} />
   }
 
   render() {
