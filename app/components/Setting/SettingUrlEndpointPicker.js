@@ -68,6 +68,7 @@ class SettingUrlEndpointPicker extends React.Component {
             hasBottomButton={true}
             bottomInfoMessage={<EndpointUrlWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
+            isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem)}
           />
   }
 

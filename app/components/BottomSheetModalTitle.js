@@ -15,16 +15,18 @@ const BottomSheetModalTitle = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   function renderRightButton() {
-    return <OutlinedButton
-            icon="plus"
-            label={translations.addNew}
-            onPress={() => !!props.onPressRightButton && props.onPressRightButton() }
-          />
+    return <View style={{paddingBottom: containerPadding, paddingTop: containerPadding - getDeviceStyle(6, 10)}}>
+            <OutlinedButton
+              icon="plus"
+              label={translations.addNew}
+              onPress={() => !!props.onPressRightButton && props.onPressRightButton() }
+            />
+          </View>
   }
 
   return (
     <View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: containerPadding}}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: containerPadding}}>
         <Text style={[styles.title, responsiveStyles.headerTitle]} numberOfLines={1}>
           { props.title }
           { props.isRequire && <Text style={[{color: Color.redColor}, responsiveStyles.headerTitle]}> *</Text> }
