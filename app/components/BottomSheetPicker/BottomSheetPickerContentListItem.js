@@ -13,6 +13,8 @@ const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMo
 class BottomSheetPickerContentListItem extends React.Component {
   renderListItem() {
     return this.props.items.map((item, index) => {
+      const isAbleToEdit = this.isAbleToEdit(item);
+
       return (
         <TouchableOpacity key={index}
           onPress={() => this.props.onSelectItem(item)}
@@ -24,10 +26,10 @@ class BottomSheetPickerContentListItem extends React.Component {
           </View>
 
           { this.hasSelected(item) &&
-            <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} style={{marginRight: item.type == CUSTOM ? 20 : 0}} />
+            <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} style={{marginRight: (item.type == CUSTOM && isAbleToEdit) ? 20 : 0}} />
           }
 
-          { (!!this.props.showEditForm && item.type == CUSTOM) && 
+          { isAbleToEdit && 
             <TouchableOpacity onPress={() => this.props.showEditForm(item)} style={[styles.editButton, { borderWidth: 0, alignItems: 'flex-end' }]} >
               <MaterialIcon name='edit' color={Color.clickableColor} size={20} />
             </TouchableOpacity>
@@ -35,6 +37,10 @@ class BottomSheetPickerContentListItem extends React.Component {
         </TouchableOpacity>
       )
     })
+  }
+
+  isAbleToEdit(item) {
+    return !!this.props.showEditForm && item.type == CUSTOM && this.props.isAllowToEdit(item, this.props.defaultSelectedItem)
   }
 
   hasSelected(item) {

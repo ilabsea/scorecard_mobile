@@ -76,7 +76,7 @@ const App: () => React$Node = () => {
     settingHelper.checkDefaultProposedIndicatorMethod();
     endpointMigrationService.handleEndpointMigration();
     scorecardMigrationService.handleScorecardEndpointUrlMigration();
-  });
+  }, []);
 
   return (
     <LocalizationProvider>

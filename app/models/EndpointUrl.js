@@ -1,11 +1,13 @@
 import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4'
+import { CUSTOM, DEFAULT } from '../constants/main_constant';
 
 const MODEL = 'EndpointUrl';
 
 const EndpointUrl = (() => {
   return {
     getAll,
+    getAllCustomEndpointUrls,
     findByUuid,
     findByLabel,
     findByUrlValue,
@@ -16,7 +18,13 @@ const EndpointUrl = (() => {
   }
 
   function getAll() {
-    return realm.objects(MODEL).sorted('order', false);
+    const defaultEndpointUrls = realm.objects(MODEL).filtered(`type = '${DEFAULT}' SORT(order ASC)`);
+    const customEndpointUrls = realm.objects(MODEL).filtered(`type = '${CUSTOM}' SORT(order ASC)`);
+    return [...defaultEndpointUrls, ...customEndpointUrls];
+  }
+
+  function getAllCustomEndpointUrls() {
+    return realm.objects(MODEL).filtered(`type = '${CUSTOM}'`);
   }
 
   function findByUuid(uuid) {
