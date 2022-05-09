@@ -60,6 +60,8 @@ const scrollViewPaddingBottom = getDeviceStyle(28, hp('35%'));
 
 const containerPadding = getDeviceStyle(20, 15);
 
+const cardItemPadding = 16;
+
 const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('4%') : wp('1%'));
 
 const navigationBackButtonFlex = 0.26;
@@ -78,6 +80,7 @@ export {
   normalLabelSize,
   scrollViewPaddingBottom,
   containerPadding,
+  cardItemPadding,
   navigationTitlePaddingLeft,
   navigationBackButtonFlex,
 };

@@ -60,6 +60,11 @@ export const smallTextFontSize = () => {
   return getDeviceStyle(14, mobileFontSize);
 }
 
+export const mediumIconSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(20, 18);
+  return getDeviceStyle(20, mobileFontSize);
+}
+
 export const smallIconSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(18, 16);
   return getDeviceStyle(18, mobileFontSize)

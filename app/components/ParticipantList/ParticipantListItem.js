@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {Icon} from 'native-base';
+
 import {LocalizationContext} from '../Translations';
-import participantHelper from '../../helpers/participant_helper';
+import ParticipantListItemAttributes from './ParticipantListItemAttributes';
 
 import Color from '../../themes/color';
+import listItemStyles from '../../themes/scorecardListItemStyle';
+import { navigate } from '../../navigators/app_navigator';
+import { mediumIconSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
 import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
@@ -14,93 +17,40 @@ const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListIt
 
 class ParticipantListItem extends Component {
   static contextType = LocalizationContext;
-  renderParticipantNumber = (participant, index) => {
-    if (participant != undefined)
-      return (
-        <View style={styles.numberContainer}>
-          <Text style={styles.numberLabel}>{index + 1}</Text>
-        </View>
-      );
 
-    return <MaterialIcon name="help" size={45} color={Color.grayColor} style={{marginTop: -4, marginLeft: -4}} />;
-  };
-
-  renderGender = (participant) => {
-    if (participant === undefined) return <Text style={styles.emptyLabel}>---</Text>;
-    if (participant.gender === '')
-      return <MaterialIcon name="person" size={25} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
-
-    const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return <FontAwesomeIcon name={gender} size={25} style={styles.iconStyle} color={Color.blackColor} />;
-  };
-
-  getAge = (participant) => {
-    if (participant === undefined || participant.age === '')
-      return '---';
-
-    return participant.age;
+  editParticipant = () => {
+    const participantUuid = this.props.participant != undefined ? this.props.participant.uuid : null;
+    navigate('AddNewParticipant', { scorecard_uuid: this.props.scorecardUuid, index: this.props.index, participant_uuid: participantUuid });
   }
 
-  renderStatusIcon = (participant, fieldName) => {
-    if (participant === undefined) return <Text style={styles.emptyLabel}>---</Text>;
-
-    if (!participant[fieldName])
-      return <MaterialIcon name="cancel" size={25} color="#a52b2b" style={styles.iconStyle} />;
-
-    return <MaterialIcon name="check-circle" size={25} color="#4a76f3" style={styles.iconStyle} />;
+  renderOrderNumber() {
+    return <View style={{justifyContent: 'center'}}>
+            <View style={styles.numberContainer}>
+              <Text style={styles.numberLabel}>{this.props.index + 1}</Text>
+            </View>
+          </View>
   }
 
-  editParticipant = (index) => {
-    const participantUUID = this.props.participant != undefined ? this.props.participant.uuid : null;
-    this.props.navigation.navigate('AddNewParticipant', {scorecard_uuid: this.props.scorecardUUID, index: index, participant_uuid: participantUUID});
+  renderAttributes() {
+    return <View style={{paddingLeft: 0, justifyContent: 'center', flex: 1}}>
+            <ParticipantListItemAttributes participant={this.props.participant}/>
+           </View>
+  }
+
+  renderArrowIcon() {
+    return <View style={{justifyContent: 'center'}}>
+            <Icon name='chevron-forward-outline' style={{color: Color.headerColor, fontSize: mediumIconSize(), width: 13}} />
+           </View>
   }
 
   render() {
-    const {translations} = this.context;
-    const {index, participant} = this.props;
     return (
-      <TouchableOpacity>
-        <View style={styles.itemContainer}>
-          <View style={styles.orderNumberColumn}>
-            {this.renderParticipantNumber(participant, index)}
-          </View>
-          <View style={styles.itemColumn}>
-            <View style={styles.itemValueContainer}>{this.renderGender(participant)}</View>
-          </View>
-          <View style={styles.itemColumn}>
-            <View style={styles.itemValueContainer}>
-              <Text style={styles.ageLabel}>{this.getAge(participant)}</Text>
-            </View>
-          </View>
-          <View style={styles.itemColumn}>
-            <View style={styles.itemValueContainer}>
-              {this.renderStatusIcon(participant, 'disability')}
-            </View>
-          </View>
-          <View style={styles.itemColumn}>
-            <View style={styles.itemValueContainer}>
-              {this.renderStatusIcon(participant, 'minority')}
-            </View>
-          </View>
-          <View style={styles.itemColumn}>
-            <View style={styles.itemValueContainer}>
-              {this.renderStatusIcon(participant, 'poor')}
-            </View>
-          </View>
-          <View style={styles.itemColumn}>
-            <View style={styles.itemValueContainer}>
-              {this.renderStatusIcon(participant, 'youth')}
-            </View>
-          </View>
-          <TouchableOpacity style={[{alignItems: 'center', paddingTop: 0}, styles.actionColumn]}
-            onPress={() => this.editParticipant(index)}>
-            <MaterialIcon name="edit" size={25} color={Color.primaryButtonColor} />
-            <Text style={styles.editLabel}>{translations.edit}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{borderBottomWidth: 1, borderBottomColor: '#b9b9b9', flex: 1}} />
+      <TouchableOpacity onPress={() => this.editParticipant()} style={[styles.itemContainer, listItemStyles.card]}>
+        { this.renderOrderNumber() }
+        { this.renderAttributes() }
+        { this.renderArrowIcon() }
       </TouchableOpacity>
-    );
+    )
   }
 }
 
