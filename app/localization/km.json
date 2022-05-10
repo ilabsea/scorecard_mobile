@@ -358,5 +358,7 @@
   "theOwnerHasBeenChanged": "អ្នកអនុវត្តប័ណ្ណដាក់ពិន្ទុត្រូវបានផ្លាស់ប្ដូរ",
   "theServerUrlHasBeenChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ",
   "editServerUrl": "កែប្រែអាស័យដ្ឋានម៉ាសុីនមេ",
-  "editParticipant": "កែប្រែព័ត៌មានអ្នកចូលរួម"
+  "editParticipant": "កែប្រែព័ត៌មានអ្នកចូលរួម",
+  "successfullyCreatedParticipant": "បានបង្កើតអ្នកចូលរួមបានដោយជោគជ័យ",
+  "successfullyUpdatedParticipant": "បានកែប្រែអ្នកចូលរួមដោយជោគជ័យ"
 }

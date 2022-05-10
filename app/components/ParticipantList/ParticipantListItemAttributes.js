@@ -8,7 +8,7 @@ import {LocalizationContext} from '../Translations';
 import Color from '../../themes/color';
 import participantHelper from '../../helpers/participant_helper';
 import uuidv4 from '../../utils/uuidv4';
-import { bodyFontSize, smallTextFontSize, mediumIconSize } from '../../utils/font_size_util';
+import { smallTextFontSize, mediumIconSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
 import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
@@ -54,7 +54,7 @@ class ParticipantListItemAgeAndGender extends React.Component {
     return (
       <View style={{flexDirection: 'row', borderWidth: 0, paddingHorizontal: 12, alignItems: 'center'}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={{fontSize: bodyFontSize()}}>{ this.getAge() }</Text>
+          <Text style={{fontSize: smallTextFontSize()}}>{ this.getAge() }</Text>
           <Text style={{fontSize: smallTextFontSize()}}> { translations.year }{ appLanguage == 'en' ? 's' : '' }</Text>
         </View>
 

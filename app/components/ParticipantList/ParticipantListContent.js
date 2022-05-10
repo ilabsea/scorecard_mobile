@@ -52,15 +52,11 @@ class ParticipantListContent extends React.Component {
   }
 
   renderNoData() {
-    const { translations } = this.context;
-
-    return (
-      <NoDataMessage
-        title={translations.pleaseAddParticipant}
-        buttonLabel={translations.addNewParticipant}
-        onPress={() => this.addNewParticipant()}
-      />
-    );
+    return <NoDataMessage
+            title={this.context.translations.pleaseAddParticipant}
+            buttonLabel={this.context.translations.addNewParticipant}
+            onPress={() => this.addNewParticipant()}
+           />
   }
 
   render () {

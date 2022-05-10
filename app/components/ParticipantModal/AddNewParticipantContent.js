@@ -16,6 +16,7 @@ import styles from '../../themes/participantListItemStyle';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
+import toastMessageUtil from '../../utils/toast_message_util';
 import { MALE } from '../../constants/participant_constant';
 import { participantContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
@@ -105,6 +106,8 @@ class AddNewParticipantContent extends Component {
 
       setTimeout(() => {
         !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
+        const message = isUpdate ? this.context.translations.successfullyUpdatedParticipant : this.context.translations.successfullyCreatedParticipant;
+        toastMessageUtil.showSuccessMessage(message)
       }, 50);
     });
   }

@@ -358,5 +358,7 @@
   "theOwnerHasBeenChanged": "The owner has been changed",
   "theServerUrlHasBeenChanged": "The server URL has been changed",
   "editServerUrl": "Edit server URL",
-  "editParticipant": "Edit participant"
+  "editParticipant": "Edit participant",
+  "successfullyCreatedParticipant": "Successfully created participant",
+  "successfullyUpdatedParticipant": "Successfully updated participant"
 }

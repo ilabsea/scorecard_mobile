@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Root } from 'native-base';
 
 import Color from '../../themes/color';
 
@@ -43,33 +44,43 @@ class ParticipantList extends Component {
     this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})
   }
 
+  renderBottomSection() {
+    return (
+      <React.Fragment>
+        <View style={{padding: containerPadding}}>
+          <BottomButton label={this.context.translations.next} onPress={() => this.next()} />
+        </View>
+
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
+          onDismissModal={() => this.setState({ visibleModal: false })}
+        />
+      </React.Fragment>
+    )
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
-          <ProgressHeader
-            title={translations.getStarted}
-            progressIndex={2}
-          />
+      <Root>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+            <ProgressHeader
+              title={translations.getStarted}
+              progressIndex={2}
+            />
 
-          <ParticipantListContent
-            scorecardUuid={this.props.route.params.scorecard_uuid}
-            participants={this.props.participants}
-            participantModalRef={this.participantModalRef}
-            formModalRef={this.formModalRef}
-          />
+            <ParticipantListContent
+              scorecardUuid={this.props.route.params.scorecard_uuid}
+              participants={this.props.participants}
+              participantModalRef={this.participantModalRef}
+              formModalRef={this.formModalRef}
+            />
 
-          <View style={{padding: containerPadding}}>
-            <BottomButton label={translations.next} onPress={() => this.next()} />
+            { this.renderBottomSection() }
           </View>
-
-          <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
-            onDismissModal={() => this.setState({ visibleModal: false })}
-          />
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </Root>
     );
   }
 }
