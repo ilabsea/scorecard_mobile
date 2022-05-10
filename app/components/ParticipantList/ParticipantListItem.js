@@ -4,10 +4,10 @@ import {Icon} from 'native-base';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantListItemAttributes from './ParticipantListItemAttributes';
+import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
 import Color from '../../themes/color';
 import listItemStyles from '../../themes/scorecardListItemStyle';
-import { navigate } from '../../navigators/app_navigator';
 import { mediumIconSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
@@ -19,8 +19,18 @@ class ParticipantListItem extends Component {
   static contextType = LocalizationContext;
 
   editParticipant = () => {
-    const participantUuid = this.props.participant != undefined ? this.props.participant.uuid : null;
-    navigate('AddNewParticipant', { scorecard_uuid: this.props.scorecardUuid, index: this.props.index, participant_uuid: participantUuid });
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
+    this.props.participantModalRef.current?.present();
+  }
+
+  getAddNewParticipantContent() {
+    return <AddNewParticipantContent
+             scorecardUuid={ this.props.scorecardUuid }
+             title={this.context.translations.editParticipant}
+             subTitle={this.context.translations.participantInformation}
+             selectedParticipant={this.props.participant}
+             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
+           />
   }
 
   renderOrderNumber() {
@@ -39,7 +49,7 @@ class ParticipantListItem extends Component {
 
   renderArrowIcon() {
     return <View style={{justifyContent: 'center'}}>
-            <Icon name='chevron-forward-outline' style={{color: Color.headerColor, fontSize: mediumIconSize(), width: 13}} />
+            <Icon name='chevron-forward-outline' style={{color: Color.headerColor, fontSize: mediumIconSize(), width: getDeviceStyle(16, 13)}} />
            </View>
   }
 

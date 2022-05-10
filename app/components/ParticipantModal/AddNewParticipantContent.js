@@ -18,6 +18,7 @@ import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 import { MALE } from '../../constants/participant_constant';
 import { participantContentHeight } from '../../constants/modal_constant';
+import participantHelper from '../../helpers/participant_helper';
 
 class AddNewParticipantContent extends Component {
   static contextType = LocalizationContext;
@@ -25,14 +26,17 @@ class AddNewParticipantContent extends Component {
   constructor(props) {
     super(props);
     this.ageRef = React.createRef();
+
+    const {age, gender, disability, minority, poor, youth} = participantHelper.getDefaultParticipantInfo(props.selectedParticipant);
+
     this.state = {
-      age: 0,
-      selectedGender: MALE,
-      isDisability: false,
-      isMinority: false,
-      isPoor: false,
-      isYouth: false,
-      isValidAge: false,
+      age: age,
+      selectedGender: gender,
+      isDisability: disability,
+      isMinority: minority,
+      isPoor: poor,
+      isYouth: youth,
+      isValidAge: age > 0
     };
   }
 
@@ -59,20 +63,32 @@ class AddNewParticipantContent extends Component {
   }
 
   renderForm = () => {
+    const participant = {
+      age: this.state.age,
+      selectedGender: this.state.selectedGender,
+      isDisability: this.state.isDisability,
+      isMinority: this.state.isMinority,
+      isPoor: this.state.isPoor,
+      isYouth: this.state.isYouth,
+    }
+
     return (
       <ParticipantForm
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
         containerStyle={{paddingBottom: 65, paddingTop: 0}}
         renderSmallSize={true}
+        isUpdate={!!this.props.selectedParticipant}
+        participant={participant}
       />
     );
   };
 
   save = () => {
     const {age, selectedGender, isDisability, isMinority, isPoor, isYouth} = this.state;
+    const isUpdate = !!this.props.selectedParticipant;
     let attrs = {
-      uuid: uuidv4(),
+      uuid: this.props.selectedParticipant ? this.props.selectedParticipant.uuid : uuidv4(),
       age: parseInt(age),
       gender: selectedGender,
       disability: isDisability,
@@ -80,10 +96,10 @@ class AddNewParticipantContent extends Component {
       poor: isPoor,
       youth: isYouth,
       scorecard_uuid: this.props.scorecardUuid,
-      order: 0,
+      order: isUpdate ? this.props.selectedParticipant.order : 0,
     };
 
-    saveParticipantInfo(attrs, this.props.scorecardUuid, false, (participants, participant) => {
+    saveParticipantInfo(attrs, this.props.scorecardUuid, isUpdate, (participants, participant) => {
       this.props.saveParticipant(participants, this.props.scorecardUuid);
       this.resetFormData();
 
@@ -101,7 +117,9 @@ class AddNewParticipantContent extends Component {
         <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposedIndicator } />
 
         <View style={{padding: containerPadding, flex: 1}}>
-          <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>{translations.addNewParticipant}</Text>
+          <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
+            { !!this.props.subTitle ? this.props.subTitle : translations.addNewParticipant }
+          </Text>
           {this.renderForm()}
         </View>
 

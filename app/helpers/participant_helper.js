@@ -1,6 +1,7 @@
 import Color from '../themes/color';
 import ProposedIndicator from '../models/ProposedIndicator';
 import Participant from '../models/Participant';
+import { MALE } from '../constants/participant_constant';
 
 const participantHelper = (() => {
   return {
@@ -8,6 +9,7 @@ const participantHelper = (() => {
     getItemColor,
     isYouth,
     getParticipantByIndicator,
+    getDefaultParticipantInfo,
   };
 
   function getGenderIconLabel(gender) {
@@ -43,6 +45,31 @@ const participantHelper = (() => {
     });
 
     return participantOrderNumbers.sort((a, b) => a > b);
+  }
+
+  function getDefaultParticipantInfo(selectedParticipant) {
+    const fieldNames = ['age', 'gender', 'disability', 'minority', 'poor', 'youth'];
+    let defaultValue = {};
+
+    fieldNames.map(fieldName => {
+      defaultValue[fieldName] = _getDefaultValueByFieldName(fieldName, selectedParticipant);
+    });
+
+    return defaultValue;
+  }
+
+  // private method
+  function _getDefaultValueByFieldName(fieldName, selectedParticipant) {
+    const defaultValue = {
+      'age': 0,
+      'gender': MALE,
+      'disability': false,
+      'minority': false,
+      'poor': false,
+      'youth': false,
+    }
+
+    return !!selectedParticipant ? selectedParticipant[fieldName] : defaultValue[fieldName];
   }
 })();
 

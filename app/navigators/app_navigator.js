@@ -21,7 +21,6 @@ import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
 import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
-import AddNewParticipantScreen from '../screens/AddNewParticipant/AddNewParticipant';
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
@@ -162,13 +161,6 @@ function AppNavigator() {
         options={({navigation}) => ({
           header: () => null,
         })}
-      />
-      <Stack.Screen
-        name="AddNewParticipant"
-        component={AddNewParticipantScreen}
-        options={{
-          title: `${translations.newParticipant}`,
-        }}
       />
       <Stack.Screen
         name="RaisingProposed"

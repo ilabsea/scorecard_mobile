@@ -5,17 +5,27 @@ import {LocalizationContext} from '../Translations';
 import ParticipantListContentTitle from './ParticipantListContentTitle';
 import ParticipantListItem from './ParticipantListItem';
 import NoDataMessage from '../NoDataMessage';
+import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
-import { navigate } from '../../navigators/app_navigator';
 
 class ParticipantListContent extends React.Component {
   static contextType = LocalizationContext;
 
   addNewParticipant() {
-    navigate('AddNewParticipant', {scorecard_uuid: this.props.scorecardUuid});
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
+    this.props.participantModalRef.current?.present();
+  }
+
+  getAddNewParticipantContent() {
+    return <AddNewParticipantContent
+             scorecardUuid={ this.props.scorecardUuid }
+             title={this.context.translations.addNewParticipant}
+             subTitle={this.context.translations.participantInformation}
+             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
+           />
   }
 
   renderTitle() {
@@ -27,12 +37,14 @@ class ParticipantListContent extends React.Component {
   renderParticipantList = () => {
     const numberOfParticipant = Scorecard.find(this.props.scorecardUuid).number_of_participant;
     this.totalParticipant = numberOfParticipant;
-
     let doms = null;
 
     if (Participant.getAll(this.props.scorecardUuid).length > 0) {
       doms = this.props.participants.map((participant, index) =>
-        <ParticipantListItem key={index} index={index} participant={participant} scorecardUuid={this.props.scorecardUuid} />
+        <ParticipantListItem key={index} index={index} participant={participant} scorecardUuid={this.props.scorecardUuid}
+          participantModalRef={this.props.participantModalRef}
+          formModalRef={this.props.formModalRef}
+        />
       )
     }
 

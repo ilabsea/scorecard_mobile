@@ -7,13 +7,14 @@ import {LocalizationContext} from '../../components/Translations';
 import ParticipantListContent from '../../components/ParticipantList/ParticipantListContent';
 import BottomButton from '../../components/BottomButton';
 import ProgressHeader from '../../components/ProgressHeader';
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
 import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-
 import { containerPadding } from '../../utils/responsive_util';
+import {participantModalSnapPoints} from '../../constants/modal_constant';
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
@@ -24,6 +25,8 @@ class ParticipantList extends Component {
     this.state = {
       isLoading: false,
     }
+    this.participantModalRef = React.createRef();
+    this.formModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -54,11 +57,17 @@ class ParticipantList extends Component {
           <ParticipantListContent
             scorecardUuid={this.props.route.params.scorecard_uuid}
             participants={this.props.participants}
+            participantModalRef={this.participantModalRef}
+            formModalRef={this.formModalRef}
           />
 
           <View style={{padding: containerPadding}}>
             <BottomButton label={translations.next} onPress={() => this.next()} />
           </View>
+
+          <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
+            onDismissModal={() => this.setState({ visibleModal: false })}
+          />
         </View>
       </TouchableWithoutFeedback>
     );
