@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
 
 import {LocalizationContext} from '../Translations';
-import ParticipantListItemAttributes from './ParticipantListItemAttributes';
+import ParticipantAttributes from './ParticipantAttributes';
 
 import Color from '../../themes/color';
 import listItemStyles from '../../themes/scorecardListItemStyle';
@@ -27,7 +27,7 @@ class ParticipantListItem extends Component {
 
   renderAttributes() {
     return <View style={{paddingLeft: 0, justifyContent: 'center', flex: 1}}>
-            <ParticipantListItemAttributes participant={this.props.participant}/>
+            <ParticipantAttributes participant={this.props.participant}/>
            </View>
   }
 

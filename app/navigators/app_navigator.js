@@ -20,7 +20,7 @@ import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndi
 import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
-import ParticipantListScreen from '../screens/ParticipantList/ParticipantList';
+import ParticipantScreen from '../screens/Participant/Participant';
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
@@ -156,8 +156,8 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="ParticipantList"
-        component={ParticipantListScreen}
+        name="Participant"
+        component={ParticipantScreen}
         options={({navigation}) => ({
           header: () => null,
         })}

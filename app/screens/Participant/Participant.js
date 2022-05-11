@@ -5,19 +5,19 @@ import { Root } from 'native-base';
 import Color from '../../themes/color';
 
 import {LocalizationContext} from '../../components/Translations';
-import ParticipantListContent from '../../components/ParticipantList/ParticipantListContent';
+import ParticipantMain from '../../components/Participant/ParticipantMain';
 import BottomButton from '../../components/BottomButton';
 import ProgressHeader from '../../components/ProgressHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
-import Participant from '../../models/Participant';
+import ParticipantModel from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
 import {participantListModalSnapPoints} from '../../constants/modal_constant';
 
-class ParticipantList extends Component {
+class Participant extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -35,7 +35,7 @@ class ParticipantList extends Component {
   }
 
   fetchParticipant = () => {
-    const participants = Participant.findByScorecard(this.props.route.params.scorecard_uuid);
+    const participants = ParticipantModel.findByScorecard(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 
@@ -70,7 +70,7 @@ class ParticipantList extends Component {
               progressIndex={2}
             />
 
-            <ParticipantListContent
+            <ParticipantMain
               scorecardUuid={this.props.route.params.scorecard_uuid}
               participants={this.props.participants}
               participantModalRef={this.participantModalRef}
@@ -93,4 +93,4 @@ function mapDispatchToProps(dispatch) {
   return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ParticipantList);
+export default connect(mapStateToProps, mapDispatchToProps)(Participant);

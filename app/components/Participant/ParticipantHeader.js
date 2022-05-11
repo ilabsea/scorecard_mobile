@@ -10,7 +10,7 @@ import ParticipantListMobileStyles from '../../styles/mobile/ParticipantListScre
 
 const styles = getDeviceStyle(ParticipantListTabletStyles, ParticipantListMobileStyles);
 
-class ParticipantListContentTitle extends React.Component {
+class ParticipantHeader extends React.Component {
   static contextType = LocalizationContext;
 
   render () {
@@ -40,4 +40,4 @@ class ParticipantListContentTitle extends React.Component {
   }
 }
 
-export default ParticipantListContentTitle;
+export default ParticipantHeader;

@@ -5,7 +5,7 @@ export default [
     notes: [
       "សូមបញ្ចូលទិន្នន័យរបស់អ្នកចូលរួមនីមួយៗ ហើយយកលេខរៀងដែលទទួលបានពីកម្មវិធី មកសរសេរលើស្ទីកគ័រ ហើយបិទលើស្មារជូនពួកគាត់",
     ],
-    navigateTo: "ParticipantList",
+    navigateTo: "Participant",
     header: {
       title: "getStarted",
       type: "ProgressHeader",

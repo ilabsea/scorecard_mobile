@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import ParticipantListContentTitle from './ParticipantListContentTitle';
+import ParticipantHeader from './ParticipantHeader';
 import ParticipantListItem from './ParticipantListItem';
 import NoDataMessage from '../NoDataMessage';
 import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
@@ -12,7 +12,7 @@ import { containerPaddingTop, containerPadding } from '../../utils/responsive_ut
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
 
-class ParticipantListContent extends React.Component {
+class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
@@ -32,7 +32,7 @@ class ParticipantListContent extends React.Component {
   }
 
   renderTitle() {
-    return <ParticipantListContentTitle
+    return <ParticipantHeader
             participants={this.props.participants}
             addNewParticipant={() => this.showParticipantBottomSheet(null)} />
   }
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParticipantListContent;
+export default ParticipantMain;
