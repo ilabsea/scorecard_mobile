@@ -15,7 +15,7 @@ import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantList
 
 const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
-class ParticipantListItemAgeAndGender extends React.Component {
+class ParticipantListItemAttributes extends React.Component {
   static contextType = LocalizationContext;
 
   renderGender = () => {
@@ -63,4 +63,4 @@ class ParticipantListItemAgeAndGender extends React.Component {
   }
 }
 
-export default ParticipantListItemAgeAndGender;
+export default ParticipantListItemAttributes;

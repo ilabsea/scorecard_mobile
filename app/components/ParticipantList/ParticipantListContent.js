@@ -23,7 +23,7 @@ class ParticipantListContent extends React.Component {
   getAddNewParticipantContent(selectedParticipant) {
     return <AddNewParticipantContent
             scorecardUuid={ this.props.scorecardUuid }
-            title={this.context.translations.editParticipant}
+            title={!!selectedParticipant ? this.context.translations.editParticipant : this.context.translations.addNewParticipant}
             subTitle={this.context.translations.participantInformation}
             selectedParticipant={selectedParticipant}
             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }

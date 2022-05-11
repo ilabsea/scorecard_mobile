@@ -13,7 +13,9 @@ const Participant = (() => {
     create,
     update,
     findByScorecard,
+    findByScorecardAndParticipantUuid,
     getNumberOfProposedParticipant,
+    getRaisedParticipants,
   }
 
   function find(uuid) {
@@ -64,8 +66,16 @@ const Participant = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
   }
 
+  function findByScorecardAndParticipantUuid(scorecardUuid, participantUuid) {
+    return realm.objects('Participant').filtered('scorecard_uuid = "'+ scorecardUuid +'" AND uuid ="'+ participantUuid +'"')[0];
+  }
+
   function getNumberOfProposedParticipant(scorecardUuid) {
     return realm.objects('ProposedIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
+  }
+
+  function getRaisedParticipants(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
   }
 })();
 
