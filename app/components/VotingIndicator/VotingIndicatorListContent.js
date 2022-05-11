@@ -12,7 +12,7 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { titleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import * as participantService from '../../services/participant_service';
+import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { hasVoting } from '../../helpers/voting_indicator_helper';
 
@@ -48,7 +48,7 @@ class VotingIndicatorListContent extends React.Component {
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
 
           <ParticipantInfo
-            participants={ participantService.getUnvoted(this.props.scorecard.uuid) }
+            participants={ Participant.getUnvoted(this.props.scorecard.uuid) }
             scorecardUuid={ this.props.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
             buttonVisible={true}

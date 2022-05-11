@@ -65,7 +65,6 @@
   "resume": "បន្ត",
   "submit": "ដាក់ស្នើ",
   "resumeDownload": "បន្តការទាញយក",
-  "newParticipant": "អ្នកចូលរួមថ្មី",
   "allParticipant": "អ្នក​ចូល​រួម​សរុប​",
   "enterNumberOfParticipant": "សូមបញ្ចូលចំនួន​អ្នក​ចូលរួម​",
   "allParticipantRequireMsg": "ត្រូវ​ការ​ចំនួន​អ្នកចូល​រួម​",
@@ -358,5 +357,8 @@
   "doYouWantToDeleteThisServerUrl": "តើអ្នកពិតជាចង់លុបអាស័យដ្ឋានម៉ាសុីនមេ {0} ({1}) នេះមែនទេ?",
   "theOwnerHasBeenChanged": "អ្នកអនុវត្តប័ណ្ណដាក់ពិន្ទុត្រូវបានផ្លាស់ប្ដូរ",
   "theServerUrlHasBeenChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ",
-  "editServerUrl": "កែប្រែអាស័យដ្ឋានម៉ាសុីនមេ"
+  "editServerUrl": "កែប្រែអាស័យដ្ឋានម៉ាសុីនមេ",
+  "editParticipant": "កែប្រែព័ត៌មានអ្នកចូលរួម",
+  "successfullyCreatedParticipant": "បានបង្កើតអ្នកចូលរួមបានដោយជោគជ័យ",
+  "successfullyUpdatedParticipant": "បានកែប្រែអ្នកចូលរួមដោយជោគជ័យ"
 }

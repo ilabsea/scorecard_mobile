@@ -11,7 +11,6 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
-import { getRaisedParticipants } from '../../services/participant_service';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
@@ -45,7 +44,7 @@ class ListUser extends Component {
 
   render() {
     const {translations} = this.context;
-    const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
+    const raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
 
     return (
       <View>

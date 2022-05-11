@@ -1,57 +1,44 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { numberContainerSize } from '../../utils/participant_list_util';
+import { pressableItemSize } from '../../utils/component_util';
+import { mediumIconSize, bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import { cardItemPadding } from '../../utils/responsive_util';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
-    flex: 1,
-    paddingTop: 20,
-    paddingBottom: 5,
-    borderWidth: 0
-  },
-  orderNumberColumn: {
-    width: 60,
-  },
-  itemColumn: {
-    flex: 1,
-    height: 60,
-    alignItems: 'center',
-  },
-  itemValueContainer: {
-    paddingTop: 10,
+    marginBottom: 14,
+    minHeight: pressableItemSize(28),
+    backgroundColor: Color.whiteColor,
+    borderRadius: 4,
+    paddingHorizontal: cardItemPadding
   },
   numberContainer: {
     width: numberContainerSize,
     height: numberContainerSize,
-    marginTop: 5,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Color.grayColor,
   },
   numberLabel: {
-    fontSize: 18,
+    fontSize: bodyFontSize(),
     color: Color.whiteColor,
     margin: 0,
     padding: 0,
     textAlign: 'center',
   },
-  emptyLabel: {
-    fontSize: 18,
-    textAlign: 'center',
-  },
   iconStyle: {
-    fontSize: 25,
+    fontSize: mediumIconSize(),
   },
-  ageLabel: {
-    fontSize: 18
+  genderContainer: {
+    paddingRight: 10,
+    paddingLeft: 16
   },
-  editLabel: {
-    color: Color.primaryButtonColor,
-  },
-  actionColumn: {
-    width: 60,
+  attributeLabel: {
+    paddingHorizontal: 8,
+    fontSize: smallTextFontSize()
   }
 });
 

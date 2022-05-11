@@ -1,18 +1,8 @@
-import realm from '../db/schema';
-
 import Participant from '../models/Participant';
 import ProposedIndicator from '../models/ProposedIndicator';
 
-const getRaisedParticipants = (scorecardUuid) => {
-  return realm.objects('Participant').filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
-}
-
-const getParticipantInfo = (scorecardUuid, participantUuid) => {
-  return realm.objects('Participant').filtered('scorecard_uuid = "'+ scorecardUuid +'" AND uuid ="'+ participantUuid +'"')[0];
-}
-
 const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => {
-  let participants = realm.objects('Participant').filtered('scorecard_uuid = "'+ scorecardUuid +'"').sorted('order', false);
+  const participants = Participant.findByScorecard(scorecardUuid);
   let attrs = participant;
 
   if (!isUpdate)
@@ -20,18 +10,12 @@ const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => 
 
   let savedParticipant = null;
 
-  realm.write(() => {
-    if (!isUpdate)
-      savedParticipant = realm.create('Participant', attrs);
-    else
-      realm.create('Participant', attrs, 'modified');
-  });
+  if (!isUpdate)
+    Participant.create(attrs);
+  else
+    Participant.update(attrs.uuid, attrs);
 
   callback(participants, savedParticipant);
-}
-
-const getUnvoted = (scorecardUuid) => {
-  return realm.objects('Participant').filtered(`scorecard_uuid='${scorecardUuid}' AND voted=false SORT(order ASC)`);
 }
 
 const updateRaisedParticipants = (scorecardUuid) => {
@@ -46,9 +30,6 @@ const updateRaisedParticipants = (scorecardUuid) => {
 }
 
 export {
-  getRaisedParticipants,
-  getParticipantInfo,
   saveParticipantInfo,
-  getUnvoted,
   updateRaisedParticipants,
 };

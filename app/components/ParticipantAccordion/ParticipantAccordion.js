@@ -5,7 +5,7 @@ import Accordion from '../Accordion';
 import ParticipantAccordionTitle from './ParticipantAccordionTitle';
 import ParticipantAccordionContent from './ParticipantAccordionContent';
 
-import { getRaisedParticipants } from '../../services/participant_service';
+import Participant from '../../models/Participant';
 
 let _this = null;
 
@@ -21,7 +21,7 @@ class ParticipantAccordion extends Component {
   }
 
   componentDidMount() {
-    const raisedParticipants = getRaisedParticipants(this.props.scorecardUuid);
+    const  raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
     this.setState({ participants: raisedParticipants})
   }
 
