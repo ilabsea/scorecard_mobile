@@ -4,7 +4,6 @@ import {Icon} from 'native-base';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantListItemAttributes from './ParticipantListItemAttributes';
-import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
 import Color from '../../themes/color';
 import listItemStyles from '../../themes/scorecardListItemStyle';
@@ -17,21 +16,6 @@ const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListIt
 
 class ParticipantListItem extends Component {
   static contextType = LocalizationContext;
-
-  editParticipant = () => {
-    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
-    this.props.participantModalRef.current?.present();
-  }
-
-  getAddNewParticipantContent() {
-    return <AddNewParticipantContent
-             scorecardUuid={ this.props.scorecardUuid }
-             title={this.context.translations.editParticipant}
-             subTitle={this.context.translations.participantInformation}
-             selectedParticipant={this.props.participant}
-             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
-           />
-  }
 
   renderOrderNumber() {
     return <View style={{justifyContent: 'center'}}>
@@ -55,7 +39,9 @@ class ParticipantListItem extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.editParticipant()} style={[styles.itemContainer, listItemStyles.card]}>
+      <TouchableOpacity onPress={() => this.props.showParticipantBottomSheet(this.props.participant)}
+        style={[styles.itemContainer, listItemStyles.card]}
+      >
         { this.renderOrderNumber() }
         { this.renderAttributes() }
         { this.renderArrowIcon() }

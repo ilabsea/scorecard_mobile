@@ -15,7 +15,7 @@ import {connect} from 'react-redux';
 import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
-import {participantModalSnapPoints} from '../../constants/modal_constant';
+import {participantListModalSnapPoints} from '../../constants/modal_constant';
 
 class ParticipantList extends Component {
   static contextType = LocalizationContext;
@@ -51,7 +51,7 @@ class ParticipantList extends Component {
           <BottomButton label={this.context.translations.next} onPress={() => this.next()} />
         </View>
 
-        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantListModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
       </React.Fragment>

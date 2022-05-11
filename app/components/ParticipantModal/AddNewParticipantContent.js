@@ -114,9 +114,10 @@ class AddNewParticipantContent extends Component {
 
   render() {
     const {translations} = this.context;
+    const contentHeight = !!this.props.contentHeight ? this.props.contentHeight : participantContentHeight;
 
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(contentHeight)}}>
         <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposedIndicator } />
 
         <View style={{padding: containerPadding, flex: 1}}>

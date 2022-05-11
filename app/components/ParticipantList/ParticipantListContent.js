@@ -7,6 +7,7 @@ import ParticipantListItem from './ParticipantListItem';
 import NoDataMessage from '../NoDataMessage';
 import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
+import { participantListContentHeight } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
@@ -14,24 +15,26 @@ import Participant from '../../models/Participant';
 class ParticipantListContent extends React.Component {
   static contextType = LocalizationContext;
 
-  addNewParticipant() {
-    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
+  showParticipantBottomSheet(selectedParticipant) {
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent(selectedParticipant));
     this.props.participantModalRef.current?.present();
   }
 
-  getAddNewParticipantContent() {
+  getAddNewParticipantContent(selectedParticipant) {
     return <AddNewParticipantContent
-             scorecardUuid={ this.props.scorecardUuid }
-             title={this.context.translations.addNewParticipant}
-             subTitle={this.context.translations.participantInformation}
-             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
-           />
+            scorecardUuid={ this.props.scorecardUuid }
+            title={this.context.translations.editParticipant}
+            subTitle={this.context.translations.participantInformation}
+            selectedParticipant={selectedParticipant}
+            onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
+            contentHeight={participantListContentHeight}
+          />
   }
 
   renderTitle() {
     return <ParticipantListContentTitle
             participants={this.props.participants}
-            addNewParticipant={() => this.addNewParticipant()} />
+            addNewParticipant={() => this.showParticipantBottomSheet(null)} />
   }
 
   renderParticipantList = () => {
@@ -44,6 +47,7 @@ class ParticipantListContent extends React.Component {
         <ParticipantListItem key={index} index={index} participant={participant} scorecardUuid={this.props.scorecardUuid}
           participantModalRef={this.props.participantModalRef}
           formModalRef={this.props.formModalRef}
+          showParticipantBottomSheet={(selectedParticipant) => this.showParticipantBottomSheet(selectedParticipant)}
         />
       )
     }
@@ -55,7 +59,7 @@ class ParticipantListContent extends React.Component {
     return <NoDataMessage
             title={this.context.translations.pleaseAddParticipant}
             buttonLabel={this.context.translations.addNewParticipant}
-            onPress={() => this.addNewParticipant()}
+            onPress={() => this.showParticipantBottomSheet(null)}
            />
   }
 
