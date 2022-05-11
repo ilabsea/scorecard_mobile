@@ -107,7 +107,7 @@ class AddNewParticipantContent extends Component {
       setTimeout(() => {
         !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
         const message = isUpdate ? this.context.translations.successfullyUpdatedParticipant : this.context.translations.successfullyCreatedParticipant;
-        toastMessageUtil.showSuccessMessage(message)
+        toastMessageUtil.showMessage(message);
       }, 50);
     });
   }

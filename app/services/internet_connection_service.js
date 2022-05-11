@@ -1,5 +1,5 @@
-import { ToastAndroid } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
+import toastMessageUtil from '../utils/toast_message_util';
 
 const internetConnectionService = (() => {
   return {
@@ -19,13 +19,7 @@ const internetConnectionService = (() => {
   }
 
   function showAlertMessage(message) {
-    ToastAndroid.showWithGravityAndOffset(
-      message,
-      ToastAndroid.SHORT,
-      ToastAndroid.BOTTOM,
-      0,
-      150
-    );
+    toastMessageUtil.showMessage(message);
   }
 })();
 

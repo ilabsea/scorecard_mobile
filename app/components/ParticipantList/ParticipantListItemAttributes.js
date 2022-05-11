@@ -27,10 +27,7 @@ class ParticipantListItemAgeAndGender extends React.Component {
   };
 
   getAge = () => {
-    if (this.props.participant === undefined || this.props.participant.age === '')
-      return '---';
-
-    return this.props.participant.age;
+    return !this.props.participant ? '' : this.props.participant.age;
   }
 
   renderAttributes() {
