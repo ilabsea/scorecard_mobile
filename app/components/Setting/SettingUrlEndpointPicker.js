@@ -103,7 +103,6 @@ class SettingUrlEndpointPicker extends React.Component {
 
   render() {
     const {translations} = this.context;
-
     return (
       <View style={{marginBottom: 30, marginTop: 5}}>
         <BottomSheetPicker

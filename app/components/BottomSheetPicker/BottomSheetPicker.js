@@ -23,7 +23,8 @@ class BottomSheetPicker extends React.Component {
   }
 
   getLabel() {
-    if (!this.props.items) return '';
+    if (!this.props.items)
+      return this.props.label || '';
 
     const selectedItem = this.props.items.filter(item => item.value === this.props.selectedItem);
     return selectedItem.length > 0 ? selectedItem[0].label : this.props.label;
