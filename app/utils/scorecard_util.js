@@ -1,6 +1,7 @@
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { getDeviceStyle, isShortWidthScreen } from './responsive_util';
+import urlUtil from './url_util';
 import { isNumber } from './string_util';
 import { validScorecardUrls } from '../constants/url_constant';
 import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
@@ -50,7 +51,9 @@ export const handleScorecardCodeClipboard = async (updateErrorState) => {
   let copiedText = await Clipboard.getString();
   copiedText = copiedText.replace(' ', '');
 
-  if (copiedText == 'null' || copiedText == '')
+  // Not showing alert message when copied text is null or '' or is not URL format and not number only
+  // To prevent the alert message keep showing when the user copies the text for other purpose then open CSC mobile
+  if (_isNotValidCopiedText(copiedText))
     return;
 
   if (!_isValidScorecardUrl(copiedText) && !isNumber(copiedText)) {
@@ -81,6 +84,10 @@ const _isValidScorecardUrl = (copiedText) => {
   }
 
   return false;
+}
+
+const _isNotValidCopiedText = (copiedText) => {
+  return copiedText == '' || (!urlUtil.isUrl(copiedText) && !isNumber(copiedText));
 }
 
 export const isScorecardInReview = (scorecard) => {

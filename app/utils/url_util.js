@@ -1,6 +1,7 @@
 const urlUtil = (() => {
   return {
     isUrlValid,
+    isUrl
   }
 
   function isUrlValid(url) {
@@ -9,6 +10,12 @@ const urlUtil = (() => {
     return regexp.test(url);
   }
 
+  function isUrl(string) {
+    const matchpattern = new RegExp(`^https?://(?:www\.)?${domainNameValidationPattern()}`);
+    return matchpattern.test(string)
+  }
+
+  // private method
   function ipAddressValidationPattern() {
     const octetsPattern = '[0-9]{1,3}';
     const portPattern = '[0-9]{1,5}';
