@@ -47,6 +47,7 @@ class SettingForm extends Component {
         updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
         formRef={this.props.formRef}
         formModalRef={this.props.formModalRef}
+        savedEndpoint={this.props.backendUrl}
       />
     )
   }

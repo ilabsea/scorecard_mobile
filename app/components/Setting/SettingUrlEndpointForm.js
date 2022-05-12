@@ -20,6 +20,7 @@ class SettingUrlEndpointForm extends React.Component {
   static contextType = LocalizationContext
   constructor(props) {
     super(props);
+
     this.state = {
       endpointLabel: props.editEndpoint ? props.editEndpoint.label : '',
       endpointValue: props.editEndpoint ? props.editEndpoint.value : 'https://',
@@ -28,7 +29,7 @@ class SettingUrlEndpointForm extends React.Component {
       endpointValueErrorMsg: '',
       isFormValid: props.editEndpoint ? true : false,
       isEndpointValueFocused: false,
-      isAllowToDeleteOrEdit: props.editEndpoint ? endpointFormService.isAllowToDeleteOrEdit(props.editEndpoint, props.selectedEndpoint) : true
+      isAllowToDeleteOrEdit: props.editEndpoint ? endpointFormService.isAllowToDeleteOrEdit(props.editEndpoint, props.selectedEndpoint, props.savedEndpoint) : true
     }
     this.scrollViewRef = React.createRef();
   }

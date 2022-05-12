@@ -65,7 +65,7 @@ const authenticationService = (() => {
   async function saveSignInInfo(state) {
     const { backendUrl, email, password } = state;
 
-    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
+    if (!!backendUrl) AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
     AsyncStorage.setItem('SETTING', JSON.stringify({
       backendUrl: backendUrl,
       email: email,
