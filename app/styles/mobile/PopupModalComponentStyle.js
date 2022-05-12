@@ -6,7 +6,9 @@ const PopupModalComponentStyles = StyleSheet.create({
   headerTitle: {
     fontSize: titleFontSize(),
     marginBottom: 0,
-    paddingVertical: containerPadding
+    paddingVertical: containerPadding,
+    flex: 1,
+    paddingRight: 5,
   },
   label: {
     fontSize: bodyFontSize()

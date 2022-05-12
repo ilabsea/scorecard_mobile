@@ -64,7 +64,7 @@ export default class TipModal extends Component {
             dashedLineStyle={{ marginBottom: 8 }}
           />
 
-          <View style={{padding: containerPadding, paddingBottom: 0}}>
+          <View style={{paddingHorizontal: containerPadding}}>
             <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10, fontSize: bodyFontSize() }]}>{ this.state.tip.title }</Text>
 
             { this.renderTips() }
