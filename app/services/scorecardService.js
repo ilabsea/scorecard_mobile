@@ -18,7 +18,6 @@ class ScorecardService {
     this.responsibleModel = 'Scorecard';
     this.scorecard = null;
     this.scorecardApi = new ScorecardApi();
-    this.customIndicatorApi = new CustomIndicatorApi();
     this.customIndicators = null;
     this.scorecard_uuid = null;
     this.progressNumber = 0;
@@ -72,18 +71,17 @@ class ScorecardService {
       return ;
     }
 
-    let customIndicator = indicators[index];
-
-    this.customIndicatorApi.post(this.scorecard_uuid, this.customIndicatorData(customIndicator))
-      .then(function (response) {
-        if (response.status == 201) {
-          // Update the id of the custom indicator with the id that received from the server
-          Indicator.update(customIndicator.indicator_uuid, { id: response.data.id }, _this.scorecard_uuid);
-        }
-
-        _this.updateProgress(callback);
-        _this.uploadCustomIndicator(index + 1, indicators, callback, errorCallback);
-      });
+    const customIndicator = indicators[index];
+    CustomIndicatorApi.post(this.scorecard_uuid, customIndicator, (response) => {
+      if (response.status == 201) {
+        // Update the id of the custom indicator with the id that received from the server
+        Indicator.update(customIndicator.indicator_uuid, { id: response.data.id });
+      }
+      _this.updateProgress(callback);
+      _this.uploadCustomIndicator(index + 1, indicators, callback, errorCallback);
+    }, (errorType) => {
+      !!errorCallback && errorCallback(errorType);
+    })
   }
 
   // ------Step4------
@@ -112,27 +110,6 @@ class ScorecardService {
   }
 
   // Praviate methods
-  customIndicatorData(indicator) {
-    let attrs = {
-      uuid: indicator.uuid,
-      name: indicator.name,
-      tag_attributes: { name: indicator.tag },
-    };
-
-    let data = new FormData();
-    data.append('custom_indicator', JSON.stringify(attrs));
-
-    if (!!indicator.local_audio) {
-      data.append('audio', {
-        uri: 'file://' + indicator.local_audio,
-        type: 'audio/x-mp3',
-        name: 'audio.mp3'
-      });
-    }
-
-    return data;
-  }
-
   // --------------------New scorecard---------------------
   find = async (scorecardUuid, successCallback, failedCallback) => {
     sendRequestToApi(() => this._findScorecard(scorecardUuid, successCallback, failedCallback));
