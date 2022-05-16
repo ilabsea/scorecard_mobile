@@ -68,7 +68,7 @@ class SettingUrlEndpointPicker extends React.Component {
             hasBottomButton={true}
             bottomInfoMessage={<EndpointUrlWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
-            isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem)}
+            isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem, this.props.savedEndpoint)}
           />
   }
 
@@ -90,6 +90,7 @@ class SettingUrlEndpointPicker extends React.Component {
               editEndpoint={editEndpoint}
               selectedEndpoint={this.state.selectedEndpoint}
               reloadEndpoint={() => this.reloadEndpoint()}
+              savedEndpoint={this.props.savedEndpoint}
            />
   }
 

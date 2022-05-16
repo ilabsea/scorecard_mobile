@@ -22,15 +22,19 @@ const authenticationService = (() => {
     const response = await SessionApi.authenticate(email, password);
 
     handleApiResponse(response, (responseData) => {
-      resetLockService.resetLockData(FAILED_SIGN_IN_ATTEMPT);
-      AsyncStorage.setItem('IS_CONNECTED', 'true');
-      AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-      AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
-      MobileTokenService.updateToken(responseData.program_id);
+      if (!!responseData.authentication_token) {
+        resetLockService.resetLockData(FAILED_SIGN_IN_ATTEMPT);
+        AsyncStorage.setItem('IS_CONNECTED', 'true');
+        AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+        AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
+        MobileTokenService.updateToken(responseData.program_id);
 
-      authenticationFormService.clearErrorAuthentication();
-      contactService.downloadContacts(null, null);
-      successCallback(responseData);
+        authenticationFormService.clearErrorAuthentication();
+        contactService.downloadContacts(null, null);
+        successCallback(responseData);
+      }
+      else
+        errorCallback('theServerUrlIsInvalid', false, false)
     }, (error) => {
       let isInvalidAccount = false;
 
@@ -65,7 +69,7 @@ const authenticationService = (() => {
   async function saveSignInInfo(state) {
     const { backendUrl, email, password } = state;
 
-    AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
+    if (!!backendUrl) AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
     AsyncStorage.setItem('SETTING', JSON.stringify({
       backendUrl: backendUrl,
       email: email,

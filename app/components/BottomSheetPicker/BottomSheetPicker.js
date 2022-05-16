@@ -18,26 +18,15 @@ class BottomSheetPicker extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
-    this.state = {
-      listItems: props.items || [],
-      label: props.label
-    }
-
     this.formRef = React.createRef();
     this.formModalRef = React.createRef();
   }
 
-  componentDidUpdate() {
-    if (!!this.props.items && this.props.items != this.state.listItems) {
-      this.setState({
-        listItems: this.props.items,
-        label: this.getLabel()
-      });
-    }
-  }
-
   getLabel() {
-    const selectedItem = this.state.listItems.filter(item => item.value === this.props.selectedItem);
+    if (!this.props.items)
+      return this.props.label || '';
+
+    const selectedItem = this.props.items.filter(item => item.value === this.props.selectedItem);
     return selectedItem.length > 0 ? selectedItem[0].label : this.props.label;
   }
 

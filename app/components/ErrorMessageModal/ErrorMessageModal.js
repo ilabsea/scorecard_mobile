@@ -31,7 +31,8 @@ class ErrorMessageModal extends Component {
     this.setState({
       backendUrl: (setting != null && !!JSON.parse(setting).backendUrl) ? JSON.parse(setting).backendUrl : environment.defaultEndpoint,
     }, () => {
-      AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
+      if (!!this.state.backendUrl)
+        AsyncStorage.setItem('ENDPOINT_URL', this.state.backendUrl);
     });
   }
 

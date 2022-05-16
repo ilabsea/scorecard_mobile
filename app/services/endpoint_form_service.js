@@ -66,9 +66,9 @@ const endpointFormService = (() => {
     return await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
   }
 
-  function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint) {
+  function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {
     if (!Scorecard.allScorecardContainEndpoint(editEndpoint.value))
-      return !!editEndpoint && editEndpoint.value != selectedEndpoint;
+      return !!editEndpoint && editEndpoint.value != selectedEndpoint && editEndpoint.value != savedEndpoint;
     
     return false;
   }
