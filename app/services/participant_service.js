@@ -8,14 +8,15 @@ const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => 
   if (!isUpdate)
     attrs.order = participants.length;
 
-  let savedParticipant = null;
-
   if (!isUpdate)
     Participant.create(attrs);
   else
     Participant.update(attrs.uuid, attrs);
 
-  callback(participants, savedParticipant);
+  setTimeout(() => {
+    const savedParticipant = Participant.find(attrs.uuid);
+    callback(participants, savedParticipant);
+  }, 20);
 }
 
 const updateRaisedParticipants = (scorecardUuid) => {
