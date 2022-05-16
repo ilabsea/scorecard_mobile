@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-
 import { View, Text, StyleSheet, Image } from 'react-native';
+import DeviceInfo from 'react-native-device-info'
 
 import { LocalizationContext } from '../components/Translations';
 import { Icon } from 'native-base';
@@ -46,7 +46,9 @@ export default class Tip extends Component {
                 { translations.tips } - { translations[getTipByScreenName(this.props.screenName).mainTitle] }
               </Text>
 
-              <Text style={[{color: Color.headerColor}, responsiveStyles.viewDetailLabel]}>{translations.viewTips}</Text>
+              { DeviceInfo.isTablet() &&
+                <Text style={[{color: Color.headerColor}, responsiveStyles.viewDetailLabel]}>{translations.viewTips}</Text>
+              }
               <Icon name='chevron-forward-outline' style={[{color: Color.headerColor}, responsiveStyles.viewDetailIcon]} />
             </View>
           </View>

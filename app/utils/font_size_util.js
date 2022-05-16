@@ -20,6 +20,11 @@ export const titleFontSize = () => {
   return getDeviceStyle(20, mobileFontSize);
 }
 
+export const smallTitleFontSize = () => {
+  const mobileFontSize = getMobileFontSizeByPixelRatio(16, 14);
+  return getDeviceStyle(17, mobileFontSize);
+}
+
 export const bigNavigationHeaderTitleFontSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(26, 24);
   return getDeviceStyle(28, mobileFontSize);
