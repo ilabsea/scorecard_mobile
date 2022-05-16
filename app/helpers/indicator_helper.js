@@ -24,7 +24,6 @@ const indicatorHelper = (() => {
   function getDisplayIndicator(proposedIndicator, scorecardObj) {
     const scorecard = scorecardObj || Scorecard.find(proposedIndicator.scorecard_uuid);
     const indicator = Indicator.find(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type);
-
     let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.audio_language_code);
     langIndicator = langIndicator || indicator;
     langIndicator = JSON.parse(JSON.stringify(langIndicator));
@@ -32,7 +31,7 @@ const indicatorHelper = (() => {
 
     if (!scorecard.isSameLanguageCode) {
       let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.text_language_code);
-      langIndicator.content = !!textIndi && textIndi.content;
+      langIndicator.content = !!textIndi ? textIndi.content : langIndicator.content;
     }
 
     return langIndicator;
