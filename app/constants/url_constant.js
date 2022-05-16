@@ -7,6 +7,8 @@ export const validScorecardUrls = [
   'http://isaf-stg.ilabsea.org/scorecards',
   'https://isaf-stg.digital-csc.org',
   'http://isaf-stg.digital-csc.org',
+  'https://isaf.digital-csc.org',
+  'http://isaf.digital-csc.org',
 ];
 
 export const defaultEndpointUrls = [

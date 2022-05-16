@@ -93,7 +93,7 @@ export default class ScorecardResultTableRow extends Component {
 
     return (
       <TableWrapper style={styles.row} borderStyle={{borderColor: Color.listItemBorderColor, borderWidth: 1}}>
-        { this._renderTextCell(languageIndicator.content || indiclanguageIndicatorator.name, 4) }
+        { this._renderTextCell(languageIndicator.content, 4) }
         { this._renderMedian() }
         { editableFields.map((fieldName, index) => (
           <Cell key={index} data={this.renderCell(fieldName, languageIndicator)} textStyle={styles.text} style={{flex: 3}}/>
