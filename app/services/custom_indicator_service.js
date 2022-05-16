@@ -26,18 +26,14 @@ const customIndicatorService = (() => {
     };
 
     const scorecard = Scorecard.find(scorecardUuid);
-    const customLanguageIndicator = {
-      id: uuidv4(),
-      content: indicator.name,
-      language_code: scorecard.audio_language_code,
-      local_audio: indicator.local_audio,
-      scorecard_uuid: scorecardUuid,
-      indicator_id: customIndicator.uuid,
-      type: CUSTOM,
-    };
-
     Indicator.create(customIndicator);
-    LanguageIndicator.create(customLanguageIndicator);
+
+    LanguageIndicator.create(_getLanguageCustomIndicatorParams(indicator, scorecard, 'audio', customIndicator));
+
+    // Create another language indicator if the locale of the audio and text are different
+    if (!scorecard.isSameLanguageCode)
+      LanguageIndicator.create(_getLanguageCustomIndicatorParams(indicator, scorecard, 'text', customIndicator));
+
     customIndicator['indicatorable_id'] = customIndicator.uuid;
 
     if (!!participantUuid)
@@ -76,6 +72,19 @@ const customIndicatorService = (() => {
       if (index === customIndicators.length -1)
         Indicator.destroy(customIndicators);
     });
+  }
+
+  // private method
+  function _getLanguageCustomIndicatorParams(indicator, scorecard, languageType, customIndicator) {
+    return {
+      id: uuidv4(),
+      content: indicator.name,
+      language_code: languageType == 'text' ? scorecard.text_language_code : scorecard.audio_language_code,
+      local_audio: indicator.local_audio,
+      scorecard_uuid: scorecard.uuid,
+      indicator_id: customIndicator.uuid,
+      type: CUSTOM,
+    };
   }
 })();
 
