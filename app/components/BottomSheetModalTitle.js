@@ -33,7 +33,7 @@ const BottomSheetModalTitle = (props) => {
   return (
     <View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: containerPadding}}>
-        <Text style={[styles.title, responsiveStyles.headerTitle, headerFontSize()]} numberOfLines={2}
+        <Text style={[styles.title, responsiveStyles.headerTitle, headerFontSize(), { paddingVertical: containerPadding, flex: 1}]} numberOfLines={2}
           onTextLayout={(e) => { if (!isMultiLine) setIsMultiLine(e.nativeEvent.lines.length > 1) }}
         >
           { props.title }

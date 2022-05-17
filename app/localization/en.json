@@ -362,7 +362,7 @@
   "successfullyCreatedParticipant": "Successfully created participant",
   "successfullyUpdatedParticipant": "Successfully updated participant",
   "reauthenticationRequired": "Reauthentication required",
-  "reauthenticationDescription": "CSC mobile version 1.5.2 is required the user to reauthenticate and save their current endpoint URL on the setting screen.",
+  "reauthenticationDescription": "CSC mobile version {0} is required the user to reauthenticate and save their current endpoint URL on the setting screen.",
   "goToSetting": "Go to setting",
   "cscMobileRequiresUserToReauthenticationToProceedExistingScorecard": "CSC mobile app version {0} requires the user to reauthenticate in order to be able to proceed with the existing scorecard",
   "selectYourPreviousServerUrl": "Select your previous server URL",

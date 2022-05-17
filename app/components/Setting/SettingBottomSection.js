@@ -27,7 +27,7 @@ const SettingBottomSection = (props) => {
       <MessageLabel
         message={translations[props.errorMsg]}
         type={props.messageType}
-        customStyle={props.isUpdateScorecard ? {marginTop: 0} : responsiveStyles.messageContainer}
+        customStyle={props.hasScorecardMigration ? {marginTop: 0} : responsiveStyles.messageContainer}
       />
     );
   }
@@ -63,7 +63,7 @@ const SettingBottomSection = (props) => {
 
   return (
     <View>
-      { props.isUpdateScorecard && <SettingScorecardMigrationInstructions/> }
+      { props.hasScorecardMigration && <SettingScorecardMigrationInstructions/> }
       { renderErrorMsg() }
       { renderButton() }
       { renderModal() }

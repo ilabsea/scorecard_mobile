@@ -38,7 +38,7 @@ class MessageModal extends Component {
             <View style={{flex: 1, justifyContent: 'center'}}>
               { this.props.title &&
                 <View style={{height: 48, justifyContent: 'center'}}>
-                  <Text style={[CustomStyle.modalTitle, modalStyles.headerTitle, { paddingBottom: 0 }]}>
+                  <Text style={[CustomStyle.modalTitle, modalStyles.headerTitle]}>
                     {this.props.title}
                   </Text>
                 </View>

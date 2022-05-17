@@ -96,7 +96,11 @@ class SettingBodyContent extends React.Component {
 
     authenticationService.authenticate(email, password, async () => {
       this.setState({ isLoading: false });
-      // Update the selected enpoint url to scorecards that have endpoint_url as null or ''
+      // Todo: remove in the future
+      // Manual hot-fix the issue caused by AsyncStorage get null for endpoint URL migration to scorecard in v 1.5.1 -
+      // that make the user unable to continue the existing scorecards and unable make reauthentication (it always show -
+      // complete all the scorecard in order to be able to change and save the server URL).
+      // Solution: add the selected endpoint URL to the sorecards that have endpoint_url as null or ''
       scorecardEndpointService.handleUpdateScorecardEndpointUrl();
 
       const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
@@ -129,6 +133,7 @@ class SettingBodyContent extends React.Component {
     // Temporary disable checking if the user is able to change the endpoint URL, to allow the user
     // to reauthenticate and continue setting up the scorecard after getting the error to reauthenticate
     // when updating to v 1.5.1
+
     // const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
     // if (!changeableSetting) {
     //   this.setState({ visibleModal: true });
@@ -164,7 +169,7 @@ class SettingBodyContent extends React.Component {
               messageType={this.state.messageType}
               errorMsg={this.state.errorMsg}
               visibleModal={this.state.visibleModal}
-              isUpdateScorecard={this.props.isUpdateScorecard}
+              hasScorecardMigration={this.props.hasScorecardMigration}
               save={() => this.save()}
               dismissModal={() => this.setState({ visibleModal: false })}
            />

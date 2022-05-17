@@ -50,7 +50,7 @@ class Setting extends Component {
               hasInternetConnection={this.state.hasInternetConnection}
               proposedIndicatorMethod={this.state.proposedIndicatorMethod}
               backendUrl={this.props.route.params.backend_url}
-              isUpdateScorecard={!!this.props.route.params.update_scorecard}
+              hasScorecardMigration={!!this.props.route.params.has_scorecard_migration}
            />
   }
 

@@ -68,8 +68,6 @@ class ScorecardList extends Component {
   onPress(scorecard) {
     const { translations } = this.context
 
-    console.log('scorecard endpoint == ', scorecard.endpoint_url)
-
     if (scorecard.isDeleted)
       return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
 
