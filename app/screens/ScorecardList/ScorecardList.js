@@ -29,7 +29,6 @@ class ScorecardList extends Component {
       isConfirmModal: true,
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
-      // isLoading: false,
       isLoading: true,
       visibleErrorModal: false,
       headerHeight: 0,
@@ -68,6 +67,8 @@ class ScorecardList extends Component {
 
   onPress(scorecard) {
     const { translations } = this.context
+
+    console.log('scorecard endpoint == ', scorecard.endpoint_url)
 
     if (scorecard.isDeleted)
       return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);

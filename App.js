@@ -76,7 +76,7 @@ const App: () => React$Node = () => {
     notificationService.handleAppOpenFromNotification();
     settingHelper.checkDefaultProposedIndicatorMethod();
     endpointMigrationService.handleEndpointMigration();
-    scorecardMigrationService.handleScorecardEndpointUrlMigration();
+    // scorecardMigrationService.handleScorecardEndpointUrlMigration();
   }, []);
 
   return (

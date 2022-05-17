@@ -20,6 +20,7 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import scorecardEndpointService from '../../services/scorecard_endpoint_service';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -95,6 +96,9 @@ class SettingBodyContent extends React.Component {
 
     authenticationService.authenticate(email, password, async () => {
       this.setState({ isLoading: false });
+      // Update the selected enpoint url to scorecards that have endpoint_url as null or ''
+      scorecardEndpointService.handleUpdateScorecardEndpointUrl();
+
       const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
       scorecardTracingStepsService.trace(null, tracingStep, email);
       navigationRef.current?.goBack();
