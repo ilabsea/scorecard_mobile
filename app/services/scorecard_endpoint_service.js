@@ -25,8 +25,8 @@ const scorecardEndpointService = (() => {
   // private method
   async function _isFirstTimeAppOpen() {
     const isFirstTimeOpen = await AsyncStorage.getItem('IS_FIRST_TIME_APP_OPEN');
-    // return isFirstTimeOpen == null && isFirstTimeOpen == undefined;
-    return true;
+    return isFirstTimeOpen == null && isFirstTimeOpen == undefined;
+    // return true;
   }
 })();
 

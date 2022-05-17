@@ -30,12 +30,6 @@ class SettingInstructionModal extends Component {
     });
   }
 
-  goToSetting() {
-    this.props.onDismiss();
-    scorecardEndpointService.setIsNotFirstTimeAppOpen();
-    navigate('Setting', { backend_url: this.backendUrl });
-  }
-
   renderHeader() {
     return <View style={{flexDirection: 'row'}}>
               <OutlineInfoIcon color={Color.warningColor} />
@@ -55,6 +49,12 @@ class SettingInstructionModal extends Component {
                 { this.context.translations.reauthenticationDescription }
               </Text>
             </View>
+  }
+
+  goToSetting() {
+    this.props.onDismiss();
+    scorecardEndpointService.setIsNotFirstTimeAppOpen();
+    navigate('Setting', { backend_url: this.backendUrl, update_scorecard: true });
   }
 
   renderFooter() {

@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import SettingUrlEndpointForm from './SettingUrlEndpointForm';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
-import EndpointUrlWarningMessages from '../EndpointUrlWarningMessages';
+import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
@@ -66,7 +66,7 @@ class SettingUrlEndpointPicker extends React.Component {
             showEditForm={(item) => this.showEditForm(item)}
             hasAddButton={true}
             hasBottomButton={true}
-            bottomInfoMessage={<EndpointUrlWarningMessages/>}
+            bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
             isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem, this.props.savedEndpoint)}
           />

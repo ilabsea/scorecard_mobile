@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { LocalizationContext } from '../../components/Translations';
 import { StyleSheet, ImageBackground } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
@@ -17,7 +16,6 @@ import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant'
 let _this = null;
 
 class Home extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
@@ -87,8 +85,6 @@ class Home extends Component {
   }
 
   render() {
-    const {translations} = this.context;
-
     return (
       <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
         <HomeContent navigation={this.props.navigation} />

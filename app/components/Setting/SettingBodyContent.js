@@ -120,6 +120,11 @@ class SettingBodyContent extends React.Component {
       return;
     }
 
+    // To do: uncomment the code in the future
+    // NOTE
+    // Temporary disable checking if the user is able to change the endpoint URL, to allow the user
+    // to reauthenticate and continue setting up the scorecard after getting the error to reauthenticate
+    // when updating to v 1.5.1
     // const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
     // if (!changeableSetting) {
     //   this.setState({ visibleModal: true });
@@ -155,6 +160,7 @@ class SettingBodyContent extends React.Component {
               messageType={this.state.messageType}
               errorMsg={this.state.errorMsg}
               visibleModal={this.state.visibleModal}
+              isUpdateScorecard={this.props.isUpdateScorecard}
               save={() => this.save()}
               dismissModal={() => this.setState({ visibleModal: false })}
            />
