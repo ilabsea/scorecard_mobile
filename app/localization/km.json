@@ -360,5 +360,8 @@
   "editServerUrl": "កែប្រែអាស័យដ្ឋានម៉ាសុីនមេ",
   "editParticipant": "កែប្រែព័ត៌មានអ្នកចូលរួម",
   "successfullyCreatedParticipant": "បានបង្កើតអ្នកចូលរួមបានដោយជោគជ័យ",
-  "successfullyUpdatedParticipant": "បានកែប្រែអ្នកចូលរួមដោយជោគជ័យ"
+  "successfullyUpdatedParticipant": "បានកែប្រែអ្នកចូលរួមដោយជោគជ័យ",
+  "reauthenticationRequired": "ត្រូវការការផ្ទៀងផ្ទាត់ឡើងវិញ",
+  "reauthenticationDescription": "កម្មវិធីប័ណ្ណដាក់ពិន្ទុឌីជីថលកំណែ 1.5.2 តម្រូវឲ្យអ្នកប្រើប្រាស់ធ្វើការផ្ទៀតផ្ទាត់ និងរក្សាទុកអាស័យដ្ឋានម៉ាសុីនមេរបស់អ្នកម្តងទៀតនៅក្នុងផ្ទាំងការកំណត់។",
+  "goToSetting": "ទៅកាន់ផ្ទាំងការកំណត់"
 }

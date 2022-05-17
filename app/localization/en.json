@@ -360,5 +360,8 @@
   "editServerUrl": "Edit server URL",
   "editParticipant": "Edit participant",
   "successfullyCreatedParticipant": "Successfully created participant",
-  "successfullyUpdatedParticipant": "Successfully updated participant"
+  "successfullyUpdatedParticipant": "Successfully updated participant",
+  "reauthenticationRequired": "Reauthentication required",
+  "reauthenticationDescription": "CSC mobile version 1.5.2 is required the user to reauthenticate and save their current endpoint URL on the setting screen.",
+  "goToSetting": "Go to setting"
 }

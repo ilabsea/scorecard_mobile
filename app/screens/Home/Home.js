@@ -4,9 +4,11 @@ import { StyleSheet, ImageBackground } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
+import SettingInstructionModal from '../../components/SettingInstructionModal/SettingInstructionModal';
 import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
+import scorecardEndpointService from '../../services/scorecard_endpoint_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -25,6 +27,7 @@ class Home extends Component {
       isLoading: false,
       scorecardUuid: '',
       unlockAt: '',
+      settingInstructionModalVisible: false
     }
 
     _this = this;
@@ -32,6 +35,8 @@ class Home extends Component {
   };
 
   async componentDidMount() {
+    this.setState({ settingInstructionModalVisible: await scorecardEndpointService.isRequireToUpdateScorecardEndpoint() })
+
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
 
@@ -95,6 +100,11 @@ class Home extends Component {
           isLoading={this.state.isLoading}
           scorecardUuid={this.state.scorecardUuid}
           unlockAt={this.state.unlockAt}
+        />
+
+        <SettingInstructionModal
+          visible={this.state.settingInstructionModalVisible}
+          onDismiss={() => this.setState({ settingInstructionModalVisible: false })}
         />
       </ImageBackground>
     );
