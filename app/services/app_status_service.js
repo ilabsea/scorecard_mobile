@@ -1,20 +1,15 @@
-import AsyncStorage from '@react-native-community/async-storage';
-
-const keyName = 'HAS_INSTALLED';
+import reLoginService from './re_login_service';
+import settingHelper from '../helpers/setting_helper';
 
 const appStatusService = (() => {
   return {
     handleAppInstallingStatus,
-    isAppFirstTimeInstalled,
   }
 
+  // Check if the app version 1.5.2 is freshly installed, do not show the alert message
   async function handleAppInstallingStatus() {
-    AsyncStorage.setItem(keyName, 'true');
-  }
-
-  async function isAppFirstTimeInstalled() {
-    const hasInstalled = await AsyncStorage.getItem(keyName);
-    return !hasInstalled;
+    if (reLoginService.isAppVersionForUpdateScorecard() && !await settingHelper.getEndpointUrl())
+      reLoginService.setHasReLoggedIn();
   }
 })();
 

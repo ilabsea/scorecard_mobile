@@ -1,8 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import pkg from '../../package';
-import settingHelper from '../helpers/setting_helper';
-import Scorecard from '../models/Scorecard';
-import appStatusService from '../services/app_status_service';
 
 const keyName = 'HAS_RE_LOGGED_IN';
 
@@ -24,10 +21,6 @@ const reLoginService = (() => {
   }
 
   async function isRequireReLogin() {
-    // If the app v 1.5.2 is first time installed (not from updating), do not show the alert message
-    if (await appStatusService.isAppFirstTimeInstalled())
-      return false;
-
     return isAppVersionForUpdateScorecard() && !await _hasReLoggedIn();
   }
 

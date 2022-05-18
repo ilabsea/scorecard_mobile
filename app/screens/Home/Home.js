@@ -33,12 +33,11 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
-
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
   }
