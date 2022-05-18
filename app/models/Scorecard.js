@@ -22,6 +22,7 @@ const Scorecard = (() => {
     getSubmittedExpired,
     getAllProvinces,
     getScorecardsInReview,
+    getScorecardsWithoutEndpoint,
     allScorecardContainEndpoint,
     hasMatchedEndpointUrl,
     isEditable,
@@ -124,6 +125,10 @@ const Scorecard = (() => {
     return realm.objects('Scorecard').filtered(`milestone = '${IN_REVIEW}'`);
   }
 
+  function getScorecardsWithoutEndpoint() {
+    return realm.objects('Scorecard').filtered(`endpoint_url == null OR endpoint_url == ''`);
+  }
+
   async function isEditable(scorecard) {
     return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.finished;
   }
@@ -170,8 +175,6 @@ const Scorecard = (() => {
   // Private
 
   async function _buildData(response) {
-    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
-
     return ({
       uuid: response.uuid,
       unit_type: _getStringValue(response.unit_type_name),
@@ -192,7 +195,7 @@ const Scorecard = (() => {
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
       planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
       planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
-      endpoint_url: `${savedSetting.email}@${savedSetting.backendUrl}`,
+      endpoint_url: await settingHelper.getEndpointUrl(),
     })
   }
 

@@ -360,5 +360,15 @@
   "editServerUrl": "Edit server URL",
   "editParticipant": "Edit participant",
   "successfullyCreatedParticipant": "Successfully created participant",
-  "successfullyUpdatedParticipant": "Successfully updated participant"
+  "successfullyUpdatedParticipant": "Successfully updated participant",
+  "reLoginRequired": "Re-login required",
+  "reLoginDescription": "The app requires you to re-login and save the current server URL in the setting.",
+  "goToSetting": "Go to setting",
+  "theAppRequiresReLogin": "The app requires re-login",
+  "howToReLogin": "How to re-login",
+  "pleaseFollowTheBelowSteps": "Please follow the below steps",
+  "selectYourPreviousServerUrl": "Select your server URL",
+  "enterYourEmailAndPassword": "Enter your email and password",
+  "clickOnButtonSave": "Click on the button {0}",
+  "viewInstruction": "View instruction"
 }

@@ -29,7 +29,6 @@ class ScorecardList extends Component {
       isConfirmModal: true,
       selectedScorecard: null,
       scorecards: Scorecard.getAll(),
-      // isLoading: false,
       isLoading: true,
       visibleErrorModal: false,
       headerHeight: 0,

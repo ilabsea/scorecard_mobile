@@ -13,7 +13,7 @@ class OutlineInfoIcon extends Component {
   render() {
     return (
       <View style={[styles.iconContainer, this.props.customIconContainerStyles]}>
-        <Icon name='exclamation' color={this.props.color} style={responsiveStyles.icon} />
+        <Icon name='exclamation' color={this.props.color} style={[responsiveStyles.icon, this.props.customIconStyle]} />
       </View>
     );
   }

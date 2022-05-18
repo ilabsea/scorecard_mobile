@@ -20,7 +20,9 @@ import Color from './app/themes/color';
 
 import scorecardDeletionService from './app/services/scorecard_deletion_service';
 import endpointMigrationService from './app/services/endpoint_migration_service';
-import scorecardMigrationService from './app/services/scorecard_migration_service';
+import scorecardEndpointService from './app/services/scorecard_endpoint_service';
+import reLoginService from './app/services/re_login_service';
+import appStatusService from './app/services/app_status_service';
 
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
@@ -75,7 +77,9 @@ const App: () => React$Node = () => {
     notificationService.handleAppOpenFromNotification();
     settingHelper.checkDefaultProposedIndicatorMethod();
     endpointMigrationService.handleEndpointMigration();
-    scorecardMigrationService.handleScorecardEndpointUrlMigration();
+    scorecardEndpointService.handleScorecardEndpointUrlMigration();
+    reLoginService.initReLoginStatus();
+    appStatusService.handleAppInstallingStatus();
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {LocalizationContext} from '../../components/Translations';
 import SettingForm from './SettingForm';
 import SettingBottomSection from './SettingBottomSection';
+import SettingReLoginTip from './SettingReLoginTip';
 
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../../constants/scorecard_step_constant';
@@ -20,6 +21,8 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import reLoginService from '../../services/re_login_service';
+import scorecardEndpointService from '../../services/scorecard_endpoint_service';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -41,6 +44,7 @@ class SettingBodyContent extends React.Component {
       errorMsg: '',
       messageType: '',
       visibleModal: false,
+      reLoginRequired: false
     }
 
     this.settingFormRef = React.createRef();
@@ -48,6 +52,8 @@ class SettingBodyContent extends React.Component {
   }
 
   componentDidMount = async () => {
+    this.setState({ reLoginRequired: await reLoginService.isRequireReLogin() })
+
     if (await lockDeviceService.hasFailAttempt(FAILED_SIGN_IN_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
   }
@@ -95,6 +101,13 @@ class SettingBodyContent extends React.Component {
 
     authenticationService.authenticate(email, password, async () => {
       this.setState({ isLoading: false });
+      // Todo: remove in the future
+      // Manual hot-fix the issue caused by AsyncStorage get null for endpoint URL migration to scorecard in v 1.5.1 -
+      // that make the user unable to continue the existing scorecards and unable make reauthentication (it always show -
+      // complete all the scorecard in order to be able to change and save the server URL).
+      // Solution: add the selected endpoint URL to the sorecards that have endpoint_url as null or ''
+      scorecardEndpointService.handleUpdateScorecardWithoutEndpointUrl();
+
       const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
       scorecardTracingStepsService.trace(null, tracingStep, email);
       navigationRef.current?.goBack();
@@ -120,11 +133,17 @@ class SettingBodyContent extends React.Component {
       return;
     }
 
-    const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
-    if (!changeableSetting) {
-      this.setState({ visibleModal: true });
-      return;
-    }
+    // To do: uncomment the code in the future
+    // NOTE
+    // Temporary disable checking if the user is able to change the endpoint URL, to allow the user
+    // to reauthenticate and continue setting up the scorecard after getting the error to reauthenticate
+    // when updating to v 1.5.1
+
+    // const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
+    // if (!changeableSetting) {
+    //   this.setState({ visibleModal: true });
+    //   return;
+    // }
 
     this.clearErrorMessage();
     if (!await this.isFormValid())
@@ -169,6 +188,8 @@ class SettingBodyContent extends React.Component {
             color={Color.primaryColor}
             overlayColor={Color.loadingBackgroundColor}
           />
+
+          { this.state.reLoginRequired && <SettingReLoginTip formRef={this.props.formRef} formModalRef={this.props.formModalRef} /> }
 
           <SettingForm
             ref={this.settingFormRef}

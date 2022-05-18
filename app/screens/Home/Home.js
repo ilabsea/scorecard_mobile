@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import { LocalizationContext } from '../../components/Translations';
 import { StyleSheet, ImageBackground } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
+import ReLoginMessageModal from '../../components/Home/ReLoginMessageModal';
 import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
+import reLoginService from '../../services/re_login_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -15,7 +16,6 @@ import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant'
 let _this = null;
 
 class Home extends Component {
-  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
 
@@ -25,6 +25,7 @@ class Home extends Component {
       isLoading: false,
       scorecardUuid: '',
       unlockAt: '',
+      reLoginMessageModalVisible: false
     }
 
     _this = this;
@@ -35,7 +36,8 @@ class Home extends Component {
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
   }
@@ -82,8 +84,6 @@ class Home extends Component {
   }
 
   render() {
-    const {translations} = this.context;
-
     return (
       <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
         <HomeContent navigation={this.props.navigation} />
@@ -95,6 +95,11 @@ class Home extends Component {
           isLoading={this.state.isLoading}
           scorecardUuid={this.state.scorecardUuid}
           unlockAt={this.state.unlockAt}
+        />
+
+        <ReLoginMessageModal
+          visible={this.state.reLoginMessageModalVisible}
+          onDismiss={() => this.setState({ reLoginMessageModalVisible: false })}
         />
       </ImageBackground>
     );
