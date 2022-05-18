@@ -10,7 +10,7 @@ import { bodyFontSize } from '../../utils/font_size_util';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { settingReLoginInfoContentHeight } from '../../constants/modal_constant';
 
-class SettingScorecardMigrationInstructions extends React.Component {
+class SettingReLoginInstructions extends React.Component {
   static contextType = LocalizationContext;
 
   renderBoldText(text) {
@@ -46,4 +46,4 @@ class SettingScorecardMigrationInstructions extends React.Component {
   }
 }
 
-export default SettingScorecardMigrationInstructions;
+export default SettingReLoginInstructions;

@@ -8,7 +8,6 @@ import SaveButton from '../SaveButton';
 import { navigate } from '../../navigators/app_navigator';
 import { environment } from '../../config/environment';
 import CustomStyle from '../../themes/customStyle';
-import appStatusService from '../../services/app_status_service';
 
 class ReLoginMessageModalFooter extends React.Component {
   static contextType = LocalizationContext;
@@ -23,8 +22,7 @@ class ReLoginMessageModalFooter extends React.Component {
 
   goToSetting() {
     this.props.onDismiss();
-    appStatusService.setIsNotFirstTimeAppOpen();
-    navigate('Setting', { backend_url: this.backendUrl, has_scorecard_migration: true });
+    navigate('Setting', { backend_url: this.backendUrl });
   }
 
   render() {

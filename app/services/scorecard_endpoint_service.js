@@ -1,37 +1,32 @@
-import pkg from '../../package';
-import settingHelper from '../helpers/setting_helper';
 import Scorecard from '../models/Scorecard';
-import appStatusService from '../services/app_status_service';
+import settingHelper from '../helpers/setting_helper';
+import reLoginService from './re_login_service';
 
 const scorecardEndpointService = (() => {
   return {
-    isAppVersionForUpdateScorecard,
-    isRequireReauthentication,
-    handleUpdateScorecardEndpointUrl,
+    handleScorecardEndpointUrlMigration,
+    handleUpdateScorecardWithoutEndpointUrl
   }
 
-  // To do: Remove the update endpoint in the future
-  // When updating the app to version 1.5.2, user requires to update the reauthenicate in
-  // in setting screen to update the endpoint_url of the scorecard that has null on that field
-  // because when updating the app from previous version to 1.5.2, some scorecard will have
-  // endpoint_url as null or ''
-  function isAppVersionForUpdateScorecard() {
-    return pkg.version == '1.5.2'
+  async function handleScorecardEndpointUrlMigration() {
+    const endpointUrl = await settingHelper.getEndpointUrl();
+
+    if (!endpointUrl) return;
+
+    _updateScorecardEndpoint(endpointUrl);
   }
 
-  async function isRequireReauthentication() {
-    // If the app v 1.5.2 is first time installed (not from updating), do not show the alert message
-    if (await appStatusService.isAppFirstTimeInstalled())
-      return false;
-
-    return isAppVersionForUpdateScorecard() && await appStatusService.isFirstTimeAppOpen();
-  }
-
-  async function handleUpdateScorecardEndpointUrl() {
-    if (!isAppVersionForUpdateScorecard())
+  async function handleUpdateScorecardWithoutEndpointUrl() {
+    if (!reLoginService.isAppVersionForUpdateScorecard())
       return;
 
+    reLoginService.setHasReLoggedIn();
     const endpointUrl = await settingHelper.getEndpointUrl();
+    _updateScorecardEndpoint(endpointUrl);
+  }
+
+  // private method
+  function _updateScorecardEndpoint(endpointUrl) {
     const scorecards = Scorecard.getScorecardsWithoutEndpoint();
 
     scorecards.map(scorecard => {

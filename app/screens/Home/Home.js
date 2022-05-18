@@ -7,7 +7,7 @@ import ReLoginMessageModal from '../../components/ReLoginMessageModal/ReLoginMes
 import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
-import scorecardEndpointService from '../../services/scorecard_endpoint_service';
+import reLoginService from '../../services/re_login_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -33,7 +33,7 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    this.setState({ reLoginMessageModalVisible: await scorecardEndpointService.isRequireReauthentication() })
+    this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
 
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();

@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {LocalizationContext} from '../../components/Translations';
 import SettingForm from './SettingForm';
 import SettingBottomSection from './SettingBottomSection';
-import SettingScorecardMigrationTip from './SettingScorecardMigrationTip';
+import SettingReLoginTip from './SettingReLoginTip';
 
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../../constants/scorecard_step_constant';
@@ -21,6 +21,7 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import reLoginService from '../../services/re_login_service';
 import scorecardEndpointService from '../../services/scorecard_endpoint_service';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
@@ -43,6 +44,7 @@ class SettingBodyContent extends React.Component {
       errorMsg: '',
       messageType: '',
       visibleModal: false,
+      reLoginRequired: false
     }
 
     this.settingFormRef = React.createRef();
@@ -50,6 +52,8 @@ class SettingBodyContent extends React.Component {
   }
 
   componentDidMount = async () => {
+    this.setState({ reLoginRequired: await reLoginService.isRequireReLogin() })
+
     if (await lockDeviceService.hasFailAttempt(FAILED_SIGN_IN_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
   }
@@ -102,7 +106,7 @@ class SettingBodyContent extends React.Component {
       // that make the user unable to continue the existing scorecards and unable make reauthentication (it always show -
       // complete all the scorecard in order to be able to change and save the server URL).
       // Solution: add the selected endpoint URL to the sorecards that have endpoint_url as null or ''
-      scorecardEndpointService.handleUpdateScorecardEndpointUrl();
+      scorecardEndpointService.handleUpdateScorecardWithoutEndpointUrl();
 
       const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
       scorecardTracingStepsService.trace(null, tracingStep, email);
@@ -185,7 +189,7 @@ class SettingBodyContent extends React.Component {
             overlayColor={Color.loadingBackgroundColor}
           />
 
-          { this.props.hasScorecardMigration && <SettingScorecardMigrationTip formRef={this.props.formRef} formModalRef={this.props.formModalRef} /> }
+          { this.state.reLoginRequired && <SettingReLoginTip formRef={this.props.formRef} formModalRef={this.props.formModalRef} /> }
 
           <SettingForm
             ref={this.settingFormRef}

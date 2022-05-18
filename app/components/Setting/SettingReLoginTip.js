@@ -2,10 +2,11 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
 import { Icon } from 'native-base';
+import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
 import OutlineInfoIcon from '../OutlineInfoIcon';
-import SettingScorecardMigrationInstructions from './SettingScorecardMigrationInstructions';
+import SettingReLoginInstructions from './SettingReLoginInstructions';
 
 import Color from '../../themes/color';
 import customStyle from '../../themes/customStyle';
@@ -20,12 +21,12 @@ import TipMobileStyles from '../../styles/mobile/TipComponentStyle';
 
 const responsiveStyles = getDeviceStyle(TipTabletStyles, TipMobileStyles);
 
-class SettingScorecardMigrationTip extends React.Component {
+class SettingReLoginTip extends React.Component {
   static contextType = LocalizationContext;
 
   showInstruction() {
     this.props.formRef.current?.setSnapPoints(settingReLoginInfoModalSnapPoints);
-    this.props.formRef.current?.setBodyContent(<SettingScorecardMigrationInstructions/>);
+    this.props.formRef.current?.setBodyContent(<SettingReLoginInstructions/>);
     this.props.formModalRef.current?.present();
   }
 
@@ -34,6 +35,12 @@ class SettingScorecardMigrationTip extends React.Component {
             <Text numberOfLines={1} style={[responsiveStyles.title, { fontSize: bodyFontSize(), color: Color.clickableColor }]}>
               { this.context.translations.theAppRequiresReLogin }
             </Text>
+
+            { DeviceInfo.isTablet() &&
+              <Text style={[{color: Color.headerColor, fontSize: bodyFontSize()}]}>
+                {this.context.translations.viewInstruction}
+              </Text>
+            }
 
             <Icon name='chevron-forward-outline' style={[{color: Color.clickableColor}, responsiveStyles.viewDetailIcon]} />
           </View>
@@ -68,4 +75,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SettingScorecardMigrationTip;
+export default SettingReLoginTip;
