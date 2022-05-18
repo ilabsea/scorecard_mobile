@@ -364,7 +364,9 @@
   "reLoginRequired": "Re-Login required",
   "reLoginDescription": "CSC mobile requires the user to re-login and save their current server URL on the setting.",
   "goToSetting": "Go to setting",
-  "cscMobileRequiresUserToReauthenticationToProceedExistingScorecard": "CSC mobile app version {0} requires the user to reauthenticate in order to be able to proceed with the existing scorecard",
+  "theAppRequiresReLogin": "The app requires re-login",
+  "howToReLogin": "How to re-login",
+  "pleaseFollowTheBelowSteps": "Please follow the below steps",
   "selectYourPreviousServerUrl": "Select your previous server URL",
   "enterYourEmailAndPassword": "Enter your email and password",
   "clickOnButtonSave": "Click on the button {0}"

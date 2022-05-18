@@ -1,18 +1,23 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import MessageWithSteps from '../MessageWithSteps';
-import { smallTextFontSize } from '../../utils/font_size_util';
+import BottomSheetModalTitle from '../BottomSheetModalTitle';
+
+import { bodyFontSize } from '../../utils/font_size_util';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
+import { settingReLoginInfoContentHeight } from '../../constants/modal_constant';
 
 class SettingScorecardMigrationInstructions extends React.Component {
   static contextType = LocalizationContext;
+
   renderBoldText(text) {
-    return <Text style={{fontFamily: FontFamily.title, fontSize: smallTextFontSize()}}>{ text }</Text>
+    return <Text style={{fontFamily: FontFamily.title, fontSize: bodyFontSize()}}>{ text }</Text>
   }
 
-  render() {
+  renderInstructions() {
     const {translations} = this.context;
     const instructions = [
       { description: translations.selectYourPreviousServerUrl },
@@ -21,11 +26,23 @@ class SettingScorecardMigrationInstructions extends React.Component {
     ]
 
     return <MessageWithSteps
-              header={translations.formatString(translations.cscMobileRequiresUserToReauthenticationToProceedExistingScorecard, this.renderBoldText('1.5.2'))}
+              header={ translations.pleaseFollowTheBelowSteps }
               steps={instructions}
-              containerStyle={{paddingHorizontal: 0, marginTop: 18}}
-              headerStyle={{marginBottom: 5}}
+              containerStyle={{ marginTop: 18,}}
+              headerStyle={{marginBottom: 10}}
+              fontSize={bodyFontSize()}
+              isOrderList={true}
+              listItemContainerStyle={{ marginVertical: 10 }}
             />
+  }
+
+  render() {
+    return (
+      <View style={{ height: hp(settingReLoginInfoContentHeight)}}>
+        <BottomSheetModalTitle title={ this.context.translations.howToReLogin } />
+        { this.renderInstructions() }
+      </View>
+    )
   }
 }
 

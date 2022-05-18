@@ -12,7 +12,7 @@ const SettingScreenStyles = StyleSheet.create({
     fontSize: bodyFontSize()
   },
   messageContainer: {
-    marginTop: 120
+    marginTop: 100
   }
 });
 

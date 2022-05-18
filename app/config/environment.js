@@ -1,5 +1,5 @@
 export const environment = {
-  domain: 'http://192.168.0.107:3000',
+  domain: 'http://192.168.1.117:3000',
   type: 'development',
   defaultLanguage: 'km',
   removeScorecardDay: 90,

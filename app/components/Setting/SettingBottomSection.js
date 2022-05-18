@@ -5,7 +5,6 @@ import { LocalizationContext } from '../Translations';
 import ActionButton from '../ActionButton';
 import MessageLabel from '../MessageLabel';
 import LockSignInMessage from './LockSignInMessage';
-import SettingScorecardMigrationInstructions from './SettingScorecardMigrationInstructions';
 import MessageModal from '../MessageModal';
 
 import pkg from '../../../package';
@@ -27,7 +26,7 @@ const SettingBottomSection = (props) => {
       <MessageLabel
         message={translations[props.errorMsg]}
         type={props.messageType}
-        customStyle={props.hasScorecardMigration ? {marginTop: 0} : responsiveStyles.messageContainer}
+        customStyle={responsiveStyles.messageContainer}
       />
     );
   }
@@ -63,7 +62,6 @@ const SettingBottomSection = (props) => {
 
   return (
     <View>
-      { props.hasScorecardMigration && <SettingScorecardMigrationInstructions/> }
       { renderErrorMsg() }
       { renderButton() }
       { renderModal() }

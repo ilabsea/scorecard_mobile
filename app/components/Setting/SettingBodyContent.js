@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {LocalizationContext} from '../../components/Translations';
 import SettingForm from './SettingForm';
 import SettingBottomSection from './SettingBottomSection';
+import SettingScorecardMigrationTip from './SettingScorecardMigrationTip';
 
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../../constants/scorecard_step_constant';
@@ -169,7 +170,6 @@ class SettingBodyContent extends React.Component {
               messageType={this.state.messageType}
               errorMsg={this.state.errorMsg}
               visibleModal={this.state.visibleModal}
-              hasScorecardMigration={this.props.hasScorecardMigration}
               save={() => this.save()}
               dismissModal={() => this.setState({ visibleModal: false })}
            />
@@ -184,6 +184,8 @@ class SettingBodyContent extends React.Component {
             color={Color.primaryColor}
             overlayColor={Color.loadingBackgroundColor}
           />
+
+          { this.props.hasScorecardMigration && <SettingScorecardMigrationTip formRef={this.props.formRef} formModalRef={this.props.formModalRef} /> }
 
           <SettingForm
             ref={this.settingFormRef}

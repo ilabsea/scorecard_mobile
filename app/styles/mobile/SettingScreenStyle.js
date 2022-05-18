@@ -15,7 +15,8 @@ const SettingScreenStyles = StyleSheet.create({
     fontSize: bodyFontSize()
   },
   messageContainer: {
-    marginTop: isShortScreenDevice() ? hp('1%') : hp('2%'),
+    // marginTop: isShortScreenDevice() ? hp('1%') : hp('2%'),
+    marginTop: hp('1%'),
     marginBottom: 4,
     fontSize: getMobileFontSizeByPixelRatio(13.5, 13.5),
   }
