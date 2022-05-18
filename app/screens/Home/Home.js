@@ -3,7 +3,7 @@ import { StyleSheet, ImageBackground } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
-import ReLoginMessageModal from '../../components/ReLoginMessageModal/ReLoginMessageModal';
+import ReLoginMessageModal from '../../components/Home/ReLoginMessageModal';
 import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';

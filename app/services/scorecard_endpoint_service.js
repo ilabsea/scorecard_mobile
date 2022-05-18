@@ -20,9 +20,9 @@ const scorecardEndpointService = (() => {
     if (!reLoginService.isAppVersionForUpdateScorecard())
       return;
 
-    reLoginService.setHasReLoggedIn();
     const endpointUrl = await settingHelper.getEndpointUrl();
     _updateScorecardEndpoint(endpointUrl);
+    reLoginService.setHasReLoggedIn();
   }
 
   // private method
