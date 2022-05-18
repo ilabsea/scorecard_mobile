@@ -10,7 +10,7 @@ import { environment } from '../../config/environment';
 import CustomStyle from '../../themes/customStyle';
 import appStatusService from '../../services/app_status_service';
 
-class ReauthenticationMessageModalFooter extends React.Component {
+class ReLoginMessageModalFooter extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -36,4 +36,4 @@ class ReauthenticationMessageModalFooter extends React.Component {
   }
 }
 
-export default ReauthenticationMessageModalFooter;
+export default ReLoginMessageModalFooter;

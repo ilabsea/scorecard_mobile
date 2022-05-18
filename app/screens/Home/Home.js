@@ -3,7 +3,7 @@ import { StyleSheet, ImageBackground } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
-import ReauthenticationMessageModal from '../../components/ReauthenticationMessageModal/ReauthenticationMessageModal';
+import ReLoginMessageModal from '../../components/ReLoginMessageModal/ReLoginMessageModal';
 import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
@@ -25,7 +25,7 @@ class Home extends Component {
       isLoading: false,
       scorecardUuid: '',
       unlockAt: '',
-      reauthenticationMessageModalVisible: false
+      reLoginMessageModalVisible: false
     }
 
     _this = this;
@@ -33,7 +33,7 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    this.setState({ reauthenticationMessageModalVisible: await scorecardEndpointService.isRequireReauthentication() })
+    this.setState({ reLoginMessageModalVisible: await scorecardEndpointService.isRequireReauthentication() })
 
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
@@ -98,9 +98,9 @@ class Home extends Component {
           unlockAt={this.state.unlockAt}
         />
 
-        <ReauthenticationMessageModal
-          visible={this.state.reauthenticationMessageModalVisible}
-          onDismiss={() => this.setState({ reauthenticationMessageModalVisible: false })}
+        <ReLoginMessageModal
+          visible={this.state.reLoginMessageModalVisible}
+          onDismiss={() => this.setState({ reLoginMessageModalVisible: false })}
         />
       </ImageBackground>
     );

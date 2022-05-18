@@ -20,8 +20,6 @@ const scorecardEndpointService = (() => {
   }
 
   async function isRequireReauthentication() {
-    return true;
-
     // If the app v 1.5.2 is first time installed (not from updating), do not show the alert message
     if (await appStatusService.isAppFirstTimeInstalled())
       return false;
