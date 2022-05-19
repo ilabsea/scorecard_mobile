@@ -63,11 +63,7 @@ const endpointFormService = (() => {
 
   async function getSelectedEndpoint() {
     const tempSelectedEndpoint = await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
-
-    if (!tempSelectedEndpoint)
-      return settingHelper.getSavedEndpointUrl();
-
-    return tempSelectedEndpoint;
+    return !tempSelectedEndpoint ? settingHelper.getSavedEndpointUrl() : tempSelectedEndpoint;
   }
 
   function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {
