@@ -43,7 +43,7 @@ class VideoPlayer extends React.Component {
   async goBack() {
     navigationRef.current?.reset({ index: 1, routes: [
       { name: 'Home' },
-      { name: 'Setting' , params: {backend_url: await endpointFormService.getTemporarySelectedEndpoint()} }
+      { name: 'Setting' , params: {backend_url: await endpointFormService.getSelectedEndpoint()} }
     ]});
   }
 

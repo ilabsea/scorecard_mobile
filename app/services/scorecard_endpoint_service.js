@@ -9,7 +9,7 @@ const scorecardEndpointService = (() => {
   }
 
   async function handleScorecardEndpointUrlMigration() {
-    const endpointUrl = await settingHelper.getEndpointUrl();
+    const endpointUrl = await settingHelper.getEndpointUrlForScorecard();
 
     if (!endpointUrl) return;
 
@@ -20,7 +20,7 @@ const scorecardEndpointService = (() => {
     if (!reLoginService.isAppVersionForUpdateScorecard())
       return;
 
-    const endpointUrl = await settingHelper.getEndpointUrl();
+    const endpointUrl = await settingHelper.getEndpointUrlForScorecard();
     _updateScorecardEndpoint(endpointUrl);
     reLoginService.setHasReLoggedIn();
   }

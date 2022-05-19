@@ -36,8 +36,12 @@ class Home extends Component {
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
 
+    const routes = this.props.navigation.getState().routes;
     setTimeout(async () => {
-      this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
+      // Show the re-login alert message when there is only home screen on the navigation stack
+      if (routes.length == 1 && routes[0].name.toLowerCase() == 'home')
+        this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
+
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
   }
