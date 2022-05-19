@@ -31,8 +31,8 @@ const proposedIndicatorHelper = (() => {
       let indicatorAttrs = _getIndicatorAttrs(proposedIndicator);
       let attr = getAttributesByColumns(proposedIndicator, columns);
 
-      attr.indicatorable_id = proposedIndicator.indicatorable_id;
       attr.indicatorable_type = indicatorAttrs.type;
+      attr.indicatorable_id = indicatorAttrs.indicatorable_id;
       attr.indicator_uuid = indicatorAttrs.indicator_uuid;
 
       if (!!isRaisedIndicatorAttrs) {
@@ -115,6 +115,7 @@ const proposedIndicatorHelper = (() => {
       'custom': { type: 'Indicators::CustomIndicator', indicator_uuid: proposedIndicator.indicatorable_id },
       'predefined': { type: 'Indicator', indicator_uuid: indicator.indicator_uuid }
     }
+    indicatorAttrs[indicator.type]['indicatorable_id'] = indicator.id;
 
     return indicatorAttrs[indicator.type];
   }

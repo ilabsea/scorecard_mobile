@@ -6,7 +6,7 @@ const formDataApi = (() => {
     post
   }
 
-  async function post(endpoint, data){
+  async function post(endpoint, params){
     const domain = await AsyncStorage.getItem('ENDPOINT_URL');
     const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
     const apiUrl = domain + endpoint;
@@ -14,7 +14,7 @@ const formDataApi = (() => {
     return RNFetchBlob.fetch('POST', apiUrl, {
             Authorization: `Token ${ authToken }`,
             'Content-Type': 'multipart/form-data',
-          }, data);
+          }, params);
   }
 })();
 
