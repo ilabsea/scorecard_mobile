@@ -6,8 +6,7 @@ import urlUtil from '../utils/url_util';
 import uuidv4 from '../utils/uuidv4';
 import Scorecard from '../models/Scorecard';
 import EndpointUrl from '../models/EndpointUrl';
-
-const ENDPOINT_URLS = 'ENDPOINT_URLS';
+import settingHelper from '../helpers/setting_helper';
 
 const endpointFormService = (() => {
   return {
@@ -15,7 +14,7 @@ const endpointFormService = (() => {
     saveEndpointUrls,
     getErrorMessage,
     setTemporarySelectedEndpoint,
-    getTemporarySelectedEndpoint,
+    getSelectedEndpoint,
     isAllowToDeleteOrEdit,
   }
 
@@ -62,8 +61,13 @@ const endpointFormService = (() => {
       AsyncStorage.setItem('TEMP_ENDPOINT_URL', endpointUrl)
   }
 
-  async function getTemporarySelectedEndpoint() {
-    return await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
+  async function getSelectedEndpoint() {
+    const tempSelectedEndpoint = await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
+
+    if (!tempSelectedEndpoint)
+      return settingHelper.getSavedEndpointUrl();
+
+    return tempSelectedEndpoint;
   }
 
   function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {

@@ -153,7 +153,7 @@ const Scorecard = (() => {
   }
 
   async function hasMatchedEndpointUrl(scorecardUuid) {
-    const endpointUrl = await settingHelper.getEndpointUrl();
+    const endpointUrl = await settingHelper.getEndpointUrlForScorecard();
     if (!endpointUrl) return false;
 
     const scorecard = find(scorecardUuid);
@@ -195,7 +195,7 @@ const Scorecard = (() => {
       primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
       planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
       planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
-      endpoint_url: await settingHelper.getEndpointUrl(),
+      endpoint_url: await settingHelper.getEndpointUrlForScorecard(),
     })
   }
 

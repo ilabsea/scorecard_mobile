@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
+import { environment } from '../config/environment';
 
 const settingHelper = (() => {
   return {
@@ -11,7 +12,8 @@ const settingHelper = (() => {
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
-    getEndpointUrl,
+    getEndpointUrlForScorecard,
+    getSavedEndpointUrl,
   };
 
   async function changeable(newEndpoint) {
@@ -64,12 +66,17 @@ const settingHelper = (() => {
     return heights[type];
   }
 
-  async function getEndpointUrl() {
+  async function getEndpointUrlForScorecard() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     if (!savedSetting || !savedSetting.email)
       return '';
 
     return `${savedSetting.email}@${savedSetting.backendUrl}`;
+  }
+
+  async function getSavedEndpointUrl() {
+    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    return (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
   }
 })();
 
