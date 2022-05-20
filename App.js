@@ -67,6 +67,8 @@ const App: () => React$Node = () => {
     SplashScreen.hide();
     MobileTokenService.handleSyncingToken();
 
+    // Clear the unsaved data of the setting when the app is freshly lauching,
+    // to prevent the setting screen from using the unsaved data after the user killed the app
     settingHelper.clearTempSettingData();
 
     AppState.addEventListener("change", (nextAppState) => {
@@ -82,10 +84,6 @@ const App: () => React$Node = () => {
     scorecardEndpointService.handleScorecardEndpointUrlMigration();
     reLoginService.initReLoginStatus();
     appStatusService.handleAppInstallingStatus();
-
-    return () => {
-      settingHelper.clearTempSettingData();
-    }
   }, []);
 
   return (

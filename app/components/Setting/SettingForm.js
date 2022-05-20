@@ -27,9 +27,6 @@ class SettingForm extends Component {
 
   componentDidMount = async () => {
     const tempSettingData = await settingHelper.getTempSettingData();
-
-    console.log('temp setting data = ', tempSettingData);
-
     const settingData = !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
 
     if (settingData !== null && !!settingData.email) {

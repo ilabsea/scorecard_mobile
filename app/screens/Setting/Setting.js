@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import SettingBodyContent from '../../components/Setting/SettingBodyContent';
@@ -35,11 +35,18 @@ class Setting extends Component {
       if (!this.componentIsUnmount)
         this.setState({ hasInternetConnection: hasConnection });
     });
+
+    // Redirect back to home screen and clear unsaved data when the user uses the android back button
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.goBack();
+      return true;
+    });
   }
 
   componentWillUnmount() {
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
+    this.backHandler.remove();
   }
 
   renderBodyContent() {
