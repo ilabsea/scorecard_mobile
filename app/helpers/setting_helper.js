@@ -4,6 +4,8 @@ import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
 import { environment } from '../config/environment';
 
+const keyName = 'TEMP_SETTING_DATA';
+
 const settingHelper = (() => {
   return {
     changeable,
@@ -14,6 +16,9 @@ const settingHelper = (() => {
     getEndpointPickerHeight,
     getEndpointUrlForScorecard,
     getSavedEndpointUrl,
+    saveTempSettingData,
+    getTempSettingData,
+    clearTempSettingData,
   };
 
   async function changeable(newEndpoint) {
@@ -77,6 +82,18 @@ const settingHelper = (() => {
   async function getSavedEndpointUrl() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     return (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
+  }
+
+  function saveTempSettingData(endpoint, email, password) {
+    AsyncStorage.setItem(keyName, JSON.stringify({ endpoint, email, password }));
+  }
+
+  async function getTempSettingData() {
+    return JSON.parse(await AsyncStorage.getItem(keyName));
+  }
+
+  function clearTempSettingData() {
+    AsyncStorage.removeItem(keyName);
   }
 })();
 

@@ -8,8 +8,8 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 
 import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 import internetConnectionService from '../../services/internet_connection_service';
+import settingHelper from '../../helpers/setting_helper';
 import { INDICATOR_BASE } from '../../constants/main_constant';
-
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -58,13 +58,18 @@ class Setting extends Component {
     this.formRef.current?.setBodyContent(null)
   }
 
+  goBack() {
+    settingHelper.clearTempSettingData();
+    this.props.navigation.goBack();
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
-          <NavigationHeader title={translations.setting} onBackPress={() => this.props.navigation.goBack()} />
+          <NavigationHeader title={translations.setting} onBackPress={() => this.goBack()} />
 
           { this.renderBodyContent() }
 

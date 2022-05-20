@@ -67,6 +67,8 @@ const App: () => React$Node = () => {
     SplashScreen.hide();
     MobileTokenService.handleSyncingToken();
 
+    settingHelper.clearTempSettingData();
+
     AppState.addEventListener("change", (nextAppState) => {
       scorecardDeletionService.deleteExpiredScorecardCard();
     });
@@ -80,6 +82,10 @@ const App: () => React$Node = () => {
     scorecardEndpointService.handleScorecardEndpointUrlMigration();
     reLoginService.initReLoginStatus();
     appStatusService.handleAppInstallingStatus();
+
+    return () => {
+      settingHelper.clearTempSettingData();
+    }
   }, []);
 
   return (

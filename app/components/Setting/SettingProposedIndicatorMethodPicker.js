@@ -18,6 +18,7 @@ class SettingProposedIndicatorMethodPicker extends React.Component {
     this.props.formRef.current?.setSnapPoints(settingModalSnapPoints);
     this.props.formRef.current?.setBodyContent(<ProposedIndicatorMethodDetails accordionStatuses={accordionStatuses} email={this.props.email} />);
     this.props.formModalRef.current?.present();
+    this.props.saveTempSettingData();
   }
 
   render() {
