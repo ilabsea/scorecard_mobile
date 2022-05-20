@@ -4,6 +4,7 @@ const scorecardResultHelper = (() => {
   return {
     getValidSuggestedStatuses,
     btnTextColor,
+    isSuggestedAction,
   };
 
   function getValidSuggestedStatuses(points, selectedActions) {
@@ -19,6 +20,10 @@ const scorecardResultHelper = (() => {
 
   function btnTextColor(isScorecardFinished, indicator, defaultColor) {
     return (isScorecardFinished || !indicator.median) ? { color: Color.grayColor } : { color: defaultColor };
+  }
+
+  function isSuggestedAction(currentFieldName) {
+    return currentFieldName === 'suggested_action';
   }
 })();
 

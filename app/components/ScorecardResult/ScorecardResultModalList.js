@@ -28,6 +28,7 @@ class ScorecardResultModalList extends Component {
           toggleCheckbox={this.props.toggleCheckbox}
           onChangeText={this.props.onChangeText}
           deletePoint={this.props.deletePoint}
+          updateVotingIndicator={() => this.props.updateVotingIndicator()}
         />
       )
     });

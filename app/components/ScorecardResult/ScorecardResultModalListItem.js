@@ -51,6 +51,7 @@ class ScorecardResultModalListItem extends Component {
               customStyle={styles.inputText}
               disabled={isScorecardFinished}
               isDelete={isDelete}
+              onBlur={() => this.props.updateVotingIndicator()}
             />
           </View>
 

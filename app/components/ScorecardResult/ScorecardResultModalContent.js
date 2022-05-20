@@ -11,6 +11,7 @@ import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton
 
 import VotingIndicator from '../../models/VotingIndicator';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
+import scorecardResultService from '../../services/scorecard_result_service';
 
 import { swotContentHeight } from '../../constants/modal_constant';
 import Color from '../../themes/color';
@@ -34,21 +35,15 @@ const ScorecardResultModalContent = (props) => {
     !!props.onDismiss && props.onDismiss();
   }
 
-  function submit() {
-    let data = { uuid: indicator.uuid };
-    let inputtedPoints = getPoints();
-    inputtedPoints = inputtedPoints.filter(note => note.length > 0);
-
-    data[indicator.currentFieldName] = inputtedPoints.length == 0 ? null : JSON.stringify(inputtedPoints);
-
-    if (isSuggestedAction())
-      data['suggested_action_status'] = scorecardResultHelper.getValidSuggestedStatuses(getPoints(), getSelectedActions());
-
-    VotingIndicator.upsert(data);
-
-    dispatch(getAll(indicator.scorecard_uuid));
+  function closeBottomSheet() {
     setHasAction(false);
     onDismiss();
+  }
+
+  function updateVotingIndicator() {
+    scorecardResultService.updateVotingIndicator(getPoints(), indicator, getSelectedActions(), () => {
+      dispatch(getAll(indicator.scorecard_uuid));
+    });
   }
 
   function getPoints() {
@@ -68,7 +63,7 @@ const ScorecardResultModalContent = (props) => {
     setHasAction(true);
     setIsDelete(false);
 
-    if (isSuggestedAction()) {
+    if (scorecardResultHelper.isSuggestedAction(indicator.currentFieldName)) {
       savedSelectedActions = getSelectedActions()
       savedSelectedActions.push(false);
     }
@@ -86,10 +81,11 @@ const ScorecardResultModalContent = (props) => {
     setHasAction(true);
     setIsDelete(true);
 
-    if (isSuggestedAction()) {
+    if (scorecardResultHelper.isSuggestedAction(indicator.currentFieldName)) {
       savedSelectedActions = getSelectedActions();
       savedSelectedActions.splice(index, 1);
     }
+    updateVotingIndicator();
   }
 
   function onChangeText(fieldName, value) {
@@ -104,16 +100,13 @@ const ScorecardResultModalContent = (props) => {
     setPoints([...newPoints]);
   }
 
-  function isSuggestedAction() {
-    return indicator.currentFieldName == 'suggested_action';
-  }
-
   function toggleCheckbox(index) {
     const newSelectedActions = getSelectedActions();
     newSelectedActions[index] = !newSelectedActions[index];
     savedSelectedActions = newSelectedActions;
 
     setSelectedActions([...newSelectedActions]);
+    updateVotingIndicator();
   }
 
   return (
@@ -137,10 +130,11 @@ const ScorecardResultModalContent = (props) => {
           toggleCheckbox={toggleCheckbox}
           onChangeText={onChangeText}
           deletePoint={deletePoint}
+          updateVotingIndicator={() => updateVotingIndicator()}
         />
 
         { !isScorecardFinished &&
-          <FormBottomSheetButton isValid={!isScorecardFinished} save={() => submit()} />
+          <FormBottomSheetButton isValid={!isScorecardFinished} save={() => closeBottomSheet()} />
         }
       </View>
     </TouchableWithoutFeedback>
