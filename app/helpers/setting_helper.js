@@ -14,11 +14,12 @@ const settingHelper = (() => {
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
-    getEndpointUrlForScorecard,
+    getFullyEndpointUrl,
     getSavedEndpointUrl,
     saveTempSettingData,
     getTempSettingData,
     clearTempSettingData,
+    getSettingData,
   };
 
   async function changeable(newEndpoint) {
@@ -71,7 +72,7 @@ const settingHelper = (() => {
     return heights[type];
   }
 
-  async function getEndpointUrlForScorecard() {
+  async function getFullyEndpointUrl() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     if (!savedSetting || !savedSetting.email)
       return '';
@@ -94,6 +95,11 @@ const settingHelper = (() => {
 
   function clearTempSettingData() {
     AsyncStorage.removeItem(keyName);
+  }
+
+  async function getSettingData() {
+    const tempSettingData = await getTempSettingData();
+    return !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
   }
 })();
 
