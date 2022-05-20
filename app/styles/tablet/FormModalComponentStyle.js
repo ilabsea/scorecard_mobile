@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 const FormModalComponentStyles = StyleSheet.create({
   container: {
@@ -31,8 +32,7 @@ const FormModalComponentStyles = StyleSheet.create({
     marginBottom: 10
   },
   subTitleText: {
-    fontSize: 16,
-    flex: 1,
+    fontSize: bodyFontSize(),
   },
   orderNumberText: {
     fontSize: 20,

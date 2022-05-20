@@ -111,7 +111,7 @@ const ScorecardResultModalContent = (props) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor, position: 'relative'}}>
+      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor}}>
         <ScorecardResultModalTitle
           selectedIndicator={selectedIndicator}
           addNewPoint={() => addNewPoint()}
