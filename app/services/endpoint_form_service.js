@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
 import { CUSTOM } from '../constants/main_constant';
@@ -13,7 +12,6 @@ const endpointFormService = (() => {
     isValidForm,
     saveEndpointUrls,
     getErrorMessage,
-    setTemporarySelectedEndpoint,
     getSelectedEndpoint,
     isAllowToDeleteOrEdit,
   }
@@ -56,14 +54,9 @@ const endpointFormService = (() => {
     return endpointErrorMessage[fieldName][messageType];
   }
 
-  function setTemporarySelectedEndpoint(endpointUrl) {
-    if (!!endpointUrl)
-      AsyncStorage.setItem('TEMP_ENDPOINT_URL', endpointUrl)
-  }
-
   async function getSelectedEndpoint() {
-    const tempSelectedEndpoint = await AsyncStorage.getItem('TEMP_ENDPOINT_URL');
-    return !tempSelectedEndpoint ? settingHelper.getSavedEndpointUrl() : tempSelectedEndpoint;
+    const tempSettingData = await settingHelper.getTempSettingData()
+    return !tempSettingData ? settingHelper.getSavedEndpointUrl() : tempSettingData.endpoint;
   }
 
   function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {

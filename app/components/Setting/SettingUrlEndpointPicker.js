@@ -76,6 +76,7 @@ class SettingUrlEndpointPicker extends React.Component {
     this.props.updateBackendUrl(endpointValue);
     this.setState({ selectedEndpoint: endpointValue });
     this.reloadEndpoint();
+    this.props.saveTempSettingData();
   }
 
   reloadEndpoint() {
@@ -98,7 +99,7 @@ class SettingUrlEndpointPicker extends React.Component {
     this.setState({ selectedEndpoint: this.state.currentSelectedEndpoint });
     this.props.updateBackendUrl(this.state.currentSelectedEndpoint);
     this.props.formModalRef.current?.dismiss();
-    endpointFormService.setTemporarySelectedEndpoint(this.state.currentSelectedEndpoint);
+    this.props.saveTempSettingData();
   }
 
   render() {

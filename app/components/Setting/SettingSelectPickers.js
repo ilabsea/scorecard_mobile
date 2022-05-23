@@ -24,6 +24,7 @@ class SettingSelectPickers extends React.Component {
           formModalRef={this.props.formModalRef}
           proposedIndicatorMethod={this.props.proposedIndicatorMethod}
           email={this.props.email}
+          saveTempSettingData={() => this.props.saveTempSettingData()}
         />
 
         <SettingLanguagePicker

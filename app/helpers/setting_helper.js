@@ -4,6 +4,8 @@ import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
 import { environment } from '../config/environment';
 
+const keyName = 'TEMP_SETTING_DATA';
+
 const settingHelper = (() => {
   return {
     changeable,
@@ -12,8 +14,12 @@ const settingHelper = (() => {
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
-    getEndpointUrlForScorecard,
+    getFullyEndpointUrl,
     getSavedEndpointUrl,
+    saveTempSettingData,
+    getTempSettingData,
+    clearTempSettingData,
+    getSettingData,
   };
 
   async function changeable(newEndpoint) {
@@ -66,7 +72,7 @@ const settingHelper = (() => {
     return heights[type];
   }
 
-  async function getEndpointUrlForScorecard() {
+  async function getFullyEndpointUrl() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     if (!savedSetting || !savedSetting.email)
       return '';
@@ -77,6 +83,23 @@ const settingHelper = (() => {
   async function getSavedEndpointUrl() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     return (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
+  }
+
+  function saveTempSettingData(endpoint, email, password) {
+    AsyncStorage.setItem(keyName, JSON.stringify({ endpoint, email, password }));
+  }
+
+  async function getTempSettingData() {
+    return JSON.parse(await AsyncStorage.getItem(keyName));
+  }
+
+  function clearTempSettingData() {
+    AsyncStorage.removeItem(keyName);
+  }
+
+  async function getSettingData() {
+    const tempSettingData = await getTempSettingData();
+    return !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
   }
 })();
 

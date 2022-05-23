@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import SettingBodyContent from '../../components/Setting/SettingBodyContent';
@@ -8,8 +8,8 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 
 import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 import internetConnectionService from '../../services/internet_connection_service';
+import settingHelper from '../../helpers/setting_helper';
 import { INDICATOR_BASE } from '../../constants/main_constant';
-
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -35,11 +35,18 @@ class Setting extends Component {
       if (!this.componentIsUnmount)
         this.setState({ hasInternetConnection: hasConnection });
     });
+
+    // Redirect back to home screen and clear unsaved data when the user uses the android back button
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.goBack();
+      return true;
+    });
   }
 
   componentWillUnmount() {
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
+    this.backHandler.remove();
   }
 
   renderBodyContent() {
@@ -58,13 +65,18 @@ class Setting extends Component {
     this.formRef.current?.setBodyContent(null)
   }
 
+  goBack() {
+    settingHelper.clearTempSettingData();
+    this.props.navigation.goBack();
+  }
+
   render() {
     const {translations} = this.context;
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
-          <NavigationHeader title={translations.setting} onBackPress={() => this.props.navigation.goBack()} />
+          <NavigationHeader title={translations.setting} onBackPress={() => this.goBack()} />
 
           { this.renderBodyContent() }
 

@@ -8,7 +8,7 @@ const appStatusService = (() => {
 
   // Check if the app version 1.5.2 is freshly installed, do not show the alert message
   async function handleAppInstallingStatus() {
-    if (reLoginService.isAppVersionForUpdateScorecard() && !await settingHelper.getEndpointUrlForScorecard())
+    if (reLoginService.isAppVersionForUpdateScorecard() && !await settingHelper.getFullyEndpointUrl())
       reLoginService.setHasReLoggedIn();
   }
 })();

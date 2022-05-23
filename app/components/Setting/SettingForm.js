@@ -7,6 +7,8 @@ import SettingSelectPickers from './SettingSelectPickers';
 import SettingUrlEndpointPicker from './SettingUrlEndpointPicker';
 import SettingFormInputs from './SettingFormInputs';
 
+import settingHelper from '../../helpers/setting_helper';
+
 class SettingForm extends Component {
   static contextType = LocalizationContext
   constructor(props) {
@@ -24,11 +26,11 @@ class SettingForm extends Component {
   }
 
   componentDidMount = async () => {
-    const value = JSON.parse(await AsyncStorage.getItem('SETTING'));
-    if (value !== null && !!value.email) {
+    const settingData = await settingHelper.getSettingData();
+    if (settingData !== null && !!settingData.email) {
       this.setState({
-        email: value.email,
-        password: value.password,
+        email: settingData.email,
+        password: settingData.password,
       }, () => this.props.updateValidationStatus());
     }
   }
@@ -48,6 +50,7 @@ class SettingForm extends Component {
         formRef={this.props.formRef}
         formModalRef={this.props.formModalRef}
         savedEndpoint={this.props.backendUrl}
+        saveTempSettingData={() => this.saveTempSettingData()}
       />
     )
   }
@@ -62,6 +65,13 @@ class SettingForm extends Component {
            />
   }
 
+  saveTempSettingData() {
+    setTimeout(() => {
+      const { backendUrl, email, password } = this.state;
+      settingHelper.saveTempSettingData(backendUrl, email, password);
+    }, 100);
+  }
+
   render() {
     return (
       <View>
@@ -71,6 +81,7 @@ class SettingForm extends Component {
           formModalRef={this.props.formModalRef}
           proposedIndicatorMethod={this.props.proposedIndicatorMethod}
           email={this.state.email}
+          saveTempSettingData={() => this.saveTempSettingData()}
         />
       </View>
     )
