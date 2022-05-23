@@ -30,7 +30,7 @@ class InputBox extends React.Component {
           { this.props.isRequire && <Text style={{color: Color.redColor, marginTop: -2, fontSize: requireSignFontSize()}}> *</Text> }
         </View>
 
-        <TouchableOpacity onPress={() => this.props.onPress()}>
+        <TouchableOpacity onPress={() => this.props.onPress()} style={{paddingHorizontal: 14}}>
           <View style={styles.textContainer}>
             <View style={{flex: 1}}>
               <Text style={[styles.itemTitle, this.getDisableStyle(TEXT)]}>{ this.props.label }</Text>

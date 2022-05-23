@@ -30,7 +30,6 @@ const InputBoxComponentStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: '100%',
-    paddingLeft: 14
   },
   itemTitle: {
     fontSize: bodyFontSize(),

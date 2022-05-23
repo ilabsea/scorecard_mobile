@@ -5,6 +5,7 @@ import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 
 import Color from '../themes/color';
 import { buttonBorderRadius } from '../constants/border_radius_constant';
+import { bottomButtonFontSize } from '../utils/font_size_util';
 class ActionButton extends Component {
   backgroundColor = () => {
     const {isDisabled, customBackgroundColor} = this.props;
@@ -52,9 +53,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   labelStyle: {
-    fontSize: 18,
+    fontFamily: FontFamily.body,
+    fontSize: bottomButtonFontSize(),
     color: Color.whiteColor,
-    fontFamily: FontFamily.title
   }
 });
 
