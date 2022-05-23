@@ -6,7 +6,7 @@ import listItemStyles from '../../themes/scorecardListItemStyle';
 
 import ArrowRightIcon from './ArrowRightIcon';
 
-import { containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle, cardItemPadding } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
 
 class CardItem extends React.Component {
@@ -18,7 +18,9 @@ class CardItem extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity style={[listItemStyles.card, styles.container, this.props.containerStyle]}>
+      <TouchableOpacity onPress={() => this.props.onPress()}
+        style={[listItemStyles.card, styles.container, this.props.containerStyle]}
+      >
         <View style={{flex: 1, justifyContent: 'center'}}>
           { this.props.content }
         </View>
@@ -34,9 +36,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 4,
     backgroundColor: Color.whiteColor,
-    minHeight: pressableItemSize(28),
+    minHeight: pressableItemSize(getDeviceStyle(28, 20)),
     marginBottom: 14,
-    paddingHorizontal: containerPadding,
+    paddingHorizontal: cardItemPadding,
   }
 });
 
