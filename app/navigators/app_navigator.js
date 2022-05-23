@@ -25,6 +25,7 @@ import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
 import VideoPlayerScreen from '../screens/VideoPlayer/VideoPlayer';
+import EndpointUrlListScreen from '../screens/EndpointUrlList/EndpointUrlList';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
 import FilterScorecardScreen from '../screens/FilterScorecard/FilterScorecard';
@@ -235,6 +236,13 @@ function AppNavigator() {
       <Stack.Screen
         name="VideoPlayer"
         component={VideoPlayerScreen}
+        options={({navigator}) => ({
+          header: () => null,
+        })}
+      />
+      <Stack.Screen
+        name="EndpointUrlList"
+        component={EndpointUrlListScreen}
         options={({navigator}) => ({
           header: () => null,
         })}

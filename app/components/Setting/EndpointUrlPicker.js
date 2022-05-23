@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InputBox from '../Share/InputBox';
+import { navigate } from '../../navigators/app_navigator';
 
 class EndpointUrlPicker extends React.Component {
 
@@ -12,7 +13,7 @@ class EndpointUrlPicker extends React.Component {
         label="ISAF Production Server"
         subLabel="kimsan@gmail.com@https://isaf.digital-csc.org"
         showSubLabel={true}
-        // onPress={redirect to endpoint list sreen}
+        onPress={() => navigate('EndpointUrlList')}
       />
     )
   }
