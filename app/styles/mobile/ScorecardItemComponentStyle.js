@@ -49,14 +49,8 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     fontSize: wp('5%'),
   },
   deleteContainer: {
-    backgroundColor: Color.redColor,
     width: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
     height: '100%'
-  },
-  deleteLabel: {
-    fontSize: bodyFontSize(),
   },
   locationLabel: {
     fontSize: subTitleFontSize,

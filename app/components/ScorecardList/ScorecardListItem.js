@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { RectButton } from 'react-native-gesture-handler';
 
 import { LocalizationContext } from '../Translations';
 import ScorecardListIcon from './ScorecardListIcon';
 import ScorecardListInfo from './ScorecardListInfo';
+import SwipeableDeleteButton from '../Share/SwipeableDeleteButton';
 
-import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import Scorecard from '../../models/Scorecard';
 
@@ -46,11 +45,7 @@ export default class ScorecardItem extends Component {
   }
 
   renderDeleteAction = () => {
-    return (
-      <RectButton onPress={() => this.deleteScorecard()} style={responsiveStyles.deleteContainer}>
-        <Text style={[{color: Color.whiteColor}, responsiveStyles.deleteLabel]}>{ this.context.translations.delete }</Text>
-      </RectButton>
-    )
+    return <SwipeableDeleteButton onPress={() => this.deleteScorecard()} containerStyle={responsiveStyles.deleteContainer}/>
   }
 
   render() {
