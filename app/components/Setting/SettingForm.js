@@ -6,6 +6,7 @@ import {LocalizationContext} from '../Translations';
 import SettingSelectPickers from './SettingSelectPickers';
 import SettingUrlEndpointPicker from './SettingUrlEndpointPicker';
 import SettingFormInputs from './SettingFormInputs';
+import EndpointUrlPicker from './EndpointUrlPicker';
 
 import settingHelper from '../../helpers/setting_helper';
 
@@ -44,15 +45,18 @@ class SettingForm extends Component {
 
   renderUrlEndpointPicker = () => {
     return (
-      <SettingUrlEndpointPicker
-        backendUrl={this.state.backendUrl}
-        updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
-        formRef={this.props.formRef}
-        formModalRef={this.props.formModalRef}
-        savedEndpoint={this.props.backendUrl}
-        saveTempSettingData={() => this.saveTempSettingData()}
-      />
+      <EndpointUrlPicker/>
     )
+    
+    // return (
+    //   <SettingUrlEndpointPicker
+    //     backendUrl={this.state.backendUrl}
+    //     updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
+    //     formRef={this.props.formRef}
+    //     formModalRef={this.props.formModalRef}
+    //     savedEndpoint={this.props.backendUrl}
+    //   />
+    // )
   }
 
   renderFormInputs() {
