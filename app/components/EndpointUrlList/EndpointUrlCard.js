@@ -18,8 +18,10 @@ class EndpointUrlCard extends React.Component {
   }
 
   renderBadge() {
-    return <View style={[styles.badge, {backgroundColor: this.props.endpoint.shortcut_color}]}>
-            <Text style={[styles.badgeLabel, {color: 'white'}]}>{ this.props.endpoint.shortcut }</Text>
+    return <View style={[styles.badge, {backgroundColor: this.props.endpoint.shortcut_bg_color}]}>
+              <Text style={[styles.badgeLabel, {color: this.props.endpoint.shortcut_text_color}]}>
+                { this.props.endpoint.shortcut }
+              </Text>
            </View>
   }
 

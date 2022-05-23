@@ -12,7 +12,8 @@ const EndpointUrlSchema = {
     username: 'string?',
     password: 'string?',
     shortcut: 'string?',
-    shortcut_color: 'string?'
+    shortcut_bg_color: 'string?',
+    shortcut_text_color: 'string?',
   },
 };
 

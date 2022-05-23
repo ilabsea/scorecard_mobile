@@ -33,7 +33,8 @@ const schemaV19 = {
         newObjects[index].username = !oldObject.username ? '' : oldObject.username;
         newObjects[index].password = !oldObject.password ? '' : oldObject.password;
         newObjects[index].shortcut = !oldObject.shortcut ? '' : oldObject.shortcut;
-        newObjects[index].shortcut_color = !oldObject.shortcut_color ? '' : oldObject.shortcut_color;
+        newObjects[index].shortcut_bg_color = !oldObject.shortcut_bg_color ? '' : oldObject.shortcut_bg_color;
+        newObjects[index].shortcut_text_color = !oldObject.shortcut_text_color ? '' : oldObject.shortcut_text_color;
       });
     }
   }

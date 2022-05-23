@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4'
 import { CUSTOM, DEFAULT } from '../constants/main_constant';
+import endpointUrlHelper from '../helpers/endpoint_url_helper';
 
 const MODEL = 'EndpointUrl';
 
@@ -11,6 +12,7 @@ const EndpointUrl = (() => {
     findByUuid,
     findByLabel,
     findByUrlValue,
+    findByUrlAndUsername,
     create,
     update,
     isExist,
@@ -39,13 +41,13 @@ const EndpointUrl = (() => {
     return realm.objects(MODEL).filtered(`value = '${value}'`)[0];
   }
 
-  function create(data) {
-    let params = data;
-    params['uuid'] = uuidv4();
-    params['order'] = _getLastOrderNumber() + 1;
+  function findByUrlAndUsername(url, username) {
+    return realm.objects(MODEL).filtered(`value = '${url}' AND username = '${username}'`)[0];
+  }
 
+  function create(data) {
     realm.write(() => {
-      realm.create(MODEL, params, 'modified');
+      realm.create(MODEL, _buildData(data), 'modified');
     });
   }
 
@@ -72,6 +74,20 @@ const EndpointUrl = (() => {
   function _getLastOrderNumber() {
     const orderNumber = realm.objects(MODEL).max('order');
     return !orderNumber ? 0 : orderNumber;
+  }
+
+  function _buildData(data) {
+    const shortcutData = endpointUrlHelper.generateShortcutData(data.value);
+
+    const params = {
+      uuid: uuidv4(),
+      order: _getLastOrderNumber() + 1,
+      shortcut: shortcutData.shortcut,
+      shortcut_bg_color: shortcutData.shortcut_bg_color,
+      shortcut_text_color: shortcutData.shortcut_text_color,
+    };
+
+    return {...data, ...params};
   }
 })();
 
