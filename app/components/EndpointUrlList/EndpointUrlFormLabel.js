@@ -7,7 +7,7 @@ import styles from '../../themes/modalStyle';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 
-export const SettingUrlEndpointTitle = (props) => {
+export const EndpointUrlTitle = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   return (
@@ -17,7 +17,7 @@ export const SettingUrlEndpointTitle = (props) => {
   )
 }
 
-export const SettingUrlEndpointFormWarningMessage = (props) => {
+export const EndpointUrlFormWarningMessage = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   return (

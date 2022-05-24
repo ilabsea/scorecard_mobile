@@ -2,6 +2,7 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 
 import EndpointUrlCard from './EndpointUrlCard';
+import EndpointUrlListFooter from './EndpointUrlListFooter';
 
 import { containerPadding } from '../../utils/responsive_util';
 import uuidv4 from '../../utils/uuidv4';
@@ -11,7 +12,7 @@ class EndpointUrlListBody extends React.Component {
   renderCardList() {
     const endpointUrls = EndpointUrl.getAll();
 
-    console.log('all endpoint urls == ', endpointUrls)
+    // console.log('all endpoint urls == ', endpointUrls)
 
     return endpointUrls.map(endpoint => {
       return <EndpointUrlCard
@@ -23,9 +24,12 @@ class EndpointUrlListBody extends React.Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, padding: containerPadding}}>
-        { this.renderCardList() }
-      </ScrollView>
+      <React.Fragment>
+        <ScrollView contentContainerStyle={{flexGrow: 1, padding: containerPadding}}>
+          { this.renderCardList() }
+        </ScrollView>
+        <EndpointUrlListFooter/>
+      </React.Fragment>
     )
   }
 }

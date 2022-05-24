@@ -16,15 +16,27 @@ const endpointFormService = (() => {
     isAllowToDeleteOrEdit,
   }
 
-  function isValidForm(endpointLabel, endpointValue, editEndpoint) {
+  function isValidForm(endpointLabel, endpointValue, email, password) {
     const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
     const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
 
-    if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, editEndpoint))
+    const endpointUrl = EndpointUrl.findByUrlAndUsername(endpointValue, email);
+
+    if (!endpointLabel || !password || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || !!endpointUrl)
       return false;
 
     return urlUtil.isUrlValid(endpointValue);
   }
+
+  // function isValidForm(endpointLabel, endpointValue, editEndpoint) {
+  //   const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
+  //   const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
+
+  //   if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, editEndpoint))
+  //     return false;
+
+  //   return urlUtil.isUrlValid(endpointValue);
+  // }
 
   async function saveEndpointUrls(newLabel, newValue, endpointUuid) {
     if (!!endpointUuid)
@@ -71,15 +83,15 @@ const endpointFormService = (() => {
     validationService(fieldName, value === '' ? undefined : value);
   }
 
-  function isEndpointExisted(endpointLabel, endpointValue, editEndpoint) {
-    return isFieldExisted('label', endpointLabel, editEndpoint) || isFieldExisted('value', endpointValue, editEndpoint);
-  }
+  // function isEndpointExisted(endpointLabel, endpointValue, editEndpoint) {
+  //   return isFieldExisted('label', endpointLabel, editEndpoint) || isFieldExisted('value', endpointValue, editEndpoint);
+  // }
 
   function isFieldExisted(type, value, editEndpoint) {
     const isSameEditEndpoint = !!editEndpoint ? editEndpoint[type] === value : false;
     const isExist = {
       'label': EndpointUrl.findByLabel(value),
-      'value': EndpointUrl.findByUrlValue(value),
+      // 'value': EndpointUrl.findByUrlValue(value),
     }
     return !isSameEditEndpoint && isExist[type];
   }

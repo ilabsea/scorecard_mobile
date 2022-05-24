@@ -30,8 +30,10 @@ export const settingContentHeight = getDeviceStyle('54%', isShortScreenDevice() 
 export const settingLanguageSnapPoints = getDeviceStyle(['28%'], ['30%']);
 export const settingLanguageContentHeight = getDeviceStyle('27%', '28%');
 
-export const settingEndpointModalSnapPoints = getDeviceStyle(['76%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
-export const settingEndpointContentHeight = getDeviceStyle('74%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);
+// export const settingEndpointModalSnapPoints = getDeviceStyle(['76%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
+// export const settingEndpointContentHeight = getDeviceStyle('74%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);
+export const settingEndpointModalSnapPoints = ['88%'];
+export const settingEndpointContentHeight = '86%';
 
 export const settingReLoginInfoModalSnapPoints = getDeviceStyle(['36%'], ['37%']);
 export const settingReLoginInfoContentHeight = getDeviceStyle('34%', '35%');
