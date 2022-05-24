@@ -1,6 +1,6 @@
 import EndpointUrl from '../models/EndpointUrl';
 import { defaultEndpointUrls } from '../constants/url_constant';
-import colorUtil from '../utils/color_util';
+import { endpointUrlColors } from '../constants/color_constant';
 
 const endpointUrlHelper = (() => {
   return {
@@ -27,15 +27,13 @@ const endpointUrlHelper = (() => {
 
   function _getCustomShortcut(url) {
     const customEndpointUrls = EndpointUrl.getAllCustomEndpointUrls();
-    // const randomColor = colorUtil.getRandomColor();
+    const color = _getCustomEndpointColor(customEndpointUrls, url);
     let orderNumber = customEndpointUrls.length > 0 ? _findCustomEndpointUrlOrder(customEndpointUrls, url) : 1;
 
     return {
       shortcut: `CUSTOM${orderNumber}`,
-      shortcut_bg_color: colorUtil.getRandomColor(),
-      shortcut_text_color: colorUtil.getRandomColor(),
-      // shortcut_bg_color: randomColor.background_color,
-      // shortcut_text_color: randomColor.text_color,
+      shortcut_bg_color: color.background,
+      shortcut_text_color: color.text,
     }
   }
 
@@ -46,6 +44,16 @@ const endpointUrlHelper = (() => {
     }
 
     return customEndpointUrls.length + 1;
+  }
+
+  function _getCustomEndpointColor(customEndpointUrls, url) {
+    if (customEndpointUrls.length >= 10) {
+      const randomIndex = Math.floor(Math.random() * endpointUrlColors.length + 1);
+      return endpointUrlColors[randomIndex];
+    }
+
+    const index = customEndpointUrls.findIndex(endpoint => endpoint.value === url);
+    return endpointUrlColors[index];
   }
 })()
 
