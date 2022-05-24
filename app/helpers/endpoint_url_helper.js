@@ -2,16 +2,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 import EndpointUrl from '../models/EndpointUrl';
 import { defaultEndpointUrls } from '../constants/url_constant';
 import { endpointUrlColors } from '../constants/color_constant';
+import Color from '../themes/color';
 
 const endpointUrlHelper = (() => {
   return {
     generateShortcutData,
     getEndpointAccountInfo,
+    getColor,
   }
 
   function generateShortcutData(url) {
-    const shortcutData = _getDefaultEndpointShortcutData(url);
-    return !!shortcutData ? shortcutData : _getCustomShortcut(url);
+    const shortcutData = _getDefaultEndpointShortcutInfo(url);
+    return !!shortcutData ? shortcutData : _getCustomShortcutInfo(url);
   }
 
   async function getEndpointAccountInfo(url) {
@@ -24,20 +26,31 @@ const endpointUrlHelper = (() => {
     return url == savedSetting.backendUrl ? { username: savedSetting.email, password: savedSetting.password } : defaultAccountInfo;
   }
 
-  // private method
-  function _getDefaultEndpointShortcutData(url) {
-    const endpointUrlData = defaultEndpointUrls.filter(defaultEndpointUrl => defaultEndpointUrl.value == url)[0];
+  function getColor(savedColor, type) {
+    if (!!savedColor)
+      return savedColor;
 
-    if (!endpointUrlData) return null
+    const colors = {
+      'background': Color.grayColor,
+      'text': Color.blackColor
+    };
+    return colors[type];
+  }
+
+  // private method
+  function _getDefaultEndpointShortcutInfo(url) {
+    const endpointUrl = defaultEndpointUrls.filter(defaultEndpointUrl => defaultEndpointUrl.value == url)[0];
+
+    if (!endpointUrl) return null
 
     return {
-      shortcut: endpointUrlData.shortcut,
-      shortcut_bg_color: endpointUrlData.shortcut_bg_color,
-      shortcut_text_color: endpointUrlData.shortcut_text_color,
+      shortcut: endpointUrl.shortcut,
+      shortcut_bg_color: endpointUrl.shortcut_bg_color,
+      shortcut_text_color: endpointUrl.shortcut_text_color,
     }
   }
 
-  function _getCustomShortcut(url) {
+  function _getCustomShortcutInfo(url) {
     const customEndpointUrls = EndpointUrl.getAllCustomEndpointUrls();
     const color = _getCustomEndpointColor(customEndpointUrls, url);
     let orderNumber = customEndpointUrls.length > 0 ? _findCustomEndpointUrlOrder(customEndpointUrls, url) : 1;

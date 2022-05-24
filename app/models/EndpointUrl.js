@@ -83,9 +83,6 @@ const EndpointUrl = (() => {
     const params = {
       uuid: uuidv4(),
       order: _getLastOrderNumber() + 1,
-      // shortcut: shortcutData.shortcut,
-      // shortcut_bg_color: shortcutData.shortcut_bg_color,
-      // shortcut_text_color: shortcutData.shortcut_text_color,
     };
 
     return {...data, ...params.order, ...shortcutData, ...accountInfo};

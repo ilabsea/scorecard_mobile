@@ -67,10 +67,6 @@ const endpointMigrationService = (() => {
         // add shortcut data to existing custom endpoint url
         const params = endpointUrlHelper.generateShortcutData(customEndpointUrl.value)
         const accountInfo = await endpointUrlHelper.getEndpointAccountInfo(customEndpointUrl.value);
-
-        console.log('update account info == ', accountInfo)
-
-        // EndpointUrl.update(customEndpointUrl.uuid, params);
         EndpointUrl.update(customEndpointUrl.uuid, {...params, ...accountInfo});
       }
     });

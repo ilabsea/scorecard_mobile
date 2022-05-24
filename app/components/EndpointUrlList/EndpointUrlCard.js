@@ -5,8 +5,9 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import CardItem from '../Share/CardItem';
 import SwipeableDeleteButton from '../Share/SwipeableDeleteButton';
 import Color from '../../themes/color';
-import { smallTextFontSize } from '../../utils/font_size_util';
+import { smallTextFontSize, bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
+import endpointUrlHelper from '../../helpers/endpoint_url_helper';
 
 class EndpointUrlCard extends React.Component {
   constructor(props) {
@@ -18,20 +19,26 @@ class EndpointUrlCard extends React.Component {
   }
 
   renderBadge() {
-    return <View style={[styles.badge, {backgroundColor: this.props.endpoint.shortcut_bg_color}]}>
-              <Text style={[styles.badgeLabel, {color: this.props.endpoint.shortcut_text_color}]}>
+    const {shortcut_bg_color, shortcut_text_color} = this.props.endpoint;
+
+    return <View style={[styles.badge, {backgroundColor: endpointUrlHelper.getColor(shortcut_bg_color, 'background')}]}>
+              <Text style={[styles.badgeLabel, {color: endpointUrlHelper.getColor(shortcut_text_color, 'type')}]}>
                 { this.props.endpoint.shortcut }
               </Text>
            </View>
   }
 
   renderContent() {
+    const username = !!this.props.endpoint.username ? `${this.props.endpoint.username}@` : '';
+
     return <React.Fragment>
               <View style={{flexDirection: 'row'}}>
-                <Text>{ this.props.endpoint.label }</Text>
+                <Text style={{fontSize: bodyFontSize()}}>{ this.props.endpoint.label }</Text>
                 { this.renderBadge() }
               </View>
-              <Text style={{color: Color.grayColor}}>{ `${this.props.endpoint.username}@${this.props.endpoint.value}` }</Text>
+              <Text style={{color: Color.grayColor, fontSize: smallTextFontSize()}}>
+                { `${username}${this.props.endpoint.value}` }
+              </Text>
            </React.Fragment>
   }
 
@@ -60,15 +67,15 @@ class EndpointUrlCard extends React.Component {
 
 const styles = StyleSheet.create({
   badge: {
-    paddingHorizontal: 6,
+    paddingHorizontal: 4,
     marginLeft: 20,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 25
+    height: 20
   },
   badgeLabel: {
-    fontSize: smallTextFontSize(),
+    fontSize: 11,
     textTransform: 'uppercase'
   }
 });
