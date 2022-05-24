@@ -31,7 +31,7 @@ class EndpointUrlCard extends React.Component {
                 <Text>{ this.props.endpoint.label }</Text>
                 { this.renderBadge() }
               </View>
-              <Text style={{color: Color.grayColor}}>{ `${this.props.endpoint.email}@${this.props.endpoint.value}` }</Text>
+              <Text style={{color: Color.grayColor}}>{ `${this.props.endpoint.username}@${this.props.endpoint.value}` }</Text>
            </React.Fragment>
   }
 

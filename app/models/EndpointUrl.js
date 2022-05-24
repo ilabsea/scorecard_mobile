@@ -46,8 +46,8 @@ const EndpointUrl = (() => {
   }
 
   function create(data) {
-    realm.write(() => {
-      realm.create(MODEL, _buildData(data), 'modified');
+    realm.write(async () => {
+      realm.create(MODEL, await _buildData(data), 'modified');
     });
   }
 
@@ -76,18 +76,19 @@ const EndpointUrl = (() => {
     return !orderNumber ? 0 : orderNumber;
   }
 
-  function _buildData(data) {
+  async function _buildData(data) {
     const shortcutData = endpointUrlHelper.generateShortcutData(data.value);
+    const accountInfo = await endpointUrlHelper.getEndpointAccountInfo(data.value);
 
     const params = {
       uuid: uuidv4(),
       order: _getLastOrderNumber() + 1,
-      shortcut: shortcutData.shortcut,
-      shortcut_bg_color: shortcutData.shortcut_bg_color,
-      shortcut_text_color: shortcutData.shortcut_text_color,
+      // shortcut: shortcutData.shortcut,
+      // shortcut_bg_color: shortcutData.shortcut_bg_color,
+      // shortcut_text_color: shortcutData.shortcut_text_color,
     };
 
-    return {...data, ...params};
+    return {...data, ...params.order, ...shortcutData, ...accountInfo};
   }
 })();
 

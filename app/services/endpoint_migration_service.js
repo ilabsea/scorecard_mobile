@@ -29,7 +29,7 @@ const endpointMigrationService = (() => {
       if (!savedEndpointUrl)
         EndpointUrl.create({ label: endpointUrl.label, value: endpointUrl.value, type: !!endpointUrl.type ? endpointUrl.type : DEFAULT });
       else if (!savedEndpointUrl.shortcut) {
-        // add shortcut data to existing endpoint url
+        // add shortcut data, username, password to existing endpoint url
         const params = endpointUrlHelper.generateShortcutData(endpointUrl.value)
         EndpointUrl.update(savedEndpointUrl.uuid, params);
       }
@@ -60,13 +60,18 @@ const endpointMigrationService = (() => {
 
   function _handleCustomEndpoint() {
     const customEndpointUrls = EndpointUrl.getAllCustomEndpointUrls();
-    customEndpointUrls.map(customEndpointUrl => {
+    customEndpointUrls.map(async customEndpointUrl => {
       if (!!customEndpointUrl && _isDefaultEndpointUrl(customEndpointUrl.value))
         EndpointUrl.destroy(customEndpointUrl.uuid);
       else if (!customEndpointUrl.shortcut) {
         // add shortcut data to existing custom endpoint url
         const params = endpointUrlHelper.generateShortcutData(customEndpointUrl.value)
-        EndpointUrl.update(customEndpointUrl.uuid, params);
+        const accountInfo = await endpointUrlHelper.getEndpointAccountInfo(customEndpointUrl.value);
+
+        console.log('update account info == ', accountInfo)
+
+        // EndpointUrl.update(customEndpointUrl.uuid, params);
+        EndpointUrl.update(customEndpointUrl.uuid, {...params, ...accountInfo});
       }
     });
   }

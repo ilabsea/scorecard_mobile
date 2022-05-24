@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import EndpointUrl from '../models/EndpointUrl';
 import { defaultEndpointUrls } from '../constants/url_constant';
 import { endpointUrlColors } from '../constants/color_constant';
@@ -5,11 +6,22 @@ import { endpointUrlColors } from '../constants/color_constant';
 const endpointUrlHelper = (() => {
   return {
     generateShortcutData,
+    getEndpointAccountInfo,
   }
 
   function generateShortcutData(url) {
     const shortcutData = _getDefaultEndpointShortcutData(url);
     return !!shortcutData ? shortcutData : _getCustomShortcut(url);
+  }
+
+  async function getEndpointAccountInfo(url) {
+    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const defaultAccountInfo = { username: '', password: '' };
+
+    if (!savedSetting || !savedSetting.email)
+      return defaultAccountInfo;
+
+    return url == savedSetting.backendUrl ? { username: savedSetting.email, password: savedSetting.password } : defaultAccountInfo;
   }
 
   // private method
