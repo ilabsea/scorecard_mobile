@@ -11,6 +11,7 @@ const endpointFormService = (() => {
   return {
     isValidForm,
     saveEndpointUrls,
+    getEmailErrorMessage,
     getErrorMessage,
     getSelectedEndpoint,
     isAllowToDeleteOrEdit,
@@ -19,30 +20,34 @@ const endpointFormService = (() => {
   function isValidForm(endpointLabel, endpointValue, email, password) {
     const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
     const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
-
     const endpointUrl = EndpointUrl.findByUrlAndUsername(endpointValue, email);
 
-    if (!endpointLabel || !password || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || !!endpointUrl)
-      return false;
+    const fieldsValidation = {
+      email: !email ? false : true,
+      password: !password ? false : true,
+      label: endpointLabelValidationMsg == null && !isFieldExisted('label', endpointLabel, null),
+      value: endpointValueValidationMsg == null && urlUtil.isUrlValid(endpointValue),
+      endpointUrlIsNotExisted: !endpointUrl
+    }
 
-    return urlUtil.isUrlValid(endpointValue);
+    for (let key in fieldsValidation) {
+      if (!fieldsValidation[key])
+        return false;
+    }
+
+    return true;
   }
-
-  // function isValidForm(endpointLabel, endpointValue, editEndpoint) {
-  //   const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
-  //   const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
-
-  //   if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, editEndpoint))
-  //     return false;
-
-  //   return urlUtil.isUrlValid(endpointValue);
-  // }
 
   async function saveEndpointUrls(newLabel, newValue, endpointUuid) {
     if (!!endpointUuid)
       EndpointUrl.update(endpointUuid, { label: newLabel, value: newValue });
     else
       EndpointUrl.create({uuid: uuidv4(), label: newLabel, value: newValue, type: CUSTOM});
+  }
+
+  function getEmailErrorMessage(email, endpointValue) {
+    const endpointUrl = EndpointUrl.findByUrlAndUsername(endpointValue, email);
+    return !!endpointUrl ? 'thisEmailIsAlreadyExist' : '';
   }
 
   function getErrorMessage(fieldName, value, editEndpoint) {
@@ -83,15 +88,11 @@ const endpointFormService = (() => {
     validationService(fieldName, value === '' ? undefined : value);
   }
 
-  // function isEndpointExisted(endpointLabel, endpointValue, editEndpoint) {
-  //   return isFieldExisted('label', endpointLabel, editEndpoint) || isFieldExisted('value', endpointValue, editEndpoint);
-  // }
-
   function isFieldExisted(type, value, editEndpoint) {
     const isSameEditEndpoint = !!editEndpoint ? editEndpoint[type] === value : false;
     const isExist = {
       'label': EndpointUrl.findByLabel(value),
-      // 'value': EndpointUrl.findByUrlValue(value),
+      'value': false,   // endpoint url can be created multiple time
     }
     return !isSameEditEndpoint && isExist[type];
   }

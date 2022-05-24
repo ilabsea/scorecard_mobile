@@ -12,7 +12,7 @@ class EndpointUrlListBody extends React.Component {
   renderCardList() {
     const endpointUrls = EndpointUrl.getAll();
 
-    // console.log('all endpoint urls == ', endpointUrls)
+    console.log('all endpoint urls == ', endpointUrls)
 
     return endpointUrls.map(endpoint => {
       return <EndpointUrlCard

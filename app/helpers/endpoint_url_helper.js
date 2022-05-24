@@ -56,7 +56,7 @@ const endpointUrlHelper = (() => {
     let orderNumber = customEndpointUrls.length > 0 ? _findCustomEndpointUrlOrder(customEndpointUrls, url) : 1;
 
     return {
-      shortcut: `CUSTOM${orderNumber}`,
+      shortcut: `CUSTOM ${orderNumber}`,
       shortcut_bg_color: color.background,
       shortcut_text_color: color.text,
     }

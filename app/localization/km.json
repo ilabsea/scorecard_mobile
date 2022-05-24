@@ -370,5 +370,6 @@
   "selectYourPreviousServerUrl": "ជ្រើសរើសអាស័យដ្ឋានម៉ាសុីនមេ",
   "enterYourEmailAndPassword": "ធ្វើការបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់របស់អ្នក",
   "clickOnButtonSave": "ធ្វើការចុចលើប៊ូតុង {0}",
-  "viewInstruction": "មើលការណែនាំ"
+  "viewInstruction": "មើលការណែនាំ",
+  "thisEmailIsAlreadyExist": "អ៊ីមែល​​នេះមានរួចហើយ"
 }
