@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import SettingUrlEndpointForm from './SettingUrlEndpointForm';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
@@ -23,10 +22,35 @@ class SettingUrlEndpointPicker extends React.Component {
       currentSelectedEndpoint: '',
       endpointUrls: [],
     }
+    this.componentIsUnmount = false;
   }
 
   componentDidMount() {
     this.loadEndpointUrls();
+
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      setTimeout(async () => {
+        const settingData = await settingHelper.getSettingData();
+        if (!this.componentIsUnmount && !!settingData && !!settingData.backendUrl) {
+          this.setState({
+            endpointUrls: EndpointUrl.getAll(),
+            selectedEndpoint: settingData.backendUrl
+          });
+          this.props.formModalRef.current?.dismiss();
+          this.props.updateBackendUrl(settingData.backendUrl);
+        }
+      }, 100);
+    });
+  }
+
+  componentDidUpdate() {
+    if (!this.componentIsUnmount && this.state.selectedEndpoint != this.props.backendUrl)
+      this.setState({ selectedEndpoint: this.props.backendUrl })
+  }
+
+  componentWillUnmount() {
+    this.focusListener && this.focusListener();
+    this.componentIsUnmount = true;
   }
 
   loadEndpointUrls() {
@@ -34,15 +58,12 @@ class SettingUrlEndpointPicker extends React.Component {
       endpointUrls: EndpointUrl.getAll(),
       selectedEndpoint: this.props.backendUrl,
       currentSelectedEndpoint: this.props.backendUrl,
-    }, () => {
-      console.log('endpoint urls == ', this.state.endpointUrls)
     });
   }
 
   showBottomSheetModal(type) {
     const modals = {
       'dropdown_picker': { content: this.renderBottomSheetPickerContent(), snapPoints: settingHelper.getEndpointPickerHeight('snap_points', this.state.endpointUrls) },
-      'form_create': { content: this.renderSettingUrlEndpointForm(null), snapPoints: settingEndpointModalSnapPoints },
     };
 
     this.props.formRef.current?.setSnapPoints(modals[type].snapPoints);
@@ -51,8 +72,9 @@ class SettingUrlEndpointPicker extends React.Component {
   }
 
   showEditForm(item) {
-    this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
-    this.props.formRef.current?.setBodyContent(this.renderSettingUrlEndpointForm(item));
+    // this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
+
+    console.log('redirect to edit screen ==== ')
   }
 
   renderBottomSheetPickerContent() {
@@ -89,15 +111,6 @@ class SettingUrlEndpointPicker extends React.Component {
       this.loadEndpointUrls();
       this.props.formModalRef.current?.dismiss();
     }, 100);
-  }
-
-  renderSettingUrlEndpointForm(editEndpoint) {
-    return <SettingUrlEndpointForm saveNewEndpoint={(endpointValue) => this.saveNewEndpoint(endpointValue)}
-              editEndpoint={editEndpoint}
-              selectedEndpoint={this.state.selectedEndpoint}
-              reloadEndpoint={() => this.reloadEndpoint()}
-              savedEndpoint={this.props.savedEndpoint}
-           />
   }
 
   changeSelectedEndpoint() {

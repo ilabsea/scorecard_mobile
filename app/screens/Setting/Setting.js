@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../../components/Translations';
 import SettingBodyContent from '../../components/Setting/SettingBodyContent';
@@ -19,7 +18,6 @@ class Setting extends Component {
     this.state = {
       hasInternetConnection: false,
       proposedIndicatorMethod: INDICATOR_BASE,
-      backendUrl: props.route.params.backend_url
     };
 
     this.unsubscribeNetInfo;
@@ -37,15 +35,6 @@ class Setting extends Component {
         this.setState({ hasInternetConnection: hasConnection });
     });
 
-    this.focusListener = this.props.navigation.addListener("focus", async () => {
-        const settingData = await settingHelper.getSettingData();
-
-        if (!!settingData && !!settingData.backendUrl) {
-          this.formModalRef.current?.dismiss();
-          this.setState({ backendUrl: settingData.backendUrl });
-        }
-    });
-
     // Redirect back to home screen and clear unsaved data when the user uses the android back button
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       this.goBack();
@@ -56,7 +45,6 @@ class Setting extends Component {
   componentWillUnmount() {
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
-    this.focusListener && this.focusListener();
     this.backHandler.remove();
   }
 
@@ -67,8 +55,8 @@ class Setting extends Component {
               formModalRef={this.formModalRef}
               hasInternetConnection={this.state.hasInternetConnection}
               proposedIndicatorMethod={this.state.proposedIndicatorMethod}
-              // backendUrl={this.props.route.params.backend_url}
-              backendUrl={this.state.backendUrl}
+              backendUrl={this.props.route.params.backend_url}
+              navigation={this.props.navigation}
            />
   }
 

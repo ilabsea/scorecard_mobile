@@ -97,9 +97,6 @@ const settingHelper = (() => {
 
   async function getSettingData() {
     const tempSettingData = await getTempSettingData();
-
-    console.log('get tem data = ', tempSettingData)
-
     return !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
   }
 

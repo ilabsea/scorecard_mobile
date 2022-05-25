@@ -205,6 +205,7 @@ class SettingBodyContent extends React.Component {
             formRef={this.props.formRef}
             formModalRef={this.props.formModalRef}
             backendUrl={this.props.backendUrl}
+            navigation={this.props.navigation}
           />
 
           { this.renderBottomSection() }

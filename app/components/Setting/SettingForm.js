@@ -35,13 +35,6 @@ class SettingForm extends Component {
     }
   }
 
-  async componentDidUpdate() {
-    const savedSetting = await settingHelper.getSettingData();
-    if (this.state.backendUrl != savedSetting.backendUrl) {
-      this.setState({ backendUrl: savedSetting.backendUrl })
-    }
-  }
-
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
@@ -58,6 +51,7 @@ class SettingForm extends Component {
         formModalRef={this.props.formModalRef}
         savedEndpoint={this.props.backendUrl}
         saveTempSettingData={() => this.saveTempSettingData()}
+        navigation={this.props.navigation}
       />
     )
   }

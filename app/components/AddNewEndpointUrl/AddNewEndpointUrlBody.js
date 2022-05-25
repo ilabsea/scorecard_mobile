@@ -40,8 +40,8 @@ class AddNewEndpointUrlBody extends React.Component {
       type: CUSTOM,
     }
 
-    // if (!this.props.selectedEndpoint)
-    //   EndpointUrl.create(params);
+    if (!this.props.selectedEndpoint)
+      EndpointUrl.create(params);
 
     this.storeTempSettingData(endpointValue);
     navigateBack();
