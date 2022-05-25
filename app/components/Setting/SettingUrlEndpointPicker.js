@@ -32,6 +32,8 @@ class SettingUrlEndpointPicker extends React.Component {
       endpointUrls: EndpointUrl.getAll(),
       selectedEndpoint: this.props.backendUrl,
       currentSelectedEndpoint: this.props.backendUrl,
+    }, () => {
+      console.log('endpoint urls == ', this.state.endpointUrls)
     });
   }
 
