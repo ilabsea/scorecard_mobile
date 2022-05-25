@@ -12,7 +12,6 @@ const settingHelper = (() => {
     getProposedIndicatorMethodStatuses,
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
-    getEndpointPickerHeight,
     getFullyEndpointUrl,
     getSavedEndpointUrl,
     saveTempSettingData,
@@ -60,14 +59,6 @@ const settingHelper = (() => {
 
   function getProposedIndicatorMethodTracingStep(type) {
     return PROPOSED_INDICATOR_METHODS[type].firebase_step_index;
-  }
-
-  function getEndpointPickerHeight(type, endpointUrls) {
-    const heights = {
-      'snap_points': ['75%'],
-      'content': '73%'
-    }
-    return heights[type];
   }
 
   async function getFullyEndpointUrl() {

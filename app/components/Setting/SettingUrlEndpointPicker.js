@@ -9,7 +9,7 @@ import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
-import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
+import { settingEndpointModalSnapPoints, settingEndpointContentHeight } from '../../constants/modal_constant';
 import EndpointUrl from '../../models/EndpointUrl';
 import { navigate } from '../../navigators/app_navigator';
 
@@ -61,20 +61,15 @@ class SettingUrlEndpointPicker extends React.Component {
     });
   }
 
-  showBottomSheetModal(type) {
-    const modals = {
-      'dropdown_picker': { content: this.renderBottomSheetPickerContent(), snapPoints: settingHelper.getEndpointPickerHeight('snap_points', this.state.endpointUrls) },
-    };
-
-    this.props.formRef.current?.setSnapPoints(modals[type].snapPoints);
-    this.props.formRef.current?.setBodyContent(modals[type].content);
+  showBottomSheetModal() {
+    this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
+    this.props.formRef.current?.setBodyContent(this.renderBottomSheetPickerContent());
     this.props.formModalRef.current?.present();
   }
 
-  showEditForm(item) {
-    // this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
-
-    console.log('redirect to edit screen ==== ')
+  showEditForm(endpoint) {
+    endpointFormService.saveEndpointForEdit(endpoint);
+    navigate('AddNewEndpointUrl');
   }
 
   renderBottomSheetPickerContent() {
@@ -83,7 +78,7 @@ class SettingUrlEndpointPicker extends React.Component {
             items={this.state.endpointUrls}
             selectedItem={this.state.selectedEndpoint}
             isRequire={true}
-            contentHeight={settingHelper.getEndpointPickerHeight('content', this.state.endpointUrls)}
+            contentHeight={settingEndpointContentHeight}
             onSelectItem={(item) => this.setState({ currentSelectedEndpoint: item.value })}
             scrollViewStyle={{ paddingBottom: 0 }}
             showSubtitle={true}
@@ -94,7 +89,7 @@ class SettingUrlEndpointPicker extends React.Component {
             hasBottomButton={true}
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
-            isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem, this.props.savedEndpoint)}
+            isAllowToEdit={(endpointUrl) => endpointUrl != this.state.selectedEndpoint}
             customListItem={(item) => <SettingUrlEndpointPickerItem item={item}/>}
           />
   }
@@ -131,7 +126,7 @@ class SettingUrlEndpointPicker extends React.Component {
           selectedItem={this.state.selectedEndpoint}
           isRequire={true}
           showSubtitle={true}
-          showPicker={() => this.showBottomSheetModal('dropdown_picker')}
+          showPicker={() => this.showBottomSheetModal()}
           customContainerStyle={{ marginTop: 10 }}
         />
       </View>

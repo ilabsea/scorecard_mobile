@@ -13,17 +13,33 @@ class AddNewEndpointUrlForm extends React.Component {
   constructor(props) {
     super(props);
 
-    const selectedEndpoint = null
-
     this.state = {
-      endpointLabel: selectedEndpoint ? selectedEndpoint.label : '',
-      endpointValue: selectedEndpoint ? selectedEndpoint.value : 'https://',
-      endpointUuid: selectedEndpoint ? EndpointUrl.findByUrlValue(selectedEndpoint.value).uuid : '',
+      endpointLabel: '',
+      endpointValue: 'https://',
+      endpointUuid: '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
-      // isAllowToDeleteOrEdit: selectedEndpoint ? endpointFormService.isAllowToDeleteOrEdit(props.selectedEndpoint, props.savedEndpoint) : true,
-
+      isAllowToDeleteOrEdit: true,
       selectedEndpoint: null,
+    }
+  }
+
+  async componentDidMount() {
+    const selectedEndpoint = await endpointFormService.getEndpointForEdit();
+
+    console.log('selected endpoint == ', selectedEndpoint)
+
+    if (!!selectedEndpoint) {
+      this.setState({
+        selectedEndpoint: selectedEndpoint,
+        endpointLabel: selectedEndpoint.label,
+        endpointValue: selectedEndpoint.value.toString(),
+        endpointUuid: selectedEndpoint.uuid,
+        isAllowToDeleteOrEdit: await endpointFormService.isAllowToDeleteOrEdit(selectedEndpoint),
+      }, () => {
+        console.log('======================')
+        console.log('is allow to delete or edit == ', this.state.isAllowToDeleteOrEdit)
+      });
     }
   }
 

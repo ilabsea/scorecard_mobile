@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
 import { CUSTOM } from '../constants/main_constant';
@@ -14,6 +15,9 @@ const endpointFormService = (() => {
     getErrorMessage,
     getSelectedEndpoint,
     isAllowToDeleteOrEdit,
+    saveEndpointForEdit,
+    getEndpointForEdit,
+    clearEndpointForEdit,
   }
 
   function isValidForm(endpointLabel, endpointValue, editEndpoint) {
@@ -59,11 +63,33 @@ const endpointFormService = (() => {
     return !tempSettingData ? settingHelper.getSavedEndpointUrl() : tempSettingData.endpoint;
   }
 
-  function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {
-    if (!Scorecard.allScorecardContainEndpoint(editEndpoint.value))
-      return !!editEndpoint && editEndpoint.value != selectedEndpoint && editEndpoint.value != savedEndpoint;
+  async function isAllowToDeleteOrEdit(currentEndpoint) {
+    const tempSettingData = await settingHelper.getSettingData();
+    const savedEndpointUrl = await settingHelper.getSavedEndpointUrl();
+
+    if (!Scorecard.allScorecardContainEndpoint(currentEndpoint.value))
+      return !!currentEndpoint && currentEndpoint.value != tempSettingData.backendUrl || currentEndpoint.value != savedEndpointUrl;
     
     return false;
+  }
+
+  // function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {
+  //   if (!Scorecard.allScorecardContainEndpoint(editEndpoint.value))
+  //     return !!editEndpoint && editEndpoint.value != selectedEndpoint && editEndpoint.value != savedEndpoint;
+    
+  //   return false;
+  // }
+
+  function saveEndpointForEdit(endpoint) {
+    AsyncStorage.setItem('ENDPOINT_FOR_EDIT', JSON.stringify(endpoint));
+  }
+
+  async function getEndpointForEdit() {
+    return JSON.parse(await AsyncStorage.getItem('ENDPOINT_FOR_EDIT'));
+  }
+
+  function clearEndpointForEdit() {
+    AsyncStorage.removeItem('ENDPOINT_FOR_EDIT');
   }
 
   // private method

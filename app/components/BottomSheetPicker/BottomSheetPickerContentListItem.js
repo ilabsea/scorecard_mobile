@@ -43,7 +43,7 @@ class BottomSheetPickerContentListItem extends React.Component {
   }
 
   isAbleToEdit(item) {
-    return !!this.props.showEditForm && item.type == CUSTOM && this.props.isAllowToEdit(item, this.props.defaultSelectedItem)
+    return !!this.props.showEditForm && item.type == CUSTOM && this.props.isAllowToEdit(item.value);
   }
 
   hasSelected(item) {
