@@ -6,11 +6,13 @@ import SettingUrlEndpointForm from './SettingUrlEndpointForm';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
+import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
 import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
 import EndpointUrl from '../../models/EndpointUrl';
+import { navigate } from '../../navigators/app_navigator';
 
 class SettingUrlEndpointPicker extends React.Component {
   static contextType = LocalizationContext;
@@ -63,7 +65,7 @@ class SettingUrlEndpointPicker extends React.Component {
             onSelectItem={(item) => this.setState({ currentSelectedEndpoint: item.value })}
             scrollViewStyle={{ paddingBottom: 0 }}
             showSubtitle={true}
-            onPressRightButton={() => this.showBottomSheetModal('form_create')}
+            onPressRightButton={() => navigate('AddNewEndpointUrl')}
             onPressBottomButton={() => this.changeSelectedEndpoint()}
             showEditForm={(item) => this.showEditForm(item)}
             hasAddButton={true}
@@ -71,6 +73,7 @@ class SettingUrlEndpointPicker extends React.Component {
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
             isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem, this.props.savedEndpoint)}
+            customListItem={(item) => <SettingUrlEndpointPickerItem item={item}/>}
           />
   }
 

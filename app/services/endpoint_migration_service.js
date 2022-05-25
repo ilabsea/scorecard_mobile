@@ -14,7 +14,7 @@ const endpointMigrationService = (() => {
     const defaultEndpoint = JSON.parse(await AsyncStorage.getItem('SETTING')).backendUrl;
 
     if (_isAbleToCreateCustomEndpoint(defaultEndpoint))
-      endpointUrls.push({ label: 'Local Development Server', value: defaultEndpoint, type: CUSTOM });
+      endpointUrls.push({ label: 'Local  Development Server', value: defaultEndpoint, type: CUSTOM });
 
     // Check if there is a custom endpoint with the URL the same as default endpoint URL (staging, production), remove it from realm
     _handleRemoveInvalidCustomEndpoint();

@@ -50,6 +50,7 @@ class BottomSheetPickerContent extends React.Component {
               showEditForm={this.props.showEditForm}
               isAllowToEdit={this.props.isAllowToEdit}
               defaultSelectedItem={this.props.selectedItem}
+              customListItem={this.props.customListItem}
            />
   }
 

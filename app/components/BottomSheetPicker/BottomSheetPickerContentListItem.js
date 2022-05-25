@@ -20,10 +20,18 @@ class BottomSheetPickerContentListItem extends React.Component {
           onPress={() => this.props.onSelectItem(item)}
           style={[styles.itemContainer, { borderBottomWidth: index == this.props.items.length - 1 ? 0 : 1 }]}
         >
-          <View style={{flex: 1}}>
+          { this.props.customListItem ? this.props.customListItem(item)
+            :
+            <View style={{flex: 1}}>
+              <Text style={[styles.itemTitle, { color: this.itemColor(item, Color.blackColor) }]}>{ item.label }</Text>
+              { this.props.showSubtitle && <Text style={[styles.itemSubtitle, { color: this.itemColor(item, Color.grayColor) }]}>{ item.value }</Text> }
+            </View>
+          }
+
+          {/* <View style={{flex: 1}}>
             <Text style={[styles.itemTitle, { color: this.itemColor(item, Color.blackColor) }]}>{ item.label }</Text>
             { this.props.showSubtitle && <Text style={[styles.itemSubtitle, { color: this.itemColor(item, Color.grayColor) }]}>{ item.value }</Text> }
-          </View>
+          </View> */}
 
           { this.hasSelected(item) &&
             <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} style={{marginRight: (item.type == CUSTOM && isAbleToEdit) ? 20 : 0}} />

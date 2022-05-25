@@ -25,6 +25,7 @@ import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
 import VideoPlayerScreen from '../screens/VideoPlayer/VideoPlayer';
+import AddNewEndpointUrlScreen from '../screens/AddNewEndpointUrl/AddNewEndpointUrl';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
 import FilterScorecardScreen from '../screens/FilterScorecard/FilterScorecard';
@@ -238,6 +239,13 @@ function AppNavigator() {
         options={({navigator}) => ({
           header: () => null,
         })}
+      />
+      <Stack.Screen
+        name="AddNewEndpointUrl"
+        component={AddNewEndpointUrlScreen}
+        options={{
+          title: `${translations.addNewServerURL}`,
+        }}
       />
     </Stack.Navigator>
   );
