@@ -9,9 +9,9 @@ const endpointUrlHelper = (() => {
     getColor,
   }
 
-  function generateShortcutInfo(url) {
+  function generateShortcutInfo(customEndpointUrls, url) {
     const shortcutInfo = _getDefaultEndpointShortcutInfo(url);
-    return !!shortcutInfo ? shortcutInfo : _getCustomShortcutInfo(null, url);
+    return !!shortcutInfo ? shortcutInfo : _getCustomShortcutInfo(customEndpointUrls, url);
   }
 
   function getColor(savedColor, type) {
@@ -23,16 +23,6 @@ const endpointUrlHelper = (() => {
       'text': Color.blackColor
     };
     return colors[type];
-  }
-
-  function getCustomEndpointColor(customEndpointUrls, url) {
-    if (customEndpointUrls.length >= 10) {
-      const randomIndex = Math.floor(Math.random() * endpointUrlColors.length + 1);
-      return endpointUrlColors[randomIndex];
-    }
-
-    const index = customEndpointUrls.findIndex(endpoint => endpoint.value === url);
-    return endpointUrlColors[index];
   }
 
   // private method
@@ -48,9 +38,9 @@ const endpointUrlHelper = (() => {
     }
   }
 
-  function _getCustomShortcutInfo(endpointUrls, url) {
-    const customEndpointUrls = endpointUrls || EndpointUrl.getAllCustomEndpointUrls();
-    const color = getCustomEndpointColor(customEndpointUrls, url);
+  function _getCustomShortcutInfo(customEndpoints, url) {
+    const customEndpointUrls = !!customEndpoints ? customEndpoints : EndpointUrl.getAllCustomEndpointUrls();
+    const color = _getCustomEndpointColor(customEndpointUrls, url);
     let orderNumber = customEndpointUrls.length > 0 ? _findCustomEndpointUrlOrder(customEndpointUrls, url) : 1;
 
     return {
@@ -60,18 +50,6 @@ const endpointUrlHelper = (() => {
     }
   }
 
-  // function _getCustomShortcutInfo(url) {
-  //   const customEndpointUrls = EndpointUrl.getAllCustomEndpointUrls();
-  //   const color = getCustomEndpointColor(customEndpointUrls, url);
-  //   let orderNumber = customEndpointUrls.length > 0 ? _findCustomEndpointUrlOrder(customEndpointUrls, url) : 1;
-
-  //   return {
-  //     shortcut: `CUSTOM ${orderNumber}`,
-  //     shortcut_bg_color: color.background,
-  //     shortcut_text_color: color.text,
-  //   }
-  // }
-
   function _findCustomEndpointUrlOrder(customEndpointUrls, url) {
     for (let i = 0; i < customEndpointUrls.length; i++) {
       if (customEndpointUrls[i].value == url)
@@ -79,6 +57,16 @@ const endpointUrlHelper = (() => {
     }
 
     return customEndpointUrls.length + 1;
+  }
+
+  function _getCustomEndpointColor(customEndpointUrls, url) {
+    if (customEndpointUrls.length >= 10) {
+      const randomIndex = Math.floor(Math.random() * endpointUrlColors.length + 1);
+      return endpointUrlColors[randomIndex];
+    }
+
+    const index = customEndpointUrls.length == 0 ? 0 : customEndpointUrls.findIndex(endpoint => endpoint.value === url);
+    return endpointUrlColors[index];
   }
 })()
 

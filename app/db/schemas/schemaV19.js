@@ -34,7 +34,7 @@ const schemaV19 = {
     if (oldRealm.schemaVersion < 19) {
       const oldEndpointUrls = oldRealm.objects('EndpointUrl').sorted('order');
       const newEndpointUrls = newRealm.objects('EndpointUrl').sorted('order');
-      const oldCustomEndpointUrls = oldRealm.filter(endpointUrl => endpointUrl.type == CUSTOM);
+      const oldCustomEndpointUrls = oldRealm.objects('EndpointUrl').filtered(`type = '${CUSTOM}' SORT(order ASC)`);
 
       oldEndpointUrls.map((oldEndpointUrl, index) => {
         const shortcutInfo = endpointUrlHelper.generateShortcutInfo(oldCustomEndpointUrls, oldObject.value);
