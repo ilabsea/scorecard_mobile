@@ -10,6 +10,7 @@ import { navigateBack } from '../../utils/navigation_util';
 import endpointFormService from '../../services/endpoint_form_service';
 import { CUSTOM } from '../../constants/main_constant';
 import EndpointUrl from '../../models/EndpointUrl';
+import settingHelper from '../../helpers/setting_helper';
 
 class AddNewEndpointUrlBody extends React.Component {
   static contextType = LocalizationContext
@@ -39,10 +40,19 @@ class AddNewEndpointUrlBody extends React.Component {
       type: CUSTOM,
     }
 
-    if (!this.props.selectedEndpoint)
-      EndpointUrl.create(params);
+    // if (!this.props.selectedEndpoint)
+    //   EndpointUrl.create(params);
 
+    this.storeTempSettingData(endpointValue);
     navigateBack();
+  }
+
+  async storeTempSettingData(url) {
+    const settingData = await settingHelper.getSettingData();
+    const email = !!settingData && !!settingData.email ? settingData.email : '';
+    const password = !!settingData && !!settingData.password ? settingData.password : '';
+
+    settingHelper.saveTempSettingData(url, email, password);
   }
 
   render() {
@@ -58,7 +68,8 @@ class AddNewEndpointUrlBody extends React.Component {
           label={this.state.editEndpoint ? translations.saveAndChange : translations.save}
           onPress={() => this.save()}
           // disabled={this.props.isLoading || !this.props.isFormValid || this.props.isLocked}
-          disabled={!this.state.isFormValid}
+          // disabled={!this.state.isFormValid}
+          disabled={false}
           iconName='none'
         />
       </View>

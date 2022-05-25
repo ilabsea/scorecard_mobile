@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../../components/Translations';
 import SettingBodyContent from '../../components/Setting/SettingBodyContent';
@@ -18,6 +19,7 @@ class Setting extends Component {
     this.state = {
       hasInternetConnection: false,
       proposedIndicatorMethod: INDICATOR_BASE,
+      backendUrl: props.route.params.backend_url
     };
 
     this.unsubscribeNetInfo;
@@ -36,8 +38,12 @@ class Setting extends Component {
     });
 
     this.focusListener = this.props.navigation.addListener("focus", async () => {
-      // const selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
-      // this.setState({ hasSelectedFilter: selectedFilters });
+        const settingData = await settingHelper.getSettingData();
+
+        if (!!settingData && !!settingData.backendUrl) {
+          this.formModalRef.current?.dismiss();
+          this.setState({ backendUrl: settingData.backendUrl });
+        }
     });
 
     // Redirect back to home screen and clear unsaved data when the user uses the android back button
@@ -54,12 +60,6 @@ class Setting extends Component {
     this.backHandler.remove();
   }
 
-  // loadEndpointUrls() {
-  //   this.setState({
-  //     backendUrl: this.props.backendUrl,
-  //   });
-  // }
-
   renderBodyContent() {
     return <SettingBodyContent
               ref={this.bodyRef}
@@ -67,7 +67,8 @@ class Setting extends Component {
               formModalRef={this.formModalRef}
               hasInternetConnection={this.state.hasInternetConnection}
               proposedIndicatorMethod={this.state.proposedIndicatorMethod}
-              backendUrl={this.props.route.params.backend_url}
+              // backendUrl={this.props.route.params.backend_url}
+              backendUrl={this.state.backendUrl}
            />
   }
 

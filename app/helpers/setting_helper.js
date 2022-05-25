@@ -83,8 +83,8 @@ const settingHelper = (() => {
     return (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
   }
 
-  function saveTempSettingData(endpoint, email, password) {
-    AsyncStorage.setItem(keyName, JSON.stringify({ endpoint, email, password }));
+  function saveTempSettingData(backendUrl, email, password) {
+    AsyncStorage.setItem(keyName, JSON.stringify({ backendUrl: backendUrl, email: email, password: password }));
   }
 
   async function getTempSettingData() {
@@ -97,6 +97,9 @@ const settingHelper = (() => {
 
   async function getSettingData() {
     const tempSettingData = await getTempSettingData();
+
+    console.log('get tem data = ', tempSettingData)
+
     return !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
   }
 

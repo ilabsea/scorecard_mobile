@@ -35,6 +35,13 @@ class SettingForm extends Component {
     }
   }
 
+  async componentDidUpdate() {
+    const savedSetting = await settingHelper.getSettingData();
+    if (this.state.backendUrl != savedSetting.backendUrl) {
+      this.setState({ backendUrl: savedSetting.backendUrl })
+    }
+  }
+
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
