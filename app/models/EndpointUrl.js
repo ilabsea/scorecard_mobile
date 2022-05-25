@@ -41,17 +41,6 @@ const EndpointUrl = (() => {
   }
 
   function create(data) {
-    // let params = data;
-    // params['uuid'] = uuidv4();
-    // params['order'] = _getLastOrderNumber() + 1;
-
-    // realm.write(() => {
-    //   realm.create(MODEL, params, 'modified');
-    // });
-
-    const lastId = realm.objects(MODEL).max('id');
-    params['id'] = !lastId ? 1 : lastId + 1;
-
     realm.write(() => {
       realm.create(MODEL, _buildData(data), 'modified');
     });
@@ -84,8 +73,10 @@ const EndpointUrl = (() => {
 
    function _buildData(data) {
     const shortcutData = endpointUrlHelper.generateShortcutInfo(null, data.value);
+    const lastId = realm.objects(MODEL).max('id');
 
     const params = {
+      id: !lastId ? 1 : lastId + 1,
       uuid: uuidv4(),
       order: _getLastOrderNumber() + 1,
     };

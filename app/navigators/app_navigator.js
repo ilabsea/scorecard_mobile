@@ -243,9 +243,9 @@ function AppNavigator() {
       <Stack.Screen
         name="AddNewEndpointUrl"
         component={AddNewEndpointUrlScreen}
-        options={{
-          title: `${translations.addNewServerURL}`,
-        }}
+        options={({navigator}) => ({
+          header: () => null,
+        })}
       />
     </Stack.Navigator>
   );

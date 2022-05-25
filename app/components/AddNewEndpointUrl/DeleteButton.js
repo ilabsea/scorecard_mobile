@@ -11,7 +11,7 @@ import EndpointUrl from '../../models/EndpointUrl';
 
 import MessageModal from '../MessageModal';
 
-class SettingUrlEndpointDeleteButton extends React.Component {
+class DeleteButton extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -19,8 +19,8 @@ class SettingUrlEndpointDeleteButton extends React.Component {
       visibleConfirmModal: false
     }
 
-    this.endpointLabel = this.getBoldLabel(props.editEndpoint.label);
-    this.endpointUrl = this.getBoldLabel(props.editEndpoint.value);
+    this.endpointLabel = this.getBoldLabel(props.selectedEndpoint.label);
+    this.endpointUrl = this.getBoldLabel(props.selectedEndpoint.value);
   }
 
   deleteEndpoint() {
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SettingUrlEndpointDeleteButton;
+export default DeleteButton;

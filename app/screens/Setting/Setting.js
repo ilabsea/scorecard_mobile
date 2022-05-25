@@ -35,6 +35,11 @@ class Setting extends Component {
         this.setState({ hasInternetConnection: hasConnection });
     });
 
+    this.focusListener = this.props.navigation.addListener("focus", async () => {
+      // const selectedFilters = await AsyncStorage.getItem(SELECTED_FILTERS);
+      // this.setState({ hasSelectedFilter: selectedFilters });
+    });
+
     // Redirect back to home screen and clear unsaved data when the user uses the android back button
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       this.goBack();
@@ -45,8 +50,15 @@ class Setting extends Component {
   componentWillUnmount() {
     this.componentIsUnmount = true;
     this.unsubscribeNetInfo && this.unsubscribeNetInfo();
+    this.focusListener && this.focusListener();
     this.backHandler.remove();
   }
+
+  // loadEndpointUrls() {
+  //   this.setState({
+  //     backendUrl: this.props.backendUrl,
+  //   });
+  // }
 
   renderBodyContent() {
     return <SettingBodyContent

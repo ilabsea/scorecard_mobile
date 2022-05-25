@@ -7,8 +7,8 @@ import {LocalizationContext} from '../Translations';
 import TextFieldInput from '../TextFieldInput';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
-import SettingUrlEndpointDeleteButton from './SettingUrlEndpointDeleteButton';
-import { SettingUrlEndpointTitle, SettingUrlEndpointFormWarningMessage } from './SettingUrlEndpointFormLabel';
+// import SettingUrlEndpointDeleteButton from './SettingUrlEndpointDeleteButton';
+// import { SettingUrlEndpointTitle, SettingUrlEndpointFormWarningMessage } from './SettingUrlEndpointFormLabel';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
@@ -97,14 +97,14 @@ class SettingUrlEndpointForm extends React.Component {
           onBlur={() => this.setState({ isEndpointValueFocused: false })}
         />
 
-        { !!this.props.editEndpoint &&
+        {/* { !!this.props.editEndpoint &&
           <SettingUrlEndpointDeleteButton editEndpoint={this.props.editEndpoint}
             isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
             selectedEndpoint={this.props.selectedEndpoint}
             endpointUuid={this.state.endpointUuid}
             reloadEndpoint={() => this.reloadEndpoint()}
           />
-        }
+        } */}
       </ScrollView>
     )
   }
@@ -127,7 +127,7 @@ class SettingUrlEndpointForm extends React.Component {
 
         { this.renderFormInputs() }
 
-        { !this.state.isAllowToDeleteOrEdit && <SettingUrlEndpointFormWarningMessage/> }
+        {/* { !this.state.isAllowToDeleteOrEdit && <SettingUrlEndpointFormWarningMessage/> } */}
 
         <FormBottomSheetButton label={this.props.editEndpoint ? translations.saveAndChange : translations.save}
           isValid={this.state.isAllowToDeleteOrEdit && this.state.isFormValid}

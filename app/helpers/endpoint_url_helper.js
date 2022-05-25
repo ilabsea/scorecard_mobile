@@ -66,7 +66,8 @@ const endpointUrlHelper = (() => {
     }
 
     const index = customEndpointUrls.length == 0 ? 0 : customEndpointUrls.findIndex(endpoint => endpoint.value === url);
-    return endpointUrlColors[index];
+
+    return index == -1 ? endpointUrlColors[customEndpointUrls.length] : endpointUrlColors[index];
   }
 })()
 
