@@ -21,6 +21,20 @@ class AddNewEndpointUrlForm extends React.Component {
     }
   }
 
+  async componentDidMount() {
+    const selectedEndpoint = await endpointFormService.getEndpointForEdit();
+
+    if (!!selectedEndpoint) {
+      this.setState({
+        selectedEndpoint: selectedEndpoint,
+        endpointLabel: selectedEndpoint.label,
+        endpointValue: selectedEndpoint.value.toString(),
+        endpointUuid: selectedEndpoint.uuid,
+        isAllowToDeleteOrEdit: await endpointFormService.isAllowToDeleteOrEdit(selectedEndpoint),
+      });
+    }
+  }
+
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
