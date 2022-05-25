@@ -32,8 +32,8 @@ class EndpointUrlForm extends React.Component {
     }
     console.log('endpoint data = ', data);
 
-    // endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue, this.state.endpointUuid);
-    // this.props.saveNewEndpoint(this.state.endpointValue);
+    endpointFormService.saveEndpointUrls(this.state.endpointLabel, this.state.endpointValue, this.state.endpointUuid);
+    this.props.saveNewEndpoint(this.state.endpointValue);
   }
 
   validateForm() {
