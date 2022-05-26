@@ -84,8 +84,8 @@ const App: () => React$Node = () => {
     settingHelper.checkDefaultProposedIndicatorMethod();
     endpointMigrationService.handleEndpointMigration();
     scorecardEndpointService.handleScorecardEndpointUrlMigration();
-    appStatusService.handleAppInstallingStatus();
     reLoginService.initReLoginStatus();
+    appStatusService.handleAppInstallingStatus();
     indicatorMigrationService.handleDeleteAllIndicator();
   }, []);
 

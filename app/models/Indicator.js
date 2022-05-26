@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
 import { CUSTOM } from '../constants/indicator_constant';
+import settingHelper from '../helpers/setting_helper';
 
 const  MODEL = 'Indicator';
 
@@ -19,6 +20,7 @@ const Indicator = (() => {
     getIndicatorsWithoutEndpointUrl,
     hasNoEndpointUrl,
     deleteAll,
+    getAll,
   };
 
   function find(indicatorId, type) {
@@ -28,9 +30,12 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`id = ${indicatorId}`)[0];
   }
 
-  function create(data) {
+  async function create(data) {
+    const endpointUrl = await settingHelper.getSavedEndpointUrl();
+    const params = { ...data, ...{ endpoint_url: endpointUrl } }
+
     realm.write(() => {
-      realm.create(MODEL, data, 'modified');
+      realm.create(MODEL, params, 'modified');
     });
   }
 
@@ -105,6 +110,10 @@ const Indicator = (() => {
         realm.delete(indicators);
       });
     }
+  }
+
+  function getAll() {
+    return realm.objects(MODEL);
   }
 })();
 

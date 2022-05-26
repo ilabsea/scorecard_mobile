@@ -23,6 +23,8 @@ const reLoginService = (() => {
   }
 
   async function isRequireReLogin() {
+    console.log('has re logged in == ', await _hasReLoggedIn());
+
     return isAppVersionForUpdateScorecard() && !await _hasReLoggedIn();
   }
 
@@ -37,11 +39,16 @@ const reLoginService = (() => {
 
   function clearHasReLogInStatus() {
     AsyncStorage.removeItem(keyName);
+    console.log('+++++ CLEAR +++++')
+    // AsyncStorage.setItem(keyName, 'false');
   }
 
   // private method
   async function _hasReLoggedIn() {
     const hasReLoggedIn = await AsyncStorage.getItem(keyName);
+
+    console.log('===read hasd re lognoin = ', hasReLoggedIn)
+
     return !!hasReLoggedIn ? JSON.parse(hasReLoggedIn) : false;
   }
 })();
