@@ -16,6 +16,9 @@ const Indicator = (() => {
     getCustomIndicators,
     destroy,
     arePredefinedIndicatorsHaveUuid,
+    getIndicatorsWithoutEndpointUrl,
+    hasNoEndpointUrl,
+    deleteAll,
   };
 
   function find(indicatorId, type) {
@@ -83,6 +86,25 @@ const Indicator = (() => {
 
   function arePredefinedIndicatorsHaveUuid(facilityId) {
     return realm.objects(MODEL).filtered(`facility_id = '${ facilityId }' AND indicator_uuid = null`).length == 0;
+  }
+
+  function getIndicatorsWithoutEndpointUrl() {
+    return realm.objects(MODEL).filtered(`endpoint_url = '' OR endpoint_url = null`);
+  }
+
+  function hasNoEndpointUrl() {
+    const indicators = getIndicatorsWithoutEndpointUrl();
+    return indicators.length > 0;
+  }
+
+  function deleteAll() {
+    const indicators = realm.objects(MODEL);
+
+    if (indicators.length > 0) {
+      realm.write(() => {
+        realm.delete(indicators);
+      });
+    }
   }
 })();
 

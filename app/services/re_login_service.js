@@ -9,6 +9,7 @@ const reLoginService = (() => {
     isRequireReLogin,
     initReLoginStatus,
     setHasReLoggedIn,
+    clearHasReLogInStatus,
   }
 
   // To do: Remove the update endpoint in the future
@@ -17,7 +18,8 @@ const reLoginService = (() => {
   // because when updating the app from previous version to 1.5.2, some scorecard will have
   // endpoint_url as null or ''
   function isAppVersionForUpdateScorecard() {
-    return pkg.version == '1.5.2'
+    // return pkg.version == '1.5.2'
+    return pkg.version == '1.5.5'
   }
 
   async function isRequireReLogin() {
@@ -31,6 +33,10 @@ const reLoginService = (() => {
 
   function setHasReLoggedIn() {
     AsyncStorage.setItem(keyName, 'true');
+  }
+
+  function clearHasReLogInStatus() {
+    AsyncStorage.removeItem(keyName);
   }
 
   // private method

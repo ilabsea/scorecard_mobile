@@ -1,5 +1,7 @@
 import reLoginService from './re_login_service';
 import settingHelper from '../helpers/setting_helper';
+import Indicator from '../models/Indicator';
+import Scorecard from '../models/Scorecard';
 
 const appStatusService = (() => {
   return {
@@ -10,6 +12,11 @@ const appStatusService = (() => {
   async function handleAppInstallingStatus() {
     if (reLoginService.isAppVersionForUpdateScorecard() && !await settingHelper.getFullyEndpointUrl())
       reLoginService.setHasReLoggedIn();
+
+    if (reLoginService.isAppVersionForUpdateScorecard() && Indicator.hasNoEndpointUrl() && Scorecard.hasUnsubmitted()) {
+      console.log('=== clear has re-login status ===');
+      reLoginService.clearHasReLogInStatus();
+    }
   }
 })();
 
