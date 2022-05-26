@@ -7,7 +7,9 @@ import Color from '../../themes/color';
 import { pressableItemSize } from '../../utils/component_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util'
+import { navigateBack } from '../../utils/navigation_util';
 import EndpointUrl from '../../models/EndpointUrl';
+import endpointFormService from '../../services/endpoint_form_service';
 
 import MessageModal from '../MessageModal';
 
@@ -28,7 +30,8 @@ class DeleteButton extends React.Component {
     this.endpointLabel = '';
     this.endpointUrl = '';
     EndpointUrl.destroy(this.props.endpointUuid);
-    this.props.reloadEndpoint();
+    endpointFormService.clearEndpointForEdit();
+    navigateBack();
   }
 
   buttonColor() {
