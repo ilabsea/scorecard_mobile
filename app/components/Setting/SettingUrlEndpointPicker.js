@@ -38,7 +38,9 @@ class SettingUrlEndpointPicker extends React.Component {
             endpointUrls: EndpointUrl.getAll(),
             currentSelectedEndpoint: settingData.backendUrl
           });
-          this.props.formModalRef.current?.dismiss();
+          if (settingData.backendUrl != this.defaultSavedEndpointUrl)
+            this.props.formModalRef.current?.dismiss();
+
           this.props.updateSelectedEndpointUrl(settingData.backendUrl);
         }
       }, 100);
