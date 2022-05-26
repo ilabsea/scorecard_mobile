@@ -8,12 +8,17 @@ import AddNewEndpointUrlBody from '../../components/AddNewEndpointUrl/AddNewEndp
 class AddNewEndpointUrl extends React.Component {
   static contextType = LocalizationContext
 
+  constructor(props) {
+    super(props);
+    this.bodyRef = React.createRef();
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1, backgroundColor: 'white'}}>
-          <AddNewEndpointUrlHeader/>
-          <AddNewEndpointUrlBody/>
+          <AddNewEndpointUrlHeader bodyRef={this.bodyRef} />
+          <AddNewEndpointUrlBody ref={this.bodyRef} />
         </View>
       </TouchableWithoutFeedback>
     )

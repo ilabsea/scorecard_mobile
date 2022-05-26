@@ -373,5 +373,6 @@
   "pleaseEnterTheAge": "Please enter the age",
   "proposeTheIndicator": "Propose the indicator",
   "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below",
-  "httpsRecommended": "https recommended"
+  "httpsRecommended": "https recommended",
+  "doYouWantToDiscardTheseChanges": "Do you want to discard these changes?"
 }
