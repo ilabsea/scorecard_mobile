@@ -18,14 +18,15 @@ class SettingUrlEndpointPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedEndpoint: '',
       currentSelectedEndpoint: '',
       endpointUrls: [],
     }
     this.componentIsUnmount = false;
+    this.defaultSavedEndpointUrl = '';
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.defaultSavedEndpointUrl = await settingHelper.getSavedEndpointUrl();
     this.loadEndpointUrls();
 
     this.focusListener = this.props.navigation.addListener("focus", () => {
@@ -34,18 +35,13 @@ class SettingUrlEndpointPicker extends React.Component {
         if (!this.componentIsUnmount && !!settingData && !!settingData.backendUrl) {
           this.setState({
             endpointUrls: EndpointUrl.getAll(),
-            selectedEndpoint: settingData.backendUrl
+            currentSelectedEndpoint: settingData.backendUrl
           });
           this.props.formModalRef.current?.dismiss();
-          this.props.updateBackendUrl(settingData.backendUrl);
+          this.props.updateSelectedEndpointUrl(settingData.backendUrl);
         }
       }, 100);
     });
-  }
-
-  componentDidUpdate() {
-    if (!this.componentIsUnmount && this.state.selectedEndpoint != this.props.backendUrl)
-      this.setState({ selectedEndpoint: this.props.backendUrl })
   }
 
   componentWillUnmount() {
@@ -56,8 +52,7 @@ class SettingUrlEndpointPicker extends React.Component {
   loadEndpointUrls() {
     this.setState({
       endpointUrls: EndpointUrl.getAll(),
-      selectedEndpoint: this.props.backendUrl,
-      currentSelectedEndpoint: this.props.backendUrl,
+      currentSelectedEndpoint: this.defaultSavedEndpointUrl,
     });
   }
 
@@ -72,11 +67,15 @@ class SettingUrlEndpointPicker extends React.Component {
     navigate('AddNewEndpointUrl');
   }
 
+  isAllowToEdit(endpointUrl) {
+    return endpointUrl != this.props.selectedEndpointUrl && endpointUrl != this.defaultSavedEndpointUrl;
+  }
+
   renderBottomSheetPickerContent() {
     return <BottomSheetPickerContent
             title={this.context.translations.serverUrl}
             items={this.state.endpointUrls}
-            selectedItem={this.state.selectedEndpoint}
+            selectedItem={this.state.currentSelectedEndpoint}
             isRequire={true}
             contentHeight={settingEndpointContentHeight}
             onSelectItem={(item) => this.setState({ currentSelectedEndpoint: item.value })}
@@ -88,29 +87,14 @@ class SettingUrlEndpointPicker extends React.Component {
             hasAddButton={true}
             hasBottomButton={true}
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
-            isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
-            isAllowToEdit={(endpointUrl) => endpointUrl != this.state.selectedEndpoint}
+            isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.selectedEndpointUrl}
+            isAllowToEdit={(endpointUrl) => this.isAllowToEdit(endpointUrl)}
             customListItem={(item) => <SettingUrlEndpointPickerItem item={item}/>}
           />
   }
 
-  saveNewEndpoint(endpointValue) {
-    this.props.updateBackendUrl(endpointValue);
-    this.setState({ selectedEndpoint: endpointValue });
-    this.reloadEndpoint();
-    this.props.saveTempSettingData();
-  }
-
-  reloadEndpoint() {
-    setTimeout(() => {
-      this.loadEndpointUrls();
-      this.props.formModalRef.current?.dismiss();
-    }, 100);
-  }
-
   changeSelectedEndpoint() {
-    this.setState({ selectedEndpoint: this.state.currentSelectedEndpoint });
-    this.props.updateBackendUrl(this.state.currentSelectedEndpoint);
+    this.props.updateSelectedEndpointUrl(this.state.currentSelectedEndpoint);
     this.props.formModalRef.current?.dismiss();
     this.props.saveTempSettingData();
   }
@@ -123,7 +107,7 @@ class SettingUrlEndpointPicker extends React.Component {
           title={translations.serverUrl}
           label={translations.selectServerUrl}
           items={this.state.endpointUrls}
-          selectedItem={this.state.selectedEndpoint}
+          selectedItem={this.state.currentSelectedEndpoint}
           isRequire={true}
           showSubtitle={true}
           showPicker={() => this.showBottomSheetModal()}

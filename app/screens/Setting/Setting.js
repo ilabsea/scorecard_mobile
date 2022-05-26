@@ -55,7 +55,6 @@ class Setting extends Component {
               formModalRef={this.formModalRef}
               hasInternetConnection={this.state.hasInternetConnection}
               proposedIndicatorMethod={this.state.proposedIndicatorMethod}
-              backendUrl={this.props.route.params.backend_url}
               navigation={this.props.navigation}
            />
   }

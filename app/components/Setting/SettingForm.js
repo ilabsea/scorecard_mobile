@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../Translations';
 import SettingSelectPickers from './SettingSelectPickers';
@@ -15,7 +14,7 @@ class SettingForm extends Component {
     super(props);
 
     this.state = {
-      backendUrl: props.backendUrl,
+      backendUrl: '',
       email: '',
       password: '',
       emailErrorMsg: '',
@@ -26,6 +25,8 @@ class SettingForm extends Component {
   }
 
   componentDidMount = async () => {
+    this.setState({ backendUrl: await settingHelper.getSavedEndpointUrl() });
+
     const settingData = await settingHelper.getSettingData();
     if (settingData !== null && !!settingData.email) {
       this.setState({
@@ -45,8 +46,8 @@ class SettingForm extends Component {
   renderUrlEndpointPicker = () => {
     return (
       <SettingUrlEndpointPicker
-        backendUrl={this.state.backendUrl}
-        updateBackendUrl={(backendUrl) => this.setState({ backendUrl })}
+        selectedEndpointUrl={this.state.backendUrl}
+        updateSelectedEndpointUrl={(backendUrl) => this.setState({ backendUrl })}
         formRef={this.props.formRef}
         formModalRef={this.props.formModalRef}
         savedEndpoint={this.props.backendUrl}

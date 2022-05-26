@@ -27,8 +27,6 @@ class AddNewEndpointUrlForm extends React.Component {
   async componentDidMount() {
     const selectedEndpoint = await endpointFormService.getEndpointForEdit();
 
-    console.log('selected endpoint == ', selectedEndpoint)
-
     if (!!selectedEndpoint) {
       this.setState({
         selectedEndpoint: selectedEndpoint,
