@@ -11,6 +11,7 @@ import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
 import { settingEndpointModalSnapPoints, settingEndpointContentHeight } from '../../constants/modal_constant';
 import EndpointUrl from '../../models/EndpointUrl';
+import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
 
 class SettingUrlEndpointPicker extends React.Component {
@@ -68,6 +69,9 @@ class SettingUrlEndpointPicker extends React.Component {
   }
 
   isAllowToEdit(endpointUrl) {
+    if (Scorecard.allScorecardContainEndpoint(endpointUrl))
+      return false;
+
     return endpointUrl != this.props.selectedEndpointUrl && endpointUrl != this.defaultSavedEndpointUrl;
   }
 

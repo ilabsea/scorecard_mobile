@@ -24,10 +24,22 @@ const endpointFormService = (() => {
     const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
     const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
 
-    if (!endpointLabel || endpointLabelValidationMsg != null || endpointValueValidationMsg != null || isEndpointExisted(endpointLabel, endpointValue, editEndpoint))
+    // If the labe and value of the input is the save as edit endpoint then disable the button "update"
+    if (!!editEndpoint && (endpointLabel == editEndpoint.label && endpointValue == editEndpoint.value))
       return false;
 
-    return urlUtil.isUrlValid(endpointValue);
+    const fieldsValidation = {
+      label: endpointLabelValidationMsg == null && !isFieldExisted('label', endpointLabel, editEndpoint),
+      value: endpointValueValidationMsg == null && !isFieldExisted('value', endpointLabel, editEndpoint),
+      endpointIsNotExisted: !isEndpointExisted(endpointLabel, endpointValue, editEndpoint)
+    }
+
+    for (let key in fieldsValidation) {
+      if (!fieldsValidation[key])
+        return false;
+    }
+
+    return true;
   }
 
   async function saveEndpointUrls(newLabel, newValue, endpointUuid) {
@@ -67,18 +79,15 @@ const endpointFormService = (() => {
     const tempSettingData = await settingHelper.getSettingData();
     const savedEndpointUrl = await settingHelper.getSavedEndpointUrl();
 
+    // console.log('temp setting data == ', tempSettingData);
+    // console.log('saved endpoint == ', savedEndpointUrl);
+    // console.log('=========================================');
+
     if (!Scorecard.allScorecardContainEndpoint(currentEndpoint.value))
       return !!currentEndpoint && currentEndpoint.value != tempSettingData.backendUrl || currentEndpoint.value != savedEndpointUrl;
-    
+
     return false;
   }
-
-  // function isAllowToDeleteOrEdit(editEndpoint, selectedEndpoint, savedEndpoint) {
-  //   if (!Scorecard.allScorecardContainEndpoint(editEndpoint.value))
-  //     return !!editEndpoint && editEndpoint.value != selectedEndpoint && editEndpoint.value != savedEndpoint;
-    
-  //   return false;
-  // }
 
   function saveEndpointForEdit(endpoint) {
     AsyncStorage.setItem('ENDPOINT_FOR_EDIT', JSON.stringify(endpoint));
@@ -107,6 +116,7 @@ const endpointFormService = (() => {
       'label': EndpointUrl.findByLabel(value),
       'value': EndpointUrl.findByUrlValue(value),
     }
+
     return !isSameEditEndpoint && isExist[type];
   }
 })();

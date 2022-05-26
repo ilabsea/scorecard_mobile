@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import DeleteButton from './DeleteButton';
@@ -7,6 +7,7 @@ import TextFieldInput from '../TextFieldInput';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 class AddNewEndpointUrlForm extends React.Component {
   static contextType = LocalizationContext
@@ -15,7 +16,7 @@ class AddNewEndpointUrlForm extends React.Component {
 
     this.state = {
       endpointLabel: '',
-      endpointValue: 'https://',
+      endpointValue: '',
       endpointUuid: '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
@@ -34,17 +35,16 @@ class AddNewEndpointUrlForm extends React.Component {
         endpointValue: selectedEndpoint.value.toString(),
         endpointUuid: selectedEndpoint.uuid,
         isAllowToDeleteOrEdit: await endpointFormService.isAllowToDeleteOrEdit(selectedEndpoint),
-      }, () => {
-        console.log('======================')
-        console.log('is allow to delete or edit == ', this.state.isAllowToDeleteOrEdit)
       });
     }
+
+    this.props.validateForm && this.props.validateForm();
   }
 
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.props.editEndpoint);
+    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.state.selectedEndpoint);
 
     this.setState(state, () => !!this.props.validateForm && this.props.validateForm());
   }
@@ -66,7 +66,7 @@ class AddNewEndpointUrlForm extends React.Component {
     const { translations } = this.context;
     return <TextFieldInput
             value={this.state.endpointValue}
-            label={translations.serverUrl}
+            label={`${translations.serverUrl} (${translations.httpsRecommended})`}
             placeholder={translations.enterServerUrl}
             fieldName={ENDPOINT_VALUE_FIELDNAME}
             isRequire={true}
@@ -78,6 +78,8 @@ class AddNewEndpointUrlForm extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        <Text style={{fontSize: bodyFontSize(), marginBottom: 10}}>{ this.context.translations.pleaseEnterInformationBelow }</Text>
+
         { this.renderLabelInput() }
         { this.renderUrlInput() }
 

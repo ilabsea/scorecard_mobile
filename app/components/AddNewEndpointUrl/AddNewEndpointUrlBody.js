@@ -17,19 +17,22 @@ class AddNewEndpointUrlBody extends React.Component {
   constructor(props) {
     super(props);
 
-    const selectedEndpoint = null;
-
     this.state = {
-      selectedEndpoint: selectedEndpoint,
-      isFormValid: selectedEndpoint ? true : false,
+      isFormValid: false,
     }
 
     this.inputFormRef = React.createRef();
+    this.endpointForEdit = null;
+  }
+
+  async componentDidMount() {
+    this.endpointForEdit = await endpointFormService.getEndpointForEdit();
+    this.setState({ isFormValid: this.endpointForEdit ? true : false });
   }
 
   validateForm() {
     const {endpointLabel, endpointValue} = this.inputFormRef.current?.state;
-    this.setState({ isFormValid: endpointFormService.isValidForm(endpointLabel, endpointValue, this.state.selectedEndpoint) })
+    this.setState({ isFormValid: endpointFormService.isValidForm(endpointLabel, endpointValue, this.endpointForEdit) })
   }
 
   save() {
@@ -40,8 +43,10 @@ class AddNewEndpointUrlBody extends React.Component {
       type: CUSTOM,
     }
 
-    if (!this.props.selectedEndpoint)
+    if (!this.endpointForEdit)
       EndpointUrl.create(params);
+    else
+      EndpointUrl.update(this.endpointForEdit.uuid, params);
 
     this.storeTempSettingData(endpointValue);
     navigateBack();
@@ -68,8 +73,7 @@ class AddNewEndpointUrlBody extends React.Component {
           label={this.state.editEndpoint ? translations.saveAndChange : translations.save}
           onPress={() => this.save()}
           // disabled={this.props.isLoading || !this.props.isFormValid || this.props.isLocked}
-          // disabled={!this.state.isFormValid}
-          disabled={false}
+          disabled={!this.state.isFormValid}
           iconName='none'
         />
       </View>

@@ -334,7 +334,7 @@
   "serverLabelIsExisted": "Server label is existed",
   "serverUrlIsExisted": "Server URL is existed",
   "serverUrlIsNotValid": "Server URL is not valid",
-  "addNewServerURL": "Add new server URL",
+  "newServerURL": "New server URL",
   "closeTheForm": "Close the form",
   "serverLabel": "Server label",
   "enterServerLabel": "Enter server label",
@@ -372,5 +372,6 @@
   "pleaseChooseTheFacilitators": "Please choose the facilitators",
   "pleaseEnterTheAge": "Please enter the age",
   "proposeTheIndicator": "Propose the indicator",
-  "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below"
+  "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below",
+  "httpsRecommended": "https recommended"
 }

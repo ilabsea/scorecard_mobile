@@ -334,7 +334,7 @@
   "serverLabelIsExisted": "ឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
   "serverUrlIsExisted": "អាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
   "serverUrlIsNotValid": "អាស័យដ្ឋានម៉ាស៊ីនមេមិនត្រឹមត្រូវ",
-  "addNewServerURL": "បន្ថែមអាស័យដ្ឋានម៉ាស៊ីនមេ",
+  "newServerURL": "អាស័យដ្ឋានម៉ាស៊ីនមេថ្មី",
   "closeTheForm": "បិទការបន្ថែម",
   "serverLabel": "ឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេ",
   "enterServerLabel": "សូមបញ្ចូលឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេ",
@@ -372,5 +372,6 @@
   "pleaseChooseTheFacilitators": "សូមធ្វើការជ្រើសរើសអ្នកសម្របសម្រួល",
   "pleaseEnterTheAge": "សូមបញ្ចូលអាយុ",
   "proposeTheIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ",
-  "pleaseVoteForTheProposedIndicatorsBelow": "សូមធ្វើការដាក់ពិន្ទុឲ្យលក្ខណៈវិនិច្ឆ័យខាងក្រោម"
+  "pleaseVoteForTheProposedIndicatorsBelow": "សូមធ្វើការដាក់ពិន្ទុឲ្យលក្ខណៈវិនិច្ឆ័យខាងក្រោម",
+  "httpsRecommended": "https ត្រូវបានណែនាំ"
 }
