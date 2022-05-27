@@ -24,12 +24,19 @@ const schemaV19 = {
   schemaVersion: 19,
   migration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 19) {
-      const oldObjects = oldRealm.objects('Indicator');
-      const newObjects = newRealm.objects('Indicator');
+      const oldEndpointUrls = oldRealm.objects('EndpointUrl');
+      const newEndpointUrls = newRealm.objects('EndpointUrl');
 
-      oldObjects.map((oldObject, index) => {
-        newObjects[index].program_uuid = !oldObject.program_uuid ? '' : oldObject.program_uuid;
-        newObjects[index].endpoint_url = !oldObject.endpoint_url ? '' : oldObject.endpoint_url;
+      oldEndpointUrls.map((oldEndpointUrl, index) => {
+        newEndpointUrls[index].id = !oldEndpointUrl.id ? (index + 1) : oldEndpointUrl.id;
+      });
+
+      const oldIndicators = oldRealm.objects('Indicator');
+      const newIndicators = newRealm.objects('Indicator');
+
+      oldIndicators.map((oldIndicator, index) => {
+        newIndicators[index].program_uuid = !oldIndicator.program_uuid ? '' : oldIndicator.program_uuid;
+        newIndicators[index].endpoint_id = !oldIndicator.endpoint_id ? '' : oldIndicator.endpoint_id;
       });
     }
   }

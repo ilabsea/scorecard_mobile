@@ -13,7 +13,7 @@ const IndicatorSchema = {
     scorecard_uuid: 'string?',
     type: 'string',
     program_uuid: 'string?',
-    endpoint_id: 'string?'
+    endpoint_id: 'int?'
   },
 };
 
