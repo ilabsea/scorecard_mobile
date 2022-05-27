@@ -5,6 +5,7 @@ import LanguageIndicator from '../models/LanguageIndicator';
 import { PREDEFINED } from '../constants/indicator_constant';
 import { indicatorPhase } from '../constants/scorecard_constant';
 import uuidv4 from '../utils/uuidv4';
+import settingHelper from '../helpers/setting_helper';
 
 const indicatorHelper = (() => {
   return {
@@ -74,10 +75,13 @@ const indicatorHelper = (() => {
     return indicators;
   }
 
-  function savePredefinedIndicator(indicators, successCallback) {
+  async function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
     let savedCount = 0;
-    indicators.map((indicator) => {
-      const savedIndicator = Indicator.find(indicator.id, PREDEFINED);
+    const scorecard = Scorecard.find(scorecardUuid);
+    const endpointId = await settingHelper.getSavedEndpointUrlId()
+
+    indicators.map(async (indicator) => {
+      const savedIndicator = await Indicator.findByUuidAndCurrentEndpointId(indicator.uuid);
 
       if (!savedIndicator) {
         const indicatorSet = {
@@ -88,11 +92,24 @@ const indicatorHelper = (() => {
           facility_id: indicator.categorizable.id,
           tag: indicator.tag_name,
           type: PREDEFINED,
+          program_uuid: scorecard.program_uuid || '',
+          endpoint_id: endpointId,
         };
         Indicator.create(indicatorSet);
       }
-      else if(!!savedIndicator && !savedIndicator.indicator_uuid)
-        Indicator.update(savedIndicator.uuid, { indicator_uuid: indicator.uuid });
+      else {
+        // (indicator from older version) if the existing indicator doesn't have indicator_uuid,
+        // find it by indicator's id then update it with indicator_uuid, program_uuid, and endpoint_id
+        const indicatorWithoutIndicatorUuid = Indicator.find(indicator.id, PREDEFINED);
+        if (!!indicatorWithoutIndicatorUuid) {
+          Indicator.update(indicatorWithoutIndicatorUuid.uuid, {
+            indicator_uuid: indicator.uuid,
+            program_uuid: '',
+            program_uuid: scorecard.program_uuid || '',
+            endpoint_id: endpointId,
+          });
+        }
+      }
 
       savedCount += 1;
     });

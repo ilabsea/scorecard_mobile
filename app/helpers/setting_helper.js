@@ -3,6 +3,7 @@ import Scorecard from '../models/Scorecard';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
 import { environment } from '../config/environment';
+import EndpointUrl from '../models/EndpointUrl';
 
 const keyName = 'TEMP_SETTING_DATA';
 
@@ -20,6 +21,7 @@ const settingHelper = (() => {
     getTempSettingData,
     clearTempSettingData,
     getSettingData,
+    getSavedEndpointUrlId,
   };
 
   async function changeable(newEndpoint) {
@@ -100,6 +102,12 @@ const settingHelper = (() => {
   async function getSettingData() {
     const tempSettingData = await getTempSettingData();
     return !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
+  }
+
+  async function getSavedEndpointUrlId() {
+    const savedEndpointUrl = await getSavedEndpointUrl();
+    const endpointUrl = EndpointUrl.findByUrlValue(savedEndpointUrl);
+    return !!endpointUrl ? endpointUrl.id : null;
   }
 })();
 

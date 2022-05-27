@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
 import { CUSTOM } from '../constants/indicator_constant';
+import settingHelper from '../helpers/setting_helper';
 
 const  MODEL = 'Indicator';
 
@@ -13,6 +14,7 @@ const Indicator = (() => {
     filter,
     findByScorecard,
     findByScorecardAndName,
+    findByUuidAndCurrentEndpointId,
     isNameExist,
     getCustomIndicators,
     destroy,
@@ -70,6 +72,18 @@ const Indicator = (() => {
                   : `scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND name ==[c] '${ name }'`;
     
     return realm.objects(MODEL).filtered(query);
+  }
+
+  async function findByUuidAndCurrentEndpointId(indicatorUuid) {
+    console.log('====== find indicator =======')
+
+    const endpointId = await settingHelper.getSavedEndpointUrlId();
+    console.log('endpoint ID == ', endpointId)
+
+    // const indicator = realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)
+    // console.log('find by uuid = ', indicator)
+
+    return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
   }
 
   function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {

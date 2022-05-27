@@ -14,6 +14,7 @@ class HomeContent extends Component {
 
   onPress() {
     Indicator.getAll()
+    console.log('======================')
     LanguageIndicator.getAll();
   }
 

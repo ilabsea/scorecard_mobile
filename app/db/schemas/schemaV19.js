@@ -28,8 +28,8 @@ const schemaV19 = {
   schemaVersion: 19,
   migration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 19) {
-      const oldEndpointUrls = oldRealm.objects('EndpointUrl');
-      const newEndpointUrls = newRealm.objects('EndpointUrl');
+      const oldEndpointUrls = oldRealm.objects('EndpointUrl').sorted('order');
+      const newEndpointUrls = newRealm.objects('EndpointUrl').sorted('order');
 
       oldEndpointUrls.map((oldEndpointUrl, index) => {
         newEndpointUrls[index].id = !oldEndpointUrl.id ? (index + 1) : oldEndpointUrl.id;

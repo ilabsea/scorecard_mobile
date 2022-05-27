@@ -17,7 +17,7 @@ class IndicatorService {
   saveIndicatorSection = (scorecardUuid, facilityId, successCallback, errorCallback) => {
     this._requestForIndicator(facilityId, (indicators) => {
       // Save the predefined indicators
-      indicatorHelper.savePredefinedIndicator(indicators, successCallback);
+      indicatorHelper.savePredefinedIndicator(scorecardUuid, indicators, successCallback);
       saveLanguageIndicator(scorecardUuid, indicators, successCallback)
     }, (error) => {
       errorCallback(error);

@@ -21,6 +21,8 @@ const EndpointUrl = (() => {
     const defaultEndpointUrls = realm.objects(MODEL).filtered(`type = '${DEFAULT}' SORT(order ASC)`);
     const customEndpointUrls = realm.objects(MODEL).filtered(`type = '${CUSTOM}' SORT(order ASC)`);
 
+    console.log('all end point = ', [...defaultEndpointUrls, ...customEndpointUrls])
+
     return [...defaultEndpointUrls, ...customEndpointUrls];
   }
 
