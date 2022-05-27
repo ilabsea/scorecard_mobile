@@ -20,6 +20,7 @@ const EndpointUrl = (() => {
   function getAll() {
     const defaultEndpointUrls = realm.objects(MODEL).filtered(`type = '${DEFAULT}' SORT(order ASC)`);
     const customEndpointUrls = realm.objects(MODEL).filtered(`type = '${CUSTOM}' SORT(order ASC)`);
+
     return [...defaultEndpointUrls, ...customEndpointUrls];
   }
 
@@ -43,6 +44,9 @@ const EndpointUrl = (() => {
     let params = data;
     params['uuid'] = uuidv4();
     params['order'] = _getLastOrderNumber() + 1;
+
+    const lastId = realm.objects(MODEL).max('id');
+    params['id'] = !lastId ? 1 : lastId + 1;
 
     realm.write(() => {
       realm.create(MODEL, params, 'modified');
