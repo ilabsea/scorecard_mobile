@@ -6,6 +6,7 @@ const  MODEL = 'Indicator';
 
 const Indicator = (() => {
   return {
+    getAll,
     find,
     create,
     update,
@@ -17,6 +18,10 @@ const Indicator = (() => {
     destroy,
     arePredefinedIndicatorsHaveUuid,
   };
+
+  function getAll() {
+    console.log('++ all indicator = ', realm.objects(MODEL))
+  }
 
   function find(indicatorId, type) {
     if (type === CUSTOM)

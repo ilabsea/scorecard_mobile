@@ -53,7 +53,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
           audio: languagesIndicator.audio != null ? languagesIndicator.audio : '',
           language_code: languagesIndicator['language_code'],
           scorecard_uuid: scorecardUUID,
-          indicator_id: indicator.id.toString(),
+          indicator_uuid: indicator.uuid,
           type: PREDEFINED,
         };
 
