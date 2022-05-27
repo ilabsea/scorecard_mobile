@@ -19,7 +19,6 @@ import schemaV14 from './schemas/schemaV14';
 import schemaV16 from './schemas/schemaV16';
 import schemaV17 from './schemas/schemaV17';
 import schemaV19 from './schemas/schemaV19';
-import schemaV20 from './schemas/schemaV20';
 
 const schemas = [
   schemaV1,
@@ -39,7 +38,6 @@ const schemas = [
   schemaV16,
   schemaV17,
   schemaV19,
-  schemaV20,
 ];
 
 // the first schema to update to is the current schema version

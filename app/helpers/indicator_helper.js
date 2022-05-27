@@ -81,6 +81,8 @@ const indicatorHelper = (() => {
     const endpointId = await settingHelper.getSavedEndpointUrlId()
 
     indicators.map(async (indicator) => {
+      // Todo: check with bong Sokly, whether indicator_uuid of the production is the same to indicator_uuid of the staging
+      // if the indicator_uuid is not the same, find the indicato by indicator_uuid only (no need to find by endpoint_id)
       const savedIndicator = await Indicator.findByUuidAndCurrentEndpointId(indicator.uuid);
 
       if (!savedIndicator) {
@@ -104,7 +106,6 @@ const indicatorHelper = (() => {
         if (!!indicatorWithoutIndicatorUuid) {
           Indicator.update(indicatorWithoutIndicatorUuid.uuid, {
             indicator_uuid: indicator.uuid,
-            program_uuid: '',
             program_uuid: scorecard.program_uuid || '',
             endpoint_id: endpointId,
           });

@@ -75,14 +75,7 @@ const Indicator = (() => {
   }
 
   async function findByUuidAndCurrentEndpointId(indicatorUuid) {
-    console.log('====== find indicator =======')
-
     const endpointId = await settingHelper.getSavedEndpointUrlId();
-    console.log('endpoint ID == ', endpointId)
-
-    // const indicator = realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)
-    // console.log('find by uuid = ', indicator)
-
     return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
   }
 

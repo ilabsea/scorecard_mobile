@@ -1,5 +1,5 @@
 import ProgramLanguage from '../migrations/v3/programLanguage';
-import Scorecard from '../migrations/v17/scorecard';
+import Scorecard from '../migrations/v19/scorecard';
 import ProposedIndicator from '../migrations/v12/proposedIndicator';
 import Indicator from '../migrations/v19/indicator';
 import LanguageIndicator from '../migrations/v19/languageIndicator';
@@ -32,7 +32,7 @@ const schemaV19 = {
       const newEndpointUrls = newRealm.objects('EndpointUrl').sorted('order');
 
       oldEndpointUrls.map((oldEndpointUrl, index) => {
-        newEndpointUrls[index].id = !oldEndpointUrl.id ? (index + 1) : oldEndpointUrl.id;
+        newEndpointUrls[index].id = !oldEndpointUrl.id ? index + 1 : oldEndpointUrl.id;
       });
 
       const oldLangIndicators = oldRealm.objects('LanguageIndicator');
@@ -50,6 +50,13 @@ const schemaV19 = {
       oldIndicators.map((oldIndicator, index) => {
         newIndicators[index].program_uuid = !oldIndicator.program_uuid ? '' : oldIndicator.program_uuid;
         newIndicators[index].endpoint_id = !oldIndicator.endpoint_id ? null : oldIndicator.endpoint_id;
+      });
+
+      const oldScorecards = oldRealm.objects('Scorecard');
+      const newScorecards = newRealm.objects('Scorecard');
+
+      oldScorecards.map((oldScorecard, index) => {
+        newScorecards[index].program_uuid = !oldScorecard.program_uuid ? '' : oldScorecard.program_uuid;
       });
     }
   }
