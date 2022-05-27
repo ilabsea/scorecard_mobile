@@ -7,7 +7,7 @@ const LanguageIndicator = {
     audio: 'string?',
     language_code: 'string',
     scorecard_uuid: 'string',
-    indicator_uuid: 'string',
+    indicator_uuid: 'string?',
     local_audio: 'string?',
     type: 'string',
   },
