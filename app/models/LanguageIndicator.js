@@ -1,5 +1,6 @@
 import realm from '../db/schema';
 import { deleteFile } from '../services/local_file_system_service';
+import Indicator from './Indicator';
 
 const MODEL = 'LanguageIndicator';
 
@@ -12,6 +13,7 @@ const LanguageIndicator = (() => {
     destroy,
     findByScorecardAndLanguageCode,
     findByIndicatorAndLanguageCode,
+    findByIndicatorUuidAndLanguageCode,
   };
 
   function create(data) {
@@ -60,7 +62,12 @@ const LanguageIndicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}'`)
   }
 
-  function findByIndicatorAndLanguageCode(indicatorUuid, languageCode) {
+  function findByIndicatorAndLanguageCode(indicatorId, indicatorType, languageCode) {
+    const indicator = Indicator.find(indicatorId, indicatorType);
+    return findByIndicatorUuidAndLanguageCode(indicator.indicator_uuid, languageCode);
+  }
+
+  function findByIndicatorUuidAndLanguageCode(indicatorUuid, languageCode) {
     return realm.objects(MODEL).filtered(`indicator_uuid == '${indicatorUuid}' AND language_code == '${languageCode}'`)[0];
   }
 })();

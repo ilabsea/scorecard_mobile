@@ -16,7 +16,7 @@ class IndicatorCard extends Component {
   static contextType = LocalizationContext;
 
   _getIndicatorName = (indicator) => {
-    const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_uuid, 'text');
+    const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicator_uuid, 'text');
 
     if (languageIndicator != undefined)
       return languageIndicator.content != '' ? languageIndicator.content : indicator.name.split(":").pop();
