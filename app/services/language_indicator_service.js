@@ -65,12 +65,10 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
   successCallback(savedCount === indicators.length, languageIndicatorPhase);
 }
 
-// const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
 const getLanguageIndicator = (scorecardUuid, indicatorUuid, type) => {
   const scorecard = Scorecard.find(scorecardUuid);
   const languageCode = type === 'audio' ? scorecard.audio_language_code : scorecard.text_language_code;
   return LanguageIndicator.findByIndicatorAndLanguageCode(indicatorUuid, languageCode);
-  // return LanguageIndicator.findByIndicatorAndLanguageCode(indicatorId, languageCode);
 }
 
 export {

@@ -7,7 +7,6 @@ const  MODEL = 'Indicator';
 
 const Indicator = (() => {
   return {
-    getAll,
     find,
     create,
     update,
@@ -20,10 +19,6 @@ const Indicator = (() => {
     destroy,
     arePredefinedIndicatorsHaveUuid,
   };
-
-  function getAll() {
-    console.log('++ all indicator = ', realm.objects(MODEL))
-  }
 
   function find(indicatorId, type) {
     if (type === CUSTOM)
@@ -51,6 +46,9 @@ const Indicator = (() => {
   // Filter predefinded and custom indicator by name or tag
   function filter(scorecardUuid, text) {
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
+
+    // Filter facilitator by name and endpoint_id
+
     let indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
     const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
 

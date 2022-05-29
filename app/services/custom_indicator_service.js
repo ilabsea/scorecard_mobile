@@ -82,7 +82,7 @@ const customIndicatorService = (() => {
       language_code: languageType == 'text' ? scorecard.text_language_code : scorecard.audio_language_code,
       local_audio: indicator.local_audio,
       scorecard_uuid: scorecard.uuid,
-      indicator_id: customIndicator.uuid,
+      indicator_uuid: customIndicator.uuid,
       type: CUSTOM,
     };
   }

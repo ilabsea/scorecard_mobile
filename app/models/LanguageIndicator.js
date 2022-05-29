@@ -1,13 +1,10 @@
 import realm from '../db/schema';
 import { deleteFile } from '../services/local_file_system_service';
-import settingHelper from '../helpers/setting_helper';
-import Indicator from '../models/Indicator';
 
 const MODEL = 'LanguageIndicator';
 
 const LanguageIndicator = (() => {
   return {
-    getAll,
     create,
     deleteAll,
     findByIndicatorId,
@@ -16,10 +13,6 @@ const LanguageIndicator = (() => {
     findByScorecardAndLanguageCode,
     findByIndicatorAndLanguageCode,
   };
-
-  function getAll() {
-    console.log('++ all lang indicator = ', realm.objects(MODEL))
-  }
 
   function create(data) {
     realm.write(() => {
@@ -67,12 +60,7 @@ const LanguageIndicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}'`)
   }
 
-  // async function findByIndicatorAndLanguageCode(indicatorId, languageCode) {
-  async function findByIndicatorAndLanguageCode(indicatorUuid, languageCode) {
-    const endpointId = await settingHelper.getSavedEndpointUrlId();
-    // const indicator = Indicator.
-
-    // return realm.objects(MODEL).filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
+  function findByIndicatorAndLanguageCode(indicatorUuid, languageCode) {
     return realm.objects(MODEL).filtered(`indicator_uuid == '${indicatorUuid}' AND language_code == '${languageCode}'`)[0];
   }
 })();

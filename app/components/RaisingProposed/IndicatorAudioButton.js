@@ -25,8 +25,8 @@ class IndicatorAudioButton extends Component {
   }
 
   hasAudio = () => {
-    // const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, this.props.indicator.indicatorable_id, 'audio');
-    const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, this.props.indicator.indicatorable_uuid, 'audio');
+    const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, this.props.indicator.indicator_uuid, 'audio');
+
     if (languageIndicator != undefined) {
       this.audioFile = languageIndicator.local_audio;
       return (languageIndicator.local_audio === '' || languageIndicator.local_audio === null) ? false : true;

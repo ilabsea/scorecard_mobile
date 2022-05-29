@@ -15,18 +15,8 @@ const styles = getDeviceStyle(IndicatorCardTabletStyle, IndicatorCardMobileStyle
 class IndicatorCard extends Component {
   static contextType = LocalizationContext;
 
-  state = {
-    indicatorName: ''
-  }
-
-  async componentDidMount() {
-    this.setState({ indicatorName: await this._getIndicatorName(this.props.indicator) });
-  }
-
-  _getIndicatorName = async (indicator) => {
-    // const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_id, 'text');
-    const languageIndicator = await getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_uuid, 'text');
-    // console.log('lang INDICATOR === ', languageIndicator)
+  _getIndicatorName = (indicator) => {
+    const languageIndicator = getLanguageIndicator(this.props.scorecardUuid, indicator.indicatorable_uuid, 'text');
 
     if (languageIndicator != undefined)
       return languageIndicator.content != '' ? languageIndicator.content : indicator.name.split(":").pop();
@@ -88,7 +78,7 @@ class IndicatorCard extends Component {
 
   render() {
     const { indicator } = this.props;
-    // const displayName = this._getIndicatorName(indicator);
+    const displayName = this._getIndicatorName(indicator);
 
     return (
       <View style={[styles.indicatorBoxContainer, this.props.customCardStyle, this.selectedIndicatorBoxStyle(indicator)]}>
@@ -96,8 +86,7 @@ class IndicatorCard extends Component {
 
         <TouchableOpacity style={styles.indicatorBox} onPress={() => this.toggleIndicator(indicator)}>
           <View style={styles.detailContainer}>
-            {/* <Text style={styles.indicatorLabel} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text> */}
-            <Text style={styles.indicatorLabel} numberOfLines={3} ellipsizeMode='tail'>{this.state.indicatorName}</Text>
+            <Text style={styles.indicatorLabel} numberOfLines={3} ellipsizeMode='tail'>{displayName}</Text>
           </View>
         </TouchableOpacity>
 
