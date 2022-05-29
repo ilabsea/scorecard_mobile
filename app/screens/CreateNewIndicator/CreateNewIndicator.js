@@ -54,12 +54,12 @@ class CreateNewIndicator extends Component {
 
   componentWillUnmount() { this.componentIsUnmount = true; }
 
-  updateIndicatorList() {
+  async updateIndicatorList() {
     if (this.componentIsUnmount)
       return;
 
     const { scorecard_uuid } = this.props.route.params;
-    this.setState({ indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit) });
+    this.setState({ indicators: await new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit) });
   }
 
   updateParticipantInfo() {

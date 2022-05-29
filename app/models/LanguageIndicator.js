@@ -1,5 +1,7 @@
 import realm from '../db/schema';
 import { deleteFile } from '../services/local_file_system_service';
+import settingHelper from '../helpers/setting_helper';
+import Indicator from '../models/Indicator';
 
 const MODEL = 'LanguageIndicator';
 
@@ -36,7 +38,8 @@ const LanguageIndicator = (() => {
   }
 
   function findByIndicatorId(indicatorId) {
-    return realm.objects(MODEL).filtered(`indicator_id = '${indicatorId}'`)[0];
+    // return realm.objects(MODEL).filtered(`indicator_id = '${indicatorId}'`)[0];
+    return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorId}'`)[0];
   }
 
   function update(id, params) {
@@ -64,8 +67,13 @@ const LanguageIndicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}'`)
   }
 
-  function findByIndicatorAndLanguageCode(indicatorId, languageCode) {
-    return realm.objects(MODEL).filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
+  // async function findByIndicatorAndLanguageCode(indicatorId, languageCode) {
+  async function findByIndicatorAndLanguageCode(indicatorUuid, languageCode) {
+    const endpointId = await settingHelper.getSavedEndpointUrlId();
+    // const indicator = Indicator.
+
+    // return realm.objects(MODEL).filtered(`indicator_id == '${indicatorId}' AND language_code == '${languageCode}'`)[0];
+    return realm.objects(MODEL).filtered(`indicator_uuid == '${indicatorUuid}' AND language_code == '${languageCode}'`)[0];
   }
 })();
 

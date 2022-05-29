@@ -26,7 +26,7 @@ const customIndicatorService = (() => {
     };
 
     const scorecard = Scorecard.find(scorecardUuid);
-    Indicator.create(customIndicator);
+    Indicator.create(customIndicator, scorecardUuid);
 
     LanguageIndicator.create(_getLanguageCustomIndicatorParams(indicator, scorecard, 'audio', customIndicator));
 
@@ -48,7 +48,7 @@ const customIndicatorService = (() => {
       tag: newIndicator.tag,
     }
 
-    Indicator.update(customIndicatorUuid, indicatorParams);
+    Indicator.update(customIndicatorUuid, indicatorParams, scorecardUuid);
     const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
 
     const newLanguageIndicator = {

@@ -32,13 +32,17 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`id = ${indicatorId}`)[0];
   }
 
-  function create(data) {
+  async function create(data, scorecardUuid) {
+    const params = await _buildData(data, scorecardUuid);
+
     realm.write(() => {
-      realm.create(MODEL, data, 'modified');
+      realm.create(MODEL, params, 'modified');
     });
   }
 
-  function update(uuid, params) {
+  async function update(uuid, data, scorecardUuid) {
+    const params = await _buildData(data, scorecardUuid)
+
     realm.write(() => {
       realm.create(MODEL, Object.assign(params, { uuid: uuid }), 'modified');
     });
@@ -56,9 +60,10 @@ const Indicator = (() => {
     return indicators;
   }
 
-  function findByScorecard(scorecardUuid) {
+  async function findByScorecard(scorecardUuid) {
+    const endpointId = await settingHelper.getSavedEndpointUrlId();
     const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' OR scorecard_uuid = '${scorecardUuid}'`);
+    return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' OR scorecard_uuid = '${scorecardUuid}' AND endpoint_id = ${parseInt(endpointId)}`);
   }
 
   function findByScorecardAndName(scorecardUuid, name, selectedIndicatorUuid = null) {
@@ -95,6 +100,18 @@ const Indicator = (() => {
 
   function arePredefinedIndicatorsHaveUuid(facilityId) {
     return realm.objects(MODEL).filtered(`facility_id = '${ facilityId }' AND indicator_uuid = null`).length == 0;
+  }
+
+  //private method
+  async function _buildData(data, scorecardUuid) {
+    const scorecard = Scorecard.find(scorecardUuid);
+    const params = {
+      program_uuid: scorecard.program_uuid || '',
+      endpoint_id: await settingHelper.getSavedEndpointUrlId(),
+      facility_id: data.facility_id || parseInt(scorecard.facility_id),
+    }
+
+    return { ...data, ...params };
   }
 })();
 

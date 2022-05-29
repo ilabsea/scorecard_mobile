@@ -5,7 +5,6 @@ import LanguageIndicator from '../models/LanguageIndicator';
 import { PREDEFINED } from '../constants/indicator_constant';
 import { indicatorPhase } from '../constants/scorecard_constant';
 import uuidv4 from '../utils/uuidv4';
-import settingHelper from '../helpers/setting_helper';
 
 const indicatorHelper = (() => {
   return {
@@ -25,21 +24,25 @@ const indicatorHelper = (() => {
   function getDisplayIndicator(proposedIndicator, scorecardObj) {
     const scorecard = scorecardObj || Scorecard.find(proposedIndicator.scorecard_uuid);
     const indicator = Indicator.find(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type);
-    let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.audio_language_code);
+    // let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.audio_language_code);
+
+    const { indicatorable_id, indicatorable_type } = proposedIndicator;
+    let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(indicatorable_id, indicatorable_type, scorecard.audio_language_code);
     langIndicator = langIndicator || indicator;
     langIndicator = JSON.parse(JSON.stringify(langIndicator));
     langIndicator.content = langIndicator.content || langIndicator.name;
 
     if (!scorecard.isSameLanguageCode) {
-      let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.text_language_code);
+      // let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.text_language_code);
+      let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(indicatorable_id, indicatorable_type, scorecard.text_language_code);
       langIndicator.content = !!textIndi ? textIndi.content : langIndicator.content;
     }
 
     return langIndicator;
   }
 
-  function getTags(scorecardUuid) {
-    let indicators = new IndicatorService().getAll(scorecardUuid);
+  async function getTags(scorecardUuid) {
+    let indicators = await new IndicatorService().getAll(scorecardUuid);
 
     return indicators.map(indi => indi.tag)
             .filter(tag => !!tag)
@@ -75,11 +78,8 @@ const indicatorHelper = (() => {
     return indicators;
   }
 
-  async function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
+  function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
     let savedCount = 0;
-    const scorecard = Scorecard.find(scorecardUuid);
-    const endpointId = await settingHelper.getSavedEndpointUrlId()
-
     indicators.map(async (indicator) => {
       // Todo: check with bong Sokly, whether indicator_uuid of the production is the same to indicator_uuid of the staging
       // if the indicator_uuid is not the same, find the indicato by indicator_uuid only (no need to find by endpoint_id)
@@ -94,10 +94,8 @@ const indicatorHelper = (() => {
           facility_id: indicator.categorizable.id,
           tag: indicator.tag_name,
           type: PREDEFINED,
-          program_uuid: scorecard.program_uuid || '',
-          endpoint_id: endpointId,
         };
-        Indicator.create(indicatorSet);
+        Indicator.create(indicatorSet, scorecardUuid);
       }
       else {
         // (indicator from older version) if the existing indicator doesn't have indicator_uuid,
@@ -106,9 +104,7 @@ const indicatorHelper = (() => {
         if (!!indicatorWithoutIndicatorUuid) {
           Indicator.update(indicatorWithoutIndicatorUuid.uuid, {
             indicator_uuid: indicator.uuid,
-            program_uuid: scorecard.program_uuid || '',
-            endpoint_id: endpointId,
-          });
+          }, scorecardUuid);
         }
       }
 
