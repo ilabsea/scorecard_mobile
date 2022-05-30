@@ -44,11 +44,12 @@ const Indicator = (() => {
   }
 
   // Filter predefinded and custom indicator by name or tag
-  function filter(scorecardUuid, text) {
+  async function filter(scorecardUuid, text) {
+    const endpointId = await settingHelper.getSavedEndpointUrlId();
     const scorecard = Scorecard.find(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
-    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facility_id}' AND program_uuid = '${program_uuid}' AND type = '${PREDEFINED}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
-    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND program_uuid = '${program_uuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facility_id}' AND program_uuid = '${program_uuid}' AND type = '${PREDEFINED}' AND endpoint_id = ${parseInt(endpointId)} AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND program_uuid = '${program_uuid}' AND endpoint_id = ${parseInt(endpointId)} AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
 
     if (customIndicators.length > 0)
       indicators = [...indicators, ...customIndicators];

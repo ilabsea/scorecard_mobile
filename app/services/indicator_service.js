@@ -30,7 +30,7 @@ class IndicatorService {
     if (isEdit)
       savedIndicators = Indicator.getCustomIndicators(scorecardUuid);
     else
-      savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : await this.getAll(scorecardUuid);
+      savedIndicators = searchText != '' ? await Indicator.filter(scorecardUuid, searchText) : await this.getAll(scorecardUuid);
 
     return indicatorHelper.getIndicatorsAttrs(savedIndicators);
   }
