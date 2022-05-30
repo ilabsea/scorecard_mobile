@@ -66,6 +66,8 @@ class ScorecardList extends Component {
   }
 
   onPress(scorecard) {
+    console.log('scorecard == ', scorecard.program_uuid);
+
     const { translations } = this.context
 
     if (scorecard.isDeleted)
