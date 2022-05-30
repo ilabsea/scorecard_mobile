@@ -20,6 +20,7 @@ import Color from './app/themes/color';
 
 import scorecardDeletionService from './app/services/scorecard_deletion_service';
 import endpointMigrationService from './app/services/endpoint_migration_service';
+import indicatorMigrationService from './app/services/indicator_migration_service';
 import scorecardEndpointService from './app/services/scorecard_endpoint_service';
 import reLoginService from './app/services/re_login_service';
 import appStatusService from './app/services/app_status_service';
@@ -33,7 +34,8 @@ import { SELECTED_FILTERS } from './app/constants/main_constant';
 import settingHelper from './app/helpers/setting_helper';
 
 Sentry.init({
-  dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
+  // dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
+  dsn: 'https://d252675dfeb049a0adf1ef7a4abe1b86@o952154.ingest.sentry.io/5901440',
 });
 
 const store = configureStore();
@@ -84,6 +86,7 @@ const App: () => React$Node = () => {
     scorecardEndpointService.handleScorecardEndpointUrlMigration();
     reLoginService.initReLoginStatus();
     appStatusService.handleAppInstallingStatus();
+    // indicatorMigrationService.checkAndRemoveIndicatorAndLanguageIndicator();
   }, []);
 
   return (

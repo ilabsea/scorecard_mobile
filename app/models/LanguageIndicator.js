@@ -7,6 +7,7 @@ const MODEL = 'LanguageIndicator';
 const LanguageIndicator = (() => {
   return {
     create,
+    deleteAllByScorecard,
     deleteAll,
     findByIndicatorUuid,
     update,
@@ -22,14 +23,14 @@ const LanguageIndicator = (() => {
     });
   }
 
-  function deleteAll(scorecardUuid) {
+  function deleteAllByScorecard(scorecardUuid) {
     const languageIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`);
+    _deleteLanguageIndicators(languageIndicators);
+  }
 
-    if (languageIndicators.length > 0) {
-      realm.write(() => {
-        realm.delete(languageIndicators);
-      });
-    }
+  function deleteAll() {
+    const languageIndicators = realm.objects(MODEL);
+    _deleteLanguageIndicators(languageIndicators);
   }
 
   function findByIndicatorUuid(indicatorUuid) {
@@ -68,6 +69,15 @@ const LanguageIndicator = (() => {
 
   function findByIndicatorUuidAndLanguageCode(indicatorUuid, languageCode) {
     return realm.objects(MODEL).filtered(`indicator_uuid == '${indicatorUuid}' AND language_code == '${languageCode}'`)[0];
+  }
+
+  // private method
+  function _deleteLanguageIndicators(languageIndicators) {
+    if (languageIndicators.length > 0) {
+      realm.write(() => {
+        realm.delete(languageIndicators);
+      });
+    }
   }
 })();
 

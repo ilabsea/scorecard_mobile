@@ -6,6 +6,7 @@ import { apiDateFormat } from '../constants/date_format_constant';
 import { INDICATOR_DEVELOPMENT } from '../constants/scorecard_step_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
 import settingHelper from '../helpers/setting_helper';
+import scorecardDataUtil from '../utils/scorecard_deta_util';
 
 const Scorecard = (() => {
   return {
@@ -31,6 +32,7 @@ const Scorecard = (() => {
     isRefreshable,
     isDeleteable,
     isShareable,
+    getScorecardWithoutProgramUuid,
   }
 
   function getAll() {
@@ -53,7 +55,8 @@ const Scorecard = (() => {
 
   async function upsert(response) {
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', response.uuid);
-    const data = await _buildData(response);
+    // const data = await _buildData(response);
+    const data = await scorecardDataUtil.getBuildData(response);
 
     realm.write(() => {
       realm.create('Scorecard', data, 'modified');
@@ -172,37 +175,41 @@ const Scorecard = (() => {
     return await hasMatchedEndpointUrl(scorecard.uuid) && scorecard.isCompleted;
   }
 
+  function getScorecardWithoutProgramUuid() {
+    return realm.objects('Scorecard').filtered('program_uuid = null');
+  }
+
   // Private
 
-  async function _buildData(response) {
-    return ({
-      uuid: response.uuid,
-      unit_type: _getStringValue(response.unit_type_name),
-      facility_id: response.facility_id,
-      facility: response.facility != null ? JSON.stringify(response.facility) : '',
-      facility_code: _getStringValue(response.facility.code),
-      scorecard_type: _getStringValue(response.scorecard_type),
-      name: _getStringValue(response.name),
-      description: _getStringValue(response.description),
-      year: response.year,
-      local_ngo_name: _getStringValue(response.local_ngo_name),
-      local_ngo_id: response.local_ngo_id,
-      province: _getStringValue(response.province),
-      district: _getStringValue(response.district),
-      commune: _getStringValue(response.commune),
-      program_id: response.program_id,
-      downloaded_at: new Date(),
-      primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
-      planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
-      planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
-      endpoint_url: await settingHelper.getFullyEndpointUrl(),
-      program_uuid: response.program_uuid,
-    })
-  }
+  // async function _buildData(response) {
+  //   return ({
+  //     uuid: response.uuid,
+  //     unit_type: _getStringValue(response.unit_type_name),
+  //     facility_id: response.facility_id,
+  //     facility: response.facility != null ? JSON.stringify(response.facility) : '',
+  //     facility_code: _getStringValue(response.facility.code),
+  //     scorecard_type: _getStringValue(response.scorecard_type),
+  //     name: _getStringValue(response.name),
+  //     description: _getStringValue(response.description),
+  //     year: response.year,
+  //     local_ngo_name: _getStringValue(response.local_ngo_name),
+  //     local_ngo_id: response.local_ngo_id,
+  //     province: _getStringValue(response.province),
+  //     district: _getStringValue(response.district),
+  //     commune: _getStringValue(response.commune),
+  //     program_id: response.program_id,
+  //     downloaded_at: new Date(),
+  //     primary_school: response.primary_school != null ? JSON.stringify(response.primary_school) : null,
+  //     planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
+  //     planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
+  //     endpoint_url: await settingHelper.getFullyEndpointUrl(),
+  //     program_uuid: response.program_uuid,
+  //   })
+  // }
 
-  function _getStringValue(value) {
-    return !!value ? value : '';
-  }
+  // function _getStringValue(value) {
+  //   return !!value ? value : '';
+  // }
 
   function _getEndpoint(endpointUrl) {
     return !!endpointUrl ? endpointUrl.split('@')[2] : '';

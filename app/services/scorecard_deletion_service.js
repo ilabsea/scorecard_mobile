@@ -51,7 +51,7 @@ const scorecardDeletionService = (() => {
     Scorecard.destroy(scorecardUuid);
     Facilitator.deleteAll(scorecardUuid);
     Rating.deleteAll(scorecardUuid);
-    LanguageIndicator.deleteAll(scorecardUuid);
+    LanguageIndicator.deleteAllByScorecard(scorecardUuid);
     votingIndicatorService.deleteVotingIndicators(scorecardUuid);
     proposedIndicatorService.deleteProposedIndicators(scorecardUuid);
     scorecardSharingService.deleteScorecardPdf(scorecardUuid);
