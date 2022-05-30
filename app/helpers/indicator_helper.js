@@ -78,8 +78,6 @@ const indicatorHelper = (() => {
   function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
     let savedCount = 0;
     indicators.map(async (indicator) => {
-      // Todo: check with bong Sokly, whether indicator_uuid of the production is the same to indicator_uuid of the staging
-      // if the indicator_uuid is not the same, find the indicato by indicator_uuid only (no need to find by endpoint_id)
       const savedIndicator = await Indicator.findByUuidAndCurrentEndpointId(indicator.uuid);
 
       if (!savedIndicator) {
@@ -93,16 +91,6 @@ const indicatorHelper = (() => {
           type: PREDEFINED,
         };
         Indicator.create(indicatorSet, scorecardUuid);
-      }
-      else {
-        // (indicator from older version) if the existing indicator doesn't have indicator_uuid,
-        // find it by indicator's id then update it with indicator_uuid, program_uuid, and endpoint_id
-        const indicatorWithoutIndicatorUuid = Indicator.find(indicator.id, PREDEFINED);
-        if (!!indicatorWithoutIndicatorUuid) {
-          Indicator.update(indicatorWithoutIndicatorUuid.uuid, {
-            indicator_uuid: indicator.uuid,
-          }, scorecardUuid);
-        }
       }
 
       savedCount += 1;

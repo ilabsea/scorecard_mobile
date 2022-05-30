@@ -70,7 +70,7 @@ class CreateNewIndicatorContent extends Component {
         { this.state.hasParticipantSection && this.renderParticipant() }
 
         { (!this.props.isLoading && !this.props.isSearching && !this.props.isEdit) &&
-          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 20}}>
+          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 0}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>
         }
