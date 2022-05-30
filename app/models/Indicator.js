@@ -16,6 +16,7 @@ const Indicator = (() => {
     findByUuidAndCurrentEndpointId,
     isNameExist,
     getCustomIndicators,
+    getIndicatorsWithoutProgramUuidOrEndpointId,
     destroy,
     arePredefinedIndicatorsHaveUuid,
     deleteAll,
@@ -91,6 +92,10 @@ const Indicator = (() => {
 
   function getCustomIndicators(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
+  }
+
+  function getIndicatorsWithoutProgramUuidOrEndpointId(facilityId) {
+    return realm.objects(MODEL).filtered(`facility_id = ${parseInt(facilityId)} AND (program_uuid = '' OR endpoint_id = null)`);
   }
 
   function destroy(indicator) {

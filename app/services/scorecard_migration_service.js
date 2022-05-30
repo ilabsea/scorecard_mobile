@@ -1,5 +1,6 @@
 import Scorecard from '../models/Scorecard';
 import ScorecardService from '../services/scorecardService';
+import indicatorMigrationService from '../services/indicator_migration_service';
 
 const scorecardMigrationService = (() => {
   return {
@@ -7,8 +8,10 @@ const scorecardMigrationService = (() => {
   }
 
   function handleUpdatingScorecardWithoutProgramUuid() {
-    const scorecards = Scorecard.getScorecardWithoutProgramUuid();
+    if (Scorecard.hasUnsubmitted())
+      return;
 
+    const scorecards = Scorecard.getScorecardWithoutProgramUuid();
     scorecards.map(scorecard => {
       _findAndUpdateScorecard(scorecard.uuid);
     });
@@ -17,8 +20,10 @@ const scorecardMigrationService = (() => {
   // private method
   function _findAndUpdateScorecard(scorecardUuid) {
     new ScorecardService().find(scorecardUuid, async (responseData) => {
-      if (!!responseData)
-        Scorecard.update(scorecardUuid, { program_uuid: responseData.program_uuid })
+      if (!!responseData) {
+        Scorecard.update(scorecardUuid, { program_uuid: responseData.program_uuid });
+        indicatorMigrationService.handleUpdateIndicator(scorecardUuid, responseData.facility_id);
+      }
     });
   }
 })();
