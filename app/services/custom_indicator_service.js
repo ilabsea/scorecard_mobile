@@ -49,7 +49,7 @@ const customIndicatorService = (() => {
     }
 
     Indicator.update(customIndicatorUuid, indicatorParams, scorecardUuid);
-    const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
+    const languageIndicator = LanguageIndicator.findByIndicatorUuid(customIndicatorUuid);
 
     const newLanguageIndicator = {
       content: newIndicator.name,

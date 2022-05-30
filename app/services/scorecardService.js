@@ -78,7 +78,7 @@ class ScorecardService {
       .then(function (response) {
         if (response.status == 201) {
           // Update the id of the custom indicator with the id that received from the server
-          Indicator.update(customIndicator.indicator_uuid, { id: response.data.id });
+          Indicator.update(customIndicator.indicator_uuid, { id: response.data.id }, _this.scorecard_uuid);
         }
 
         _this.updateProgress(callback);

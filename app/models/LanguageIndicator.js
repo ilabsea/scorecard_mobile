@@ -8,7 +8,7 @@ const LanguageIndicator = (() => {
   return {
     create,
     deleteAll,
-    findByIndicatorId,
+    findByIndicatorUuid,
     update,
     destroy,
     findByScorecardAndLanguageCode,
@@ -32,9 +32,8 @@ const LanguageIndicator = (() => {
     }
   }
 
-  function findByIndicatorId(indicatorId) {
-    // return realm.objects(MODEL).filtered(`indicator_id = '${indicatorId}'`)[0];
-    return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorId}'`)[0];
+  function findByIndicatorUuid(indicatorUuid) {
+    return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}'`)[0];
   }
 
   function update(id, params) {
@@ -45,8 +44,8 @@ const LanguageIndicator = (() => {
     }
   }
 
-  function destroy(indicatorId) {
-    const languageIndicator = findByIndicatorId(indicatorId);
+  function destroy(indicatorUuid) {
+    const languageIndicator = findByIndicatorUuid(indicatorUuid);
     if (!languageIndicator)
       return;
 
