@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import AddNewIndicatorModalContent from '../RaisingProposed/AddNewIndicatorModalContent';
 import CreateNewIndicatorContent from './CreateNewIndicatorContent';
@@ -90,6 +91,7 @@ class CreateIndicatorBody extends React.Component {
             closeModal={() => this.closeModal()}
             formModalRef={this.props.formModalRef}
             participantModalRef={this.props.participantModalRef}
+            isLoading={this.props.isLoading}
           />
   }
 
@@ -132,6 +134,12 @@ class CreateIndicatorBody extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
+        <Spinner
+          visible={this.props.isLoading}
+          color={Color.primaryColor}
+          overlayColor={Color.loadingBackgroundColor}
+        />
+
         { this.renderContent() }
         { this.renderBottomButton() }
       </View>

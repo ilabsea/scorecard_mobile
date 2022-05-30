@@ -55,7 +55,7 @@ class IndicatorSelection extends Component {
           </RaisingProposedScrollView>
         }
 
-        { this.props.indicators.length === 0 && <NoIndicatorMessage /> }
+        { (!this.props.isLoading && this.props.indicators.length) === 0 && <NoIndicatorMessage /> }
 
         { !this.props.isSearching && this.renderAddNewIndicatorButton() }
       </React.Fragment>
