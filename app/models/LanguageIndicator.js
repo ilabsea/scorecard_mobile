@@ -6,6 +6,7 @@ const MODEL = 'LanguageIndicator';
 
 const LanguageIndicator = (() => {
   return {
+    getAll,
     create,
     deleteAllByScorecard,
     deleteAll,
@@ -16,6 +17,10 @@ const LanguageIndicator = (() => {
     findByIndicatorAndLanguageCode,
     findByIndicatorUuidAndLanguageCode,
   };
+
+  function getAll() {
+    console.log('++ all lang indicator == ', realm.objects(MODEL))
+  }
 
   function create(data) {
     realm.write(() => {

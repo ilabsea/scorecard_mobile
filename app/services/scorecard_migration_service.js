@@ -8,7 +8,7 @@ const scorecardMigrationService = (() => {
   }
 
   function handleUpdatingScorecardWithoutProgramUuid() {
-    if (Scorecard.hasUnsubmitted())
+    if (!Scorecard.hasUnsubmitted())
       return;
 
     const scorecards = Scorecard.getScorecardWithoutProgramUuid();
