@@ -1,6 +1,6 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
-import { CUSTOM } from '../constants/indicator_constant';
+import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
 import settingHelper from '../helpers/setting_helper';
 
 const  MODEL = 'Indicator';
@@ -45,9 +45,10 @@ const Indicator = (() => {
 
   // Filter predefinded and custom indicator by name or tag
   function filter(scorecardUuid, text) {
-    const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
-    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    const scorecard = Scorecard.find(scorecardUuid);
+    const { facility_id, program_uuid } = scorecard;
+    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facility_id}' AND program_uuid = '${program_uuid}' AND type = '${PREDEFINED}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND program_uuid = '${program_uuid}' AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
 
     if (customIndicators.length > 0)
       indicators = [...indicators, ...customIndicators];
@@ -57,20 +58,23 @@ const Indicator = (() => {
 
   async function findByScorecard(scorecardUuid) {
     const endpointId = await settingHelper.getSavedEndpointUrlId();
-    const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    return realm.objects(MODEL).filtered(`facility_id = '${facilityId}' OR scorecard_uuid = '${scorecardUuid}' AND endpoint_id = ${parseInt(endpointId)}`);
+    const scorecard = Scorecard.find(scorecardUuid);
+    const { facility_id, program_uuid } = scorecard;
+    return realm.objects(MODEL)
+      .filtered(`facility_id = '${facility_id}' OR scorecard_uuid = '${scorecardUuid}' AND endpoint_id = ${parseInt(endpointId)} AND program_uuid = '${program_uuid}'`);
   }
 
   function findByScorecardAndName(scorecardUuid, name, selectedIndicatorUuid = null) {
-    const facilityId = Scorecard.find(scorecardUuid).facility_id;
-    const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = '${facilityId}' AND name ==[c] '${name}'`);
+    const scorecard = Scorecard.find(scorecardUuid);
+    const { facility_id, program_uuid } = scorecard;
+    const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = '${facility_id}' AND program_uuid = '${program_uuid}' AND name ==[c] '${name}'`);
 
     if (predefinedIndicators.length > 0)
       return predefinedIndicators;
 
-    const query = !selectedIndicatorUuid ? `scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`
-                  : `scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND name ==[c] '${ name }'`;
-    
+    const query = !selectedIndicatorUuid ? `scorecard_uuid = '${scorecardUuid}' AND program_uuid = '${program_uuid}' AND name ==[c] '${name}'`
+                  : `scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND program_uuid = '${program_uuid}' AND name ==[c] '${ name }'`;
+
     return realm.objects(MODEL).filtered(query);
   }
 
