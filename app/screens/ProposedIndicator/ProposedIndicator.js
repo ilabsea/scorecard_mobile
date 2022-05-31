@@ -12,7 +12,7 @@ import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 
-class RaisingProposed extends Component {
+class ProposedIndicator extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -76,4 +76,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RaisingProposed);
+)(ProposedIndicator);

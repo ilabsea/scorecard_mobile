@@ -1,6 +1,6 @@
 export default [
   {
-    screenName: 'RaisingProposed',
+    screenName: 'ProposedIndicator',
     mainTitle: 'proposedIndicatorTip',
     title: 'វិធីដើម្បីបំផុសលក្ខណៈវិនិច្ឆ័យ',
     description: '',
