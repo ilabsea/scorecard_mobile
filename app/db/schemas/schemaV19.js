@@ -10,6 +10,7 @@ import Facilitator from '../migrations/v16/facilitator';
 
 import schemaHelper from '../../helpers/schema_helper';
 import { schemaNames } from '../../constants/schema_constant';
+import { CUSTOM } from '../../constants/indicator_constant';
 
 const changedSchemas = [
   { label: schemaNames[0], data: Scorecard },
@@ -40,14 +41,20 @@ const schemaV19 = {
 
       // Find the indicator and add the indicator_uuid to languageIndicator
       oldLangIndicators.map((oldLangIndicator, index) => {
-        const indicator = oldRealm.objects('Indicator').filtered(`id = ${ parseInt(oldLangIndicator.indicator_id) }`)[0];
-        newLangIndicators[index].indicator_uuid = indicator.indicator_uuid || '';
+        if (oldLangIndicator.type == CUSTOM)
+          newLangIndicators[index].indicator_uuid = oldLangIndicator.indicator_id;
+        else {
+          const indicator = oldRealm.objects('Indicator').filtered(`id = ${ parseInt(oldLangIndicator.indicator_id) }`)[0];
+          newLangIndicators[index].indicator_uuid = indicator.indicator_uuid || '';
+        }
       });
 
       const oldIndicators = oldRealm.objects('Indicator');
       const newIndicators = newRealm.objects('Indicator');
 
       oldIndicators.map((oldIndicator, index) => {
+        console.log('each old indicator == ', oldIndicator)
+
         newIndicators[index].program_uuid = !oldIndicator.program_uuid ? '' : oldIndicator.program_uuid;
         newIndicators[index].endpoint_id = !oldIndicator.endpoint_id ? null : oldIndicator.endpoint_id;
       });
