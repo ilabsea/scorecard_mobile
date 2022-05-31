@@ -11,10 +11,10 @@ import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import RaisingProposedTabletStyles from '../../styles/tablet/RaisingProposedComponentStyle';
-import RaisingProposedMobileStyles from '../../styles/mobile/RaisingProposedComponentStyle';
+import ProposedIndicatorTabletStyles from '../../styles/tablet/ProposedIndicatorComponentStyle';
+import ProposedIndicatorMobileStyles from '../../styles/mobile/ProposedIndicatorComponentStyle';
 
-const responsiveStyles = getDeviceStyle(RaisingProposedTabletStyles, RaisingProposedMobileStyles);
+const responsiveStyles = getDeviceStyle(ProposedIndicatorTabletStyles, ProposedIndicatorMobileStyles);
 
 class ProposedIndicatorAccordions extends Component {
   static contextType = LocalizationContext;
