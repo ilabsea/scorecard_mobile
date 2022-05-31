@@ -9,7 +9,7 @@ import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingPropos
 import { subTitleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
-class CreateNewIndicatorContent extends Component {
+class CreateNewIndicatorMain extends Component {
   static contextType = LocalizationContext;
   state = { hasParticipantSection: false }
 
@@ -81,4 +81,4 @@ class CreateNewIndicatorContent extends Component {
   }
 }
 
-export default CreateNewIndicatorContent;
+export default CreateNewIndicatorMain;

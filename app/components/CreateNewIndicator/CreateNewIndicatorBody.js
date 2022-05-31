@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import AddNewIndicatorModalContent from '../RaisingProposed/AddNewIndicatorModalContent';
-import CreateNewIndicatorContent from './CreateNewIndicatorContent';
+import CreateNewIndicatorMain from './CreateNewIndicatorMain';
 import CreateNewIndicatorBottomButton from './CreateNewIndicatorBottomButton';
 
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
@@ -78,7 +78,7 @@ class CreateIndicatorBody extends React.Component {
   }
 
   renderContent() {
-    return <CreateNewIndicatorContent
+    return <CreateNewIndicatorMain
             scorecardUuid={this.props.scorecardUuid}
             participantUuid={this.state.participantUuid}
             indicators={this.props.indicators}
