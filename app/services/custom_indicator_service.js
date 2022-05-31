@@ -15,6 +15,7 @@ const customIndicatorService = (() => {
 
   function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
     const generatedUuid = uuidv4();
+    const scorecard = Scorecard.find(scorecardUuid);
 
     let customIndicator = {
       uuid: generatedUuid,
@@ -23,11 +24,10 @@ const customIndicatorService = (() => {
       scorecard_uuid: scorecardUuid,
       tag: indicator.tag,
       type: CUSTOM,
+      facility_id: scorecard.facility_id,
     };
 
-    const scorecard = Scorecard.find(scorecardUuid);
     Indicator.create(customIndicator, scorecardUuid);
-
     LanguageIndicator.create(_getLanguageCustomIndicatorParams(indicator, scorecard, 'audio', customIndicator));
 
     // Create another language indicator if the locale of the audio and text are different

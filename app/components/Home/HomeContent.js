@@ -6,9 +6,6 @@ import BigButton from './BigButton';
 import Brand from './Brand';
 import Logos from './Logos';
 
-import LanguageIndicator from '../../models/LanguageIndicator';
-import Indicator from '../../models/Indicator';
-
 class HomeContent extends Component {
   static contextType = LocalizationContext;
 
@@ -26,9 +23,7 @@ class HomeContent extends Component {
         />
 
         <BigButton
-          // onPress={() => this.props.navigation.navigate('ScorecardList')}
-          // onPress={() => LanguageIndicator.getAll()}
-          onPress={() => Indicator.getAll()}
+          onPress={() => this.props.navigation.navigate('ScorecardList')}
           label={ this.context.translations['savedScorecard'] }
           icon={'list-circle'}
         />

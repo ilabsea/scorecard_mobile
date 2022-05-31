@@ -7,7 +7,6 @@ const  MODEL = 'Indicator';
 
 const Indicator = (() => {
   return {
-    getAll,
     find,
     create,
     update,
@@ -22,10 +21,6 @@ const Indicator = (() => {
     arePredefinedIndicatorsHaveUuid,
     deleteAll,
   };
-
-  function getAll() {
-    console.log('Indicator == ', realm.objects(MODEL));
-  }
 
   function find(indicatorId, type) {
     if (type === CUSTOM)
@@ -99,8 +94,13 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
   }
 
-  function getIndicatorsWithoutProgramUuidOrEndpointId(facilityId) {
-    return realm.objects(MODEL).filtered(`facility_id = ${parseInt(facilityId)} AND (program_uuid = '' OR endpoint_id = null)`);
+  function getIndicatorsWithoutProgramUuidOrEndpointId(scorecardUuid, facilityId) {
+    const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = ${parseInt(facilityId)} AND (program_uuid = '' OR endpoint_id = null)`);
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}' AND (program_uuid = '' OR endpoint_id = null)`);
+
+    return [...predefinedIndicators, ...customIndicators];
+
+    // return realm.objects(MODEL).filtered(`facility_id = ${parseInt(facilityId)} AND (program_uuid = '' OR endpoint_id = null)`);
   }
 
   function destroy(indicator) {

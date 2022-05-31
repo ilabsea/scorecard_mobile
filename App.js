@@ -34,8 +34,7 @@ import { SELECTED_FILTERS } from './app/constants/main_constant';
 import settingHelper from './app/helpers/setting_helper';
 
 Sentry.init({
-  // dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
-  dsn: 'https://d252675dfeb049a0adf1ef7a4abe1b86@o952154.ingest.sentry.io/5901440',
+  dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
 });
 
 const store = configureStore();
@@ -86,7 +85,7 @@ const App: () => React$Node = () => {
     scorecardEndpointService.handleScorecardEndpointUrlMigration();
     reLoginService.initReLoginStatus();
     appStatusService.handleAppInstallingStatus();
-    // indicatorMigrationService.checkAndRemoveIndicatorAndLanguageIndicator();
+    indicatorMigrationService.checkAndRemoveIndicatorAndLanguageIndicator();
   }, []);
 
   return (

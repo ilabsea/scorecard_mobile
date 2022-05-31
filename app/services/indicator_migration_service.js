@@ -17,8 +17,8 @@ const indicatorMigrationService = (() => {
   }
 
   function handleUpdateIndicator(scorecardUuid, facilityId) {
-    // Find the indicators that doesn't have program_uuid or endpoint_id by the facility_id of the scorecard
-    const indicators = Indicator.getIndicatorsWithoutProgramUuidOrEndpointId(facilityId);
+    // Find the indicators (predefinded and custom) that doesn't have program_uuid or endpoint_id by the facility_id of the scorecard
+    const indicators = Indicator.getIndicatorsWithoutProgramUuidOrEndpointId(scorecardUuid, facilityId);
     indicators.map(indicator => {
       Indicator.update(indicator.uuid, { facility_id: facilityId }, scorecardUuid);
     });
