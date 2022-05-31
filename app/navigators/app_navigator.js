@@ -198,7 +198,7 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="OfflineRaisingProposed"
+        name="OfflineProposedIndicator"
         component={OfflineInstructionScreen}
         options={({navigation}) => ({
           header: () => null,

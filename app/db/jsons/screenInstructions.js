@@ -13,7 +13,7 @@ export default [
     }
   },
   {
-    screenName: "OfflineRaisingProposed",
+    screenName: "OfflineProposedIndicator",
     title: "ការបំផុសលក្ខណៈវិនិច្ឆ័យ",
     notes: [
       "ដំណាក់កាលនេះគឺតម្រូវអោយ CAF អនុវត្តការពិភាក្សាលើលក្ខណៈវិនិច្ឆ័យជាមួយអ្នកចូលរួមតាមធម្មតា",

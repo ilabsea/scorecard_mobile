@@ -54,7 +54,7 @@ class ProposedIndicator extends Component {
           />
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='RaisingProposed' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
