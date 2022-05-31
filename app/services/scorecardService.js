@@ -76,7 +76,7 @@ class ScorecardService {
       if (!!response && !!JSON.parse(response).id) {
         // Update the id of the custom indicator with the id that received from the server
         // This 'id' is used as 'indicatorable_id' when submitting the scorecard 
-        Indicator.update(customIndicator.indicator_uuid, { id: JSON.parse(response).id });
+        Indicator.update(customIndicator.indicator_uuid, { id: JSON.parse(response).id }, this.scorecard_uuid);
       }
       _this.updateProgress(callback);
       _this.uploadCustomIndicator(index + 1, indicators, callback, errorCallback);
