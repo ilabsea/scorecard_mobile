@@ -35,8 +35,8 @@ class IndicatorService {
     return indicatorHelper.getIndicatorsAttrs(savedIndicators);
   }
 
-  getDuplicatedIndicator(scorecardUuid, name) {
-    const indicators = Indicator.findByScorecardAndName(scorecardUuid, name);
+  getDuplicatedIndicator(scorecardUuid, name, endpointId) {
+    const indicators = Indicator.findByScorecardAndName(scorecardUuid, name, endpointId, null);
     return indicators.length > 0 ? indicatorHelper.getIndicatorsAttrs(indicators) : [];
   }
 
