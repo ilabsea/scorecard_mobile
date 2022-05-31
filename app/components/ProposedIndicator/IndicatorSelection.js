@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { LayoutAnimation, UIManager } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import RaisingProposedScrollView from './RaisingProposedScrollView';
+import ProposedIndicatorScrollView from './ProposedIndicatorScrollView';
 import IndicatorSelectionItems from './IndicatorSelectionItems';
 import AddNewIndicatorButton from './AddNewIndicatorButton';
 import NoIndicatorMessage from './NoIndicatorMessage';
@@ -41,7 +41,7 @@ class IndicatorSelection extends Component {
     return (
       <React.Fragment>
         { this.props.indicators.length > 0 &&
-          <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
+          <ProposedIndicatorScrollView onScroll={(event) => this.onScroll(event)}>
             <IndicatorSelectionItems
               indicators={this.props.indicators}
               scorecardUuid={this.props.scorecardUuid}
@@ -51,7 +51,7 @@ class IndicatorSelection extends Component {
               formModalRef={this.props.formModalRef}
               participantModalRef={this.props.participantModalRef}
             />
-          </RaisingProposedScrollView>
+          </ProposedIndicatorScrollView>
         }
 
         { (!this.props.isLoading && this.props.indicators.length) === 0 && <NoIndicatorMessage /> }

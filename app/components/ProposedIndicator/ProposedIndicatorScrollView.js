@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, Pressable, Keyboard } from 'react-native';
 
-class RaisingProposedScrollView extends Component {
+class ProposedIndicatorScrollView extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 50, marginHorizontal: -8}}
@@ -17,4 +17,4 @@ class RaisingProposedScrollView extends Component {
   }
 }
 
-export default RaisingProposedScrollView;
+export default ProposedIndicatorScrollView;

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import ProposedIndicatorContent from '../../components/RaisingProposed/ProposedIndicatorContent';
+import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
 import ProgressHeader from '../../components/ProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
@@ -44,7 +44,7 @@ class ProposedIndicator extends Component {
         <View style={{flex: 1}}>
           <ProgressHeader title={translations['getStarted']} progressIndex={3} />
 
-          <ProposedIndicatorContent
+          <ProposedIndicatorMain
             scorecardUuid={scorecard_uuid}
             visibleModal={this.state.visibleModal}
             tipModalRef={this.tipModalRef}

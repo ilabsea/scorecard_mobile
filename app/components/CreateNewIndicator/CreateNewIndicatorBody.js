@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import AddNewIndicatorModalContent from '../RaisingProposed/AddNewIndicatorModalContent';
+import AddNewIndicatorModalContent from '../ProposedIndicator/AddNewIndicatorModalContent';
 import CreateNewIndicatorMain from './CreateNewIndicatorMain';
 import CreateNewIndicatorBottomButton from './CreateNewIndicatorBottomButton';
 
