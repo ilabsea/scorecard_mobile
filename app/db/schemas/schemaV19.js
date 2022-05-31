@@ -53,8 +53,6 @@ const schemaV19 = {
       const newIndicators = newRealm.objects('Indicator');
 
       oldIndicators.map((oldIndicator, index) => {
-        console.log('each old indicator == ', oldIndicator)
-
         newIndicators[index].program_uuid = !oldIndicator.program_uuid ? '' : oldIndicator.program_uuid;
         newIndicators[index].endpoint_id = !oldIndicator.endpoint_id ? null : oldIndicator.endpoint_id;
       });

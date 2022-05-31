@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import AddNewIndicatorModalContent from '../ProposedIndicator/AddNewIndicatorModalContent';
+import AddNewIndicatorModalMain from '../ProposedIndicator/AddNewIndicatorModalMain';
 import CreateNewIndicatorMain from './CreateNewIndicatorMain';
 import CreateNewIndicatorBottomButton from './CreateNewIndicatorBottomButton';
 
@@ -116,7 +116,7 @@ class CreateIndicatorBody extends React.Component {
   }
 
   renderModalContent() {
-    return <AddNewIndicatorModalContent
+    return <AddNewIndicatorModalMain
             closeModal={() => this.closeModal()}
             participantUuid={this.state.participantUuid}
             scorecardUuid={this.props.scorecardUuid}

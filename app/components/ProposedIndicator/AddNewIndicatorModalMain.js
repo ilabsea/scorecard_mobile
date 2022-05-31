@@ -19,7 +19,7 @@ import { participantContentHeight } from '../../constants/modal_constant';
 import Indicator from '../../models/Indicator';
 import settingHelper from '../../helpers/setting_helper';
 
-class AddNewIndicatorModalContent extends React.Component {
+class AddNewIndicatorModalMain extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -167,4 +167,4 @@ class AddNewIndicatorModalContent extends React.Component {
   }
 }
 
-export default AddNewIndicatorModalContent;
+export default AddNewIndicatorModalMain;

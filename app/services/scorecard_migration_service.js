@@ -22,6 +22,7 @@ const scorecardMigrationService = (() => {
     new ScorecardService().find(scorecardUuid, async (responseData) => {
       if (!!responseData) {
         Scorecard.update(scorecardUuid, { program_uuid: responseData.program_uuid });
+        // Add program_uuid and endpoint_id to the indicators that have relation to the scorecard
         indicatorMigrationService.handleUpdateIndicator(scorecardUuid, responseData.facility_id);
       }
     });
