@@ -42,7 +42,7 @@ class ScorecardPreference extends Component {
       downloadProgress: 0,
       visibleModal: false,
       errorType: null,
-      isFinishDownloaded: false,
+      isFinishDownloaded: scorecard.downloaded || false,
       isDownloading: false,
       isErrorDownload: false,
       isDownloadAudio: false,
