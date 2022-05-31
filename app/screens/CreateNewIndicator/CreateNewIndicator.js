@@ -26,6 +26,7 @@ class CreateNewIndicator extends Component {
       isSearching: false,
       isEdit: false,
       participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
+      isLoading: false,
     };
 
     this.participantModalRef = React.createRef();
@@ -49,17 +50,24 @@ class CreateNewIndicator extends Component {
   }
 
   componentDidMount() {
+    this.updateLoadingStatus(true);
     this.updateIndicatorList();
   }
 
   componentWillUnmount() { this.componentIsUnmount = true; }
 
-  updateIndicatorList() {
+  async updateIndicatorList() {
     if (this.componentIsUnmount)
       return;
 
     const { scorecard_uuid } = this.props.route.params;
-    this.setState({ indicators: new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit) });
+    this.setState({
+      indicators: await new IndicatorService().getIndicatorList(scorecard_uuid, this.state.searchedName, this.state.isEdit)
+    }, () => this.updateLoadingStatus(false));
+  }
+
+  updateLoadingStatus(status) {
+    this.setState({ isLoading: status })
   }
 
   updateParticipantInfo() {
@@ -126,6 +134,7 @@ class CreateNewIndicator extends Component {
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
             formModalRef={this.formModalRef}
             participantModalRef={this.participantModalRef}
+            isLoading={this.state.isLoading}
           />
   }
 

@@ -45,6 +45,7 @@ class CreateNewIndicatorContent extends Component {
         updateIndicatorList={() => this.props.updateIndicatorList()}
         formModalRef={this.props.formModalRef}
         participantModalRef={this.props.participantModalRef}
+        isLoading={this.props.isLoading}
       />
     )
   }
@@ -68,8 +69,8 @@ class CreateNewIndicatorContent extends Component {
       <View style={{flex: 1}}>
         { this.state.hasParticipantSection && this.renderParticipant() }
 
-        { (!this.props.isSearching && !this.props.isEdit) &&
-          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 20}}>
+        { (!this.props.isLoading && !this.props.isSearching && !this.props.isEdit) &&
+          <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 0}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>
         }

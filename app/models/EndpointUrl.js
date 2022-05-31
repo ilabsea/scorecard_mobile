@@ -44,6 +44,9 @@ const EndpointUrl = (() => {
     params['uuid'] = uuidv4();
     params['order'] = _getLastOrderNumber() + 1;
 
+    const lastId = realm.objects(MODEL).max('id');
+    params['id'] = !lastId ? 1 : lastId + 1;
+
     realm.write(() => {
       realm.create(MODEL, params, 'modified');
     });

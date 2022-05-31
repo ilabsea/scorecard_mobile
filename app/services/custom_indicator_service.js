@@ -26,7 +26,7 @@ const customIndicatorService = (() => {
     };
 
     const scorecard = Scorecard.find(scorecardUuid);
-    Indicator.create(customIndicator);
+    Indicator.create(customIndicator, scorecardUuid);
 
     LanguageIndicator.create(_getLanguageCustomIndicatorParams(indicator, scorecard, 'audio', customIndicator));
 
@@ -48,8 +48,8 @@ const customIndicatorService = (() => {
       tag: newIndicator.tag,
     }
 
-    Indicator.update(customIndicatorUuid, indicatorParams);
-    const languageIndicator = LanguageIndicator.findByIndicatorId(customIndicatorUuid);
+    Indicator.update(customIndicatorUuid, indicatorParams, scorecardUuid);
+    const languageIndicator = LanguageIndicator.findByIndicatorUuid(customIndicatorUuid);
 
     const newLanguageIndicator = {
       content: newIndicator.name,
@@ -82,7 +82,7 @@ const customIndicatorService = (() => {
       language_code: languageType == 'text' ? scorecard.text_language_code : scorecard.audio_language_code,
       local_audio: indicator.local_audio,
       scorecard_uuid: scorecard.uuid,
-      indicator_id: customIndicator.uuid,
+      indicator_uuid: customIndicator.uuid,
       type: CUSTOM,
     };
   }

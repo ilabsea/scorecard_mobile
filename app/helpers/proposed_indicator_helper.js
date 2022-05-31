@@ -2,6 +2,8 @@ import React from 'react';
 import VotingIndicator from '../models/VotingIndicator';
 import Indicator from '../models/Indicator';
 import ProposedIndicator from '../models/ProposedIndicator';
+import LanguageIndicator from '../models/LanguageIndicator';
+import Scorecard from '../models/Scorecard';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
 import { getLanguageIndicator } from '../services/language_indicator_service';
@@ -62,7 +64,9 @@ const proposedIndicatorHelper = (() => {
   }
 
   function getDisplayName(proposedIndicator, scorecardUuid) {
-    const languageIndicator = getLanguageIndicator(scorecardUuid, proposedIndicator.indicatorable_id, 'text');
+    const scorecard = Scorecard.find(scorecardUuid);
+    const { indicatorable_id, indicatorable_type } = proposedIndicator;
+    const languageIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(indicatorable_id, indicatorable_type, scorecard.text_language_code);
     return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
   }
 

@@ -7,9 +7,15 @@ import indicatorHelper from '../../helpers/indicator_helper';
 
 class AddNewIndicatorModalTextInputs extends Component {
   static contextType = LocalizationContext;
+
   constructor(props) {
     super(props);
-    this.tags = indicatorHelper.getTags(this.props.scorecardUuid);
+    this.tags = [];
+    this.loadTags();
+  }
+
+  async loadTags() {
+    this.tags = await indicatorHelper.getTags(this.props.scorecardUuid);
   }
 
   _filterData = (query) => {

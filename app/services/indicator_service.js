@@ -9,28 +9,28 @@ import indicatorHelper from '../helpers/indicator_helper';
 import Indicator from '../models/Indicator';
 
 class IndicatorService {
-  getAll = (scorecardUuid) => {
-    let indicators = JSON.parse(JSON.stringify(Indicator.findByScorecard(scorecardUuid)));;
+  getAll = async (scorecardUuid) => {
+    let indicators = JSON.parse(JSON.stringify(await Indicator.findByScorecard(scorecardUuid)));;
     return indicators.sort((a, b) => a.name > b.name);
   }
 
   saveIndicatorSection = (scorecardUuid, facilityId, successCallback, errorCallback) => {
     this._requestForIndicator(facilityId, (indicators) => {
       // Save the predefined indicators
-      indicatorHelper.savePredefinedIndicator(indicators, successCallback);
+      indicatorHelper.savePredefinedIndicator(scorecardUuid, indicators, successCallback);
       saveLanguageIndicator(scorecardUuid, indicators, successCallback)
     }, (error) => {
       errorCallback(error);
     })
   }
 
-  getIndicatorList = (scorecardUuid, searchText, isEdit) => {
+  getIndicatorList = async (scorecardUuid, searchText, isEdit) => {
     let savedIndicators = [];
 
     if (isEdit)
       savedIndicators = Indicator.getCustomIndicators(scorecardUuid);
     else
-      savedIndicators = searchText != '' ? Indicator.filter(scorecardUuid, searchText) : this.getAll(scorecardUuid);
+      savedIndicators = searchText != '' ? await Indicator.filter(scorecardUuid, searchText) : await this.getAll(scorecardUuid);
 
     return indicatorHelper.getIndicatorsAttrs(savedIndicators);
   }

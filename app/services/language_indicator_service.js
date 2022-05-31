@@ -53,7 +53,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
           audio: languagesIndicator.audio != null ? languagesIndicator.audio : '',
           language_code: languagesIndicator['language_code'],
           scorecard_uuid: scorecardUUID,
-          indicator_id: indicator.id.toString(),
+          indicator_uuid: indicator.uuid,
           type: PREDEFINED,
         };
 
@@ -65,10 +65,10 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
   successCallback(savedCount === indicators.length, languageIndicatorPhase);
 }
 
-const getLanguageIndicator = (scorecardUuid, indicatorId, type) => {
+const getLanguageIndicator = (scorecardUuid, indicatorUuid, type) => {
   const scorecard = Scorecard.find(scorecardUuid);
   const languageCode = type === 'audio' ? scorecard.audio_language_code : scorecard.text_language_code;
-  return LanguageIndicator.findByIndicatorAndLanguageCode(indicatorId, languageCode);
+  return LanguageIndicator.findByIndicatorUuidAndLanguageCode(indicatorUuid, languageCode);
 }
 
 export {

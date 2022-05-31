@@ -24,21 +24,22 @@ const indicatorHelper = (() => {
   function getDisplayIndicator(proposedIndicator, scorecardObj) {
     const scorecard = scorecardObj || Scorecard.find(proposedIndicator.scorecard_uuid);
     const indicator = Indicator.find(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type);
-    let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.audio_language_code);
+    const { indicatorable_id, indicatorable_type } = proposedIndicator;
+    let langIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(indicatorable_id, indicatorable_type, scorecard.audio_language_code);
     langIndicator = langIndicator || indicator;
     langIndicator = JSON.parse(JSON.stringify(langIndicator));
     langIndicator.content = langIndicator.content || langIndicator.name;
 
     if (!scorecard.isSameLanguageCode) {
-      let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(proposedIndicator.indicatorable_id, scorecard.text_language_code);
+      let textIndi = LanguageIndicator.findByIndicatorAndLanguageCode(indicatorable_id, indicatorable_type, scorecard.text_language_code);
       langIndicator.content = !!textIndi ? textIndi.content : langIndicator.content;
     }
 
     return langIndicator;
   }
 
-  function getTags(scorecardUuid) {
-    let indicators = new IndicatorService().getAll(scorecardUuid);
+  async function getTags(scorecardUuid) {
+    let indicators = await new IndicatorService().getAll(scorecardUuid);
 
     return indicators.map(indi => indi.tag)
             .filter(tag => !!tag)
@@ -74,10 +75,10 @@ const indicatorHelper = (() => {
     return indicators;
   }
 
-  function savePredefinedIndicator(indicators, successCallback) {
+  function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
     let savedCount = 0;
-    indicators.map((indicator) => {
-      const savedIndicator = Indicator.find(indicator.id, PREDEFINED);
+    indicators.map(async (indicator) => {
+      const savedIndicator = await Indicator.findByUuidAndCurrentEndpointId(indicator.uuid);
 
       if (!savedIndicator) {
         const indicatorSet = {
@@ -89,10 +90,8 @@ const indicatorHelper = (() => {
           tag: indicator.tag_name,
           type: PREDEFINED,
         };
-        Indicator.create(indicatorSet);
+        Indicator.create(indicatorSet, scorecardUuid);
       }
-      else if(!!savedIndicator && !savedIndicator.indicator_uuid)
-        Indicator.update(savedIndicator.uuid, { indicator_uuid: indicator.uuid });
 
       savedCount += 1;
     });

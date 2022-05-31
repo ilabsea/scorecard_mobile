@@ -64,7 +64,7 @@ class IndicatorSelectionItems extends Component {
 
   render() {
     return (
-      <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, marginTop: (this.props.isSearching || this.props.isEdit) ? 5 : 15}}>
+      <View style={{flexWrap: 'wrap', flexDirection: 'row', marginHorizontal: 2, paddingTop: 5, paddingTop: 15}}>
         {
           this.props.indicators.map((indicator, index) => {
             return this.renderIndicatorCard(indicator, index)

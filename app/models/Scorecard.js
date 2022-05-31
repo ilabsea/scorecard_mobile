@@ -196,6 +196,7 @@ const Scorecard = (() => {
       planned_start_date: Moment(response.planned_start_date).format(apiDateFormat),
       planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
       endpoint_url: await settingHelper.getFullyEndpointUrl(),
+      program_uuid: response.program_uuid,
     })
   }
 

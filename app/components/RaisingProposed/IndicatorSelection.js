@@ -44,7 +44,6 @@ class IndicatorSelection extends Component {
           <RaisingProposedScrollView onScroll={(event) => this.onScroll(event)}>
             <IndicatorSelectionItems
               indicators={this.props.indicators}
-              isSearching={this.props.isSearching}
               scorecardUuid={this.props.scorecardUuid}
               participantUuid={this.props.participantUuid}
               isIndicatorBase={this.props.isIndicatorBase}
@@ -55,7 +54,7 @@ class IndicatorSelection extends Component {
           </RaisingProposedScrollView>
         }
 
-        { this.props.indicators.length === 0 && <NoIndicatorMessage /> }
+        { (!this.props.isLoading && this.props.indicators.length) === 0 && <NoIndicatorMessage /> }
 
         { !this.props.isSearching && this.renderAddNewIndicatorButton() }
       </React.Fragment>
