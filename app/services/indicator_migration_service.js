@@ -1,6 +1,7 @@
 import Scorecard from '../models/Scorecard';
 import Indicator from '../models/Indicator';
 import LanguageIndicator from '../models/LanguageIndicator';
+import IndicatorService from './indicator_service';
 
 const indicatorMigrationService = (() => {
   return {
@@ -17,7 +18,20 @@ const indicatorMigrationService = (() => {
   }
 
   function handleUpdateIndicator(scorecardUuid, facilityId) {
-    // Find the indicators (predefinded and custom) that doesn't have program_uuid or endpoint_id by the facility_id of the scorecard
+    const predefeinedIndicatorsWithoutUuid = Indicator.getPredefeinedIndicatorsWithoutUuid(facilityId);
+    // If there is an indicator that doesn't have indicator_uuid (indicators from older version) then
+    // delete the existing indicator and send request to server to create new indicator in realm
+    if (predefeinedIndicatorsWithoutUuid.length > 0) {
+      Indicator.destroy(predefeinedIndicatorsWithoutUuid);
+      new IndicatorService().saveIndicatorSection(scorecardUuid, facilityId);
+    }
+
+    // Add program_uuid and endpoint_id to predefined and custom indicators
+    _updateIndicator(scorecardUuid, facilityId);
+  }
+
+  // private method
+  function _updateIndicator(scorecardUuid, facilityId) {
     const indicators = Indicator.getIndicatorsWithoutProgramUuidOrEndpointId(scorecardUuid, facilityId);
     indicators.map(indicator => {
       Indicator.update(indicator.uuid, { facility_id: facilityId }, scorecardUuid);
