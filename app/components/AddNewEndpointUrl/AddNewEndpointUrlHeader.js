@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { LocalizationContext } from '../Translations';
-import NavigationHeader from '../NavigationHeader';
-import MessageModal from '../MessageModal';
+import HeaderWithConfirmModal from '../Share/HeaderWithConfirmModal';
 
 import { navigateBack } from '../../utils/navigation_util';
 import endpointFormService from '../../services/endpoint_form_service';
@@ -45,24 +44,14 @@ class AddNewEndpointUrlHeader extends React.Component {
   render() {
     const { translations } = this.context;
 
-    return (
-      <React.Fragment>
-        <NavigationHeader
-          title={ translations[this.state.title] }
-          onBackPress={() => this.onBackPress()}
-          rightButtonStyle={{marginRight: 6}}
-        />
-
-        <MessageModal
-          visible={this.state.visibleConfirmModal}
-          onDismiss={() => this.setState({ visibleConfirmModal: false })}
-          description={translations.doYouWantToDiscardTheseChanges}
-          hasConfirmButton={true}
-          confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this.goBack()}
-        />
-      </React.Fragment>
-    )
+    return <HeaderWithConfirmModal
+              title={translations[this.state.title]}
+              modalDescription={translations.doYouWantToDiscardTheseChanges}
+              visibleConfirmModal={this.state.visibleConfirmModal}
+              onBackPress={() => this.onBackPress()}
+              goBack={() => this.goBack()}
+              onDismiss={() => this.setState({ visibleConfirmModal: false })}
+           />
   }
 }
 

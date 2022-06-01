@@ -7,7 +7,6 @@ import EndpointUrl from '../migrations/v19/endpointUrl';
 import Rating from '../migrations/v14/rating';
 import VotingIndicator from '../migrations/v14/votingIndicator';
 import Facilitator from '../migrations/v16/facilitator';
-import EndpointUrl from '../migrations/v19/endpointUrl';
 
 import endpointUrlHelper from '../../helpers/endpoint_url_helper';
 import schemaHelper from '../../helpers/schema_helper';
