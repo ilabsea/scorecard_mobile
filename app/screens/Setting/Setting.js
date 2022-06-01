@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
+import SettingHeader from '../../components/Setting/SettingHeader';
 import SettingBodyContent from '../../components/Setting/SettingBodyContent';
-import NavigationHeader from '../../components/NavigationHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import internetConnectionService from '../../services/internet_connection_service';
@@ -37,7 +37,8 @@ class Setting extends Component {
 
     // Redirect back to home screen and clear unsaved data when the user uses the android back button
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      this.goBack();
+      settingHelper.clearTempSettingData();
+      this.props.navigation.goBack();
       return true;
     });
   }
@@ -64,18 +65,11 @@ class Setting extends Component {
     this.formRef.current?.setBodyContent(null)
   }
 
-  goBack() {
-    settingHelper.clearTempSettingData();
-    this.props.navigation.goBack();
-  }
-
   render() {
-    const {translations} = this.context;
-
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
-          <NavigationHeader title={translations.setting} onBackPress={() => this.goBack()} />
+          <SettingHeader/>
 
           { this.renderBodyContent() }
 
