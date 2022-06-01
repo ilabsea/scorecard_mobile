@@ -65,13 +65,8 @@ const customIndicatorService = (() => {
 
   function deleteIndicatorsByScorecard(scorecardUuid) {
     const customIndicators = Indicator.getCustomIndicators(scorecardUuid);
-
-    customIndicators.map((customIndicator, index) => {
-      LanguageIndicator.destroy(customIndicator.indicator_uuid);
-
-      if (index === customIndicators.length -1)
-        Indicator.destroy(customIndicators);
-    });
+    if (customIndicators.length > 0)
+      Indicator.destroy(customIndicators);
   }
 
   // private method

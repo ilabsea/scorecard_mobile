@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import { deleteFile } from '../services/local_file_system_service';
 import Indicator from './Indicator';
+import { CUSTOM } from '../constants/indicator_constant';
 
 const MODEL = 'LanguageIndicator';
 
@@ -11,7 +12,6 @@ const LanguageIndicator = (() => {
     deleteAll,
     findByIndicatorUuid,
     update,
-    destroy,
     findByScorecardAndLanguageCode,
     findByIndicatorAndLanguageCode,
     findByIndicatorUuidAndLanguageCode,
@@ -24,13 +24,17 @@ const LanguageIndicator = (() => {
   }
 
   function deleteAllByScorecard(scorecardUuid) {
-    const languageIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`);
-    _deleteLanguageIndicators(languageIndicators);
+    const languageIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
+
+    if (languageIndicators.length > 0)
+      realm.write(() => {
+        realm.delete(languageIndicators);
+      });
   }
 
   function deleteAll() {
     const languageIndicators = realm.objects(MODEL);
-    _deleteLanguageIndicators(languageIndicators);
+    _deleteLanguageIndicatorsAndAudios(languageIndicators);
   }
 
   function findByIndicatorUuid(indicatorUuid) {
@@ -43,19 +47,6 @@ const LanguageIndicator = (() => {
         realm.create(MODEL, Object.assign(params, {id: id}), 'modified');
       })
     }
-  }
-
-  function destroy(indicatorUuid) {
-    const languageIndicator = findByIndicatorUuid(indicatorUuid);
-    if (!languageIndicator)
-      return;
-
-    if (!!languageIndicator.local_audio)
-      deleteFile(languageIndicator.local_audio);
-
-    realm.write(() => {
-      realm.delete(languageIndicator);
-    });
   }
 
   function findByScorecardAndLanguageCode(scorecardUuid, languageCode) {
@@ -72,10 +63,17 @@ const LanguageIndicator = (() => {
   }
 
   // private method
-  function _deleteLanguageIndicators(languageIndicators) {
+  function _deleteLanguageIndicatorsAndAudios(languageIndicators) {
     if (languageIndicators.length > 0) {
-      realm.write(() => {
-        realm.delete(languageIndicators);
+      languageIndicators.map(languageIndicator => {
+        setTimeout(() => {
+          if (!!languageIndicator.local_audio)
+            deleteFile(languageIndicator.local_audio);
+
+          realm.write(() => {
+            realm.delete(languageIndicator);
+          });
+        }, 20);
       });
     }
   }
