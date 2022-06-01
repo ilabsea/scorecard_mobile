@@ -36,6 +36,7 @@ class AddNewEndpointUrlHeader extends React.Component {
 
   goBack() {
     this.setState({ visibleConfirmModal: false }, () => {
+      endpointFormHelper.clearShowEndpointBottomSheetStatus();
       endpointFormService.clearEndpointForEdit();
       navigateBack();
     });

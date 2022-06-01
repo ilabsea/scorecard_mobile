@@ -11,6 +11,7 @@ import endpointFormService from '../../services/endpoint_form_service';
 import { CUSTOM } from '../../constants/main_constant';
 import EndpointUrl from '../../models/EndpointUrl';
 import settingHelper from '../../helpers/setting_helper';
+import endpointFormHelper from '../../helpers/endpoint_form_helper';
 
 class AddNewEndpointUrlBody extends React.Component {
   static contextType = LocalizationContext
@@ -48,6 +49,7 @@ class AddNewEndpointUrlBody extends React.Component {
     else
       EndpointUrl.update(this.endpointForEdit.uuid, params);
 
+    endpointFormHelper.setShowEndpointBottomSheetStatus();
     this.storeTempSettingData(endpointValue);
     navigateBack();
   }

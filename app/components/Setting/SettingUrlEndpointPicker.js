@@ -9,6 +9,7 @@ import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
+import endpointFormHelper from '../../helpers/endpoint_form_helper';
 import { settingEndpointModalSnapPoints, settingEndpointContentHeight } from '../../constants/modal_constant';
 import EndpointUrl from '../../models/EndpointUrl';
 import Scorecard from '../../models/Scorecard';
@@ -39,7 +40,7 @@ class SettingUrlEndpointPicker extends React.Component {
             currentSelectedEndpoint: settingData.backendUrl
           });
 
-          if (settingData.backendUrl != this.defaultSavedEndpointUrl)
+          if (await endpointFormHelper.shouldShowEndpointBottomSheet())
             this.props.formModalRef.current?.dismiss();
 
           this.props.updateSelectedEndpointUrl(settingData.backendUrl);

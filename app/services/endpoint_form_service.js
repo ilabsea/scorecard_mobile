@@ -79,10 +79,6 @@ const endpointFormService = (() => {
     const tempSettingData = await settingHelper.getSettingData();
     const savedEndpointUrl = await settingHelper.getSavedEndpointUrl();
 
-    // console.log('temp setting data == ', tempSettingData);
-    // console.log('saved endpoint == ', savedEndpointUrl);
-    // console.log('=========================================');
-
     if (!Scorecard.allScorecardContainEndpoint(currentEndpoint.value))
       return !!currentEndpoint && currentEndpoint.value != tempSettingData.backendUrl || currentEndpoint.value != savedEndpointUrl;
 
