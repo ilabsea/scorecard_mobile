@@ -1,16 +1,17 @@
 import realm from '../db/schema';
 import { deleteFile } from '../services/local_file_system_service';
 import Indicator from './Indicator';
+import { CUSTOM } from '../constants/indicator_constant';
 
 const MODEL = 'LanguageIndicator';
 
 const LanguageIndicator = (() => {
   return {
     create,
+    deleteAllByScorecard,
     deleteAll,
     findByIndicatorUuid,
     update,
-    destroy,
     findByScorecardAndLanguageCode,
     findByIndicatorAndLanguageCode,
     findByIndicatorUuidAndLanguageCode,
@@ -22,14 +23,14 @@ const LanguageIndicator = (() => {
     });
   }
 
-  function deleteAll(scorecardUuid) {
-    const languageIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`);
+  function deleteAllByScorecard(scorecardUuid) {
+    const languageIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
+    _deleteLanguageIndicatorsAndAudios(languageIndicators);
+  }
 
-    if (languageIndicators.length > 0) {
-      realm.write(() => {
-        realm.delete(languageIndicators);
-      });
-    }
+  function deleteAll() {
+    const languageIndicators = realm.objects(MODEL);
+    _deleteLanguageIndicatorsAndAudios(languageIndicators);
   }
 
   function findByIndicatorUuid(indicatorUuid) {
@@ -44,19 +45,6 @@ const LanguageIndicator = (() => {
     }
   }
 
-  function destroy(indicatorUuid) {
-    const languageIndicator = findByIndicatorUuid(indicatorUuid);
-    if (!languageIndicator)
-      return;
-
-    if (!!languageIndicator.local_audio)
-      deleteFile(languageIndicator.local_audio);
-
-    realm.write(() => {
-      realm.delete(languageIndicator);
-    });
-  }
-
   function findByScorecardAndLanguageCode(scorecardUuid, languageCode) {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}'`)
   }
@@ -68,6 +56,22 @@ const LanguageIndicator = (() => {
 
   function findByIndicatorUuidAndLanguageCode(indicatorUuid, languageCode) {
     return realm.objects(MODEL).filtered(`indicator_uuid == '${indicatorUuid}' AND language_code == '${languageCode}'`)[0];
+  }
+
+  // private method
+  function _deleteLanguageIndicatorsAndAudios(languageIndicators) {
+    if (languageIndicators.length > 0) {
+      languageIndicators.map(languageIndicator => {
+        setTimeout(() => {
+          if (!!languageIndicator.local_audio)
+            deleteFile(languageIndicator.local_audio);
+
+          realm.write(() => {
+            realm.delete(languageIndicator);
+          });
+        }, 20);
+      });
+    }
   }
 })();
 

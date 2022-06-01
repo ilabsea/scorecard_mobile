@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 
 import {LocalizationContext} from '../Translations';
-import RaisingProposedScrollView from './RaisingProposedScrollView';
+import ProposedIndicatorScrollView from './ProposedIndicatorScrollView';
 import IndicatorSelectionItems from './IndicatorSelectionItems';
 import NoIndicatorMessage from './NoIndicatorMessage';
-class RaisingProposedCustomIndicatorList extends Component {
+class CustomIndicatorList extends Component {
   static contextType = LocalizationContext;
 
   renderInidcatorList() {
     return (
-      <RaisingProposedScrollView>
+      <ProposedIndicatorScrollView>
         <IndicatorSelectionItems
           indicators={this.props.indicators}
           isSearching={this.props.isSearching}
@@ -20,7 +20,7 @@ class RaisingProposedCustomIndicatorList extends Component {
           formModalRef={this.props.formModalRef}
           participantModalRef={this.props.participantModalRef}
         />
-      </RaisingProposedScrollView>
+      </ProposedIndicatorScrollView>
     )
   }
 
@@ -33,4 +33,4 @@ class RaisingProposedCustomIndicatorList extends Component {
   }
 }
 
-export default RaisingProposedCustomIndicatorList;
+export default CustomIndicatorList;

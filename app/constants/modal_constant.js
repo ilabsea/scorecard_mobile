@@ -6,7 +6,7 @@ export const VOTING_INDICATOR = 'VOTING_INDICATOR';
 export const SCORECARD_RESULT = 'SCORECARD_RESULT';
 
 export const tipModalSnapPoints = {
-  'PROPOSED_INDICATOR': ['54%', getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
+  'PROPOSED_INDICATOR': [getDeviceStyle('53%', '49%'), getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
   'INDICATOR_DEVELOPMENT': [getDeviceStyle('37%', '43%')],
   'VOTING_INDICATOR': [getDeviceStyle('37%', isShortScreenDevice() ? '43%' : '41%')],
   'SCORECARD_RESULT': [getDeviceStyle('37%', isShortScreenDevice() ? '42%' : '47%')],

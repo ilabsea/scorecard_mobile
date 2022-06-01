@@ -65,7 +65,7 @@ export default class TipModal extends Component {
           />
 
           <View style={{paddingHorizontal: containerPadding}}>
-            <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10, fontSize: bodyFontSize() }]}>{ this.state.tip.title }</Text>
+            <Text style={[styles.title, responsiveStyles.headerTitle, { marginBottom: 10, marginTop: 10, fontSize: bodyFontSize() }]}>{ this.state.tip.title }</Text>
 
             { this.renderTips() }
           </View>

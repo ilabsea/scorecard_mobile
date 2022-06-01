@@ -1,10 +1,8 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { titleFontSize } from '../../utils/font_size_util';
 
-const screenHeight = Dimensions.get('screen').height;
-
-const RaisingProposedComponentStyles = StyleSheet.create({
+const ProposedIndicatorComponentStyles = StyleSheet.create({
   headingTitle: {
     fontSize: titleFontSize()
   },
@@ -13,4 +11,4 @@ const RaisingProposedComponentStyles = StyleSheet.create({
   }
 });
 
-export default RaisingProposedComponentStyles;
+export default ProposedIndicatorComponentStyles;

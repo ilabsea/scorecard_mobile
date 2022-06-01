@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import ProposedIndicatorContent from '../../components/RaisingProposed/ProposedIndicatorContent';
+import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
 import ProgressHeader from '../../components/ProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
@@ -12,7 +12,7 @@ import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 
-class RaisingProposed extends Component {
+class ProposedIndicator extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -44,7 +44,7 @@ class RaisingProposed extends Component {
         <View style={{flex: 1}}>
           <ProgressHeader title={translations['getStarted']} progressIndex={3} />
 
-          <ProposedIndicatorContent
+          <ProposedIndicatorMain
             scorecardUuid={scorecard_uuid}
             visibleModal={this.state.visibleModal}
             tipModalRef={this.tipModalRef}
@@ -54,7 +54,7 @@ class RaisingProposed extends Component {
           />
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='RaisingProposed' />
+        <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
@@ -76,4 +76,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RaisingProposed);
+)(ProposedIndicator);

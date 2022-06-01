@@ -41,7 +41,7 @@ class Participant extends Component {
 
   next = () => {
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 4);
-    this.props.navigation.navigate('OfflineRaisingProposed', {scorecard_uuid: this.props.route.params.scorecard_uuid})
+    this.props.navigation.navigate('OfflineProposedIndicator', {scorecard_uuid: this.props.route.params.scorecard_uuid})
   }
 
   renderBottomSection() {

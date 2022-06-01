@@ -20,6 +20,7 @@ import Color from './app/themes/color';
 
 import scorecardDeletionService from './app/services/scorecard_deletion_service';
 import endpointMigrationService from './app/services/endpoint_migration_service';
+import indicatorMigrationService from './app/services/indicator_migration_service';
 import scorecardEndpointService from './app/services/scorecard_endpoint_service';
 import reLoginService from './app/services/re_login_service';
 import appStatusService from './app/services/app_status_service';
@@ -84,6 +85,7 @@ const App: () => React$Node = () => {
     scorecardEndpointService.handleScorecardEndpointUrlMigration();
     reLoginService.initReLoginStatus();
     appStatusService.handleAppInstallingStatus();
+    indicatorMigrationService.checkAndRemoveIndicatorAndLanguageIndicator();
   }, []);
 
   return (

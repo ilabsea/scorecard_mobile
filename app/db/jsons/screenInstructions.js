@@ -13,13 +13,13 @@ export default [
     }
   },
   {
-    screenName: "OfflineRaisingProposed",
+    screenName: "OfflineProposedIndicator",
     title: "ការបំផុសលក្ខណៈវិនិច្ឆ័យ",
     notes: [
       "ដំណាក់កាលនេះគឺតម្រូវអោយ CAF អនុវត្តការពិភាក្សាលើលក្ខណៈវិនិច្ឆ័យជាមួយអ្នកចូលរួមតាមធម្មតា",
       "នៅពេលចប់ការពិភាក្សាជាមួយអ្នកចូលរួមលើលក្ខណៈវិនិច្ឆ័យ -> CAF ត្រូវបញ្ចូលលក្ខណៈវិនិច្ឆ័យទាំងអស់ចូលក្នុងកម្មវិធីដោយភ្ជាប់ជាមួយលេខកូដរបស់អ្នកចូលរួម",
     ],
-    navigateTo: "RaisingProposed",
+    navigateTo: "ProposedIndicator",
     header: {
       title: "getStarted",
       type: "ProgressHeader",

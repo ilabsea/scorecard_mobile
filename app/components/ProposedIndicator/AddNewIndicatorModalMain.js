@@ -17,8 +17,9 @@ import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 import Indicator from '../../models/Indicator';
+import settingHelper from '../../helpers/setting_helper';
 
-class AddNewIndicatorModalContent extends React.Component {
+class AddNewIndicatorModalMain extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -30,6 +31,11 @@ class AddNewIndicatorModalContent extends React.Component {
       isIndicatorExist: false,
       duplicatedIndicators: []
     };
+    this.endpointId = '';
+  }
+
+  async componentDidMount() {
+    this.endpointId = await settingHelper.getSavedEndpointUrlId();
   }
 
   clearInputs() {
@@ -84,8 +90,8 @@ class AddNewIndicatorModalContent extends React.Component {
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, selectedIndicatorUuid),
-      duplicatedIndicators: new IndicatorService().getDuplicatedIndicator(this.props.scorecardUuid, name)
+      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, this.endpointId, selectedIndicatorUuid),
+      duplicatedIndicators: new IndicatorService().getDuplicatedIndicator(this.props.scorecardUuid, name, this.endpointId)
     });
   }
 
@@ -161,4 +167,4 @@ class AddNewIndicatorModalContent extends React.Component {
   }
 }
 
-export default AddNewIndicatorModalContent;
+export default AddNewIndicatorModalMain;

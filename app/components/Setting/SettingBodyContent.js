@@ -23,6 +23,8 @@ import internetConnectionService from '../../services/internet_connection_servic
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import reLoginService from '../../services/re_login_service';
 import scorecardEndpointService from '../../services/scorecard_endpoint_service';
+import scorecardMigrationService from '../../services/scorecard_migration_service';
+import indicatorMigrationService from '../../services/indicator_migration_service';
 
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -107,6 +109,12 @@ class SettingBodyContent extends React.Component {
       // complete all the scorecard in order to be able to change and save the server URL).
       // Solution: add the selected endpoint URL to the sorecards that have endpoint_url as null or ''
       scorecardEndpointService.handleUpdateScorecardWithoutEndpointUrl();
+
+      // Delete all indicator and language indicator if there is no running scorecard
+      indicatorMigrationService.checkAndRemoveIndicatorAndLanguageIndicator();
+      // If there is a running scorecard, add the program_uuid to the scorecard (scorecard that doesn't have program_uuid yet)
+      // and add program_uuid and endpoint_id to indicator (indicator that doesn't have program_uuid or endpoint_Id)
+      scorecardMigrationService.handleUpdatingScorecardWithoutProgramUuid();
 
       const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
       scorecardTracingStepsService.trace(null, tracingStep, email);

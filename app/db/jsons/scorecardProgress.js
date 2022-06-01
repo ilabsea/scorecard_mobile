@@ -10,7 +10,7 @@ export default [
     headerTitle: 'proposedIndicator',
     label: 'proposedIndicator',
     getSubTitle: 'getProposedIndicatorSubTitle',
-    routeName: 'OfflineRaisingProposed'
+    routeName: 'OfflineProposedIndicator'
   },
   { value: 3,
     headerTitle: 'setIndicatorDevelopment',

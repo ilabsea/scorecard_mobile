@@ -4,12 +4,12 @@ import { View, Text } from 'react-native';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import CreateNewIndicatorParticipantInfo from './CreateNewIndicatorParticipantInfo';
-import IndicatorSelection from '../RaisingProposed/IndicatorSelection';
-import RaisingProposedCustomIndicatorList from '../RaisingProposed/RaisingProposedCustomIndicatorList';
+import IndicatorSelection from '../ProposedIndicator/IndicatorSelection';
+import CustomIndicatorList from '../ProposedIndicator/CustomIndicatorList';
 import { subTitleFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
-class CreateNewIndicatorContent extends Component {
+class CreateNewIndicatorMain extends Component {
   static contextType = LocalizationContext;
   state = { hasParticipantSection: false }
 
@@ -52,7 +52,7 @@ class CreateNewIndicatorContent extends Component {
 
   renderCustomIndicatorList() {
     return (
-      <RaisingProposedCustomIndicatorList
+      <CustomIndicatorList
         scorecardUuid={this.props.scorecardUuid}
         indicators={this.props.indicators}
         selectForEdit={this.props.showAddNewIndicatorModal}
@@ -81,4 +81,4 @@ class CreateNewIndicatorContent extends Component {
   }
 }
 
-export default CreateNewIndicatorContent;
+export default CreateNewIndicatorMain;

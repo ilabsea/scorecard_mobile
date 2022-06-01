@@ -17,7 +17,7 @@ import ScorecardProgressScreen from '../screens/ScorecardProgress/ScorecardProgr
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
 import VotingIndicatorFormScreen from '../screens/VotingIndicatorForm/VotingIndicatorForm';
 import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
-import RaisingProposedScreen from '../screens/RaisingProposed/RaisingProposed';
+import ProposedIndicatorScreen from '../screens/ProposedIndicator/ProposedIndicator';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
 import ParticipantScreen from '../screens/Participant/Participant';
@@ -163,8 +163,8 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="RaisingProposed"
-        component={RaisingProposedScreen}
+        name="ProposedIndicator"
+        component={ProposedIndicatorScreen}
         options={({navigation}) => ({
           header: () => null,
         })}
@@ -198,7 +198,7 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="OfflineRaisingProposed"
+        name="OfflineProposedIndicator"
         component={OfflineInstructionScreen}
         options={({navigation}) => ({
           header: () => null,

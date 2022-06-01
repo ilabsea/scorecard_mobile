@@ -16,8 +16,10 @@ const Indicator = (() => {
     findByUuidAndCurrentEndpointId,
     isNameExist,
     getCustomIndicators,
+    getIndicatorsWithoutProgramUuidOrEndpointId,
     destroy,
     arePredefinedIndicatorsHaveUuid,
+    deleteAll,
   };
 
   function find(indicatorId, type) {
@@ -48,8 +50,12 @@ const Indicator = (() => {
     const endpointId = await settingHelper.getSavedEndpointUrlId();
     const scorecard = Scorecard.find(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
-    let indicators = realm.objects(MODEL).filtered(`facility_id = '${facility_id}' AND program_uuid = '${program_uuid}' AND type = '${PREDEFINED}' AND endpoint_id = ${parseInt(endpointId)} AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
-    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND type = '${ CUSTOM }' AND program_uuid = '${program_uuid}' AND endpoint_id = ${parseInt(endpointId)} AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`);
+    const findQuery = ` AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`;
+    const predefindedIndicatorQuery = _mainQuery(program_uuid, endpointId, PREDEFINED, facility_id) + findQuery;
+    const customIndicatorQuery = `${_mainQuery(program_uuid, endpointId, CUSTOM, null)} AND scorecard_uuid = '${scorecardUuid}' ${findQuery}`;
+
+    let indicators = realm.objects(MODEL).filtered(predefindedIndicatorQuery)
+    const customIndicators = realm.objects(MODEL).filtered(customIndicatorQuery);
 
     if (customIndicators.length > 0)
       indicators = [...indicators, ...customIndicators];
@@ -61,20 +67,23 @@ const Indicator = (() => {
     const endpointId = await settingHelper.getSavedEndpointUrlId();
     const scorecard = Scorecard.find(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
-    return realm.objects(MODEL)
-      .filtered(`facility_id = '${facility_id}' OR scorecard_uuid = '${scorecardUuid}' AND endpoint_id = ${parseInt(endpointId)} AND program_uuid = '${program_uuid}'`);
+
+    const predefinedIndicators = realm.objects(MODEL).filtered(_mainQuery(program_uuid, endpointId, PREDEFINED, facility_id));
+    const customIndicators = realm.objects(MODEL).filtered(`${_mainQuery(program_uuid, endpointId, CUSTOM, facility_id)} AND scorecard_uuid = '${scorecardUuid}'`);
+
+    return [...predefinedIndicators, ...customIndicators];
   }
 
-  function findByScorecardAndName(scorecardUuid, name, selectedIndicatorUuid = null) {
+  function findByScorecardAndName(scorecardUuid, name, endpointId, selectedIndicatorUuid = null) {
     const scorecard = Scorecard.find(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
-    const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = '${facility_id}' AND program_uuid = '${program_uuid}' AND name ==[c] '${name}'`);
+    const predefinedIndicators = realm.objects(MODEL).filtered(`${_mainQuery(program_uuid, endpointId, PREDEFINED, facility_id)} AND name ==[c] '${name}'`);
 
     if (predefinedIndicators.length > 0)
       return predefinedIndicators;
 
-    const query = !selectedIndicatorUuid ? `scorecard_uuid = '${scorecardUuid}' AND program_uuid = '${program_uuid}' AND name ==[c] '${name}'`
-                  : `scorecard_uuid = '${ scorecardUuid }' AND indicator_uuid != '${ selectedIndicatorUuid }' AND program_uuid = '${program_uuid}' AND name ==[c] '${ name }'`;
+    const mainSearchQuery = _mainQuery(program_uuid, endpointId, CUSTOM, null) + ` AND scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`;
+    const query = !selectedIndicatorUuid ? mainSearchQuery : `${mainSearchQuery} AND indicator_uuid != '${ selectedIndicatorUuid }'`;
 
     return realm.objects(MODEL).filtered(query);
   }
@@ -84,12 +93,19 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
   }
 
-  function isNameExist(scorecardUuid, name, selectedIndicatorUuid) {
-    return findByScorecardAndName(scorecardUuid, name, selectedIndicatorUuid).length > 0;
+  function isNameExist(scorecardUuid, name, endpointId, selectedIndicatorUuid) {
+    return findByScorecardAndName(scorecardUuid, name, endpointId, selectedIndicatorUuid).length > 0;
   }
 
   function getCustomIndicators(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
+  }
+
+  function getIndicatorsWithoutProgramUuidOrEndpointId(scorecardUuid, facilityId) {
+    const predefinedIndicators = realm.objects(MODEL).filtered(`facility_id = ${parseInt(facilityId)} AND type = '${PREDEFINED}' AND (program_uuid = '' OR endpoint_id = null)`);
+    const customIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}' AND (program_uuid = '' OR endpoint_id = null)`);
+
+    return [...predefinedIndicators, ...customIndicators];
   }
 
   function destroy(indicator) {
@@ -102,6 +118,17 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`facility_id = '${ facilityId }' AND indicator_uuid = null`).length == 0;
   }
 
+  function deleteAll() {
+    const indicators = realm.objects(MODEL);
+
+    if (indicators.length == 0)
+      return;
+
+    realm.write(() => {
+      realm.delete(indicators);
+    });
+  }
+
   //private method
   async function _buildData(data, scorecardUuid) {
     const scorecard = Scorecard.find(scorecardUuid);
@@ -112,6 +139,15 @@ const Indicator = (() => {
     }
 
     return { ...data, ...params };
+  }
+
+  function _mainQuery(programUuid, endpointId, type, facilityId) {
+    const mainQuery = `program_uuid = '${ programUuid }' AND endpoint_id = ${ parseInt(endpointId) } AND type = '${type}'`;
+
+    if (!!facilityId)
+      return `${mainQuery} AND facility_id = ${parseInt(facilityId)}`;
+
+    return mainQuery;
   }
 })();
 
