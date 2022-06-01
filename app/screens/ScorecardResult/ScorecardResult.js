@@ -22,7 +22,7 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 import scorecardResultService from '../../services/scorecard_result_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 
-import ScorecardResultModalContent from '../../components/ScorecardResult/ScorecardResultModalContent';
+import ScorecardResultModalMain from '../../components/ScorecardResult/ScorecardResultModalMain';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
@@ -102,7 +102,7 @@ class ScorecardResult extends Component {
   }
 
   getSwotModalContent() {
-    return <ScorecardResultModalContent
+    return <ScorecardResultModalMain
             indicator={this.state.currentIndicator}
             onDismiss={() => this.swotModalRef.current?.dismiss()}
             selectedIndicator={this.state.selectedIndicator}

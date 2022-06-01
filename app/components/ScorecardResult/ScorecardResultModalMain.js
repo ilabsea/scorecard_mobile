@@ -9,14 +9,13 @@ import ScorecardResultModalTitle from './ScorecardResultModalTitle';
 import ScorecardResultModalList from './ScorecardResultModalList';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
-import VotingIndicator from '../../models/VotingIndicator';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 import scorecardResultService from '../../services/scorecard_result_service';
 
 import { swotContentHeight } from '../../constants/modal_constant';
 import Color from '../../themes/color';
 
-const ScorecardResultModalContent = (props) => {
+const ScorecardResultModalMain = (props) => {
   const dispatch = useDispatch();
   const { indicator, selectedIndicator, isScorecardFinished } = props;
   const [points, setPoints] = useState(['']);
@@ -141,4 +140,4 @@ const ScorecardResultModalContent = (props) => {
   )
 }
 
-export default ScorecardResultModalContent;
+export default ScorecardResultModalMain;
