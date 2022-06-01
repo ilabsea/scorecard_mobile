@@ -21,8 +21,8 @@ export const participantListContentHeight = getDeviceStyle('83%', '80%');
 export const indicatorDevelopmentModalSnapPoints = getDeviceStyle(['77%'], isShortScreenDevice() ? ['89.5%']  : ['80%']);
 export const indicatorDevelopmentContentHeight = getDeviceStyle('75%', isShortScreenDevice() ? '86.5%' : '78%');
 
-export const swotModalSnapPoints = ['100%'];
-export const swotContentHeight = '94.5%';
+export const swotModalSnapPoints = getDeviceStyle(['88%'], ['86%']);
+export const swotContentHeight = getDeviceStyle('85.5%', '80.5%');
 
 export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
 export const settingContentHeight = getDeviceStyle('54%', isShortScreenDevice() ? ['68%'] : isShortWidthScreen() ? ['73%'] : ['63%']);

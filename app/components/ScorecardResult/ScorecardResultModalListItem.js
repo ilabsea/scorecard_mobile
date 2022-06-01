@@ -26,6 +26,7 @@ class ScorecardResultModalListItem extends Component {
 
   render() {
     const { index, note, fieldName, isScorecardFinished, indicator, isDelete } = this.props;
+    const scrollPosition = index * getDeviceStyle(70, 50);
 
     return (
       <React.Fragment>
@@ -51,6 +52,7 @@ class ScorecardResultModalListItem extends Component {
               customStyle={styles.inputText}
               disabled={isScorecardFinished}
               isDelete={isDelete}
+              scrollTo={() => this.props.scrollTo(scrollPosition)}
               onBlur={() => this.props.updateVotingIndicator()}
             />
           </View>
