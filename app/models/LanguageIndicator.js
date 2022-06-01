@@ -25,11 +25,7 @@ const LanguageIndicator = (() => {
 
   function deleteAllByScorecard(scorecardUuid) {
     const languageIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND type = '${CUSTOM}'`);
-
-    if (languageIndicators.length > 0)
-      realm.write(() => {
-        realm.delete(languageIndicators);
-      });
+    _deleteLanguageIndicatorsAndAudios(languageIndicators);
   }
 
   function deleteAll() {
