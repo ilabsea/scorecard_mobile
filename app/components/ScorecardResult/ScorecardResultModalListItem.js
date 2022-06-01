@@ -7,7 +7,7 @@ import { LocalizationContext } from '../Translations';
 import ScorecardResultTextInput from './ScorecardResultTextInput';
 
 import Color from '../../themes/color';
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import FormModalTabletStyles from '../../styles/tablet/FormModalComponentStyle';
 import FormModalMobileStyles from '../../styles/mobile/FormModalComponentStyle';
 
@@ -53,6 +53,7 @@ class ScorecardResultModalListItem extends Component {
               disabled={isScorecardFinished}
               isDelete={isDelete}
               scrollTo={() => this.props.scrollTo(scrollPosition)}
+              onBlur={() => this.props.updateVotingIndicator()}
             />
           </View>
 

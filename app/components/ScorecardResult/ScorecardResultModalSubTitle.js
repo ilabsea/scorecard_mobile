@@ -15,7 +15,9 @@ const ScorecardResullModalSubTitle = (props) => {
 
   return (
     <View style={{flexDirection: 'row', padding: containerPadding}}>
-      <Text style={styles.subTitleText}>{ props.subTitle }</Text>
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={styles.subTitleText}>{ props.subTitle }</Text>
+      </View>
 
       { !props.isScorecardFinished &&
         <OutlinedButton
