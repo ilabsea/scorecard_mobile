@@ -1,5 +1,6 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
+import LanguageIndicator from './LanguageIndicator';
 import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
 import settingHelper from '../helpers/setting_helper';
 
@@ -77,11 +78,21 @@ const Indicator = (() => {
 
   function findByScorecardAndName(scorecardUuid, name, endpointId, selectedIndicatorUuid = null) {
     const scorecard = Scorecard.find(scorecardUuid);
+    // Find a predefined language indicator by search name and return the indicator if there is a result found
+    const predefinedLangIndicator = LanguageIndicator.findByScorecardAndContent(scorecardUuid, scorecard.text_language_code, PREDEFINED, name);
+    if (!!predefinedLangIndicator)
+      return realm.objects(MODEL).filtered(`indicator_uuid = '${ predefinedLangIndicator.indicator_uuid }'`);
+
     const { facility_id, program_uuid } = scorecard;
     const predefinedIndicators = realm.objects(MODEL).filtered(`${_mainQuery(program_uuid, endpointId, PREDEFINED, facility_id)} AND name ==[c] '${name}'`);
 
     if (predefinedIndicators.length > 0)
       return predefinedIndicators;
+
+    // Find a custom language indicator by search name and return the indicator if there is a result found
+    const customLangIndicator = LanguageIndicator.findByScorecardAndContent(scorecardUuid, scorecard.text_language_code, CUSTOM, name)
+    if (!!customLangIndicator)
+      return selectedIndicatorUuid == customLangIndicator.indicator_uuid ? [] : realm.objects(MODEL).filtered(`indicator_uuid == '${ customLangIndicator.indicator_uuid }'`);
 
     const mainSearchQuery = _mainQuery(program_uuid, endpointId, CUSTOM, null) + ` AND scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`;
     const query = !selectedIndicatorUuid ? mainSearchQuery : `${mainSearchQuery} AND indicator_uuid != '${ selectedIndicatorUuid }'`;
