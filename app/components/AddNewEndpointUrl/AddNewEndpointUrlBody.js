@@ -49,7 +49,7 @@ class AddNewEndpointUrlBody extends React.Component {
     else
       EndpointUrl.update(this.endpointForEdit.uuid, params);
 
-    endpointFormHelper.setShowEndpointBottomSheetStatus();
+    endpointFormHelper.setHasNewEndpointAdded();
     this.storeTempSettingData(endpointValue);
     navigateBack();
   }

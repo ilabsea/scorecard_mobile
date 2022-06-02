@@ -374,5 +374,6 @@
   "proposeTheIndicator": "Propose the indicator",
   "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below",
   "httpsRecommended": "https recommended",
-  "doYouWantToDiscardTheseChanges": "Do you want to discard these changes?"
+  "doYouWantToDiscardTheseChanges": "Do you want to discard these changes?",
+  "theServerUrlHasChanged": "The server URL has changed"
 }

@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-const keyName = 'SHOW_ENDPOINT_BOTTOM_SHEET';
+const keyName = 'HAS_NEW_ENDPOINT_ADDED';
 
 const endpointFormHelper = (() => {
   return {
     hasDiscardAlert,
-    setShowEndpointBottomSheetStatus,
-    shouldShowEndpointBottomSheet,
-    clearShowEndpointBottomSheetStatus,
+    setHasNewEndpointAdded,
+    hasNewEndpointAdded,
+    clearHasNewEndpointAdded,
   }
 
   function hasDiscardAlert(inputLabel, inputUrl, selectedEndpoint) {
@@ -17,16 +17,16 @@ const endpointFormHelper = (() => {
     return !!selectedEndpoint && (selectedEndpoint.label == inputLabel && selectedEndpoint.value == inputUrl) ? false : true;
   }
 
-  function setShowEndpointBottomSheetStatus() {
+  function setHasNewEndpointAdded() {
     AsyncStorage.setItem(keyName, 'true');
   }
 
-  async function shouldShowEndpointBottomSheet() {
+  async function hasNewEndpointAdded() {
     const status = JSON.parse(await AsyncStorage.getItem(keyName));
     return !!status
   }
 
-  function clearShowEndpointBottomSheetStatus() {
+  function clearHasNewEndpointAdded() {
     AsyncStorage.removeItem(keyName);
   }
 })();

@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-nat
 
 import {LocalizationContext} from '../../components/Translations';
 import SettingHeader from '../../components/Setting/SettingHeader';
-import SettingBodyContent from '../../components/Setting/SettingBodyContent';
+import SettingMain from '../../components/Setting/SettingMain';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import internetConnectionService from '../../services/internet_connection_service';
@@ -50,7 +50,7 @@ class Setting extends Component {
   }
 
   renderBodyContent() {
-    return <SettingBodyContent
+    return <SettingMain
               ref={this.bodyRef}
               formRef={this.formRef}
               formModalRef={this.formModalRef}

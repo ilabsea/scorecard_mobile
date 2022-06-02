@@ -12,6 +12,7 @@ import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 import Color from '../../themes/color';
 import { navigationRef } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
+import endpointFormHelper from '../../helpers/endpoint_form_helper';
 
 import {checkConnection} from '../../services/api_service';
 import authenticationService from '../../services/authentication_service';
@@ -31,7 +32,7 @@ import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
-class SettingBodyContent extends React.Component {
+class SettingMain extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -117,6 +118,7 @@ class SettingBodyContent extends React.Component {
       scorecardTracingStepsService.trace(null, settingHelper.getProposedIndicatorMethodTracingStep(this.props.proposedIndicatorMethod), email);
       settingHelper.clearTempSettingData();
       reLoginService.setReLoggedIn(true);
+      endpointFormHelper.clearHasNewEndpointAdded();
       navigationRef.current?.goBack();
     }, async (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
@@ -214,4 +216,4 @@ class SettingBodyContent extends React.Component {
   }
 }
 
-export default SettingBodyContent;
+export default SettingMain;

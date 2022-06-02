@@ -374,5 +374,6 @@
   "proposeTheIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ",
   "pleaseVoteForTheProposedIndicatorsBelow": "សូមធ្វើការដាក់ពិន្ទុឲ្យលក្ខណៈវិនិច្ឆ័យខាងក្រោម",
   "httpsRecommended": "https ត្រូវបានណែនាំ",
-  "doYouWantToDiscardTheseChanges": "តើអ្នកពិតជាចង់បោះបង់ការកែប្រែទាំងនេះមែនទេ?"
+  "doYouWantToDiscardTheseChanges": "តើអ្នកពិតជាចង់បោះបង់ការកែប្រែទាំងនេះមែនទេ?",
+  "theServerUrlHasChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ"
 }

@@ -5,6 +5,7 @@ import HeaderWithConfirmModal from '../Share/HeaderWithConfirmModal';
 
 import { navigateBack } from '../../utils/navigation_util';
 import settingHelper from '../../helpers/setting_helper';
+import endpointFormHelper from '../../helpers/endpoint_form_helper';
 
 class SettingHeader extends React.Component {
   static contextType = LocalizationContext;
@@ -22,6 +23,7 @@ class SettingHeader extends React.Component {
   goBack() {
     this.setState({ visibleConfirmModal: false }, () => {
       settingHelper.clearTempSettingData();
+      endpointFormHelper.clearHasNewEndpointAdded();
       navigateBack();
     });
   }

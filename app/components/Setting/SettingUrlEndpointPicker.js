@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
@@ -14,6 +14,8 @@ import { settingEndpointModalSnapPoints, settingEndpointContentHeight } from '..
 import EndpointUrl from '../../models/EndpointUrl';
 import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
+import { bodyFontSize } from '../../utils/font_size_util';
+import Color from '../../themes/color';
 
 class SettingUrlEndpointPicker extends React.Component {
   static contextType = LocalizationContext;
@@ -25,6 +27,7 @@ class SettingUrlEndpointPicker extends React.Component {
     }
     this.componentIsUnmount = false;
     this.defaultSavedEndpointUrl = '';
+    this.hasNewEndpointAdded = false;
   }
 
   async componentDidMount() {
@@ -40,7 +43,8 @@ class SettingUrlEndpointPicker extends React.Component {
             currentSelectedEndpoint: settingData.backendUrl
           });
 
-          if (await endpointFormHelper.shouldShowEndpointBottomSheet())
+          this.hasNewEndpointAdded = await endpointFormHelper.hasNewEndpointAdded()
+          if(this.hasNewEndpointAdded)
             this.props.formModalRef.current?.dismiss();
 
           this.props.updateSelectedEndpointUrl(settingData.backendUrl);
@@ -110,7 +114,7 @@ class SettingUrlEndpointPicker extends React.Component {
   render() {
     const {translations} = this.context;
     return (
-      <View style={{marginBottom: 30, marginTop: 5}}>
+      <View style={{marginBottom: this.hasNewEndpointAdded ? 10 : 30, marginTop: 5}}>
         <BottomSheetPicker
           title={translations.serverUrl}
           label={translations.selectServerUrl}
@@ -121,6 +125,12 @@ class SettingUrlEndpointPicker extends React.Component {
           showPicker={() => this.showBottomSheetModal()}
           customContainerStyle={{ marginTop: 10 }}
         />
+
+        { this.hasNewEndpointAdded &&
+          <Text style={{fontSize: bodyFontSize(), color: Color.errorColor}}>
+            { translations.theServerUrlHasChanged }
+          </Text>
+        }
       </View>
     )
   }
