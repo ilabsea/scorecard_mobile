@@ -64,12 +64,16 @@ class CreateNewIndicatorMain extends Component {
     )
   }
 
+  isChooseParticipantVisible() {
+    return this.props.indicators.length > 0 &&!this.props.isLoading && !this.props.isSearching && !this.props.isEdit;
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
-        { this.state.hasParticipantSection && this.renderParticipant() }
+        { (this.state.hasParticipantSection && this.props.indicators.length > 0) && this.renderParticipant() }
 
-        { (!this.props.isLoading && !this.props.isSearching && !this.props.isEdit) &&
+        { this.isChooseParticipantVisible() &&
           <Text style={{fontSize: subTitleFontSize(), color: Color.lightBlackColor, marginTop: this.state.hasParticipantSection ? getDeviceStyle(15, 10) : 0}}>
             {this.context.translations.chooseProposedIndicator}
           </Text>

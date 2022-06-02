@@ -62,7 +62,7 @@ const saveLanguageIndicator = (scorecardUUID, indicators, successCallback) => {
     }
     savedCount += 1;
   });
-  successCallback(savedCount === indicators.length, languageIndicatorPhase);
+  !!successCallback && successCallback(savedCount === indicators.length, languageIndicatorPhase);
 }
 
 const getLanguageIndicator = (scorecardUuid, indicatorUuid, type) => {

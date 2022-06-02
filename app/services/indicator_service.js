@@ -20,7 +20,7 @@ class IndicatorService {
       indicatorHelper.savePredefinedIndicator(scorecardUuid, indicators, successCallback);
       saveLanguageIndicator(scorecardUuid, indicators, successCallback)
     }, (error) => {
-      errorCallback(error);
+      !!errorCallback && errorCallback(error);
     })
   }
 
@@ -46,7 +46,7 @@ class IndicatorService {
         // Check and update indicator_uuid of predefined indicators
         const predefinedIndicator = Indicator.find(indicator.id, PREDEFINED);
         if (!!predefinedIndicator && !predefinedIndicator.indicator_uuid)
-          Indicator.update(predefinedIndicator.uuid, { indicator_uuid: indicator.uuid });
+          Indicator.update(predefinedIndicator.uuid, { indicator_uuid: indicator.uuid }, scorecard.uuid);
       });
 
       successCallback();

@@ -26,9 +26,9 @@ const checkConnection = (callback) => {
 
 const handleApiResponse = (response, successCallback, errorCallback) => {
   if (response.error != undefined)
-    errorCallback(response.error);
+    !!errorCallback && errorCallback(response.error);
   else
-    successCallback(response.data);
+    !!successCallback && successCallback(response.data);
 }
 
 const getErrorType = (errorStatus) => {

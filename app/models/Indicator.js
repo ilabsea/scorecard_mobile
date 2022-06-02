@@ -20,6 +20,7 @@ const Indicator = (() => {
     destroy,
     arePredefinedIndicatorsHaveUuid,
     deleteAll,
+    getPredefeinedIndicatorsWithoutUuid,
   };
 
   function find(indicatorId, type) {
@@ -127,6 +128,10 @@ const Indicator = (() => {
     realm.write(() => {
       realm.delete(indicators);
     });
+  }
+
+  function getPredefeinedIndicatorsWithoutUuid(facilityId) {
+    return realm.objects(MODEL).filtered(`facility_id = ${facilityId} AND type = '${PREDEFINED}' AND indicator_uuid = null OR indicator_uuid = ''`);
   }
 
   //private method

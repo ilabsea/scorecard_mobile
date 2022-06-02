@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { LayoutAnimation, UIManager } from 'react-native';
+import { LayoutAnimation, UIManager, View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ProposedIndicatorScrollView from './ProposedIndicatorScrollView';
@@ -54,7 +54,11 @@ class IndicatorSelection extends Component {
           </ProposedIndicatorScrollView>
         }
 
-        { (!this.props.isLoading && this.props.indicators.length) === 0 && <NoIndicatorMessage /> }
+        { (!this.props.isLoading && this.props.indicators.length) === 0 && 
+          <View style={{height: '100%'}}>
+            <NoIndicatorMessage />
+          </View>
+        }
 
         { !this.props.isSearching && this.renderAddNewIndicatorButton() }
       </React.Fragment>
