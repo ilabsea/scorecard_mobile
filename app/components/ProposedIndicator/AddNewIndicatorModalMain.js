@@ -31,6 +31,8 @@ class AddNewIndicatorModalMain extends React.Component {
       audio: null,
       isIndicatorExist: false,
       duplicatedIndicators: [],
+      isNameChanged: false,
+      isTagChanged: false,
       isAudioChanged: false,
     };
     this.endpointId = '';
@@ -94,12 +96,8 @@ class AddNewIndicatorModalMain extends React.Component {
     if (this.state.name == '')
       return false;
 
-    if (this.props.selectedCustomIndicator) {
-      const { name, tag } = this.props.selectedCustomIndicator;
-      const isNameChanged = this.state.name != name;
-      const isTagChanged = this.state.tag != tag;
-      return isNameChanged || isTagChanged || this.state.isAudioChanged;
-    }
+    if (this.props.selectedCustomIndicator)
+      return !this.state.isIndicatorExist && (this.state.isNameChanged || this.state.isTagChanged || this.state.isAudioChanged);
 
     return !this.state.isIndicatorExist;
   }
@@ -116,7 +114,15 @@ class AddNewIndicatorModalMain extends React.Component {
       name,
       isIndicatorExist: name === '' ? false : duplicatedIndicators.length > 0,
       duplicatedIndicators: indicatorHelper.getIndicatorsAttrs(duplicatedIndicators),
+      isNameChanged: !!this.props.selectedCustomIndicator ? name != this.props.selectedCustomIndicator.name : false,
     });
+  }
+
+  onChangeTag(tag) {
+    this.setState({
+      tag,
+      isTagChanged: !!this.props.selectedCustomIndicator ? tag != this.props.selectedCustomIndicator.tag : false,
+    })
   }
 
   renderTextInputs() {
@@ -127,7 +133,7 @@ class AddNewIndicatorModalMain extends React.Component {
         isEdit={this.props.isEdit}
         scorecardUuid={this.props.scorecardUuid}
         onChangeName={(text) => this.onChangeName(text)}
-        onChangeTag={(text) => this.setState({tag: text})}
+        onChangeTag={(text) => this.onChangeTag(text)}
         isIndicatorExist={this.state.isIndicatorExist}
         isUniqueIndicatorOrEditing={this.isUniqueIndicatorOrEditing()}
       />
