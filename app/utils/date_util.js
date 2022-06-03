@@ -5,4 +5,8 @@ const todayDate = () => { return Moment().format(displayDateFormat) };
 
 const currentDateTime = () => { return Moment().toDate() };
 
-export { todayDate, currentDateTime };
+const isSameDateTime = (firstDateTime, secondDateTime) => {
+  return Moment(firstDateTime).isSame(secondDateTime);
+}
+
+export { todayDate, currentDateTime, isSameDateTime };

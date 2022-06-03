@@ -9,15 +9,15 @@ import ExistedIndicatorItem from './ExistedIndicatorItem';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
-import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import indicatorHelper from '../../helpers/indicator_helper';
-import { isBlank } from '../../utils/string_util';
 import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 import Indicator from '../../models/Indicator';
+import LanguageIndicator from '../../models/LanguageIndicator';
+import Scorecard from '../../models/Scorecard';
 import settingHelper from '../../helpers/setting_helper';
 
 class AddNewIndicatorModalMain extends React.Component {
@@ -28,16 +28,24 @@ class AddNewIndicatorModalMain extends React.Component {
     this.state = {
       name: props.selectedCustomIndicator ? props.selectedCustomIndicator.name : '',
       tag: props.selectedCustomIndicator ? props.selectedCustomIndicator.tag : '',
-      audio: props.selectedCustomIndicator ? props.selectedCustomIndicator.local_audio : null,
+      audio: null,
       isIndicatorExist: false,
       duplicatedIndicators: [],
-      // isFormValid: false,
+      isAudioChanged: false,
     };
     this.endpointId = '';
   }
 
   async componentDidMount() {
     this.endpointId = await settingHelper.getSavedEndpointUrlId();
+
+    if (!this.props.selectedCustomIndicator)
+      return;
+
+    const scorecard = Scorecard.find(this.props.scorecardUuid);
+    const languageIndicator = LanguageIndicator.findByIndicatorUuidAndLanguageCode(this.props.selectedCustomIndicator.indicator_uuid, scorecard.audio_language_code);
+    this.previousAudio = !!languageIndicator ? languageIndicator.local_audio : null;
+    this.setState({ audio: this.previousAudio });
   }
 
   clearInputs() {
@@ -57,8 +65,8 @@ class AddNewIndicatorModalMain extends React.Component {
     };
 
     if (this.props.isEdit) {
-      const { uuid, local_audio } = this.props.selectedCustomIndicator
-      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUuid, local_audio);
+      const { uuid } = this.props.selectedCustomIndicator
+      customIndicatorService.updateIndicator(uuid, indicator, this.props.scorecardUuid, this.state.audio);
       this.props.finishSaveOrUpdateCustomIndicator(true);
       this.clearInputs();
     }
@@ -90,14 +98,13 @@ class AddNewIndicatorModalMain extends React.Component {
       const { name, tag } = this.props.selectedCustomIndicator;
       const isNameChanged = this.state.name != name;
       const isTagChanged = this.state.tag != tag;
-      return isNameChanged || isTagChanged;
+      return isNameChanged || isTagChanged || this.state.isAudioChanged;
     }
+
+    return !this.state.isIndicatorExist;
   }
 
   renderButton = () => {
-    // const isValid = (isBlank(this.state.name) || this.state.isIndicatorExist) ? false : true;
-    // return <FormBottomSheetButton isValid={isValid} save={() => this.save()} />
-
     return <FormBottomSheetButton isValid={this.isFormValid()} save={() => this.save()} />
   }
 
@@ -151,6 +158,13 @@ class AddNewIndicatorModalMain extends React.Component {
     return !this.state.isIndicatorExist || this.props.isEdit;
   }
 
+  async updateAudio(filename) {
+    this.setState({
+      audio: filename,
+      isAudioChanged: await customIndicatorService.isIndicatorAudioChanged(this.previousAudio, filename),
+    });
+  }
+
   renderForm() {
     return <View style={{padding: containerPadding, marginTop: 5, flexGrow: 1}}>
             { this.renderTextInputs() }
@@ -158,9 +172,9 @@ class AddNewIndicatorModalMain extends React.Component {
             { this.isUniqueIndicatorOrEditing() ?
               <VoiceRecord
                 scorecardUuid={this.props.scorecardUuid}
-                finishRecord={(filename) => this.setState({audio: filename})}
+                finishRecord={(filename) => this.updateAudio(filename)}
                 audioFilePath={this.state.audio}
-                deleteAudio={() => this.setState({audio: null})}
+                deleteAudio={() => this.updateAudio(null)}
                 isEdit={this.props.isEdit}
               />
               :

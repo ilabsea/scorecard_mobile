@@ -65,4 +65,8 @@ const deleteFile = (filePath) => {
       });
 }
 
-export {downloadFileFromUrl, isFileExist, readAllFiles, deleteFile};
+const getFileState = async (filePath) => {
+  return await RNFS.stat(filePath)
+}
+
+export {downloadFileFromUrl, isFileExist, readAllFiles, deleteFile, getFileState};

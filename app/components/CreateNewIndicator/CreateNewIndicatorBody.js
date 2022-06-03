@@ -108,13 +108,6 @@ class CreateIndicatorBody extends React.Component {
           />
   };
 
-  showAddNewIndicatorModal(customIndicator) {
-    this.setState({ selectedCustomIndicator: customIndicator }, () => {
-      this.props.formModalRef.current?.setBodyContent(this.renderModalContent());
-      this.props.participantModalRef.current?.present();
-    });
-  }
-
   renderModalContent() {
     return <AddNewIndicatorModalMain
             closeModal={() => this.closeModal()}

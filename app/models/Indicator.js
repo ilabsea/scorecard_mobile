@@ -78,11 +78,11 @@ const Indicator = (() => {
   function findByScorecardAndName(scorecardUuid, name, endpointId, selectedIndicatorUuid = null) {
     const scorecard = Scorecard.find(scorecardUuid);
     const languageIndicator = LanguageIndicator.findByScorecardAndContent(scorecardUuid, scorecard.text_language_code, name, selectedIndicatorUuid);
-    const { facility_id, program_uuid } = scorecard;
 
     if (!languageIndicator)
       return [];
 
+    const { facility_id, program_uuid } = scorecard;
     return realm.objects(MODEL).filtered(`${_mainQuery(program_uuid, endpointId, null, facility_id)} AND indicator_uuid = '${languageIndicator.indicator_uuid}'`);
   }
 
