@@ -11,7 +11,6 @@ const indicatorHelper = (() => {
     isExist,
     getDisplayIndicator,
     getTags,
-    getIndicatorId,
     hasIndicatorUuid,
     getIndicatorsAttrs,
     savePredefinedIndicator,
@@ -44,10 +43,6 @@ const indicatorHelper = (() => {
     return indicators.map(indi => indi.tag)
             .filter(tag => !!tag)
             .filter((tag, index, self) => self.indexOf(tag) == index);
-  }
-
-  function getIndicatorId(indicator) {
-    return indicator.indicator_id || indicator.id || indicator.uuid;
   }
 
   function hasIndicatorUuid(indicatorId) {

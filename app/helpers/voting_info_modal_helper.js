@@ -10,7 +10,6 @@ import VotingMedianScoreInfo from '../components/VotingIndicator/VotingMedianInf
 import CustomStyle from '../themes/customStyle';
 import Color from '../themes/color';
 import { getVotingInfos, isVotingIndicatorRated } from './voting_indicator_helper';
-import indicatorHelper from './indicator_helper';
 import { titleFontSize } from '../utils/font_size_util';
 import { getDeviceStyle, containerPadding, isShortScreenDevice } from '../utils/responsive_util';
 import VotingInfoTabletStyles from '../styles/tablet/VotingInfoComponentStyle';
@@ -31,7 +30,7 @@ const votingInfoModalHelper = (() => {
     return { first_content: _getNoDataContent(indicator, selectedIndicator, translations), second_content: null }
   }
 
-  function getModalSnapPoints(scorecardUuid, indicator) {
+  function getModalSnapPoints(scorecardUuid, indicatorId) {
     const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : ['38%', '51%'];
     const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['43%', '60.5%'];
     const moreInfoSnapPoints = {
@@ -41,7 +40,6 @@ const votingInfoModalHelper = (() => {
 
     const mobileLessInfoSnapPoints = isShortScreenDevice() ? ['44%'] : ['40.5%'];
     const lessInfoSnapPoints = getDeviceStyle(['42%'], mobileLessInfoSnapPoints);
-    const indicatorId = indicatorHelper.getIndicatorId(indicator);
     const votingInfos = getVotingInfos(scorecardUuid, indicatorId);
 
     return _hasLessInfo(votingInfos) ? lessInfoSnapPoints : moreInfoSnapPoints[_votingInfoLine(votingInfos)];
@@ -55,8 +53,7 @@ const votingInfoModalHelper = (() => {
   }
 
   function  _getVotingDetail(scorecard, selectedIndicator, indicator) {
-    const indicatorId = indicatorHelper.getIndicatorId(selectedIndicator);
-    const votingInfos = getVotingInfos(scorecard.uuid, indicatorId);
+    const votingInfos = getVotingInfos(scorecard.uuid, indicator.indicatorable_id);
     const hasLessInfo = _hasLessInfo(votingInfos);
     const votingParticipantInfo = <VotingParticipantInfo scorecard={scorecard} />;
 
