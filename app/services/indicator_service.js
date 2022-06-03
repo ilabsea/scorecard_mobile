@@ -35,11 +35,6 @@ class IndicatorService {
     return indicatorHelper.getIndicatorsAttrs(savedIndicators);
   }
 
-  getDuplicatedIndicator(scorecardUuid, name, endpointId) {
-    const indicators = Indicator.findByScorecardAndName(scorecardUuid, name, endpointId, null);
-    return indicators.length > 0 ? indicatorHelper.getIndicatorsAttrs(indicators) : [];
-  }
-
   checkAndSavePredefinedIndicatorsUuid(scorecard, successCallback, errorCallback) {
     this._requestForIndicator(scorecard.facility_id, (indicators) => {
       indicators.map(indicator => {

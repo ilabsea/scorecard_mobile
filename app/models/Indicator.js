@@ -15,7 +15,6 @@ const Indicator = (() => {
     findByScorecard,
     findByScorecardAndName,
     findByUuidAndCurrentEndpointId,
-    isNameExist,
     getCustomIndicators,
     getIndicatorsWithoutProgramUuidOrEndpointId,
     destroy,
@@ -78,35 +77,18 @@ const Indicator = (() => {
 
   function findByScorecardAndName(scorecardUuid, name, endpointId, selectedIndicatorUuid = null) {
     const scorecard = Scorecard.find(scorecardUuid);
-    // Find a predefined language indicator by search name and return the indicator if there is a result found
-    const predefinedLangIndicator = LanguageIndicator.findByScorecardAndContent(scorecardUuid, scorecard.text_language_code, PREDEFINED, name);
-    if (!!predefinedLangIndicator)
-      return realm.objects(MODEL).filtered(`indicator_uuid = '${ predefinedLangIndicator.indicator_uuid }'`);
-
+    const languageIndicator = LanguageIndicator.findByScorecardAndContent(scorecardUuid, scorecard.text_language_code, name, selectedIndicatorUuid);
     const { facility_id, program_uuid } = scorecard;
-    const predefinedIndicators = realm.objects(MODEL).filtered(`${_mainQuery(program_uuid, endpointId, PREDEFINED, facility_id)} AND name ==[c] '${name}'`);
 
-    if (predefinedIndicators.length > 0)
-      return predefinedIndicators;
+    if (!languageIndicator)
+      return [];
 
-    // Find a custom language indicator by search name and return the indicator if there is a result found
-    const customLangIndicator = LanguageIndicator.findByScorecardAndContent(scorecardUuid, scorecard.text_language_code, CUSTOM, name)
-    if (!!customLangIndicator)
-      return selectedIndicatorUuid == customLangIndicator.indicator_uuid ? [] : realm.objects(MODEL).filtered(`indicator_uuid == '${ customLangIndicator.indicator_uuid }'`);
-
-    const mainSearchQuery = _mainQuery(program_uuid, endpointId, CUSTOM, null) + ` AND scorecard_uuid = '${scorecardUuid}' AND name ==[c] '${name}'`;
-    const query = !selectedIndicatorUuid ? mainSearchQuery : `${mainSearchQuery} AND indicator_uuid != '${ selectedIndicatorUuid }'`;
-
-    return realm.objects(MODEL).filtered(query);
+    return realm.objects(MODEL).filtered(`${_mainQuery(program_uuid, endpointId, null, facility_id)} AND indicator_uuid = '${languageIndicator.indicator_uuid}'`);
   }
 
   async function findByUuidAndCurrentEndpointId(indicatorUuid) {
     const endpointId = await settingHelper.getSavedEndpointUrlId();
     return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
-  }
-
-  function isNameExist(scorecardUuid, name, endpointId, selectedIndicatorUuid) {
-    return findByScorecardAndName(scorecardUuid, name, endpointId, selectedIndicatorUuid).length > 0;
   }
 
   function getCustomIndicators(scorecardUuid) {
@@ -158,10 +140,11 @@ const Indicator = (() => {
   }
 
   function _mainQuery(programUuid, endpointId, type, facilityId) {
-    const mainQuery = `program_uuid = '${ programUuid }' AND endpoint_id = ${ parseInt(endpointId) } AND type = '${type}'`;
-
+    let mainQuery = `program_uuid = '${ programUuid }' AND endpoint_id = ${ parseInt(endpointId) }`;
+    if (!!type)
+      mainQuery = `${mainQuery} AND type = '${type}'`;
     if (!!facilityId)
-      return `${mainQuery} AND facility_id = ${parseInt(facilityId)}`;
+      mainQuery = `${mainQuery} AND facility_id = ${parseInt(facilityId)}`;
 
     return mainQuery;
   }

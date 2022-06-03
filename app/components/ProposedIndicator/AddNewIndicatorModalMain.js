@@ -12,6 +12,7 @@ import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import IndicatorService from '../../services/indicator_service';
 import customIndicatorService from '../../services/custom_indicator_service';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
+import indicatorHelper from '../../helpers/indicator_helper';
 import { isBlank } from '../../utils/string_util';
 import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
@@ -29,7 +30,8 @@ class AddNewIndicatorModalMain extends React.Component {
       tag: props.selectedCustomIndicator ? props.selectedCustomIndicator.tag : '',
       audio: props.selectedCustomIndicator ? props.selectedCustomIndicator.local_audio : null,
       isIndicatorExist: false,
-      duplicatedIndicators: []
+      duplicatedIndicators: [],
+      // isFormValid: false,
     };
     this.endpointId = '';
   }
@@ -80,18 +82,33 @@ class AddNewIndicatorModalMain extends React.Component {
     this.clearInputs();
   }
 
+  isFormValid() {
+    if (this.state.name == '')
+      return false;
+
+    if (this.props.selectedCustomIndicator) {
+      const { name, tag } = this.props.selectedCustomIndicator;
+      const isNameChanged = this.state.name != name;
+      const isTagChanged = this.state.tag != tag;
+      return isNameChanged || isTagChanged;
+    }
+  }
+
   renderButton = () => {
-    const isValid = (isBlank(this.state.name) || this.state.isIndicatorExist) ? false : true;
-    return <FormBottomSheetButton isValid={isValid} save={() => this.save()} />
+    // const isValid = (isBlank(this.state.name) || this.state.isIndicatorExist) ? false : true;
+    // return <FormBottomSheetButton isValid={isValid} save={() => this.save()} />
+
+    return <FormBottomSheetButton isValid={this.isFormValid()} save={() => this.save()} />
   }
 
   onChangeName(name) {
     const selectedIndicatorUuid = this.props.selectedCustomIndicator ? this.props.selectedCustomIndicator.uuid : null;
+    const duplicatedIndicators = Indicator.findByScorecardAndName(this.props.scorecardUuid, name, this.endpointId, selectedIndicatorUuid);
 
     this.setState({
       name,
-      isIndicatorExist: name === '' ? false : Indicator.isNameExist(this.props.scorecardUuid, name, this.endpointId, selectedIndicatorUuid),
-      duplicatedIndicators: new IndicatorService().getDuplicatedIndicator(this.props.scorecardUuid, name, this.endpointId)
+      isIndicatorExist: name === '' ? false : duplicatedIndicators.length > 0,
+      duplicatedIndicators: indicatorHelper.getIndicatorsAttrs(duplicatedIndicators),
     });
   }
 
