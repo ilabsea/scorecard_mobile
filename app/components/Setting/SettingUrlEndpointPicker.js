@@ -6,8 +6,8 @@ import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
 import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
+import MessageModal from '../MessageModal';
 
-import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
 import endpointFormHelper from '../../helpers/endpoint_form_helper';
 import { settingEndpointModalSnapPoints, settingEndpointContentHeight } from '../../constants/modal_constant';
@@ -24,10 +24,12 @@ class SettingUrlEndpointPicker extends React.Component {
     this.state = {
       currentSelectedEndpoint: '',
       endpointUrls: [],
+      visibleConfirmModal: false,
     }
     this.componentIsUnmount = false;
     this.defaultSavedEndpointUrl = '';
     this.hasNewEndpointAdded = false;
+    this.endpointToDelete = null;
   }
 
   async componentDidMount() {
@@ -71,12 +73,7 @@ class SettingUrlEndpointPicker extends React.Component {
     this.props.formModalRef.current?.present();
   }
 
-  showEditForm(endpoint) {
-    endpointFormService.saveEndpointForEdit(endpoint);
-    navigate('AddNewEndpointUrl');
-  }
-
-  isAllowToEdit(endpointUrl) {
+  isAllowToDelete(endpointUrl) {
     if (Scorecard.allScorecardContainEndpoint(endpointUrl))
       return false;
 
@@ -95,20 +92,51 @@ class SettingUrlEndpointPicker extends React.Component {
             showSubtitle={true}
             onPressRightButton={() => navigate('AddNewEndpointUrl')}
             onPressBottomButton={() => this.changeSelectedEndpoint()}
-            showEditForm={(item) => this.showEditForm(item)}
+            showConfirmDelete={(item) => this.showConfirmDelete(item)}
             hasAddButton={true}
             hasBottomButton={true}
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.selectedEndpointUrl}
-            isAllowToEdit={(endpointUrl) => this.isAllowToEdit(endpointUrl)}
+            isAllowToDelete={(endpointUrl) => this.isAllowToDelete(endpointUrl)}
             customListItem={(item) => <SettingUrlEndpointPickerItem item={item}/>}
           />
+  }
+
+  showConfirmDelete(endpointUrl) {
+    this.endpointToDelete = endpointUrl;
+    this.setState({ visibleConfirmModal: true });
   }
 
   changeSelectedEndpoint() {
     this.props.updateSelectedEndpointUrl(this.state.currentSelectedEndpoint);
     this.props.formModalRef.current?.dismiss();
     this.props.saveTempSettingData();
+  }
+
+  renderConfirmModal() {
+    const {translations} = this.context;
+
+    if (!this.endpointToDelete)
+      return;
+
+    const endpointLabel = <Text style={{fontWeight: 'bold'}}>{ this.endpointToDelete.label }</Text>
+    const endpointValue = <Text style={{fontWeight: 'bold'}}>{ this.endpointToDelete.value }</Text>
+
+    return <MessageModal
+            visible={this.state.visibleConfirmModal}
+            onDismiss={() => this.setState({ visibleConfirmModal: false })}
+            description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointLabel, endpointValue)}
+            hasConfirmButton={true}
+            confirmButtonLabel={translations.ok}
+            onPressConfirmButton={() => this.deleteEndpoint()}
+          />
+  }
+
+  deleteEndpoint() {
+    EndpointUrl.destroy(this.endpointToDelete.uuid);
+    this.endpointToDelete = null;
+    this.setState({ visibleConfirmModal: false });
+    this.loadEndpointUrls();
   }
 
   render() {
@@ -131,6 +159,8 @@ class SettingUrlEndpointPicker extends React.Component {
             { translations.theServerUrlHasChanged }
           </Text>
         }
+
+        { this.renderConfirmModal() }
       </View>
     )
   }
