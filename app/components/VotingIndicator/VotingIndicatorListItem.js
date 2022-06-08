@@ -12,7 +12,7 @@ import cardListItemStyle from '../../themes/cardListItemStyle';
 
 import indicatorHelper from '../../helpers/indicator_helper';
 import votingInfoModalHelper from '../../helpers/voting_info_modal_helper';
-import { getVotingInfos, isVotingIndicatorRated } from '../../helpers/voting_indicator_helper';
+import { isVotingIndicatorRated } from '../../helpers/voting_indicator_helper';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
@@ -22,15 +22,6 @@ const styles = getDeviceStyle(VotingIndicatorListItemTabletStyles, VotingIndicat
 
 export default class VotingIndicatorListItem extends Component {
   static contextType = LocalizationContext;
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      votingInfos: [],
-      selectedIndicator: null,
-    };
-  }
 
   _renderContent(indicator) {
     const { translations } = this.context;
@@ -60,25 +51,16 @@ export default class VotingIndicatorListItem extends Component {
   }
 
   showVotingDetail = (indicator) => {
-    const indicatorId = indicatorHelper.getIndicatorId(indicator);
-    const votingInfos = getVotingInfos(this.props.scorecard.uuid, indicatorId);
+    const bodyContent = votingInfoModalHelper.getModalContent(this.props.scorecard, indicator, this.props.indicator, this.context.translations);
+    const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(this.props.scorecard.uuid, this.props.indicator.indicatorable_id);
+    const modalSnapPoints = isVotingIndicatorRated(this.props.indicator.uuid) ? votingInfoSnapPoints : ['18%'];
 
-    this.setState({
-      votingInfos: votingInfos,
-      selectedIndicator: indicator,
-    }, () => {
-      const scorecard = this.props.scorecard;
-      const bodyContent = votingInfoModalHelper.getModalContent(scorecard, this.state.selectedIndicator, this.props.indicator, this.context.translations);
-      const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(scorecard.uuid, this.state.selectedIndicator);
-      const modalSnapPoints = isVotingIndicatorRated(this.props.indicator.uuid) ? votingInfoSnapPoints : ['18%'];
+    this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
+    this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);
 
-      this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
-      this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);
-
-      setTimeout(() => {
-        this.props.votingInfoModalRef.current?.present();
-      }, 50);
-    });
+    setTimeout(() => {
+      this.props.votingInfoModalRef.current?.present();
+    }, 50);
   }
 
   render() {
