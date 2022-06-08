@@ -24,45 +24,60 @@ class ScorecardResultModalListItem extends Component {
     return { marginTop: this.props.isScorecardFinished ? -2 : 0 };
   }
 
+  onBlur() {
+    this.props.updateVotingIndicator();
+    this.props.scrollTo(0);
+  }
+
+  renderCheckBox() {
+    return <CheckBox
+              disabled={this.props.isScorecardFinished}
+              checked={this.props.renderSelectedActions[this.props.index]}
+              onPress={() => this.props.toggleCheckbox(this.props.index)}
+              color={this.props.isScorecardFinished ? Color.grayColor : Color.clickableColor}
+              style={{marginLeft: -10, marginRight: 15, alignItems: 'center', justifyContent: 'flex-start', width: 23, height: 23}}
+            />
+  }
+
+  renderTextInput() {
+    const scrollPosition = this.props.index * getDeviceStyle(70, 50);
+    return <View style={{flex: 1}}>
+            <ScorecardResultTextInput
+              autoFocus={!this.props.note}
+              value={this.props.note}
+              placeholder={this.context.translations[this.props.indicator.currentFieldName]}
+              fieldName={this.props.fieldName}
+              onChangeText={this.props.onChangeText}
+              customStyle={styles.inputText}
+              disabled={this.props.isScorecardFinished}
+              isDelete={this.props.isDelete}
+              scrollTo={() => this.props.scrollTo(scrollPosition)}
+              onBlur={() => this.onBlur()}
+            />
+          </View>
+  }
+
+  renderDeleteButton() {
+    return <TouchableOpacity
+              onPress={() => this.props.deletePoint(this.props.index)}
+              style={styles.btnRemove}
+              hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+              <Icon name='trash' type="FontAwesome" style={[styles.removeIcon, this.getLabelMarginTop(), { color: this.props.isScorecardFinished ? Color.lightGrayColor : 'red' }]} />
+           </TouchableOpacity>
+  }
+
   render() {
-    const { index, note, fieldName, isScorecardFinished, indicator, isDelete } = this.props;
-    const scrollPosition = index * getDeviceStyle(70, 50);
+    const { index, isScorecardFinished } = this.props;
 
     return (
       <React.Fragment>
         <View style={[{flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', marginTop: 5}, isScorecardFinished ? {height: 40} : {}]}>
-          { this.isSuggestedAction() &&
-            <CheckBox
-              disabled={isScorecardFinished}
-              checked={this.props.renderSelectedActions[index]}
-              onPress={() => this.props.toggleCheckbox(index)}
-              color={isScorecardFinished ? Color.grayColor : Color.clickableColor}
-              style={{marginLeft: -10, marginRight: 15, alignItems: 'center', justifyContent: 'flex-start', width: 23, height: 23}}
-            />
-          }
+          { this.isSuggestedAction() && this.renderCheckBox() }
 
           <Text style={[styles.orderNumberText, this.isSuggestedAction() ? {marginLeft: 5} : {}]}>{ index + 1 }.</Text>
-          <View style={{flex: 1}}>
-            <ScorecardResultTextInput
-              autoFocus={!note}
-              value={note}
-              placeholder={this.context.translations[indicator.currentFieldName]}
-              fieldName={fieldName}
-              onChangeText={this.props.onChangeText}
-              customStyle={styles.inputText}
-              disabled={isScorecardFinished}
-              isDelete={isDelete}
-              scrollTo={() => this.props.scrollTo(scrollPosition)}
-              onBlur={() => this.props.updateVotingIndicator()}
-            />
-          </View>
+          { this.renderTextInput() }
 
-          <TouchableOpacity
-            onPress={() => this.props.deletePoint(index)}
-            style={styles.btnRemove}
-            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-            <Icon name='trash' type="FontAwesome" style={[styles.removeIcon, this.getLabelMarginTop(), { color: isScorecardFinished ? Color.lightGrayColor : 'red' }]} />
-          </TouchableOpacity>
+          { this.renderDeleteButton() }
         </View>
 
         { isScorecardFinished && <Divider style={{backgroundColor: '#b3b3b3', flex: 1, marginTop: getDeviceStyle(14, 5), marginBottom: getDeviceStyle(8, 0)}}/> }

@@ -55,7 +55,7 @@ const FormModalComponentStyles = StyleSheet.create({
   },
   removeIcon: {
     color: Color.redColor,
-    fontSize: getMobileFontSizeByPixelRatio(20, 18),
+    fontSize: getMobileFontSizeByPixelRatio(22, 20),
   }
 });
 
