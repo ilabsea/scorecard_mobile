@@ -2,8 +2,9 @@ import Scorecard from '../models/Scorecard';
 import Indicator from '../models/Indicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 import proposedIndicatorService from './proposed_indicator_service';
-import { deleteFile } from './local_file_system_service';
+import { deleteFile, getFileState } from './local_file_system_service';
 import uuidv4 from '../utils/uuidv4';
+import { isSameDateTime } from '../utils/date_util';
 import { CUSTOM } from '../constants/indicator_constant';
 
 const customIndicatorService = (() => {
@@ -11,6 +12,7 @@ const customIndicatorService = (() => {
     createNewIndicator,
     updateIndicator,
     deleteIndicatorsByScorecard,
+    isIndicatorAudioChanged,
   }
 
   function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
@@ -67,6 +69,19 @@ const customIndicatorService = (() => {
     const customIndicators = Indicator.getCustomIndicators(scorecardUuid);
     if (customIndicators.length > 0)
       Indicator.destroy(customIndicators);
+  }
+
+  async function isIndicatorAudioChanged(previousAudio, currentAudio) {
+    if (!!previousAudio && !!currentAudio) {
+      const previousAudioState = await getFileState(previousAudio);
+      const currentAudioState = await getFileState(currentAudio);
+
+      if (!previousAudioState || !currentAudioState) return true;
+
+      return !isSameDateTime(previousAudioState.ctime, currentAudioState.ctime);
+    }
+
+    return previousAudio != currentAudio;
   }
 
   // private method

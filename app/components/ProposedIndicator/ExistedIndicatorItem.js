@@ -11,7 +11,7 @@ class ExistedIndicatorItem extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
-    if (this.props.indicatorName === '')
+    if (this.props.indicatorName === '' || this.props.duplicatedIndicators.length == 0)
       return;
 
     const label = !!ProposedIndicator.findByParticipant(this.props.scorecardUuid, this.props.duplicatedIndicators[0].indicatorable_id, this.props.participantUuid)

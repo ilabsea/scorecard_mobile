@@ -15,6 +15,7 @@ const LanguageIndicator = (() => {
     findByScorecardAndLanguageCode,
     findByIndicatorAndLanguageCode,
     findByIndicatorUuidAndLanguageCode,
+    findByScorecardAndContent,
   };
 
   function create(data) {
@@ -56,6 +57,13 @@ const LanguageIndicator = (() => {
 
   function findByIndicatorUuidAndLanguageCode(indicatorUuid, languageCode) {
     return realm.objects(MODEL).filtered(`indicator_uuid == '${indicatorUuid}' AND language_code == '${languageCode}'`)[0];
+  }
+
+  function findByScorecardAndContent(scorecardUuid, languageCode, content, indicatorUuid) {
+    if (!!indicatorUuid)
+      return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND language_code = '${languageCode}' AND indicator_uuid != '${indicatorUuid}' AND content ==[c] '${content}'`)[0];
+
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND language_code == '${languageCode}' AND content ==[c] '${content}'`)[0];
   }
 
   // private method
