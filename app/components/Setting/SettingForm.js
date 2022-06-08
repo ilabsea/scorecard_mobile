@@ -40,7 +40,10 @@ class SettingForm extends Component {
     let state = {};
     state[fieldName] = value;
     state[`${fieldName}ErrorMsg`] = '';
-    this.setState(state, () => this.props.updateValidationStatus());
+    this.setState(state, () => {
+      this.props.updateValidationStatus();
+      this.saveTempSettingData();
+    });
   }
 
   renderUrlEndpointPicker = () => {

@@ -21,6 +21,7 @@ const settingHelper = (() => {
     getSavedEndpointUrlId,
     getSelectedProposedIndicatorMethodId,
     getSelectedProposedIndicatorMethodName,
+    hasDiscardAlert,
   };
 
   async function changeable(newEndpoint) {
@@ -112,6 +113,23 @@ const settingHelper = (() => {
     const settingData = JSON.parse(await AsyncStorage.getItem('SETTING'));
     const methodType = !!settingData ? settingData.proposedIndicatorMethod : INDICATOR_BASE;
     return PROPOSED_INDICATOR_METHODS[methodType];
+  }
+
+  async function hasDiscardAlert() {
+    const savedSettingData = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const tempSettingData = await getTempSettingData();
+
+    if (!savedSettingData || !tempSettingData)
+      return false;
+
+    const keys = ['backendUrl', 'email', 'password'];
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (savedSettingData[key] != tempSettingData[key])
+        return true;
+    }
+
+    return false;
   }
 })();
 

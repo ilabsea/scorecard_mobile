@@ -14,7 +14,7 @@ class SettingHeader extends React.Component {
   }
 
   async onBackPress() {
-    if (await settingHelper.getTempSettingData())
+    if (await settingHelper.hasDiscardAlert())
       this.setState({ visibleConfirmModal: true })
     else
       this.goBack();
