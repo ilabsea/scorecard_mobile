@@ -10,6 +10,9 @@ const EndpointUrlSchema = {
     type: 'string',
     order: 'int',
     id: 'int',
+    shortcut: 'string?',
+    shortcut_bg_color: 'string?',
+    shortcut_text_color: 'string?'
   },
 };
 
