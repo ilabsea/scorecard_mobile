@@ -6,7 +6,7 @@ import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
 import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
 import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
-import MessageModal from '../MessageModal';
+import SettingUrlEndpointDeleteModal from './SettingUrlEndpointDeleteModal';
 
 import settingHelper from '../../helpers/setting_helper';
 import endpointFormHelper from '../../helpers/endpoint_form_helper';
@@ -30,11 +30,13 @@ class SettingUrlEndpointPicker extends React.Component {
     this.defaultSavedEndpointUrl = '';
     this.hasNewEndpointAdded = false;
     this.endpointToDelete = null;
+
+    this.pickerContentRef = React.createRef();
   }
 
   async componentDidMount() {
     this.defaultSavedEndpointUrl = await settingHelper.getSavedEndpointUrl();
-    this.loadEndpointUrls();
+    this.loadEndpointUrls(null);
 
     this.focusListener = this.props.navigation.addListener("focus", () => {
       setTimeout(async () => {
@@ -60,11 +62,11 @@ class SettingUrlEndpointPicker extends React.Component {
     this.componentIsUnmount = true;
   }
 
-  loadEndpointUrls() {
+  loadEndpointUrls(callback) {
     this.setState({
       endpointUrls: EndpointUrl.getAll(),
       currentSelectedEndpoint: this.defaultSavedEndpointUrl,
-    });
+    }, () => !!callback && callback());
   }
 
   showBottomSheetModal() {
@@ -82,6 +84,7 @@ class SettingUrlEndpointPicker extends React.Component {
 
   renderBottomSheetPickerContent() {
     return <BottomSheetPickerContent
+            ref={this.pickerContentRef}
             title={this.context.translations.serverUrl}
             items={this.state.endpointUrls}
             selectedItem={this.state.currentSelectedEndpoint}
@@ -114,29 +117,24 @@ class SettingUrlEndpointPicker extends React.Component {
   }
 
   renderConfirmModal() {
-    const {translations} = this.context;
-
     if (!this.endpointToDelete)
       return;
 
-    const endpointLabel = <Text style={{fontWeight: 'bold'}}>{ this.endpointToDelete.label }</Text>
-    const endpointValue = <Text style={{fontWeight: 'bold'}}>{ this.endpointToDelete.value }</Text>
-
-    return <MessageModal
-            visible={this.state.visibleConfirmModal}
-            onDismiss={() => this.setState({ visibleConfirmModal: false })}
-            description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointLabel, endpointValue)}
-            hasConfirmButton={true}
-            confirmButtonLabel={translations.ok}
-            onPressConfirmButton={() => this.deleteEndpoint()}
-          />
+    return <SettingUrlEndpointDeleteModal
+              visible={this.state.visibleConfirmModal}
+              endpointToDelete={this.endpointToDelete}
+              onDismiss={() => this.setState({ visibleConfirmModal: false })}
+              deleteEndpoint={() => this.deleteEndpoint()}
+            />
   }
 
   deleteEndpoint() {
     EndpointUrl.destroy(this.endpointToDelete.uuid);
     this.endpointToDelete = null;
     this.setState({ visibleConfirmModal: false });
-    this.loadEndpointUrls();
+    this.loadEndpointUrls(() => {
+      this.pickerContentRef.current?.updateItems(this.state.endpointUrls);
+    });
   }
 
   render() {
