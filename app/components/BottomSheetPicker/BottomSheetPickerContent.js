@@ -26,7 +26,6 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   updateItems(items) {
-    console.log('update items == ', items.length)
     this.setState({ items });
   }
 
@@ -47,8 +46,6 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderListItem() {
-    // console.log('picker content items = ', this.state.items)
-
     return <BottomSheetPickerContentListItem
               items={this.state.items}
               selectedItem={this.state.selectedItem}

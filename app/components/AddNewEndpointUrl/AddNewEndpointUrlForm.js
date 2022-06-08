@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import DeleteButton from './DeleteButton';
 import TextFieldInput from '../TextFieldInput';
 
 import endpointFormService from '../../services/endpoint_form_service';
@@ -20,31 +19,13 @@ class AddNewEndpointUrlForm extends React.Component {
       endpointUuid: '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
-      isAllowToDeleteOrEdit: true,
-      selectedEndpoint: null,
     }
-  }
-
-  async componentDidMount() {
-    const selectedEndpoint = await endpointFormService.getEndpointForEdit();
-
-    if (!!selectedEndpoint) {
-      this.setState({
-        selectedEndpoint: selectedEndpoint,
-        endpointLabel: selectedEndpoint.label,
-        endpointValue: selectedEndpoint.value.toString(),
-        endpointUuid: selectedEndpoint.uuid,
-        isAllowToDeleteOrEdit: await endpointFormService.isAllowToDeleteOrEdit(selectedEndpoint),
-      });
-    }
-
-    this.props.validateForm && this.props.validateForm();
   }
 
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value, this.state.selectedEndpoint);
+    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value);
 
     this.setState(state, () => !!this.props.validateForm && this.props.validateForm());
   }
@@ -82,15 +63,6 @@ class AddNewEndpointUrlForm extends React.Component {
 
         { this.renderLabelInput() }
         { this.renderUrlInput() }
-
-        { !!this.state.selectedEndpoint &&
-          <DeleteButton
-            selectedEndpoint={this.state.selectedEndpoint}
-            isAllowToDeleteOrEdit={this.state.isAllowToDeleteOrEdit}
-            endpointUuid={this.state.endpointUuid}
-            reloadEndpoint={() => this.reloadEndpoint()}
-          />
-        }
       </View>
     )
   }

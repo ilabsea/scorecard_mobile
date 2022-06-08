@@ -30,7 +30,6 @@ class SettingUrlEndpointPicker extends React.Component {
     this.defaultSavedEndpointUrl = '';
     this.hasNewEndpointAdded = false;
     this.endpointToDelete = null;
-
     this.pickerContentRef = React.createRef();
   }
 
@@ -69,7 +68,9 @@ class SettingUrlEndpointPicker extends React.Component {
     }, () => !!callback && callback());
   }
 
-  showBottomSheetModal() {
+  async showBottomSheetModal() {
+    this.defaultSavedEndpointUrl = await settingHelper.getSavedEndpointUrl();
+
     this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
     this.props.formRef.current?.setBodyContent(this.renderBottomSheetPickerContent());
     this.props.formModalRef.current?.present();

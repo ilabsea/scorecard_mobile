@@ -1,10 +1,8 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
 import { CUSTOM } from '../constants/main_constant';
 import urlUtil from '../utils/url_util';
 import uuidv4 from '../utils/uuidv4';
-import Scorecard from '../models/Scorecard';
 import EndpointUrl from '../models/EndpointUrl';
 import settingHelper from '../helpers/setting_helper';
 
@@ -14,24 +12,16 @@ const endpointFormService = (() => {
     saveEndpointUrls,
     getErrorMessage,
     getSelectedEndpoint,
-    isAllowToDeleteOrEdit,
-    saveEndpointForEdit,
-    getEndpointForEdit,
-    clearEndpointForEdit,
   }
 
-  function isValidForm(endpointLabel, endpointValue, editEndpoint) {
+  function isValidForm(endpointLabel, endpointValue) {
     const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
     const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
 
-    // If the labe and value of the input is the save as edit endpoint then disable the button "update"
-    if (!!editEndpoint && (endpointLabel == editEndpoint.label && endpointValue == editEndpoint.value))
-      return false;
-
     const fieldsValidation = {
-      label: endpointLabelValidationMsg == null && !isFieldExisted('label', endpointLabel, editEndpoint),
-      value: endpointValueValidationMsg == null && !isFieldExisted('value', endpointLabel, editEndpoint),
-      endpointIsNotExisted: !isEndpointExisted(endpointLabel, endpointValue, editEndpoint)
+      label: endpointLabelValidationMsg == null && !isFieldExisted('label', endpointLabel),
+      value: endpointValueValidationMsg == null && !isFieldExisted('value', endpointLabel),
+      endpointIsNotExisted: !isEndpointExisted(endpointLabel, endpointValue)
     }
 
     for (let key in fieldsValidation) {
@@ -49,7 +39,7 @@ const endpointFormService = (() => {
       EndpointUrl.create({uuid: uuidv4(), label: newLabel, value: newValue, type: CUSTOM});
   }
 
-  function getErrorMessage(fieldName, value, editEndpoint) {
+  function getErrorMessage(fieldName, value) {
     const endpointErrorMessage = {
       'endpointValue': {
         'alreadyExistedMsg': 'serverUrlIsExisted',
@@ -66,7 +56,7 @@ const endpointFormService = (() => {
     if (!value) return endpointErrorMessage[fieldName]['blankMsg'];
 
     const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
-    const messageType = isFieldExisted(type, value, editEndpoint) ? 'alreadyExistedMsg' : 'invalidMsg';
+    const messageType = isFieldExisted(type, value) ? 'alreadyExistedMsg' : 'invalidMsg';
     return endpointErrorMessage[fieldName][messageType];
   }
 
@@ -75,45 +65,22 @@ const endpointFormService = (() => {
     return !tempSettingData ? settingHelper.getSavedEndpointUrl() : tempSettingData.endpoint;
   }
 
-  async function isAllowToDeleteOrEdit(currentEndpoint) {
-    const tempSettingData = await settingHelper.getSettingData();
-    const savedEndpointUrl = await settingHelper.getSavedEndpointUrl();
-
-    if (!Scorecard.allScorecardContainEndpoint(currentEndpoint.value))
-      return !!currentEndpoint && currentEndpoint.value != tempSettingData.backendUrl || currentEndpoint.value != savedEndpointUrl;
-
-    return false;
-  }
-
-  function saveEndpointForEdit(endpoint) {
-    AsyncStorage.setItem('ENDPOINT_FOR_EDIT', JSON.stringify(endpoint));
-  }
-
-  async function getEndpointForEdit() {
-    return JSON.parse(await AsyncStorage.getItem('ENDPOINT_FOR_EDIT'));
-  }
-
-  function clearEndpointForEdit() {
-    AsyncStorage.removeItem('ENDPOINT_FOR_EDIT');
-  }
-
   // private method
   function validateField(fieldName, value) {
     validationService(fieldName, value === '' ? undefined : value);
   }
 
-  function isEndpointExisted(endpointLabel, endpointValue, editEndpoint) {
-    return isFieldExisted('label', endpointLabel, editEndpoint) || isFieldExisted('value', endpointValue, editEndpoint);
+  function isEndpointExisted(endpointLabel, endpointValue) {
+    return isFieldExisted('label', endpointLabel) || isFieldExisted('value', endpointValue);
   }
 
-  function isFieldExisted(type, value, editEndpoint) {
-    const isSameEditEndpoint = !!editEndpoint ? editEndpoint[type] === value : false;
+  function isFieldExisted(type, value) {
     const isExist = {
       'label': EndpointUrl.findByLabel(value),
       'value': EndpointUrl.findByUrlValue(value),
     }
 
-    return !isSameEditEndpoint && isExist[type];
+    return isExist[type];
   }
 })();
 

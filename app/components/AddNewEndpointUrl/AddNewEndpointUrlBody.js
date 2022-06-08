@@ -23,17 +23,11 @@ class AddNewEndpointUrlBody extends React.Component {
     }
 
     this.inputFormRef = React.createRef();
-    this.endpointForEdit = null;
-  }
-
-  async componentDidMount() {
-    this.endpointForEdit = await endpointFormService.getEndpointForEdit();
-    this.setState({ isFormValid: this.endpointForEdit ? true : false });
   }
 
   validateForm() {
     const {endpointLabel, endpointValue} = this.inputFormRef.current?.state;
-    this.setState({ isFormValid: endpointFormService.isValidForm(endpointLabel, endpointValue, this.endpointForEdit) })
+    this.setState({ isFormValid: endpointFormService.isValidForm(endpointLabel, endpointValue) })
   }
 
   save() {
@@ -44,10 +38,7 @@ class AddNewEndpointUrlBody extends React.Component {
       type: CUSTOM,
     }
 
-    if (!this.endpointForEdit)
-      EndpointUrl.create(params);
-    else
-      EndpointUrl.update(this.endpointForEdit.uuid, params);
+    EndpointUrl.create(params);
 
     endpointFormHelper.setHasNewEndpointAdded();
     this.storeTempSettingData(endpointValue);
