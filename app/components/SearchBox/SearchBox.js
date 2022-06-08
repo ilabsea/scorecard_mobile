@@ -17,7 +17,7 @@ class SearchBox extends React.Component {
     const placeholderColor = '#676767';
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.containerStyle]}>
         <Item rounded style={styles.inputContainer}>
           <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
           <Input
@@ -33,7 +33,7 @@ class SearchBox extends React.Component {
 
           { !!this.props.value &&
             <TouchableOpacity onPress={() => this.props.onClearSearch()} style={{justifyContent: 'center', width: pressableItemSize(), alignItems: 'center'}}>
-              <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: Color.grayColor}} />
+              <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
             </TouchableOpacity>
           }
         </Item>

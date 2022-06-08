@@ -94,6 +94,7 @@ class FilterScorecard extends Component {
               onClearSearch={() => this.setState({ searchedProvince: '' })}
               onFocus={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
               onBlur={(isFocus) => this.setState({ isSearchBoxFocused: isFocus })}
+              containerStyle={{marginTop: 0, paddingBottom: 16}}
            />
   }
 

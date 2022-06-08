@@ -15,7 +15,7 @@ const BottomButtonComponentStyles = StyleSheet.create({
     fontSize: bottomButtonIconSize()
   },
   buttonContainer: {
-    height: isShortScreenDevice() ? 45 : 50,
+    height: isShortScreenDevice() ? 48 : 50,
   }
 });
 
