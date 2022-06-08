@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import TextFieldInput from '../TextFieldInput';
+import TextFieldInput from '../Share/TextFieldInput';
 
 import endpointFormService from '../../services/endpoint_form_service';
 import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';

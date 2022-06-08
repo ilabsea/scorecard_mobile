@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { LocalizationContext } from '../Translations';
-import TextFieldInput from '../TextFieldInput';
+import TextFieldInput from '../Share/TextFieldInput';
 import Autocomplete from './Autocomplete';
 import indicatorHelper from '../../helpers/indicator_helper';
 
