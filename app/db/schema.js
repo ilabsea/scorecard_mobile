@@ -18,7 +18,7 @@ import schemaV13 from './schemas/schemaV13';
 import schemaV14 from './schemas/schemaV14';
 import schemaV16 from './schemas/schemaV16';
 import schemaV17 from './schemas/schemaV17';
-import schemaV19 from './schemas/schemaV19';
+import schemaV19 from './schemas/v19/schemaV19';
 
 const schemas = [
   schemaV1,
