@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 
-import ScorecardListInfoScorecardDetail from './ScorecardListInfoScorecardDetail';
+import ScorecardListInfoDetail from './ScorecardListInfoDetail';
 import ScorecardListInfoLocation from './ScorecardListInfoLocation';
 class ScorecardListInfo extends Component {
   render() {
@@ -9,7 +9,7 @@ class ScorecardListInfo extends Component {
 
     return (
       <View style={{flex: 1, marginLeft: 15}}>
-        <ScorecardListInfoScorecardDetail scorecard={scorecard} />
+        <ScorecardListInfoDetail scorecard={scorecard} />
 
         <ScorecardListInfoLocation scorecard={scorecard} />
       </View>
