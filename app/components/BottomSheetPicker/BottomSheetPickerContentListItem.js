@@ -13,7 +13,7 @@ const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMo
 class BottomSheetPickerContentListItem extends React.Component {
   renderListItem() {
     return this.props.items.map((item, index) => {
-      const isAbleToDelete = this.isAbleToDelete(item);
+      const isDeletable = this.isDeletable(item);
 
       return (
         <TouchableOpacity key={index}
@@ -29,10 +29,10 @@ class BottomSheetPickerContentListItem extends React.Component {
           }
 
           { this.hasSelected(item) &&
-            <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} style={{marginRight: (item.type == CUSTOM && isAbleToDelete) ? 20 : 0}} />
+            <MaterialIcon name='check' color={this.itemColor(item, Color.clickableColor)} size={22} style={{marginRight: (item.type == CUSTOM && isDeletable) ? 20 : 0}} />
           }
 
-          { isAbleToDelete && 
+          { isDeletable && 
             <TouchableOpacity onPress={() => this.props.showConfirmDelete(item)} style={[styles.deleteButton, { borderWidth: 0, alignItems: 'flex-end' }]} >
               <MaterialIcon name='delete' color={Color.errorColor} size={22} />
             </TouchableOpacity>
@@ -42,8 +42,8 @@ class BottomSheetPickerContentListItem extends React.Component {
     })
   }
 
-  isAbleToDelete(item) {
-    return !!this.props.showConfirmDelete && item.type == CUSTOM && this.props.isAllowToDelete(item.value);
+  isDeletable(item) {
+    return !!this.props.showConfirmDelete && item.type == CUSTOM && this.props.isDeletable(item.value);
   }
 
   hasSelected(item) {

@@ -76,7 +76,7 @@ class SettingUrlEndpointPicker extends React.Component {
     this.props.formModalRef.current?.present();
   }
 
-  isAllowToDelete(endpointUrl) {
+  isDeletable(endpointUrl) {
     if (Scorecard.allScorecardContainEndpoint(endpointUrl))
       return false;
 
@@ -101,7 +101,7 @@ class SettingUrlEndpointPicker extends React.Component {
             hasBottomButton={true}
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.selectedEndpointUrl}
-            isAllowToDelete={(endpointUrl) => this.isAllowToDelete(endpointUrl)}
+            isDeletable={(endpointUrl) => this.isDeletable(endpointUrl)}
             customListItem={(item) => <SettingUrlEndpointPickerItem item={item}/>}
           />
   }

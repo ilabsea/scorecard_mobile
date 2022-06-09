@@ -52,7 +52,7 @@ class BottomSheetPickerContent extends React.Component {
               onSelectItem={(item) => this.onSelectItem(item)}
               showSubtitle={this.props.showSubtitle}
               showConfirmDelete={this.props.showConfirmDelete}
-              isAllowToDelete={this.props.isAllowToDelete}
+              isDeletable={this.props.isDeletable}
               defaultSelectedItem={this.props.selectedItem}
               customListItem={this.props.customListItem}
            />
