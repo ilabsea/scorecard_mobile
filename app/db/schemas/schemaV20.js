@@ -36,7 +36,7 @@ const schemaV20 = {
       const oldCustomEndpointUrls = oldRealm.objects('EndpointUrl').filtered(`type = '${CUSTOM}' SORT(order ASC)`);
 
       oldEndpointUrls.map((oldEndpointUrl, index) => {
-        const shortcutInfo = endpointUrlHelper.generateShortcutInfo(oldCustomEndpointUrls, oldObject.value);
+        const shortcutInfo = endpointUrlHelper.generateShortcutInfo(oldCustomEndpointUrls, oldEndpointUrl.value);
         // Update the label of "ISAF Staging Server" to "ISAF Testing Server"
         if (oldEndpointUrl.value == defaultEndpointUrls[0].value)
           newEndpointUrls[index].label = defaultEndpointUrls[0].label;
