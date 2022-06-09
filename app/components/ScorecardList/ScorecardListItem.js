@@ -24,16 +24,12 @@ export default class ScorecardItem extends Component {
     super(props);
     this.itemRef = null;
     this.state = {
-      hasMatchedEndpointUrl: false,
-      isDeleteable: false,
+      isDeletable: false,
     }
   }
 
   async componentDidMount() {
-    this.setState({
-      hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid),
-      isDeleteable: await Scorecard.isDeleteable(this.props.scorecard)
-    });
+    this.setState({ isDeletable: await Scorecard.isDeletable(this.props.scorecard) });
   }
 
   deleteScorecard = () => {
@@ -55,11 +51,11 @@ export default class ScorecardItem extends Component {
     return (
       <Swipeable key={uuidv4()}
         ref={ref => { this.itemRef = ref }}
-        enabled={this.state.isDeleteable}
+        enabled={this.state.isDeletable}
         renderRightActions={this.renderDeleteAction}
       >
         <TouchableOpacity onPress={this.props.onPress} style={responsiveStyles.itemContainer} >
-          <ScorecardListIcon scorecard={scorecard} hasMatchedEndpointUrl={this.state.hasMatchedEndpointUrl} />
+          <ScorecardListIcon scorecard={scorecard} />
           <ScorecardListInfo scorecard={scorecard} />
         </TouchableOpacity>
       </Swipeable>

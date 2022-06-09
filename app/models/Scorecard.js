@@ -28,7 +28,7 @@ const Scorecard = (() => {
     isStepEditable,
     stepIsDone,
     isRefreshable,
-    isDeleteable,
+    isDeletable,
     isShareable,
     getScorecardWithoutProgramUuid,
   }
@@ -164,7 +164,7 @@ const Scorecard = (() => {
     return await hasMatchedEndpointUrl(scorecard.uuid) && scorecard.isUploaded;
   }
 
-  async function isDeleteable(scorecard) {
+  async function isDeletable(scorecard) {
     return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.isUploaded;
   }
 
