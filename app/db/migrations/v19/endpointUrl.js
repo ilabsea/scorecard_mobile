@@ -9,7 +9,7 @@ const EndpointUrlSchema = {
     value: 'string',
     type: 'string',
     order: 'int',
-    id: 'int',
+    id: 'int'
   },
 };
 

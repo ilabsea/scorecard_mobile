@@ -7,10 +7,14 @@ import MessageModal from '../MessageModal';
 class SettingURlEndpointDeleteModal extends React.Component {
   static contextType = LocalizationContext;
 
+  boldText(label) {
+    return <Text style={{fontWeight: 'bold'}}>{ label }</Text>
+  }
+
   render() {
     const { translations } = this.context;
-    const endpointLabel = <Text style={{fontWeight: 'bold'}}>{ this.props.endpointToDelete.label }</Text>
-    const endpointValue = <Text style={{fontWeight: 'bold'}}>{ this.props.endpointToDelete.value }</Text>
+    const endpointLabel = this.boldText(this.props.endpointToDelete.label)
+    const endpointValue = this.boldText(this.props.endpointToDelete.value)
 
     return <MessageModal
             visible={this.props.visible}

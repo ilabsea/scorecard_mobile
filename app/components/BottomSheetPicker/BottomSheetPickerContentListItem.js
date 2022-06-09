@@ -33,8 +33,8 @@ class BottomSheetPickerContentListItem extends React.Component {
           }
 
           { isAbleToDelete && 
-            <TouchableOpacity onPress={() => this.props.showConfirmDelete(item)} style={[styles.editButton, { borderWidth: 0, alignItems: 'flex-end' }]} >
-              <MaterialIcon name='delete' color={Color.errorColor} size={20} />
+            <TouchableOpacity onPress={() => this.props.showConfirmDelete(item)} style={[styles.deleteButton, { borderWidth: 0, alignItems: 'flex-end' }]} >
+              <MaterialIcon name='delete' color={Color.errorColor} size={22} />
             </TouchableOpacity>
           }
         </TouchableOpacity>

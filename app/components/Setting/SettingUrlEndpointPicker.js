@@ -52,7 +52,7 @@ class SettingUrlEndpointPicker extends React.Component {
 
           this.props.updateSelectedEndpointUrl(settingData.backendUrl);
         }
-      }, 100);
+      }, 50);
     });
   }
 
@@ -133,9 +133,7 @@ class SettingUrlEndpointPicker extends React.Component {
     EndpointUrl.destroy(this.endpointToDelete.uuid);
     this.endpointToDelete = null;
     this.setState({ visibleConfirmModal: false });
-    this.loadEndpointUrls(() => {
-      this.pickerContentRef.current?.updateItems(this.state.endpointUrls);
-    });
+    this.loadEndpointUrls(() => this.pickerContentRef.current?.updateItems(this.state.endpointUrls));
   }
 
   render() {

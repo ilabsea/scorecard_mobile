@@ -64,7 +64,6 @@ class AddNewEndpointUrlBody extends React.Component {
         <BottomButton
           label={this.state.editEndpoint ? translations.saveAndChange : translations.save}
           onPress={() => this.save()}
-          // disabled={this.props.isLoading || !this.props.isFormValid || this.props.isLocked}
           disabled={!this.state.isFormValid}
           iconName='none'
         />

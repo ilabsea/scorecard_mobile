@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Color from '../../themes/color';
@@ -9,15 +9,19 @@ import PressableLabel from '../Share/PressableLabel';
 import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getProposedIndicatorVideoId } from '../../utils/proposed_indicator_util';
-import { navigationRef } from '../../navigators/app_navigator';
 
 class ProposedIndicatorMethodDetailsContent extends React.Component {
   static contextType = LocalizationContext;
 
   showVideoPlayer() {
-    navigationRef.current?.reset({ index: 1, routes: [
-      { name: 'VideoPlayer', params: { video_id: getProposedIndicatorVideoId(this.props.proposeMethod.value), title: this.props.proposeMethod.label } }
-    ]});
+    const videoId = getProposedIndicatorVideoId(this.props.proposeMethod.value);
+
+    Linking.canOpenURL('vnd.youtube://shorts/' + videoId).then(supported => {
+      if (supported)
+        return Linking.openURL('vnd.youtube://shorts/' + videoId);
+      else
+        return Linking.openURL('https://www.youtube.com/shorts/' + videoId);
+    });
   }
 
   render() {

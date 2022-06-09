@@ -1,8 +1,6 @@
 import React from 'react';
-
 import {LocalizationContext} from '../Translations';
 import ActionButton from '../ActionButton';
-// import WarningMessage from './WarningMessage';
 
 class AddNewEndpointUrlFooter extends React.Component {
   static contextType = LocalizationContext;
@@ -10,8 +8,6 @@ class AddNewEndpointUrlFooter extends React.Component {
   render() {
     return (
       <React.Fragment>
-
-
         <ActionButton
           label={translations.save}
           onPress={() => this.props.save()}
