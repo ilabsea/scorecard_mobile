@@ -1,12 +1,16 @@
 import EndpointUrl from '../models/EndpointUrl';
+import Scorecard from '../models/Scorecard';
 import { defaultEndpointUrls } from '../constants/url_constant';
 import { endpointUrlColors } from '../constants/color_constant';
 import Color from '../themes/color';
+import scorecardHelper from '../helpers/scorecard_helper';
+import settingHelper from '../helpers/setting_helper';
 
 const endpointUrlHelper = (() => {
   return {
     generateShortcutInfo,
     getColor,
+    getEndpointUrlByScorecard,
   }
 
   function generateShortcutInfo(customEndpointUrls, url) {
@@ -23,6 +27,12 @@ const endpointUrlHelper = (() => {
       'text': Color.blackColor
     };
     return colors[type];
+  }
+
+  async function getEndpointUrlByScorecard(scorecardUuid) {
+    const scorecard = Scorecard.find(scorecardUuid);
+    const scorecardEndpointUrl = scorecardHelper.getEndpointUrl(scorecard);
+    return !!scorecardEndpointUrl ? scorecardEndpointUrl.id : await settingHelper.getSavedEndpointUrlId();
   }
 
   // private method

@@ -26,14 +26,14 @@ class ScorecardProgressButtons extends Component {
     this.state = {
       visibleConfirmModal: false,
       isRefreshable: false,
-      isAllowToFinish: false,
+      isFinishable: false,
     };
   }
 
   async componentDidMount() {
     this.setState({
       isRefreshable: await Scorecard.isRefreshable(this.props.scorecard),
-      isAllowToFinish: await scorecardProgressService.isAllowToFinish(this.props.scorecard)
+      isFinishable: await scorecardProgressService.isFinishable(this.props.scorecard)
     });
   }
 
@@ -47,7 +47,7 @@ class ScorecardProgressButtons extends Component {
   renderBtnFinish() {
     return (
       <BottomButton
-        disabled={!this.state.isAllowToFinish}
+        disabled={!this.state.isFinishable}
         onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
