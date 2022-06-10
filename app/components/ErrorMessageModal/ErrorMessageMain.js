@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import CustomStyle from '../../themes/customStyle';
-import Color from '../../themes/color';
-
 import { LocalizationContext } from '../Translations';
 import CloseButton from '../CloseButton';
 import ErrorMessageHeader from './ErrorMessageHeader';

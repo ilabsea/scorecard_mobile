@@ -48,8 +48,11 @@ class ScorecardProgressSubmitButton extends Component {
 
   submitLabel() {
     const { translations } = this.context;
-    const beforeSubmittingLabel = this.state.hasMatchedEndpointUrl ? translations.submit : translations.unableToSubmit;
-    return isScorecardInReview(this.props.scorecard) ? translations.submitted : beforeSubmittingLabel;
+
+    if (this.props.scorecard.isCompleted || isScorecardInReview(this.props.scorecard))
+      return translations.submitted
+
+    return this.state.hasMatchedEndpointUrl ? translations.submit : translations.unableToSubmit;
   }
 
   renderButton() {

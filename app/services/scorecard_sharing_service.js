@@ -12,6 +12,7 @@ const scorecardSharingService = (() => {
   return {
     shareScorecardPdfFile,
     deleteScorecardPdf,
+    isShareable,
   }
 
   async function shareScorecardPdfFile(scorecardUuid, updateLoadingStatus, updateErrorMessageModal, appLanguage) {
@@ -32,6 +33,11 @@ const scorecardSharingService = (() => {
       if (await _isFileExist(fileName))
         RNFS.unlink(getPDFPath(fileName));
     });
+  }
+
+  async function isShareable(scorecardUuid, appLanguage, hasMatchedEndpointUrl) {
+    const fileName = _getFileName(scorecardUuid, appLanguage);
+    return await _isFileExist(fileName) || hasMatchedEndpointUrl;
   }
 
   // private method

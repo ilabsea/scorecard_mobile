@@ -25,14 +25,14 @@ class ScorecardProgressButtons extends Component {
     super(props);
     this.state = {
       visibleConfirmModal: false,
-      isRefreshable: false,
+      progressMessage: '',
       isFinishable: false,
     };
   }
 
   async componentDidMount() {
     this.setState({
-      isRefreshable: await Scorecard.isRefreshable(this.props.scorecard),
+      progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard),
       isFinishable: await scorecardProgressService.isFinishable(this.props.scorecard)
     });
   }
@@ -73,7 +73,7 @@ class ScorecardProgressButtons extends Component {
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
 
-    if (this.state.isRefreshable)
+    if (this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
       message = translations[this.props.progressMessage]
