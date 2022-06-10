@@ -130,10 +130,7 @@ const Scorecard = (() => {
   }
 
   async function isEditable(scorecard) {
-    if (!await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.milestone)
-      return false;
-
-    return !scorecard.finished;
+    return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.finished;
   }
 
   async function isStepEditable(scorecard, currentStep) {
