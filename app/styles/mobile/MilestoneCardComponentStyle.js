@@ -4,6 +4,7 @@ import Color from '../../themes/color';
 import { mdLabelSize, mdIconSize } from '../../constants/mobile_font_size_constant';
 import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import { pressableItemSize } from '../../utils/component_util';
 
 export const badgeSize = wp('9%');
 
@@ -59,7 +60,7 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   btnResume: {
     backgroundColor: Color.headerColor,
-    height: 48,
+    height: pressableItemSize(),
     width: wp('18%'),
     justifyContent: 'center',
     alignItems: 'center',

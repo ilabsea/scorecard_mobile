@@ -8,6 +8,7 @@ import scorecardSharingService from '../../services/scorecard_sharing_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import Color from '../../themes/color';
 import { ERROR_SHARE_PDF_MISMATCH_ENDPOINT } from '../../constants/error_constant';
+import { pressableItemSize } from '../../utils/component_util';
 
 class ScorecardProgressShareButton extends Component {
   static contextType = LocalizationContext;
@@ -18,7 +19,7 @@ class ScorecardProgressShareButton extends Component {
       return;
     }
 
-     NetInfo.fetch().then(state => {
+    NetInfo.fetch().then(state => {
       if (state.isConnected && state.isInternetReachable) {
         scorecardSharingService.shareScorecardPdfFile(this.props.scorecard.uuid, this.props.updateLoadingStatus, this.props.updateErrorMessageModal, this.context.appLanguage);
         return;
@@ -30,7 +31,9 @@ class ScorecardProgressShareButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.shareSubmittedScorecard()} disabled={ !this.props.scorecard.isCompleted }>
+      <TouchableOpacity onPress={() => this.shareSubmittedScorecard()} disabled={ !this.props.scorecard.isCompleted }
+        style={{height: pressableItemSize(), width: pressableItemSize(), justifyContent: 'center', alignItems: 'flex-end'}}
+      >
         <MaterialIcon name="share" size={22} color={ !this.props.scorecard.isCompleted ? Color.disabledBtnBg : Color.whiteColor } />
       </TouchableOpacity>
     );

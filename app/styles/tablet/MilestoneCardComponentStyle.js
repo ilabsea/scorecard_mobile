@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
+import { pressableItemSize } from '../../utils/component_util';
 
 export const badgeSize = 40;
 
@@ -53,7 +54,7 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   btnResume: {
     backgroundColor: Color.headerColor,
-    height: 48,
+    height: pressableItemSize(),
     width: 167,
     justifyContent: 'center',
     alignItems: 'center',

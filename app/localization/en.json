@@ -380,7 +380,7 @@
   "unableToSubmit": "Unable to submit",
   "scorecardIsExecuted": "Scorecard is executed",
   "scorecardIsCompleted": "Scorecard is completed",
-  "scorecardIsSubmitted": "Scorecard is submitted",
+  "failedToSubmitTheScorecard": "Failed to submit the scorecard",
   "somethingWentWrong": "Something went wrong",
   "unableToDownloadThePdfFile": "Unable to download the PDF file",
   "invalidUrl": "Invalid URL",

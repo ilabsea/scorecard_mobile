@@ -30,7 +30,7 @@ class ErrorMessageMain extends Component {
         description: translations.formatString(translations.scorecardIsCompletedMessage, scorecardCode)
       },
       'ERROR_SUBMIT_SCORECARD': {
-        title: translations.scorecardIsSubmitted,
+        title: translations.failedToSubmitTheScorecard,
         description: translations.formatString(translations.errorSubmitScorecardMessage, scorecardCode)
       },
       'ERROR_DOWNLOAD_SCORECARD': {
