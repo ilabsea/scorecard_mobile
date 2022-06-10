@@ -375,5 +375,7 @@
   "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below",
   "httpsRecommended": "https recommended",
   "doYouWantToDiscardTheseChanges": "Do you want to discard these changes?",
-  "theServerUrlHasChanged": "The server URL has been changed"
+  "theServerUrlHasChanged": "The server URL has been changed",
+  "sharePDFMismatchEndpointMessage": "Unable to download and share the PDF file because this scorecard has a mismatched server URL with the current connected server URL.",
+  "unableToSubmit": "Unable to submit"
 }

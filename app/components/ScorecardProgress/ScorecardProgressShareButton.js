@@ -8,6 +8,7 @@ import scorecardSharingService from '../../services/scorecard_sharing_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
+import { ERROR_SHARE_PDF_MISMATCH_ENDPOINT } from '../../constants/error_constant';
 
 class ScorecardProgressShareButton extends Component {
   static contextType = LocalizationContext;
@@ -26,11 +27,21 @@ class ScorecardProgressShareButton extends Component {
 
   componentWillUnmount() { this.componentIsUnmount = true; }
 
-  async checkShareableStatus() {
-    this.setState({ isShareable: await Scorecard.isShareable(this.props.scorecard) })
+  // async checkShareableStatus() {
+  //   this.setState({ isShareable: await Scorecard.isShareable(this.props.scorecard) })
+  // }
+
+  checkShareableStatus() {
+    this.setState({ isShareable: this.props.scorecard.isCompleted })
   }
 
   shareSubmittedScorecard() {
+    if (!this.props.hasMatchedEndpointUrl) {
+      console.log('==== cannot share the PDF file')
+      this.props.updateErrorMessageModal(ERROR_SHARE_PDF_MISMATCH_ENDPOINT, true);
+      return;
+    }
+
      NetInfo.fetch().then(state => {
       if (state.isConnected && state.isInternetReachable) {
         scorecardSharingService.shareScorecardPdfFile(this.props.scorecard.uuid, this.props.updateLoadingStatus, this.props.updateErrorMessageModal, this.context.appLanguage);
@@ -55,7 +66,7 @@ class ScorecardProgressShareButton extends Component {
       >
         <MaterialIcon name="share" size={22} color={ !this.state.isShareable ? Color.disabledBtnBg : Color.whiteColor } />
 
-        { this.renderWarningIcon() }
+        {/* { this.renderWarningIcon() } */}
       </TouchableOpacity>
     );
   }

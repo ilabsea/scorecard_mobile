@@ -32,6 +32,7 @@ class ErrorMessageContent extends Component {
       'ERROR_INVALID_SCORECARD_URL': translations.theUrlThatYouCopiedIsInvalid,
       'ERROR_NETWORK_AUTHENTICATION': translations.somethingWentWrongPleaseTryAgain,
       'ERROR_INCORRECT_SCORECARD_CODE': translations.formatString(translations.thisScorecardCodeIsIncorrect, scorecardCode),
+      'ERROR_SHARE_PDF_MISMATCH_ENDPOINT': translations.sharePDFMismatchEndpointMessage,
       'default': translations.formatString(translations.scorecardIsNotExist, scorecardCode)
     }
 

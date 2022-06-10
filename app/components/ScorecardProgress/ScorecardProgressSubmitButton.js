@@ -46,8 +46,13 @@ class ScorecardProgressSubmitButton extends Component {
     return false;
   }
 
-  renderButton() {
+  submitLabel() {
     const { translations } = this.context;
+    const beforeSubmittingLabel = this.state.hasMatchedEndpointUrl ? translations.submit : translations.unableToSubmit;
+    return isScorecardInReview(this.props.scorecard) ? translations.submitted : beforeSubmittingLabel;
+  }
+
+  renderButton() {
     let isDisable = this.isButtonDisable();
     let btnStyle = { backgroundColor: isDisable ? Color.disabledBtnBg : Color.headerColor };
 
@@ -57,9 +62,7 @@ class ScorecardProgressSubmitButton extends Component {
         onPress={() => this.props.submitToServer() }
         style={[responsiveStyles.btn, btnStyle]}>
 
-        <Text style={responsiveStyles.btnText}>
-          { isScorecardInReview(this.props.scorecard) ? translations.submitted : translations.submit }
-        </Text>
+        <Text style={responsiveStyles.btnText}>{ this.submitLabel() }</Text>
 
         { isScorecardInReview(this.props.scorecard) &&
           <Text style={responsiveStyles.btnSubText}>({ this.context.translations.inReview })</Text>

@@ -375,5 +375,7 @@
   "pleaseVoteForTheProposedIndicatorsBelow": "សូមធ្វើការដាក់ពិន្ទុឲ្យលក្ខណៈវិនិច្ឆ័យខាងក្រោម",
   "httpsRecommended": "https ត្រូវបានណែនាំ",
   "doYouWantToDiscardTheseChanges": "តើអ្នកពិតជាចង់បោះបង់ការកែប្រែទាំងនេះមែនទេ?",
-  "theServerUrlHasChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ"
+  "theServerUrlHasChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ",
+  "sharePDFMismatchEndpointMessage": "មិនអាចធ្វើការទាញយក និងចែករំលែកឯកសារ PDF បានទេ ដោយសារប័ណ្ណដាក់ពិន្ទុនេះមានអាស័យដ្ឋានម៉ាសុីនមេខុសពីអាស័យដ្ឋានម៉ាសុីនមេដែលអ្នកកំពុងភ្ជាប់។",
+  "unableToSubmit": "មិនអាចធ្វើការដាក់ស្នើ"
 }
