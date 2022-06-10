@@ -4,6 +4,7 @@ import AppIcon from 'react-native-vector-icons/FontAwesome';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
+import EndpointBadge from '../Share/EndpointBadge';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -30,6 +31,11 @@ class ScorecardProgressTitle extends Component {
       )
   }
 
+  renderEndpointBadge() {
+    const endpointUrl = scorecardHelper.getEndpointUrl(this.props.scorecard);
+    return <EndpointBadge endpoint={endpointUrl} badgeStyle={{marginBottom: 12}} />
+  }
+
   render() {
     return (
       <View style={{marginBottom: 15}}>
@@ -38,6 +44,8 @@ class ScorecardProgressTitle extends Component {
           <Text style={responsiveStyles.title}>
             { this.props.scorecard.uuid }
           </Text>
+
+          { this.renderEndpointBadge() }
 
           { this.renderConductedDate() }
         </View>
