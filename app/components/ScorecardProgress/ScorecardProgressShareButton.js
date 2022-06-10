@@ -37,7 +37,6 @@ class ScorecardProgressShareButton extends Component {
 
   shareSubmittedScorecard() {
     if (!this.props.hasMatchedEndpointUrl) {
-      console.log('==== cannot share the PDF file')
       this.props.updateErrorMessageModal(ERROR_SHARE_PDF_MISMATCH_ENDPOINT, true);
       return;
     }

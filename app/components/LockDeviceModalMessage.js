@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LocalizationContext } from './Translations';
-import ErrorMessageContent from './ErrorMessageModal/ErrorMessageContent';
+import ErrorMessageMain from './ErrorMessageModal/ErrorMessageMain';
 
 class LockDeviceModalMessage extends React.Component {
   static contextType = LocalizationContext;
@@ -9,7 +9,7 @@ class LockDeviceModalMessage extends React.Component {
   render() {
     const { translations } = this.context;
 
-    return <ErrorMessageContent
+    return <ErrorMessageMain
               onDismiss={this.props.onDismiss}
               message={ translations.formatString(translations.yourDeviceIsCurrentlyLocked, this.props.unlockAt) }
             />

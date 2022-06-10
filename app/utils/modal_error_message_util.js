@@ -8,7 +8,7 @@ import {
 } from '../constants/error_constant';
 import ErrorRequestToServerContent  from '../components/ErrorMessageModal/ErrorRequestToServerContent';
 import ErrorAuthenticationContent from '../components/ErrorMessageModal/ErrorAuthenticationContent';
-import ErrorMessageContent from '../components/ErrorMessageModal/ErrorMessageContent';
+import ErrorMessageMain from '../components/ErrorMessageModal/ErrorMessageMain';
 
 const getErrorMessageContent = (params, onDismiss) => {
   const { error_type, is_new_scorecard, is_submit, scorecard_uuid, backend_url } = params;
@@ -27,7 +27,7 @@ const getErrorMessageContent = (params, onDismiss) => {
             />;
   }
 
-  return <ErrorMessageContent 
+  return <ErrorMessageMain
             onDismiss={onDismiss}
             scorecardUuid={scorecard_uuid}
             errorType={error_type}
