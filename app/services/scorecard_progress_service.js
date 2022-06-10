@@ -10,7 +10,7 @@ const scorecardProgressService = (() => {
   }
 
   async function isFinishable(scorecard) {
-    if (scorecard.finished)
+    if (scorecard.finished || !await Scorecard.hasMatchedEndpointUrl(scorecard.uuid))
       return false;
 
     const votingIndicators = VotingIndicator.getAll(scorecard.uuid);

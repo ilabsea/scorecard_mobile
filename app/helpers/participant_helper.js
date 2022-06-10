@@ -19,9 +19,7 @@ const participantHelper = (() => {
       case 'male':
         return 'mars';
       default:
-        // return 'user-circle';
-        return 'transgender-alt';
-        // return 'transgender';
+        return 'transgender';
     }
   }
 

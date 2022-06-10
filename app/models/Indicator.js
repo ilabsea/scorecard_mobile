@@ -10,7 +10,6 @@ const  MODEL = 'Indicator';
 
 const Indicator = (() => {
   return {
-    getAllCusIndicator,
     find,
     create,
     update,
@@ -25,10 +24,6 @@ const Indicator = (() => {
     deleteAll,
     getPredefeinedIndicatorsWithoutUuid,
   };
-
-  function getAllCusIndicator(scorecardUuid) {
-    console.log('all cus indicators = ', realm.objects(MODEL).filtered(`type = '${CUSTOM}' AND scorecard_uuid = '${scorecardUuid}'`))
-  }
 
   function find(indicatorId, type) {
     if (type === CUSTOM)
