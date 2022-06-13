@@ -4,6 +4,7 @@ import Scorecard from '../models/Scorecard';
 import ScorecardService from './scorecardService';
 import { apiDateFormat } from '../constants/date_format_constant';
 import { SUBMITTED, COMPLETED } from '../constants/milestone_constant';
+import settingHelper from '../helpers/setting_helper';
 
 const scorecardSyncService = (() => {
   return {
@@ -36,16 +37,26 @@ const scorecardSyncService = (() => {
   }
 
   function syncScorecard(scorecardUuid, callback, errorCallback) {
-    new ScorecardService().find(scorecardUuid, (responseData) => {
-      if (!!responseData && responseData.status === COMPLETED) {
-        Scorecard.update(scorecardUuid, { milestone: SUBMITTED }, (newScorecard) => {
+    new ScorecardService().find(scorecardUuid, async (responseData) => {
+      if (!!responseData) {
+        const params = { endpoint_url: await settingHelper.getFullyEndpointUrl() }
+
+        if (responseData.status === COMPLETED)
+          params.milestone = SUBMITTED
+
+        Scorecard.update(scorecardUuid, params, (newScorecard) => {
           !!callback && callback(newScorecard);
         });
         return;
       }
-
       !!callback && callback(Scorecard.find(scorecardUuid));
     }, (error) => {
+      if (error.status == '404') {
+        Scorecard.update(scorecardUuid, { endpoint_url: '' }, (newScorecard) => {
+          !!callback && callback(newScorecard);
+        });
+      }
+
       !!errorCallback && errorCallback(error);
     });
   }
