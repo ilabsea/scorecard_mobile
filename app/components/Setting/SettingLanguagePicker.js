@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 
 import {LocalizationContext} from '../Translations';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
+import BottomSheetPickerMain from '../BottomSheetPicker/BottomSheetPickerMain';
 import {locales} from '../../constants/locale_constant';
 import { settingLanguageSnapPoints, settingLanguageContentHeight } from '../../constants/modal_constant';
 
@@ -19,7 +19,7 @@ const SettingSelectPickers = (props) => {
   function showPicker() {
     props.formRef.current?.setSnapPoints(settingLanguageSnapPoints);
     props.formRef.current?.setBodyContent(
-      <BottomSheetPickerContent
+      <BottomSheetPickerMain
         title={ translations.selectLanguage }
         items={locales}
         selectedItem={locale}

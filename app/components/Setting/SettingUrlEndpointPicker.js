@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
+import BottomSheetPickerMain from '../BottomSheetPicker/BottomSheetPickerMain';
 import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
 import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
 import SettingUrlEndpointDeleteModal from './SettingUrlEndpointDeleteModal';
@@ -72,7 +72,7 @@ class SettingUrlEndpointPicker extends React.Component {
     this.defaultSavedEndpointUrl = await settingHelper.getSavedEndpointUrl();
 
     this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
-    this.props.formRef.current?.setBodyContent(this.renderBottomSheetPickerContent());
+    this.props.formRef.current?.setBodyContent(this.renderBottomSheetPickerMain());
     this.props.formModalRef.current?.present();
   }
 
@@ -83,8 +83,8 @@ class SettingUrlEndpointPicker extends React.Component {
     return endpointUrl != this.props.selectedEndpointUrl && endpointUrl != this.defaultSavedEndpointUrl;
   }
 
-  renderBottomSheetPickerContent() {
-    return <BottomSheetPickerContent
+  renderBottomSheetPickerMain() {
+    return <BottomSheetPickerMain
             ref={this.pickerContentRef}
             title={this.context.translations.serverUrl}
             items={this.state.endpointUrls}

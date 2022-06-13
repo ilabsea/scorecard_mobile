@@ -2,7 +2,7 @@ import React from 'react';
 
 import {LocalizationContext} from '../Translations';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
+import BottomSheetPickerMain from '../BottomSheetPicker/BottomSheetPickerMain';
 
 import { scorecardPreferenceLanguagePickerContentHeight } from '../../constants/modal_constant';
 
@@ -24,7 +24,7 @@ class ScorecardPreferenceLanguagePickers extends React.Component {
     }
 
     this.props.pickerRef.current?.setBodyContent(
-      <BottomSheetPickerContent
+      <BottomSheetPickerMain
         title={ titles[type] }
         items={this.props.languages}
         selectedItem={selectedItem}
