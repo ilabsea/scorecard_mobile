@@ -16,7 +16,7 @@ class SettingUrlEndpointPickerItem extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginBottom: 8, alignItems: 'center'}}>
           <Text style={[styles.itemTitle, { color: Color.blackColor }]}>{ item.label }</Text>
 
           <EndpointBadge endpoint={item} />
