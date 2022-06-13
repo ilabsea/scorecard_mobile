@@ -4,6 +4,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
+import GenderIcon from '../Share/GenderIcon';
 
 import Color from '../../themes/color';
 import participantHelper from '../../helpers/participant_helper';
@@ -23,7 +24,11 @@ class ParticipantAttributes extends React.Component {
       return <MaterialIcon name="person" size={mediumIconSize()} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
     const gender = participantHelper.getGenderIconLabel(this.props.participant.gender);
-    return <FontAwesomeIcon name={gender} style={styles.iconStyle} color={Color.blackColor} />;
+    // return <FontAwesomeIcon name={gender} style={styles.iconStyle} color={Color.blackColor} />;
+    return <GenderIcon gender={this.props.participant.gender}
+              size={mediumIconSize()} color={Color.blackColor}
+              containerStyle={{ marginLeft: 5, width: '50%' }}
+            />
   };
 
   getAge = () => {
@@ -55,7 +60,10 @@ class ParticipantAttributes extends React.Component {
           <Text style={{fontSize: smallTextFontSize()}}> { translations.year }{ appLanguage == 'en' ? 's' : '' }</Text>
         </View>
 
-        <View style={styles.genderContainer}>{ this.renderGender() }</View>
+        {/* <View style={styles.genderContainer}>{ this.renderGender() }</View> */}
+        <View style={[styles.genderContainer, { borderWidth: 0, borderColor: 'green', width: 28, marginLeft: 10, paddingRight: 0, paddingLeft: 0}]}>
+          { this.renderGender() }
+        </View>
 
         {this.renderAttributes()}
       </View>

@@ -29,9 +29,9 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     padding: 0,
     textAlign: 'center',
   },
-  iconStyle: {
-    fontSize: mediumIconSize(),
-  },
+  // iconStyle: {
+  //   fontSize: mediumIconSize(),
+  // },
   genderContainer: {
     paddingRight: 10,
     paddingLeft: 16

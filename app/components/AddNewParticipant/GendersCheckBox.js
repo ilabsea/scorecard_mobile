@@ -4,6 +4,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
 import SelectBox from './SelectBox';
+import GenderIcon from '../Share/GenderIcon';
 
 import participantHelper from '../../helpers/participant_helper';
 import uuidv4 from '../../utils/uuidv4'
@@ -39,15 +40,20 @@ class GendersCheckBox extends Component {
   }
 
   _renderGenderIcon = (gender) => {
-    const iconLabel = participantHelper.getGenderIconLabel(gender);
+    // const iconLabel = participantHelper.getGenderIconLabel(gender);
     const isSelected = gender == this.state.selectedGender;
-    const iconsize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
+    const iconSize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
-    return (
-      <FontAwesomeIcon name={iconLabel} size={iconsize} style={{paddingHorizontal: 10}}
-        color={participantHelper.getItemColor(isSelected, 'text')}
-      />
-    );
+    // return <GenderIcon gender={gender} size={iconSize} iconStyle={{paddingHorizontal: 10}} color={participantHelper.getItemColor(isSelected, 'text')} />
+    return <GenderIcon gender={gender} size={iconSize} color={participantHelper.getItemColor(isSelected, 'text')}
+              containerStyle={{ marginLeft: 0, width: '28%' }}
+            />
+
+    // return (
+    //   <FontAwesomeIcon name={iconLabel} size={iconsize} style={{paddingHorizontal: 10}}
+    //     color={participantHelper.getItemColor(isSelected, 'text')}
+    //   />
+    // );
   }
 
   onPress = (gender) => {
