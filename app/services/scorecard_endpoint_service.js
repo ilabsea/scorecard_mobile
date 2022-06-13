@@ -17,12 +17,12 @@ const scorecardEndpointService = (() => {
   }
 
   async function handleUpdateScorecardWithoutEndpointUrl() {
-    if (!reLoginService.isAppVersionForUpdateScorecard())
+    if (!reLoginService.isRequireReLogin())
       return;
 
     const endpointUrl = await settingHelper.getFullyEndpointUrl();
+
     _updateScorecardEndpoint(endpointUrl);
-    reLoginService.setHasReLoggedIn();
   }
 
   // private method

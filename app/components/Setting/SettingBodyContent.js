@@ -119,6 +119,7 @@ class SettingBodyContent extends React.Component {
       const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
       scorecardTracingStepsService.trace(null, tracingStep, email);
       settingHelper.clearTempSettingData();
+      reLoginService.setHasReLoggedIn();
       navigationRef.current?.goBack();
     }, async (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
