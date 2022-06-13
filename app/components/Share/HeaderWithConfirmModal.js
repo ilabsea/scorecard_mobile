@@ -29,6 +29,7 @@ class HeaderWithConfirmModal extends React.Component {
           description={this.props.modalDescription}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
+          closeButtonLabel={translations.infoCloseLabel}
           onPressConfirmButton={() => this.props.goBack()}
         />
       </React.Fragment>
