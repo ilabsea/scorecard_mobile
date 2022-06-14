@@ -13,7 +13,7 @@ import EndpointUrl from '../../models/EndpointUrl';
 import settingHelper from '../../helpers/setting_helper';
 import endpointFormHelper from '../../helpers/endpoint_form_helper';
 
-class AddNewEndpointUrlBody extends React.Component {
+class AddNewEndpointUrlMain extends React.Component {
   static contextType = LocalizationContext
   constructor(props) {
     super(props);
@@ -21,7 +21,6 @@ class AddNewEndpointUrlBody extends React.Component {
     this.state = {
       isFormValid: false,
     }
-
     this.inputFormRef = React.createRef();
   }
 
@@ -39,13 +38,12 @@ class AddNewEndpointUrlBody extends React.Component {
     }
 
     EndpointUrl.create(params);
-
     endpointFormHelper.setNewEndpointAdded(true);
-    this.storeTempSettingData(endpointValue);
+    this.setTempSettingData(endpointValue);
     navigateBack();
   }
 
-  async storeTempSettingData(url) {
+  async setTempSettingData(url) {
     const settingData = await settingHelper.getSettingData();
     const email = !!settingData && !!settingData.email ? settingData.email : '';
     const password = !!settingData && !!settingData.password ? settingData.password : '';
@@ -72,4 +70,4 @@ class AddNewEndpointUrlBody extends React.Component {
   }
 }
 
-export default AddNewEndpointUrlBody;
+export default AddNewEndpointUrlMain;

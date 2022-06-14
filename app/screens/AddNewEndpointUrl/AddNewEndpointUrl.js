@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import AddNewEndpointUrlHeader from '../../components/AddNewEndpointUrl/AddNewEndpointUrlHeader';
-import AddNewEndpointUrlBody from '../../components/AddNewEndpointUrl/AddNewEndpointUrlBody';
+import AddNewEndpointUrlMain from '../../components/AddNewEndpointUrl/AddNewEndpointUrlMain';
 
 class AddNewEndpointUrl extends React.Component {
   static contextType = LocalizationContext
@@ -18,7 +18,7 @@ class AddNewEndpointUrl extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1, backgroundColor: 'white'}}>
           <AddNewEndpointUrlHeader bodyRef={this.bodyRef} />
-          <AddNewEndpointUrlBody ref={this.bodyRef} />
+          <AddNewEndpointUrlMain ref={this.bodyRef} />
         </View>
       </TouchableWithoutFeedback>
     )
