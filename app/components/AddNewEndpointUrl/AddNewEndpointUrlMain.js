@@ -47,7 +47,7 @@ class AddNewEndpointUrlMain extends React.Component {
     const settingData = await settingHelper.getSettingData();
     const email = !!settingData && !!settingData.email ? settingData.email : '';
     const password = !!settingData && !!settingData.password ? settingData.password : '';
-    settingHelper.saveTempSettingData(url, email, password);
+    settingHelper.setTempSettingData(url, email, password);
   }
 
   render() {

@@ -73,7 +73,7 @@ class SettingForm extends Component {
   saveTempSettingData() {
     setTimeout(() => {
       const { backendUrl, email, password } = this.state;
-      settingHelper.saveTempSettingData(backendUrl, email, password);
+      settingHelper.setTempSettingData(backendUrl, email, password);
     }, 100);
   }
 

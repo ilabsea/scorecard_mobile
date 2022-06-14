@@ -14,7 +14,7 @@ const settingHelper = (() => {
     getProposedIndicatorMethodTracingStep,
     getFullyEndpointUrl,
     getSavedEndpointUrl,
-    saveTempSettingData,
+    setTempSettingData,
     getTempSettingData,
     clearTempSettingData,
     getSettingData,
@@ -75,7 +75,7 @@ const settingHelper = (() => {
     return (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
   }
 
-  function saveTempSettingData(backendUrl, email, password) {
+  function setTempSettingData(backendUrl, email, password) {
     AsyncStorage.setItem(keyName, JSON.stringify({ backendUrl: backendUrl, email: email, password: password }));
   }
 
