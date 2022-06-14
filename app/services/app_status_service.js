@@ -10,14 +10,12 @@ const appStatusService = (() => {
 
   // Check if the app version 1.5.2 is freshly installed, do not show the alert message
   async function handleAppInstallingStatus() {
-    if (pkg.version == '1.5.7' && !await settingHelper.getFullyEndpointUrl()) {
-      reLoginService.setHasReLoggedIn();
-      AsyncStorage.setItem('FIRST_TIME_LAUNCH', 'false');
-    }
-    else if (pkg.version == '1.5.7' && await isFirstTimeLaunch()) {
-      reLoginService.clearHasReLoggedIn();
-      AsyncStorage.setItem('FIRST_TIME_LAUNCH', 'false');
-    }
+    if (pkg.version == '1.5.7' && !await settingHelper.getFullyEndpointUrl())
+      reLoginService.setReLoggedIn(true);
+    else if (pkg.version == '1.5.7' && await isFirstTimeLaunch())
+      reLoginService.setReLoggedIn(false);
+
+    AsyncStorage.setItem('FIRST_TIME_LAUNCH', 'false');
   }
 
   // private method

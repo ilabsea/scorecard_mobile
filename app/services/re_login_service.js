@@ -7,13 +7,12 @@ const reLoginService = (() => {
     isReLoggedIn,
     isRequireReLogin,
     initReLoginStatus,
-    setHasReLoggedIn,
-    clearHasReLoggedIn,
+    setReLoggedIn,
   }
 
   async function isReLoggedIn() {
-    const hasReLoggedIn = await AsyncStorage.getItem(keyName);
-    return !!hasReLoggedIn ? JSON.parse(hasReLoggedIn) : false;
+    const reLoggedIn = await AsyncStorage.getItem(keyName);
+    return !!reLoggedIn ? JSON.parse(reLoggedIn) : false;
   }
 
   // To do: Remove the update endpoint in the future
@@ -26,12 +25,8 @@ const reLoginService = (() => {
     AsyncStorage.setItem(keyName, JSON.stringify(await isReLoggedIn()));
   }
 
-  function setHasReLoggedIn() {
-    AsyncStorage.setItem(keyName, 'true');
-  }
-
-  function clearHasReLoggedIn() {
-    AsyncStorage.removeItem(keyName);
+  function setReLoggedIn(status) {
+    AsyncStorage.setItem(keyName, status.toString());
   }
 })();
 
