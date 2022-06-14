@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
+import GenderIcon from '../Share/GenderIcon';
 import participantHelper from '../../helpers/participant_helper';
 
 import Color from '../../themes/color';
@@ -25,6 +26,11 @@ class ParticipantAccordionTitle extends Component {
   }
 
   renderGender(gender) {
+    return <GenderIcon gender={gender}
+              size={20} color={Color.blackColor}
+              containerStyle={styles.genderIconContainer}
+            />
+
     return (
       <View style={styles.genderIconContainer}>
         <FontAwesomeIcon name={participantHelper.getGenderIconLabel(gender)} size={20} color={Color.blackColor} />

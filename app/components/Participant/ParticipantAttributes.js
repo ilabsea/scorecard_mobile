@@ -6,7 +6,6 @@ import {LocalizationContext} from '../Translations';
 import GenderIcon from '../Share/GenderIcon';
 
 import Color from '../../themes/color';
-import participantHelper from '../../helpers/participant_helper';
 import uuidv4 from '../../utils/uuidv4';
 import { smallTextFontSize, mediumIconSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
