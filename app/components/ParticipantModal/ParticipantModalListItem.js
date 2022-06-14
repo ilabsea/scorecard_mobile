@@ -4,12 +4,11 @@ import {Text} from 'native-base';
 import { Divider } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import styles from '../../themes/participantListItemStyle';
 
-import participantHelper from '../../helpers/participant_helper';
-import { iconSize } from '../../utils/participant_list_util';
+import GenderIcon from '../Share/GenderIcon';
 
+import { iconSize } from '../../utils/participant_list_util';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantModalListItemTabletStyles from '../../styles/tablet/ParticipantModalListItemComponentStyle';
@@ -25,14 +24,12 @@ export default class ParticipantModalListItem extends Component {
   }
 
   renderGender = (participant) => {
-    if (participant === undefined) return (<Text style={{marginLeft: 16}}>---</Text>);
+    if (participant === undefined || participant.gender === '') return (<Text style={{marginLeft: 16}}>---</Text>);
 
-    if (participant.gender === '') {
-      return (<MaterialIcon name="person" size={iconSize} color="#b9b9b9" style={responsiveStyles.genderIcon} />);
-    }
-
-    const gender = participantHelper.getGenderIconLabel(participant.gender);
-    return (<FontAwesomeIcon name={gender} size={iconSize} style={responsiveStyles.genderIcon} color={Color.blackColor} />);
+    return <GenderIcon gender={participant.gender}
+              size={iconSize} color={Color.blackColor}
+              containerStyle={{width: 60, borderWidth: 0, marginRight: -6}}
+            />
   };
 
   getDescription(item, translations) {

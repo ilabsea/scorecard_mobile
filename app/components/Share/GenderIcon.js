@@ -15,18 +15,20 @@ class GenderIcon extends React.Component {
     const subIconSize = this.props.size >= 30 ? this.props.size - 15 : this.props.size - 10;
 
     return (
-      <View style={[{position: 'relative', borderWidth: 0}, this.props.containerStyle]}>
-        <FontAwesomeIcon name='user' size={this.props.size - 4} color={this.props.color} style={this.props.iconStyle} />
+      <View style={{position: 'relative', alignItems: 'center'}}>
+        <FontAwesomeIcon name='user' size={this.props.size - 4} color={this.props.color} style={this.props.transgenderIconStyle} />
 
         <FontAwesomeIcon name='question' size={subIconSize} color={this.props.color}
-          style={{ position: 'absolute', top: -4, right: -2 }}
+          style={{ position: 'absolute', top: -2, alignSelf: 'center', paddingLeft: '30%'}}
         />
       </View>
     )
   }
 
   render() {
-    return this.props.gender == 'other' ? this.renderTransgenderIcon() : this.renderMaleFemaleIcon();
+    return <View style={[{ alignItems: 'center' }, this.props.containerStyle]}>
+              { this.props.gender == 'other' ? this.renderTransgenderIcon() : this.renderMaleFemaleIcon() }
+           </View>
   }
 }
 

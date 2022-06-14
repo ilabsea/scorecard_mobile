@@ -32,10 +32,10 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   // iconStyle: {
   //   fontSize: mediumIconSize()
   // },
-  genderContainer: {
-    paddingRight: 5,
-    paddingLeft: 12
-  },
+  // genderContainer: {
+  //   paddingRight: 5,
+  //   paddingLeft: 12
+  // },
   attributeLabel: {
     paddingHorizontal: 6,
     fontSize: smallTextFontSize()

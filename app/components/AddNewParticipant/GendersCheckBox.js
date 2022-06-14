@@ -40,20 +40,12 @@ class GendersCheckBox extends Component {
   }
 
   _renderGenderIcon = (gender) => {
-    // const iconLabel = participantHelper.getGenderIconLabel(gender);
     const isSelected = gender == this.state.selectedGender;
     const iconSize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
-    // return <GenderIcon gender={gender} size={iconSize} iconStyle={{paddingHorizontal: 10}} color={participantHelper.getItemColor(isSelected, 'text')} />
     return <GenderIcon gender={gender} size={iconSize} color={participantHelper.getItemColor(isSelected, 'text')}
-              containerStyle={{ marginLeft: 0, width: '28%' }}
+              containerStyle={{width: 70}}
             />
-
-    // return (
-    //   <FontAwesomeIcon name={iconLabel} size={iconsize} style={{paddingHorizontal: 10}}
-    //     color={participantHelper.getItemColor(isSelected, 'text')}
-    //   />
-    // );
   }
 
   onPress = (gender) => {
