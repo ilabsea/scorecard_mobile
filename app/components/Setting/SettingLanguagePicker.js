@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 
 import {LocalizationContext} from '../Translations';
-import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerMain from '../BottomSheetPicker/BottomSheetPickerMain';
+import BottomSheetPicker from '../Share/BottomSheetPicker';
+import BottomSheetPickerMain from '../Share/BottomSheetPicker/BottomSheetPickerMain';
 import {locales} from '../../constants/locale_constant';
 import { settingLanguageSnapPoints, settingLanguageContentHeight } from '../../constants/modal_constant';
 

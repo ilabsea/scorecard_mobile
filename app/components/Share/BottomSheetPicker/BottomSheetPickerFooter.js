@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import {LocalizationContext} from '../Translations';
-import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
+import {LocalizationContext} from '../../Translations';
+import FormBottomSheetButton from '../../FormBottomSheetModal/FormBottomSheetButton';
 
 class BottomSheetPickerFooter extends React.Component {
   static contextType = LocalizationContext;

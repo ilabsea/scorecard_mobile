@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import Color from '../../themes/color';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import { CUSTOM } from '../../constants/main_constant';
-import BottomSheetPickerTabletStyles from '../../styles/tablet/BottomSheetPickerComponentStyle';
-import BottomSheetPickerMobileStyles from '../../styles/mobile/BottomSheetPickerComponentStyle';
+import Color from '../../../themes/color';
+import { getDeviceStyle } from '../../../utils/responsive_util';
+import { CUSTOM } from '../../../constants/main_constant';
+import BottomSheetPickerTabletStyles from '../../../styles/tablet/BottomSheetPickerComponentStyle';
+import BottomSheetPickerMobileStyles from '../../../styles/mobile/BottomSheetPickerComponentStyle';
 
 const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMobileStyles);
 

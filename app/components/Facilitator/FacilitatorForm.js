@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Keyboard } from 'react-native';
 
-import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerMain from '../BottomSheetPicker/BottomSheetPickerMain';
+import BottomSheetPicker from '../Share/BottomSheetPicker';
+import BottomSheetPickerMain from '../Share/BottomSheetPicker/BottomSheetPickerMain';
 import {LocalizationContext} from '../Translations';
 import { environment } from '../../config/environment';
 import { facilitatorPickerContentHeight, facilitatorPickerContentExpanedHeight } from '../../constants/modal_constant';

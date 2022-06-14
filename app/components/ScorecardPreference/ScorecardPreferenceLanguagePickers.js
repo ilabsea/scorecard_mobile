@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {LocalizationContext} from '../Translations';
-import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerMain from '../BottomSheetPicker/BottomSheetPickerMain';
+import BottomSheetPicker from '../Share/BottomSheetPicker';
+import BottomSheetPickerMain from '../Share/BottomSheetPicker/BottomSheetPickerMain';
 
 import { scorecardPreferenceLanguagePickerContentHeight } from '../../constants/modal_constant';
 

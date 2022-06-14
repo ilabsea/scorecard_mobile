@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../Translations';
 import ProposedIndicatorMethodDetails from './ProposedIndicatorMethodDetails';
-import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
+import BottomSheetPicker from '../Share/BottomSheetPicker';
 
 import settingHelper from '../../helpers/setting_helper';
 import { INDICATOR_BASE } from '../../constants/scorecard_constant';

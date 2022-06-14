@@ -3,14 +3,14 @@ import { View, TouchableWithoutFeedback, Keyboard, StyleSheet, Pressable } from 
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import {LocalizationContext} from '../Translations';
-import Color from '../../themes/color';
-import BottomSheetModalTitle from '../BottomSheetModalTitle';
+import {LocalizationContext} from '../../Translations';
+import Color from '../../../themes/color';
+import BottomSheetModalTitle from '../../BottomSheetModalTitle';
 import BottomSheetPickerMainListItem from './BottomSheetPickerMainListItem';
 import BottomSheetPickerFooter from './BottomSheetPickerFooter';
-import SearchBox from '../SearchBox/SearchBox';
+import SearchBox from '../../SearchBox/SearchBox';
 
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding } from '../../../utils/responsive_util';
 
 class BottomSheetPickerMain extends React.Component {
   static contextType = LocalizationContext;
