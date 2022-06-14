@@ -15,12 +15,7 @@ const responsiveStyles = getDeviceStyle(ScorecardProgressTabletStyles, Scorecard
 class ScorecardProgressScrollView extends React.Component {
   state = {
     isLoading: false,
-    isRefreshable: false
   };
-
-  async componentDidMount() {
-    this.setState({ isRefreshable: await Scorecard.isRefreshable(this.props.scorecard) });
-  }
 
   syncScorecard() {
     scorecardSyncService.syncScorecard(this.props.scorecard.uuid, (scorecard) => {
@@ -39,7 +34,6 @@ class ScorecardProgressScrollView extends React.Component {
     return (
       <PullToRefreshScrollView
         containerStyle={responsiveStyles.container}
-        allowPullToRefresh={this.state.isRefreshable}
         syncData={() => this.syncScorecard()}
         isLoading={this.state.isLoading}
         updateLoadingState={(isLoading) => this.updateLoadingState(isLoading)}

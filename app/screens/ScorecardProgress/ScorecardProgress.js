@@ -12,8 +12,8 @@ import Color from '../../themes/color';
 import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import scorecardProgressService from '../../services/scorecard_progress_service';
 import Scorecard from '../../models/Scorecard';
-import settingHelper from '../../helpers/setting_helper';
 import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
@@ -35,7 +35,9 @@ class ScorecardProgress extends Component {
       isLoading: false,
       hasMatchedEndpointUrl: false,
       isEditable: false,
-      isSyncing: false
+      isSyncing: false,
+
+      progressMessage: '',
     };
     this.unsubscribeNetInfo;
     this.componentIsUnmount = false;
@@ -45,6 +47,7 @@ class ScorecardProgress extends Component {
     this.setState({
       hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.state.scorecard.uuid),
       isEditable: await Scorecard.isEditable(this.state.scorecard),
+      progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.state.scorecard),
     });
 
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
@@ -111,12 +114,14 @@ class ScorecardProgress extends Component {
     }, 60000);
   }
 
-  async updateScorecard() {
+  async updateScorecard(updatedScorecard = null) {
     const scorecardUuid = this.props.currentScorecard ? this.props.currentScorecard.uuid : this.props.route.params.uuid;
+    const scorecard = !!updatedScorecard ? updatedScorecard : Scorecard.find(scorecardUuid);
 
     this.setState({
-      scorecard: Scorecard.find(scorecardUuid),
-      isEditable: await Scorecard.isEditable(this.state.scorecard),
+      scorecard: scorecard,
+      isEditable: await Scorecard.isEditable(scorecard),
+      progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, scorecard)
     });
   }
 
@@ -134,7 +139,7 @@ class ScorecardProgress extends Component {
         <Spinner visible={this.state.isLoading} color={Color.primaryColor} overlayColor={Color.loadingBackgroundColor} />
 
         <ScorecardProgressScrollView scorecard={this.state.scorecard}
-          updateScorecard={(scorecard) => this.setState({ scorecard }) }
+          updateScorecard={(scorecard) => this.updateScorecard(scorecard)}
           isEditable={this.state.isEditable}
           navigation={this.props.navigation}
           updateSyncStatus={(isSyncing) => this.setState({ isSyncing })}
@@ -147,6 +152,7 @@ class ScorecardProgress extends Component {
           indicators={this.props.indicators}
           submitToServer={() => this.submitToServer()}
           updateScorecard={() => this.updateScorecard()}
+          progressMessage={this.state.progressMessage}
         />
 
         <ErrorMessageModal
