@@ -30,39 +30,44 @@ class AddNewEndpointUrlForm extends React.Component {
     this.setState(state, () => !!this.props.validateForm && this.props.validateForm());
   }
 
-  renderLabelInput() {
+  renderTextInputs() {
     const { translations } = this.context;
-    return <TextFieldInput
-            value={this.state.endpointLabel}
-            label={translations.serverLabel}
-            placeholder={translations.enterServerLabel}
-            fieldName={ENDPOINT_LABEL_FIELDNAME}
-            isRequire={true}
-            onChangeText={this.onChangeText}
-            message={translations[this.state.endpointLabelErrorMsg]}
-          />
-  }
+    const attrs = [
+      {
+        value: this.state.endpointLabel,
+        label: `${translations.serverUrl} (${translations.httpsRecommended})`,
+        placeholder: translations.enterServerLabel,
+        field_name: ENDPOINT_LABEL_FIELDNAME,
+        message: translations[this.state.endpointLabelErrorMsg]
+      },
+      {
+        value: this.state.endpointValue,
+        label: translations.serverLabel,
+        placeholder: translations.enterServerUrl,
+        field_name: ENDPOINT_VALUE_FIELDNAME,
+        message: translations[this.state.endpointValueErrorMsg]
+      }
+    ];
 
-  renderUrlInput() {
-    const { translations } = this.context;
-    return <TextFieldInput
-            value={this.state.endpointValue}
-            label={`${translations.serverUrl} (${translations.httpsRecommended})`}
-            placeholder={translations.enterServerUrl}
-            fieldName={ENDPOINT_VALUE_FIELDNAME}
-            isRequire={true}
-            onChangeText={this.onChangeText}
-            message={translations[this.state.endpointValueErrorMsg]}
-          />
+    return attrs.map((attr, index) => {
+      return <TextFieldInput
+                key={index}
+                value={attr.value}
+                label={attr.label}
+                placeholder={attr.placeholder}
+                fieldName={attr.field_name}
+                isRequire={true}
+                onChangeText={this.onChangeText}
+                message={attr.message}
+              />
+    });
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
         <Text style={{fontSize: bodyFontSize(), marginBottom: 10}}>{ this.context.translations.pleaseEnterInformationBelow }</Text>
-
-        { this.renderLabelInput() }
-        { this.renderUrlInput() }
+        { this.renderTextInputs() }
       </View>
     )
   }
