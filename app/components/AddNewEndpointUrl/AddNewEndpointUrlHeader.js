@@ -16,7 +16,7 @@ class AddNewEndpointUrlHeader extends React.Component {
   render() {
     return <HeaderWithDiscardAlert
               title={this.context.translations.newServerURL}
-              onGoBack={() => endpointFormHelper.clearHasNewEndpointAdded()}
+              onGoBack={() => endpointFormHelper.setNewEndpointAdded(false)}
               hasDiscardAlert={() => this.hasDiscardAlert()}
             />
   }

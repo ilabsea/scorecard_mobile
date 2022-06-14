@@ -28,7 +28,7 @@ class SettingUrlEndpointPicker extends React.Component {
     }
     this.componentIsUnmount = false;
     this.defaultSavedEndpointUrl = '';
-    this.hasNewEndpointAdded = false;
+    this.newEndpointAdded = false;
     this.endpointToDelete = null;
     this.pickerContentRef = React.createRef();
   }
@@ -46,8 +46,8 @@ class SettingUrlEndpointPicker extends React.Component {
             currentSelectedEndpoint: settingData.backendUrl
           });
 
-          this.hasNewEndpointAdded = await endpointFormHelper.hasNewEndpointAdded()
-          if(this.hasNewEndpointAdded)
+          this.newEndpointAdded = await endpointFormHelper.newEndpointAdded()
+          if(this.newEndpointAdded)
             this.props.formModalRef.current?.dismiss();
 
           this.props.updateSelectedEndpointUrl(settingData.backendUrl);
@@ -139,7 +139,7 @@ class SettingUrlEndpointPicker extends React.Component {
   render() {
     const {translations} = this.context;
     return (
-      <View style={{marginBottom: this.hasNewEndpointAdded ? 10 : 30, marginTop: 5}}>
+      <View style={{marginBottom: this.newEndpointAdded ? 10 : 30, marginTop: 5}}>
         <BottomSheetPicker
           title={translations.serverUrl}
           label={translations.selectServerUrl}
@@ -151,7 +151,7 @@ class SettingUrlEndpointPicker extends React.Component {
           customContainerStyle={{ marginTop: 10 }}
         />
 
-        { this.hasNewEndpointAdded &&
+        { this.newEndpointAdded &&
           <Text style={{fontSize: bodyFontSize(), color: Color.errorColor}}>
             { translations.theServerUrlHasChanged }
           </Text>

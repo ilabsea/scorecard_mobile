@@ -15,7 +15,7 @@ class SettingHeader extends React.Component {
 
   onGoBack() {
     settingHelper.clearTempSettingData();
-    endpointFormHelper.clearHasNewEndpointAdded();
+    endpointFormHelper.setNewEndpointAdded(false);
   }
 
   render() {

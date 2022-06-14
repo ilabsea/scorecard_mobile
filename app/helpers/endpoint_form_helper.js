@@ -1,25 +1,20 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-const keyName = 'HAS_NEW_ENDPOINT_ADDED';
+const keyName = 'NEW_ENDPOINT_ADDED';
 
 const endpointFormHelper = (() => {
   return {
-    setHasNewEndpointAdded,
-    hasNewEndpointAdded,
-    clearHasNewEndpointAdded,
+    setNewEndpointAdded,
+    newEndpointAdded,
   }
 
-  function setHasNewEndpointAdded() {
-    AsyncStorage.setItem(keyName, 'true');
+  function setNewEndpointAdded(status) {
+    AsyncStorage.setItem(keyName, status.toString());
   }
 
-  async function hasNewEndpointAdded() {
-    const status = JSON.parse(await AsyncStorage.getItem(keyName));
-    return !!status
-  }
-
-  function clearHasNewEndpointAdded() {
-    AsyncStorage.removeItem(keyName);
+  async function newEndpointAdded() {
+    const endpointAdded = await AsyncStorage.getItem(keyName);
+    return !!endpointAdded ? JSON.parse(endpointAdded) : false;
   }
 })();
 

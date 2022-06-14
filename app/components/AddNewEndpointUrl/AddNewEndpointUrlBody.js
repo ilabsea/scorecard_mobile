@@ -40,7 +40,7 @@ class AddNewEndpointUrlBody extends React.Component {
 
     EndpointUrl.create(params);
 
-    endpointFormHelper.setHasNewEndpointAdded();
+    endpointFormHelper.setNewEndpointAdded(true);
     this.storeTempSettingData(endpointValue);
     navigateBack();
   }

@@ -118,7 +118,7 @@ class SettingMain extends React.Component {
       scorecardTracingStepsService.trace(null, settingHelper.getProposedIndicatorMethodTracingStep(this.props.proposedIndicatorMethod), email);
       settingHelper.clearTempSettingData();
       reLoginService.setReLoggedIn(true);
-      endpointFormHelper.clearHasNewEndpointAdded();
+      endpointFormHelper.setNewEndpointAdded(false);
       navigationRef.current?.goBack();
     }, async (errorMessage, isLocked, isInvalidAccount) => {
       this.setState({
