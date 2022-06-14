@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
-class BottomSheetPickerContentBottomSection extends React.Component {
+class BottomSheetPickerFooter extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
@@ -21,4 +21,4 @@ class BottomSheetPickerContentBottomSection extends React.Component {
   }
 }
 
-export  default BottomSheetPickerContentBottomSection;
+export  default BottomSheetPickerFooter;

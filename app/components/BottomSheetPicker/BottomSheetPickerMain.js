@@ -7,7 +7,7 @@ import {LocalizationContext} from '../Translations';
 import Color from '../../themes/color';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import BottomSheetPickerMainListItem from './BottomSheetPickerMainListItem';
-import BottomSheetPickerMainBottomSection from './BottomSheetPickerMainBottomSection';
+import BottomSheetPickerFooter from './BottomSheetPickerFooter';
 import SearchBox from '../SearchBox/SearchBox';
 
 import { containerPadding } from '../../utils/responsive_util';
@@ -84,7 +84,7 @@ class BottomSheetPickerMain extends React.Component {
   }
 
   renderBottomSection() {
-    return <BottomSheetPickerMainBottomSection bottomInfoMessage={this.props.bottomInfoMessage}
+    return <BottomSheetPickerFooter bottomInfoMessage={this.props.bottomInfoMessage}
             onPressButton={() => this.props.onPressBottomButton()} isButtonDisabled={this.state.isButtonDisabled} />
   }
 
