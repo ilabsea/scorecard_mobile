@@ -4,21 +4,26 @@ const keyName = 'HAS_RE_LOGGED_IN';
 
 const reLoginService = (() => {
   return {
+    isReLoggedIn,
     isRequireReLogin,
     initReLoginStatus,
     setHasReLoggedIn,
     clearHasReLoggedIn,
   }
 
+  async function isReLoggedIn() {
+    const hasReLoggedIn = await AsyncStorage.getItem(keyName);
+    return !!hasReLoggedIn ? JSON.parse(hasReLoggedIn) : false;
+  }
+
   // To do: Remove the update endpoint in the future
   // If the user has re-login state as false, show the re-login alert message
   async function isRequireReLogin() {
-    return !await _hasReLoggedIn();
+    return !await isReLoggedIn();
   }
 
   async function initReLoginStatus() {
-    const hasReLoggedIn = await _hasReLoggedIn();
-    AsyncStorage.setItem(keyName, JSON.stringify(hasReLoggedIn));
+    AsyncStorage.setItem(keyName, JSON.stringify(await isReLoggedIn()));
   }
 
   function setHasReLoggedIn() {
@@ -27,12 +32,6 @@ const reLoginService = (() => {
 
   function clearHasReLoggedIn() {
     AsyncStorage.removeItem(keyName);
-  }
-
-  // private method
-  async function _hasReLoggedIn() {
-    const hasReLoggedIn = await AsyncStorage.getItem(keyName);
-    return !!hasReLoggedIn ? JSON.parse(hasReLoggedIn) : false;
   }
 })();
 
