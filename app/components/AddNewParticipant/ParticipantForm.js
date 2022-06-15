@@ -104,6 +104,7 @@ class ParticipantForm extends Component {
               this.props.updateValidationStatus(getIntegerOf(value) > 0);
             }}
             isRequired={true}
+            requiredMessage={translations.pleaseEnterTheAge}
           />
 
           <GendersCheckBox

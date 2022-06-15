@@ -370,5 +370,7 @@
   "enterYourEmailAndPassword": "Enter your email and password",
   "clickOnButtonSave": "Click on the button {0}",
   "viewInstruction": "View instruction",
-  "pleaseSelectTheLanguagesOfTheScorecardInformation": "Please select the languages of the scorecard information"
+  "pleaseChooseTheLanguagesOfTheScorecardInformation": "Please choose the languages of the scorecard information",
+  "pleaseChooseTheFacilitatorsForThisScorecard": "Please choose the facilitators for this scorecard",
+  "pleaseEnterTheAge": "Please enter the age"
 }

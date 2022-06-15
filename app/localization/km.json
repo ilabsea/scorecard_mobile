@@ -146,7 +146,7 @@
   "participant_id": "លេខសំគាល់អ្នកចូលរួម",
   "noData": "គ្មាន​ទិន្នន័យ",
   "participantList": "អ្នកចូលរួម",
-  "addNewParticipant": "បង្កើត​អ្នកចូលរួម",
+  "addNewParticipant": "បន្ថែម​អ្នកចូលរួម",
   "reachTotalParticipant": "គ្រប់ចំនួននាក់ចូលរួមទាំងអស់ហើយ",
   "issueNote": "ចំណាំ",
   "very_bad": "មិនពេញចិត្តខ្លាំង",
@@ -232,7 +232,7 @@
   "scorecardSubmitFailed": "បរាជ័យក្នុងការដាក់ស្នើប័ណ្ណដាក់ពិន្ទុ",
   "notice": "សម្គាល់",
   "scorecardRemainingMessage": "នៅមានប័ណ្ណដាក់ពិន្ទុដែលបានអនុវត្តហើយតែមិនទាន់បានធ្វើការដាក់ស្នើ សូមធ្វើការដាក់ស្នើប័ណ្ណដាក់ពិន្ទុទាំងនោះជាមុន។",
-  "pleaseAddParticipant": "សូមបង្កើតអ្នកចូលរួូម",
+  "pleaseAddParticipant": "សូមបន្ថែមអ្នកចូលរួូម",
   "pleaseAddScorecard": "សូមបង្កើតប័ណ្ណដាក់ពិន្ទុ",
   "numberOfVotedParticipant": "ចំនួនអ្នកដាក់ពិន្ទុសរុប",
   "pax": "នាក់",
@@ -370,5 +370,7 @@
   "enterYourEmailAndPassword": "ធ្វើការបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់របស់អ្នក",
   "clickOnButtonSave": "ធ្វើការចុចលើប៊ូតុង {0}",
   "viewInstruction": "មើលការណែនាំ",
-  "pleaseSelectTheLanguagesOfTheScorecardInformation": "សូមជ្រើសរើសភាសានៃព័ត៌មានរបស់ប័ណ្ណដាក់ពិន្ទុ"
+  "pleaseChooseTheLanguagesOfTheScorecardInformation": "សូមជ្រើសរើសភាសានៃព័ត៌មានរបស់ប័ណ្ណដាក់ពិន្ទុ",
+  "pleaseChooseTheFacilitatorsForThisScorecard": "សូមធ្វើការជ្រើសរើសអ្នកសម្របសម្រួលសម្រាប់ប័ណ្ណដាក់ពិន្ទុនេះ",
+  "pleaseEnterTheAge": "សូមបញ្ចូលអាយុ"
 }
