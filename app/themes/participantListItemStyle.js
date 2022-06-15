@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, modalHeadingTitleSize } from '../utils/responsive_util';
 import { numberContainerSize, numberLabelSize } from '../utils/participant_list_util';
+import { pressableItemSize } from '../utils/component_util';
 import { modalBorderRadius } from '../constants/border_radius_constant';
 import { popupModalMinHeight } from '../constants/component_style_constant';
 
@@ -33,7 +34,6 @@ const participantListItemStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'gray',
-    marginTop: -4
   },
   numberLabel: {
     fontSize: numberLabelSize,
@@ -52,10 +52,8 @@ const participantListItemStyle = StyleSheet.create({
   },
   participantItem: {
     flexDirection: 'row',
-    borderWidth: 0,
-    paddingVertical: 16,
     alignItems: 'center',
-    paddingTop: 18,
+    height: pressableItemSize(16)
   },
 });
 
