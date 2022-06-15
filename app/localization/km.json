@@ -109,7 +109,7 @@
   "enterIndicatorName": "បញ្ចូល​លក្ខណៈវិនិច្ឆ័យរបស់អ្នក",
   "enterNewIndicatorAsVoice": "បញ្ចូលលក្ខណៈវិនិច្ឆ័យថ្មីជាសម្លេង",
   "enterTag": "បញ្ចូលថេក",
-  "addNewScorecardVoting": "បង្កើតការបោះឆ្នោតថ្មី",
+  "addNewVoting": "បង្កើតការដាក់ពិន្ទុថ្មី",
   "insertAge": "សូមបញ្ចូលអាយុ",
   "insertGender": "សូមបញ្ចូលភេទ",
   "inputText": "បញ្ចូលមាតិកា",
@@ -373,5 +373,6 @@
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "សូមជ្រើសរើសភាសានៃព័ត៌មានរបស់ប័ណ្ណដាក់ពិន្ទុ",
   "pleaseChooseTheFacilitatorsForThisScorecard": "សូមធ្វើការជ្រើសរើសអ្នកសម្របសម្រួលសម្រាប់ប័ណ្ណដាក់ពិន្ទុនេះ",
   "pleaseEnterTheAge": "សូមបញ្ចូលអាយុ",
-  "proposeTheIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ"
+  "proposeTheIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ",
+  "pleaseVoteForTheProposedIndicatorsBelow": "សូមធ្វើការដាក់ពិន្ទុឲ្យលក្ខណៈវិនិច្ឆ័យខាងក្រោម"
 }

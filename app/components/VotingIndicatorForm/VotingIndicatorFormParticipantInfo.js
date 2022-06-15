@@ -11,7 +11,7 @@ class VotingIndicatorFormParticipantInfo extends React.Component {
   render() {
     return (
       <View style={{paddingHorizontal: getDeviceStyle(16, 10)}}>
-        <HeaderTitle headline="addNewScorecardVoting" subheading="pleaseFillInformationBelow"/>
+        <HeaderTitle headline="addNewVoting" subheading="pleaseVoteForTheProposedIndicatorsBelow"/>
 
         <ParticipantInfo
           participants={Participant.getUnvoted(this.props.scorecardUuid)}

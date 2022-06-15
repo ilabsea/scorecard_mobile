@@ -109,7 +109,7 @@
   "enterIndicatorName": "Enter indicator name",
   "enterNewIndicatorAsVoice": "Enter new indicator as voice",
   "enterTag": "Enter tag",
-  "addNewScorecardVoting": "Add New Scorecard Voting",
+  "addNewVoting": "Add New Voting",
   "insertAge": "Please insert age",
   "insertGender": "Please insert gender",
   "inputText": "Input Text",
@@ -373,5 +373,6 @@
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "Please choose the languages of the scorecard information",
   "pleaseChooseTheFacilitatorsForThisScorecard": "Please choose the facilitators for this scorecard",
   "pleaseEnterTheAge": "Please enter the age",
-  "proposeTheIndicator": "Propose the indicator"
+  "proposeTheIndicator": "Propose the indicator",
+  "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below"
 }
