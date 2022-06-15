@@ -54,7 +54,7 @@ class ParticipantForm extends Component {
       firstRow: [
         { iconName: 'wheelchair', fieldName: 'isDisability', isSelected: this.state.isDisability, title: translations.disability },
         { iconName: 'users', fieldName: 'isMinority', isSelected: this.state.isMinority, title: translations.minority },
-        { iconName: 'id-card', fieldName: 'isPoor', isSelected: this.state.isPoor, title: translations.poor },,
+        { iconName: 'id-card-o', fieldName: 'isPoor', isSelected: this.state.isPoor, title: translations.poor },,
       ]
     }
 
