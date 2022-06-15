@@ -369,5 +369,6 @@
   "selectYourPreviousServerUrl": "Select your server URL",
   "enterYourEmailAndPassword": "Enter your email and password",
   "clickOnButtonSave": "Click on the button {0}",
-  "viewInstruction": "View instruction"
+  "viewInstruction": "View instruction",
+  "pleaseSelectTheLanguagesOfTheScorecardInformation": "Please select the languages of the scorecard information"
 }
