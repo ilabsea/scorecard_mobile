@@ -70,10 +70,6 @@ export const mediumIconSize = () => {
   return getDeviceStyle(20, mobileFontSize);
 }
 
-export const mediumTransgenderIconSize = () => {
-  return 25;
-}
-
 export const smallIconSize = () => {
   const mobileFontSize = getMobileFontSizeByPixelRatio(18, 16);
   return getDeviceStyle(18, mobileFontSize)

@@ -43,9 +43,8 @@ class GendersCheckBox extends Component {
     const iconSize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
     return <GenderIcon gender={gender} size={iconSize} color={participantHelper.getItemColor(isSelected, 'text')}
-              transgenderIconSize={iconSize}
               containerStyle={{width: 60}}
-              transgenderContainerStyle={{marginBottom: 6, marginTop: 12}}
+              transgenderIconStyle={{width: 30, height: 30, marginLeft: 6, marginBottom: 2}}
             />
   }
 

@@ -22,10 +22,6 @@ class ParticipantAccordionTitle extends Component {
     )
   }
 
-  renderGender(gender) {
-    return <ListItemGenderIcon gender={gender} transgenderContainerStyle={{marginTop: 4}} />
-  }
-
   renderBooleanData(data, fieldName) {
     return !!data ? `${this.context.translations[fieldName]}  ` : '';
   }
@@ -44,7 +40,7 @@ class ParticipantAccordionTitle extends Component {
     return (
       <View style={styles.accordionItemContainer}>
         { this.renderOrderNumber(this.props.participant.order + 1) }
-        { this.renderGender(this.props.participant.gender) }
+        <ListItemGenderIcon gender={this.props.participant.gender} />
         <Text style={styles.titleText}>{ this.props.participant.age }{this.context.translations.yr}</Text>
         <Text style={[styles.titleText, { flex: 1, marginLeft: 0}]} numberOfLines={1}>
           { this.getParticipantInfo() }

@@ -25,7 +25,7 @@ export default class ParticipantModalListItem extends Component {
   renderGender = (participant) => {
     if (participant === undefined || participant.gender === '') return (<Text style={{marginLeft: 16}}>---</Text>);
 
-    return <ListItemGenderIcon gender={participant.gender} transgenderContainerStyle={{marginLeft: -4}} />
+    return <ListItemGenderIcon gender={participant.gender} />
   };
 
   getDescription(item, translations) {

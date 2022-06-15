@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import participantHelper from '../../helpers/participant_helper';
 
@@ -12,19 +13,17 @@ class GenderIcon extends React.Component {
   }
 
   renderTransgenderIcon() {
-    const subIconSize = this.props.transgenderIconSize >= 30 ? this.props.transgenderIconSize - 6 : this.props.transgenderIconSize - 10;
-    const top = this.props.transgenderIconSize >= 30 ? -12 : -8;
-    const paddingLeft = this.props.transgenderIconSize >= 30 ? '30%' : '25%';
+    const imageSources = {
+      'gray': require('../../assets/images/trans-gender-gray.png'),
+      '#e4761e': require('../../assets/images/trans-gender-orange.png'),
+      'default': require('../../assets/images/trans-gender-black.png')
+    }
 
-    return (
-      <View style={[{position: 'relative', alignItems: 'center'}, this.props.transgenderContainerStyle]}>
-        <FontAwesomeIcon name='user-o' size={this.props.transgenderIconSize - 15} color={this.props.color} />
-
-        <FontAwesomeIcon name='question' size={subIconSize} color={this.props.color}
-          style={{ position: 'absolute', top: top, alignSelf: 'center', paddingLeft: paddingLeft}}
-        />
-      </View>
-    )
+    return <Image
+              source={imageSources[this.props.color] || imageSources.default}
+              resizeMode="contain"
+              style={this.props.transgenderIconStyle}
+            />
   }
 
   render() {
