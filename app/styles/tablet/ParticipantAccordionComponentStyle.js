@@ -10,10 +10,10 @@ const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
     flexDirection: 'row',
     width: wp('71%'),
+    alignItems: 'center',
   },
   titleText: {
     fontSize: labelFontSize,
-    marginTop: 5,
     marginHorizontal: 8
   },
   itemTitleText: {
