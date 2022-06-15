@@ -371,7 +371,7 @@
   "clickOnButtonSave": "Click on the button {0}",
   "viewInstruction": "View instruction",
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "Please choose the languages of the scorecard information",
-  "pleaseChooseTheFacilitatorsForThisScorecard": "Please choose the facilitators for this scorecard",
+  "pleaseChooseTheFacilitators": "Please choose the facilitators",
   "pleaseEnterTheAge": "Please enter the age",
   "proposeTheIndicator": "Propose the indicator",
   "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below"

@@ -128,6 +128,7 @@ export default class ParticipantInfo extends Component {
 
   getAddNewParticipantContent() {
     return <AddNewParticipantContent
+             title={this.props.title}
              scorecardUuid={ this.props.scorecardUuid }
              onSaveParticipant={ (participant) => this.selectParticipant(participant) }
            />
