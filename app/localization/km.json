@@ -103,9 +103,9 @@
   "chooseProposedIndicator": "សូម​ជ្រើស​រើស​លក្ខណៈវិនិច្ឆ័យខាង​ក្រោម ឬបញ្ចូល​ថ្មី​",
   "saveAndAddNew": "រក្សា​ទុក​ហើយ​បង្កើត​ថ្មី​",
   "saveAndGoNext": "រក្សា​ទុក​ហើយ​ទៅ​វគ្គ​បន្ទាប់​",
-  "addNewIndicator": "ការបញ្ចូលលក្ខណៈវិនិច្ឆ័យថ្មី",
-  "indicatorName": "លក្ខណៈវិនិច្ឆ័យរបស់អ្នក",
-  "indicatorNameRequireMsg": "ត្រូវ​ការ​លក្ខណៈវិនិច្ឆ័យរបស់អ្នក",
+  "addNewIndicator": "បញ្ចូលលក្ខណៈវិនិច្ឆ័យថ្មី",
+  "indicatorName": "ឈ្មោះលក្ខណៈវិនិច្ឆ័យ",
+  "indicatorNameRequireMsg": "សូមបញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យ",
   "enterIndicatorName": "បញ្ចូល​លក្ខណៈវិនិច្ឆ័យរបស់អ្នក",
   "enterNewIndicatorAsVoice": "បញ្ចូលលក្ខណៈវិនិច្ឆ័យថ្មីជាសម្លេង",
   "enterTag": "បញ្ចូលថេក",
@@ -122,7 +122,7 @@
   "removeAll": "ដកចេញទាំងអស់",
   "close": "បោះបង់",
   "setup": "កំណត់ប័ណ្ណដាក់ពិន្ទុ",
-  "proposedIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ",
+  "proposedIndicator": "លក្ខណៈវិនិច្ឆ័យដែលបានស្នើ",
   "setIndicatorDevelopment": "កំណត់លក្ខណៈវិនិច្ឆ័យអាទិភាព",
   "indicatorDevelopment": "លក្ខណៈវិនិច្ឆ័យអាទិភាព",
   "voting": "ដាក់ពិន្ទុ",
@@ -372,5 +372,6 @@
   "viewInstruction": "មើលការណែនាំ",
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "សូមជ្រើសរើសភាសានៃព័ត៌មានរបស់ប័ណ្ណដាក់ពិន្ទុ",
   "pleaseChooseTheFacilitatorsForThisScorecard": "សូមធ្វើការជ្រើសរើសអ្នកសម្របសម្រួលសម្រាប់ប័ណ្ណដាក់ពិន្ទុនេះ",
-  "pleaseEnterTheAge": "សូមបញ្ចូលអាយុ"
+  "pleaseEnterTheAge": "សូមបញ្ចូលអាយុ",
+  "proposeTheIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ"
 }

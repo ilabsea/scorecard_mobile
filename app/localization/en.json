@@ -105,7 +105,7 @@
   "saveAndGoNext": "Save​",
   "addNewIndicator": "Add New Indicator",
   "indicatorName": "Indicator Name",
-  "indicatorNameRequireMsg": "Indicator name is required",
+  "indicatorNameRequireMsg": "Please enter the indicator name",
   "enterIndicatorName": "Enter indicator name",
   "enterNewIndicatorAsVoice": "Enter new indicator as voice",
   "enterTag": "Enter tag",
@@ -372,5 +372,6 @@
   "viewInstruction": "View instruction",
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "Please choose the languages of the scorecard information",
   "pleaseChooseTheFacilitatorsForThisScorecard": "Please choose the facilitators for this scorecard",
-  "pleaseEnterTheAge": "Please enter the age"
+  "pleaseEnterTheAge": "Please enter the age",
+  "proposeTheIndicator": "Propose the indicator"
 }
