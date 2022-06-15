@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
-import GenderIcon from '../Share/GenderIcon';
-import participantHelper from '../../helpers/participant_helper';
+import ListItemGenderIcon from '../Share/ListItemGenderIcon';
 
-import Color from '../../themes/color';
 import listItemStyles from '../../themes/participantListItemStyle';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util'
 import ParticipantAccordionMobileStyles from '../../styles/mobile/ParticipantAccordionComponentStyle';
 import ParticipantAccordionTabletStyles from '../../styles/tablet/ParticipantAccordionComponentStyle';
 
@@ -26,16 +23,7 @@ class ParticipantAccordionTitle extends Component {
   }
 
   renderGender(gender) {
-    return <GenderIcon gender={gender}
-              size={20} color={Color.blackColor}
-              containerStyle={styles.genderIconContainer}
-            />
-
-    return (
-      <View style={styles.genderIconContainer}>
-        <FontAwesomeIcon name={participantHelper.getGenderIconLabel(gender)} size={20} color={Color.blackColor} />
-      </View>
-    )
+    return <ListItemGenderIcon gender={gender} transgenderContainerStyle={{marginTop: 4}} />
   }
 
   renderBooleanData(data, fieldName) {

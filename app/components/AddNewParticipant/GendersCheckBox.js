@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {LocalizationContext} from '../Translations';
 import SelectBox from './SelectBox';
@@ -44,7 +43,9 @@ class GendersCheckBox extends Component {
     const iconSize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
     return <GenderIcon gender={gender} size={iconSize} color={participantHelper.getItemColor(isSelected, 'text')}
-              containerStyle={{width: 70}}
+              transgenderIconSize={iconSize}
+              containerStyle={{width: 60}}
+              transgenderContainerStyle={{marginBottom: 2, marginTop: 12}}
             />
   }
 

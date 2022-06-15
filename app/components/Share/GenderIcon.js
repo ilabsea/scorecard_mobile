@@ -8,18 +8,20 @@ class GenderIcon extends React.Component {
 
   renderMaleFemaleIcon() {
     const iconName = participantHelper.getGenderIconLabel(this.props.gender);
-    return <FontAwesomeIcon name={iconName} size={this.props.size} style={this.props.iconStyle} color={this.props.color} />
+    return <FontAwesomeIcon name={iconName} size={this.props.size} color={this.props.color} />
   }
 
   renderTransgenderIcon() {
-    const subIconSize = this.props.size >= 30 ? this.props.size - 15 : this.props.size - 10;
+    const subIconSize = this.props.transgenderIconSize >= 30 ? this.props.transgenderIconSize - 6 : this.props.transgenderIconSize - 10;
+    const top = this.props.transgenderIconSize >= 30 ? -12 : -8;
+    const paddingLeft = this.props.transgenderIconSize >= 30 ? '30%' : '25%';
 
     return (
-      <View style={{position: 'relative', alignItems: 'center'}}>
-        <FontAwesomeIcon name='user' size={this.props.size - 4} color={this.props.color} style={this.props.transgenderIconStyle} />
+      <View style={[{position: 'relative', alignItems: 'center'}, this.props.transgenderContainerStyle]}>
+        <FontAwesomeIcon name='user-o' size={this.props.transgenderIconSize - 15} color={this.props.color} />
 
         <FontAwesomeIcon name='question' size={subIconSize} color={this.props.color}
-          style={{ position: 'absolute', top: -2, alignSelf: 'center', paddingLeft: '30%'}}
+          style={{ position: 'absolute', top: top, alignSelf: 'center', paddingLeft: paddingLeft}}
         />
       </View>
     )

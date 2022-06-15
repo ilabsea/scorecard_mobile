@@ -6,9 +6,8 @@ import { LocalizationContext } from '../Translations';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import styles from '../../themes/participantListItemStyle';
 
-import GenderIcon from '../Share/GenderIcon';
+import ListItemGenderIcon from '../Share/ListItemGenderIcon';
 
-import { iconSize } from '../../utils/participant_list_util';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantModalListItemTabletStyles from '../../styles/tablet/ParticipantModalListItemComponentStyle';
@@ -26,10 +25,7 @@ export default class ParticipantModalListItem extends Component {
   renderGender = (participant) => {
     if (participant === undefined || participant.gender === '') return (<Text style={{marginLeft: 16}}>---</Text>);
 
-    return <GenderIcon gender={participant.gender}
-              size={iconSize} color={Color.blackColor}
-              containerStyle={{width: 60, borderWidth: 0, marginRight: -6}}
-            />
+    return <ListItemGenderIcon gender={participant.gender} />
   };
 
   getDescription(item, translations) {

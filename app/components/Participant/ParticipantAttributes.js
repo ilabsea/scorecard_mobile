@@ -3,9 +3,8 @@ import {View, Text} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {LocalizationContext} from '../Translations';
-import GenderIcon from '../Share/GenderIcon';
+import ListItemGenderIcon from '../Share/ListItemGenderIcon';
 
-import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import { smallTextFontSize, mediumIconSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -21,10 +20,7 @@ class ParticipantAttributes extends React.Component {
     if (this.props.participant.gender === '')
       return <MaterialIcon name="person" size={mediumIconSize()} color="#b9b9b9" style={{paddingHorizontal: 10}} />;
 
-    return <GenderIcon gender={this.props.participant.gender}
-              size={mediumIconSize()} color={Color.blackColor}
-              containerStyle={{width: 50, marginRight: -5}}
-            />
+    return <ListItemGenderIcon gender={this.props.participant.gender} />
   };
 
   getAge = () => {

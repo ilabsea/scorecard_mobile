@@ -37,15 +37,6 @@ const ParticipantAccordionComponentStyles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: -2
   },
-  genderIconContainer: {
-    // width: 30,
-    // marginLeft: 5,
-    width: 45,
-    marginRight: -5,
-    marginLeft: 2,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
 });
 
 export default ParticipantAccordionComponentStyles;

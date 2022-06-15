@@ -1,9 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 const ParticipantModalListItemComponentStyles = StyleSheet.create({
-  genderIcon: {
-    paddingHorizontal: 10,
-    marginLeft: 16,
+  genderContainer: {
+    width: 50,
+    marginRight: -5,
+    marginLeft: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   label: {
     marginLeft: 10,

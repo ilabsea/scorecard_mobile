@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { numberContainerSize } from '../../utils/participant_list_util';
 import { pressableItemSize } from '../../utils/component_util';
-import { mediumIconSize, bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { cardItemPadding } from '../../utils/responsive_util';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
@@ -29,13 +29,6 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     padding: 0,
     textAlign: 'center',
   },
-  // iconStyle: {
-  //   fontSize: mediumIconSize(),
-  // },
-  // genderContainer: {
-  //   paddingRight: 10,
-  //   paddingLeft: 16
-  // },
   attributeLabel: {
     paddingHorizontal: 8,
     fontSize: smallTextFontSize()
