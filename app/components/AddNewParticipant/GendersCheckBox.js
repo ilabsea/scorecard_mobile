@@ -45,7 +45,7 @@ class GendersCheckBox extends Component {
     return <GenderIcon gender={gender} size={iconSize} color={participantHelper.getItemColor(isSelected, 'text')}
               transgenderIconSize={iconSize}
               containerStyle={{width: 60}}
-              transgenderContainerStyle={{marginBottom: 2, marginTop: 12}}
+              transgenderContainerStyle={{marginBottom: 6, marginTop: 12}}
             />
   }
 

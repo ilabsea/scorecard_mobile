@@ -71,7 +71,7 @@ export const mediumIconSize = () => {
 }
 
 export const mediumTransgenderIconSize = () => {
-  return getDeviceStyle(25, 22);
+  return 25;
 }
 
 export const smallIconSize = () => {
