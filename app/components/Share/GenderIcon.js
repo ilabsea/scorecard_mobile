@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/AntDesign';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 import participantHelper from '../../helpers/participant_helper';
 
@@ -12,23 +12,26 @@ class GenderIcon extends React.Component {
     return <FontAwesomeIcon name={iconName} size={this.props.size} color={this.props.color} />
   }
 
-  renderTransgenderIcon() {
-    const imageSources = {
-      'gray': require('../../assets/images/trans-gender-gray.png'),
-      '#e4761e': require('../../assets/images/trans-gender-orange.png'),
-      'default': require('../../assets/images/trans-gender-black.png')
+  renderOtherIcon() {
+    const circleStyle = {
+      width: this.props.otherIconSize,
+      height: this.props.otherIconSize,
+      borderRadius: this.props.otherIconSize,
+      borderWidth: this.props.otherIconSize >= 18 ? 2 : 1.5,
+      borderColor: this.props.color,
     }
 
-    return <Image
-              source={imageSources[this.props.color] || imageSources.default}
-              resizeMode="contain"
-              style={this.props.transgenderIconStyle}
-            />
+    return <View style={this.props.otherIconContainerStyle}>
+              <View style={circleStyle} />
+              <AntDesignIcon name='question' size={this.props.size} color={this.props.color}
+                style={[{position: 'absolute'}, this.props.questionIconStyle]}
+              />
+           </View>
   }
 
   render() {
     return <View style={[{ alignItems: 'center' }, this.props.containerStyle]}>
-              { this.props.gender == 'other' ? this.renderTransgenderIcon() : this.renderMaleFemaleIcon() }
+              { this.props.gender == 'other' ? this.renderOtherIcon() : this.renderMaleFemaleIcon() }
            </View>
   }
 }

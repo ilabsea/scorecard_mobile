@@ -3,15 +3,17 @@ import { StyleSheet } from 'react-native';
 
 import GenderIcon from './GenderIcon';
 import Color from '../../themes/color';
-import { mediumIconSize } from '../../utils/font_size_util';;
+import { mediumIconSize } from '../../utils/font_size_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class ListItemGenderIcon extends React.Component {
   render() {
     return <GenderIcon gender={this.props.gender}
-              size={mediumIconSize()}
               color={Color.blackColor}
+              size={mediumIconSize()}
+              otherIconSize={mediumIconSize() - 6}
               containerStyle={styles.container}
-              transgenderIconStyle={{width: 20, height: 20, marginBottom: 4}}
+              questionIconStyle={{ top: getDeviceStyle(-10, -9), left: -2 }}
             />
   }
 }
