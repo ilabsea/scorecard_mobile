@@ -66,14 +66,13 @@ class IndicatorAudioButton extends Component {
     return (
       <View style={{justifyContent: 'center'}}>
         { this.hasAudio() &&
-          <TouchableOpacity onPress={() => this.handlePlayAudio()} style={[styles.playAudioBtn, { backgroundColor: Color.primaryButtonColor }]}>
-
-            <Icon name={this.state.iconName} style={[{ color: Color.whiteColor}, this.state.iconName == 'pause' ? { marginLeft: 1 } : {}]} />
+          <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioBtn}>
+            <Icon name={this.state.iconName} style={[{ color: Color.clickableColor}, this.state.iconName == 'pause' ? { marginLeft: 1 } : {}]} />
           </TouchableOpacity>
         }
         { !this.hasAudio() &&
-          <View style={[styles.playAudioBtn, { backgroundColor: Color.paleBlackColor }]}>
-            <Icon name='volume-mute' style={{ color: Color.whiteColor}} />
+          <View style={[styles.playAudioBtn, { borderColor: Color.grayColor }]}>
+            <Icon name='volume-mute' style={{ color: Color.grayColor}} />
           </View>
         }
       </View>
@@ -90,6 +89,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 20,
     marginRight: 14,
+    borderWidth: 2,
+    borderColor: Color.clickableColor
   },
 });
 
