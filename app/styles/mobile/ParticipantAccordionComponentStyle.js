@@ -11,10 +11,10 @@ const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
     flexDirection: 'row',
     width: wp('71%'),
+    alignItems: 'center',
   },
   titleText: {
     fontSize: labelFontSize,
-    marginTop: 4,
     marginHorizontal: 5
   },
   itemTitleText: {
@@ -37,12 +37,6 @@ const ParticipantAccordionComponentStyles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: -2
   },
-  genderIconContainer: {
-    width: 30,
-    marginLeft: 5,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
 });
 
 export default ParticipantAccordionComponentStyles;

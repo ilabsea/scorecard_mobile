@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 
 import {LocalizationContext} from '../Translations';
 import Accordion from '../Accordion';
-import ParticipantAccordionTitle from './ParticipantAccordionTitle';
-import ParticipantAccordionContent from './ParticipantAccordionContent';
+import ParticipantAccordionMain from './ParticipantAccordionMain';
+import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 
 import Participant from '../../models/Participant';
+
+import { getDeviceStyle } from '../../utils/responsive_util'
+import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import ParticipantAccordionMobileStyles from '../../styles/mobile/ParticipantAccordionComponentStyle';
+import ParticipantAccordionTabletStyles from '../../styles/tablet/ParticipantAccordionComponentStyle';
+
+const styles = getDeviceStyle(ParticipantAccordionTabletStyles, ParticipantAccordionMobileStyles);
 
 let _this = null;
 
@@ -26,12 +33,14 @@ class ParticipantAccordion extends Component {
   }
 
   renderTitleText(participant) {
-    return ( <ParticipantAccordionTitle participant={participant} /> )
+    const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 13);
+    const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
+    return <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={styles.accordionItemContainer} />
   }
 
   renderAccordionContent(participant) {
     return (
-      <ParticipantAccordionContent
+      <ParticipantAccordionMain
         scorecardUuid={_this.props.scorecardUuid}
         participantUuid={participant.uuid}
         isIndicatorBase={_this.props.isIndicatorBase}

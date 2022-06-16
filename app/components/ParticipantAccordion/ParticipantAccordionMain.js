@@ -16,7 +16,7 @@ import ParticipantAccordionTabletStyles from '../../styles/tablet/ParticipantAcc
 
 const styles = getDeviceStyle(ParticipantAccordionTabletStyles, ParticipantAccordionMobileStyles);
 
-class ParticipantAccordionContent extends Component {
+class ParticipantAccordionMain extends Component {
   static contextType = LocalizationContext;
 
   renderContentTitle() {
@@ -66,4 +66,4 @@ class ParticipantAccordionContent extends Component {
   }
 }
 
-export default ParticipantAccordionContent;
+export default ParticipantAccordionMain;

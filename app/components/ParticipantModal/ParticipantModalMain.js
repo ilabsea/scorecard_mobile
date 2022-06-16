@@ -19,7 +19,7 @@ import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
 
-class ParticipantModalContent extends React.Component {
+class ParticipantModalMain extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -85,13 +85,13 @@ class ParticipantModalContent extends React.Component {
   renderParticipantList() {
     return this.participants.map((participant, index) => {
       return (
-        <View key={index}>
-          <ParticipantModalListItem
-            participant={participant}
-            onPress={() => this.toggleParticipant(participant) }
-            rightIcon={this.listItemRightIcon(participant)}
-          />
-        </View>
+        <ParticipantModalListItem
+          key={index}
+          participant={participant}
+          onPress={() => this.toggleParticipant(participant) }
+          rightIcon={this.listItemRightIcon(participant)}
+          hasArrowIcon={false}
+        />
       )
     });
   }
@@ -126,4 +126,4 @@ class ParticipantModalContent extends React.Component {
   }
 }
 
-export default ParticipantModalContent;
+export default ParticipantModalMain;

@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
-import ParticipantListItem from './ParticipantListItem';
+import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 import NoDataMessage from '../NoDataMessage';
 import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
@@ -11,6 +11,14 @@ import { participantListContentHeight } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
+
+import Color from '../../themes/color';
+import listItemStyles from '../../themes/scorecardListItemStyle';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
+import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
+
+const responsiveStyles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
@@ -44,10 +52,13 @@ class ParticipantMain extends React.Component {
 
     if (Participant.getAll(this.props.scorecardUuid).length > 0) {
       doms = this.props.participants.map((participant, index) =>
-        <ParticipantListItem key={index} index={index} participant={participant} scorecardUuid={this.props.scorecardUuid}
-          participantModalRef={this.props.participantModalRef}
-          formModalRef={this.props.formModalRef}
-          showParticipantBottomSheet={(selectedParticipant) => this.showParticipantBottomSheet(selectedParticipant)}
+        <ParticipantListItemInfo
+          key={index}
+          participant={participant}
+          onPress={() => this.showParticipantBottomSheet(participant)}
+          containerStyle={[responsiveStyles.itemContainer, listItemStyles.card]}
+          hasArrowIcon={true}
+          arrowColor={Color.headerColor}
         />
       )
     }

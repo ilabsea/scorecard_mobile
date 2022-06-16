@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
-import ParticipantModalContent from '../ParticipantModal/ParticipantModalContent';
+import ParticipantModalMain from '../ParticipantModal/ParticipantModalMain';
 import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
 
 import OutlinedButton from '../OutlinedButton';
@@ -73,6 +73,7 @@ export default class ParticipantInfo extends Component {
           participant={this.state.currentParticipant}
           translations={translations}
           onPress={() => this.openParticipantListModal()}
+          hasArrowIcon={true}
         />
       )
     }
@@ -114,7 +115,7 @@ export default class ParticipantInfo extends Component {
   }
 
   getParticipantListContent() {
-    return <ParticipantModalContent
+    return <ParticipantModalMain
               scorecardUuid={this.props.scorecardUuid}
               participants={this.state.participants || []}
               selectedIndicator={null}
