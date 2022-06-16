@@ -116,6 +116,7 @@ export default class ParticipantInfo extends Component {
 
   getParticipantListContent() {
     return <ParticipantModalMain
+              title={this.props.title}
               scorecardUuid={this.props.scorecardUuid}
               participants={this.state.participants || []}
               selectedIndicator={null}

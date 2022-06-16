@@ -103,8 +103,8 @@ class ParticipantModalMain extends React.Component {
   }
 
   render() {
-    const defaultTitle = this.props.title || this.context.translations.proposeTheIndicator;
-    const title =  !!this.props.selectedIndicator ? this.props.selectedIndicator.name : defaultTitle;
+    const customTitle = !!this.props.selectedIndicator ? this.props.selectedIndicator.name :  this.props.title;
+    const title = customTitle || this.context.translations.proposeTheIndicator;
 
     return (
       <View style={{ height: hp(participantContentHeight) }}>
