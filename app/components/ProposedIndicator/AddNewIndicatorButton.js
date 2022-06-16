@@ -50,9 +50,9 @@ class AddNewIndicatorButton extends Component {
       <TouchableOpacity onPress={() => this.props.showAddNewIndicatorModal()}
         style={[styles.container, !this.state.hasTourtip ? styles.floatPosition : {}]}
       >
-        <Icon name='add' size={bottomButtonIconSize()} color={Color.whiteColor} />
+        <Icon name='add' size={bottomButtonIconSize()} color={Color.clickableColor} />
         { this.props.scrollDirection == 'up' &&
-          <Text style={{color: Color.whiteColor, marginHorizontal: 6, fontSize: bodyFontSize()}}>{ this.context.translations.addNewIndicator }</Text>
+          <Text style={{color: Color.clickableColor, marginHorizontal: 6, fontSize: bodyFontSize()}}>{ this.context.translations.addNewIndicator }</Text>
         }
       </TouchableOpacity>
     )
@@ -84,13 +84,15 @@ class AddNewIndicatorButton extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Color.clickableColor,
+    backgroundColor: Color.whiteColor,
     flexDirection: 'row',
     borderRadius: 30,
     padding: 12,
     elevation: 4,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Color.clickableColor,
   },
   floatPosition: {
     position: 'absolute',
