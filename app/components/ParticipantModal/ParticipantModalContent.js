@@ -85,13 +85,13 @@ class ParticipantModalContent extends React.Component {
   renderParticipantList() {
     return this.participants.map((participant, index) => {
       return (
-        <View key={index}>
-          <ParticipantModalListItem
-            participant={participant}
-            onPress={() => this.toggleParticipant(participant) }
-            rightIcon={this.listItemRightIcon(participant)}
-          />
-        </View>
+        <ParticipantModalListItem
+          key={index}
+          participant={participant}
+          onPress={() => this.toggleParticipant(participant) }
+          rightIcon={this.listItemRightIcon(participant)}
+          hasArrowIcon={false}
+        />
       )
     });
   }

@@ -7,12 +7,12 @@ import { cardItemPadding } from '../../utils/responsive_util';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
-    flexDirection: 'row',
     marginBottom: 14,
     minHeight: pressableItemSize(20),
     backgroundColor: Color.whiteColor,
     borderRadius: 4,
     paddingHorizontal: cardItemPadding,
+    justifyContent: 'center',
   },
   numberContainer: {
     width: numberContainerSize,

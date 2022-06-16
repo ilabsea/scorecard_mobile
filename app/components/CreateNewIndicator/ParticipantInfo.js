@@ -73,6 +73,7 @@ export default class ParticipantInfo extends Component {
           participant={this.state.currentParticipant}
           translations={translations}
           onPress={() => this.openParticipantListModal()}
+          hasArrowIcon={true}
         />
       )
     }
