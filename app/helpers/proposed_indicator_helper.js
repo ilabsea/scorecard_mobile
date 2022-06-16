@@ -6,12 +6,11 @@ import LanguageIndicator from '../models/LanguageIndicator';
 import Scorecard from '../models/Scorecard';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
-import { getLanguageIndicator } from '../services/language_indicator_service';
 import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
 
 import { navigate } from '../navigators/app_navigator';
 
-import ParticipantModalContent from '../components/ParticipantModal/ParticipantModalContent';
+import ParticipantModalMain from '../components/ParticipantModal/ParticipantModalMain';
 import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
 
 const proposedIndicatorHelper = (() => {
@@ -81,7 +80,7 @@ const proposedIndicatorHelper = (() => {
     const isIndicatorBase = await isProposeByIndicatorBase();
 
     formRef.current?.setBodyContent(
-      <ParticipantModalContent scorecardUuid={scorecardUuid}
+      <ParticipantModalMain scorecardUuid={scorecardUuid}
         selectedIndicator={indicator}
         showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList)}
         updateIndicatorList={() => updateIndicatorList()}

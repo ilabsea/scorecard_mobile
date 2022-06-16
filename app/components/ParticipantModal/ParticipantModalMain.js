@@ -19,7 +19,7 @@ import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
 import { participantContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
 
-class ParticipantModalContent extends React.Component {
+class ParticipantModalMain extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -126,4 +126,4 @@ class ParticipantModalContent extends React.Component {
   }
 }
 
-export default ParticipantModalContent;
+export default ParticipantModalMain;
