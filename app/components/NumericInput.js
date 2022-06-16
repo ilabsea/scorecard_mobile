@@ -30,7 +30,7 @@ class NumericInput extends Component {
     const { translations } = this.context;
 
     if (this.props.isRequired) {
-      const errorMessage = !!this.props.requiredMessage ? this.props.requiredMessage :  translations.cannotBeBlank;
+      const errorMessage = !!this.props.requiredMessage ? this.props.requiredMessage : translations.cannotBeBlank;
       return !this.props.value ? errorMessage : '';
     }
 
