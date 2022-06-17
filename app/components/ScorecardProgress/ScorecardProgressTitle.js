@@ -25,7 +25,7 @@ class ScorecardProgressTitle extends Component {
   renderConductedDate() {
     if (this.props.scorecard.conducted_date)
       return (
-        <Text style={[responsiveStyles.subTitle, { flex: 1, textAlign: 'right', marginLeft: 10 }]}>
+        <Text style={[responsiveStyles.subTitle, { flex: 1, textAlign: 'right', marginLeft: 10, alignSelf: 'center' }]}>
           { !!this.props.scorecard.conducted_date ? scorecardHelper.getTranslatedDate(this.props.scorecard.conducted_date, this.context.appLanguage, 'DD MMM YYYY') : '' }
         </Text>
       )
@@ -36,7 +36,7 @@ class ScorecardProgressTitle extends Component {
       return;
 
     const endpointUrl = scorecardHelper.getEndpointUrl(this.props.scorecard);
-    return <EndpointBadge endpoint={endpointUrl} badgeStyle={{marginBottom: 12}} />
+    return <EndpointBadge endpoint={endpointUrl} badgeStyle={{alignSelf: 'center'}} />
   }
 
   render() {

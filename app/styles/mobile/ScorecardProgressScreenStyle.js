@@ -13,12 +13,13 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   title: {
     fontSize: subTitleFontSize(),
     fontFamily: FontFamily.title,
-    paddingBottom: 0,
-    marginBottom: -wp('0.9%')
+    marginBottom: 0,
+    paddingBottom: 0
   },
   facilityCode: {
     fontSize: 12,
     color: Color.grayColor,
+    alignSelf: 'center'
   },
   subTitle: {
     fontSize: getMobileFontSizeByPixelRatio(12, 12),

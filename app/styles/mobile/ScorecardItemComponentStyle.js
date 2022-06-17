@@ -54,7 +54,8 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     width: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%'
+    height: '100%',
+    marginTop: 0.5
   },
   deleteLabel: {
     fontSize: bodyFontSize(),
