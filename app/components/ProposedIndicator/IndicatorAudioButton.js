@@ -1,97 +1,32 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import { Icon } from 'native-base';
-import Color from '../../themes/color';
+import { View } from 'react-native';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
-import AudioPlayer from '../../services/audio_player_service';
-import {PLAYING, PAUSED} from '../../constants/indicator_constant';
+
+import PlaySound from '../Share/PlaySound';
 
 class IndicatorAudioButton extends Component {
-  constructor(props) {
-    super(props);
-    this._audioPlayer = null;
-    this.audioFile = null;
-    this.timeout = null;
-    this.state = {
-      iconName: 'volume-medium',
-    };
-  }
+  state = {
+    audioFile: null,
+  };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.playingIndicatorId != props.indicator.uuid)
-      return { iconName: 'volume-medium' }
+    if (props.playingIndicatorId != props.indicator.uuid) {
+      const languageIndicator = getLanguageIndicator(props.scorecardUUID, props.indicator.indicator_uuid, 'audio');
+      return { audioFile: languageIndicator != undefined ? languageIndicator.local_audio : null }
+    }
 
     return null;
-  }
-
-  hasAudio = () => {
-    const languageIndicator = getLanguageIndicator(this.props.scorecardUUID, this.props.indicator.indicator_uuid, 'audio');
-
-    if (languageIndicator != undefined) {
-      this.audioFile = languageIndicator.local_audio;
-      return (languageIndicator.local_audio === '' || languageIndicator.local_audio === null) ? false : true;
-    }
-    return false;
-  }
-
-  watchAudioPlayerState = () => {
-    const _this = this;
-    this.timeout = setInterval(() => {
-      if (_this._audioPlayer === null || _this._audioPlayer.playState === PAUSED) {
-        this.setState({iconName: 'volume-medium'});
-        clearInterval(_this.timeout);
-      }
-      if (this.props.audioPlayer.audioFile != this.audioFile)
-        clearInterval(_this.timeout);
-    }, 1000);
-  }
-
-  handlePlayAudio = () => {
-    if (this.timeout) clearInterval(this.timeout);
-    if (this.props.audioPlayer === null)
-      this._audioPlayer = new AudioPlayer(this.audioFile, true);
-    else if (this.props.audioPlayer.audioFile != this.audioFile) {
-      this.props.audioPlayer.release();
-      this._audioPlayer = new AudioPlayer(this.audioFile, true);
-    }
-    else if (this.props.audioPlayer.audioFile === this.audioFile)
-      this._audioPlayer.handlePlay();
-
-    this.setState({iconName: this._audioPlayer.playState === PLAYING ? 'pause' : 'volume-medium'});
-    if (this._audioPlayer.playState === PLAYING) this.watchAudioPlayerState()
-    this.props.updateAudioState(this.props.indicator.uuid, this._audioPlayer);
   }
 
   render() {
     return (
       <View style={{justifyContent: 'center'}}>
-        { this.hasAudio() &&
-          <TouchableOpacity onPress={() => this.handlePlayAudio()} style={styles.playAudioBtn}>
-            <Icon name={this.state.iconName} style={[{ color: Color.clickableColor}, this.state.iconName == 'pause' ? { marginLeft: 1 } : {}]} />
-          </TouchableOpacity>
-        }
-        { !this.hasAudio() &&
-          <View style={[styles.playAudioBtn, { borderColor: Color.grayColor }]}>
-            <Icon name='volume-mute' style={{ color: Color.grayColor}} />
-          </View>
-        }
+        <PlaySound filePath={this.state.audioFile}
+          onPress={() => this.props.updatePlayingIndicatorId(this.props.indicator.uuid)}
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  playAudioBtn: {
-    width: 36,
-    height: 36,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    marginRight: 14,
-    borderWidth: 2,
-    borderColor: Color.clickableColor
-  },
-});
 
 export default IndicatorAudioButton;

@@ -24,7 +24,8 @@ const IndicatorCardComponentStyles = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
     elevation: 2,
-    position: 'relative'
+    position: 'relative',
+    paddingRight: 8,
   },
   indicatorBox: {
     flexDirection: 'row',

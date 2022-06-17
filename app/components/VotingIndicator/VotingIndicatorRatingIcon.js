@@ -3,10 +3,11 @@ import { View, Image, Text, TouchableOpacity } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import { LocalizationContext } from '../Translations';
-import PlaySound from './PlaySound';
+import PlaySound from '../Share/PlaySound';
 import Images from '../../utils/images';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import Color from '../../themes/color';
 import IndicatorRatingItemTabletStyles from '../../styles/tablet/IndicatorRatingItemComponentStyle';
 import IndicatorRatingItemMobileStyles from '../../styles/mobile/IndicatorRatingItemComponentStyle';
 
@@ -42,6 +43,9 @@ class VotingIndicatorRatingIcon extends Component {
           onPress={() => this.props.onClickIcon(rating)}
           onSavePlayingAudio={() => votingIndicatorService.savePlayingIndicatorAudio(position)}
           position={position}
+          iconColor={Color.whiteColor}
+          useSmallIcon={true}
+          hasBackground={true}
         >
           <Text style={responsiveStyles.playSoundLabel}>{translations.listen}</Text>
         </PlaySound>

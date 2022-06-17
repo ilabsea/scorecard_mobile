@@ -19,10 +19,11 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 8,
   },
-  ratingIconContainer: {
+  ratingIndicatorTitleContainer: {
     flexDirection: 'row',
     marginTop: 10,
     marginRight: 40,
+    alignItems: 'center'
   },
   indicatorLabel: {
     fontSize: 20,
@@ -75,6 +76,8 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
     width: '90%',
     maxWidth: 100,
     flexDirection: 'row',
+    height: 36,
+    alignItems: 'center',
   }
 });
 

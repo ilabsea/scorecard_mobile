@@ -7,34 +7,15 @@ import IndicatorAudioButton from './IndicatorAudioButton';
 
 class IndicatorSelectionItems extends Component {
   static contextType = LocalizationContext;
-
-  constructor(props) {
-    super(props);
-
-    this.audioPlayer = null;
-    this.state = {
-      playingIndicatorId: null,
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.audioPlayer != null)
-      this.audioPlayer.release();
-  }
-
-  updateAudioState = (indicatorId, audioPlayer) => {
-    this.setState({playingIndicatorId: indicatorId});
-    this.audioPlayer = audioPlayer;
+  state = {
+    playingIndicatorId: null,
   }
 
   audioButton = (indicator) => {
-    return (
-      <IndicatorAudioButton indicator={indicator} audioPlayer={this.audioPlayer}
-        playingIndicatorId={this.state.playingIndicatorId}
-        updateAudioState={this.updateAudioState}
-        scorecardUUID={this.props.scorecardUuid}
-      />
-    );
+    return <IndicatorAudioButton indicator={indicator} scorecardUUID={this.props.scorecardUuid}
+              playingIndicatorId={this.state.playingIndicatorId}
+              updatePlayingIndicatorId={(indicatorId) => this.setState({playingIndicatorId: indicatorId})}
+           />
   }
 
   renderIndicatorCard(indicator, index) {

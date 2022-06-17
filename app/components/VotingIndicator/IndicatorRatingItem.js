@@ -7,7 +7,7 @@ import VotingIndicatorRatingIcon from './VotingIndicatorRatingIcon';
 import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import ratings from '../../db/jsons/ratings';
-import PlaySound from './PlaySound';
+import PlaySound from '../Share/PlaySound';
 import indicatorHelper from '../../helpers/indicator_helper';
 import Scorecard from '../../models/Scorecard';
 import LanguageRatingScale from '../../models/LanguageRatingScale';
@@ -97,7 +97,7 @@ export default class IndicatorRatingItem extends Component {
       <View style={responsiveStyles.ratingIndicatorContainer}>
         <View style={responsiveStyles.ratingIndicatorWrapper}>
           <PlaySound filePath={indicator.local_audio} isHeader={true}
-            containerStyle={responsiveStyles.ratingIconContainer}
+            containerStyle={responsiveStyles.ratingIndicatorTitleContainer}
           >
             <Text style={responsiveStyles.indicatorLabel} numberOfLines={1}>
               {this.props.indicator.order}. { indicator.content || indicator.name}
