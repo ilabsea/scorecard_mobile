@@ -25,16 +25,12 @@ class ScorecardProgressButtons extends Component {
     super(props);
     this.state = {
       visibleConfirmModal: false,
-      progressMessage: '',
       isFinishable: false,
     };
   }
 
   async componentDidMount() {
-    this.setState({
-      progressMessage: await scorecardProgressService.getProgressMessage(this.props.indicators, this.props.scorecard),
-      isFinishable: await scorecardProgressService.isFinishable(this.props.scorecard)
-    });
+    this.setState({ isFinishable: await scorecardProgressService.isFinishable(this.props.scorecard) });
   }
 
   finishScorecard() {
