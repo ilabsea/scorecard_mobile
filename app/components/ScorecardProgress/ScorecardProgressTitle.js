@@ -32,6 +32,9 @@ class ScorecardProgressTitle extends Component {
   }
 
   renderEndpointBadge() {
+    if (!this.props.scorecard.endpoint_url)
+      return;
+
     const endpointUrl = scorecardHelper.getEndpointUrl(this.props.scorecard);
     return <EndpointBadge endpoint={endpointUrl} badgeStyle={{marginBottom: 12}} />
   }

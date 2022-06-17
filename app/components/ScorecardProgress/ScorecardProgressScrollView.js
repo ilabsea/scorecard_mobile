@@ -6,7 +6,6 @@ import ScorecardProgressTitle from './ScorecardProgressTitle';
 import scorecardSyncService from '../../services/scorecard_sync_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { INDICATOR_DEVELOPMENT } from '../../constants/scorecard_constant';
-import Scorecard from '../../models/Scorecard'
 import ScorecardProgressTabletStyles from '../../styles/tablet/ScorecardProgressScreenStyle';
 import ScorecardProgressMobileStyles from '../../styles/mobile/ScorecardProgressScreenStyle';
 
