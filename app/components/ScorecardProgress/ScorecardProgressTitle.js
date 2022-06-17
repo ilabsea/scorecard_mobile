@@ -47,9 +47,7 @@ class ScorecardProgressTitle extends Component {
           <Text style={responsiveStyles.title}>
             { this.props.scorecard.uuid }
           </Text>
-
           { this.renderEndpointBadge() }
-
           { this.renderConductedDate() }
         </View>
 
