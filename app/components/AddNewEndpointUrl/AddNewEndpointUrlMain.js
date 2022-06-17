@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import {LocalizationContext} from '../../components/Translations';
+import {LocalizationContext} from '../Translations';
 import AddNewEndpointUrlForm from './AddNewEndpointUrlForm';
 import BottomButton from '../BottomButton';
 
