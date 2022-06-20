@@ -32,6 +32,7 @@ class ScorecardList extends Component {
       isLoading: true,
       visibleErrorModal: false,
       headerHeight: 0,
+      isDeleting: false
     }
   }
 
@@ -66,10 +67,9 @@ class ScorecardList extends Component {
   }
 
   onPress(scorecard) {
-    const { translations } = this.context
-
-    if (scorecard.isDeleted)
-      return Alert.alert(translations.deletedScorecard, translations.theScorecardDeleted);
+    // Prevent the user from viewing the scorecard detail if the scorecard is deleting
+    if (this.state.isDeleting)
+      return;
 
     this.props.setCurrentScorecard(scorecard);
     this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid});
@@ -91,11 +91,14 @@ class ScorecardList extends Component {
     if (!this.state.selectedScorecard)
       return;
 
+    this.setState({ isDeleting: true })
+
     scorecardDeletionService.deleteScorecard(this.state.selectedScorecard.uuid, async () => {
       this.setState({
         visibleModal: false,
         scorecards: await scorecardFilterService.getFilteredScorecards(),
         selectedScorecard: null,
+        isDeleting: false,
       });
     }, (error) => {
       const isErrorUnauthorize =  error.status == '401' ? true : false;
@@ -109,7 +112,10 @@ class ScorecardList extends Component {
   }
 
   onMessageModalDismiss() {
-    this.setState({visibleModal: false});
+    this.setState({
+      visibleModal: false,
+      selectedScorecard: null,
+    });
     setTimeout(() => {
       this.setState({isConfirmModal: true});
     }, 500);
