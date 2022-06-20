@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import NumericInput from '../NumericInput';
+import NumericInput from '../Share/NumericInput';
 import { getIntegerOf } from '../../utils/math';
 import uuidv4 from '../../utils/uuidv4'
 import { MALE } from '../../constants/participant_constant';

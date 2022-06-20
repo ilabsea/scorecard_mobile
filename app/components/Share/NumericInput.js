@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import Color from '../themes/color';
-import { getIntegerOf } from '../utils/math';
-import { bodyFontSize } from '../utils/font_size_util';
-import { LocalizationContext } from './Translations';
+import Color from '../../themes/color';
+import { getIntegerOf } from '../../utils/math';
+import { bodyFontSize } from '../../utils/font_size_util';
+import { LocalizationContext } from '../Translations';
 
 class NumericInput extends Component {
   static contextType = LocalizationContext;
