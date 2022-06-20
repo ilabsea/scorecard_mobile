@@ -13,7 +13,7 @@ import SelectedImageHeader from '../../components/SelectedImage/SelectedImageHea
 import SelectedImageList from '../../components/SelectedImage/SelectedImageList';
 import SelectedImageDoneButton from '../../components/SelectedImage/SelectedImageDoneButton';
 import ImageSelector from '../../components/ImageSelector';
-import NoDataMessage from '../../components/NoDataMessage';
+import EmptyListAction from '../../components/Share/EmptyListAction';
 
 import scorecardReferenceService from '../../services/scorecard_reference_service';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
@@ -81,7 +81,7 @@ class SelectedImage extends Component {
 
   renderNoImage() {
     return (
-      <NoDataMessage
+      <EmptyListAction
         title={ this.context.translations.pleaseChooseTheImage }
         buttonLabel={ this.context.translations.chooseImage }
         onPress={() => this.setState({ imagePickerVisible: true })}

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
 import {LocalizationContext} from '../Translations';
-import NoDataMessage from '../NoDataMessage';
+import EmptyListAction from '../Share/EmptyListAction';
 
-const NoIndicatorMessage = () => {
+const EmptyIndicatorList = () => {
   const locale = useContext(LocalizationContext);
 
   return (
-    <NoDataMessage
+    <EmptyListAction
       title={locale.translations.noIndicator}
       hideButton={true}
       contentContainerStyle={{height: 160, borderWidth: 0, marginTop: 20}}
@@ -15,4 +15,4 @@ const NoIndicatorMessage = () => {
   )
 }
 
-export default NoIndicatorMessage;
+export default EmptyIndicatorList;

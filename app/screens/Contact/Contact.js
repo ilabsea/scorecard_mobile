@@ -4,7 +4,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { LocalizationContext } from '../../components/Translations';
 import ContactListItem from '../../components/Contact/ContactListItem';
 import MessageModal from '../../components/MessageModal';
-import NoDataMessage from '../../components/NoDataMessage';
+import EmptyListAction from '../../components/Share/EmptyListAction';
 import contacts from '../../db/jsons/contacts';
 import contactService from '../../services/contact_service';
 
@@ -77,7 +77,7 @@ export default class Contact extends Component {
 
   renderNoContacts = () => {
     return (
-      <NoDataMessage
+      <EmptyListAction
         title={ this.context.translations.unableToGetContacts }
         buttonLabel={ this.context.translations.syncContacts }
         onPress={() => this.loadContact()}

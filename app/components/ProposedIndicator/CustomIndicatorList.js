@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {LocalizationContext} from '../Translations';
 import ProposedIndicatorScrollView from './ProposedIndicatorScrollView';
 import IndicatorSelectionItems from './IndicatorSelectionItems';
-import NoIndicatorMessage from './NoIndicatorMessage';
+import EmptyIndiatorList from './EmptyIndicatorList';
 class CustomIndicatorList extends Component {
   static contextType = LocalizationContext;
 
@@ -28,7 +28,7 @@ class CustomIndicatorList extends Component {
     return (
       this.props.indicators.length > 0
         ? this.renderInidcatorList()
-        : <NoIndicatorMessage />
+        : <EmptyIndiatorList />
     )
   }
 }

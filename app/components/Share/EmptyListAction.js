@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'native-base';
-import OutlinedButton from './OutlinedButton';
+import OutlinedButton from '../OutlinedButton';
 
-import { getDeviceStyle } from '../utils/responsive_util';
-import NoDataMessageTabletStyles from '../styles/tablet/NoDataMessageComponentStyle';
-import NoDataMessageMobileStyles from '../styles/mobile/NoDataMessageComponentStyle';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import EmptyListActionTabletStyles from '../../styles/tablet/EmptyListActionComponentStyle';
+import EmptyListActionMobileStyles from '../../styles/mobile/EmptyListActionComponentStyle';
 
-const responsiveStyles = getDeviceStyle(NoDataMessageTabletStyles, NoDataMessageMobileStyles);
+const responsiveStyles = getDeviceStyle(EmptyListActionTabletStyles, EmptyListActionMobileStyles);
 
-class NoDataMessage extends Component {
+class EmptyListAction extends Component {
   render() {
     return (
       <View style={[styles.container, this.props.customContainerStyle]}>
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NoDataMessage;
+export default EmptyListAction;
