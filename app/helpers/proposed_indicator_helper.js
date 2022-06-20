@@ -11,7 +11,7 @@ import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
 import { navigate } from '../navigators/app_navigator';
 
 import ParticipantModalMain from '../components/ParticipantModal/ParticipantModalMain';
-import AddNewParticipantContent from '../components/ParticipantModal/AddNewParticipantContent';
+import AddNewParticipantMain from '../components/ParticipantModal/AddNewParticipantMain';
 
 const proposedIndicatorHelper = (() => {
   return {
@@ -123,7 +123,7 @@ const proposedIndicatorHelper = (() => {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
 
     formRef.current?.setBodyContent(
-      <AddNewParticipantContent scorecardUuid={ scorecardUuid }
+      <AddNewParticipantMain scorecardUuid={ scorecardUuid }
         title={!!indicator ? indicator.name : ''}
         onSaveParticipant={(participant) => {
           if (!!indicator) {

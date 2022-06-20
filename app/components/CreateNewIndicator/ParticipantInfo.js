@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
 import ParticipantModalMain from '../ParticipantModal/ParticipantModalMain';
-import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
+import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
 import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
@@ -102,7 +102,7 @@ export default class ParticipantInfo extends Component {
       addParticipantVisible: true,
     });
 
-    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent());
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain());
   }
 
   dismissModal() {
@@ -127,8 +127,8 @@ export default class ParticipantInfo extends Component {
            />
   }
 
-  getAddNewParticipantContent() {
-    return <AddNewParticipantContent
+  getAddNewParticipantMain() {
+    return <AddNewParticipantMain
              title={this.props.title}
              scorecardUuid={ this.props.scorecardUuid }
              onSaveParticipant={ (participant) => this.selectParticipant(participant) }

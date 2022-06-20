@@ -21,7 +21,7 @@ import { MALE } from '../../constants/participant_constant';
 import { participantContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
 
-class AddNewParticipantContent extends Component {
+class AddNewParticipantMain extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -140,4 +140,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   null,
   mapDispatchToProps,
-)(AddNewParticipantContent);
+)(AddNewParticipantMain);
