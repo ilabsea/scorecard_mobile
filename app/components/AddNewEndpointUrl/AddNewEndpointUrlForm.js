@@ -16,7 +16,6 @@ class AddNewEndpointUrlForm extends React.Component {
     this.state = {
       endpointLabel: '',
       endpointValue: '',
-      endpointUuid: '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
     }

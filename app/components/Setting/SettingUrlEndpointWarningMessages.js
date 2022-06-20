@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {LocalizationContext} from '../Translations';
-import MessageWithSteps from '../MessageWithSteps';
+import MessageWithSteps from '../Share/MessageWithSteps';
 
 class EndpointUrlWarningMessages extends React.Component {
   static contextType = LocalizationContext;
