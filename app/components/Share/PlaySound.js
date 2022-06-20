@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Sound from 'react-native-sound';
 import Color from '../../themes/color';
@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
 import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
-
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { pressableItemSize } from '../../utils/component_util';
 
 class PlaySound extends Component {
   constructor(props) {
@@ -100,20 +100,17 @@ class PlaySound extends Component {
   }
 
   render() {
-    const iconSize = getDeviceStyle(28, 20);
-    const btnBg = !!this.props.filePath ? Color.headerColor : Color.paleBlackColor;
-    const btnStyles = [styles.btnAudio, { backgroundColor: btnBg }];
+    const defaultColor = !!this.props.filePath ? Color.clickableColor : Color.grayColor;
+    const iconColor = this.props.iconColor || defaultColor;
+    const iconSize = this.props.useSmallIcon ? getDeviceStyle(28, 20) : getDeviceStyle(34, 30);
+    const btnStyles = [styles.btnAudio, { backgroundColor: this.props.hasBackground ? defaultColor : 'none' }];
 
     return (
-      <TouchableOpacity
-        onPress={() => this.playAudio()}
+      <TouchableOpacity onPress={() => this.playAudio()}
         style={[!this.props.isHeader ? btnStyles : {}, this.props.containerStyle]}
       >
         { this.props.children }
-
-        <View style={this.props.isHeader ? btnStyles : {}}>
-          <Icon name={this.getIconName()} style={[{ color: Color.whiteColor, fontSize: iconSize}, this.getIconName() == 'pause' ? {marginLeft: 1} : {}]}/>
-        </View>
+        <Icon name={this.getIconName()} style={[{ color: iconColor, fontSize: iconSize}, this.getIconName() == 'pause' ? {marginLeft: 1} : {}]}/>
       </TouchableOpacity>
     )
   }
@@ -121,12 +118,11 @@ class PlaySound extends Component {
 
 const styles = StyleSheet.create({
   btnAudio: {
-    width: getDeviceStyle(36, 30),
-    height: getDeviceStyle(36, 30),
-    backgroundColor: Color.headerColor,
-    alignItems: 'center',
+    width: pressableItemSize(),
+    height: pressableItemSize(),
+    alignItems: 'flex-end',
     justifyContent: 'center',
-    borderRadius: 18
+    borderRadius: 18,
   }
 });
 
