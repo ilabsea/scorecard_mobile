@@ -18,6 +18,7 @@ class CreateNewIndicatorParticipantInfo extends Component {
         </Text>
 
         <ParticipantInfo
+          title={this.context.translations.proposeTheIndicator}
           participants={Participant.getNotRaised(this.props.scorecardUuid)}
           scorecardUuid={ this.props.scorecardUuid }
           participantUuid={ this.props.participantUuid }

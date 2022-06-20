@@ -24,7 +24,7 @@ class ParticipantAccordionMain extends Component {
 
     return (
       <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 20}}>
-        <Text style={styles.itemTitleText}>{translations.indicatorDevelopment}</Text>
+        <Text style={styles.itemTitleText}>{translations.proposedIndicator}</Text>
 
         { !this.props.isIndicatorBase &&
           <TouchableOpacity onPress={() => this.editParticipant()} style={{flexDirection: 'row'}}>

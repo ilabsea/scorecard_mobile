@@ -7,7 +7,7 @@ export default [
     routeName: 'ScorecardPreference'
   },
   { value: 2,
-    headerTitle: 'proposedIndicator',
+    headerTitle: 'proposeTheIndicator',
     label: 'proposedIndicator',
     getSubTitle: 'getProposedIndicatorSubTitle',
     routeName: 'OfflineProposedIndicator'

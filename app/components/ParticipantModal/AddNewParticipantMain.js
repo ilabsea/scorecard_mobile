@@ -21,7 +21,7 @@ import { MALE } from '../../constants/participant_constant';
 import { participantContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
 
-class AddNewParticipantContent extends Component {
+class AddNewParticipantMain extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -118,7 +118,7 @@ class AddNewParticipantContent extends Component {
 
     return (
       <View style={{backgroundColor: Color.whiteColor, height: hp(contentHeight)}}>
-        <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposedIndicator } />
+        <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposeTheIndicator } />
 
         <View style={{padding: containerPadding, flex: 1}}>
           <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
@@ -140,4 +140,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   null,
   mapDispatchToProps,
-)(AddNewParticipantContent);
+)(AddNewParticipantMain);

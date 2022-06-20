@@ -103,9 +103,12 @@ class ParticipantModalMain extends React.Component {
   }
 
   render() {
+    const customTitle = !!this.props.selectedIndicator ? this.props.selectedIndicator.name :  this.props.title;
+    const title = customTitle || this.context.translations.proposeTheIndicator;
+
     return (
       <View style={{ height: hp(participantContentHeight) }}>
-        <BottomSheetModalTitle title={ !!this.props.selectedIndicator ? this.props.selectedIndicator.name : this.context.translations.proposedIndicator } />
+        <BottomSheetModalTitle title={title} />
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
           <ParticipantModalSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.participants.length}

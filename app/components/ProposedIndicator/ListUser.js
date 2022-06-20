@@ -55,6 +55,7 @@ class ListUser extends Component {
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
             <ParticipantInfo
+              title={translations.proposeTheIndicator}
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}

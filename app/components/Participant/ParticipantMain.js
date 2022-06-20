@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 import NoDataMessage from '../NoDataMessage';
-import AddNewParticipantContent from '../ParticipantModal/AddNewParticipantContent';
+import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
 import { participantListContentHeight } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
@@ -24,12 +24,12 @@ class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
-    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantContent(selectedParticipant));
+    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain(selectedParticipant));
     this.props.participantModalRef.current?.present();
   }
 
-  getAddNewParticipantContent(selectedParticipant) {
-    return <AddNewParticipantContent
+  getAddNewParticipantMain(selectedParticipant) {
+    return <AddNewParticipantMain
             scorecardUuid={ this.props.scorecardUuid }
             title={!!selectedParticipant ? this.context.translations.editParticipant : this.context.translations.addNewParticipant}
             subTitle={this.context.translations.participantInformation}

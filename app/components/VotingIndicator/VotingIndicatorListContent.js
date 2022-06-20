@@ -48,6 +48,7 @@ class VotingIndicatorListContent extends React.Component {
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
 
           <ParticipantInfo
+            title={translations.addNewVoting}
             participants={ Participant.getUnvoted(this.props.scorecard.uuid) }
             scorecardUuid={ this.props.scorecard.uuid }
             mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}

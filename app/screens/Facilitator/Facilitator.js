@@ -136,7 +136,7 @@ class FacilitatorScreen extends Component {
               <Pressable style={{paddingBottom: this.state.containerPaddingBottom}}>
                 <HeaderTitle
                   headline="facilitatorList"
-                  subheading="pleaseFillInformationBelow"
+                  subheading="pleaseChooseTheFacilitators"
                 />
 
                 <FacilitatorForm

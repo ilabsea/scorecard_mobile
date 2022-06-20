@@ -109,7 +109,7 @@ class ScorecardPreferenceForm extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={[styles.container, { paddingBottom: this.state.containerPaddingBottom }]}>
-        <HeaderTitle headline="scorecardPreference" subheading="pleaseFillInformationBelow" />
+        <HeaderTitle headline="scorecardPreference" subheading="pleaseChooseTheLanguagesOfTheScorecardInformation" />
 
         {this.renderForm()}
       </ScrollView>
