@@ -28,15 +28,15 @@ class AddNewEndpointUrlMain extends React.Component {
 
     EndpointUrl.create(params);
     endpointFormHelper.setNewEndpointAdded(true);
-    this.setTempSettingData(this.props.endpoint.value);
+    this.setTempSettingData();
     navigateBack();
   }
 
-  async setTempSettingData(url) {
+  async setTempSettingData() {
     const settingData = await settingHelper.getSettingData();
     const email = !!settingData && !!settingData.email ? settingData.email : '';
     const password = !!settingData && !!settingData.password ? settingData.password : '';
-    settingHelper.setTempSettingData(url, email, password);
+    settingHelper.setTempSettingData(this.props.endpoint.value, email, password);
   }
 
   updateEndpoint(endpoint) {

@@ -6,7 +6,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {LocalizationContext} from '../../Translations';
 import Color from '../../../themes/color';
 import BottomSheetModalTitle from '../../BottomSheetModalTitle';
-import BottomSheetPickerMainListItem from './BottomSheetPickerMainListItem';
+import BottomSheetPickerListItem from './BottomSheetPickerListItem';
 import BottomSheetPickerFooter from './BottomSheetPickerFooter';
 import SearchBox from '../../SearchBox/SearchBox';
 
@@ -24,6 +24,10 @@ class BottomSheetPickerMain extends React.Component {
     };
   }
 
+  updateItems(items) {
+    this.setState({ items });
+  }
+
   onSelectItem(item) {
     if (item.disabled)
       return;
@@ -37,7 +41,7 @@ class BottomSheetPickerMain extends React.Component {
   }
 
   renderListItem() {
-    return <BottomSheetPickerMainListItem
+    return <BottomSheetPickerListItem
               items={this.state.items}
               selectedItem={this.state.selectedItem}
               onSelectItem={(item) => this.onSelectItem(item)}

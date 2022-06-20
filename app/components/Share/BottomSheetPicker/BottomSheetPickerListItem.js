@@ -10,7 +10,7 @@ import BottomSheetPickerMobileStyles from '../../../styles/mobile/BottomSheetPic
 
 const styles = getDeviceStyle(BottomSheetPickerTabletStyles, BottomSheetPickerMobileStyles);
 
-class BottomSheetPickerMainListItem extends React.Component {
+class BottomSheetPickerListItem extends React.Component {
   renderListItem() {
     return this.props.items.map((item, index) => {
       const isDeletable = this.isDeletable(item);
@@ -59,4 +59,4 @@ class BottomSheetPickerMainListItem extends React.Component {
   }
 }
 
-export default BottomSheetPickerMainListItem;
+export default BottomSheetPickerListItem;
