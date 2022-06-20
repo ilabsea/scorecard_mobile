@@ -10,8 +10,8 @@ class EndpointUrlWarningMessages extends React.Component {
     const { translations } = this.context;
     const terms = [
       { label: translations.runningScorecard, description: translations.willNotBeAbleToContinueTheSetup },
-      { label: translations.finishedScorecard, description: translations.willNotBeAbleToSubmitTheScorecard },
-      { label: translations.CompletedScorecard, description: translations.willNotBeAbleToSharePDF },
+      { label: translations.finishedScorecard, description: translations.willNotBeAbleToSubmit },
+      { label: translations.CompletedScorecard, description: translations.willNotBeAbleToShare },
     ]
 
     return <MessageWithSteps

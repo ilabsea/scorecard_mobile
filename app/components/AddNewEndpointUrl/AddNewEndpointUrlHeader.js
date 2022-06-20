@@ -9,8 +9,7 @@ class AddNewEndpointUrlHeader extends React.Component {
   static contextType = LocalizationContext;
 
   hasDiscardAlert() {
-    const { endpointLabel, endpointValue } = this.props.bodyRef.current?.inputFormRef.current?.state;
-    return !!endpointLabel || !!endpointValue
+    return !!this.props.endpoint && (!!this.props.endpoint.label || !!this.props.endpoint.value);
   }
 
   render() {

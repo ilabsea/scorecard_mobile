@@ -25,9 +25,15 @@ class AddNewEndpointUrlForm extends React.Component {
   onChangeText = (fieldName, value) => {
     let state = {};
     state[fieldName] = value;
-    state[`${fieldName}ErrorMsg`] = endpointFormService.getErrorMessage(fieldName, value);
+    state[`${fieldName}ErrorMsg`] = endpointFormService.getValidationMessage(fieldName, value);
 
-    this.setState(state, () => !!this.props.validateForm && this.props.validateForm());
+    this.setState(state, () => {
+      const endpoint = {
+        label: this.state.endpointLabel,
+        value: this.state.endpointValue,
+      }
+      !!this.props.updateEndpoint && this.props.updateEndpoint(endpoint);
+    });
   }
 
   renderTextInputs() {
@@ -35,14 +41,14 @@ class AddNewEndpointUrlForm extends React.Component {
     const attrs = [
       {
         value: this.state.endpointLabel,
-        label: `${translations.serverUrl} (${translations.httpsRecommended})`,
+        label: translations.serverLabel,
         placeholder: translations.enterServerLabel,
         field_name: ENDPOINT_LABEL_FIELDNAME,
         message: translations[this.state.endpointLabelErrorMsg]
       },
       {
         value: this.state.endpointValue,
-        label: translations.serverLabel,
+        label: `${translations.serverUrl} (${translations.httpsRecommended})`,
         placeholder: translations.enterServerUrl,
         field_name: ENDPOINT_VALUE_FIELDNAME,
         message: translations[this.state.endpointValueErrorMsg]

@@ -10,7 +10,7 @@ const endpointFormService = (() => {
   return {
     isValidForm,
     saveEndpointUrls,
-    getErrorMessage,
+    getValidationMessage,
     getSelectedEndpoint,
   }
 
@@ -39,21 +39,19 @@ const endpointFormService = (() => {
       EndpointUrl.create({uuid: uuidv4(), label: newLabel, value: newValue, type: CUSTOM});
   }
 
-  function getErrorMessage(fieldName, value) {
+  function getValidationMessage(fieldName, value) {
     const endpointErrorMessage = {
       'endpointValue': {
         'alreadyExistedMsg': 'serverUrlIsExisted',
-        'blankMsg': 'serverUrlRequireMsg',
         'invalidMsg': !urlUtil.isUrlValid(value) ? 'serverUrlIsNotValid' : '',
       },
       'endpointLabel': {
         'alreadyExistedMsg': 'serverLabelIsExisted',
-        'blankMsg': 'serverLabelRequireMsg',
         'invalidMsg': '',
       }
     };
 
-    if (!value) return endpointErrorMessage[fieldName]['blankMsg'];
+    if (!value) return '';
 
     const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
     const messageType = isFieldExisted(type, value) ? 'alreadyExistedMsg' : 'invalidMsg';

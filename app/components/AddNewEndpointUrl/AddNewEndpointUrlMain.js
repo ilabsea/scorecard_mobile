@@ -15,31 +15,20 @@ import endpointFormHelper from '../../helpers/endpoint_form_helper';
 
 class AddNewEndpointUrlMain extends React.Component {
   static contextType = LocalizationContext
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isFormValid: false,
-    }
-    this.inputFormRef = React.createRef();
-  }
-
-  validateForm() {
-    const {endpointLabel, endpointValue} = this.inputFormRef.current?.state;
-    this.setState({ isFormValid: endpointFormService.isValidForm(endpointLabel, endpointValue) })
+  state = {
+    isFormValid: false,
   }
 
   save() {
-    const {endpointLabel, endpointValue} = this.inputFormRef.current?.state;
     const params = {
-      label: endpointLabel,
-      value: endpointValue,
+      label: this.props.endpoint.label,
+      value: this.props.endpoint.value,
       type: CUSTOM,
     }
 
     EndpointUrl.create(params);
     endpointFormHelper.setNewEndpointAdded(true);
-    this.setTempSettingData(endpointValue);
+    this.setTempSettingData(this.props.endpoint.value);
     navigateBack();
   }
 
@@ -50,13 +39,18 @@ class AddNewEndpointUrlMain extends React.Component {
     settingHelper.setTempSettingData(url, email, password);
   }
 
+  updateEndpoint(endpoint) {
+    this.setState({ isFormValid: endpointFormService.isValidForm(endpoint.label, endpoint.value) });
+    !!this.props.updateEndpoint && this.props.updateEndpoint(endpoint);
+  }
+
   render() {
     const { translations } = this.context;
     return (
       <View style={{flex: 1, padding: containerPadding}}>
         <AddNewEndpointUrlForm
-          ref={this.inputFormRef}
-          validateForm={() => this.validateForm()}
+          endpoint={this.props.endpoint}
+          updateEndpoint={(endpoint) => this.updateEndpoint(endpoint)}
         />
 
         <BottomButton
