@@ -10,7 +10,7 @@ import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getProposedIndicatorVideoId } from '../../utils/proposed_indicator_util';
 
-class ProposedIndicatorMethodDetailsContent extends React.Component {
+class ProposedIndicatorMethodDetailsMain extends React.Component {
   static contextType = LocalizationContext;
 
   showVideoPlayer() {
@@ -42,4 +42,4 @@ class ProposedIndicatorMethodDetailsContent extends React.Component {
   }
 }
 
-export default ProposedIndicatorMethodDetailsContent;
+export default ProposedIndicatorMethodDetailsMain;
