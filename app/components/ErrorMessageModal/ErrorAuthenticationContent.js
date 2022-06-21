@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../Translations';
 import ErrorAuthenticationContentHeader from './ErrorAuthenticationContentHeader';
-import ErrorAuthenticationContentForm from './ErrorAuthenticationContentForm';
+import ErrorAuthenticationForm from './ErrorAuthenticationForm';
 
 import authenticationFormService from '../../services/authentication_form_service';
 import authenticationService from '../../services/authentication_service';
@@ -120,7 +120,7 @@ class ErrorAuthenticationContent extends Component {
         <View style={{borderWidth: 0, margin: 0}}>
           <ErrorAuthenticationContentHeader backendUrl={this.props.backendUrl} />
 
-          <ErrorAuthenticationContentForm
+          <ErrorAuthenticationForm
             email={this.state.email}
             password={this.state.password}
             onChangeText={this.onChangeText}

@@ -12,7 +12,7 @@ import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle
 
 const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
-class ErrorAuthenticationContentForm extends React.Component {
+class ErrorAuthenticationForm extends React.Component {
   static contextType = LocalizationContext;
 
   _renderShowPasswordIcon = () => {
@@ -85,4 +85,4 @@ class ErrorAuthenticationContentForm extends React.Component {
   }
 }
 
-export default ErrorAuthenticationContentForm;
+export default ErrorAuthenticationForm;
