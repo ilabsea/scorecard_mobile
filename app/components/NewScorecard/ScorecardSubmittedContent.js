@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 
-import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
-import ModalConfirmationButtons from '../ModalConfirmationButtons';
-import OutlineInfoIcon from '../OutlineInfoIcon';
+import InfoModalMain from '../Share/InfoModalMain';
 import Scorecard from '../../models/Scorecard';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -29,26 +27,17 @@ class ScorecardSubmittedContent extends Component {
     const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
 
     return (
-      <View>
-        <View style={{flexDirection: 'row'}}>
-          <OutlineInfoIcon color={Color.warningColor} />
-
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <Text style={responsiveStyles.label}>
-              { translations.formatString(translations.thisScorecardIsAlreadySubmitted, scorecardCode) }
-            </Text>
-          </View>
-        </View>
-
-        <ModalConfirmationButtons
-          onClose={() => this.props.onDismiss(true)}         // user clicked on close button, it will auto focus on the last digit input in new scorecard screen
-          closeButtonLabel={translations.close}
-          onConfirm={() => this.viewDetail()}
-          confirmButtonLabel={translations.viewDetail}
-          isConfirmButtonDisabled={false}
-        />
-      </View>
-    );
+      <InfoModalMain
+        title={translations.scorecardIsSubmitted}
+        description={translations.formatString(translations.thisScorecardIsAlreadySubmitted, scorecardCode)}
+        closeButtonLabel={translations.close}
+        confirmButtonLabel={translations.viewDetail}
+        hasConfirmButton={true}
+        isConfirmButtonDisabled={false}
+        onClose={() => this.props.onDismiss(true)}         // user clicked on close button, it will auto focus on the last digit input in new scorecard screen
+        onConfirm={() => this.viewDetail()}
+      />
+    )
   }
 }
 

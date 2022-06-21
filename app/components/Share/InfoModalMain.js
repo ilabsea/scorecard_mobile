@@ -1,14 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import CustomStyle from '../../themes/customStyle';
-// import Color from '../../themes/color';
 import { bodyFontSize } from '../../utils/font_size_util';
 
 import ModalHeader from './InfoModal/ModalHeader';
 import { LocalizationContext } from '../Translations';
-// import ModalConfirmationButtons from '../ModalConfirmationButtons';
-import CloseButton from '../CloseButton';
+import ModalBottomButtons from './InfoModal/ModalBottomButtons';
 
 class InfoModalMain extends React.Component {
   static contextType = LocalizationContext;
@@ -26,9 +23,14 @@ class InfoModalMain extends React.Component {
           </Text>
         </View>
 
-        <View style={CustomStyle.modalBtnWrapper}>
-          <CloseButton onPress={this.props.onDismiss} label={translations.close} />
-        </View>
+        <ModalBottomButtons
+          onClose={this.props.onDismiss}
+          closeButtonLabel={translations.close}
+          hasConfirmButton={this.props.hasConfirmButton}
+          confirmButtonLabel={this.props.confirmButtonLabel}
+          isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
+          onConfirm={() => this.props.onConfirm()}
+        />
       </View>
     )
   }

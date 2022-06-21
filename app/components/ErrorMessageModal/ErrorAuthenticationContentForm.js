@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-paper';
 
 import { LocalizationContext } from '../Translations';
 import TextFieldInput from '../Share/TextFieldInput';
-import ModalConfirmationButtons from '../ModalConfirmationButtons';
+import ModalBottomButtons from '../Share/InfoModal/ModalBottomButtons';
 import { pressableItemSize } from '../../utils/component_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
@@ -72,7 +72,7 @@ class ErrorAuthenticationContentForm extends React.Component {
           </Text>
         }
 
-        <ModalConfirmationButtons
+        <ModalBottomButtons
           onClose={this.props.onDismiss}
           closeButtonLabel={translations.close}
           onConfirm={() => this.props.save()}

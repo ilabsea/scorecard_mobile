@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';
-import ModalConfirmationButtons from '../ModalConfirmationButtons';
+// import ModalConfirmationButtons from '../Share/InfoModal/ModalBottomButtons';
 import OutlineInfoIcon from '../OutlineInfoIcon';
 
 import Scorecard from '../../models/Scorecard';
@@ -67,13 +67,13 @@ class ScorecardProgressContent extends Component {
       <View>
         { this.renderContent() }
 
-        <ModalConfirmationButtons
+        {/* <ModalConfirmationButtons
           onClose={() => this.props.onDismiss(true)}        // // user clicked on close button, it will auto focus on the last digit input in new scorecard screen
           closeButtonLabel={translations.close}
           onConfirm={() => this.continueScorecard()}
           confirmButtonLabel={translations.continue}
           isConfirmButtonDisabled={false}
-        />
+        /> */}
       </View>
     );
   }
