@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import ProposedIndicatorScrollView from './ProposedIndicatorScrollView';
 import IndicatorSelectionItems from './IndicatorSelectionItems';
 import AddNewIndicatorButton from './AddNewIndicatorButton';
-import NoIndicatorMessage from './NoIndicatorMessage';
+import EmptyIndicatorList from './EmptyIndicatorList';
 
 class IndicatorSelection extends Component {
   static contextType = LocalizationContext;
@@ -56,7 +56,7 @@ class IndicatorSelection extends Component {
 
         { (!this.props.isLoading && this.props.indicators.length) === 0 && 
           <View style={{height: '100%'}}>
-            <NoIndicatorMessage />
+            <EmptyIndicatorList />
           </View>
         }
 

@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
 import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
 import IndicatorAccordion from '../IndicatorAccordion/IndicatorAccordion';
-import NoDataMessage from '../NoDataMessage';
+import EmptyListAction from '../Share/EmptyListAction';
 
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 
@@ -44,12 +44,12 @@ class ProposedIndicatorAccordions extends Component {
     )
   }
 
-  renderNoDataMessage() {
+  renderEmptyListAction() {
     const {translations} = this.context;
 
     return (
       <View style={{height: '100%'}}>
-        <NoDataMessage
+        <EmptyListAction
           title={translations.pleaseProposeIndicator}
           buttonLabel={translations.proposeNewIndicator}
           onPress={() => this.props.startProposeIndicator()}
@@ -65,7 +65,7 @@ class ProposedIndicatorAccordions extends Component {
         { this.renderAccordionSwitcher() }
 
         { this.props.raisedParticipants.length == 0 &&
-          this.renderNoDataMessage()
+          this.renderEmptyListAction()
         }
 
         { this.state.accordionType == 'participant' ?

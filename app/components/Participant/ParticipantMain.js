@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
-import NoDataMessage from '../NoDataMessage';
+import EmptyListAction from '../Share/EmptyListAction';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
 import { participantListContentHeight } from '../../constants/modal_constant';
@@ -67,7 +67,7 @@ class ParticipantMain extends React.Component {
   }
 
   renderNoData() {
-    return <NoDataMessage
+    return <EmptyListAction
             title={this.context.translations.pleaseAddParticipant}
             buttonLabel={this.context.translations.addNewParticipant}
             onPress={() => this.showParticipantBottomSheet(null)}

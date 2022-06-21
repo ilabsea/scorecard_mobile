@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const NoDataMessageComponentStyles = StyleSheet.create({
+const EmptyListActionComponentStyles = StyleSheet.create({
   label: {
     fontSize: 24,
     marginVertical: 10
@@ -16,4 +16,4 @@ const NoDataMessageComponentStyles = StyleSheet.create({
   }
 });
 
-export default NoDataMessageComponentStyles;
+export default EmptyListActionComponentStyles;

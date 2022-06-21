@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import { LocalizationContext } from '../../components/Translations';
-import NoDataMessage from '../../components/NoDataMessage';
+import EmptyListAction from '../../components/Share/EmptyListAction';
 import ScorecardListModals from '../../components/ScorecardList/ScorecardListModals';
 import ScorecardListScrollView from '../../components/ScorecardList/ScorecardListScrollView';
 
@@ -79,7 +79,7 @@ class ScorecardList extends Component {
     const { translations } = this.context
 
     return (
-      <NoDataMessage
+      <EmptyListAction
         title={translations.pleaseAddScorecard}
         buttonLabel={translations.startScorecard}
         onPress={() => this.props.navigation.reset({ index: 1, routes: [{ name: 'Home' }, {name: 'NewScorecard'}] })}

@@ -4,7 +4,7 @@ import { View, Dimensions } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import IndicatorDevelopmentContentHeader from './IndicatorDevelopmentContentHeader';
 import IndicatorDevelopmentList from './IndicatorDevelopmentList';
-import NoDataMessage from '../NoDataMessage';
+import EmptyListAction from '../Share/EmptyListAction';
 import { containerPadding } from '../../utils/responsive_util';
 import Rating from '../../models/Rating';
 
@@ -34,7 +34,7 @@ class IndicatorDevelopmentContent extends Component {
     const top = (Dimensions.get('screen').height - 305) / 2;
 
     return (
-      <NoDataMessage
+      <EmptyListAction
         title={translations.pleaseAddIndicators}
         buttonLabel={translations.indicator}
         onPress={() => this.props.openModal() }

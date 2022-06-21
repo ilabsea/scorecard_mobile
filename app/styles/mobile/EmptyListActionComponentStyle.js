@@ -6,7 +6,7 @@ import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 // 210 is the height of message container
 const containerMarginTop = isShortScreenDevice() ? -(210 / 8) : -(210 / 4);
 
-const NoDataMessageComponentStyles = StyleSheet.create({
+const EmptyListActionComponentStyles = StyleSheet.create({
   label: {
     fontSize: getMobileFontSizeByPixelRatio(19, 17),
     marginVertical: 10
@@ -22,4 +22,4 @@ const NoDataMessageComponentStyles = StyleSheet.create({
   }
 });
 
-export default NoDataMessageComponentStyles;
+export default EmptyListActionComponentStyles;
