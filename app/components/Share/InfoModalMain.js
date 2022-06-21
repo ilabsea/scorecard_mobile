@@ -24,7 +24,7 @@ class InfoModalMain extends React.Component {
         </View>
 
         <ModalBottomButtons
-          onClose={this.props.onDismiss}
+          onClose={this.props.onClose}
           closeButtonLabel={translations.close}
           hasConfirmButton={this.props.hasConfirmButton}
           confirmButtonLabel={this.props.confirmButtonLabel}

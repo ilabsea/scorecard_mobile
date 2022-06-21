@@ -5,13 +5,7 @@ import { LocalizationContext } from '../Translations';
 import InfoModalMain from '../Share/InfoModalMain';
 import Scorecard from '../../models/Scorecard';
 
-import { getDeviceStyle } from '../../utils/responsive_util';
-import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
-import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
-
-const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
-
-class ScorecardSubmittedContent extends Component {
+class ScorecardSubmittedModalMain extends Component {
   static contextType = LocalizationContext;
 
   viewDetail = () => {
@@ -41,4 +35,4 @@ class ScorecardSubmittedContent extends Component {
   }
 }
 
-export default ScorecardSubmittedContent;
+export default ScorecardSubmittedModalMain;
