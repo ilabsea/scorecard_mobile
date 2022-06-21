@@ -10,7 +10,7 @@ import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle
 
 const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
-class ErrorAuthenticationContentHeader extends React.Component {
+class ErrorAuthenticationHeader extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
@@ -30,4 +30,4 @@ class ErrorAuthenticationContentHeader extends React.Component {
   }
 }
 
-export default ErrorAuthenticationContentHeader;
+export default ErrorAuthenticationHeader;

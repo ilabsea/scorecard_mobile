@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../Translations';
-import ErrorAuthenticationContentHeader from './ErrorAuthenticationContentHeader';
+import ErrorAuthenticationHeader from './ErrorAuthenticationHeader';
 import ErrorAuthenticationForm from './ErrorAuthenticationForm';
 
 import authenticationFormService from '../../services/authentication_form_service';
@@ -118,7 +118,7 @@ class ErrorAuthenticationMain extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{borderWidth: 0, margin: 0}}>
-          <ErrorAuthenticationContentHeader backendUrl={this.props.backendUrl} />
+          <ErrorAuthenticationHeader backendUrl={this.props.backendUrl} />
 
           <ErrorAuthenticationForm
             email={this.state.email}
