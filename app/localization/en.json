@@ -167,8 +167,6 @@
   "status": "Status",
   "progressScorecards": "Progress scorecards",
   "completeScorecards": "Complete scorecards",
-  "deletedScorecard": "Deleted Scorecard",
-  "theScorecardDeleted": "The scorecard is deleted!",
   "step": "Step",
   "finishAndNext": "Finish and go next",
   "clickToPlayVoice": "Click to play voice",
