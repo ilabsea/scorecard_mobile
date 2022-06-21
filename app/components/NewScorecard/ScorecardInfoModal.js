@@ -44,8 +44,8 @@ class ScorecardInfoModal extends Component {
     const { translations } = this.context;
     const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
     return <InfoModalMain
-              title={ translations.mismatchedServerUrl }
-              description={ translations.formatString(translations.mismatchedServerUrlDescription, scorecardCode) }
+              title={ translations.theServerUrlHasBeenChanged }
+              description={ translations.formatString(translations.theServerUrlHasBeenChangedDescription, scorecardCode) }
               onClose={() => this.props.onDismiss(false)}
            />
   }

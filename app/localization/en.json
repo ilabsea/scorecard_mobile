@@ -388,5 +388,6 @@
   "theScorecardIsNotExist": "The scorecard is not exist",
   "mismatchedServerUrl": "Mismatched server URL",
   "mismatchedServerUrlDescription": "This scorecard ({0}) has a mismatched server URL with the currently connected server URL.",
+  "theServerUrlHasBeenChangedDescription": "The currently connected server URL has been changed.",
   "scorecardIsSubmitted": "Scorecard is submitted"
 }
