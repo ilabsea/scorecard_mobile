@@ -70,9 +70,10 @@ const indicatorHelper = (() => {
     return indicators;
   }
 
-  function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
+  async function savePredefinedIndicator(scorecardUuid, indicators, successCallback) {
     let savedCount = 0;
-    indicators.map(async (indicator) => {
+    for (let i = 0; i < indicators.length; i++) {
+      const indicator = indicators[i];
       const savedIndicator = await Indicator.findByUuidAndCurrentEndpointId(indicator.uuid);
 
       if (!savedIndicator) {
@@ -89,7 +90,8 @@ const indicatorHelper = (() => {
       }
 
       savedCount += 1;
-    });
+    }
+
     !!successCallback && successCallback(savedCount === indicators.length, indicatorPhase);
   }
 })();
