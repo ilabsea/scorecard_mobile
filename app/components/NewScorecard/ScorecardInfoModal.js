@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 
-import ScorecardSubmittedModalMain from './ScorecardSubmitteModalMain';
+import ScorecardSubmittedModalMain from './ScorecardSubmittedModalMain';
 import ScorecardProgressModalMain from './ScorecardProgressModalMain';
 import InfoModalMain from '../Share/InfoModalMain';
 import { LocalizationContext } from '../Translations';
@@ -19,28 +19,28 @@ class ScorecardInfoModal extends Component {
 
   _renderContent = () => {
     if (!this.props.hasMatchedEndpoint)
-      return this.renderMismatchedEndpoint();
+      return this.renderMismatchedEndpointMessage();
 
     if (this.props.isSubmitted)
-      return (
-        <ScorecardSubmittedModalMain
-          onDismiss={(hasAutoFocus) => this.props.onDismiss(hasAutoFocus)}
-          scorecardUuid={this.props.scorecardUuid}
-          navigation={this.props.navigation}
-          setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
-        />
-      );
+      return this.renderSubmittedMessage();
 
     return (
       <ScorecardProgressModalMain
         onDismiss={(hasAutoFocus) => this.props.onDismiss(hasAutoFocus)}
         scorecardUuid={this.props.scorecardUuid}
-        navigation={this.props.navigation}
       />
     );
   }
 
-  renderMismatchedEndpoint() {
+  renderSubmittedMessage() {
+    return <ScorecardSubmittedModalMain
+              onDismiss={(hasAutoFocus) => this.props.onDismiss(hasAutoFocus)}
+              scorecardUuid={this.props.scorecardUuid}
+              setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
+           />
+  }
+
+  renderMismatchedEndpointMessage() {
     const { translations } = this.context;
     const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
     return <InfoModalMain

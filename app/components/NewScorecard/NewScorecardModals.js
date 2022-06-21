@@ -21,7 +21,6 @@ class NewScorecardModals extends Component {
 
         <ScorecardInfoModal
           visible={this.props.visibleInfoModal}
-          navigation={this.props.navigation}
           onDismiss={(hasAutoFocus) => this.props.closeModal(hasAutoFocus)}
           isSubmitted={this.props.isSubmitted}
           scorecardUuid={this.props.scorecardUuid}

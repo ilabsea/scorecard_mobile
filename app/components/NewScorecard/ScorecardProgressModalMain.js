@@ -8,6 +8,7 @@ import Scorecard from '../../models/Scorecard';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { navigate } from '../../navigators/app_navigator';
 
 class ScorecardProgressModalMain extends React.Component {
   static contextType = LocalizationContext;
@@ -22,14 +23,14 @@ class ScorecardProgressModalMain extends React.Component {
   continueScorecard = () => {
     const step = scorecardProgress[this.state.scorecard.status - 1];
     this.props.onDismiss(false);      // user clicked on view detail so the auto focus on text input is false
-    this.props.navigation.navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.state.scorecard.local_ngo_id });
+    navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: this.state.scorecard.local_ngo_id });
   }
 
   render() {
     const { translations } = this.context;
     const step = scorecardProgress[this.state.scorecard.status - 1];
     const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
-    const scorecardStep = <Text style={{ fontFamily: FontFamily.title, fontSize: bodyFontSize() }}> "{ translations[step.label] }"</Text>
+    const scorecardStep = <Text style={{ fontFamily: FontFamily.title, fontSize: bodyFontSize() }}>"{ translations[step.label] }"</Text>
 
     return <InfoModalMain
             title={translations.scorecardIsInStep}

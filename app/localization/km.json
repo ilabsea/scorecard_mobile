@@ -388,5 +388,5 @@
   "theScorecardIsNotExist": "មិនមានប័ណ្ណដាក់ពិន្ទុ",
   "mismatchedServerUrl": "អាស័យដ្ឋានម៉ាសុីនមេមិនត្រឹមត្រូវ",
   "mismatchedServerUrlDescription": "ប័ណ្ណដាក់ពិន្ទុ({0})នេះមានអាស័យដ្ឋានម៉ាសុីនមេមិនដូចនឹងអាស័យដ្ឋានម៉ាសុីនមេដែលអ្នកកំពុងភ្ជាប់។",
-  "scorecardIsSubmitted": "ប័ណ្ណដាក់ពិន្ទុបានដាក់ស្នើរួច"
+  "scorecardIsSubmitted": "ប័ណ្ណដាក់ពិន្ទុបានអនុវត្តរួច"
 }

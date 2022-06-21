@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import InfoModalMain from '../Share/InfoModalMain';
 import Scorecard from '../../models/Scorecard';
+import { navigate } from '../../navigators/app_navigator';
 
 class ScorecardSubmittedModalMain extends Component {
   static contextType = LocalizationContext;
@@ -13,7 +14,7 @@ class ScorecardSubmittedModalMain extends Component {
 
     this.props.onDismiss(false);           // user clicked on view detail so the auto focus on text input is false
     this.props.setCurrentScorecard(scorecard);
-    this.props.navigation.navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});
+    navigate('ScorecardProgress', {uuid: scorecard.uuid, title: scorecard.displayName});
   }
 
   render() {
@@ -28,7 +29,7 @@ class ScorecardSubmittedModalMain extends Component {
         confirmButtonLabel={translations.viewDetail}
         hasConfirmButton={true}
         isConfirmButtonDisabled={false}
-        onClose={() => this.props.onDismiss(true)}         // user clicked on close button, it will auto focus on the last digit input in new scorecard screen
+        onClose={() => this.props.onDismiss(true)}
         onConfirm={() => this.viewDetail()}
       />
     )

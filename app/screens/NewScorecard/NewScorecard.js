@@ -144,7 +144,6 @@ class NewScorecard extends Component {
         scorecardUuid={this.state.code}
         errorType={this.state.errorType}
         isSubmitted={this.state.isSubmitted}
-        navigation={this.props.navigation}
         closeModal={this.closeModal}
         unlockAt={this.state.unlockAt}
         hasMatchedEndpoint={this.state.hasMatchedEndpoint}

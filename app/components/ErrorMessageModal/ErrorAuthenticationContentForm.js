@@ -78,6 +78,7 @@ class ErrorAuthenticationContentForm extends React.Component {
           onConfirm={() => this.props.save()}
           confirmButtonLabel={translations.save}
           isConfirmButtonDisabled={!this.props.isValidForm || this.props.isLoading || this.props.isLocked}
+          hasConfirmButton={true}
         />
       </React.Fragment>
     )
