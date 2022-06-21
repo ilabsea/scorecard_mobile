@@ -12,7 +12,7 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
 
-class ErrorAuthenticationContent extends Component {
+class ErrorAuthenticationMain extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -139,4 +139,4 @@ class ErrorAuthenticationContent extends Component {
   }
 }
 
-export default ErrorAuthenticationContent;
+export default ErrorAuthenticationMain;

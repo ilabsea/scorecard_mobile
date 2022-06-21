@@ -7,14 +7,14 @@ import {
   ERROR_UNPROCESSABLE,
 } from '../constants/error_constant';
 import ErrorRequestToServerContent  from '../components/ErrorMessageModal/ErrorRequestToServerContent';
-import ErrorAuthenticationContent from '../components/ErrorMessageModal/ErrorAuthenticationContent';
 import ErrorMessageMain from '../components/ErrorMessageModal/ErrorMessageMain';
+import ErrorAuthenticationMain from '../components/ErrorMessageModal/ErrorAuthenticationMain';
 
 const getErrorMessageContent = (params, onDismiss) => {
   const { error_type, is_new_scorecard, is_submit, scorecard_uuid, backend_url } = params;
 
   if (error_type === ERROR_AUTHENTICATION)
-    return <ErrorAuthenticationContent backendUrl={backend_url} onDismiss={onDismiss} />
+    return <ErrorAuthenticationMain backendUrl={backend_url} onDismiss={onDismiss} />
   else if (error_type === ERROR_ENDPOINT ||
     (error_type == ERROR_NOT_FOUND && !is_new_scorecard) ||
     error_type === ERROR_UNAUTHORIZED || error_type === ERROR_UNPROCESSABLE) {
