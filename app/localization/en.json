@@ -209,7 +209,7 @@
   "thisScorecardIsAlreadySubmitted": "Scorecard ({0}) is already conducted and finished, please contact the program administrator for more detail.",
   "continue": "Continue",
   "scorecardIsInStep": "Scorecard is in progress",
-  "thisScorecardIsInStep": "This scorecard({0}) is in step",
+  "thisScorecardIsInStep": "This scorecard({0}) is in step {1}",
   "noInternetConnection": "No internet connection",
   "thereIsNoInternetConnectionOnThisDevice": "There is no internet connection on this device.",
   "theScorecardContainsAudios": "The scorecard contains audios",

@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 
 import ScorecardSubmittedModalMain from './ScorecardSubmitteModalMain';
-import ScorecardProgressContent from './ScorecardProgressContent';
+import ScorecardProgressModalMain from './ScorecardProgressModalMain';
 import InfoModalMain from '../Share/InfoModalMain';
 import { LocalizationContext } from '../Translations';
 
@@ -32,7 +32,7 @@ class ScorecardInfoModal extends Component {
       );
 
     return (
-      <ScorecardProgressContent
+      <ScorecardProgressModalMain
         onDismiss={(hasAutoFocus) => this.props.onDismiss(hasAutoFocus)}
         scorecardUuid={this.props.scorecardUuid}
         navigation={this.props.navigation}

@@ -209,7 +209,7 @@
   "thisScorecardIsAlreadySubmitted": "ប័ណ្ណដាក់ពិន្ទុ({0})នេះត្រូវបានបញ្ចប់ការអនុវត្តហើយ សូមទាក់ទងអ្នកគ្រប់គ្រងកម្មវិធីសម្រាប់ព័ត៌មានលម្អិត។",
   "continue": "បន្ត",
   "scorecardIsInStep": "ប័ណ្ណដាក់ពិន្ទុកំពុងដំណើរការ",
-  "thisScorecardIsInStep": "ប័ណ្ណ​ដាក់​ពិន្ទុ​({0})​នេះ​កំពុង​ដំណើរ​ការ​ដល់​ជំហ៊ាន",
+  "thisScorecardIsInStep": "ប័ណ្ណ​ដាក់​ពិន្ទុ​({0})​នេះ​កំពុង​ដំណើរ​ការ​ដល់​ជំហ៊ាន {1}",
   "noInternetConnection": "មិនមានសេវាអ៊ីនធឺណិត",
   "thereIsNoInternetConnectionOnThisDevice": "ឧបករណ៍នេះមិនមានសេវាអ៊ីនធឺណិត",
   "theScorecardContainsAudios": "ប័ណ្ណដាក់ពិន្ទុនេះមានសម្លេង",
