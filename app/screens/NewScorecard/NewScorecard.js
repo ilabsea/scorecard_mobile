@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground }
 
 import {LocalizationContext} from '../../components/Translations';
 import NewScorecardModals from '../../components/NewScorecard/NewScorecardModals';
-import NewScorecardContent from '../../components/NewScorecard/NewScorecardContent';
+import NewScorecardMain from '../../components/NewScorecard/NewScorecardMain';
 
 import {checkConnection, getErrorType} from '../../services/api_service';
 import newScorecardService from '../../services/new_scorecard_service';
@@ -11,6 +11,7 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { ERROR_INVALID_SCORECARD_URL } from '../../constants/error_constant';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
+import Scorecard from '../../models/Scorecard';
 
 let _this = null;
 class NewScorecard extends Component {
@@ -29,6 +30,7 @@ class NewScorecard extends Component {
       isSubmitted: false,
       isLocked: false,
       unlockAt: '',
+      hasMatchedEndpoint: false,
     };
 
     this.unsubscribeNetInfo;
@@ -66,7 +68,7 @@ class NewScorecard extends Component {
   }
 
   joinScorecard = (code) => {
-    _this.setState({isLoading: true});
+    _this.setState({ isLoading: true });
 
     newScorecardService.joinScorecard(code,
       (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
@@ -145,12 +147,13 @@ class NewScorecard extends Component {
         navigation={this.props.navigation}
         closeModal={this.closeModal}
         unlockAt={this.state.unlockAt}
+        hasMatchedEndpoint={this.state.hasMatchedEndpoint}
       />
     )
   }
 
   renderContent() {
-    return <NewScorecardContent
+    return <NewScorecardMain
               scorecardRef={this.scorecardRef}
               errorMsg={this.state.errorMsg}
               messageType={this.state.messageType}
@@ -166,10 +169,11 @@ class NewScorecard extends Component {
           />
   }
 
-  updateInfoModalState(visible, isSubmitted) {
+  updateInfoModalState(visible, isSubmitted, hasMatchedEndpoint) {
     _this.setState({
       visibleInfoModal: visible,
-      isSubmitted
+      isSubmitted,
+      hasMatchedEndpoint
     })
   }
 

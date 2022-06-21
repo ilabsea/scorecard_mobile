@@ -25,6 +25,7 @@ class NewScorecardModals extends Component {
           onDismiss={(hasAutoFocus) => this.props.closeModal(hasAutoFocus)}
           isSubmitted={this.props.isSubmitted}
           scorecardUuid={this.props.scorecardUuid}
+          hasMatchedEndpoint={this.props.hasMatchedEndpoint}
           setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
         />
       </React.Fragment>

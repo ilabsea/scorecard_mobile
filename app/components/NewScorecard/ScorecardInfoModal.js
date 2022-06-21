@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 
 import ScorecardSubmittedContent from './ScorecardSubmittedContent';
 import ScorecardProgressContent from './ScorecardProgressContent';
+import InfoModalMain from '../Share/InfoModalMain';
+import { LocalizationContext } from '../Translations';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -13,7 +15,12 @@ import ScorecardInfoModalMobileStyles from '../../styles/mobile/ScorecardInfoMod
 const responsiveStyles = getDeviceStyle(ScorecardInfoModalTabletStyles, ScorecardInfoModalMobileStyles);
 
 class ScorecardInfoModal extends Component {
+  static contextType = LocalizationContext;
+
   _renderContent = () => {
+    if (!this.props.hasMatchedEndpoint)
+      return this.renderMismatchedEndpoint();
+
     if (this.props.isSubmitted)
       return (
         <ScorecardSubmittedContent
@@ -31,6 +38,16 @@ class ScorecardInfoModal extends Component {
         navigation={this.props.navigation}
       />
     );
+  }
+
+  renderMismatchedEndpoint() {
+    const { translations } = this.context;
+    const scorecardCode = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
+    return <InfoModalMain
+              title={ translations.mismatchedServerUrl }
+              description={ translations.formatString(translations.mismatchedServerUrlDescription, scorecardCode) }
+              onDismiss={() => this.props.onDismiss(false)}
+           />
   }
 
   render() {

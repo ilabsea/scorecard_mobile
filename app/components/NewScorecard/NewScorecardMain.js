@@ -14,7 +14,7 @@ import scorecardValidationService from '../../services/scorecard_validation_serv
 
 let _this = null;
 
-class NewScorecardContent extends Component {
+class NewScorecardMain extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -40,8 +40,8 @@ class NewScorecardContent extends Component {
 
     const isAbleToJoinNewScorecard = await scorecardValidationService.validateScorecardCode(code, (errorStatus) => {
       _this.props.setErrorState(errorStatus);
-    }, (visible, isSubmitted) => {
-      _this.props.updateInfoModalState(visible, isSubmitted);
+    }, (visible, isSubmitted, hasMatchedEndpoint) => {
+      _this.props.updateInfoModalState(visible, isSubmitted, hasMatchedEndpoint);
     });
 
     if (!isAbleToJoinNewScorecard)
@@ -90,4 +90,4 @@ class NewScorecardContent extends Component {
   }
 }
 
-export default NewScorecardContent;
+export default NewScorecardMain;
