@@ -11,9 +11,11 @@ const responsiveStyles = getDeviceStyle(OutlineInfoIconTabletStyles, OutlineInfo
 
 class OutlineInfoIcon extends Component {
   render() {
+    const iconName = this.props.iconName || 'exclamation';
+
     return (
       <View style={[styles.iconContainer, this.props.customIconContainerStyles]}>
-        <Icon name='exclamation' color={this.props.color} style={[responsiveStyles.icon, this.props.customIconStyle]} />
+        <Icon name={ iconName } color={this.props.color} style={[responsiveStyles.icon, this.props.customIconStyle]} />
       </View>
     );
   }

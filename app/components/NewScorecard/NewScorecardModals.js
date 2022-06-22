@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import ScorecardInfoModal from './ScorecardInfoModal';
 
+import CustomAlertMessage from '../Share/CustomAlertMessage';
+
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 
