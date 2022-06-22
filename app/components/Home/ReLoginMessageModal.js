@@ -1,7 +1,8 @@
 import React from 'react';
 import { Modal, Portal} from 'react-native-paper';
 
-import ReLoginMessageModalHeader from './ReLoginMessageModalHeader';
+import { LocalizationContext } from '../Translations';
+import ModalHeader from '../Share/InfoModal/ModalHeader';
 import ReLoginMessageModalBody from './ReLoginMessageModalBody';
 import ReLoginMessageModalFooter from './ReLoginMessageModalFooter';
 
@@ -13,11 +14,13 @@ import MessageModalMobileStyles from '../../styles/mobile/MessageModalComponentS
 const responsiveStyles = getDeviceStyle(MessageModalTabletStyles, MessageModalMobileStyles);
 
 class ReLoginMessageModal extends React.Component {
+  static contextType = LocalizationContext;
+
   render() {
     return (
       <Portal>
         <Modal visible={this.props.visible} contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.container]}>
-          <ReLoginMessageModalHeader />
+          <ModalHeader title={this.context.translations.reLoginRequired} />
           <ReLoginMessageModalBody />
           <ReLoginMessageModalFooter onDismiss={() => this.props.onDismiss()} />
         </Modal>
