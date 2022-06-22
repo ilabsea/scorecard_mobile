@@ -3,7 +3,7 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 
 import Color from '../../themes/color';
 
-import Tip from '../Tip';
+import Tip from '../Share/Tip';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';

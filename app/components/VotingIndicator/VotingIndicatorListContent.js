@@ -5,7 +5,7 @@ import { LocalizationContext } from '../Translations';
 import VotingIndicatorListItem from './VotingIndicatorListItem';
 import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
 import BottomButton from '../BottomButton';
-import Tip from '../Tip';
+import Tip from '../Share/Tip';
 import { navigate } from '../../navigators/app_navigator';
 
 import Color from '../../themes/color';

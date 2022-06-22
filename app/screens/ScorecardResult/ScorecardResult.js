@@ -12,7 +12,7 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import TipModal from '../../components/Tip/TipModal';
 import Color from '../../themes/color';
-import Tip from '../../components/Tip';
+import Tip from '../../components/Share/Tip';
 
 import ScorecardResultTitle from '../../components/ScorecardResult/ScorecardResultTitle';
 import ScorecardResultTable from '../../components/ScorecardResult/ScorecardResultTable';
