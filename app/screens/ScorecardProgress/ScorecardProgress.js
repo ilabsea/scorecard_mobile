@@ -79,9 +79,6 @@ class ScorecardProgress extends Component {
     });
 
     this.checkScorecardProposeIndicatorMethod(() => {
-      this.setState({
-        showProgress: false,
-      });
       this.uploadScorecard();
     });
   }
