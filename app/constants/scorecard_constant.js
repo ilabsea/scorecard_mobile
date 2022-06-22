@@ -33,6 +33,9 @@ const scorecardTypes = [
   { label: 'community_scorecard', value: 'community_scorecard'}
 ];
 
+const INDICATOR_BASED = 'I';
+const PARTICIPANT_BASED = 'P';
+
 export {
   scorecardDownloadPhases,
   indicatorPhase,
@@ -47,4 +50,6 @@ export {
   commnunityScorecard,
   scorecardStatuses,
   scorecardTypes,
+  INDICATOR_BASED,
+  PARTICIPANT_BASED,
 };
