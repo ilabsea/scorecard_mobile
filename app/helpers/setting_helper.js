@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
 import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
 import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
+import { INDICATOR_BASED, PARTICIPANT_BASED } from '../constants/scorecard_constant';
 import { environment } from '../config/environment';
 import EndpointUrl from '../models/EndpointUrl';
 
@@ -22,6 +23,7 @@ const settingHelper = (() => {
     clearTempSettingData,
     getSettingData,
     getSavedEndpointUrlId,
+    getProposeIndicatorMethodForScorecard,
   };
 
   async function changeable(newEndpoint) {
@@ -108,6 +110,11 @@ const settingHelper = (() => {
     const savedEndpointUrl = await getSavedEndpointUrl();
     const endpointUrl = EndpointUrl.findByUrlValue(savedEndpointUrl);
     return !!endpointUrl ? endpointUrl.id : null;
+  }
+
+  async function getProposeIndicatorMethodForScorecard() {
+    const settingData = await getSettingData();
+    return settingData.proposedIndicatorMethod == INDICATOR_BASE ? INDICATOR_BASED : PARTICIPANT_BASED;
   }
 })();
 
