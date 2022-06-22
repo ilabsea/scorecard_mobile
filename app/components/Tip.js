@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 
-import { LocalizationContext } from '../components/Translations';
+import { LocalizationContext } from './Translations';
+import PressableLabel from './Share/PressableLabel';
 import { Icon } from 'native-base';
 import Color from '../themes/color';
 import customStyle from '../themes/customStyle';
@@ -47,7 +48,7 @@ export default class Tip extends Component {
               </Text>
 
               { DeviceInfo.isTablet() &&
-                <Text style={[{color: Color.headerColor}, responsiveStyles.viewDetailLabel]}>{translations.viewTips}</Text>
+                <PressableLabel label={translations.viewTips} />
               }
               <Icon name='chevron-forward-outline' style={[{color: Color.headerColor}, responsiveStyles.viewDetailIcon]} />
             </View>

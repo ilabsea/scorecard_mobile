@@ -7,9 +7,6 @@ const TipComponentStyles = StyleSheet.create({
     flex: 1,
     paddingRight: 5,
   },
-  viewDetailLabel: {
-    fontSize: 16,
-  },
   viewDetailIcon: {
     fontSize: 24,
   },

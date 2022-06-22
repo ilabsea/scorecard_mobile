@@ -35,16 +35,13 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     fontSize: bodyFontSize(),
   },
   itemSubtitle: {
-    // fontSize: smallTextFontSize(),
     fontSize: 13,
     color: Color.grayColor,
     marginTop: -10
   },
   chooseLabel: {
-    color: Color.clickableColor,
     paddingRight: 12,
     textTransform: 'uppercase',
-    fontSize: bodyFontSize()
   },
   itemContainer: {
     flexDirection: 'row',

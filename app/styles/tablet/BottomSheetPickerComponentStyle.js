@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
-import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { pressableItemSize, listItemPaddingVertical } from '../../utils/component_util';
 
 const BottomSheetPickerComponentStyles = StyleSheet.create({
@@ -35,16 +35,13 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     fontSize: bodyFontSize(),
   },
   itemSubtitle: {
-    // fontSize: smallTextFontSize(),
     fontSize: 13,
     color: Color.grayColor,
     marginTop: -10
   },
   chooseLabel: {
-    color: Color.clickableColor,
     paddingRight: 20,
     textTransform: 'uppercase',
-    fontSize: bodyFontSize()
   },
   itemContainer: {
     flexDirection: 'row',

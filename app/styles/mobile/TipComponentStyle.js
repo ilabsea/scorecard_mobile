@@ -11,9 +11,6 @@ const TipComponentStyles = StyleSheet.create({
     marginLeft: -8,
     paddingRight: 5,
   },
-  viewDetailLabel: {
-    fontSize: wp(smLabelSize),
-  },
   viewDetailIcon: {
     fontSize: wp('4%'),
   },

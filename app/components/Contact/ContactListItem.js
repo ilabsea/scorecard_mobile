@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-import { LocalizationContext } from '../../components/Translations';
+import { LocalizationContext } from '../Translations';
+import PressableLabel from '../Share/PressableLabel';
 import { Icon } from 'native-base';
 import Color from '../../themes/color';
 import listItemStyles from '../../themes/scorecardListItemStyle';
@@ -20,7 +21,7 @@ export default class ContactListItem extends React.Component {
           <Text style={{fontSize: bodyFontSize()}}>{ this.props.contact.value }</Text>
         </View>
         <View style={styles.rightItemContainer}>
-          <Text style={{color: Color.clickableColor, fontSize: bodyFontSize()}}>{this.context.translations.contact}</Text>
+          <PressableLabel label={this.context.translations.contact} />
           <Icon name='chevron-forward-outline' style={{color: Color.clickableColor, fontSize: mediumIconSize()}} />
         </View>
       </React.Fragment>
