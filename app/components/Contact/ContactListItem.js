@@ -31,15 +31,15 @@ export default class ContactListItem extends React.Component {
   render() {
     const { translations } = this.context;
     const item = this.props.contact.contact_type == 'email' ?
-                 { title: translations.contact_email, icon: 'at', icon_color: 'red' }
-                 : { title: translations.contact_number, icon: 'call', icon_color: '#1221ca' }
+                 { title: translations.contact_email, icon: 'at' }
+                 : { title: translations.contact_number, icon: 'call-outline' }
 
     return (
       <TouchableOpacity
         onPress={ () => !!this.props.onPress && this.props.onPress(this.props.contact) }
         style={[listItemStyles.listItem, listItemStyles.card, styles.container]}
       >
-        <Icon name={item.icon} style={[styles.icon, { color: item.icon_color}]} />
+        <Icon name={item.icon} style={[styles.icon, { color: Color.paleBlackColor}]} />
         { this.renderContactInfo(item) }
       </TouchableOpacity>
     )
