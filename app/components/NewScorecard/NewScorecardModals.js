@@ -47,7 +47,6 @@ class NewScorecardModals extends Component {
           onDismiss={() => this.props.closeModal(true)}
         />
 
-
         {/* <ScorecardInfoModal
           visible={this.props.visibleInfoModal}
           onDismiss={(hasAutoFocus) => this.props.closeModal(hasAutoFocus)}

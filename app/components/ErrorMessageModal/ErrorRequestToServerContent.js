@@ -22,56 +22,56 @@ class ErrorRequestToServerContent extends Component {
     return <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
   }
 
-  _renderNotFoundContent() {
-    const { translations } = this.context;
+  // _renderNotFoundContent() {
+  //   const { translations } = this.context;
 
-    return (
-      <View>
-        <Text style={responsiveStyles.label}>{translations.cannotSubmitThisScorecard}: </Text>
-        <Text style={responsiveStyles.label}>
-          {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl} </Text>
-          { translations.formatString(translations.scorecardDeletedPleaseContactAdministrator, this._scorecardCode()) }
-        </Text>
-      </View>
-    );
-  }
+  //   return (
+  //     <View>
+  //       <Text style={responsiveStyles.label}>{translations.cannotSubmitThisScorecard}: </Text>
+  //       <Text style={responsiveStyles.label}>
+  //         {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl} </Text>
+  //         { translations.formatString(translations.scorecardDeletedPleaseContactAdministrator, this._scorecardCode()) }
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
-  _renderErrorEndpointContent() {
-    const { translations } = this.context;
+  // _renderErrorEndpointContent() {
+  //   const { translations } = this.context;
 
-    return (
-      <View>
-        <Text style={responsiveStyles.label}>
-          {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>{translations.fullStopSign}
-        </Text>
-        <Text style={[{marginTop: 10}, responsiveStyles.label]}>
-          {translations.didYouEnterTheUrlCorrectly}
-          {translations.ifYouKeepHavingThisProblem}
-        </Text>
-      </View>
-    )
-  }
+  //   return (
+  //     <View>
+  //       <Text style={responsiveStyles.label}>
+  //         {translations.cscAppCannotReachTheServerAt} <Text style={{color: 'blue'}}>{this.props.backendUrl}</Text>{translations.fullStopSign}
+  //       </Text>
+  //       <Text style={[{marginTop: 10}, responsiveStyles.label]}>
+  //         {translations.didYouEnterTheUrlCorrectly}
+  //         {translations.ifYouKeepHavingThisProblem}
+  //       </Text>
+  //     </View>
+  //   )
+  // }
 
-  _renderUnauthorizedContent() {
-    const { translations } = this.context;
+  // _renderUnauthorizedContent() {
+  //   const { translations } = this.context;
 
-    return (
-      <View>
-        <Text style={responsiveStyles.label}>
-          { translations.formatString(translations.unauthorizedScorecardMessage, this._scorecardCode()) }
-        </Text>
-      </View>
-    );
-  }
+  //   return (
+  //     <View>
+  //       <Text style={responsiveStyles.label}>
+  //         { translations.formatString(translations.unauthorizedScorecardMessage, this._scorecardCode()) }
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
-  _renderContent() {
-    if (this.props.errorType == ERROR_NOT_FOUND)
-      return this._renderNotFoundContent()
-    else if (this.props.errorType == ERROR_UNAUTHORIZED)
-      return this._renderUnauthorizedContent();
+  // _renderContent() {
+  //   if (this.props.errorType == ERROR_NOT_FOUND)
+  //     return this._renderNotFoundContent()
+  //   else if (this.props.errorType == ERROR_UNAUTHORIZED)
+  //     return this._renderUnauthorizedContent();
 
-    return this._renderErrorEndpointContent();
-  }
+  //   return this._renderErrorEndpointContent();
+  // }
 
   render() {
     const { translations } = this.context;
@@ -82,7 +82,7 @@ class ErrorRequestToServerContent extends Component {
           <OutlineInfoIcon color={Color.warningColor} />
 
           <View style={{flex: 1, justifyContent: 'center'}}>
-            { this._renderContent() }
+            {/* { this._renderContent() } */}
           </View>
         </View>
 

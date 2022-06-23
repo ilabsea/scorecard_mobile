@@ -23,66 +23,67 @@ const getApiRequestErrorMessage = async (errorType, scorecardUuid, unlockAt, loc
   const settingData = await settingHelper.getSettingData();
   const backendUrl = settingData.backendUrl || '';
   const scorecardCode = _textLabel(scorecardUuid);
+  const endpoint = _textLabel(backendUrl, 'blue')
   const { translations, app_language } = localization
 
   // console.log('error type == ', errorType);
 
   const errors = {
     'ERROR_NOT_FOUND': {
-      title: 'Invalid scorecard (scorecard not found)',
-      description: `Unable to submit this scorecard, the reason may be due to: CSC app cannot reach the server at ${ backendUrl } or this scorecard(${ scorecardUuid }) is deleted in the server. Please contact the program administrator for more detail.`
+      title: translations.unableToSubmitTheScorecard,
+      description: translations.formatString(translations.cannotSubmitScorecardErrorMsg, endpoint, scorecardCode)
     },
     'ERROR_SCORECARD_NOT_EXIST': {
-      title: 'Scorecard is not exist',
+      title: translations.thisScorecardIsNotExist,
       description: translations.formatString(translations.scorecardIsNotExist, scorecardCode)
     },
     'ERROR_UNAUTHORIZED': {
-      title: 'Invalid scorecard',
-      description: `This scorecard(${ scorecardCode }) is invalid. Please contact to the program administrator for more detail.`
+      title: translations.invalidScorecard,
+      description: translations.formatString(translations.unauthorizedScorecardMessage, scorecardCode)
     },
     'ERROR_SCORECARD_EXECUTED': {
-      title: 'Scorecard is executed',
+      title: translations.scorecardIsExecuted,
       description: translations.formatString(translations.scorecardIsBeingExecuted, scorecardCode)
     },
     'ERROR_SCORECARD_COMPLETED': {
-      title: 'Scorecard is completed',
-      description: translations.formatString(translations.scorecardIsCompleted, scorecardCode)
+      title: translations.scorecardIsCompleted,
+      description: translations.formatString(translations.scorecardIsCompletedMessage, scorecardCode)
     },
     'ERROR_SUBMIT_SCORECARD': {
-      title: 'Cannot submit the scorecard',
+      title: translations.failedToSubmitTheScorecard,
       description: translations.formatString(translations.errorSubmitScorecardMessage, scorecardCode)
     },
     'ERROR_DOWNLOAD_SCORECARD': {
-      title: 'Cannot download the scorecard',
+      title: translations.failedToDownloadScorecard,
       description: translations.failedToDownloadThisScorecardInformation
     },
     'ERROR_SOMETHING_WENT_WRONG': {
-      title: 'Something went wrong',
+      title: translations.somethingWentWrong,
       description: translations.somethingWentWrongPleaseTryAgain
     },
     'ERROR_DOWNLOAD_PDF': {
-      title: 'Cannot share the scorecard',
+      title: translations.unableToShare,
       description: translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(app_language))
     },
     'ERROR_INVALID_SCORECARD_URL': {
-      title: 'Invalid URL',
+      title: translations.invalidUrl,
       description: translations.theUrlThatYouCopiedIsInvalid
     },
     'ERROR_NETWORK_AUTHENTICATION': {
-      title: 'Something went wrong',
+      title: translations.somethingWentWrong,
       description: translations.somethingWentWrongPleaseTryAgain
     },
     'ERROR_INCORRECT_SCORECARD_CODE': {
-      title: 'Incorrect scorecard code',
+      title: translations.incorrectScorecardCode,
       description: translations.formatString(translations.thisScorecardCodeIsIncorrect, scorecardCode)
     },
     'LOCKED': {
-      title: 'Device is locked',
-      description: `Your device is currently locked, please try again at ${unlockAt}`,
+      title: translations.yourDeviceIsLocked,
+      description: translations.formatString(translations.yourDeviceIsCurrentlyLocked, _textLabel(unlockAt)),
     },
     'DEFAULT': {
-      title: 'Something went wrong',
-      description: `CSC app cannot reach the server at ${backendUrl}. Did you enter the URL correctly? If you keep having this problem, report it to the person who asked you to collect data.`
+      title: translations.somethingWentWrong,
+      description: translations.formatString(translations.somethingWentWrongMessage, endpoint)
     }
   };
 
