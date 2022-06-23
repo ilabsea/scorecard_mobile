@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 // import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
-// import ScorecardInfoModal from './ScorecardInfoModal';
 import { LocalizationContext } from '../Translations';
 import BoldLabel from '../Share/BoldLabel';
 import CustomAlertMessage from '../Share/CustomAlertMessage';
@@ -98,15 +97,6 @@ class NewScorecardModals extends Component {
           onDismiss={() => this.props.closeModal(true)}
           onConfirm={() => !!this.state.alertMessage.rightSideButtonAction && this.state.alertMessage.rightSideButtonAction()}
         />
-
-        {/* <ScorecardInfoModal
-          visible={this.props.visibleInfoModal}
-          onDismiss={(hasAutoFocus) => this.props.closeModal(hasAutoFocus)}
-          isSubmitted={this.props.isSubmitted}
-          scorecardUuid={this.props.scorecardUuid}
-          hasMatchedEndpoint={this.props.hasMatchedEndpoint}
-          setCurrentScorecard={(scorecard) => this.props.setCurrentScorecard(scorecard)}
-        /> */}
       </React.Fragment>
     )
   }
