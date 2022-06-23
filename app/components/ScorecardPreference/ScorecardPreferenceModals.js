@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {LocalizationContext} from '../../components/Translations';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import MessageModal from '../MessageModal';
+import ErrorAlertMessage from '../Share/ErrorAlertMessage';
 import ScorecardPreferenceConfirmDownloadContent from './ScorecardPreferenceConfirmDownloadContent';
 
 class ScorecardPreferenceModals extends Component {
@@ -22,12 +23,19 @@ class ScorecardPreferenceModals extends Component {
 
     return (
       <React.Fragment>
-        <ErrorMessageModal
+        {/* <ErrorMessageModal
           visible={this.props.visibleModal}
           onDismiss={() => this.props.onDismissModal('error_modal')}
           errorType={this.props.errorType}
           isNewScorecard={true}
           scorecardUuid={this.props.scorecardUuid}
+        /> */}
+
+         <ErrorAlertMessage
+          visible={this.props.visibleModal}
+          errorType={this.props.errorType}
+          scorecardUuid={this.props.scorecardUuid}
+          onDismiss={() => this.props.onDismissModal('error_modal')}
         />
 
         <MessageModal

@@ -28,13 +28,13 @@ class ScorecardListModals extends Component {
           onPressConfirmButton={() => this.props.confirmDelete()}
         />
 
-        <ErrorMessageModal
+        {/* <ErrorMessageModal
           visible={this.props.visibleErrorModal}
           onDismiss={() => this.props.onErrorModalDismiss()}
           errorType={ERROR_AUTHENTICATION}
           isNewScorecard={false}
           scorecardUuid={this.props.scorecardUuid}
-        />
+        /> */}
 
         <ScorecardListInstructionModal headerHeight={this.props.headerHeight} scorecards={this.props.scorecards} />
       </React.Fragment>

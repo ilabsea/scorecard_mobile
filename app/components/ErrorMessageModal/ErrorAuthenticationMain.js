@@ -118,7 +118,7 @@ class ErrorAuthenticationMain extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{borderWidth: 0, margin: 0}}>
-          <ErrorAuthenticationHeader backendUrl={this.props.backendUrl} />
+          {/* <ErrorAuthenticationHeader backendUrl={this.props.backendUrl} /> */}
 
           <ErrorAuthenticationForm
             email={this.state.email}
