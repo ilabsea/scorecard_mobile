@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
+import BoldLabel from '../components/Share/BoldLabel';
+
 import settingHelper from '../helpers/setting_helper';
-import Color from '../themes/color';
 import { getReadableAppLanguage } from './translation_util';
 
 const getErrorObject = (error) => {
@@ -22,11 +22,9 @@ const getErrorObject = (error) => {
 const getApiRequestErrorMessage = async (errorType, scorecardUuid, unlockAt, localization) => {
   const settingData = await settingHelper.getSettingData();
   const backendUrl = settingData.backendUrl || '';
-  const scorecardCode = _textLabel(scorecardUuid);
-  const endpoint = _textLabel(backendUrl, 'blue')
+  const scorecardCode = <BoldLabel label={scorecardUuid} />
+  const endpoint = <BoldLabel label={backendUrl} color="blue" />
   const { translations, app_language } = localization
-
-  // console.log('error type == ', errorType);
 
   const errors = {
     'ERROR_NOT_FOUND': {
@@ -79,7 +77,7 @@ const getApiRequestErrorMessage = async (errorType, scorecardUuid, unlockAt, loc
     },
     'LOCKED': {
       title: translations.yourDeviceIsLocked,
-      description: translations.formatString(translations.yourDeviceIsCurrentlyLocked, _textLabel(unlockAt)),
+      description: translations.formatString(translations.yourDeviceIsCurrentlyLocked, <BoldLabel label={unlockAt} />),
     },
     'DEFAULT': {
       title: translations.somethingWentWrong,
@@ -91,10 +89,6 @@ const getApiRequestErrorMessage = async (errorType, scorecardUuid, unlockAt, loc
     return errors.LOCKED;
 
   return errors[errorType.toString()] || errors.DEFAULT;
-}
-
-const _textLabel = (label, color = Color.blackColor) => {
-  return <Text style={{fontWeight: 'bold', color: color}}>{ label }</Text>
 }
 
 export { getErrorObject, getApiRequestErrorMessage };

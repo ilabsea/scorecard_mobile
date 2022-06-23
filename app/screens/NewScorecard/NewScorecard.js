@@ -26,7 +26,7 @@ class NewScorecard extends Component {
       isLoading: false,
       visibleModal: false,
       errorType: null,
-      visibleInfoModal: false,
+      // visibleInfoModal: false,
       isSubmitted: false,
       isLocked: false,
       unlockAt: '',
@@ -124,7 +124,6 @@ class NewScorecard extends Component {
 
     this.setState({
       visibleModal: true,
-      // errorType: getErrorType(error),
       errorType: errorType === 'ERROR_NOT_FOUND' ? 'ERROR_SCORECARD_NOT_EXIST' : errorType,
     });
   }
@@ -132,7 +131,7 @@ class NewScorecard extends Component {
   closeModal = (hasAutoFocus) => {
     this.setState({
       visibleModal: false,
-      visibleInfoModal: false,
+      // visibleInfoModal: false,
     });
 
     if (hasAutoFocus && this.state.errorType != ERROR_INVALID_SCORECARD_URL)
@@ -142,8 +141,8 @@ class NewScorecard extends Component {
   renderModals() {
     return (
       <NewScorecardModals
-        visibleErrorModal={this.state.visibleModal}
-        visibleInfoModal={this.state.visibleInfoModal}
+        visibleModal={this.state.visibleModal}
+        // visibleInfoModal={this.state.visibleInfoModal}
         scorecardUuid={this.state.code}
         errorType={this.state.errorType}
         isSubmitted={this.state.isSubmitted}
@@ -173,9 +172,11 @@ class NewScorecard extends Component {
 
   updateInfoModalState(visible, isSubmitted, hasMatchedEndpoint) {
     _this.setState({
-      visibleInfoModal: visible,
+      // visibleInfoModal: visible,
+      visibleModal: visible,
       isSubmitted,
-      hasMatchedEndpoint
+      hasMatchedEndpoint,
+      errorType: null,
     })
   }
 
