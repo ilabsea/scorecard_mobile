@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
+import PressableLabel from '../Share/PressableLabel';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -60,10 +61,7 @@ class BottomSheetPicker extends React.Component {
               <Text style={[styles.itemTitle, this.getDisableStyle(TEXT)]}>{ this.getLabel() }</Text>
               { this.props.showSubtitle && <Text style={[styles.itemSubtitle, this.getDisableStyle(TEXT)]}>{ this.props.selectedItem }</Text> }
             </View>
-
-            <Text style={[styles.chooseLabel, this.getDisableStyle(TEXT)]}>
-              {this.context.translations.choose}
-            </Text>
+            <PressableLabel label={this.context.translations.choose} customStyles={[ styles.chooseLabel, this.getDisableStyle(TEXT) ]} />
           </View>
         </TouchableOpacity>
       </View>

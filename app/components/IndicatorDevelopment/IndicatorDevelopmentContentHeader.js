@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import Color from '../../themes/color';
-import Tip from '../Tip';
+import Tip from '../Share/Tip';
 import OutlinedButton from '../OutlinedButton';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
