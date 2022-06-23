@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-// import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import { LocalizationContext } from '../Translations';
 import BoldLabel from '../Share/BoldLabel';
 import CustomAlertMessage from '../Share/CustomAlertMessage';
@@ -35,7 +34,7 @@ class NewScorecardModals extends Component {
 
       this.setState({
         alertMessage: !!errorType ? await getApiRequestErrorMessage(errorType, scorecardUuid, unlockAt, localization) : this.getScorecardInfoMessage(),
-      }, () => console.log('alert message == ', this.state.alertMessage))
+      })
     }
   }
 
@@ -52,8 +51,8 @@ class NewScorecardModals extends Component {
       return {
         title: translations.scorecardIsSubmitted,
         description: translations.formatString(translations.thisScorecardIsAlreadySubmitted, scorecardCode),
-        rightSideButton: translations.viewDetail,
-        rightSideButtonAction: () => this.goToScorecardProgress(),
+        confirmButtonLabel: translations.viewDetail,
+        confirmButtonAction: () => this.goToScorecardProgress(),
       }
 
     const scorecard = Scorecard.find(this.props.scorecardUuid);
@@ -64,8 +63,8 @@ class NewScorecardModals extends Component {
     return {
       title: translations.scorecardIsInStep,
       description: translations.formatString(translations.thisScorecardIsInStep, scorecardCode, scorecardStep),
-      rightSideButton: translations.viewDetail,
-      rightSideButtonAction: () => this.continueScorecard(),
+      confirmButtonLabel: translations.viewDetail,
+      confirmButtonAction: () => this.continueScorecard(),
     }
   }
 
@@ -76,29 +75,23 @@ class NewScorecardModals extends Component {
   }
 
   goToScorecardProgress = () => {
-    this.props.closeModal(false);           // user clicked on view detail so the auto focus on text input is false
+    this.props.closeModal(false);
     this.props.setCurrentScorecard(this.state.scorecard);
     navigate('ScorecardProgress', {uuid: this.state.scorecard.uuid, title: this.state.scorecard.displayName});
   }
 
   render() {
-    const { translations } = this.context;
-
-    return (
-      <React.Fragment>
-        <CustomAlertMessage
-          visible={this.props.visibleModal}
-          title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
-          description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
-          closeButtonLabel={ translations.close }
-          hasConfirmButton={!!this.state.alertMessage.rightSideButton}
-          confirmButtonLabel={this.state.alertMessage.rightSideButton || ''}
-          isConfirmButtonDisabled={false}
-          onDismiss={() => this.props.closeModal(true)}
-          onConfirm={() => !!this.state.alertMessage.rightSideButtonAction && this.state.alertMessage.rightSideButtonAction()}
-        />
-      </React.Fragment>
-    )
+    return <CustomAlertMessage
+              visible={this.props.visibleModal}
+              title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
+              description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
+              closeButtonLabel={ this.context.translations.close }
+              hasConfirmButton={!!this.state.alertMessage.confirmButtonLabel}
+              confirmButtonLabel={this.state.alertMessage.confirmButtonLabel || ''}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => this.props.closeModal(true)}
+              onConfirm={() => !!this.state.alertMessage.confirmButtonAction && this.state.alertMessage.confirmButtonAction()}
+           />
   }
 }
 

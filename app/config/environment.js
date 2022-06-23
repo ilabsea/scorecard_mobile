@@ -7,10 +7,11 @@ export const environment = {
   implementedDayRange: 14,     // days
   defaultEndpoint: 'https://isaf.digital-csc.org',
   maxSignInAttempt: 10,
-  maxJoinScorecardAttempt: 10,
+  // maxJoinScorecardAttempt: 10,
+  maxJoinScorecardAttempt: 5,
   // resetLockDuration: 900000,       // milliseconds (15 mins)
   // resetCountDuration: 900000,     // milliseconds (15 mins)
   resetLockDuration: 10000,       // milliseconds (15 mins)
-  resetCountDuration: 10000,     // milliseconds (15 mins)
+  resetCountDuration: 100000,     // milliseconds (15 mins)
   youtubeApiKey: '',
 };

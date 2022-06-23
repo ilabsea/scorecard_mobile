@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
-import NewScorecardModals from '../../components/NewScorecard/NewScorecardModals';
+import NewScorecardMessageModal from '../../components/NewScorecard/NewScorecardMessageModal';
 import NewScorecardMain from '../../components/NewScorecard/NewScorecardMain';
 
 import {checkConnection, getErrorType} from '../../services/api_service';
@@ -26,7 +26,6 @@ class NewScorecard extends Component {
       isLoading: false,
       visibleModal: false,
       errorType: null,
-      // visibleInfoModal: false,
       isSubmitted: false,
       isLocked: false,
       unlockAt: '',
@@ -129,10 +128,7 @@ class NewScorecard extends Component {
   }
 
   closeModal = (hasAutoFocus) => {
-    this.setState({
-      visibleModal: false,
-      // visibleInfoModal: false,
-    });
+    this.setState({ visibleModal: false });
 
     if (hasAutoFocus && this.state.errorType != ERROR_INVALID_SCORECARD_URL)
       !!this.scorecardRef.current.inputRef && this.scorecardRef.current.inputRef.focusField(5);
@@ -140,9 +136,8 @@ class NewScorecard extends Component {
 
   renderModals() {
     return (
-      <NewScorecardModals
+      <NewScorecardMessageModal
         visibleModal={this.state.visibleModal}
-        // visibleInfoModal={this.state.visibleInfoModal}
         scorecardUuid={this.state.code}
         errorType={this.state.errorType}
         isSubmitted={this.state.isSubmitted}
@@ -172,7 +167,6 @@ class NewScorecard extends Component {
 
   updateInfoModalState(visible, isSubmitted, hasMatchedEndpoint) {
     _this.setState({
-      // visibleInfoModal: visible,
       visibleModal: visible,
       isSubmitted,
       hasMatchedEndpoint,
