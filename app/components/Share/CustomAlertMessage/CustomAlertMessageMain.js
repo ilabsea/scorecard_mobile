@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { LocalizationContext } from '../Translations';
-import { bodyFontSize } from '../../utils/font_size_util';
+import { LocalizationContext } from '../../Translations';
+import { bodyFontSize } from '../../../utils/font_size_util';
 
 class CustomAlertMessageMain extends React.Component {
   static contextType = LocalizationContext;

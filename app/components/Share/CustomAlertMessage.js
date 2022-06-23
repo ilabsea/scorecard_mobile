@@ -16,7 +16,7 @@ const responsiveStyles = getDeviceStyle(MessageModalTabletStyles, MessageModalMo
 class CustomAlertMessage extends React.Component {
   renderButtons() {
     return <CustomAlertMessageButtons
-              onClose={this.props.onClose}
+              onClose={this.props.onDismiss}
               closeButtonLabel={this.props.closeButtonLabel}
               hasConfirmButton={this.props.hasConfirmButton}
               confirmButtonLabel={this.props.confirmButtonLabel}
@@ -45,3 +45,17 @@ class CustomAlertMessage extends React.Component {
 }
 
 export default CustomAlertMessage;
+
+// How to use this component
+{/* <CustomAlertMessage
+  visible={boolean}
+  title={string}
+  description={string}
+  iconName={string}  // [default = 'exclamation']
+  closeButtonLabel={string}
+  hasConfirmButton={boolean}  // [default = false]
+  confirmButtonLabel={string}  // [optional]
+  isConfirmButtonDisabled={boolean}  // [optional]
+  onDismiss={function()}
+  onConfirm={function()}  // [optional]
+/> */}

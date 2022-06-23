@@ -120,9 +120,12 @@ class NewScorecard extends Component {
   }
 
   setErrorState = (error) => {
+    const errorType = getErrorType(error);
+
     this.setState({
       visibleModal: true,
-      errorType: getErrorType(error),
+      // errorType: getErrorType(error),
+      errorType: errorType === 'ERROR_NOT_FOUND' ? 'ERROR_SCORECARD_NOT_EXIST' : errorType,
     });
   }
 
