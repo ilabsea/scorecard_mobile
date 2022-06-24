@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Modal, Portal} from 'react-native-paper';
 
 import CustomStyle from '../../themes/customStyle';
@@ -33,11 +32,10 @@ class CustomAlertMessage extends React.Component {
           onDismiss={this.props.onDismiss}
           contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.container]}
         >
-          <View>
-            <CustomAlertMessageHeader title={this.props.title} iconName={this.props.iconName} />
-            <CustomAlertMessageMain description={this.props.description} />
-            { this.renderButtons() }
-          </View>
+          <CustomAlertMessageHeader title={this.props.title} iconName={this.props.iconName} />
+          <CustomAlertMessageMain description={this.props.description} />
+          { this.props.children }
+          { this.renderButtons() }
         </Modal>
       </Portal>
     )

@@ -2,7 +2,9 @@ import React from 'react';
 
 import { LocalizationContext } from '../Translations';
 import CustomAlertMessage from './CustomAlertMessage';
+import SessionTimeoutAlert from './SessionTimeoutAlert';
 import { getAlertMessageObject } from '../../utils/alert_message_util';
+import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 
 class ErrorAlertMessage extends React.Component {
   static contextType = LocalizationContext;
@@ -29,9 +31,11 @@ class ErrorAlertMessage extends React.Component {
     }
   }
 
-  render() {
-    console.log('error type ==== ', this.props.errorType);
+  renderSessionTimeoutAlert() {
+    return <SessionTimeoutAlert visible={this.props.visible} onDismiss={this.props.onDismiss} />
+  }
 
+  renderErrorActionAlert() {
     return <CustomAlertMessage
               visible={this.props.visible}
               title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
@@ -43,6 +47,12 @@ class ErrorAlertMessage extends React.Component {
               onDismiss={() => this.props.onDismiss(true)}
               onConfirm={() => this.props.onConfirm()}
            />
+  }
+
+  render() {
+    return this.props.errorType === ERROR_AUTHENTICATION ?
+            this.renderSessionTimeoutAlert()
+            : this.renderErrorActionAlert();
   }
 }
 

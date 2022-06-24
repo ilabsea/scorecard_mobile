@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 
 import MessageModal from '../MessageModal';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import ErrorAlertMessage from '../Share/ErrorAlertMessage';
 import ScorecardListInstructionModal from './ScorecardListInstructionModal';
 import { LocalizationContext } from '../Translations';
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
@@ -28,13 +28,12 @@ class ScorecardListModals extends Component {
           onPressConfirmButton={() => this.props.confirmDelete()}
         />
 
-        {/* <ErrorMessageModal
+        <ErrorAlertMessage
           visible={this.props.visibleErrorModal}
-          onDismiss={() => this.props.onErrorModalDismiss()}
           errorType={ERROR_AUTHENTICATION}
-          isNewScorecard={false}
           scorecardUuid={this.props.scorecardUuid}
-        /> */}
+          onDismiss={() => this.props.onErrorModalDismiss()}
+        />
 
         <ScorecardListInstructionModal headerHeight={this.props.headerHeight} scorecards={this.props.scorecards} />
       </React.Fragment>
