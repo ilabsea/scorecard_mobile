@@ -9,7 +9,7 @@ import {checkConnection, getErrorType} from '../../services/api_service';
 import newScorecardService from '../../services/new_scorecard_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
-import { ERROR_INVALID_SCORECARD_URL } from '../../constants/error_constant';
+import { ERROR_INVALID_SCORECARD_URL, ERROR_SCORECARD_NOT_EXIST } from '../../constants/error_constant';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
 
 let _this = null;
@@ -122,7 +122,7 @@ class NewScorecard extends Component {
 
     this.setState({
       visibleModal: true,
-      errorType: errorType === 'ERROR_NOT_FOUND' ? 'ERROR_SCORECARD_NOT_EXIST' : errorType,
+      errorType: errorType === 'ERROR_NOT_FOUND' ? ERROR_SCORECARD_NOT_EXIST : errorType,
     });
   }
 

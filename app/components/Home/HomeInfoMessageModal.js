@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { Spinner } from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
 
-import { environment } from '../../config/environment';
 import Color from '../../themes/color';
-import CustomStyle from '../../themes/customStyle';
-import { getErrorMessageContent } from '../../utils/modal_error_message_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
+
 import { LocalizationContext } from '../Translations';
-import LockDeviceModalMessage from '../LockDeviceModalMessage';
+import ErrorAlertMessage from '../Share/ErrorAlertMessage';
 
 import HomeInfoMessageModalTabletStyles from '../../styles/tablet/HomeInfoMessageModalComponentStyle';
 import HomeInfoMessageModalMobileStyles from '../../styles/mobile/HomeInfoMessageModalComponentStyle';
@@ -19,17 +16,6 @@ const styles = getDeviceStyle(HomeInfoMessageModalTabletStyles, HomeInfoMessageM
 
 class HomeInfoModal extends Component {
   static contextType = LocalizationContext;
-
-  state = {
-    backendUrl: ''
-  }
-
-  async componentDidMount() {
-    const setting = await AsyncStorage.getItem('SETTING');
-    this.setState({
-      backendUrl: setting != null ? JSON.parse(setting).backendUrl : environment.defaultEndpoint,
-    });
-  }
 
   _renderSpinner() {
     const { translations } = this.context;
@@ -47,40 +33,27 @@ class HomeInfoModal extends Component {
     )
   }
 
-  _renderInfoMessage = () => {
-    const params = {
-      error_type: this.props.errorType,
-      is_new_scorecard: true,
-      is_submit: false,
-      scorecard_uuid: this.props.scorecardUuid,
-      backend_url: this.state.backendUrl,
-    };
-
-    return getErrorMessageContent(params, this.props.onDismiss);
+  renderLoading() {
+    return <Portal>
+              <Modal visible={this.props.isLoading} contentContainerStyle={{ alignItems: 'center' }}>
+                { this._renderSpinner() }
+              </Modal>
+           </Portal>
   }
 
-  _renderContent() {
-    if (!!this.props.unlockAt)
-      return <LockDeviceModalMessage onDismiss={this.props.onDismiss} unlockAt={this.props.unlockAt} />
-
-    return (
-      <View>
-        { this.props.isLoading && this._renderSpinner() }
-        { !this.props.isLoading && !!this.props.errorType && this._renderInfoMessage() }
-      </View>
-    )
+  renderErrorMessage() {
+    return <ErrorAlertMessage
+              visible={ this.props.visible }
+              errorType={ this.props.errorType }
+              scorecardUuid={ this.props.scorecardUuid }
+              unlockAt={ this.props.unlockAt }
+              hasConfirmButton={false}
+              onDismiss={ this.props.onDismiss }
+           />
   }
 
   render() {
-    const contentStyle = this.props.isLoading ? {alignItems: 'center'} : [CustomStyle.modalContainer, styles.modalContentContainer];
-
-    return (
-      <Portal>
-        <Modal visible={this.props.visible} contentContainerStyle={contentStyle}>
-          { this._renderContent() }
-        </Modal>
-      </Portal>
-    )
+    return this.props.isLoading ? this.renderLoading() : this.renderErrorMessage();
   }
 }
 

@@ -95,6 +95,9 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
   if (!!unlockAt)
     return errors.LOCKED;
 
+  if (!errorType)
+    return errors.DEFAULT;
+
   return errors[errorType.toString()] || errors.DEFAULT;
 }
 

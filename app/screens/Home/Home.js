@@ -12,6 +12,7 @@ import reLoginService from '../../services/re_login_service';
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
+import { ERROR_NOT_FOUND, ERROR_SCORECARD_NOT_EXIST } from '../../constants/error_constant';
 
 let _this = null;
 
@@ -75,12 +76,17 @@ class Home extends Component {
       _this.watchLockStatus();
 
     _this.setState({
-      infoModalVisible: true,
-      errorType,
       isLoading,
       scorecardUuid,
       unlockAt: await lockDeviceService.unlockAt(INVALID_SCORECARD_ATTEMPT),
-    });
+    })
+
+    if (errorType != null) {
+      _this.setState({
+        infoModalVisible: true,
+        errorType: errorType === ERROR_NOT_FOUND ? ERROR_SCORECARD_NOT_EXIST : errorType,
+      });
+    }
   }
 
   watchLockStatus() {

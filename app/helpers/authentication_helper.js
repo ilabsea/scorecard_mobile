@@ -8,6 +8,9 @@ const authenticationHelper = (() => {
 
   async function isTokenExpired() {
     let tokenExpiredDate = await AsyncStorage.getItem('TOKEN_EXPIRED_DATE');
+    if (!tokenExpiredDate)
+      return true;
+
     tokenExpiredDate = Moment(tokenExpiredDate).format('YYYY-MM-DD');
     const currentDate = Moment().format('YYYY-MM-DD');
 
