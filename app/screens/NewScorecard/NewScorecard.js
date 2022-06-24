@@ -11,7 +11,6 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { ERROR_INVALID_SCORECARD_URL } from '../../constants/error_constant';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
-import Scorecard from '../../models/Scorecard';
 
 let _this = null;
 class NewScorecard extends Component {

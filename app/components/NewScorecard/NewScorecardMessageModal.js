@@ -13,11 +13,11 @@ import { MISMATCHED_ENDPOINT, SCORECARD_SUBMITTED, SCORECARD_IN_PROGRESS } from 
 class NewScorecardModals extends React.Component {
   static contextType = LocalizationContext;
   getErrorType () {
-    if (!this.props.hasMatchedEndpoint)
-      return MISMATCHED_ENDPOINT;
-
     if (!!this.props.errorType)
       return this.props.errorType;
+
+    if (!this.props.hasMatchedEndpoint)
+      return MISMATCHED_ENDPOINT;
 
     return this.props.isSubmitted ? SCORECARD_SUBMITTED : SCORECARD_IN_PROGRESS;
   }

@@ -6,7 +6,7 @@ import SyncDataButton from '../SyncDataButton';
 import ScorecardService from '../../services/scorecardService';
 import {getErrorType} from '../../services/api_service';
 import Scorecard from '../../models/Scorecard';
-import { ERROR_SCORECARD, ERROR_SOMETHING_WENT_WRONG } from '../../constants/error_constant';
+import { ERROR_SOMETHING_WENT_WRONG } from '../../constants/error_constant';
 
 class ScorecardDetailSyncButton extends Component {
   static contextType = LocalizationContext;
@@ -25,7 +25,7 @@ class ScorecardDetailSyncButton extends Component {
       if (responseData === null && !this.isTimeout) {
         // Show popup message when scorecard is not exist
         this.isAbleToShowConnectionMessage = false;
-        this.handleRequestError(ERROR_SCORECARD);
+        this.handleRequestError(ERROR_SOMETHING_WENT_WRONG);
       }
       else {
         this.isAbleToShowConnectionMessage = false;

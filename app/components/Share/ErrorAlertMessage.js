@@ -29,19 +29,21 @@ class ErrorAlertMessage extends React.Component {
     }
   }
 
-   render() {
-      return <CustomAlertMessage
-                visible={this.props.visible}
-                title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
-                description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
-                closeButtonLabel={ this.context.translations.close }
-                hasConfirmButton={this.props.hasConfirmButton}
-                confirmButtonLabel={this.props.confirmButtonLabel}
-                isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
-                onDismiss={() => this.props.onDismiss(true)}
-                onConfirm={() => this.props.onConfirm()}
-            />
-    }
+  render() {
+    console.log('error type ==== ', this.props.errorType);
+
+    return <CustomAlertMessage
+              visible={this.props.visible}
+              title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
+              description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
+              closeButtonLabel={ this.context.translations.close }
+              hasConfirmButton={this.props.hasConfirmButton}
+              confirmButtonLabel={this.props.confirmButtonLabel}
+              isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
+              onDismiss={() => this.props.onDismiss(true)}
+              onConfirm={() => this.props.onConfirm()}
+           />
+  }
 }
 
 export default ErrorAlertMessage;

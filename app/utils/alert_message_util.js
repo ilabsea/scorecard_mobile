@@ -18,7 +18,7 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
   const scorecardStep = !!scorecard ? <BoldLabel label={`"${translations[step.label]}"`} /> : '';
 
   const errors = {
-    'ERROR_NOT_FOUND': {
+    'ERROR_SUBMIT_SCORECARD': {
       title: translations.unableToSubmitTheScorecard,
       description: translations.formatString(translations.cannotSubmitScorecardErrorMsg, endpoint, scorecardCode)
     },
