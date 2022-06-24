@@ -184,7 +184,6 @@
   "scorecardNotFound": "Scorecard not found",
   "scorecardDownloadFailed": "Scorecard download failed",
   "serverRequiresAuthentication": "Server requires authentication",
-  "invalidEmailOrPasswordForServer": "Invalid email or password for server",
   "authenticating": "Authenticating...",
   "successfullyAuthenticated": "Successfully authenticated",
   "emailOrPasswordIsIncorrect": "Email or password is incorrect",
