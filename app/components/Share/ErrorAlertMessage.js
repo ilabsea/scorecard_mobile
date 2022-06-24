@@ -3,8 +3,10 @@ import React from 'react';
 import { LocalizationContext } from '../Translations';
 import CustomAlertMessage from './CustomAlertMessage';
 import SessionTimeoutAlert from './SessionTimeoutAlert';
+import ReLoginModalButton from './ReLoginModalButton';
+
 import { getAlertMessageObject } from '../../utils/alert_message_util';
-import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
+import { ERROR_AUTHENTICATION, RE_LOGIN_REQUIRED } from '../../constants/error_constant';
 
 class ErrorAlertMessage extends React.Component {
   static contextType = LocalizationContext;
@@ -35,6 +37,11 @@ class ErrorAlertMessage extends React.Component {
     return <SessionTimeoutAlert visible={this.props.visible} onDismiss={this.props.onDismiss} />
   }
 
+  reLoginButton() {
+    if (this.props.errorType === RE_LOGIN_REQUIRED)
+      return <ReLoginModalButton  onDismiss={() => this.props.onDismiss()}/>
+  }
+
   renderErrorActionAlert() {
     return <CustomAlertMessage
               visible={this.props.visible}
@@ -46,6 +53,7 @@ class ErrorAlertMessage extends React.Component {
               isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
               onDismiss={() => this.props.onDismiss(true)}
               onConfirm={() => this.props.onConfirm()}
+              customButton={this.reLoginButton()}
            />
   }
 

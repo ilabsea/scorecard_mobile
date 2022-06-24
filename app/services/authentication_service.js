@@ -25,7 +25,6 @@ const authenticationService = (() => {
         resetLockService.resetLockData(FAILED_SIGN_IN_ATTEMPT);
         AsyncStorage.setItem('IS_CONNECTED', 'true');
         AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
-        // AsyncStorage.setItem('AUTH_TOKEN', 'abcdef');
         AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
         MobileTokenService.updateToken(responseData.program_id);
 

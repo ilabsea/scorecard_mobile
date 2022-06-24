@@ -86,6 +86,10 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.yourDeviceIsLocked,
       description: translations.formatString(translations.yourDeviceIsCurrentlyLocked, <BoldLabel label={unlockAt} />),
     },
+    'RE_LOGIN_REQUIRED': {
+      title: translations.reLoginRequired,
+      description: translations.reLoginDescription,
+    },
     'DEFAULT': {
       title: translations.somethingWentWrong,
       description: translations.formatString(translations.somethingWentWrongMessage, endpoint)
