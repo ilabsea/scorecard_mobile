@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
+import BoldLabel from '../Share/BoldLabel';
 import scorecardPreferenceService from '../../services/scorecard_preference_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
@@ -13,7 +14,7 @@ class ScorecardPreferenceConfirmDownloadContent extends Component {
   static contextType = LocalizationContext;
 
   renderBoldText(text) {
-    return <Text style={[{fontWeight: 'bold'}]}>{ text }</Text>
+    return <BoldLabel label={text} />
   }
 
   render() {

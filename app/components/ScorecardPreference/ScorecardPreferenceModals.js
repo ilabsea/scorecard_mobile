@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {LocalizationContext} from '../../components/Translations';
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
 import ErrorAlertMessage from '../Share/ErrorAlertMessage';
 import ScorecardPreferenceConfirmDownloadContent from './ScorecardPreferenceConfirmDownloadContent';
 
@@ -29,16 +29,18 @@ class ScorecardPreferenceModals extends Component {
           onDismiss={() => this.props.onDismissModal('error_modal')}
         />
 
-        <MessageModal
+        <CustomAlertMessage
           visible={this.props.visibleConfirmModal}
-          onDismiss={() => this.props.onDismissModal('message_modal')}
           title={translations.theScorecardContainsAudios}
+          closeButtonLabel={translations.close}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this.props.downloadScorecard()}
-          child={() => this.confirmDownloadContent()}
-          renderInline={false}
-        />
+          isConfirmButtonDisabled={false}
+          onDismiss={() => this.props.onDismissModal('message_modal')}
+          onConfirm={() => this.props.downloadScorecard()}
+        >
+          { this.confirmDownloadContent() }
+        </CustomAlertMessage>
       </React.Fragment>
     )
   }

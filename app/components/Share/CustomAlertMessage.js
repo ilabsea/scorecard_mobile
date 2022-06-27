@@ -33,7 +33,7 @@ class CustomAlertMessage extends React.Component {
           contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.container]}
         >
           <CustomAlertMessageHeader title={this.props.title} iconName={this.props.iconName} />
-          <CustomAlertMessageMain description={this.props.description} />
+          { !!this.props.description && <CustomAlertMessageMain description={this.props.description} /> }
           { this.props.children }
           { !!this.props.customButton ? this.props.customButton : this.renderButtons() }
         </Modal>
