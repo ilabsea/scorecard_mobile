@@ -148,7 +148,7 @@ class SessionTimeoutAlert extends React.Component {
     return <CustomAlertMessage
               visible={this.props.visible}
               title={ translations.yourSessionHasExpired }
-              description={ translations.PleaseLoginAgain }
+              description={ translations.pleaseLoginAgain }
               closeButtonLabel={ translations.close }
               hasConfirmButton={true}
               confirmButtonLabel={translations.save}

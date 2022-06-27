@@ -395,5 +395,6 @@
   "yourDeviceIsLocked": "Your device is locked",
   "somethingWentWrongMessage": "CSC app cannot reach the server at {0}. Did you enter the URL correctly? If you keep having this problem, report it to the person who asked you to collect data.",
   "yourSessionHasExpired": "Your session has expired",
-  "PleaseLoginAgain": "Please login again."
+  "pleaseLoginAgain": "Please login again.",
+  "unableToMakeAContact": "Unable to make a contact"
 }
