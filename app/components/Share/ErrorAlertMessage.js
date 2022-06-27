@@ -43,11 +43,12 @@ class ErrorAlertMessage extends React.Component {
   }
 
   renderErrorActionAlert() {
+    const { translations } = this.context;
     return <CustomAlertMessage
               visible={this.props.visible}
               title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
               description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
-              closeButtonLabel={ this.context.translations.close }
+              closeButtonLabel={ this.props.hasConfirmButton ? translations.close : translations.infoCloseLabel }
               hasConfirmButton={this.props.hasConfirmButton}
               confirmButtonLabel={this.props.confirmButtonLabel}
               isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}

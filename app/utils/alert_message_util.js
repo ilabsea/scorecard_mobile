@@ -52,7 +52,7 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
     },
     'ERROR_DOWNLOAD_PDF': {
       title: translations.unableToShare,
-      description: translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, getReadableAppLanguage(app_language))
+      description: translations.formatString(translations.thePdfFileOfThisLanguageIsNotAvailableToDownload, <BoldLabel label={`"${getReadableAppLanguage(app_language)}" `}/>)
     },
     'ERROR_INVALID_SCORECARD_URL': {
       title: translations.invalidUrl,
@@ -67,8 +67,8 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       description: translations.formatString(translations.thisScorecardCodeIsIncorrect, scorecardCode)
     },
     'ERROR_AUTHENTICATION': {
-      title: 'Session expired',
-      description: 'Please re-login your account'
+      title: translations.yourSessionHasExpired,
+      description: translations.pleaseLoginAgain
     },
     'MISMATCHED_ENDPOINT': {
       title: translations.theServerUrlHasBeenChanged,
@@ -109,3 +109,4 @@ export { getAlertMessageObject };
 
 // Notice:
 // - ERROR_ENDPOINT is using the default error message
+// - ERROR_NETWORK_AUTHENTICATION and ERROR_SOMETHING_WENT_WRONG is using the something went wrong error message
