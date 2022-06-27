@@ -400,5 +400,6 @@
   "unableToChangeTheServerUrl": "Unable to change the server URL",
   "discardTheChanges": "Discard the changes",
   "unableToDeleteTheScorecard": "Unable to delete the scorecard",
-  "finishTheScorecard": "Finish the scorecard"
+  "finishTheScorecard": "Finish the scorecard",
+  "removeTheImage": "Remove the image"
 }

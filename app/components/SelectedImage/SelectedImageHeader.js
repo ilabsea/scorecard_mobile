@@ -1,16 +1,10 @@
 import React, {Component} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import { getDeviceStyle } from '../../utils/responsive_util';
-
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
 import NavigationHeader from '../NavigationHeader';
 import HeaderIconButton from '../Share/HeaderIconButton';
-
-import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
-import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
-const modalStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
 class SelectedImageHeader extends Component {
   static contextType = LocalizationContext;
@@ -18,18 +12,6 @@ class SelectedImageHeader extends Component {
 
   _onPress() {
     !!this.props.onBackPress && this.props.onBackPress()
-  }
-
-  _confirmDeleteContent() {
-    const { translations } = this.context;
-
-    return (
-      <View>
-        <Text style={modalStyles.label}>
-          { translations.doYouWantToRemoveTheImage }
-        </Text>
-      </View>
-    )
   }
 
   _confirmDelete() {
@@ -44,6 +26,21 @@ class SelectedImageHeader extends Component {
     return <View/>
   }
 
+  renderAlertMessage() {
+    const { translations } = this.context;
+    return <CustomAlertMessage
+              visible={this.state.visibleModal}
+              title={translations.removeTheImage}
+              description={translations.doYouWantToRemoveTheImage}
+              closeButtonLabel={translations.close}
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.ok}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => this.setState({visibleModal: false})}
+              onConfirm={() => this._confirmDelete()}
+           />
+  }
+
   render() {
     const { translations } = this.context;
 
@@ -55,15 +52,7 @@ class SelectedImageHeader extends Component {
           onBackPress={() => this._onPress()}
         />
 
-        <MessageModal
-          visible={this.state.visibleModal}
-          onDismiss={() => this.setState({visibleModal: false})}
-          hasConfirmButton={true}
-          confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this._confirmDelete()}
-          child={() => this._confirmDeleteContent()}
-          renderInline={true}
-        />
+        { this.renderAlertMessage() }
       </React.Fragment>
     )
   }

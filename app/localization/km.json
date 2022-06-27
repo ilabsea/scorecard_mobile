@@ -402,5 +402,6 @@
   "unableToChangeTheServerUrl": "មិនអាចធ្វើការប្ដូរអាស័យដ្ឋានម៉ាសុីនមេ",
   "discardTheChanges": "បោះបង់ការផ្លាស់ប្ដូរ",
   "unableToDeleteTheScorecard": "មិនអាចលុបប័ណ្ណដាក់ពិន្ទុ",
-  "finishTheScorecard": "បញ្ចប់ប័ណ្ណដាក់ពិន្ទុ"
+  "finishTheScorecard": "បញ្ចប់ប័ណ្ណដាក់ពិន្ទុ",
+  "removeTheImage": "លុបរូបភាព"
 }
