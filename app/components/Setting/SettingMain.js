@@ -148,11 +148,11 @@ class SettingMain extends React.Component {
     // to reauthenticate and continue setting up the scorecard after getting the error to reauthenticate
     // when updating to v 1.5.1
 
-    // const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
-    // if (!changeableSetting) {
-    //   this.setState({ visibleModal: true });
-    //   return;
-    // }
+    const changeableSetting = await settingHelper.changeable(this.settingFormRef.current.state.backendUrl)
+    if (!changeableSetting) {
+      this.setState({ visibleModal: true });
+      return;
+    }
 
     this.clearErrorMessage();
     if (!await this.isFormValid())
