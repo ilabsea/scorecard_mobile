@@ -7,7 +7,7 @@ import Color from '../../themes/color';
 import {LocalizationContext} from '../../components/Translations';
 import ParticipantMain from '../../components/Participant/ParticipantMain';
 import BottomButton from '../../components/BottomButton';
-import ProgressHeader from '../../components/ProgressHeader';
+import ProgressHeader from '../../components/Share/ProgressHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';

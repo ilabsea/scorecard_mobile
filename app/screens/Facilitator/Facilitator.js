@@ -3,7 +3,7 @@ import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable, Keybo
 import Spinner from 'react-native-loading-spinner-overlay';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
-import ProgressHeader from '../../components/ProgressHeader';
+import ProgressHeader from '../../components/Share/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import FacilitatorForm from '../../components/Facilitator/FacilitatorForm';
 import FacilitatorReloadButton from '../../components/Facilitator/FacilitatorReloadButton';

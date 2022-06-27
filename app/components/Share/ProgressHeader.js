@@ -1,19 +1,19 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Header, Left, Right } from "native-base";
 
 import { HeaderBackButton } from '@react-navigation/stack';
-import ProgressStep from '../components/ProgressStep';
-import CustomAlertMessage from './Share/CustomAlertMessage';
+import ProgressStep from '../ProgressStep';
+import CustomAlertMessage from './CustomAlertMessage';
 import HeaderIconButton from './HeaderIconButton';
-import NavigationHeaderBody from './NavigationHeaderBody';
+import NavigationHeaderBody from '../NavigationHeaderBody';
 
-import { LocalizationContext } from './Translations';
-import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
-import { navigateBack, navigateHome } from '../utils/navigation_util';
-import Color from '../themes/color';
+import { LocalizationContext } from '../Translations';
+import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
+import { navigateBack, navigateHome } from '../../utils/navigation_util';
+import Color from '../../themes/color';
 
 export default class BigHeader extends React.Component {
   static contextType = LocalizationContext;

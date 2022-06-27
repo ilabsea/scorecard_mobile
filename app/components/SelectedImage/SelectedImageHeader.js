@@ -6,7 +6,7 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 
 import MessageModal from '../MessageModal';
 import NavigationHeader from '../NavigationHeader';
-import HeaderIconButton from '../HeaderIconButton';
+import HeaderIconButton from '../Share/HeaderIconButton';
 
 import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';

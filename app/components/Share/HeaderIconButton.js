@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Icon, Button } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import { getDeviceStyle } from '../utils/responsive_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class HeaderIconButton extends Component {
   render() {
