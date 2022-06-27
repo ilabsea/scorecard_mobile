@@ -4,8 +4,8 @@ import { View, Text } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import BottomButton from '../BottomButton';
 import ScorecardProgressSubmitButton from './ScorecardProgressSubmitButton';
-import ScorecardProgressConfirmFinishContent from './ScorecardProgressConfirmFinishContent';
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
+import BoldLabel from '../Share/BoldLabel';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -81,17 +81,21 @@ class ScorecardProgressButtons extends Component {
   }
 
   renderConfirmModal() {
-    return (
-      <MessageModal
-        visible={this.state.visibleConfirmModal}
-        onDismiss={() => this.setState({visibleConfirmModal: false})}
-        hasConfirmButton={true}
-        confirmButtonLabel={this.context.translations.ok}
-        onPressConfirmButton={() => this.finishScorecard()}
-        child={() => <ScorecardProgressConfirmFinishContent scorecardUuid={this.props.scorecard.uuid} />}
-        renderInline={true}
-      />
-    )
+    const { translations } = this.context;
+    const scorecardCode = <BoldLabel label={this.props.scorecard.uuid} />
+
+    return <CustomAlertMessage
+              visible={this.state.visibleConfirmModal}
+              title={translations.finishTheScorecard}
+              description={translations.formatString(translations.thisScorecardWillBeLocked, scorecardCode)}
+              descriptionQuestion={translations.formatString(translations.areYouSureYouWantToFinish, scorecardCode)}
+              closeButtonLabel={translations.close}
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.ok}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => this.setState({visibleConfirmModal: false})}
+              onConfirm={() => this.finishScorecard()}
+           />
   }
 
   render() {

@@ -7,13 +7,17 @@ import { bodyFontSize } from '../../../utils/font_size_util';
 class CustomAlertMessageMain extends React.Component {
   static contextType = LocalizationContext;
 
+  renderText(text, marginTop = 0) {
+    return <Text style={{ textAlign: 'center', fontSize: bodyFontSize(), marginTop: marginTop }}>{ text }</Text>
+  }
+
   render() {
     const { appLanguage } = this.context;
     return (
       <View style={{marginBottom: 10, marginTop: appLanguage == 'km' ? 20 : 15}}>
-        <Text style={{ textAlign: 'center', fontSize: bodyFontSize() }}>
-          { this.props.description }
-        </Text>
+        { this.renderText(this.props.description) }
+
+        { !!this.props.descriptionQuestion && this.renderText(this.props.descriptionQuestion, 12) }
       </View>
     )
   }

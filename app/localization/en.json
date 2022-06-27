@@ -399,5 +399,6 @@
   "unableToMakeAContact": "Unable to make a contact",
   "unableToChangeTheServerUrl": "Unable to change the server URL",
   "discardTheChanges": "Discard the changes",
-  "unableToDeleteTheScorecard": "Unable to delete the scorecard"
+  "unableToDeleteTheScorecard": "Unable to delete the scorecard",
+  "finishTheScorecard": "Finish the scorecard"
 }
