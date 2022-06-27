@@ -88,7 +88,7 @@ class ScorecardProgressButtons extends Component {
               visible={this.state.visibleConfirmModal}
               title={translations.finishTheScorecard}
               description={translations.formatString(translations.thisScorecardWillBeLocked, scorecardCode)}
-              descriptionQuestion={translations.formatString(translations.areYouSureYouWantToFinish, scorecardCode)}
+              descriptionBottomSection={translations.formatString(translations.areYouSureYouWantToFinish, scorecardCode)}
               closeButtonLabel={translations.close}
               hasConfirmButton={true}
               confirmButtonLabel={translations.ok}

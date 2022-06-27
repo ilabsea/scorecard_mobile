@@ -101,7 +101,7 @@ class FacilitatorScreen extends Component {
     return (
       <ErrorAlertMessage
         visible={this.state.modalVisible}
-        errorType={'ERROR_SOMETHING_WENT_WRONG'}
+        errorType={this.state.errorType}
         scorecardUuid={this.props.route.params.scorecard_uuid}
         onDismiss={() => this.setState({ modalVisible: false })}
       />

@@ -34,7 +34,7 @@ class CustomAlertMessage extends React.Component {
         >
           <CustomAlertMessageHeader title={this.props.title} iconName={this.props.iconName} />
           { !!this.props.description &&
-            <CustomAlertMessageMain description={this.props.description} descriptionQuestion={this.props.descriptionQuestion} />
+            <CustomAlertMessageMain description={this.props.description} descriptionBottomSection={this.props.descriptionBottomSection} />
           }
           { this.props.children }
           { !!this.props.customButton ? this.props.customButton : this.renderButtons() }

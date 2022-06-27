@@ -17,7 +17,7 @@ class ScorecardPreferenceModals extends Component {
     const { translations } = this.context;
     const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.props.languages, this.props.selectedLanguage.text_locale);
     const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.props.languages, this.props.selectedLanguage.audio_locale);
-    const descriptionQuestion = translations.formatString(translations.downloadScorecardSecondDescription, this.boldLabel(this.props.scorecardUuid), this.boldLabel(textLocaleLabel), this.boldLabel(audioLocaleLabel));
+    const descriptionBottomSection = translations.formatString(translations.downloadScorecardSecondDescription, this.boldLabel(this.props.scorecardUuid), this.boldLabel(textLocaleLabel), this.boldLabel(audioLocaleLabel));
 
     return (
       <React.Fragment>
@@ -32,7 +32,7 @@ class ScorecardPreferenceModals extends Component {
           visible={this.props.visibleConfirmModal}
           title={translations.theScorecardContainsAudios}
           description={translations.downloadScorecardFirstDescription}
-          descriptionQuestion={descriptionQuestion}
+          descriptionBottomSection={descriptionBottomSection}
           closeButtonLabel={translations.close}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
