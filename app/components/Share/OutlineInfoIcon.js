@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Color from '../themes/color';
+import Color from '../../themes/color';
 
-import { getDeviceStyle } from '../utils/responsive_util';
-import OutlineInfoIconTabletStyles from '../styles/tablet/OutlineInfoIconComponentStyle';
-import OutlineInfoIconMobileStyles from '../styles/mobile/OutlineInfoIconComponentStyle';
+import { getDeviceStyle } from '../../utils/responsive_util';
+import OutlineInfoIconTabletStyles from '../../styles/tablet/OutlineInfoIconComponentStyle';
+import OutlineInfoIconMobileStyles from '../../styles/mobile/OutlineInfoIconComponentStyle';
 
 const responsiveStyles = getDeviceStyle(OutlineInfoIconTabletStyles, OutlineInfoIconMobileStyles);
 

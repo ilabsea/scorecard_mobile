@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import OutlineInfoIcon from '../components/OutlineInfoIcon';
+import OutlineInfoIcon from '../components/Share/OutlineInfoIcon';
 import DashedLine from '../components/DashedLine';
 import VotingParticipantInfo from '../components/VotingIndicator/VotingParticipantInfo';
 import VotingAverageScoreInfo from '../components/VotingIndicator/VotingAverageScoreInfo';

@@ -32,8 +32,7 @@ class ScorecardList extends Component {
       isLoading: true,
       visibleErrorModal: false,
       headerHeight: 0,
-      isDeleting: false,
-      errorType: '',
+      isDeleting: false
     }
   }
 

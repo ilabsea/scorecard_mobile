@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import CustomStyle from '../../../themes/customStyle';
 import Color from '../../../themes/color';
 
-import OutlineInfoIcon from '../../OutlineInfoIcon';
+import OutlineInfoIcon from '../OutlineInfoIcon';
 
 class CustomAlertMessageHeader extends React.Component {
   render() {
