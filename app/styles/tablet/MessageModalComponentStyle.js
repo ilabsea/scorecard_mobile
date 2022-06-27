@@ -3,7 +3,7 @@ import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 const MessageModalComponentStyles = StyleSheet.create({
   container: {
-    width: '65%',
+    width: '68%',
     borderRadius: modalBorderRadius
   },
 });

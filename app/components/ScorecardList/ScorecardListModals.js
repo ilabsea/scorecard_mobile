@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
 import ErrorAlertMessage from '../Share/ErrorAlertMessage';
+import BoldLabel from '../Share/BoldLabel';
 import ScorecardListInstructionModal from './ScorecardListInstructionModal';
 import { LocalizationContext } from '../Translations';
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
@@ -12,20 +12,24 @@ class ScorecardListModals extends Component {
 
   render() {
     const { translations } = this.context;
-    const scorecardUuid = <Text style={{fontWeight: 'bold'}}>{ this.props.scorecardUuid }</Text>
-    const modalMessage = this.props.isConfirmModal ?
+    const scorecardUuid = <BoldLabel label={this.props.scorecardUuid} />
+    const title = this.props.isConfirmModal ? translations.deleteTheScorecard : translations.unableToDeleteTheScorecard;
+    const description = this.props.isConfirmModal ?
                           translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)
                           : translations.formatString(translations.cannotDeleteThisScorecard, scorecardUuid);
 
     return (
       <React.Fragment>
-        <MessageModal
+        <CustomAlertMessage
           visible={this.props.visibleConfirmModal}
-          onDismiss={() => this.props.onConfirmModalDismiss()}
-          description={modalMessage}
+          title={title}
+          description={description}
+          closeButtonLabel={this.props.isConfirmModal ? translations.close : translations.infoCloseLabel}
           hasConfirmButton={this.props.isConfirmModal}
           confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this.props.confirmDelete()}
+          isConfirmButtonDisabled={false}
+          onDismiss={() => this.props.onConfirmModalDismiss()}
+          onConfirm={() => this.props.confirmDelete()}
         />
 
         <ErrorAlertMessage
