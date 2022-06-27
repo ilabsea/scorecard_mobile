@@ -15,7 +15,7 @@ import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
-const SettingBottomSection = (props) => {
+const SettingFooter = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   function renderErrorMsg() {
@@ -71,4 +71,4 @@ const SettingBottomSection = (props) => {
   )
 }
 
-export default SettingBottomSection;
+export default SettingFooter;
