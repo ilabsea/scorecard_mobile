@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
-const MessageModalComponentStyles = StyleSheet.create({
+const CustomAlertMessageComponentStyles = StyleSheet.create({
   container: {
     width: wp('90.5%'),
     padding: 14,
@@ -10,4 +10,4 @@ const MessageModalComponentStyles = StyleSheet.create({
   },
 });
 
-export default MessageModalComponentStyles;
+export default CustomAlertMessageComponentStyles;

@@ -7,10 +7,10 @@ import CustomAlertMessageMain from './CustomAlertMessage/CustomAlertMessageMain'
 import CustomAlertMessageButtons from './CustomAlertMessage/CustomAlertMessageButtons';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
-import MessageModalTabletStyles from '../../styles/tablet/MessageModalComponentStyle';
-import MessageModalMobileStyles from '../../styles/mobile/MessageModalComponentStyle';
+import CustomAlertMessageTabletStyles from '../../styles/tablet/CustomAlertMessageComponentStyle';
+import CustomAlertMessageMobileStyles from '../../styles/mobile/CustomAlertMessageComponentStyle';
 
-const responsiveStyles = getDeviceStyle(MessageModalTabletStyles, MessageModalMobileStyles);
+const responsiveStyles = getDeviceStyle(CustomAlertMessageTabletStyles, CustomAlertMessageMobileStyles);
 
 class CustomAlertMessage extends React.Component {
   renderButtons() {
