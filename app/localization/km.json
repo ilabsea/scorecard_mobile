@@ -399,5 +399,6 @@
   "yourSessionHasExpired": "ត្រូវការផ្ទៀងផ្ទាត់គណនី",
   "pleaseLoginAgain": "សូមធ្វើការផ្ទៀងផ្ទាត់គណនីរបស់អ្នកម្ដងទៀត។",
   "unableToMakeAContact": "មិនអាចធ្វើការទំនាក់ទំនង",
-  "unableToChangeTheServerUrl": "មិនអាចធ្វើការប្ដូរអាស័យដ្ឋានម៉ាសុីនមេ"
+  "unableToChangeTheServerUrl": "មិនអាចធ្វើការប្ដូរអាស័យដ្ឋានម៉ាសុីនមេ",
+  "discardTheChanges": "បោះបង់ការផ្លាស់ប្ដូរ"
 }

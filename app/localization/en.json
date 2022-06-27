@@ -301,7 +301,7 @@
   "participantInformation": "Participant Information",
   "tapOnTheIndicatorBelowToSelect": "Tap on the indicator below to select",
   "thisIndicatorIsAlreadySelected": "This indicator is already selected",
-  "areYouSureYouWantToDiscardTheseNewProposedIndicator": "Are you sure you want to discard these new proposed indicators selected?",
+  "areYouSureYouWantToDiscardTheseNewProposedIndicator": "Are you sure you want to discard these newly selected proposed indicators?",
   "buttonLabelNo": "No",
   "buttonLabelYes": "Yes",
   "viewMore": "View more",
@@ -397,5 +397,6 @@
   "yourSessionHasExpired": "Your session has expired",
   "pleaseLoginAgain": "Please login again.",
   "unableToMakeAContact": "Unable to make a contact",
-  "unableToChangeTheServerUrl": "Unable to change the server URL"
+  "unableToChangeTheServerUrl": "Unable to change the server URL",
+  "discardTheChanges": "Discard the changes"
 }
