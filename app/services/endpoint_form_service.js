@@ -1,4 +1,3 @@
-import validationService from './validation_service';
 import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
 import { CUSTOM } from '../constants/main_constant';
 import urlUtil from '../utils/url_util';
@@ -15,12 +14,12 @@ const endpointFormService = (() => {
   }
 
   function isValidForm(endpointLabel, endpointValue) {
-    const endpointLabelValidationMsg = validateField('endpointLabel', endpointLabel);
-    const endpointValueValidationMsg = validateField('endpointValue', endpointValue );
+    const endpointLabelValidationMsg = getValidationMessage('endpointLabel', endpointLabel);
+    const endpointValueValidationMsg = getValidationMessage('endpointValue', endpointValue );
 
     const fieldsValidation = {
-      label: endpointLabelValidationMsg == null && !isFieldExisted('label', endpointLabel),
-      value: endpointValueValidationMsg == null && !isFieldExisted('value', endpointLabel),
+      label: endpointLabelValidationMsg == '' && endpointLabel != '',
+      value: endpointValueValidationMsg == '' && endpointValue != '',
       endpointIsNotExisted: !isEndpointExisted(endpointLabel, endpointValue)
     }
 
@@ -64,10 +63,6 @@ const endpointFormService = (() => {
   }
 
   // private method
-  function validateField(fieldName, value) {
-    validationService(fieldName, value === '' ? undefined : value);
-  }
-
   function isEndpointExisted(endpointLabel, endpointValue) {
     return isFieldExisted('label', endpointLabel) || isFieldExisted('value', endpointValue);
   }
