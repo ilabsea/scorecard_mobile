@@ -109,13 +109,13 @@ class ScorecardProgress extends Component {
   }
 
   async checkScorecardProposeIndicatorMethod(callback) {
-    if (!!this.state.scorecard.propose_indicator_method) {
+    if (!!this.state.scorecard.proposed_indicator_method) {
       callback();
       return;
     }
 
     Scorecard.update(this.state.scorecard.uuid,
-      { propose_indicator_method: await settingHelper.getProposeIndicatorMethodForScorecard() },
+      { proposed_indicator_method: await settingHelper.getProposedIndicatorMethodForScorecard() },
       (scorecard) => callback()
     );
   }

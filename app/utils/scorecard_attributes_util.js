@@ -25,6 +25,7 @@ export const scorecardAttributes = async (scorecard) => {
     running_date: scorecard.running_date ? scorecard.running_date : null,
     device_type: DeviceInfo.isTablet() ? 'tablet' : 'mobile',
     device_token: await MobileTokenService.getToken(),
+    proposed_indicator_method: scorecard.proposed_indicator_method
   };
 
   scorecardAttributes = {...scorecardAttributes, ...getNestedAttributes(scorecard)};
