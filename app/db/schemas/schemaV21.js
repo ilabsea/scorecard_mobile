@@ -32,7 +32,7 @@ const schemaV21 = {
       const newScorecards = newRealm.objects('Scorecard');
 
       for (let i = 0; i < oldScorecards.length; i ++) {
-        newScorecards[i].propose_indicator_method = !oldScorecards[i].propose_indicator_method ? '' : oldScorecards[i].propose_indicator_method;
+        newScorecards[i].propose_indicator_method = !oldScorecards[i].propose_indicator_method ? null : oldScorecards[i].propose_indicator_method;
       }
     }
   }
