@@ -22,6 +22,7 @@ class BottomSheetPickerMain extends React.Component {
       items: this.props.items,
       contentHeight: props.contentHeight,
       isButtonDisabled: true,
+      contentHeight: props.contentHeight,
     };
   }
 
