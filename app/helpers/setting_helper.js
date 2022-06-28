@@ -23,7 +23,7 @@ const settingHelper = (() => {
     clearTempSettingData,
     getSettingData,
     getSavedEndpointUrlId,
-    getProposedIndicatorMethodForScorecard,
+    getSelectedProposeIndicatorMethod,
   };
 
   async function changeable(newEndpoint) {
@@ -112,7 +112,7 @@ const settingHelper = (() => {
     return !!endpointUrl ? endpointUrl.id : null;
   }
 
-  async function getProposedIndicatorMethodForScorecard() {
+  async function getSelectedProposeIndicatorMethod() {
     const settingData = await getSettingData();
     return settingData.proposedIndicatorMethod == INDICATOR_BASE ? INDICATOR_BASED_ENUM : PARTICIPANT_BASED_ENUM;
   }
