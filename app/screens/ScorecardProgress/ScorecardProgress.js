@@ -115,7 +115,7 @@ class ScorecardProgress extends Component {
     }
 
     Scorecard.update(this.state.scorecard.uuid,
-      { proposed_indicator_method: await settingHelper.getSelectedProposeIndicatorMethod() },
+      { proposed_indicator_method: await settingHelper.getSelectedProposedIndicatorMethodId() },
       (scorecard) => callback()
     );
   }

@@ -8,8 +8,7 @@ import lockDeviceService from './lock_device_service';
 import resetLockService from './reset_lock_service';
 import { ERROR_UNPROCESSABLE } from '../constants/error_constant';
 import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
-import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
+import settingHelper from '../helpers/setting_helper';
 
 const authenticationService = (() => {
   return {
@@ -74,7 +73,7 @@ const authenticationService = (() => {
       backendUrl: backendUrl,
       email: email,
       password: password,
-      proposedIndicatorMethod: await isProposeByIndicatorBase() ? INDICATOR_BASE : PARTICIPANT_BASE,
+      proposedIndicatorMethod: await settingHelper.getSelectedProposedIndicatorMethodName(),
     }));
   }
 

@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
-import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
-import { INDICATOR_BASED_ENUM, PARTICIPANT_BASED_ENUM } from '../constants/scorecard_constant';
+import { PROPOSED_INDICATOR_METHODS, INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/proposed_indicator_method_constant';
 import { environment } from '../config/environment';
 import EndpointUrl from '../models/EndpointUrl';
 
@@ -12,7 +10,6 @@ const settingHelper = (() => {
   return {
     changeable,
     getProposedIndicatorMethodStatuses,
-    getProposedIndicatorMethodByIndex,
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
@@ -23,7 +20,8 @@ const settingHelper = (() => {
     clearTempSettingData,
     getSettingData,
     getSavedEndpointUrlId,
-    getSelectedProposeIndicatorMethod,
+    getSelectedProposedIndicatorMethodId,
+    getSelectedProposedIndicatorMethodName,
   };
 
   async function changeable(newEndpoint) {
@@ -49,10 +47,6 @@ const settingHelper = (() => {
     return proposedMethodsAccorionStatuses.default;
   }
 
-  function getProposedIndicatorMethodByIndex(index) {
-    return index === 0 ? INDICATOR_BASE : PARTICIPANT_BASE
-  }
-
   async function checkDefaultProposedIndicatorMethod() {
     let savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
 
@@ -64,8 +58,8 @@ const settingHelper = (() => {
     AsyncStorage.setItem('SETTING', JSON.stringify(savedSetting));
   }
 
-  function getProposedIndicatorMethodTracingStep(index) {
-    return getProposedIndicatorMethodByIndex(index) === INDICATOR_BASE ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
+  function getProposedIndicatorMethodTracingStep(type) {
+    return PROPOSED_INDICATOR_METHODS[type].step;
   }
 
   function getEndpointPickerHeight(type, endpointUrls) {
@@ -112,9 +106,21 @@ const settingHelper = (() => {
     return !!endpointUrl ? endpointUrl.id : null;
   }
 
-  async function getSelectedProposeIndicatorMethod() {
-    const settingData = await getSettingData();
-    return settingData.proposedIndicatorMethod == INDICATOR_BASE ? INDICATOR_BASED_ENUM : PARTICIPANT_BASED_ENUM;
+  async function getSelectedProposedIndicatorMethodId() {
+    const selectedProposedMethod = await _getSelectedProposedIndicatorMethod();
+    return selectedProposedMethod.id;
+  }
+
+  async function getSelectedProposedIndicatorMethodName() {
+    const selectedProposedMethod = await _getSelectedProposedIndicatorMethod();
+    return selectedProposedMethod.name;
+  }
+
+  // private method
+  async function _getSelectedProposedIndicatorMethod() {
+    const settingData = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const methodType = !!settingData ? settingData.proposedIndicatorMethod : INDICATOR_BASE;
+    return PROPOSED_INDICATOR_METHODS[methodType];
   }
 })();
 

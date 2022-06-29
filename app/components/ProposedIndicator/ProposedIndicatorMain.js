@@ -21,7 +21,7 @@ class ProposedIndicatorContent extends Component {
   static contextType = LocalizationContext;
 
   onPress = async () => {
-    Scorecard.update(this.props.scorecardUuid, { proposed_indicator_method: await settingHelper.getSelectedProposeIndicatorMethod() });
+    Scorecard.update(this.props.scorecardUuid, { proposed_indicator_method: await settingHelper.getSelectedProposedIndicatorMethodId() });
     this.clearSelectedIndicators();
     scorecardTracingStepsService.trace(this.props.scorecardUuid, 5);
     navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
