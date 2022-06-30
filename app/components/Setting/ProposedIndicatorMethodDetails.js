@@ -13,7 +13,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import settingHelper from '../../helpers/setting_helper';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/proposed_indicator_method_constant';
+import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/scorecard_constant';
 
 let _this = null;
 

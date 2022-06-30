@@ -1,5 +1,5 @@
 import DeviceInfo from 'react-native-device-info'
-import { INDICATOR_BASE } from '../constants/proposed_indicator_method_constant';
+import { INDICATOR_BASE } from '../constants/scorecard_constant';
 import { instructionVideoIds } from '../constants/proposed_indicator_constant';
 import settingHelper from '../helpers/setting_helper';
 

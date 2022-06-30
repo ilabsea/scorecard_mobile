@@ -8,7 +8,7 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 
 import internetConnectionService from '../../services/internet_connection_service';
 import settingHelper from '../../helpers/setting_helper';
-import { INDICATOR_BASE } from '../../constants/proposed_indicator_method_constant';
+import { INDICATOR_BASE } from '../../constants/scorecard_constant';
 
 class Setting extends Component {
   static contextType = LocalizationContext;

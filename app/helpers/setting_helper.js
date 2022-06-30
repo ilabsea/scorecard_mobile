@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
-import { PROPOSED_INDICATOR_METHODS, INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/proposed_indicator_method_constant';
+import { PROPOSED_INDICATOR_METHODS, INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/scorecard_constant';
 import { environment } from '../config/environment';
 import EndpointUrl from '../models/EndpointUrl';
 

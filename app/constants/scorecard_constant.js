@@ -1,3 +1,5 @@
+import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from './scorecard_step_constant';
+
 // Download phases of scorecard contain indicator, language_indicator, caf,
 // rating_scale, program_language, lang_indicator_audio, lang_rating_scale_audio, and indicator_image
 const scorecardDownloadSteps = 6;
@@ -33,6 +35,14 @@ const scorecardTypes = [
   { label: 'community_scorecard', value: 'community_scorecard'}
 ];
 
+const INDICATOR_BASE = 'indicatorBase';
+const PARTICIPANT_BASE = 'participantBase';
+
+const  PROPOSED_INDICATOR_METHODS = {
+  'participantBase': { id: 1, name: PARTICIPANT_BASE, step: PARTICIPANT_BASE_STEP },
+  'indicatorBase': { id: 2, name: INDICATOR_BASE, step: INDICATOR_BASE_STEP },
+}
+
 export {
   scorecardDownloadPhases,
   indicatorPhase,
@@ -47,4 +57,7 @@ export {
   commnunityScorecard,
   scorecardStatuses,
   scorecardTypes,
+  INDICATOR_BASE,
+  PARTICIPANT_BASE,
+  PROPOSED_INDICATOR_METHODS,
 };
