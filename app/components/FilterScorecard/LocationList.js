@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
+import listItemStyles from '../../themes/listItemStyle';
 import uuidv4 from '../../utils/uuidv4';
 import { bodyFontSize } from '../../utils/font_size_util';
 
@@ -79,7 +80,7 @@ class LocationList extends Component {
       return (
         <View key={uuidv4()}>
           <TouchableOpacity onPress={() => this.onSelectItem(location.label)}
-            style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, paddingVertical: 10, alignItems: 'center'}}
+            style={listItemStyles.filterListItem}
           >
             <Text style={{flex: 1, fontSize: bodyFontSize(), textTransform: 'capitalize'}}>
               { locationHelper.getProvinceName(location.label, this.context.appLanguage) }

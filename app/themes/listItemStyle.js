@@ -1,5 +1,6 @@
 import Color from '../themes/color';
 import {StyleSheet} from 'react-native';
+import { pressableItemSize, listItemPaddingVertical } from '../utils/component_util';
 
 const ListItemStyle = StyleSheet.create({
   item: {
@@ -43,6 +44,13 @@ const ListItemStyle = StyleSheet.create({
   },
   btnRemove: {
     backgroundColor: Color.btnRemoveBgColor,
+  },
+  filterListItem: {
+    flexDirection: 'row',
+    paddingRight: 25,
+    paddingLeft: 32,
+    alignItems: 'center',
+    height: pressableItemSize(listItemPaddingVertical)
   }
 });
 

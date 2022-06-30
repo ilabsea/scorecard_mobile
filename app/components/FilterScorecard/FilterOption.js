@@ -5,9 +5,9 @@ import { Divider } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
+import listItemStyles from '../../themes/listItemStyle';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import uuidv4 from '../../utils/uuidv4';
-import { pressableItemSize, listItemPaddingVertical } from '../../utils/component_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 
 class FilterOption extends Component {
@@ -27,7 +27,7 @@ class FilterOption extends Component {
       return (
         <View key={uuidv4()}>
           <TouchableOpacity onPress={() => this.props.onSelectItem(option.value)}
-            style={{flexDirection: 'row', paddingRight: 25, paddingLeft: 30, alignItems: 'center', height: pressableItemSize(listItemPaddingVertical)}}
+            style={listItemStyles.filterListItem}
           >
             <Text style={{flex: 1, fontSize: bodyFontSize()}}>{ translations[option.label] }</Text>
 
