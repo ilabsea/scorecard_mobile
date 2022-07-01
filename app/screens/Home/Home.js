@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, ImageBackground } from "react-native";
+import { StyleSheet, ImageBackground, BackHandler } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
@@ -30,6 +30,7 @@ class Home extends Component {
 
     _this = this;
     this.componentIsUnmount = false;
+    this.lastPress = null;
   };
 
   async componentDidMount() {
@@ -44,6 +45,23 @@ class Home extends Component {
 
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
+
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      // If the the user clicks on the android's back button on the other screens except the home screen,
+      // it will redirect to the previous screen normally
+      const navRoutes = _this.props.navigation.getState().routes;
+      if (navRoutes[navRoutes.length - 1].name.toLowerCase() != 'home')
+        return false;
+
+      const now = Date.now();
+      const DOUBLE_PRESS_DELAY = 700;
+
+      if (_this.lastPress && (now - _this.lastPress) < DOUBLE_PRESS_DELAY)
+        return false;
+
+      _this.lastPress = now;
+      return true;
+    });
   }
 
   componentWillUnmount() {
