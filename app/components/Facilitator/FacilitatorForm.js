@@ -23,7 +23,7 @@ class FacilitatorForm extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (!this.isComponentUnmounted && prevProps.bottomSheetModalIndex != this.props.bottomSheetModalIndex) {
       const modalContentHeight = this.props.bottomSheetModalIndex === 1 ? facilitatorPickerContentExpanedHeight : facilitatorPickerContentHeight;
-      this.pickerContentRef.current?.updateContentHeight(modalContentHeight);
+      this.pickerContentRef.current?.setContentHeight(modalContentHeight);
 
       if (this.props.bottomSheetModalIndex < 1) Keyboard.dismiss();
     }
