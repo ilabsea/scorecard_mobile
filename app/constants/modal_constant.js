@@ -45,4 +45,4 @@ export const scorecardPreferenceLanguagePickerContentHeight = '58%';
 
 export const facilitatorPickerSnapPoints = getDeviceStyle(['60%', '100%'], ['65%', '100%']);
 export const facilitatorPickerContentHeight = getDeviceStyle('58%', '63%');
-export const facilitatorPickerContentExpanedHeight = '98%';
+export const facilitatorPickerContentExpanedHeight = getDeviceStyle('92%', '90%');

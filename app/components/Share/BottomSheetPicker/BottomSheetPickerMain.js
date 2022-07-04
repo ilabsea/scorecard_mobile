@@ -20,12 +20,17 @@ class BottomSheetPickerMain extends React.Component {
       selectedItem: this.props.selectedItem,
       searchedItem: '',
       items: this.props.items,
+      contentHeight: props.contentHeight,
       isButtonDisabled: true,
     };
   }
 
   updateItems(items) {
     this.setState({ items });
+  }
+
+  setContentHeight(contentHeight) {
+    this.setState({ contentHeight });
   }
 
   onSelectItem(item) {
@@ -86,7 +91,7 @@ class BottomSheetPickerMain extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp(this.props.contentHeight), backgroundColor: Color.whiteColor}}>
+        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor}}>
           <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire}
             rightContainerStyle={{marginTop: -10}}
             onPressRightButton={() => this.props.onPressRightButton()}

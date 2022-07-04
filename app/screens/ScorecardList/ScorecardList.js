@@ -67,8 +67,6 @@ class ScorecardList extends Component {
   }
 
   onPress(scorecard) {
-    console.log('scorecard propos indi method = ', scorecard.proposed_indicator_method);
-
     // Prevent the user from viewing the scorecard detail if the scorecard is deleting
     if (this.state.isDeleting)
       return;
