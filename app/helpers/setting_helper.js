@@ -59,7 +59,7 @@ const settingHelper = (() => {
   }
 
   function getProposedIndicatorMethodTracingStep(type) {
-    return PROPOSED_INDICATOR_METHODS[type].step;
+    return PROPOSED_INDICATOR_METHODS[type].firebase_step_index;
   }
 
   function getEndpointPickerHeight(type, endpointUrls) {

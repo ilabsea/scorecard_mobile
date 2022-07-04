@@ -36,12 +36,9 @@ const scorecardTypes = [
 const INDICATOR_BASE = 'indicatorBase';
 const PARTICIPANT_BASE = 'participantBase';
 
-const INDICATOR_BASE_STEP = 11;
-const PARTICIPANT_BASE_STEP = 12;
-
 const  PROPOSED_INDICATOR_METHODS = {
-  'participantBase': { id: 1, name: PARTICIPANT_BASE, step: PARTICIPANT_BASE_STEP },
-  'indicatorBase': { id: 2, name: INDICATOR_BASE, step: INDICATOR_BASE_STEP },
+  'participantBase': { id: 1, name: PARTICIPANT_BASE, firebase_step_index: 12 },
+  'indicatorBase': { id: 2, name: INDICATOR_BASE, firebase_step_index: 11 },
 }
 
 const SETUP = 1;
@@ -82,8 +79,6 @@ export {
   scorecardTypes,
   INDICATOR_BASE,
   PARTICIPANT_BASE,
-  INDICATOR_BASE_STEP,
-  PARTICIPANT_BASE_STEP,
   PROPOSED_INDICATOR_METHODS,
   SETUP,
   PROPOSED_CRITERIA,
