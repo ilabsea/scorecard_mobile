@@ -4,7 +4,7 @@ import Color from '../../themes/color';
 
 const FilterScorecardCheckIcon = () => {
   return (
-    <MaterialIcon name='check' size={24} color={Color.successColor} />
+    <MaterialIcon name='check' size={24} color={Color.clickableColor} />
   )
 }
 
