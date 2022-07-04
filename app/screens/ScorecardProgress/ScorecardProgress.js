@@ -14,6 +14,7 @@ import internetConnectionService from '../../services/internet_connection_servic
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import Scorecard from '../../models/Scorecard';
+import settingHelper from '../../helpers/setting_helper';
 import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
@@ -77,10 +78,15 @@ class ScorecardProgress extends Component {
       progressPercentag: 0,
     });
 
+    this.checkScorecardProposeIndicatorMethod(() => {
+      this.uploadScorecard();
+    });
+  }
+
+  uploadScorecard() {
     const scorecardService = new ScorecardService();
     scorecardService.upload(this.state.scorecard.uuid, (progressPercentag) => {
       this.setState({progressPercentag: progressPercentag});
-
       if (progressPercentag == 1) {
         setTimeout(() => {
           this.setState({
@@ -100,6 +106,18 @@ class ScorecardProgress extends Component {
     });
 
     this.checkSubmitProgress();
+  }
+
+  async checkScorecardProposeIndicatorMethod(callback) {
+    if (!!this.state.scorecard.proposed_indicator_method) {
+      callback();
+      return;
+    }
+
+    Scorecard.update(this.state.scorecard.uuid,
+      { proposed_indicator_method: await settingHelper.getSelectedProposedIndicatorMethodId() },
+      (scorecard) => callback()
+    );
   }
 
   checkSubmitProgress() {

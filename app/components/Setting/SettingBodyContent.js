@@ -9,7 +9,6 @@ import SettingBottomSection from './SettingBottomSection';
 import SettingReLoginTip from './SettingReLoginTip';
 
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
-import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../../constants/scorecard_step_constant';
 import Color from '../../themes/color';
 import { navigationRef } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
@@ -26,7 +25,6 @@ import scorecardEndpointService from '../../services/scorecard_endpoint_service'
 import scorecardMigrationService from '../../services/scorecard_migration_service';
 import indicatorMigrationService from '../../services/indicator_migration_service';
 
-import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import SettingStyleTabletStyles from '../../styles/tablet/SettingScreenStyle';
 import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
@@ -101,7 +99,7 @@ class SettingBodyContent extends React.Component {
   authenticate() {
     const { email, password } = this.settingFormRef.current.state;
 
-    authenticationService.authenticate(email, password, async () => {
+    authenticationService.authenticate(email, password, () => {
       this.setState({ isLoading: false });
       // Todo: remove in the future
       // Manual hot-fix the issue caused by AsyncStorage get null for endpoint URL migration to scorecard in v 1.5.1 -
@@ -116,8 +114,7 @@ class SettingBodyContent extends React.Component {
       // and add program_uuid and endpoint_id to indicator (indicator that doesn't have program_uuid or endpoint_Id)
       scorecardMigrationService.handleUpdatingScorecardWithoutProgramUuid();
 
-      const tracingStep = await isProposeByIndicatorBase() ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
-      scorecardTracingStepsService.trace(null, tracingStep, email);
+      scorecardTracingStepsService.trace(null, settingHelper.getProposedIndicatorMethodTracingStep(this.props.proposedIndicatorMethod), email);
       settingHelper.clearTempSettingData();
       reLoginService.setReLoggedIn(true);
       navigationRef.current?.goBack();

@@ -1,7 +1,7 @@
 import realm from '../db/schema';
 import AsyncStorage from '@react-native-community/async-storage';
 import { DOWNLOADED, RUNNING, SUBMITTED, IN_REVIEW } from '../constants/milestone_constant';
-import { INDICATOR_DEVELOPMENT } from '../constants/scorecard_step_constant';
+import { INDICATOR_DEVELOPMENT } from '../constants/scorecard_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
 import settingHelper from '../helpers/setting_helper';
 import scorecardDataUtil from '../utils/scorecard_data_util';

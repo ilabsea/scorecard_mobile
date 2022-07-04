@@ -13,8 +13,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import settingHelper from '../../helpers/setting_helper';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
-import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/main_constant';
+import { INDICATOR_BASE, PARTICIPANT_BASE } from '../../constants/scorecard_constant';
 
 let _this = null;
 
@@ -32,7 +31,7 @@ class ProposedIndicatorMethodDetails extends React.Component {
 
   async componentDidMount() {
     this.savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING')) || { proposedIndicatorMethod: INDICATOR_BASE };
-    this.setState({ selectedMethod: await getProposedIndicatorMethod() });
+    this.setState({ selectedMethod: await settingHelper.getSelectedProposedIndicatorMethodName() });
   }
 
   renderAccordionTitle(item) {
@@ -51,10 +50,10 @@ class ProposedIndicatorMethodDetails extends React.Component {
     return <ProposedIndicatorMethodDetailsContent proposeMethod={item} />
   }
 
-  onToggle(toggleIndex) {
-    scorecardTracingStepsService.trace(null, settingHelper.getProposedIndicatorMethodTracingStep(toggleIndex), this.props.email);
+  onToggle(proposedIndicatorMethod) {
+    scorecardTracingStepsService.trace(null, settingHelper.getProposedIndicatorMethodTracingStep(proposedIndicatorMethod.value), this.props.email);
 
-    _this.setState({ selectedMethod: settingHelper.getProposedIndicatorMethodByIndex(toggleIndex)}, () => {
+    _this.setState({ selectedMethod: proposedIndicatorMethod.value}, () => {
       _this.savedSetting.proposedIndicatorMethod = this.state.selectedMethod;
       AsyncStorage.setItem('SETTING', JSON.stringify(_this.savedSetting));
     });
@@ -81,7 +80,7 @@ class ProposedIndicatorMethodDetails extends React.Component {
             customItemStyle={{ backgroundColor: '#f9f9fa', borderWidth: 1, borderColor: Color.paleGrayColor }}
             accordionStatuses={this.props.accordionStatuses}
             hasAutoToggle={true}
-            onToggle={(toggleIndex) => this.onToggle(toggleIndex)}
+            onToggle={(item) => this.onToggle(item)}
           />
         </View>
       </View>

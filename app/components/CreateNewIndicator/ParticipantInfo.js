@@ -8,9 +8,8 @@ import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
 import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
-import { INDICATOR_BASE } from '../../constants/main_constant';
 import { navigate } from '../../navigators/app_navigator';
-import { getProposedIndicatorMethod, isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { isProposedIndicatorScreen } from '../../utils/screen_util';
 
 export default class ParticipantInfo extends Component {
@@ -50,8 +49,8 @@ export default class ParticipantInfo extends Component {
     }
   }
 
-  async openParticipantListModal() {
-    if (await getProposedIndicatorMethod() === INDICATOR_BASE && isProposedIndicatorScreen())
+  openParticipantListModal() {
+    if (this.isIndicatorBase && isProposedIndicatorScreen())
       navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
       this.setState({ participantListVisible: true });

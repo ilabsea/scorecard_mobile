@@ -9,13 +9,15 @@ class PullToRefreshScrollView extends React.Component {
   static contextType = LocalizationContext;
 
   syncData() {
+    this.props.updateLoadingState(true);
+
     NetInfo.fetch().then(state => {
-      if (state.isConnected && state.isInternetReachable) {
-        this.props.updateLoadingState(true);
+      if (state.isConnected && state.isInternetReachable)
         this.props.syncData();
-      }
-      else
+      else {
+        this.props.updateLoadingState(false);
         internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection,);
+      }
     });
   }
 

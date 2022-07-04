@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Scorecard from '../models/Scorecard';
-import { INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/main_constant';
-import { INDICATOR_BASE_STEP, PARTICIPANT_BASE_STEP } from '../constants/scorecard_step_constant';
+import { PROPOSED_INDICATOR_METHODS, INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/scorecard_constant';
 import { environment } from '../config/environment';
 import EndpointUrl from '../models/EndpointUrl';
 
@@ -11,7 +10,6 @@ const settingHelper = (() => {
   return {
     changeable,
     getProposedIndicatorMethodStatuses,
-    getProposedIndicatorMethodByIndex,
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
     getEndpointPickerHeight,
@@ -22,6 +20,8 @@ const settingHelper = (() => {
     clearTempSettingData,
     getSettingData,
     getSavedEndpointUrlId,
+    getSelectedProposedIndicatorMethodId,
+    getSelectedProposedIndicatorMethodName,
   };
 
   async function changeable(newEndpoint) {
@@ -47,10 +47,6 @@ const settingHelper = (() => {
     return proposedMethodsAccorionStatuses.default;
   }
 
-  function getProposedIndicatorMethodByIndex(index) {
-    return index === 0 ? INDICATOR_BASE : PARTICIPANT_BASE
-  }
-
   async function checkDefaultProposedIndicatorMethod() {
     let savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
 
@@ -62,8 +58,8 @@ const settingHelper = (() => {
     AsyncStorage.setItem('SETTING', JSON.stringify(savedSetting));
   }
 
-  function getProposedIndicatorMethodTracingStep(index) {
-    return getProposedIndicatorMethodByIndex(index) === INDICATOR_BASE ? INDICATOR_BASE_STEP : PARTICIPANT_BASE_STEP;
+  function getProposedIndicatorMethodTracingStep(type) {
+    return PROPOSED_INDICATOR_METHODS[type].firebase_step_index;
   }
 
   function getEndpointPickerHeight(type, endpointUrls) {
@@ -108,6 +104,23 @@ const settingHelper = (() => {
     const savedEndpointUrl = await getSavedEndpointUrl();
     const endpointUrl = EndpointUrl.findByUrlValue(savedEndpointUrl);
     return !!endpointUrl ? endpointUrl.id : null;
+  }
+
+  async function getSelectedProposedIndicatorMethodId() {
+    const selectedProposedMethod = await _getSelectedProposedIndicatorMethod();
+    return selectedProposedMethod.id;
+  }
+
+  async function getSelectedProposedIndicatorMethodName() {
+    const selectedProposedMethod = await _getSelectedProposedIndicatorMethod();
+    return selectedProposedMethod.name;
+  }
+
+  // private method
+  async function _getSelectedProposedIndicatorMethod() {
+    const settingData = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const methodType = !!settingData ? settingData.proposedIndicatorMethod : INDICATOR_BASE;
+    return PROPOSED_INDICATOR_METHODS[methodType];
   }
 })();
 

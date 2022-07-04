@@ -10,15 +10,18 @@ import {LocalizationContext} from '../../components/Translations';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Participant from '../../models/Participant';
+import Scorecard from '../../models/Scorecard';
 import {connect} from 'react-redux' ;
 import { removeFromSelected } from '../../actions/selectedIndicatorAction';
 import { containerPadding } from '../../utils/responsive_util';
 import { navigate } from '../../navigators/app_navigator';
+import settingHelper from '../../helpers/setting_helper';
 
 class ProposedIndicatorContent extends Component {
   static contextType = LocalizationContext;
 
-  onPress = () => {
+  onPress = async () => {
+    Scorecard.update(this.props.scorecardUuid, { proposed_indicator_method: await settingHelper.getSelectedProposedIndicatorMethodId() });
     this.clearSelectedIndicators();
     scorecardTracingStepsService.trace(this.props.scorecardUuid, 5);
     navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});

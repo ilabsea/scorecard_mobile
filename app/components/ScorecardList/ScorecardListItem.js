@@ -29,11 +29,7 @@ export default class ScorecardItem extends Component {
     }
   }
 
-  componentDidMount() {
-    this.checkCondition();
-  }
-
-  async checkCondition() {
+  async componentDidMount() {
     this.setState({
       hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid),
       isDeleteable: await Scorecard.isDeleteable(this.props.scorecard)

@@ -14,7 +14,7 @@ class Accordion extends Component {
     }
   }
 
-  toggleAccordion(toggleIndex) {
+  toggleAccordion(toggleIndex, item) {
     let statuses = this.state.accordionStatuses;
     statuses[toggleIndex] = !statuses[toggleIndex];
 
@@ -29,7 +29,7 @@ class Accordion extends Component {
       accordionStatuses: statuses
     });
 
-    !!this.props.onToggle && this.props.onToggle(toggleIndex);
+    !!this.props.onToggle && this.props.onToggle(item);
   }
 
   renderAccordion() {
@@ -40,7 +40,7 @@ class Accordion extends Component {
           key={uuidv4()}
           title={this.props.accordionTitle(item, index)}
           style={[{ backgroundColor: Color.whiteColor, borderBottomWidth: 1, borderColor: '#ebebeb' }, this.props.customItemStyle]}
-          onPress={() => this.toggleAccordion(index)}
+          onPress={() => this.toggleAccordion(index, item)}
           expanded={this.state.accordionStatuses[index]}
           titleStyle={this.props.titleStyle}
           left={(e) => !!this.props.leftComponent && this.props.leftComponent(item)}

@@ -1,15 +1,10 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo from 'react-native-device-info'
-import { INDICATOR_BASE } from '../constants/main_constant';
+import { INDICATOR_BASE } from '../constants/scorecard_constant';
 import { instructionVideoIds } from '../constants/proposed_indicator_constant';
-
-export const getProposedIndicatorMethod = async () => {
-  const setting = JSON.parse(await AsyncStorage.getItem('SETTING'));
-  return !!setting ? setting.proposedIndicatorMethod : INDICATOR_BASE;
-}
+import settingHelper from '../helpers/setting_helper';
 
 export const isProposeByIndicatorBase = async () => {
-  return await getProposedIndicatorMethod() === INDICATOR_BASE;
+  return await settingHelper.getSelectedProposedIndicatorMethodName() === INDICATOR_BASE;
 }
 
 export const getProposedIndicatorVideoId = (proposeMethod) => {

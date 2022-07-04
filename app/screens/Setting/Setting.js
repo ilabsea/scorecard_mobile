@@ -6,10 +6,9 @@ import SettingBodyContent from '../../components/Setting/SettingBodyContent';
 import NavigationHeader from '../../components/NavigationHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
-import { getProposedIndicatorMethod } from '../../utils/proposed_indicator_util';
 import internetConnectionService from '../../services/internet_connection_service';
 import settingHelper from '../../helpers/setting_helper';
-import { INDICATOR_BASE } from '../../constants/main_constant';
+import { INDICATOR_BASE } from '../../constants/scorecard_constant';
 
 class Setting extends Component {
   static contextType = LocalizationContext;
@@ -29,7 +28,7 @@ class Setting extends Component {
   }
 
   async componentDidMount() {
-    this.setState({ proposedIndicatorMethod: await getProposedIndicatorMethod() });
+    this.setState({ proposedIndicatorMethod: await settingHelper.getSelectedProposedIndicatorMethodName() });
 
     this.unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
       if (!this.componentIsUnmount)
@@ -61,7 +60,7 @@ class Setting extends Component {
   }
 
   async onDismissModal() {
-    this.setState({ proposedIndicatorMethod: await getProposedIndicatorMethod() });
+    this.setState({ proposedIndicatorMethod: await settingHelper.getSelectedProposedIndicatorMethodName() });
     this.formRef.current?.setBodyContent(null)
   }
 

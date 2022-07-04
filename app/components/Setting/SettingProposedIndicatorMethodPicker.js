@@ -6,7 +6,7 @@ import ProposedIndicatorMethodDetails from './ProposedIndicatorMethodDetails';
 import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
 
 import settingHelper from '../../helpers/setting_helper';
-import { INDICATOR_BASE } from '../../constants/main_constant';
+import { INDICATOR_BASE } from '../../constants/scorecard_constant';
 import { settingModalSnapPoints } from '../../constants/modal_constant';
 
 class SettingProposedIndicatorMethodPicker extends React.Component {

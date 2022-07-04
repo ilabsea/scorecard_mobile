@@ -33,6 +33,36 @@ const scorecardTypes = [
   { label: 'community_scorecard', value: 'community_scorecard'}
 ];
 
+const INDICATOR_BASE = 'indicatorBase';
+const PARTICIPANT_BASE = 'participantBase';
+
+const  PROPOSED_INDICATOR_METHODS = {
+  'participantBase': { id: 1, name: PARTICIPANT_BASE, firebase_step_index: 12 },
+  'indicatorBase': { id: 2, name: INDICATOR_BASE, firebase_step_index: 11 },
+}
+
+const SETUP = 1;
+const PROPOSED_CRITERIA = 2;
+const INDICATOR_DEVELOPMENT = 3;
+const VOTING = 4;
+const SCORECARD_RESULT = 5;
+
+const scorecardTrackingSteps = {
+  0: 'scorecard_joined',
+  1: 'scorecard_downloaded',
+  2: 'finished_preference',
+  3: 'finished_facilitator',
+  4: 'finished_participant_list',
+  5: 'finished_proposed_criteria',
+  6: 'finished_indicator_development',
+  7: 'finished_voting',
+  8: 'finished_scorecard_result',
+  9: 'scorecard_completed',
+  10: 'scorecard_submitted',
+  11: 'propose_by_indicator_base',
+  12: 'propose_by_participant_base',
+};
+
 export {
   scorecardDownloadPhases,
   indicatorPhase,
@@ -47,4 +77,13 @@ export {
   commnunityScorecard,
   scorecardStatuses,
   scorecardTypes,
+  INDICATOR_BASE,
+  PARTICIPANT_BASE,
+  PROPOSED_INDICATOR_METHODS,
+  SETUP,
+  PROPOSED_CRITERIA,
+  INDICATOR_DEVELOPMENT,
+  VOTING,
+  SCORECARD_RESULT,
+  scorecardTrackingSteps,
 };

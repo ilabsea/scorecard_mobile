@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 
-import { scorecardTrackingSteps } from '../constants/scorecard_step_constant';
+import { scorecardTrackingSteps } from '../constants/scorecard_constant';
 
 const scorecardTracingStepsService = (() => {
   return {
