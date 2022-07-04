@@ -49,7 +49,7 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     borderColor: Color.paleGrayColor,
     alignItems: 'center',
   },
-  editButton: {
+  deleteButton: {
     width: pressableItemSize(), 
     height: pressableItemSize(),
     justifyContent: 'center',

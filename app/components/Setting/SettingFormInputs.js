@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
 import {LocalizationContext} from '../Translations';
-import TextFieldInput from '../TextFieldInput';
+import TextFieldInput from '../Share/TextFieldInput';
 import { environment } from '../../config/environment';
 
 class SettingFormInputs extends React.Component {

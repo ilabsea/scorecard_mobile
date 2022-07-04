@@ -1,121 +1,163 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import SettingUrlEndpointForm from './SettingUrlEndpointForm';
-import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
+import BottomSheetPicker from '../Share/BottomSheetPicker';
+import BottomSheetPickerMain from '../Share/BottomSheetPicker/BottomSheetPickerMain';
 import SettingUrlEndpointWarningMessages from './SettingUrlEndpointWarningMessages';
+import SettingUrlEndpointPickerItem from './SettingUrlEndpointPickerItem';
+import SettingUrlEndpointDeleteModal from './SettingUrlEndpointDeleteModal';
 
-import endpointFormService from '../../services/endpoint_form_service';
 import settingHelper from '../../helpers/setting_helper';
-import { settingEndpointModalSnapPoints } from '../../constants/modal_constant';
+import endpointFormHelper from '../../helpers/endpoint_form_helper';
+import { settingEndpointModalSnapPoints, settingEndpointContentHeight } from '../../constants/modal_constant';
 import EndpointUrl from '../../models/EndpointUrl';
+import Scorecard from '../../models/Scorecard';
+import { navigate } from '../../navigators/app_navigator';
+import { bodyFontSize } from '../../utils/font_size_util';
+import Color from '../../themes/color';
 
 class SettingUrlEndpointPicker extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     this.state = {
-      selectedEndpoint: '',
       currentSelectedEndpoint: '',
       endpointUrls: [],
+      visibleConfirmModal: false,
     }
+    this.componentIsUnmount = false;
+    this.defaultSavedEndpointUrl = '';
+    this.newEndpointAdded = false;
+    this.endpointToDelete = null;
+    this.pickerContentRef = React.createRef();
   }
 
-  componentDidMount() {
-    this.loadEndpointUrls();
-  }
+  async componentDidMount() {
+    this.defaultSavedEndpointUrl = await settingHelper.getSavedEndpointUrl();
+    this.loadEndpointUrls(null);
 
-  loadEndpointUrls() {
-    this.setState({
-      endpointUrls: EndpointUrl.getAll(),
-      selectedEndpoint: this.props.backendUrl,
-      currentSelectedEndpoint: this.props.backendUrl,
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      setTimeout(async () => {
+        const settingData = await settingHelper.getSettingData();
+        if (!this.componentIsUnmount && !!settingData && !!settingData.backendUrl) {
+          this.setState({
+            endpointUrls: EndpointUrl.getAll(),
+            currentSelectedEndpoint: settingData.backendUrl
+          });
+
+          this.newEndpointAdded = await endpointFormHelper.newEndpointAdded()
+          if(this.newEndpointAdded)
+            this.props.formModalRef.current?.dismiss();
+
+          this.props.updateSelectedEndpointUrl(settingData.backendUrl);
+        }
+      }, 50);
     });
   }
 
-  showBottomSheetModal(type) {
-    const modals = {
-      'dropdown_picker': { content: this.renderBottomSheetPickerContent(), snapPoints: settingHelper.getEndpointPickerHeight('snap_points', this.state.endpointUrls) },
-      'form_create': { content: this.renderSettingUrlEndpointForm(null), snapPoints: settingEndpointModalSnapPoints },
-    };
+  componentWillUnmount() {
+    this.focusListener && this.focusListener();
+    this.componentIsUnmount = true;
+  }
 
-    this.props.formRef.current?.setSnapPoints(modals[type].snapPoints);
-    this.props.formRef.current?.setBodyContent(modals[type].content);
+  loadEndpointUrls(callback) {
+    this.setState({
+      endpointUrls: EndpointUrl.getAll(),
+      currentSelectedEndpoint: this.defaultSavedEndpointUrl,
+    }, () => !!callback && callback());
+  }
+
+  async showBottomSheetModal() {
+    this.defaultSavedEndpointUrl = await settingHelper.getSavedEndpointUrl();
+
+    this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
+    this.props.formRef.current?.setBodyContent(this.renderBottomSheetPickerMain());
     this.props.formModalRef.current?.present();
   }
 
-  showEditForm(item) {
-    this.props.formRef.current?.setSnapPoints(settingEndpointModalSnapPoints);
-    this.props.formRef.current?.setBodyContent(this.renderSettingUrlEndpointForm(item));
+  isDeletable(endpointUrl) {
+    if (Scorecard.allScorecardContainEndpoint(endpointUrl))
+      return false;
+
+    return endpointUrl != this.props.selectedEndpointUrl && endpointUrl != this.defaultSavedEndpointUrl;
   }
 
-  renderBottomSheetPickerContent() {
-    return <BottomSheetPickerContent
+  renderBottomSheetPickerMain() {
+    return <BottomSheetPickerMain
+            ref={this.pickerContentRef}
             title={this.context.translations.serverUrl}
             items={this.state.endpointUrls}
-            selectedItem={this.state.selectedEndpoint}
+            selectedItem={this.state.currentSelectedEndpoint}
             isRequire={true}
-            contentHeight={settingHelper.getEndpointPickerHeight('content', this.state.endpointUrls)}
+            contentHeight={settingEndpointContentHeight}
             onSelectItem={(item) => this.setState({ currentSelectedEndpoint: item.value })}
             scrollViewStyle={{ paddingBottom: 0 }}
             showSubtitle={true}
-            onPressRightButton={() => this.showBottomSheetModal('form_create')}
+            onPressRightButton={() => navigate('AddNewEndpointUrl')}
             onPressBottomButton={() => this.changeSelectedEndpoint()}
-            showEditForm={(item) => this.showEditForm(item)}
+            showConfirmDelete={(item) => this.showConfirmDelete(item)}
             hasAddButton={true}
             hasBottomButton={true}
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
-            isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.backendUrl}
-            isAllowToEdit={(editItem, selectedItem) => endpointFormService.isAllowToDeleteOrEdit(editItem, selectedItem, this.props.savedEndpoint)}
+            isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.selectedEndpointUrl}
+            isDeletable={(endpointUrl) => this.isDeletable(endpointUrl)}
+            customListItem={(item) => <SettingUrlEndpointPickerItem item={item}/>}
           />
   }
 
-  saveNewEndpoint(endpointValue) {
-    this.props.updateBackendUrl(endpointValue);
-    this.setState({ selectedEndpoint: endpointValue });
-    this.reloadEndpoint();
-    this.props.saveTempSettingData();
-  }
-
-  reloadEndpoint() {
-    setTimeout(() => {
-      this.loadEndpointUrls();
-      this.props.formModalRef.current?.dismiss();
-    }, 100);
-  }
-
-  renderSettingUrlEndpointForm(editEndpoint) {
-    return <SettingUrlEndpointForm saveNewEndpoint={(endpointValue) => this.saveNewEndpoint(endpointValue)}
-              editEndpoint={editEndpoint}
-              selectedEndpoint={this.state.selectedEndpoint}
-              reloadEndpoint={() => this.reloadEndpoint()}
-              savedEndpoint={this.props.savedEndpoint}
-           />
+  showConfirmDelete(endpointUrl) {
+    this.endpointToDelete = endpointUrl;
+    this.setState({ visibleConfirmModal: true });
   }
 
   changeSelectedEndpoint() {
-    this.setState({ selectedEndpoint: this.state.currentSelectedEndpoint });
-    this.props.updateBackendUrl(this.state.currentSelectedEndpoint);
+    this.props.updateSelectedEndpointUrl(this.state.currentSelectedEndpoint);
     this.props.formModalRef.current?.dismiss();
     this.props.saveTempSettingData();
+  }
+
+  renderConfirmModal() {
+    if (!this.endpointToDelete)
+      return;
+
+    return <SettingUrlEndpointDeleteModal
+              visible={this.state.visibleConfirmModal}
+              endpointToDelete={this.endpointToDelete}
+              onDismiss={() => this.setState({ visibleConfirmModal: false })}
+              deleteEndpoint={() => this.deleteEndpoint()}
+            />
+  }
+
+  deleteEndpoint() {
+    EndpointUrl.destroy(this.endpointToDelete.uuid);
+    this.endpointToDelete = null;
+    this.setState({ visibleConfirmModal: false });
+    this.loadEndpointUrls(() => this.pickerContentRef.current?.updateItems(this.state.endpointUrls));
   }
 
   render() {
     const {translations} = this.context;
     return (
-      <View style={{marginBottom: 30, marginTop: 5}}>
+      <View style={{marginBottom: this.newEndpointAdded ? 10 : 30, marginTop: 5}}>
         <BottomSheetPicker
           title={translations.serverUrl}
           label={translations.selectServerUrl}
           items={this.state.endpointUrls}
-          selectedItem={this.state.selectedEndpoint}
+          selectedItem={this.state.currentSelectedEndpoint}
           isRequire={true}
           showSubtitle={true}
-          showPicker={() => this.showBottomSheetModal('dropdown_picker')}
+          showPicker={() => this.showBottomSheetModal()}
           customContainerStyle={{ marginTop: 10 }}
         />
+
+        { this.newEndpointAdded &&
+          <Text style={{fontSize: bodyFontSize(), color: Color.errorColor}}>
+            { translations.theServerUrlHasChanged }
+          </Text>
+        }
+
+        { this.renderConfirmModal() }
       </View>
     )
   }

@@ -12,8 +12,8 @@ export const validScorecardUrls = [
 ];
 
 export const defaultEndpointUrls = [
-  { label: 'ISAF Staging Server', value: 'https://isaf-stg.digital-csc.org', type: DEFAULT },
-  { label: 'ISAF Production Server', value: 'https://isaf.digital-csc.org', type: DEFAULT },
+  { label: 'ISAF Testing Server', value: 'https://isaf-stg.digital-csc.org', type: DEFAULT, shortcut: 'TESTING', shortcut_bg_color: '#ffa500', shortcut_text_color: '#ffffff' },
+  { label: 'ISAF Production Server', value: 'https://isaf.digital-csc.org', type: DEFAULT, shortcut: 'ISAF', shortcut_bg_color: '#008000', shortcut_text_color: '#ffffff' },
 ]
 
 export const urlPrefixes = ['https://', 'http://'];

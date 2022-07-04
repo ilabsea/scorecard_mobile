@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Keyboard } from 'react-native';
 
-import BottomSheetPicker from '../BottomSheetPicker/BottomSheetPicker';
-import BottomSheetPickerContent from '../BottomSheetPicker/BottomSheetPickerContent';
+import BottomSheetPicker from '../Share/BottomSheetPicker';
+import BottomSheetPickerMain from '../Share/BottomSheetPicker/BottomSheetPickerMain';
 import {LocalizationContext} from '../Translations';
 import { environment } from '../../config/environment';
 import { facilitatorPickerContentHeight, facilitatorPickerContentExpanedHeight } from '../../constants/modal_constant';
@@ -39,7 +39,7 @@ class FacilitatorForm extends Component {
 
   showPicker(title, index) {
     this.props.pickerRef.current?.setBodyContent(
-      <BottomSheetPickerContent
+      <BottomSheetPickerMain
         ref={this.pickerContentRef}
         title={title}
         isRequire={index == 0 || index == 1}

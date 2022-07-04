@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
-import MessageWithSteps from '../MessageWithSteps';
+import MessageWithSteps from '../Share/MessageWithSteps';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
 import { bodyFontSize } from '../../utils/font_size_util';

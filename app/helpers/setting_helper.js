@@ -12,16 +12,16 @@ const settingHelper = (() => {
     getProposedIndicatorMethodStatuses,
     checkDefaultProposedIndicatorMethod,
     getProposedIndicatorMethodTracingStep,
-    getEndpointPickerHeight,
     getFullyEndpointUrl,
     getSavedEndpointUrl,
-    saveTempSettingData,
+    setTempSettingData,
     getTempSettingData,
     clearTempSettingData,
     getSettingData,
     getSavedEndpointUrlId,
     getSelectedProposedIndicatorMethodId,
     getSelectedProposedIndicatorMethodName,
+    hasDiscardAlert,
   };
 
   async function changeable(newEndpoint) {
@@ -62,14 +62,6 @@ const settingHelper = (() => {
     return PROPOSED_INDICATOR_METHODS[type].firebase_step_index;
   }
 
-  function getEndpointPickerHeight(type, endpointUrls) {
-    const heights = {
-      'snap_points': ['75%'],
-      'content': '73%'
-    }
-    return heights[type];
-  }
-
   async function getFullyEndpointUrl() {
     const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
     if (!savedSetting || !savedSetting.email)
@@ -83,8 +75,8 @@ const settingHelper = (() => {
     return (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
   }
 
-  function saveTempSettingData(endpoint, email, password) {
-    AsyncStorage.setItem(keyName, JSON.stringify({ endpoint, email, password }));
+  function setTempSettingData(backendUrl, email, password) {
+    AsyncStorage.setItem(keyName, JSON.stringify({ backendUrl: backendUrl, email: email, password: password }));
   }
 
   async function getTempSettingData() {
@@ -121,6 +113,23 @@ const settingHelper = (() => {
     const settingData = JSON.parse(await AsyncStorage.getItem('SETTING'));
     const methodType = !!settingData ? settingData.proposedIndicatorMethod : INDICATOR_BASE;
     return PROPOSED_INDICATOR_METHODS[methodType];
+  }
+
+  async function hasDiscardAlert() {
+    const savedSettingData = JSON.parse(await AsyncStorage.getItem('SETTING'));
+    const tempSettingData = await getTempSettingData();
+
+    if (!savedSettingData || !tempSettingData)
+      return false;
+
+    const keys = ['backendUrl', 'email', 'password'];
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (savedSettingData[key] != tempSettingData[key])
+        return true;
+    }
+
+    return false;
   }
 })();
 

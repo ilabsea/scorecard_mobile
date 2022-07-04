@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import Color from '../themes/color';
-import validationService from '../services/validation_service';
-import {LocalizationContext} from './Translations';
-import { bodyFontSize } from '../utils/font_size_util';
+import Color from '../../themes/color';
+import validationService from '../../services/validation_service';
+import {LocalizationContext} from '../Translations';
+import { bodyFontSize } from '../../utils/font_size_util';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;

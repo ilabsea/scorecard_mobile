@@ -7,7 +7,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import {LocalizationContext} from '../Translations';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
 import Accordion from '../Accordion';
-import ProposedIndicatorMethodDetailsContent from './ProposedIndicatorMethodDetailsContent';
+import ProposedIndicatorMethodDetailsMain from './ProposedIndicatorMethodDetailsMain';
 
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import settingHelper from '../../helpers/setting_helper';
@@ -47,7 +47,7 @@ class ProposedIndicatorMethodDetails extends React.Component {
   }
 
   renderAccordionContent(item) {
-    return <ProposedIndicatorMethodDetailsContent proposeMethod={item} />
+    return <ProposedIndicatorMethodDetailsMain proposeMethod={item} />
   }
 
   onToggle(proposedIndicatorMethod) {

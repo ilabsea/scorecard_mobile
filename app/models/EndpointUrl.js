@@ -1,6 +1,7 @@
 import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4'
 import { CUSTOM, DEFAULT } from '../constants/main_constant';
+import endpointUrlHelper from '../helpers/endpoint_url_helper';
 
 const MODEL = 'EndpointUrl';
 
@@ -40,15 +41,8 @@ const EndpointUrl = (() => {
   }
 
   function create(data) {
-    let params = data;
-    params['uuid'] = uuidv4();
-    params['order'] = _getLastOrderNumber() + 1;
-
-    const lastId = realm.objects(MODEL).max('id');
-    params['id'] = !lastId ? 1 : lastId + 1;
-
     realm.write(() => {
-      realm.create(MODEL, params, 'modified');
+      realm.create(MODEL, _buildData(data), 'modified');
     });
   }
 
@@ -75,6 +69,19 @@ const EndpointUrl = (() => {
   function _getLastOrderNumber() {
     const orderNumber = realm.objects(MODEL).max('order');
     return !orderNumber ? 0 : orderNumber;
+  }
+
+   function _buildData(data) {
+    const shortcutData = endpointUrlHelper.generateShortcutInfo(null, data.value);
+    const lastId = realm.objects(MODEL).max('id');
+
+    const params = {
+      id: !lastId ? 1 : lastId + 1,
+      uuid: uuidv4(),
+      order: _getLastOrderNumber() + 1,
+    };
+
+    return {...data, ...params, ...shortcutData};
   }
 })();
 

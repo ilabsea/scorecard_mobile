@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Avatar } from 'react-native-paper';
 
-import {LocalizationContext} from './Translations';
-import { containerPadding } from '../utils/responsive_util';
-import { smallTextFontSize, bodyFontSize } from '../utils/font_size_util';
-import Color from '../themes/color';
-import { FontFamily } from '../assets/stylesheets/theme/font';
+import {LocalizationContext} from '../Translations';
+import { containerPadding } from '../../utils/responsive_util';
+import { smallTextFontSize, bodyFontSize } from '../../utils/font_size_util';
+import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class MessageWithSteps extends React.Component {
   static contextType = LocalizationContext;
@@ -15,7 +15,7 @@ class MessageWithSteps extends React.Component {
     if (this.props.isOrderList)
       return <Avatar.Text size={30} label={index + 1} style={{backgroundColor: Color.tipBgColor}} />
 
-    return <Icon name="circle" size={6} color={Color.blackColor} style={[{marginTop: 6}, this.props.listIconStyle]} />
+    return <Icon name="circle" size={6} color={Color.blackColor} style={{ marginTop: -2 }} />
   }
 
   renderList() {

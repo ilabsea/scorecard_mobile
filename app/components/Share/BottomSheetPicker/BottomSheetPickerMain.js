@@ -3,16 +3,16 @@ import { View, TouchableWithoutFeedback, Keyboard, StyleSheet, Pressable } from 
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import {LocalizationContext} from '../Translations';
-import Color from '../../themes/color';
-import BottomSheetModalTitle from '../BottomSheetModalTitle';
-import BottomSheetPickerContentListItem from './BottomSheetPickerContentListItem';
-import BottomSheetPickerContentBottomSection from './BottomSheetPickerContentBottomSection';
-import SearchBox from '../SearchBox/SearchBox';
+import {LocalizationContext} from '../../Translations';
+import Color from '../../../themes/color';
+import BottomSheetModalTitle from '../../BottomSheetModalTitle';
+import BottomSheetPickerListItem from './BottomSheetPickerListItem';
+import BottomSheetPickerFooter from './BottomSheetPickerFooter';
+import SearchBox from '../../SearchBox/SearchBox';
 
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding } from '../../../utils/responsive_util';
 
-class BottomSheetPickerContent extends React.Component {
+class BottomSheetPickerMain extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -20,9 +20,13 @@ class BottomSheetPickerContent extends React.Component {
       selectedItem: this.props.selectedItem,
       searchedItem: '',
       items: this.props.items,
-      contentHeight: this.props.contentHeight,
+      contentHeight: props.contentHeight,
       isButtonDisabled: true,
     };
+  }
+
+  updateItems(items) {
+    this.setState({ items });
   }
 
   setContentHeight(contentHeight) {
@@ -42,14 +46,15 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderListItem() {
-    return <BottomSheetPickerContentListItem
+    return <BottomSheetPickerListItem
               items={this.state.items}
               selectedItem={this.state.selectedItem}
               onSelectItem={(item) => this.onSelectItem(item)}
               showSubtitle={this.props.showSubtitle}
-              showEditForm={this.props.showEditForm}
-              isAllowToEdit={this.props.isAllowToEdit}
+              showConfirmDelete={this.props.showConfirmDelete}
+              isDeletable={this.props.isDeletable}
               defaultSelectedItem={this.props.selectedItem}
+              customListItem={this.props.customListItem}
            />
   }
 
@@ -79,7 +84,7 @@ class BottomSheetPickerContent extends React.Component {
   }
 
   renderBottomSection() {
-    return <BottomSheetPickerContentBottomSection bottomInfoMessage={this.props.bottomInfoMessage}
+    return <BottomSheetPickerFooter bottomInfoMessage={this.props.bottomInfoMessage}
             onPressButton={() => this.props.onPressBottomButton()} isButtonDisabled={this.state.isButtonDisabled} />
   }
 
@@ -111,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomSheetPickerContent;
+export default BottomSheetPickerMain;

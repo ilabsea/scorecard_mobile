@@ -37,7 +37,6 @@ const SettingBottomSection = (props) => {
               label={translations.save}
               onPress={() => props.save()}
               isDisabled={props.isLoading || !props.isValid || props.isLocked}
-              customLabelStyle={responsiveStyles.textLabel}
               customButtonStyle={{marginTop: 2}}
             />
             <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>

@@ -57,7 +57,7 @@ const validationConstant = {
       message: '^serverLabelRequireMsg',
     }
   },
-  enpointValue: {
+  endpointValue: {
     presence: {
       message: '^serverUrlRequireMsg',
     }
