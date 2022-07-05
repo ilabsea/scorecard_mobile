@@ -12,6 +12,9 @@
             <action android:name="android.intent.action.SEND"/>
             <data android:mimeType="*/*" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.ACTION_DIAL" />
+        </intent>
     </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
