@@ -11,7 +11,6 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
-import scorecardProgressService from '../../services/scorecard_progress_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/milestone_constant';
@@ -30,7 +29,7 @@ class ScorecardProgressButtons extends Component {
   }
 
   async componentDidMount() {
-    this.setState({ isFinishable: await scorecardProgressService.isFinishable(this.props.scorecard) });
+    this.setState({ isFinishable: await Scorecard.isFinishable(this.props.scorecard) });
   }
 
   finishScorecard() {

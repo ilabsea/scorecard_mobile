@@ -12,13 +12,14 @@ const scorecardSharingService = (() => {
   return {
     shareScorecardPdfFile,
     deleteScorecardPdf,
-    isShareable,
+    isPdfFileExist,
+    getPdfFileName,
   }
 
   async function shareScorecardPdfFile(scorecardUuid, updateLoadingStatus, updateErrorMessageModal, appLanguage) {
-    const fileName = _getFileName(scorecardUuid, appLanguage);
+    const fileName = getPdfFileName(scorecardUuid, appLanguage);
 
-    if (await _isFileExist(fileName)) {
+    if (await isPdfFileExist(fileName)) {
       _shareFile(getPDFPath(fileName), scorecardUuid, updateErrorMessageModal);
     }
     else
@@ -29,22 +30,22 @@ const scorecardSharingService = (() => {
     const languages = ['km', 'en'];
 
     languages.map(async (language) => {
-      const fileName = _getFileName(scorecardUuid, language);
-      if (await _isFileExist(fileName))
+      const fileName = getPdfFileName(scorecardUuid, language);
+      if (await isPdfFileExist(fileName))
         RNFS.unlink(getPDFPath(fileName));
     });
   }
 
-  async function isShareable(scorecardUuid, appLanguage, hasMatchedEndpointUrl) {
-    const fileName = _getFileName(scorecardUuid, appLanguage);
-    return await _isFileExist(fileName) || hasMatchedEndpointUrl;
+  async function isPdfFileExist(fileName) {
+    const filePath = getPDFPath(fileName);
+    return await RNFS.exists(filePath);
   }
 
-  // private method
-  function _getFileName(scorecardUuid, appLanguage) {
+  function getPdfFileName(scorecardUuid, appLanguage) {
     return `scorecard_${scorecardUuid}_${appLanguage}.pdf`;
   }
 
+  // private method
   async function _downloadAndShareFile(scorecardUuid, updateLoadingStatus, updateErrorMessageModal, appLanguage) {
     const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
 
@@ -54,7 +55,7 @@ const scorecardSharingService = (() => {
     
       updateLoadingStatus(true);
 
-      downloadFileFromUrl(endpoint, _getFileName(scorecardUuid, appLanguage), true, async (isSuccess, response, localFilePath) => {
+      downloadFileFromUrl(endpoint, getPdfFileName(scorecardUuid, appLanguage), true, async (isSuccess, response, localFilePath) => {
         if (isSuccess) {
           updateLoadingStatus(false);
           _shareFile(localFilePath, scorecardUuid, updateErrorMessageModal);
@@ -78,11 +79,6 @@ const scorecardSharingService = (() => {
             updateErrorMessageModal(ERROR_SOMETHING_WENT_WRONG, true);
           })
       })
-  }
-
-  async function _isFileExist(fileName) {
-    const filePath = getPDFPath(fileName);
-    return await RNFS.exists(filePath);
   }
 })();
 

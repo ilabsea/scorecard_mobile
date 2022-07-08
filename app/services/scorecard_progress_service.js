@@ -5,20 +5,7 @@ import Scorecard from '../models/Scorecard';
 
 const scorecardProgressService = (() => {
   return {
-    isFinishable,
     getProgressMessage,
-  }
-
-  async function isFinishable(scorecard) {
-    if (scorecard.finished || !await Scorecard.hasMatchedEndpointUrl(scorecard.uuid))
-      return false;
-
-    const votingIndicators = VotingIndicator.getAll(scorecard.uuid);
-
-    if (votingIndicators.length == 0)
-      return false;
-
-    return votingIndicators.filter(votingIndicator => !votingIndicator.suggested_action).length > 0 ? false : true;
   }
 
   async function getProgressMessage(indicators, scorecard) {

@@ -6,6 +6,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { LocalizationContext } from '../Translations';
 import scorecardSharingService from '../../services/scorecard_sharing_service';
 import internetConnectionService from '../../services/internet_connection_service';
+import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 import { ERROR_SHARE_PDF_MISMATCH_ENDPOINT } from '../../constants/error_constant';
 import { pressableItemSize } from '../../utils/component_util';
@@ -14,7 +15,7 @@ class ScorecardProgressShareButton extends Component {
   static contextType = LocalizationContext;
 
   async shareSubmittedScorecard() {
-    if (!await scorecardSharingService.isShareable(this.props.scorecard.uuid, this.context.appLanguage, this.props.hasMatchedEndpointUrl)) {
+    if (!await Scorecard.isShareable(this.props.scorecard.uuid, this.context.appLanguage)) {
       this.props.updateErrorMessageModal(ERROR_SHARE_PDF_MISMATCH_ENDPOINT, true);
       return;
     }
