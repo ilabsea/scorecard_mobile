@@ -23,8 +23,8 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       description: translations.formatString(translations.cannotSubmitScorecardErrorMsg, endpoint, scorecardCode)
     },
     'ERROR_SCORECARD_NOT_EXIST': {
-      title: translations.thisScorecardIsNotExist,
-      description: translations.formatString(translations.scorecardIsNotExist, scorecardCode)
+      title: translations.theScorecardIsNotExist,
+      description: translations.formatString(translations.thisScorecardIsNotExist, scorecardCode)
     },
     'ERROR_UNAUTHORIZED': {
       title: translations.invalidScorecard,
@@ -82,13 +82,17 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.scorecardIsInStep,
       description: translations.formatString(translations.thisScorecardIsInStep, scorecardCode, scorecardStep),
     },
-    'LOCKED': {
+    'ERROR_DEVICE_LOCKED': {
       title: translations.yourDeviceIsLocked,
       description: translations.formatString(translations.yourDeviceIsCurrentlyLocked, <BoldLabel label={unlockAt} />),
     },
     'RE_LOGIN_REQUIRED': {
       title: translations.reLoginRequired,
       description: translations.reLoginDescription,
+    },
+    'ERROR_SHARE_PDF_MISMATCH_ENDPOINT': {
+      title: translations.theServerUrlHasChanged,
+      description: translations.sharePDFMismatchEndpointMessage
     },
     'DEFAULT': {
       title: translations.somethingWentWrong,
@@ -97,7 +101,7 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
   };
 
   if (!!unlockAt)
-    return errors.LOCKED;
+    return errors.ERROR_DEVICE_LOCKED;
 
   if (!errorType)
     return errors.DEFAULT;

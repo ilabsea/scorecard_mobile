@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
 import { LocalizationContext } from '../../Translations';
-import TextFieldInput from '../../TextFieldInput';
+import TextFieldInput from '../TextFieldInput';
 import { pressableItemSize } from '../../../utils/component_util';
 import { getDeviceStyle } from '../../../utils/responsive_util';
 import PopupModalTabletStyles from '../../../styles/tablet/PopupModalComponentStyle';

@@ -11,6 +11,7 @@ import authenticationService from '../../services/authentication_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class SessionTimeoutAlert extends React.Component {
   static contextType = LocalizationContext;
@@ -116,7 +117,7 @@ class SessionTimeoutAlert extends React.Component {
   renderBody() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{borderWidth: 0, margin: 0}}>
+        <View style={{margin: 0, paddingBottom: getDeviceStyle(50, 70)}}>
           <SessionTimeoutForm
             email={this.state.email}
             password={this.state.password}
