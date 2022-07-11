@@ -11,7 +11,6 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
-import scorecardProgressService from '../../services/scorecard_progress_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/milestone_constant';
@@ -25,16 +24,12 @@ class ScorecardProgressButtons extends Component {
     super(props);
     this.state = {
       visibleConfirmModal: false,
-      isRefreshable: false,
-      isAllowToFinish: false,
+      isFinishable: false,
     };
   }
 
   async componentDidMount() {
-    this.setState({
-      isRefreshable: await Scorecard.isRefreshable(this.props.scorecard),
-      isAllowToFinish: await scorecardProgressService.isAllowToFinish(this.props.scorecard)
-    });
+    this.setState({ isFinishable: await Scorecard.isFinishable(this.props.scorecard) });
   }
 
   finishScorecard() {
@@ -47,7 +42,7 @@ class ScorecardProgressButtons extends Component {
   renderBtnFinish() {
     return (
       <BottomButton
-        disabled={!this.state.isAllowToFinish}
+        disabled={!this.state.isFinishable}
         onPress={() => this.setState({ visibleConfirmModal: true })}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
@@ -73,7 +68,7 @@ class ScorecardProgressButtons extends Component {
     const mobileFontSize = getMobileFontSizeByPixelRatio(13.5, 12.5);
     const fontSize = getDeviceStyle(15, mobileFontSize);
 
-    if (this.state.isRefreshable)
+    if (this.props.scorecard.isUploaded)
       message = `${translations.toBeRemovedOn}: ${ scorecardHelper.getTranslatedRemoveDate(this.props.scorecard.uploaded_date, appLanguage) }`;
     else
       message = translations[this.props.progressMessage]

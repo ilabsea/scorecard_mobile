@@ -12,7 +12,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     borderBottomWidth: 0.5,
     borderBottomColor: Color.paleGrayColor,
-    marginBottom: 0.1,
+    marginTop: 0.3
   },
   titleContainer: {
     flexDirection: 'row',
@@ -46,7 +46,8 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     maxHeight: 157,
     width: 80,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 79,
   },
   deleteLabel: {
     fontSize: bodyFontSize()

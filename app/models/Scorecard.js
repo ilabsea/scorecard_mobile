@@ -5,6 +5,8 @@ import { INDICATOR_DEVELOPMENT } from '../constants/scorecard_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
 import settingHelper from '../helpers/setting_helper';
 import scorecardDataUtil from '../utils/scorecard_data_util';
+import scorecardSharingService from '../services/scorecard_sharing_service';
+import VotingIndicator from './VotingIndicator';
 
 const Scorecard = (() => {
   return {
@@ -28,8 +30,10 @@ const Scorecard = (() => {
     isStepEditable,
     stepIsDone,
     isRefreshable,
-    isDeleteable,
+    isDeletable,
     isShareable,
+    isSubmittable,
+    isFinishable,
     getScorecardWithoutProgramUuid,
   }
 
@@ -164,12 +168,30 @@ const Scorecard = (() => {
     return await hasMatchedEndpointUrl(scorecard.uuid) && scorecard.isUploaded;
   }
 
-  async function isDeleteable(scorecard) {
+  async function isDeletable(scorecard) {
     return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.isUploaded;
   }
 
-  async function isShareable(scorecard) {
-    return await hasMatchedEndpointUrl(scorecard.uuid) && scorecard.isCompleted;
+  async function isShareable(uuid, appLanguage) {
+    const scorecard = find(uuid);
+    const fileName = scorecardSharingService.getPdfFileName(uuid, appLanguage);
+    if (await scorecardSharingService.isPdfFileExist(fileName))
+      return true
+
+    return await hasMatchedEndpointUrl(uuid) && scorecard.isCompleted;
+  }
+
+  async function isSubmittable(uuid) {
+    const scorecard = find(uuid);
+    return await hasMatchedEndpointUrl(uuid) && !scorecard.isUploaded && scorecard.finished;
+  }
+
+  async function isFinishable(scorecard) {
+    const votingIndicators = VotingIndicator.getAll(scorecard.uuid);
+    if (scorecard.finished || !await hasMatchedEndpointUrl(scorecard.uuid) || votingIndicators.length == 0)
+      return false;
+
+    return votingIndicators.filter(votingIndicator => !votingIndicator.suggested_action).length > 0 ? false : true;
   }
 
   function getScorecardWithoutProgramUuid() {

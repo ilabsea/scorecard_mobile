@@ -8,30 +8,19 @@ import scorecardSharingService from '../../services/scorecard_sharing_service';
 import internetConnectionService from '../../services/internet_connection_service';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
+import { ERROR_SHARE_PDF_MISMATCH_ENDPOINT } from '../../constants/error_constant';
+import { pressableItemSize } from '../../utils/component_util';
 
 class ScorecardProgressShareButton extends Component {
   static contextType = LocalizationContext;
-  constructor(props) {
-    super(props);
-    this.state = { isShareable: false }
-    this.componentIsUnmount = false;
-  }
 
-  componentDidMount() { this.checkShareableStatus(); }
+  async shareSubmittedScorecard() {
+    if (!await Scorecard.isShareable(this.props.scorecard.uuid, this.context.appLanguage)) {
+      this.props.updateErrorMessageModal(ERROR_SHARE_PDF_MISMATCH_ENDPOINT, true);
+      return;
+    }
 
-  componentDidUpdate(prevProps) {
-    if (!this.componentIsUnmount && (prevProps.isSyncing != this.props.isSyncing))
-      this.checkShareableStatus();
-  }
-
-  componentWillUnmount() { this.componentIsUnmount = true; }
-
-  async checkShareableStatus() {
-    this.setState({ isShareable: await Scorecard.isShareable(this.props.scorecard) })
-  }
-
-  shareSubmittedScorecard() {
-     NetInfo.fetch().then(state => {
+    NetInfo.fetch().then(state => {
       if (state.isConnected && state.isInternetReachable) {
         scorecardSharingService.shareScorecardPdfFile(this.props.scorecard.uuid, this.props.updateLoadingStatus, this.props.updateErrorMessageModal, this.context.appLanguage);
         return;
@@ -41,21 +30,12 @@ class ScorecardProgressShareButton extends Component {
     });
   }
 
-  renderWarningIcon() {
-    if (!this.props.hasMatchedEndpointUrl)
-      return <MaterialIcon name='error' size={17} color={ Color.whiteColor }
-                style={{ position: 'absolute', top: -6, right: -8}}
-             />
-  }
-
   render() {
     return (
-      <TouchableOpacity onPress={() => this.shareSubmittedScorecard()}
-        disabled={ !this.state.isShareable }
+      <TouchableOpacity onPress={() => this.shareSubmittedScorecard()} disabled={ !this.props.scorecard.isCompleted }
+        style={{height: pressableItemSize(), width: pressableItemSize(), justifyContent: 'center', alignItems: 'flex-end'}}
       >
-        <MaterialIcon name="share" size={22} color={ !this.state.isShareable ? Color.disabledBtnBg : Color.whiteColor } />
-
-        { this.renderWarningIcon() }
+        <MaterialIcon name="share" size={22} color={ !this.props.scorecard.isCompleted ? Color.disabledBtnBg : Color.whiteColor } />
       </TouchableOpacity>
     );
   }

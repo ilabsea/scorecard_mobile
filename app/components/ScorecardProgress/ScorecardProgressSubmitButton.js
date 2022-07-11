@@ -15,11 +15,28 @@ const responsiveStyles = getDeviceStyle(ScorecardProgressTabletStyles, Scorecard
 
 class ScorecardProgressSubmitButton extends Component {
   static contextType = LocalizationContext;
-  state = { hasMatchedEndpointUrl: false }
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasMatchedEndpointUrl: false,
+      isSubmittable: false,
+    }
+    this.componentIsUnmount = false;
+  }
 
   async componentDidMount() {
-    this.setState({ hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid) });
+    this.setState({
+      hasMatchedEndpointUrl: await Scorecard.hasMatchedEndpointUrl(this.props.scorecard.uuid),
+      isSubmittable: !this.props.showProgress && await Scorecard.isSubmittable(this.props.scorecard.uuid)
+    });
   }
+
+  async componentDidUpdate(prevProps) {
+    if (!this.isComponentUnmounted && prevProps.showProgress != this.props.showProgress)
+      this.setState({ isSubmittable: !this.props.showProgress && await Scorecard.isSubmittable(this.props.scorecard.uuid) })
+  }
+
+  componentWillUnmount() { this.componentIsUnmount = true; }
 
   renderProgressBar() {
     if (this.props.showProgress) {
@@ -39,27 +56,25 @@ class ScorecardProgressSubmitButton extends Component {
     }
   }
 
-  isButtonDisable = () => {
-    if (!this.state.hasMatchedEndpointUrl || this.props.showProgress || this.props.scorecard.isUploaded || !this.props.scorecard.finished)
-      return true;
+  submitLabel() {
+    const { translations } = this.context;
 
-    return false;
+    if (this.props.scorecard.isCompleted || isScorecardInReview(this.props.scorecard))
+      return translations.submitted
+
+    return this.state.hasMatchedEndpointUrl ? translations.submit : translations.unableToSubmit;
   }
 
   renderButton() {
-    const { translations } = this.context;
-    let isDisable = this.isButtonDisable();
-    let btnStyle = { backgroundColor: isDisable ? Color.disabledBtnBg : Color.headerColor };
+    let btnStyle = { backgroundColor: !this.state.isSubmittable ? Color.disabledBtnBg : Color.headerColor };
 
     return (
       <TouchableOpacity
-        disabled={isDisable}
+        disabled={!this.state.isSubmittable}
         onPress={() => this.props.submitToServer() }
         style={[responsiveStyles.btn, btnStyle]}>
 
-        <Text style={responsiveStyles.btnText}>
-          { isScorecardInReview(this.props.scorecard) ? translations.submitted : translations.submit }
-        </Text>
+        <Text style={responsiveStyles.btnText}>{ this.submitLabel() }</Text>
 
         { isScorecardInReview(this.props.scorecard) &&
           <Text style={responsiveStyles.btnSubText}>({ this.context.translations.inReview })</Text>

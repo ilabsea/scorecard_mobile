@@ -5,13 +5,14 @@ import Color from '../../themes/color';
 import styles from '../../themes/scorecardListItemStyle';
 
 import { LocalizationContext } from '../Translations';
+import EndpointBadge from '../Share/EndpointBadge';
 import VotingIndicator from '../../models/VotingIndicator';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 const subTextFontSize = getDeviceStyle(13, 12);
 
-class ScorecardListInfoScorecardDetial extends Component {
+class ScorecardListInfoDetail extends Component {
   static contextType = LocalizationContext;
 
   renderConductedDate() {
@@ -23,6 +24,12 @@ class ScorecardListInfoScorecardDetial extends Component {
           { !!scorecard.conducted_date ? scorecardHelper.getTranslatedDate(scorecard.conducted_date, this.context.appLanguage, 'DD MMM') : '' }
         </Text>
       )
+  }
+  
+  renderEndpointBadge() {
+    const endpointUrl = scorecardHelper.getEndpointUrl(this.props.scorecard);
+    if (!!endpointUrl)
+      return <EndpointBadge endpoint={endpointUrl} badgeStyle={{marginTop: 4}} />
   }
 
   render() {
@@ -39,10 +46,12 @@ class ScorecardListInfoScorecardDetial extends Component {
           ({this.context.translations.raisedIndicator}: {indicatorsSize})
         </Text>
 
+        { this.renderEndpointBadge() }
+
         { this.renderConductedDate(scorecard) }
       </View>
     )
   }
 }
 
-export default ScorecardListInfoScorecardDetial;
+export default ScorecardListInfoDetail;

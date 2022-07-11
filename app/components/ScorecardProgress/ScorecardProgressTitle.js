@@ -4,6 +4,7 @@ import AppIcon from 'react-native-vector-icons/FontAwesome';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
+import EndpointBadge from '../Share/EndpointBadge';
 
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -24,10 +25,18 @@ class ScorecardProgressTitle extends Component {
   renderConductedDate() {
     if (this.props.scorecard.conducted_date)
       return (
-        <Text style={[responsiveStyles.subTitle, { flex: 1, textAlign: 'right', marginLeft: 10 }]}>
+        <Text style={[responsiveStyles.subTitle, { flex: 1, textAlign: 'right', marginLeft: 10, alignSelf: 'center' }]}>
           { !!this.props.scorecard.conducted_date ? scorecardHelper.getTranslatedDate(this.props.scorecard.conducted_date, this.context.appLanguage, 'DD MMM YYYY') : '' }
         </Text>
       )
+  }
+
+  renderEndpointBadge() {
+    if (!this.props.scorecard.endpoint_url)
+      return;
+
+    const endpointUrl = scorecardHelper.getEndpointUrl(this.props.scorecard);
+    return <EndpointBadge endpoint={endpointUrl} badgeStyle={{alignSelf: 'center'}} />
   }
 
   render() {
@@ -38,7 +47,7 @@ class ScorecardProgressTitle extends Component {
           <Text style={responsiveStyles.title}>
             { this.props.scorecard.uuid }
           </Text>
-
+          { this.renderEndpointBadge() }
           { this.renderConductedDate() }
         </View>
 

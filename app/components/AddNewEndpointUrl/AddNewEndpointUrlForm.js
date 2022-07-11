@@ -19,6 +19,8 @@ class AddNewEndpointUrlForm extends React.Component {
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
     }
+
+    this.props.validateForm && this.props.validateForm();
   }
 
   onChangeText = (fieldName, value) => {

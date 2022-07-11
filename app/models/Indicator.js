@@ -3,6 +3,8 @@ import Scorecard from './Scorecard';
 import LanguageIndicator from './LanguageIndicator';
 import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
 import settingHelper from '../helpers/setting_helper';
+import scorecardHelper from '../helpers/scorecard_helper';
+import endpointUrlHelper from '../helpers/endpoint_url_helper';
 
 const  MODEL = 'Indicator';
 
@@ -48,7 +50,7 @@ const Indicator = (() => {
 
   // Filter predefinded and custom indicator by name or tag
   async function filter(scorecardUuid, text) {
-    const endpointId = await settingHelper.getSavedEndpointUrlId();
+    const endpointId = await endpointUrlHelper.getEndpointUrlByScorecard(scorecardUuid);
     const scorecard = Scorecard.find(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
     const findQuery = ` AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`;
@@ -65,8 +67,8 @@ const Indicator = (() => {
   }
 
   async function findByScorecard(scorecardUuid) {
-    const endpointId = await settingHelper.getSavedEndpointUrlId();
     const scorecard = Scorecard.find(scorecardUuid);
+    const endpointId = await endpointUrlHelper.getEndpointUrlByScorecard(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
 
     const predefinedIndicators = realm.objects(MODEL).filtered(_mainQuery(program_uuid, endpointId, PREDEFINED, facility_id));
@@ -130,9 +132,11 @@ const Indicator = (() => {
   //private method
   async function _buildData(data, scorecardUuid) {
     const scorecard = Scorecard.find(scorecardUuid);
+    const endpointId = await endpointUrlHelper.getEndpointUrlByScorecard(scorecardUuid);
+
     const params = {
       program_uuid: scorecard.program_uuid || '',
-      endpoint_id: await settingHelper.getSavedEndpointUrlId(),
+      endpoint_id: endpointId,
       facility_id: data.facility_id || parseInt(scorecard.facility_id),
     }
 

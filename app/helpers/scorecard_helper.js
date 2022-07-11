@@ -6,6 +6,7 @@ import { selfAssessment } from '../constants/scorecard_constant';
 import { DOWNLOADED, RUNNING, FINISHED, RENEWED, IN_REVIEW } from '../constants/milestone_constant';
 import Color from '../themes/color';
 import Scorecard from '../models/Scorecard';
+import EndpointUrl from '../models/EndpointUrl';
 import locationHelper from '../helpers/location_helper';
 
 const DATE_FORMAT = 'ddd MMM DD YYYY';
@@ -22,6 +23,7 @@ const scorecardHelper = (() => {
     getGroupedByDate,
     getTranslatedDate,
     updateFinishedMilestone,
+    getEndpointUrl,
   };
 
   function isScorecardAvailable(scorecard) {
@@ -115,6 +117,11 @@ const scorecardHelper = (() => {
     const translatedDate = Moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
     return moment(translatedDate).locale(locale).format(format);
+  }
+
+  function getEndpointUrl(scorecard) {
+    const endpoint = !!scorecard.endpoint_url ? scorecard.endpoint_url.split('@')[2] : null;
+    return EndpointUrl.findByUrlValue(endpoint);
   }
 
   //private method

@@ -6,7 +6,7 @@ import endpointUrlHelper from '../../helpers/endpoint_url_helper';
 const EndpointBadge = (props) => {
   const {shortcut, shortcut_bg_color, shortcut_text_color} = props.endpoint;
 
-  return <View style={[styles.badge, {backgroundColor: endpointUrlHelper.getColor(shortcut_bg_color, 'background')}]}>
+  return <View style={[styles.badge, {backgroundColor: endpointUrlHelper.getColor(shortcut_bg_color, 'background')}, props.badgeStyle]}>
             <Text style={[styles.badgeLabel, {color: endpointUrlHelper.getColor(shortcut_text_color, 'type')}]}>
               { shortcut }
             </Text>
