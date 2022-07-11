@@ -26,6 +26,7 @@ export default class ScorecardItem extends Component {
     this.state = {
       isDeletable: false,
     }
+    this.isResumable = true;
   }
 
   async componentDidMount() {
@@ -45,6 +46,11 @@ export default class ScorecardItem extends Component {
     )
   }
 
+  goToScorecardProgress() {
+    if (this.isResumable)
+      this.props.onPress();
+  }
+
   render() {
     let scorecard = this.props.scorecard || {};
 
@@ -53,8 +59,10 @@ export default class ScorecardItem extends Component {
         ref={ref => { this.itemRef = ref }}
         enabled={this.state.isDeletable}
         renderRightActions={this.renderDeleteAction}
+        onSwipeableOpen={() => this.isResumable = false }
+        onSwipeableClose={() => this.isResumable = true }
       >
-        <TouchableOpacity onPress={this.props.onPress} style={responsiveStyles.itemContainer} >
+        <TouchableOpacity onPress={() => this.goToScorecardProgress()} style={responsiveStyles.itemContainer} >
           <ScorecardListIcon scorecard={scorecard} />
           <ScorecardListInfo scorecard={scorecard} />
         </TouchableOpacity>
