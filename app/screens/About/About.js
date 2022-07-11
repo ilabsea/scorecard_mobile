@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import DeviceInfo from 'react-native-device-info';
 
 import { LocalizationContext } from '../../components/Translations';
 
@@ -14,6 +15,15 @@ const styles = getDeviceStyle(AboutTabletStyles, AboutMobileStyles);
 
 class About extends Component {
   static contextType = LocalizationContext;
+  state = {
+    deviceId: ''
+  }
+
+  async componentDidMount() {
+    await DeviceInfo.getAndroidId().then((androidId) => {
+      this.setState({ deviceId: androidId })
+    });
+  }
 
   buildLogo(logo, index) {
     let mobileHeight = isShortWidthScreen() ? wp('18%') : wp('15%');
@@ -67,8 +77,9 @@ class About extends Component {
           { logos.map((logo, index) => this.buildLogo(logo, index)) }
         </View>
 
-        <View style={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginTop: 26}}>
-          <Text style={styles.versionText}>{translations.version} { pkg.version }</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>{translations.version} { pkg.version }</Text>
+          <Text style={styles.infoLabel}>{ translations.deviceId }: { this.state.deviceId }</Text>
         </View>
       </View>
     );

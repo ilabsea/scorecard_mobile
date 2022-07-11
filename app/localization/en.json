@@ -385,5 +385,6 @@
   "unableToDownloadThePdfFile": "Unable to download the PDF file",
   "invalidUrl": "Invalid URL",
   "incorrectScorecardCode": "Incorrect scorecard code",
-  "theScorecardIsNotExist": "The scorecard is not exist"
+  "theScorecardIsNotExist": "The scorecard is not exist",
+  "deviceId": "Device's ID"
 }

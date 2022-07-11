@@ -49,10 +49,15 @@ const AboutScreenStyles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 14
   },
-  versionText: {
-    textAlign: 'center',
-    marginTop: 10,
-    fontSize: contentFontSize
+  infoContainer: {
+    width: '100%',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    marginTop: 26
+  },
+  infoLabel: {
+    fontSize: contentFontSize,
+    marginBottom: 5
   }
 });
 
