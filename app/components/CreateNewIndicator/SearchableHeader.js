@@ -5,7 +5,7 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import { LocalizationContext } from '../Translations';
 import CreateNewIndicatorTitle from './CreateNewIndicatorTitle';
 import CreateNewIndicatorSearchInput from './CreateNewIndicatorSearchInput';
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
 
@@ -76,15 +76,18 @@ class SearchableHeader extends Component {
   }
 
   renderComfirmModal() {
-    return <MessageModal
-            visible={this.state.isModalVisible}
-            onDismiss={() => this.setState({isModalVisible: false})}
-            description={this.context.translations.areYouSureYouWantToDiscardTheseNewProposedIndicator}
-            hasConfirmButton={true}
-            confirmButtonLabel={this.context.translations.buttonLabelYes}
-            closeButtonLabel={this.context.translations.buttonLabelNo}
-            onPressConfirmButton={() => this.confirmGoBack()}
-          />
+    const { translations } = this.context;
+    return <CustomAlertMessage
+              visible={this.state.isModalVisible}
+              title={translations.discardTheChanges}
+              description={translations.areYouSureYouWantToDiscardTheseNewProposedIndicator}
+              closeButtonLabel={translations.buttonLabelNo}
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.buttonLabelYes}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => this.setState({isModalVisible: false})}
+              onConfirm={() => this.confirmGoBack()}
+           />
   }
 
   render() {

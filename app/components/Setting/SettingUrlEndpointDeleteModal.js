@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
 
 class SettingURlEndpointDeleteModal extends React.Component {
   static contextType = LocalizationContext;
@@ -16,14 +16,17 @@ class SettingURlEndpointDeleteModal extends React.Component {
     const endpointLabel = this.boldText(this.props.endpointToDelete.label)
     const endpointValue = this.boldText(this.props.endpointToDelete.value)
 
-    return <MessageModal
-            visible={this.props.visible}
-            onDismiss={() => this.props.onDismiss()}
-            description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointLabel, endpointValue)}
-            hasConfirmButton={true}
-            confirmButtonLabel={translations.ok}
-            onPressConfirmButton={() => this.props.deleteEndpoint()}
-          />
+    return <CustomAlertMessage
+              visible={this.props.visible}
+              title={translations.deleteServerUrl}
+              description={translations.formatString(translations.doYouWantToDeleteThisServerUrl, endpointLabel, endpointValue)}
+              closeButtonLabel={translations.buttonLabelNo}
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.ok}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => this.props.onDismiss()}
+              onConfirm={() => this.props.deleteEndpoint()}
+           />
   }
 }
 

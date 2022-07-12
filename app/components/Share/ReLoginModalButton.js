@@ -9,7 +9,7 @@ import { navigate } from '../../navigators/app_navigator';
 import { environment } from '../../config/environment';
 import CustomStyle from '../../themes/customStyle';
 
-class ReLoginMessageModalFooter extends React.Component {
+class ReLoginModalButton extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -34,4 +34,4 @@ class ReLoginMessageModalFooter extends React.Component {
   }
 }
 
-export default ReLoginMessageModalFooter;
+export default ReLoginModalButton;

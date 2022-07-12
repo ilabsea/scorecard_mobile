@@ -33,6 +33,16 @@ const scorecardValidationService = (() => {
       return false;
     }
 
+    return _checkMatchedEndpoint(code, updateInfoModalState);
+  }
+
+  // Check if the scorecard has mismatch endpoint
+  async function _checkMatchedEndpoint(code, updateInfoModalState) {
+    if (Scorecard.isExists(code) && !await Scorecard.hasMatchedEndpointUrl(code)) {
+      updateInfoModalState(true, false, false);
+      return false;
+    }
+
     return _checkSubmitted(code, updateInfoModalState);
   }
 
@@ -44,7 +54,7 @@ const scorecardValidationService = (() => {
       if (isSubmitted)
         resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
 
-      updateInfoModalState(isSubmitted, isSubmitted);
+      updateInfoModalState(isSubmitted, isSubmitted, true);
       return false;
     }
 
@@ -59,7 +69,7 @@ const scorecardValidationService = (() => {
       newScorecardService.handleExistedScorecard(code, () => {
         navigate('ScorecardDetail', { scorecard_uuid: code });
       }, () => {
-        updateInfoModalState(true, false);
+        updateInfoModalState(true, false, true);
       });
 
       return false;

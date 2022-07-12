@@ -3,8 +3,8 @@ import { ScrollView, RefreshControl } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { LocalizationContext } from '../../components/Translations';
 import ContactListItem from '../../components/Contact/ContactListItem';
-import MessageModal from '../../components/MessageModal';
 import EmptyListAction from '../../components/Share/EmptyListAction';
+import CustomAlertMessage from '../../components/Share/CustomAlertMessage';
 import contacts from '../../db/jsons/contacts';
 import contactService from '../../services/contact_service';
 
@@ -102,13 +102,12 @@ export default class Contact extends Component {
           <ContactListItem contact={item} key={index} onPress={(contact) => this.callOrEmailTo(contact)}/>
         )}
 
-        <MessageModal
+        <CustomAlertMessage
           visible={this.state.visibleModal}
-          onDismiss={() => this.setState({ visibleModal: false })}
+          title={this.context.translations.unableToMakeAContact}
           description={this.state.modalMessage}
-          hasConfirmButton={false}
-          confirmButtonLabel={this.context.translations.ok}
-          onPressConfirmButton={() => this.props.confirmDelete()}
+          closeButtonLabel={this.context.translations.infoCloseLabel}
+          onDismiss={() => this.setState({ visibleModal: false })}
         />
       </ScrollView>
     );

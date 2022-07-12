@@ -3,7 +3,7 @@ import {View, TouchableWithoutFeedback} from 'react-native';
 import Moment from 'moment';
 
 import {LocalizationContext} from '../../components/Translations';
-import ProgressHeader from '../../components/ProgressHeader';
+import ProgressHeader from '../../components/Share/ProgressHeader';
 import ScorecardPreferenceForm from '../../components/ScorecardPreference/ScorecardPreferenceForm';
 import ScorecardPreferenceButtons from '../../components/ScorecardPreference/ScorecardPreferenceButtons';
 import ScorecardPreferenceModals from '../../components/ScorecardPreference/ScorecardPreferenceModals';

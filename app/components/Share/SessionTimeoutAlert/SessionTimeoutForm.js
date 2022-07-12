@@ -2,27 +2,30 @@ import React from 'react';
 import { Text } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-import { LocalizationContext } from '../Translations';
-import TextFieldInput from '../Share/TextFieldInput';
-import ModalConfirmationButtons from '../ModalConfirmationButtons';
-import { pressableItemSize } from '../../utils/component_util';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import PopupModalTabletStyles from '../../styles/tablet/PopupModalComponentStyle';
-import PopupModalMobileStyles from '../../styles/mobile/PopupModalComponentStyle';
+import { LocalizationContext } from '../../Translations';
+import TextFieldInput from '../TextFieldInput';
+import { pressableItemSize } from '../../../utils/component_util';
+import { getDeviceStyle } from '../../../utils/responsive_util';
+import PopupModalTabletStyles from '../../../styles/tablet/PopupModalComponentStyle';
+import PopupModalMobileStyles from '../../../styles/mobile/PopupModalComponentStyle';
 
 const responsiveStyles = getDeviceStyle(PopupModalTabletStyles, PopupModalMobileStyles);
 
-class ErrorAuthenticationContentForm extends React.Component {
+class ErrorAuthenticationForm extends React.Component {
   static contextType = LocalizationContext;
 
-  _renderShowPasswordIcon = () => {
+  state = {
+    passwordIcon: 'eye'
+  }
+
+  _renderPasswordIcon = () => {
     const buttonPadding = 2;
 
     return (
       <TextInput.Icon
-        name={this.props.showPasswordIcon}
+        name={this.state.passwordIcon}
         color="#959595"
-        onPress={() => this.props.toggleShowPassword()}
+        onPress={() => this.setState({ passwordIcon: this.state.passwordIcon == 'eye' ? 'eye-off' : 'eye' })}
         accessibilityLabel='Toggle password visibility'
         style={{height: pressableItemSize(buttonPadding), width: pressableItemSize(buttonPadding)}}
       />
@@ -53,16 +56,14 @@ class ErrorAuthenticationContentForm extends React.Component {
           fieldName="password"
           onChangeText={this.props.onChangeText}
           message={translations.passwordErrorMsg}
-          secureTextEntry={this.props.showPasswordIcon == 'eye' ? true : false}
-          right={this._renderShowPasswordIcon()}
+          secureTextEntry={this.state.passwordIcon == 'eye' ? true : false}
+          right={this._renderPasswordIcon()}
         />
       </React.Fragment>
     )
   }
 
   render() {
-    const { translations } = this.context;
-
     return (
       <React.Fragment>
         { this._renderTextInputs() }
@@ -71,17 +72,9 @@ class ErrorAuthenticationContentForm extends React.Component {
             {this.props.message}
           </Text>
         }
-
-        <ModalConfirmationButtons
-          onClose={this.props.onDismiss}
-          closeButtonLabel={translations.close}
-          onConfirm={() => this.props.save()}
-          confirmButtonLabel={translations.save}
-          isConfirmButtonDisabled={!this.props.isValidForm || this.props.isLoading || this.props.isLocked}
-        />
       </React.Fragment>
     )
   }
 }
 
-export default ErrorAuthenticationContentForm;
+export default ErrorAuthenticationForm;

@@ -6,7 +6,7 @@ import BigHeader from '../../components/BigHeader';
 import {LocalizationContext} from '../../components/Translations';
 import DisplayScorecardInfo from '../../components/ScorecardDetail/DisplayScorecardInfo';
 import ScorecardDetailSyncButton from '../../components/ScorecardDetail/ScorecardDetailSyncButton';
-import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
@@ -63,12 +63,11 @@ class ScorecardDetail extends Component {
 
   _renderErrorMessageModal() {
     return (
-      <ErrorMessageModal
+      <ErrorAlertMessage
         visible={this.state.modalVisible}
-        onDismiss={() => this.setState({ modalVisible: false })}
         errorType={this.state.errorType}
-        isNewScorecard={true}
         scorecardUuid={this.props.route.params.scorecard_uuid}
+        onDismiss={() => this.setState({ modalVisible: false })}
       />
     )
   }

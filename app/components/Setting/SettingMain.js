@@ -3,9 +3,9 @@ import { ScrollView, Pressable } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {LocalizationContext} from '../../components/Translations';
+import {LocalizationContext} from '../Translations';
 import SettingForm from './SettingForm';
-import SettingBottomSection from './SettingBottomSection';
+import SettingFooter from './SettingFooter';
 import SettingReLoginTip from './SettingReLoginTip';
 
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
@@ -174,8 +174,8 @@ class SettingMain extends React.Component {
     });
   }
 
-  renderBottomSection() {
-    return <SettingBottomSection
+  renderFooter() {
+    return <SettingFooter
               unlockAt={this.state.unlockAt}
               isValid={this.state.isValid}
               isLoading={this.state.isLoading}
@@ -209,7 +209,7 @@ class SettingMain extends React.Component {
             navigation={this.props.navigation}
           />
 
-          { this.renderBottomSection() }
+          { this.renderFooter() }
         </Pressable>
       </ScrollView>
     )

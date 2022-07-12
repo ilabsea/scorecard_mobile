@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import { LocalizationContext } from '../../components/Translations';
-import ErrorMessageModal from '../../components/ErrorMessageModal/ErrorMessageModal';
+import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import ScorecardProgressButtons from '../../components/ScorecardProgress/ScorecardProgressButtons';
 import ScorecardProgressHeader from '../../components/ScorecardProgress/ScorecardProgressHeader';
 import ScorecardProgressScrollView from '../../components/ScorecardProgress/ScorecardProgressScrollView';
@@ -15,7 +15,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import Scorecard from '../../models/Scorecard';
 import settingHelper from '../../helpers/setting_helper';
-import { ERROR_SUBMIT_SCORECARD } from '../../constants/error_constant';
+import { ERROR_SUBMIT_SCORECARD, ERROR_NOT_FOUND } from '../../constants/error_constant';
 
 import { connect } from 'react-redux';
 
@@ -100,7 +100,7 @@ class ScorecardProgress extends Component {
     }, (errorType) => {
       this.setState({
         visibleModal: true,
-        errorType: errorType,
+        errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_SUBMIT_SCORECARD,
         showProgress: false,
       });
     });
@@ -173,13 +173,11 @@ class ScorecardProgress extends Component {
           progressMessage={this.state.progressMessage}
         />
 
-        <ErrorMessageModal
+        <ErrorAlertMessage
           visible={this.state.visibleModal}
-          onDismiss={() => this.setState({visibleModal: false})}
           errorType={this.state.errorType}
-          isSubmit={true}
-          isNewScorecard={false}
           scorecardUuid={this.state.scorecard.uuid}
+          onDismiss={() => this.setState({visibleModal: false})}
         />
       </View>
     )

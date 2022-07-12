@@ -5,7 +5,7 @@ import { LocalizationContext } from '../Translations';
 import ActionButton from '../ActionButton';
 import MessageLabel from '../MessageLabel';
 import LockSignInMessage from './LockSignInMessage';
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
 
 import pkg from '../../../package';
 import { navigate } from '../../navigators/app_navigator';
@@ -15,7 +15,7 @@ import SettingStyleMobileStyles from '../../styles/mobile/SettingScreenStyle';
 
 const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMobileStyles);
 
-const SettingBottomSection = (props) => {
+const SettingFooter = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   function renderErrorMsg() {
@@ -44,13 +44,16 @@ const SettingBottomSection = (props) => {
   }
 
   function renderModal() {
-    return <MessageModal
+    return  <CustomAlertMessage
               visible={props.visibleModal}
-              onDismiss={() => props.dismissModal()}
+              title={translations.unableToChangeTheServerUrl}
               description={translations.scorecardRemainingMessage}
+              closeButtonLabel={translations.infoCloseLabel}
               hasConfirmButton={true}
               confirmButtonLabel={translations.viewDetail}
-              onPressConfirmButton={() => goToScorecardList()}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => props.dismissModal()}
+              onConfirm={() => goToScorecardList()}
             />
   }
 
@@ -68,4 +71,4 @@ const SettingBottomSection = (props) => {
   )
 }
 
-export default SettingBottomSection;
+export default SettingFooter;

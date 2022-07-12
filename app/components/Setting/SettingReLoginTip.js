@@ -5,7 +5,7 @@ import { Icon } from 'native-base';
 import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
-import OutlineInfoIcon from '../OutlineInfoIcon';
+import OutlineInfoIcon from '../Share/OutlineInfoIcon';
 import SettingReLoginInstructions from './SettingReLoginInstructions';
 
 import Color from '../../themes/color';

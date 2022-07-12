@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../Translations';
-import ErrorAuthenticationContentHeader from './ErrorAuthenticationContentHeader';
-import ErrorAuthenticationContentForm from './ErrorAuthenticationContentForm';
+import CustomAlertMessage from './CustomAlertMessage';
+import SessionTimeoutForm from './SessionTimeoutAlert/SessionTimeoutForm';
 
 import authenticationFormService from '../../services/authentication_form_service';
 import authenticationService from '../../services/authentication_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { FAILED_SIGN_IN_ATTEMPT } from '../../constants/lock_device_constant';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
-class ErrorAuthenticationContent extends Component {
+class SessionTimeoutAlert extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -25,7 +26,6 @@ class ErrorAuthenticationContent extends Component {
       isValidForm: false,
       message: '',
       isError: false,
-      showPasswordIcon: 'eye',
       isLocked: false,
       unlockAt: '',
     };
@@ -57,7 +57,7 @@ class ErrorAuthenticationContent extends Component {
     state['message'] = this.state.isLocked ? this.context.translations.formatString(this.context.translations.yourDeviceIsCurrentlyLocked, this.state.unlockAt) : '';
 
     this.setState(state, () => {
-      this.setState({ isValidForm: this.isLocked ? false : authenticationFormService.isValidForm(this.state.email, this.state.password) });
+      this.setState({ isValidForm: this.state.isLocked ? false : authenticationFormService.isValidForm(this.state.email, this.state.password) });
     });
   }
 
@@ -114,29 +114,52 @@ class ErrorAuthenticationContent extends Component {
     });
   }
 
-  render() {
+  renderBody() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{borderWidth: 0, margin: 0}}>
-          <ErrorAuthenticationContentHeader backendUrl={this.props.backendUrl} />
-
-          <ErrorAuthenticationContentForm
+        <View style={{margin: 0, paddingBottom: getDeviceStyle(50, 70)}}>
+          <SessionTimeoutForm
             email={this.state.email}
             password={this.state.password}
             onChangeText={this.onChangeText}
             message={this.state.message}
-            showPasswordIcon={this.state.showPasswordIcon}
-            isValidForm={this.state.isValidForm}
-            isLoading={this.state.isLoading}
-            isLocked={this.state.isLocked}
-            toggleShowPassword={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
-            onDismiss={this.props.onDismiss}
-            save={() => this.save()}
           />
         </View>
       </TouchableWithoutFeedback>
     );
   }
+
+  onDismiss() {
+    this.setState({
+      email: '',
+      password: '',
+      emailErrorMsg: '',
+      passwordErrorMsg: '',
+      isLoading: false,
+      isValidForm: false,
+      message: '',
+      isError: false,
+    });
+    this.props.onDismiss();
+  }
+
+  render() {
+    const { translations } = this.context;
+
+    return <CustomAlertMessage
+              visible={this.props.visible}
+              title={ translations.yourSessionHasExpired }
+              description={ translations.pleaseLoginAgain }
+              closeButtonLabel={ translations.close }
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.save}
+              isConfirmButtonDisabled={!this.state.isValidForm || this.state.isLoading || this.state.isLocked}
+              onDismiss={() => this.onDismiss()}
+              onConfirm={() => this.save()}
+           >
+              { this.renderBody() }
+           </CustomAlertMessage>
+  }
 }
 
-export default ErrorAuthenticationContent;
+export default SessionTimeoutAlert;

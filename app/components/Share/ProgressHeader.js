@@ -1,21 +1,19 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Header, Left, Right } from "native-base";
 
 import { HeaderBackButton } from '@react-navigation/stack';
-import ProgressStep from '../components/ProgressStep';
-import MessageModal from './MessageModal';
+import ProgressStep from '../ProgressStep';
+import CustomAlertMessage from './CustomAlertMessage';
 import HeaderIconButton from './HeaderIconButton';
-import NavigationHeaderBody from './NavigationHeaderBody';
+import NavigationHeaderBody from '../NavigationHeaderBody';
 
-import { LocalizationContext } from './Translations';
-import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
-import { navigateBack, navigateHome } from '../utils/navigation_util';
-
-import Color from '../themes/color';
-import { FontFamily } from '../assets/stylesheets/theme/font';
+import { LocalizationContext } from '../Translations';
+import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
+import { navigateBack, navigateHome } from '../../utils/navigation_util';
+import Color from '../../themes/color';
 
 export default class BigHeader extends React.Component {
   static contextType = LocalizationContext;
@@ -60,13 +58,16 @@ export default class BigHeader extends React.Component {
           </View>
         </View>
 
-        <MessageModal
+        <CustomAlertMessage
           visible={this.state.visibleModal}
-          onDismiss={() => this.setState({visibleModal: false})}
+          title={translations.returnToHomeScreen}
           description={translations.doYouWantToReturnToHomeScreen}
+          closeButtonLabel={translations.close}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this._goToHomeScreen()}
+          isConfirmButtonDisabled={false}
+          onDismiss={() => this.setState({visibleModal: false})}
+          onConfirm={() => this._goToHomeScreen()}
         />
       </Header>
     );

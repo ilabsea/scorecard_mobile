@@ -3,9 +3,6 @@ import Color from '../../themes/color';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
 const homeInfoMessageModalStyles = StyleSheet.create({
-  modalContentContainer: {
-    width: '65%',
-  },
   loadingContainer: {
     alignItems: 'center',
     backgroundColor: Color.whiteColor,

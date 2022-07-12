@@ -3,7 +3,7 @@ import { Keyboard } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
-import MessageModal from '../MessageModal';
+import CustomAlertMessage from './CustomAlertMessage';
 
 class HeaderWithConfirmModal extends React.Component {
   static contextType = LocalizationContext;
@@ -23,14 +23,16 @@ class HeaderWithConfirmModal extends React.Component {
           rightButtonStyle={{marginRight: 6}}
         />
 
-        <MessageModal
+        <CustomAlertMessage
           visible={this.props.visibleConfirmModal}
-          onDismiss={() => this.props.onDismiss()}
+          title={translations.discardTheChanges}
           description={this.props.modalDescription}
+          closeButtonLabel={translations.buttonLabelNo}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
-          closeButtonLabel={translations.infoCloseLabel}
-          onPressConfirmButton={() => this.props.goBack()}
+          isConfirmButtonDisabled={false}
+          onDismiss={() => this.props.onDismiss()}
+          onConfirm={() => this.props.goBack()}
         />
       </React.Fragment>
     )

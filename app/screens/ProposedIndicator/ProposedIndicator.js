@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
-import ProgressHeader from '../../components/ProgressHeader';
+import ProgressHeader from '../../components/Share/ProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 

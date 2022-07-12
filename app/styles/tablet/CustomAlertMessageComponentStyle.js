@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { modalBorderRadius } from '../../constants/border_radius_constant';
 
-const ErrorMessageModalComponentStyles = StyleSheet.create({
+const CustomAlertMessageComponentStyles = StyleSheet.create({
   container: {
-    width: '70%',
+    width: '68%',
     borderRadius: modalBorderRadius
   },
 });
 
-export default ErrorMessageModalComponentStyles;
+export default CustomAlertMessageComponentStyles;

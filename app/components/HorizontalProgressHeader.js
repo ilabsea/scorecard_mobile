@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { LocalizationContext } from './Translations';
-import ProgressHeader from './ProgressHeader';
+import ProgressHeader from './Share/ProgressHeader';
 import scorecardProgress from '../db/jsons/scorecardProgress';
 
 const HorizontalProgressHeader = (props) => {

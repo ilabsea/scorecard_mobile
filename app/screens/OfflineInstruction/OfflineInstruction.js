@@ -10,7 +10,7 @@ import Color from '../../themes/color';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
-import ProgressHeader from '../../components/ProgressHeader';
+import ProgressHeader from '../../components/Share/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import screenInstructions from '../../db/jsons/screenInstructions';
 import TipListItem from '../../components/Tip/TipListItem';

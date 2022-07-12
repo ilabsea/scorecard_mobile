@@ -1,44 +1,44 @@
 import React, { Component } from 'react';
 import {LocalizationContext} from '../../components/Translations';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
-import MessageModal from '../MessageModal';
-import ScorecardPreferenceConfirmDownloadContent from './ScorecardPreferenceConfirmDownloadContent';
+import CustomAlertMessage from '../Share/CustomAlertMessage';
+import ErrorAlertMessage from '../Share/ErrorAlertMessage';
+import BoldLabel from '../Share/BoldLabel';
+
+import scorecardPreferenceService from '../../services/scorecard_preference_service';
 
 class ScorecardPreferenceModals extends Component {
   static contextType = LocalizationContext;
 
-  confirmDownloadContent() {
-    return (
-      <ScorecardPreferenceConfirmDownloadContent
-        scorecardUuid={this.props.scorecardUuid}
-        languages={this.props.languages}
-        selectedLanguage={this.props.selectedLanguage}
-      />
-    )
+  boldLabel(label) {
+    return <BoldLabel label={label} />
   }
 
   render() {
     const { translations } = this.context;
+    const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.props.languages, this.props.selectedLanguage.text_locale);
+    const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.props.languages, this.props.selectedLanguage.audio_locale);
+    const descriptionBottomSection = translations.formatString(translations.downloadScorecardSecondDescription, this.boldLabel(this.props.scorecardUuid), this.boldLabel(textLocaleLabel), this.boldLabel(audioLocaleLabel));
 
     return (
       <React.Fragment>
-        <ErrorMessageModal
+        <ErrorAlertMessage
           visible={this.props.visibleModal}
-          onDismiss={() => this.props.onDismissModal('error_modal')}
           errorType={this.props.errorType}
-          isNewScorecard={true}
           scorecardUuid={this.props.scorecardUuid}
+          onDismiss={() => this.props.onDismissModal('error_modal')}
         />
 
-        <MessageModal
+        <CustomAlertMessage
           visible={this.props.visibleConfirmModal}
-          onDismiss={() => this.props.onDismissModal('message_modal')}
           title={translations.theScorecardContainsAudios}
+          description={translations.downloadScorecardFirstDescription}
+          descriptionBottomSection={descriptionBottomSection}
+          closeButtonLabel={translations.close}
           hasConfirmButton={true}
           confirmButtonLabel={translations.ok}
-          onPressConfirmButton={() => this.props.downloadScorecard()}
-          child={() => this.confirmDownloadContent()}
-          renderInline={false}
+          isConfirmButtonDisabled={false}
+          onDismiss={() => this.props.onDismissModal('message_modal')}
+          onConfirm={() => this.props.downloadScorecard()}
         />
       </React.Fragment>
     )

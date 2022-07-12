@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Alert, Text } from 'react-native';
+import { View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 

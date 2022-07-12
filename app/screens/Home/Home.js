@@ -3,7 +3,6 @@ import { StyleSheet, ImageBackground, BackHandler } from "react-native";
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
-import ReLoginMessageModal from '../../components/Home/ReLoginMessageModal';
 import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
@@ -12,6 +11,7 @@ import reLoginService from '../../services/re_login_service';
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
+import { ERROR_NOT_FOUND, ERROR_SCORECARD_NOT_EXIST, RE_LOGIN_REQUIRED } from '../../constants/error_constant';
 
 let _this = null;
 
@@ -25,7 +25,6 @@ class Home extends Component {
       isLoading: false,
       scorecardUuid: '',
       unlockAt: '',
-      reLoginMessageModalVisible: false
     }
 
     _this = this;
@@ -40,8 +39,13 @@ class Home extends Component {
     const routes = this.props.navigation.getState().routes;
     setTimeout(async () => {
       // Show the re-login alert message when there is only home screen on the navigation stack
-      if (routes.length == 1 && routes[0].name.toLowerCase() == 'home')
-        this.setState({ reLoginMessageModalVisible: await reLoginService.isRequireReLogin() })
+      if (routes.length == 1 && routes[0].name.toLowerCase() == 'home') {
+        const isRequiredReLogin = await reLoginService.isRequireReLogin()
+        this.setState({
+          infoModalVisible: isRequiredReLogin,
+          errorType: isRequiredReLogin ? RE_LOGIN_REQUIRED : ''
+        });
+      }
 
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
@@ -75,12 +79,17 @@ class Home extends Component {
       _this.watchLockStatus();
 
     _this.setState({
-      infoModalVisible: true,
-      errorType,
       isLoading,
       scorecardUuid,
       unlockAt: await lockDeviceService.unlockAt(INVALID_SCORECARD_ATTEMPT),
-    });
+    })
+
+    if (errorType != null) {
+      _this.setState({
+        infoModalVisible: true,
+        errorType: errorType === ERROR_NOT_FOUND ? ERROR_SCORECARD_NOT_EXIST : errorType,
+      });
+    }
   }
 
   watchLockStatus() {
@@ -117,11 +126,6 @@ class Home extends Component {
           isLoading={this.state.isLoading}
           scorecardUuid={this.state.scorecardUuid}
           unlockAt={this.state.unlockAt}
-        />
-
-        <ReLoginMessageModal
-          visible={this.state.reLoginMessageModalVisible}
-          onDismiss={() => this.setState({ reLoginMessageModalVisible: false })}
         />
       </ImageBackground>
     );
