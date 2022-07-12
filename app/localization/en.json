@@ -185,7 +185,7 @@
   "successfullyAuthenticated": "Successfully authenticated",
   "emailOrPasswordIsIncorrect": "Email or password is incorrect",
   "ok": "OK",
-  "version": "Version",
+  "version": "v",
   "pleaseAddIndicators": "Please add indicators",
   "raisedTimes": "Raised times",
   "indicatorList": "Indicator list",

@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import { LocalizationContext } from '../Translations';
 import ActionButton from '../ActionButton';
@@ -17,6 +18,13 @@ const responsiveStyles = getDeviceStyle(SettingStyleTabletStyles, SettingStyleMo
 
 const SettingFooter = (props) => {
   const { translations } = useContext(LocalizationContext);
+  const [deviceId, setDeviceId] = useState('');
+
+  useEffect(() => {
+    DeviceInfo.getAndroidId().then((androidId) => {
+      setDeviceId(androidId);
+    });
+  }, [])
 
   function renderErrorMsg() {
     if (props.isLocked)
@@ -39,7 +47,11 @@ const SettingFooter = (props) => {
               isDisabled={props.isLoading || !props.isValid || props.isLocked}
               customButtonStyle={{marginTop: 2}}
             />
-            <Text style={[{textAlign: 'center', marginTop: 10}, responsiveStyles.textLabel]}>{translations.version} { pkg.version }</Text>
+
+            <View style={{ flexDirection: 'row', marginTop: 15, justifyContent: 'space-between' }}>
+              <Text style={responsiveStyles.textLabel}>ID: { deviceId }</Text>
+              <Text style={responsiveStyles.textLabel}>{translations.version} { pkg.version }</Text>
+            </View>
            </React.Fragment>
   }
 
