@@ -67,6 +67,9 @@ class ScorecardList extends Component {
   }
 
   onPress(scorecard) {
+    // console.log('scorecard milestone = ', scorecard.milestone)
+    console.log('scorecard running status uploaded = ', scorecard.running_status_uploaded)
+
     // Prevent the user from viewing the scorecard detail if the scorecard is deleting
     if (this.state.isDeleting)
       return;
