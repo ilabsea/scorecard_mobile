@@ -1,7 +1,7 @@
 import realm from '../db/schema';
 import { getEachPhasePercentage } from '../utils/scorecard_detail_util';
 
-import { scorecardDownloadPhases, languageIndicatorPhase } from '../constants/scorecard_constant';
+import { scorecardDownloadPhases, languageIndicatorPhase, DOWNLOADED } from '../constants/scorecard_constant';
 
 import IndicatorService from './indicator_service';
 import { save as saveCaf } from './caf_service';
@@ -11,9 +11,6 @@ import { LanguageIndicatorService } from './language_indicator_service';
 import { LanguageRatingScaleService } from './language_rating_scale_service';
 import scorecardMilestoneService from './scorecard_milestone_service';
 import scorecardTracingStepsService from './scorecard_tracing_steps_service';
-
-import { DOWNLOADED } from '../constants/milestone_constant';
-
 
 const find = (scorecardUuid) => {
   return realm.objects('ScorecardDownload').filtered(`scorecard_uuid == '${scorecardUuid}'`)[0];

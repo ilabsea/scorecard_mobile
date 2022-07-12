@@ -2,8 +2,7 @@ import { ERROR_SCORECARD_COMPLETED, ERROR_SCORECARD_EXECUTED } from '../constant
 import Moment from 'moment';
 import moment from "moment/min/moment-with-locales";
 import { environment } from '../config/environment';
-import { selfAssessment } from '../constants/scorecard_constant';
-import { DOWNLOADED, RUNNING, FINISHED, RENEWED, IN_REVIEW } from '../constants/milestone_constant';
+import { selfAssessment, DOWNLOADED, RUNNING, FINISHED, RENEWED } from '../constants/scorecard_constant';
 import Color from '../themes/color';
 import Scorecard from '../models/Scorecard';
 import EndpointUrl from '../models/EndpointUrl';

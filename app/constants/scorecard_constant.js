@@ -66,6 +66,13 @@ const scorecardTrackingSteps = {
 };
 
 const scorecardListSubTitleMobileFontSize = getMobileFontSizeByPixelRatio(11.5, 12);
+const DOWNLOADED = 'downloaded';
+const RUNNING = 'running';
+const FINISHED = 'finished';
+const SUBMITTED = 'submitted';
+const RENEWED = 'renewed';
+const IN_REVIEW = 'in_review';
+const COMPLETED = 'completed';
 
 export {
   scorecardDownloadPhases,
@@ -91,4 +98,11 @@ export {
   SCORECARD_RESULT,
   scorecardTrackingSteps,
   scorecardListSubTitleMobileFontSize,
+  DOWNLOADED,
+  RUNNING,
+  FINISHED,
+  SUBMITTED,
+  RENEWED,
+  IN_REVIEW,
+  COMPLETED,
 };

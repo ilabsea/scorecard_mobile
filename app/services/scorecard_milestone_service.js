@@ -1,7 +1,7 @@
 import DeviceInfo from 'react-native-device-info';
 import Scorecard from '../models/Scorecard';
 import ScorecardProgressApi from '../api/ScorecardProgressApi';
-import { RUNNING, RENEWED } from '../constants/milestone_constant';
+import { RUNNING, RENEWED } from '../constants/scorecard_constant';
 
 const scorecardMilestoneService = (() => {
   return {

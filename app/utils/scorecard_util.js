@@ -5,7 +5,7 @@ import urlUtil from './url_util';
 import { isNumber } from './string_util';
 import { validScorecardUrls } from '../constants/url_constant';
 import { ERROR_INVALID_SCORECARD_URL } from '../constants/error_constant';
-import { IN_REVIEW } from '../constants/milestone_constant';
+import { IN_REVIEW } from '../constants/scorecard_constant';
 import { INVALID_SCORECARD_ATTEMPT } from '../constants/lock_device_constant';
 import lockDeviceService from '../services/lock_device_service';
 

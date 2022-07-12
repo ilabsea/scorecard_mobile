@@ -3,7 +3,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Scorecard from '../models/Scorecard';
 import ScorecardService from './scorecardService';
 import { apiDateFormat } from '../constants/date_format_constant';
-import { SUBMITTED, COMPLETED } from '../constants/milestone_constant';
+import { SUBMITTED, COMPLETED } from '../constants/scorecard_constant';
 import settingHelper from '../helpers/setting_helper';
 
 const scorecardSyncService = (() => {
