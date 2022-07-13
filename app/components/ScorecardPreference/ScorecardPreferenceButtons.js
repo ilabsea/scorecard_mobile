@@ -18,10 +18,10 @@ class ScorecardPreferenceButtons extends Component {
     return scorecardPreferenceService.isFullyDownloaded(this.props.scorecardUuid, this.props.isFinishDownloaded);
   }
 
-  renderNextButton = () => {
+  renderStartButton = () => {
     if (this.isFullyDownloaded()) {
       return (
-        <BottomButton label={this.context.translations.next} onPress={() => this.props.saveSelectedData()} />
+        <BottomButton label={this.context.translations.start} onPress={() => this.props.saveSelectedData()} />
       );
     }
   }
@@ -79,7 +79,7 @@ class ScorecardPreferenceButtons extends Component {
       <View style={{padding: containerPadding}}>
         { this.renderDownloadButton() }
 
-        { this.renderNextButton() }
+        { this.renderStartButton() }
       </View>
     )
   }

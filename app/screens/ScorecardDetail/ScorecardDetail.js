@@ -91,7 +91,7 @@ class ScorecardDetail extends Component {
         </ScrollView>
 
         <View style={styles.buttonContainer}>
-          <BottomButton label={translations.start} onPress={() => this.startScorecard()} />
+          <BottomButton label={translations.next} onPress={() => this.startScorecard()} />
         </View>
 
         { this._renderErrorMessageModal() }
