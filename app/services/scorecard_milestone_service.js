@@ -21,7 +21,11 @@ const scorecardMilestoneService = (() => {
     ScorecardProgressApi.post(await _getScorecardAttrs(params, data))
       .then(function (response) {
         if (response.status == 200) {
-          Scorecard.update(scorecardUuid, { milestone: milestone });
+          const attrs = { milestone: milestone }
+          if (milestone == RUNNING)
+            attrs['running_status_uploaded'] = true;
+
+          Scorecard.update(scorecardUuid, attrs);
           callback && callback();
         }
         else

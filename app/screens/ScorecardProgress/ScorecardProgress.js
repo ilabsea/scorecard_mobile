@@ -34,13 +34,10 @@ class ScorecardProgress extends Component {
       visibleModal: false,
       errorType: null,
       hasInternetConnection: false,
-      messageModalTitle: null,
-      messageModalDescription: null,
       isLoading: false,
       hasMatchedEndpointUrl: false,
       isEditable: false,
       isSyncing: false,
-
       progressMessage: '',
     };
     this.unsubscribeNetInfo;
@@ -82,7 +79,11 @@ class ScorecardProgress extends Component {
     });
 
     this.checkScorecardProposeIndicatorMethod(() => {
-      this.uploadScorecardRunningStatus();
+      if (!this.state.scorecard.running_status_uploaded) {
+        this.uploadScorecardRunningStatus();
+        return;
+      }
+      this.uploadScorecard();
     });
   }
 
