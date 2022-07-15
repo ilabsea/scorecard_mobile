@@ -23,7 +23,7 @@ class BaseApi {
       cancelToken: this.cancelTokenSource.token,
     };
 
-    BaseApi.sendingRequest(options, null, successCallback, failedCallback);
+    BaseApi.sendRequest(options, null, successCallback, failedCallback);
   }
 
   cancelRequest = () => {
@@ -71,27 +71,26 @@ class BaseApi {
     };
   }
 
-  static sendingRequest = async (options, endpoint = null, successCallback, failedCallback) => {
+  static checkAndRenewAuthToken = async (apiRequest) => {
     const isTokenExpired = await authenticationHelper.isTokenExpired();
-    console.log('+ baseApi token is expired = ', isTokenExpired);
     if (isTokenExpired) {
-      authenticationService.reNewAuthToken(() => {
-        BaseApi.handleRequest(options, endpoint, successCallback, failedCallback);
-      });
+      authenticationService.reNewAuthToken(() => apiRequest());
       return;
     }
 
-    BaseApi.handleRequest(options, endpoint, successCallback, failedCallback);
+    apiRequest();
   }
 
-  static handleRequest(options, endpoint, successCallback, failedCallback) {
-    BaseApi.request(options, endpoint).then((response) => {
-      handleApiResponse(response, (responseData) => {
-        !!successCallback && successCallback(responseData);
-      }, (error) => {
-        !!failedCallback && failedCallback(error);
-      });
-    })
+  static sendRequest = (options, endpoint = null, successCallback, failedCallback) => {
+    BaseApi.checkAndRenewAuthToken(() => {
+      BaseApi.request(options, endpoint).then((response) => {
+        handleApiResponse(response, (responseData) => {
+          !!successCallback && successCallback(responseData);
+        }, (error) => {
+          !!failedCallback && failedCallback(error);
+        });
+      })
+    });
   }
 }
 

@@ -4,7 +4,6 @@ import { getAudioPath, getPDFPath } from '../utils/file_util';
 import authenticationService from './authentication_service';
 
 const downloadFileFromUrl = (url, filename, isPdfFile, callback) => {
-  console.log('=== download file ===')
   authenticationService.reNewAuthToken(() => {
     _downloadFile(url, filename, isPdfFile, callback);
   });

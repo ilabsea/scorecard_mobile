@@ -15,7 +15,7 @@ class ContactApi extends BaseApi {
     };
 
     const endpoint = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
-    return BaseApi.sendingRequest(options, endpoint, successCallback, failedCallback);
+    return BaseApi.sendRequest(options, endpoint, successCallback, failedCallback);
   }
 }
 

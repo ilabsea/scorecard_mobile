@@ -9,7 +9,6 @@ import Indicator from '../models/Indicator';
 import ScorecardReference from '../models/ScorecardReference';
 
 import { scorecardAttributes } from '../utils/scorecard_attributes_util';
-import { sendRequestToApi } from './api_service';
 import { IN_REVIEW } from '../constants/milestone_constant';
 
 class ScorecardService {
@@ -53,7 +52,6 @@ class ScorecardService {
 
     scorecardReferenceService.upload(this.scorecard_uuid, () => { this.updateProgress(callback) }, () => {
       try {
-        // sendRequestToApi(() => this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback));
         this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback)
       } catch (error) {
         console.log(error);
@@ -72,7 +70,6 @@ class ScorecardService {
       return ;
     }
 
-    console.log('++ upload custom indicator');
     const customIndicator = indicators[index];
     CustomIndicatorApi.post(this.scorecard_uuid, customIndicator, (response) => {
       if (!!response && !!JSON.parse(response).id) {

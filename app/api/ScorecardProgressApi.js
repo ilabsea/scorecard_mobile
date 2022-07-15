@@ -8,7 +8,7 @@ const ScorecardProgressApi = {
       data: data,
     };
 
-    return BaseApi.sendingRequest(options, null, successCallback, failedCallback);
+    return BaseApi.sendRequest(options, null, successCallback, failedCallback);
   }
 }
 

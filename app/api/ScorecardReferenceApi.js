@@ -12,18 +12,8 @@ class ScorecardReferenceApi extends BaseApi {
       data: data,
     };
 
-    return BaseApi.sendingRequest(options, null, successCallback, failedCallback);
+    return BaseApi.sendRequest(options, null, successCallback, failedCallback);
   }
-
-  // post = (id, data) => {
-  //   const options = {
-  //     url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel,
-  //     method: 'POST',
-  //     data: data,
-  //   };
-
-  //   return BaseApi.request(options);
-  // }
 }
 
 export default ScorecardReferenceApi;

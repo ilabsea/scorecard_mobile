@@ -1,8 +1,7 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import FormDataApi from './FormDataApi';
 import customIndicatorHelper from '../helpers/custom_indicator_helper';
-import { handleApiResponse, getErrorType } from '../services/api_service';
-// import authenticationService from '../services/authentication_service';
+import { getErrorType } from '../services/api_service';
 
 const CustomIndicatorApi = (() => {
   return {
@@ -20,18 +19,6 @@ const CustomIndicatorApi = (() => {
     FormDataApi.post(endpoint, params, (response) => {
       !!successCallback && successCallback(response);
     }, (error) => errorCallback(getErrorType(error.status)))
-
-    // authenticationService.reNewAuthToken(() => {
-    //   const endpoint = `/api/v1/scorecards/${scorecardUuid}/custom_indicators`;
-    //   FormDataApi.post(endpoint, params)
-    //     .then((response) => {
-    //       handleApiResponse(response, (res) => {
-    //         successCallback(res);
-    //       }, (error) => {
-    //         errorCallback(getErrorType(error.status));
-    //       });
-    //     });
-    // });
   }
 })();
 
