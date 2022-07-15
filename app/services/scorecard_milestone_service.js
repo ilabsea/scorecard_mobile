@@ -2,13 +2,14 @@ import DeviceInfo from 'react-native-device-info';
 import Scorecard from '../models/Scorecard';
 import ScorecardProgressApi from '../api/ScorecardProgressApi';
 import { RUNNING, RENEWED } from '../constants/milestone_constant';
+import { sendRequestToApi } from './api_service';
 
 const scorecardMilestoneService = (() => {
   return {
     updateMilestone
   }
 
-  async function updateMilestone(params, data, callback, errorCallback) {
+  function updateMilestone(params, data, callback, errorCallback) {
     const { scorecardUuid, milestone } = params;
     const scorecard = Scorecard.find(scorecardUuid);
 
@@ -18,15 +19,12 @@ const scorecardMilestoneService = (() => {
     if (milestone == RUNNING)
       Scorecard.update(scorecardUuid, { running_date: new Date() });
 
-    ScorecardProgressApi.post(await _getScorecardAttrs(params, data))
-      .then(function (response) {
-        if (response.status == 200) {
-          Scorecard.update(scorecardUuid, { milestone: milestone });
-          callback && callback();
-        }
-        else
-          !!errorCallback && errorCallback(response.error);
-      });
+    sendRequestToApi(async () => {
+      return ScorecardProgressApi.post(await _getScorecardAttrs(params, data));
+    }, (response) => {
+      Scorecard.update(scorecardUuid, { milestone: milestone });
+      !!callback && callback();
+    }, (error) => !!errorCallback && errorCallback(error));
   }
 
   // private method
