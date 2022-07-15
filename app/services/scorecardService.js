@@ -53,7 +53,8 @@ class ScorecardService {
 
     scorecardReferenceService.upload(this.scorecard_uuid, () => { this.updateProgress(callback) }, () => {
       try {
-        sendRequestToApi(() => this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback));
+        // sendRequestToApi(() => this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback));
+        this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback)
       } catch (error) {
         console.log(error);
       }
@@ -71,6 +72,7 @@ class ScorecardService {
       return ;
     }
 
+    console.log('++ upload custom indicator');
     const customIndicator = indicators[index];
     CustomIndicatorApi.post(this.scorecard_uuid, customIndicator, (response) => {
       if (!!response && !!JSON.parse(response).id) {
@@ -90,19 +92,34 @@ class ScorecardService {
     const _this = this;
     let attrs = await scorecardAttributes(_this.scorecard);
 
-    this.scorecardApi.put(this.scorecard_uuid, attrs)
-      .then(function (response) {
-        if (response.status == 200) {
-          Scorecard.update(_this.scorecard.uuid, {
-            uploaded_date: new Date(),
-            milestone: IN_REVIEW
-          });
-        }
-        else if (response.error)
-          !!errorCallback && errorCallback(getErrorType(response.error.status));
+    console.log('++ upload scorecard')
 
-        _this.updateProgress(callback);
+    sendRequestToApi(() => {
+      return this.scorecardApi.put(this.scorecard_uuid, attrs)
+    }, (response) => {
+      Scorecard.update(_this.scorecard.uuid, {
+        uploaded_date: new Date(),
+        milestone: IN_REVIEW
       });
+      _this.updateProgress(callback);
+    }, (error) => {
+      !!errorCallback && errorCallback(getErrorType(error.status));
+      _this.updateProgress(callback);
+    });
+
+    // this.scorecardApi.put(this.scorecard_uuid, attrs)
+    //   .then(function (response) {
+    //     if (response.status == 200) {
+    //       Scorecard.update(_this.scorecard.uuid, {
+    //         uploaded_date: new Date(),
+    //         milestone: IN_REVIEW
+    //       });
+    //     }
+    //     else if (response.error)
+    //       !!errorCallback && errorCallback(getErrorType(response.error.status));
+
+    //     _this.updateProgress(callback);
+    //   });
   }
 
   updateProgress(callback) {
