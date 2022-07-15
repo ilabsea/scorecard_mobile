@@ -7,16 +7,15 @@ class ContactApi extends BaseApi {
     super('contacts', '');
   }
 
-  load = async () => {
+  load = async (successCallback, failedCallback) => {
     const options = {
       url: '/api/v1/' + this.responsibleModel,
       method: 'GET',
       cancelToken: this.cancelTokenSource.token,
     };
 
-    let endpoint = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
-
-    return BaseApi.request(options, endpoint);
+    const endpoint = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
+    return BaseApi.sendingRequest(options, endpoint, successCallback, failedCallback);
   }
 }
 

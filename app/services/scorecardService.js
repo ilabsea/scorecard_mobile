@@ -92,11 +92,7 @@ class ScorecardService {
     const _this = this;
     let attrs = await scorecardAttributes(_this.scorecard);
 
-    console.log('++ upload scorecard')
-
-    sendRequestToApi(() => {
-      return this.scorecardApi.put(this.scorecard_uuid, attrs)
-    }, (response) => {
+    this.scorecardApi.put(this.scorecard_uuid, attrs, (response) => {
       Scorecard.update(_this.scorecard.uuid, {
         uploaded_date: new Date(),
         milestone: IN_REVIEW

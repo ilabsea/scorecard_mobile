@@ -16,24 +16,14 @@ class BaseApi {
     this.cancelTokenSource = axios.CancelToken.source();
   }
 
-  load = async (id, successCallback, failedCallback) => {
+  load = (id, successCallback, failedCallback) => {
     const options = {
       url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel,
       method: 'GET',
       cancelToken: this.cancelTokenSource.token,
     };
 
-    const isTokenExpired = await authenticationHelper.isTokenExpired();
-    console.log('+ baseApi token is expired = ', isTokenExpired);
-    if (isTokenExpired) {
-      console.log('============ renew auth token (baseApi) ===========')
-      authenticationService.reNewAuthToken(() => {
-        BaseApi.handleApiRequest(options, successCallback, failedCallback);
-      });
-      return;
-    }
-
-    BaseApi.handleApiRequest(options, successCallback, failedCallback);
+    BaseApi.sendingRequest(options, null, successCallback, failedCallback);
   }
 
   cancelRequest = () => {
@@ -81,8 +71,21 @@ class BaseApi {
     };
   }
 
-  static handleApiRequest(options, successCallback, failedCallback) {
-    BaseApi.request(options).then((response) => {
+  static sendingRequest = async (options, endpoint = null, successCallback, failedCallback) => {
+    const isTokenExpired = await authenticationHelper.isTokenExpired();
+    console.log('+ baseApi token is expired = ', isTokenExpired);
+    if (isTokenExpired) {
+      authenticationService.reNewAuthToken(() => {
+        BaseApi.handleRequest(options, endpoint, successCallback, failedCallback);
+      });
+      return;
+    }
+
+    BaseApi.handleRequest(options, endpoint, successCallback, failedCallback);
+  }
+
+  static handleRequest(options, endpoint, successCallback, failedCallback) {
+    BaseApi.request(options, endpoint).then((response) => {
       handleApiResponse(response, (responseData) => {
         !!successCallback && successCallback(responseData);
       }, (error) => {

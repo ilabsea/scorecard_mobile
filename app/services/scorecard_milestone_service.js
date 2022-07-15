@@ -9,7 +9,7 @@ const scorecardMilestoneService = (() => {
     updateMilestone
   }
 
-  function updateMilestone(params, data, callback, errorCallback) {
+  async function updateMilestone(params, data, callback, errorCallback) {
     const { scorecardUuid, milestone } = params;
     const scorecard = Scorecard.find(scorecardUuid);
 
@@ -19,9 +19,7 @@ const scorecardMilestoneService = (() => {
     if (milestone == RUNNING)
       Scorecard.update(scorecardUuid, { running_date: new Date() });
 
-    sendRequestToApi(async () => {
-      return ScorecardProgressApi.post(await _getScorecardAttrs(params, data));
-    }, (response) => {
+    ScorecardProgressApi.post(await _getScorecardAttrs(params, data), (response) => {
       Scorecard.update(scorecardUuid, { milestone: milestone });
       !!callback && callback();
     }, (error) => !!errorCallback && errorCallback(error));
