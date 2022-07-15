@@ -106,20 +106,6 @@ class ScorecardService {
       !!errorCallback && errorCallback(getErrorType(error.status));
       _this.updateProgress(callback);
     });
-
-    // this.scorecardApi.put(this.scorecard_uuid, attrs)
-    //   .then(function (response) {
-    //     if (response.status == 200) {
-    //       Scorecard.update(_this.scorecard.uuid, {
-    //         uploaded_date: new Date(),
-    //         milestone: IN_REVIEW
-    //       });
-    //     }
-    //     else if (response.error)
-    //       !!errorCallback && errorCallback(getErrorType(response.error.status));
-
-    //     _this.updateProgress(callback);
-    //   });
   }
 
   updateProgress(callback) {
@@ -129,9 +115,7 @@ class ScorecardService {
 
   // --------------------New scorecard---------------------
   find = (scorecardUuid, successCallback, failedCallback) => {
-    sendRequestToApi(() => {
-      return this.scorecardApi.load(scorecardUuid);
-    }, successCallback, failedCallback);
+    this.scorecardApi.load(scorecardUuid, successCallback, failedCallback)
   }
 }
 

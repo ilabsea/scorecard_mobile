@@ -3,6 +3,10 @@ import axios from 'axios';
 
 import { getErrorObject } from '../utils/api_error_util';
 
+import authenticationHelper from '../helpers/authentication_helper';
+import authenticationService from '../services/authentication_service';
+import { handleApiResponse } from '../services/api_service';
+
 const qs = require('qs');
 
 class BaseApi {
@@ -12,14 +16,24 @@ class BaseApi {
     this.cancelTokenSource = axios.CancelToken.source();
   }
 
-  load = (id) => {
+  load = async (id, successCallback, failedCallback) => {
     const options = {
       url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel,
       method: 'GET',
       cancelToken: this.cancelTokenSource.token,
     };
 
-    return BaseApi.request(options);
+    const isTokenExpired = await authenticationHelper.isTokenExpired();
+    console.log('+ baseApi token is expired = ', isTokenExpired);
+    if (isTokenExpired) {
+      console.log('============ renew auth token (baseApi) ===========')
+      authenticationService.reNewAuthToken(() => {
+        BaseApi.handleApiRequest(options, successCallback, failedCallback);
+      });
+      return;
+    }
+
+    BaseApi.handleApiRequest(options, successCallback, failedCallback);
   }
 
   cancelRequest = () => {
@@ -65,6 +79,16 @@ class BaseApi {
       Accept: 'application/json',
       Authorization: `Token ${authorization}`,
     };
+  }
+
+  static handleApiRequest(options, successCallback, failedCallback) {
+    BaseApi.request(options).then((response) => {
+      handleApiResponse(response, (responseData) => {
+        !!successCallback && successCallback(responseData);
+      }, (error) => {
+        !!failedCallback && failedCallback(error);
+      });
+    })
   }
 }
 

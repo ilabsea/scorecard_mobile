@@ -1,5 +1,4 @@
 import IndicatorApi from '../api/IndicatorApi';
-import { sendRequestToApi } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
 import { PREDEFINED } from '../constants/indicator_constant';
@@ -54,7 +53,7 @@ class IndicatorService {
   // private methods
 
   _requestForIndicator(facilityId, successCallback, errorCallback) {
-    sendRequestToApi(() => { return new IndicatorApi().load(facilityId) }, (indicators) => {
+    new IndicatorApi().load(facilityId, (indicators) => {
       if (!!indicators)
         !!successCallback && successCallback(indicators);
       else
