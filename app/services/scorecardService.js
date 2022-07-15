@@ -9,7 +9,7 @@ import Indicator from '../models/Indicator';
 import ScorecardReference from '../models/ScorecardReference';
 
 import { scorecardAttributes } from '../utils/scorecard_attributes_util';
-import { handleApiResponse, sendRequestToApi } from './api_service';
+import { sendRequestToApi } from './api_service';
 import { IN_REVIEW } from '../constants/milestone_constant';
 
 class ScorecardService {
