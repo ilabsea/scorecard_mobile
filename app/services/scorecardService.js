@@ -110,21 +110,11 @@ class ScorecardService {
     !!callback && callback( this.progressNumber / this.totalNumber );
   }
 
-  // Praviate methods
   // --------------------New scorecard---------------------
-  find = async (scorecardUuid, successCallback, failedCallback) => {
-    sendRequestToApi(() => this._findScorecard(scorecardUuid, successCallback, failedCallback));
-  }
-
-  // private method
-  _findScorecard = async (scorecardUuid, successCallback, failedCallback) => {
-    const response = await this.scorecardApi.load(scorecardUuid);
-
-    handleApiResponse(response, (responseData) => {
-      !!successCallback && successCallback(responseData);
-    }, (error) => {
-      !!failedCallback && failedCallback(error);
-    });
+  find = (scorecardUuid, successCallback, failedCallback) => {
+    sendRequestToApi(() => {
+      return this.scorecardApi.load(scorecardUuid);
+    }, successCallback, failedCallback);
   }
 }
 

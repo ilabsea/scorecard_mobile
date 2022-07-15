@@ -58,7 +58,7 @@ const authenticationService = (() => {
     const { email, password } = JSON.parse(setting);
 
     authenticate(email, password, () => {
-      callback();
+      !!callback && callback();
     }, (error) => {
       AsyncStorage.removeItem('AUTH_TOKEN');
       authenticationFormService.setIsErrorAuthentication();

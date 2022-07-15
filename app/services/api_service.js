@@ -46,18 +46,29 @@ const getErrorType = (errorStatus) => {
   return errorDictionary[errorStatus] || errorDictionary['default'];
 }
 
-const sendRequestToApi = async (apiRequest) => {
+const sendRequestToApi = async (apiRequest, successCallback, failedCallback) => {
   const isTokenExpired = await authenticationHelper.isTokenExpired();
+  console.log('+ token is expired = ', isTokenExpired);
 
   if (isTokenExpired) {
+    console.log('===== renew auth token =====');
     authenticationService.reNewAuthToken(() => {
-      apiRequest();
+      _runApiRequest(apiRequest, successCallback, failedCallback);
     });
     return;
   }
 
-  apiRequest();
+  _runApiRequest(apiRequest, successCallback, failedCallback);
 }
 
+// prviate method
+const _runApiRequest = async (apiRequest, successCallback, failedCallback) => {
+  const response = await apiRequest();
+  handleApiResponse(response, (responseData) => {
+    !!successCallback && successCallback(responseData);
+  }, (error) => {
+    !!failedCallback && failedCallback(error);
+  });
+}
 
 export {checkConnection, handleApiResponse, getErrorType, sendRequestToApi};
