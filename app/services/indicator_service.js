@@ -53,8 +53,8 @@ class IndicatorService {
 
   // private methods
 
-  async _requestForIndicator(facilityId, successCallback, errorCallback) {
-    sendRequestToApi(() => { return IndicatorApi().load(facilityId) }, (indicators) => {
+  _requestForIndicator(facilityId, successCallback, errorCallback) {
+    sendRequestToApi(() => { return new IndicatorApi().load(facilityId) }, (indicators) => {
       if (!!indicators)
         !!successCallback && successCallback(indicators);
       else
