@@ -2,6 +2,7 @@ import realm from '../db/schema';
 import RatingScaleApi from '../api/RatingScaleApi';
 import { isPhaseDownloaded } from './scorecard_download_service';
 import { saveLanguageRatingScale } from './language_rating_scale_service';
+import { sendRequestToApi } from './api_service';
 
 import { handleApiResponse } from './api_service';
 import { ratingScalePhase } from '../constants/scorecard_constant';
@@ -12,24 +13,14 @@ const save = async (scorecardUuid, programId, successCallback, errorCallback) =>
     return;
   }
 
-  const ratingScaleApi = new RatingScaleApi();
-  const response = await ratingScaleApi.load(programId);
-
-  handleApiResponse(response,
-    (ratingScales) => {
-      const options = {
-        ratingScales: ratingScales,
-        programId: programId,
-        scorecardUuid: scorecardUuid,
-      };
-
-      _saveRatingScale(0, options, successCallback);
-    },
-    (error) => {
-      console.log('error download rating scale = ', error);
-      errorCallback(error);
-    }
-  );
+  sendRequestToApi(() => { return new RatingScaleApi().load(programId) }, (ratingScales) => {
+    const options = {
+      ratingScales: ratingScales,
+      programId: programId,
+      scorecardUuid: scorecardUuid,
+    };
+    _saveRatingScale(0, options, successCallback);
+  }, (error) => errorCallback(error));
 }
 
 function _saveRatingScale(index, options, successCallback) {

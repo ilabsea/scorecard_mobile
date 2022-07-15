@@ -1,5 +1,5 @@
 import IndicatorApi from '../api/IndicatorApi';
-import { handleApiResponse } from './api_service';
+import { sendRequestToApi } from './api_service';
 import { saveLanguageIndicator } from './language_indicator_service';
 
 import { PREDEFINED } from '../constants/indicator_constant';
@@ -54,16 +54,12 @@ class IndicatorService {
   // private methods
 
   async _requestForIndicator(facilityId, successCallback, errorCallback) {
-    const response = await new IndicatorApi().load(facilityId);
-
-    handleApiResponse(response, (indicators) => {
+    sendRequestToApi(() => { return IndicatorApi().load(facilityId) }, (indicators) => {
       if (!!indicators)
         !!successCallback && successCallback(indicators);
       else
         !!errorCallback && errorCallback(ERROR_DOWNLOAD_SCORECARD);  // error status 0 means no response (the response returns as null)
-    }, (error) => {
-      !!errorCallback && errorCallback(error);
-    });
+    }, (error) => !!errorCallback && errorCallback(error));
   }
 }
 
