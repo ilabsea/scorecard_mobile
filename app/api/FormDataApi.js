@@ -11,18 +11,10 @@ const formDataApi = (() => {
   async function post(endpoint, params, successCallback, failedCallback){
     const domain = await AsyncStorage.getItem('ENDPOINT_URL');
     const apiUrl = domain + endpoint;
-
-    BaseApi.checkAndRenewAuthToken(() => {
-      _sendPostRequest(apiUrl, params, successCallback, failedCallback)
-    });
-  }
-
-  // private method
-  async function _sendPostRequest(apiUrl, params, successCallback, failedCallback) {
-    const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
+    const token = await BaseApi.authenticate();
 
     RNFetchBlob.fetch('POST', apiUrl, {
-      Authorization: `Token ${ authToken }`,
+      Authorization: `Token ${ token }`,
       'Content-Type': 'multipart/form-data',
     }, params).then((response) => {
       handleApiResponse(response, (res) => {

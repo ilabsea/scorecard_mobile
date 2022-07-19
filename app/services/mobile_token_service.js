@@ -92,12 +92,9 @@ const MobileTokenService = (() => {
   }
 
   function _sendTokenToApi(data) {
-    new MobileTokenApi().put(data)
-      .then(res => {
-        if(res.status == 200) {
-          _saveToken(res.data);
-        }
-      });
+    new MobileTokenApi().put(data, (res) => {
+      _saveToken(res);
+    });
   }
 })();
 
