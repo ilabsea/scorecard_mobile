@@ -12,9 +12,8 @@ class ScorecardReferenceApi extends BaseApi {
       data: data,
     };
 
-    const relativeUrl = '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel;
-    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
-    return BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
+    const url = await urlUtil.getAbsoluteUrl(this.listingObjectUrl(id));
+    return this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }
 

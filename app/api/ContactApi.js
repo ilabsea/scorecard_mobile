@@ -3,7 +3,7 @@ import urlUtil from '../utils/url_util';
 
 class ContactApi extends BaseApi {
   constructor() {
-    super('contacts', '');
+    super('contacts');
   }
 
   load = async (successCallback, failedCallback) => {
@@ -12,9 +12,8 @@ class ContactApi extends BaseApi {
       cancelToken: this.cancelTokenSource.token,
     };
 
-    const relativeUrl = '/api/v1/' + this.responsibleModel;
-    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
-    return BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
+    const url = await urlUtil.getAbsoluteUrl(this.listingUrl());
+    return this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }
 

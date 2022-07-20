@@ -18,7 +18,7 @@ const scorecardMilestoneService = (() => {
     if (milestone == RUNNING)
       Scorecard.update(scorecardUuid, { running_date: new Date() });
 
-    ScorecardProgressApi.post(await _getScorecardAttrs(params, data), (response) => {
+    new ScorecardProgressApi().post(await _getScorecardAttrs(params, data), (response) => {
       Scorecard.update(scorecardUuid, { milestone: milestone });
       !!callback && callback();
     }, (error) => !!errorCallback && errorCallback(error));

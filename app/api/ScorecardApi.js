@@ -3,7 +3,7 @@ import urlUtil from '../utils/url_util';
 
 class ScorecardApi extends BaseApi {
   constructor() {
-    super('scorecards', '');
+    super('scorecards');
   }
 
   put = async (id, data, successCallback, failedCallback) => {
@@ -12,9 +12,8 @@ class ScorecardApi extends BaseApi {
       data: data,
     };
 
-    const relativeUrl = '/api/v1/' + this.responsibleModel + '/' + id;
-    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
-    return BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
+    const url = await urlUtil.getAbsoluteUrl(this.listingObjectUrl(id));
+    return this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }
 

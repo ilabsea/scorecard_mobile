@@ -1,5 +1,4 @@
 import RNFetchBlob from 'react-native-fetch-blob'
-import AsyncStorage from '@react-native-community/async-storage';
 import { handleApiResponse } from '../services/api_service';
 import BaseApi from './BaseApi';
 
@@ -8,14 +7,12 @@ const formDataApi = (() => {
     post
   }
 
-  async function post(endpoint, params, successCallback, failedCallback){
-    const domain = await AsyncStorage.getItem('ENDPOINT_URL');
-    const apiUrl = domain + endpoint;
+  async function post(url, params, contentType = 'multipart/form-data', successCallback, failedCallback){
     const token = await BaseApi.authenticate();
 
-    RNFetchBlob.fetch('POST', apiUrl, {
+    RNFetchBlob.fetch('POST', url, {
       Authorization: `Token ${ token }`,
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': contentType,
     }, params).then((response) => {
       handleApiResponse(response, (res) => {
         !!successCallback && successCallback(res);

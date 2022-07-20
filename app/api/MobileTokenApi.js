@@ -3,7 +3,7 @@ import urlUtil from '../utils/url_util';
 
 class MobileTokenApi extends BaseApi {
   constructor() {
-    super('mobile_tokens', '');
+    super('mobile_tokens');
   }
 
   put = async (data, successCallback) => {
@@ -12,9 +12,8 @@ class MobileTokenApi extends BaseApi {
       data: data,
     };
 
-    const relativeUrl = '/api/v1/' + this.responsibleModel;
-    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
-    BaseApi.sendRequest(url, options, 'json', successCallback);
+    const url = await urlUtil.getAbsoluteUrl(this.listingUrl());
+    this.sendRequest(url, options, 'json', successCallback);
   }
 }
 

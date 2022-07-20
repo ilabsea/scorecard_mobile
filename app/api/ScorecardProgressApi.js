@@ -1,15 +1,19 @@
 import BaseApi from './BaseApi';
 import urlUtil from '../utils/url_util';
 
-const ScorecardProgressApi = {
-  post: async (data, successCallback, failedCallback) => {
+class ScorecardProgressApi extends BaseApi {
+  constructor() {
+    super('scorecard_progresses');
+  }
+
+  post = async (data, successCallback, failedCallback) => {
     const options = {
       method: 'POST',
       data: data,
     };
 
-    const url = await urlUtil.getAbsoluteUrl('/api/v1/scorecard_progresses');
-    return BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
+    const url = await urlUtil.getAbsoluteUrl(this.listingUrl());
+    return this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }
 

@@ -18,7 +18,7 @@ const authenticationService = (() => {
   };
 
   async function authenticate(email, password, successCallback, errorCallback) {
-    const response = await SessionApi.authenticate(email, password);
+    const response = await new SessionApi().authenticate(email, password);
 
     handleApiResponse(response, (responseData) => {
       if (!!responseData.authentication_token) {
@@ -56,7 +56,7 @@ const authenticationService = (() => {
   async function reAuthenticate() {
     const setting = await AsyncStorage.getItem('SETTING');
     const { email, password } = JSON.parse(setting);
-    const response = await SessionApi.authenticate(email, password);
+    const response = await new SessionApi().authenticate(email, password);
     let token = '';
 
     handleApiResponse(response, (responseData) => {

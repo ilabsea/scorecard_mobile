@@ -5,6 +5,7 @@ const urlUtil = (() => {
   return {
     isUrlValid,
     isUrl,
+    concat,
     getAbsoluteUrl,
   }
 
@@ -17,6 +18,10 @@ const urlUtil = (() => {
   function isUrl(string) {
     const matchpattern = new RegExp(`^https?://(?:www\.)?${domainNameValidationPattern()}`);
     return matchpattern.test(string)
+  }
+
+  function concat(responsibleUrl, subUrl) {
+    return responsibleUrl + subUrl;
   }
 
   async function getAbsoluteUrl(relativeUrl) {

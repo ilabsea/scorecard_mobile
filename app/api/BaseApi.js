@@ -10,10 +10,19 @@ import { handleApiResponse } from '../services/api_service';
 const qs = require('qs');
 
 class BaseApi {
-  constructor(responsibleModel, subModel) {
+  constructor(responsibleModel = '', subModel = '') {
     this.responsibleModel = responsibleModel;
     this.subModel = subModel;
     this.cancelTokenSource = axios.CancelToken.source();
+  }
+
+  listingUrl = () => {
+    return '/api/v1/' + this.responsibleModel;
+  }
+
+  listingObjectUrl = (id) => {
+    const subUrl = `/${id}/${this.subModel}`;
+    return urlUtil.concat(this.listingUrl(), subUrl);
   }
 
   load = async (id, successCallback, failedCallback) => {
@@ -22,16 +31,15 @@ class BaseApi {
       cancelToken: this.cancelTokenSource.token,
     };
 
-    const relativeUrl = '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel;
-    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
-    BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
+    const url = await urlUtil.getAbsoluteUrl(this.listingObjectUrl(id));
+    this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 
   cancelRequest = () => {
     this.cancelTokenSource.cancel();
   }
 
-  static request = async (url, options, token = null, contentType = 'json') => {
+  request = async (url, options, token = null, contentType = 'json') => {
     try {
       const response = await axios({
         method: options.method,
@@ -42,7 +50,7 @@ class BaseApi {
         paramsSerializer: function(params) {
           return qs.stringify(params, {arrayFormat: 'brackets'})
         },
-        headers: BaseApi.generateAuthorizationHeader(token),
+        headers: this.generateAuthorizationHeader(token),
         cancelToken: options.cancelToken || undefined,
       })
       .catch((res) => {
@@ -56,7 +64,7 @@ class BaseApi {
     }
   }
 
-  static generateAuthorizationHeader = (token) => {
+  generateAuthorizationHeader = (token) => {
     let authorization = '';
     if (token)
       authorization = token;
@@ -78,10 +86,10 @@ class BaseApi {
     return token;
   }
 
-  static sendRequest = async (url, options, contentType = 'json', successCallback, failedCallback) => {
+  sendRequest = async (url, options, contentType = 'json', successCallback, failedCallback) => {
     const token = await BaseApi.authenticate();
 
-    BaseApi.request(url, options, token, contentType).then((response) => {
+    this.request(url, options, token, contentType).then((response) => {
       handleApiResponse(response, (responseData) => {
         !!successCallback && successCallback(responseData);
       }, (error) => {
