@@ -142,8 +142,9 @@ class ScorecardPreference extends Component {
   }
 
   errorCallback = (error) => {
+    const errorStatus = !!error ? error.status : null;
     this.setState({
-      errorType: getErrorType(error),
+      errorType: getErrorType(errorStatus),
       isDownloading: false,
       visibleModal: true,
       isErrorDownload: true,
