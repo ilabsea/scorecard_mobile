@@ -1,18 +1,20 @@
 import BaseApi from './BaseApi';
+import urlUtil from '../utils/url_util';
 
 class MobileTokenApi extends BaseApi {
   constructor() {
     super('mobile_tokens', '');
   }
 
-  put = (data, successCallback) => {
+  put = async (data, successCallback) => {
     const options = {
-      url: '/api/v1/' + this.responsibleModel,
       method: 'PUT',
       data: data,
     };
 
-    BaseApi.sendRequest(options, successCallback);
+    const relativeUrl = '/api/v1/' + this.responsibleModel;
+    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
+    BaseApi.sendRequest(url, options, 'json', successCallback);
   }
 }
 

@@ -1,18 +1,20 @@
 import BaseApi from './BaseApi';
+import urlUtil from '../utils/url_util';
 
 class ScorecardApi extends BaseApi {
   constructor() {
     super('scorecards', '');
   }
 
-  put = (id, data, successCallback, failedCallback) => {
+  put = async (id, data, successCallback, failedCallback) => {
     const options = {
-      url: '/api/v1/' + this.responsibleModel + '/' + id,
       method: 'PUT',
       data: data,
     };
 
-    return BaseApi.sendRequest(options, successCallback, failedCallback);
+    const relativeUrl = '/api/v1/' + this.responsibleModel + '/' + id;
+    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
+    return BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }
 

@@ -2,11 +2,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
 import { getErrorObject } from '../utils/api_error_util';
-
+import urlUtil from '../utils/url_util';
 import authenticationHelper from '../helpers/authentication_helper';
 import authenticationService from '../services/authentication_service';
 import { handleApiResponse } from '../services/api_service';
-import { environment } from '../config/environment';
 
 const qs = require('qs');
 
@@ -17,35 +16,33 @@ class BaseApi {
     this.cancelTokenSource = axios.CancelToken.source();
   }
 
-  load = (id, successCallback, failedCallback) => {
+  load = async (id, successCallback, failedCallback) => {
     const options = {
-      url: '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel,
       method: 'GET',
       cancelToken: this.cancelTokenSource.token,
     };
 
-    BaseApi.sendRequest(options, successCallback, failedCallback);
+    const relativeUrl = '/api/v1/' + this.responsibleModel + '/' + id + '/' + this.subModel;
+    const url = await urlUtil.getAbsoluteUrl(relativeUrl);
+    BaseApi.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 
   cancelRequest = () => {
     this.cancelTokenSource.cancel();
   }
 
-  static request = async (options, token = '') => {
-    const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
-    const apiUrl = endpointUrl + options.url;
-
+  static request = async (url, options, token = null, contentType = 'json') => {
     try {
       const response = await axios({
         method: options.method,
-        url: apiUrl,
+        url: url,
         data: options.data || undefined,
         params: options.params || undefined,
-        responseType: options.responseType || 'json',
+        responseType: contentType,
         paramsSerializer: function(params) {
           return qs.stringify(params, {arrayFormat: 'brackets'})
         },
-        headers: BaseApi.getHeader(token),
+        headers: BaseApi.generateAuthorizationHeader(token),
         cancelToken: options.cancelToken || undefined,
       })
       .catch((res) => {
@@ -59,7 +56,7 @@ class BaseApi {
     }
   }
 
-  static getHeader = (token) => {
+  static generateAuthorizationHeader = (token) => {
     let authorization = '';
     if (token)
       authorization = token;
@@ -81,10 +78,10 @@ class BaseApi {
     return token;
   }
 
-  static sendRequest = async (options, successCallback, failedCallback) => {
+  static sendRequest = async (url, options, contentType = 'json', successCallback, failedCallback) => {
     const token = await BaseApi.authenticate();
 
-    BaseApi.request(options, token).then((response) => {
+    BaseApi.request(url, options, token, contentType).then((response) => {
       handleApiResponse(response, (responseData) => {
         !!successCallback && successCallback(responseData);
       }, (error) => {

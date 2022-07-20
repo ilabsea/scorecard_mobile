@@ -1,7 +1,11 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { environment } from '../config/environment';
+
 const urlUtil = (() => {
   return {
     isUrlValid,
-    isUrl
+    isUrl,
+    getAbsoluteUrl,
   }
 
   function isUrlValid(url) {
@@ -13,6 +17,11 @@ const urlUtil = (() => {
   function isUrl(string) {
     const matchpattern = new RegExp(`^https?://(?:www\.)?${domainNameValidationPattern()}`);
     return matchpattern.test(string)
+  }
+
+  async function getAbsoluteUrl(relativeUrl) {
+    const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
+    return endpointUrl + relativeUrl;
   }
 
   // private method
