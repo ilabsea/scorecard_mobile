@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
-import { getErrorObject } from '../utils/api_error_util';
 import urlUtil from '../utils/url_util';
 import authenticationHelper from '../helpers/authentication_helper';
 import authenticationService from '../services/authentication_service';
 import { handleApiResponse } from '../services/api_service';
 import { ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
+import httpRequest from '../http/httpRequest';
 
 const qs = require('qs');
 
@@ -32,8 +32,7 @@ class BaseApi {
     if (!id || !this.subModel)
       return null;
 
-    const subUrl = `/${id}/${this.subModel}`;
-    return urlUtil.concat(this.listingUrl(), subUrl);
+    return urlUtil.concat(this.listingUrl(), `/${id}/${this.subModel}`);
   }
 
   load = async (id, successCallback, failedCallback) => {
@@ -48,45 +47,6 @@ class BaseApi {
 
   cancelRequest = () => {
     this.cancelTokenSource.cancel();
-  }
-
-  request = async (url, options, token = null, contentType = 'json') => {
-    if (!url)
-      return;
-
-    try {
-      const response = await axios({
-        method: options.method,
-        url: url,
-        data: options.data || undefined,
-        params: options.params || undefined,
-        responseType: contentType,
-        paramsSerializer: function(params) {
-          return qs.stringify(params, {arrayFormat: 'brackets'})
-        },
-        headers: this.generateAuthorizationHeader(token),
-        cancelToken: options.cancelToken || undefined,
-      })
-      .catch((res) => {
-        const error = getErrorObject(res);
-        return {error: error};
-      })
-
-      return response;
-    } catch(error) {
-      throw error
-    }
-  }
-
-  generateAuthorizationHeader = (token) => {
-    let authorization = '';
-    if (token)
-      authorization = token;
-
-    return {
-      Accept: 'application/json',
-      Authorization: `Token ${authorization}`,
-    };
   }
 
   static authenticate = async () => {
@@ -107,7 +67,7 @@ class BaseApi {
     }
     const token = await BaseApi.authenticate();
 
-    this.request(url, options, token, contentType).then((response) => {
+    httpRequest.send(url, options, token, contentType).then((response) => {
       handleApiResponse(response, (responseData) => {
         !!successCallback && successCallback(responseData);
       }, (error) => {

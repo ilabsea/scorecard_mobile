@@ -1,9 +1,9 @@
 import RNFetchBlob from 'react-native-fetch-blob';
-import FormDataApi from './FormDataApi';
 import BaseApi from './BaseApi';
 import customIndicatorHelper from '../helpers/custom_indicator_helper';
 import { getErrorType } from '../services/api_service';
 import urlUtil from '../utils/url_util';
+import httpRequest from '../http/httpRequest';
 
 const CustomIndicatorApi = (() => {
   return {
@@ -20,7 +20,7 @@ const CustomIndicatorApi = (() => {
     const baseApi = new BaseApi('scorecards', 'custom_indicators');
     const url = await urlUtil.getAbsoluteUrl(baseApi.listingNestedObjectUrl(scorecardUuid));
 
-    FormDataApi.post(url, params, 'multipart/form-data', (response) => {
+    httpRequest.sendFormData(url, params, 'multipart/form-data', (response) => {
       !!successCallback && successCallback(response);
     }, (error) => errorCallback(getErrorType(error.status)))
   }

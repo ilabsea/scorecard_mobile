@@ -1,5 +1,6 @@
 import BaseApi from './BaseApi';
 import urlUtil from '../utils/url_util';
+import httpRequest from '../http/httpRequest';
 
 class SessionApi extends BaseApi {
   constructor() {
@@ -19,7 +20,7 @@ class SessionApi extends BaseApi {
 
     const token = null;
     const url = await urlUtil.getAbsoluteUrl(this.listingUrl());
-    return this.request(url, options, token, 'json');
+    return httpRequest.send(url, options, token, 'json');
   }
 }
 
