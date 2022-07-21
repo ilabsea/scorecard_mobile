@@ -2,8 +2,6 @@ import ContactApi from '../api/ContactApi';
 import Contact from '../models/Contact';
 
 const contactService = (() => {
-  const contactApi = new ContactApi();
-
   return {
     getAll,
     downloadContacts,
@@ -15,20 +13,14 @@ const contactService = (() => {
   }
 
   function downloadContacts(callback, errorCallback) {
-    contactApi.load().then(function (response) {
-      if (response.status != 200) {
-        errorCallback && errorCallback();
-        return;
-      }
-
+    new ContactApi().load((contacts) => {
       Contact.deleteAll();
-
-      response.data.map((contact) => {
+      contacts.map((contact) => {
         Contact.create(contact);
       });
 
-      callback && callback();
-    })
+      !!callback && callback();
+    }, (error) => !!errorCallback && errorCallback())
   }
 })();
 

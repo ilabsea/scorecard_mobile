@@ -1,11 +1,10 @@
 import RNFS from 'react-native-fs';
-import AsyncStorage from '@react-native-community/async-storage';
 import { getAudioPath, getPDFPath } from '../utils/file_util';
+import BaseApi from '../api/BaseApi';
 
 const downloadFileFromUrl = async (url, filename, isPdfFile, callback) => {
   let background = false;
-  const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
-
+  const token = await BaseApi.authenticate();
   let destinationPath = isPdfFile ? getPDFPath(filename) : getAudioPath(filename);
   let options = {
     fromUrl: url,
@@ -16,7 +15,7 @@ const downloadFileFromUrl = async (url, filename, isPdfFile, callback) => {
   if (isPdfFile) {
     options['headers'] = {
       Accept: 'application/json',
-      Authorization: `Token ${authToken}`,
+      Authorization: `Token ${token}`,
     }
   }
 

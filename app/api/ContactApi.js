@@ -1,22 +1,19 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import BaseApi from './BaseApi';
-import { environment } from '../config/environment';
+import urlUtil from '../utils/url_util';
 
 class ContactApi extends BaseApi {
   constructor() {
-    super('contacts', '');
+    super('contacts');
   }
 
-  load = async () => {
+  load = async (successCallback, failedCallback) => {
     const options = {
-      url: '/api/v1/' + this.responsibleModel,
       method: 'GET',
       cancelToken: this.cancelTokenSource.token,
     };
 
-    let endpoint = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
-
-    return BaseApi.request(options, endpoint);
+    const url = await urlUtil.getAbsoluteUrl(this.listingUrl());
+    return this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }
 

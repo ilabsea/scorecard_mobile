@@ -7,14 +7,15 @@ const authenticationHelper = (() => {
   };
 
   async function isTokenExpired() {
-    let tokenExpiredDate = await AsyncStorage.getItem('TOKEN_EXPIRED_DATE');
-    if (!tokenExpiredDate)
+    let tokenExpiredDateTime = await AsyncStorage.getItem('TOKEN_EXPIRED_DATE');
+    if (!tokenExpiredDateTime)
       return true;
 
-    tokenExpiredDate = Moment(tokenExpiredDate).format('YYYY-MM-DD');
-    const currentDate = Moment().format('YYYY-MM-DD');
+    tokenExpiredDateTime = Moment(tokenExpiredDateTime).format('YYYY-MM-DD HH:mm:ss');
+    const currentDateTime = Moment().format('YYYY-MM-DD HH:mm:ss');
 
-    return Moment(tokenExpiredDate).diff(currentDate, 'days') <= 0;
+    // Compare the date and time of the auth token
+    return Moment(tokenExpiredDateTime).diff(currentDateTime, 'days', true) <= 0;
   }
 })();
 

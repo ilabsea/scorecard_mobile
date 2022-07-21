@@ -1,7 +1,7 @@
 import ScorecardReference from '../models/ScorecardReference';
 import ScorecardReferenceApi from '../api/ScorecardReferenceApi';
 
-import { handleApiResponse, getErrorType } from './api_service';
+import { getErrorType } from './api_service';
 
 const scorecardReferenceService = (() => {
   return {
@@ -43,17 +43,10 @@ const scorecardReferenceService = (() => {
     }
 
     const scorecardUuid = scorecardReferences[index].scorecard_uuid;
-    const scorecardReferenceApi = new ScorecardReferenceApi()
-
-    scorecardReferenceApi.post(scorecardUuid, _scorecardReferenceData(index, scorecardReferences[index]))
-      .then((response) => {
-        handleApiResponse(response, (res) => {
-          updateProgress();
-          _uploadReference(index + 1, scorecardReferences, updateProgress, successCallback, errorCallback);
-        }, (res) => {
-          errorCallback(getErrorType(res.status));
-        });
-      });
+    new ScorecardReferenceApi().post(scorecardUuid, _scorecardReferenceData(index, scorecardReferences[index]), (response) => {
+      updateProgress();
+      _uploadReference(index + 1, scorecardReferences, updateProgress, successCallback, errorCallback);
+    }, (error) => errorCallback(getErrorType(error.status)));
   }
 
   function _scorecardReferenceData(index, scorecardReference) {

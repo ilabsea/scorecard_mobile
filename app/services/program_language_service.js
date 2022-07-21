@@ -1,6 +1,5 @@
 import realm from '../db/schema';
 import uuidv4 from '../utils/uuidv4';
-import { handleApiResponse } from './api_service';
 
 import ProgramLanguageApi from '../api/ProgramLanguageApi';
 import ProgramLanguage from '../models/ProgramLanguage';
@@ -21,10 +20,7 @@ const _sendRequestAndSave = async (programId, callback) => {
   if (ProgramLanguage.isExist(programId))
     return;
 
-  const programLanguageApi = new ProgramLanguageApi();
-  const response = await programLanguageApi.load(programId);
-
-  handleApiResponse(response, (languages) => {
+  new ProgramLanguageApi().load(programId, (languages) => {
     languages.map((language) => {
       if (!_isExist(language.id, programId)) {
         const attrs = {
@@ -41,9 +37,7 @@ const _sendRequestAndSave = async (programId, callback) => {
     });
 
     callback(languages);
-  }, (error) => {
-    callback(error);
-  });
+  }, (error) => callback(error));
 };
 
 const _isExist = (id, programId) => {

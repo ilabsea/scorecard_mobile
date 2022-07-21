@@ -9,7 +9,6 @@ import Indicator from '../models/Indicator';
 import ScorecardReference from '../models/ScorecardReference';
 
 import { scorecardAttributes } from '../utils/scorecard_attributes_util';
-import { handleApiResponse, sendRequestToApi } from './api_service';
 import { IN_REVIEW } from '../constants/milestone_constant';
 
 class ScorecardService {
@@ -53,7 +52,7 @@ class ScorecardService {
 
     scorecardReferenceService.upload(this.scorecard_uuid, () => { this.updateProgress(callback) }, () => {
       try {
-        sendRequestToApi(() => this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback));
+        this.uploadCustomIndicator(0, customIndicatorsWithNoId, callback, errorCallback)
       } catch (error) {
         console.log(error);
       }
@@ -90,19 +89,16 @@ class ScorecardService {
     const _this = this;
     let attrs = await scorecardAttributes(_this.scorecard);
 
-    this.scorecardApi.put(this.scorecard_uuid, attrs)
-      .then(function (response) {
-        if (response.status == 200) {
-          Scorecard.update(_this.scorecard.uuid, {
-            uploaded_date: new Date(),
-            milestone: IN_REVIEW
-          });
-        }
-        else if (response.error)
-          !!errorCallback && errorCallback(getErrorType(response.error.status));
-
-        _this.updateProgress(callback);
+    this.scorecardApi.put(this.scorecard_uuid, attrs, (response) => {
+      Scorecard.update(_this.scorecard.uuid, {
+        uploaded_date: new Date(),
+        milestone: IN_REVIEW
       });
+      _this.updateProgress(callback);
+    }, (error) => {
+      !!errorCallback && errorCallback(getErrorType(error.status));
+      _this.updateProgress(callback);
+    });
   }
 
   updateProgress(callback) {
@@ -110,21 +106,9 @@ class ScorecardService {
     !!callback && callback( this.progressNumber / this.totalNumber );
   }
 
-  // Praviate methods
   // --------------------New scorecard---------------------
-  find = async (scorecardUuid, successCallback, failedCallback) => {
-    sendRequestToApi(() => this._findScorecard(scorecardUuid, successCallback, failedCallback));
-  }
-
-  // private method
-  _findScorecard = async (scorecardUuid, successCallback, failedCallback) => {
-    const response = await this.scorecardApi.load(scorecardUuid);
-
-    handleApiResponse(response, (responseData) => {
-      !!successCallback && successCallback(responseData);
-    }, (error) => {
-      !!failedCallback && failedCallback(error);
-    });
+  find = (scorecardUuid, successCallback, failedCallback) => {
+    this.scorecardApi.load(scorecardUuid, successCallback, failedCallback)
   }
 }
 

@@ -1,9 +1,13 @@
 import BaseApi from './BaseApi';
+import urlUtil from '../utils/url_util';
 
-const SessionApi = {
-  authenticate: (username, password) => {
+class SessionApi extends BaseApi {
+  constructor() {
+    super('sign_in');
+  }
+
+  authenticate = async (username, password) => {
     const options = {
-      url: '/api/v1/sign_in',
       method: 'POST',
       params: {
         user: {
@@ -13,8 +17,10 @@ const SessionApi = {
       },
     };
 
-    return BaseApi.request(options);
-  },
-};
+    const token = null;
+    const url = await urlUtil.getAbsoluteUrl(this.listingUrl());
+    return this.request(url, options, token, 'json');
+  }
+}
 
 export default SessionApi;

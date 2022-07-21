@@ -5,8 +5,6 @@ import {
   ERROR_UNPROCESSABLE, ERROR_DOWNLOAD_SCORECARD, ERROR_SOMETHING_WENT_WRONG,
   ERROR_NETWORK_AUTHENTICATION
 } from '../constants/error_constant';
-import authenticationHelper from '../helpers/authentication_helper';
-import authenticationService from './authentication_service';
 
 const checkConnection = (callback) => {
   setTimeout(async function () {
@@ -46,18 +44,4 @@ const getErrorType = (errorStatus) => {
   return errorDictionary[errorStatus] || errorDictionary['default'];
 }
 
-const sendRequestToApi = async (apiRequest) => {
-  const isTokenExpired = await authenticationHelper.isTokenExpired();
-
-  if (isTokenExpired) {
-    authenticationService.reNewAuthToken(() => {
-      apiRequest();
-    });
-    return;
-  }
-
-  apiRequest();
-}
-
-
-export {checkConnection, handleApiResponse, getErrorType, sendRequestToApi};
+export {checkConnection, handleApiResponse, getErrorType};

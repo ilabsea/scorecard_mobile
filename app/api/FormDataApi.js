@@ -1,20 +1,25 @@
 import RNFetchBlob from 'react-native-fetch-blob'
-import AsyncStorage from '@react-native-community/async-storage';
+import { handleApiResponse } from '../services/api_service';
+import BaseApi from './BaseApi';
 
 const formDataApi = (() => {
   return {
     post
   }
 
-  async function post(endpoint, params){
-    const domain = await AsyncStorage.getItem('ENDPOINT_URL');
-    const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
-    const apiUrl = domain + endpoint;
+  async function post(url, params, contentType = 'multipart/form-data', successCallback, failedCallback){
+    const token = await BaseApi.authenticate();
 
-    return RNFetchBlob.fetch('POST', apiUrl, {
-            Authorization: `Token ${ authToken }`,
-            'Content-Type': 'multipart/form-data',
-          }, params);
+    RNFetchBlob.fetch('POST', url, {
+      Authorization: `Token ${ token }`,
+      'Content-Type': contentType,
+    }, params).then((response) => {
+      handleApiResponse(response, (res) => {
+        !!successCallback && successCallback(res);
+      }, (error) => {
+        !!failedCallback && failedCallback(getErrorType(error.status));
+      });
+    })
   }
 })();
 

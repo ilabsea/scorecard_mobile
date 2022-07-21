@@ -13,12 +13,12 @@ import settingHelper from '../helpers/setting_helper';
 const authenticationService = (() => {
   return {
     authenticate,
-    reNewAuthToken,
+    reAuthenticate,
     saveSignInInfo,
   };
 
   async function authenticate(email, password, successCallback, errorCallback) {
-    const response = await SessionApi.authenticate(email, password);
+    const response = await new SessionApi().authenticate(email, password);
 
     handleApiResponse(response, (responseData) => {
       if (!!responseData.authentication_token) {
@@ -53,16 +53,21 @@ const authenticationService = (() => {
     });
   }
 
-  async function reNewAuthToken(callback) {
+  async function reAuthenticate() {
     const setting = await AsyncStorage.getItem('SETTING');
     const { email, password } = JSON.parse(setting);
+    const response = await new SessionApi().authenticate(email, password);
+    let token = '';
 
-    authenticate(email, password, () => {
-      callback();
-    }, (error) => {
-      AsyncStorage.removeItem('AUTH_TOKEN');
-      authenticationFormService.setIsErrorAuthentication();
-    });
+    handleApiResponse(response, (responseData) => {
+      if (!!responseData.authentication_token) {
+        AsyncStorage.setItem('AUTH_TOKEN', responseData.authentication_token);
+        AsyncStorage.setItem('TOKEN_EXPIRED_DATE', responseData.token_expired_date);
+        token = responseData.authentication_token;
+      }
+    }, (error) => AsyncStorage.removeItem('AUTH_TOKEN'));
+
+    return token;
   }
 
   async function saveSignInInfo(state) {
