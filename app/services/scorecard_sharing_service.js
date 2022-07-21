@@ -4,9 +4,10 @@ import RNFetchBlob from 'react-native-fetch-blob'
 import Share from 'react-native-share';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { downloadFileFromUrl } from './local_file_system_service';
 import { ERROR_SOMETHING_WENT_WRONG, ERROR_DOWNLOAD_PDF } from '../constants/error_constant';
 import { getPDFPath } from '../utils/file_util';
+import httpRequest from '../http/httpRequest';
+import BaseApi from '../api/BaseApi';
 
 const scorecardSharingService = (() => {
   return {
@@ -55,7 +56,8 @@ const scorecardSharingService = (() => {
     
       updateLoadingStatus(true);
 
-      downloadFileFromUrl(endpoint, getPdfFileName(scorecardUuid, appLanguage), true, async (isSuccess, response, localFilePath) => {
+      const token = await BaseApi.authenticate();
+      httpRequest.downloadFile(endpoint, token, getPdfFileName(scorecardUuid, appLanguage), true, async (isSuccess, response, localFilePath) => {
         if (isSuccess) {
           updateLoadingStatus(false);
           _shareFile(localFilePath, scorecardUuid, updateErrorMessageModal);

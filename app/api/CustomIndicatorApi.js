@@ -19,8 +19,9 @@ const CustomIndicatorApi = (() => {
 
     const baseApi = new BaseApi('scorecards', 'custom_indicators');
     const url = await urlUtil.getAbsoluteUrl(baseApi.listingNestedObjectUrl(scorecardUuid));
+    const token = await BaseApi.authenticate();
 
-    httpRequest.sendFormData(url, params, 'multipart/form-data', (response) => {
+    httpRequest.sendFormData(url, params, token, 'multipart/form-data', (response) => {
       !!successCallback && successCallback(response);
     }, (error) => errorCallback(getErrorType(error.status)))
   }

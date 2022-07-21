@@ -1,31 +1,4 @@
 import RNFS from 'react-native-fs';
-import { getAudioPath, getPDFPath } from '../utils/file_util';
-import BaseApi from '../api/BaseApi';
-
-const downloadFileFromUrl = async (url, filename, isPdfFile, callback) => {
-  let background = false;
-  const token = await BaseApi.authenticate();
-  let destinationPath = isPdfFile ? getPDFPath(filename) : getAudioPath(filename);
-  let options = {
-    fromUrl: url,
-    toFile: destinationPath,
-    background,
-  };
-
-  if (isPdfFile) {
-    options['headers'] = {
-      Accept: 'application/json',
-      Authorization: `Token ${token}`,
-    }
-  }
-
-  await RNFS.downloadFile(options).promise.then(res => {
-    const isSuccess = res.statusCode == 200 ? true : false;
-    callback(isSuccess, res, options.toFile);
-  }).catch(err => {
-    callback(false, err);
-  });
-}
 
 const isFileExist = async (fileName) => {
   const filePath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
@@ -68,4 +41,4 @@ const getFileState = async (filePath) => {
   return await RNFS.stat(filePath)
 }
 
-export {downloadFileFromUrl, isFileExist, readAllFiles, deleteFile, getFileState};
+export {isFileExist, readAllFiles, deleteFile, getFileState};

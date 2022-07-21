@@ -1,11 +1,9 @@
 import RNFS from 'react-native-fs';
 import { environment } from '../config/environment';
-import {
-  downloadFileFromUrl,
-  isFileExist,
-} from '../services/local_file_system_service';
-
+import { isFileExist } from '../services/local_file_system_service';
 import { getEachAudioFilePercentage } from '../utils/scorecard_detail_util';
+import httpRequest from '../http/httpRequest';
+import BaseApi from '../api/BaseApi';
 
 // options parameter contains items, type, and phase
 const downloadAudio = (index, options, successCallback, errorCallback, storeAudioUrl) => {
@@ -38,9 +36,7 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
 
 async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDownload) {
   const { audioUrl, item, type } = options;
-
   let filename = _getAudioFilename(type, item.id, item.language_code);
-
   const isAudioExist = await isFileExist(filename)
 
   // File is already exist
@@ -51,14 +47,13 @@ async function _checkAndSave(options, errorCallback, storeAudioUrl, callbackDown
 
   // File not found then start to download file
   else {
-    downloadFileFromUrl(audioUrl, filename, false,
+    const token = await BaseApi.authenticate();
+    httpRequest.downloadFile(audioUrl, token, filename, false,
       (isSuccess, response, localAudioFilePath) => {
         if (isSuccess)
           storeAudioUrl(item, localAudioFilePath, callbackDownload);
-        else {
-          console.log('Error download file == ', response);
+        else
           errorCallback();
-        }
       }
     );
   }

@@ -8,8 +8,6 @@ import { handleApiResponse } from '../services/api_service';
 import { ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
 import httpRequest from '../http/httpRequest';
 
-const qs = require('qs');
-
 class BaseApi {
   constructor(responsibleModel, subModel = '') {
     this.responsibleModel = responsibleModel;
