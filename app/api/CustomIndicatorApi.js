@@ -18,7 +18,7 @@ const CustomIndicatorApi = (() => {
       params.push({ name: 'audio', filename: 'audio.mp3', type: 'audio/mp3', data: RNFetchBlob.wrap(customIndicatorData.audio) });
 
     const baseApi = new BaseApi('scorecards', 'custom_indicators');
-    const url = await urlUtil.getAbsoluteUrl(baseApi.listingObjectUrl(scorecardUuid));
+    const url = await urlUtil.getAbsoluteUrl(baseApi.listingNestedObjectUrl(scorecardUuid));
 
     FormDataApi.post(url, params, 'multipart/form-data', (response) => {
       !!successCallback && successCallback(response);

@@ -25,6 +25,9 @@ const urlUtil = (() => {
   }
 
   async function getAbsoluteUrl(relativeUrl) {
+    if (!relativeUrl)
+      return null;
+
     const endpointUrl = await AsyncStorage.getItem('ENDPOINT_URL') || environment.domain;
     return endpointUrl + relativeUrl;
   }

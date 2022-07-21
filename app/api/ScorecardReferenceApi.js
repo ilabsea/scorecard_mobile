@@ -12,7 +12,7 @@ class ScorecardReferenceApi extends BaseApi {
       data: data,
     };
 
-    const url = await urlUtil.getAbsoluteUrl(this.listingObjectUrl(id));
+    const url = await urlUtil.getAbsoluteUrl(this.listingNestedObjectUrl(id));
     return this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 }

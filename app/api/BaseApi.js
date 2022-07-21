@@ -6,6 +6,7 @@ import urlUtil from '../utils/url_util';
 import authenticationHelper from '../helpers/authentication_helper';
 import authenticationService from '../services/authentication_service';
 import { handleApiResponse } from '../services/api_service';
+import { ERROR_SOMETHING_WENT_WRONG } from '../constants/error_constant';
 
 const qs = require('qs');
 
@@ -21,6 +22,16 @@ class BaseApi {
   }
 
   listingObjectUrl = (id) => {
+    if (!id)
+      return null;
+
+    return `/api/v1/${this.responsibleModel}/${id}`;
+  }
+
+  listingNestedObjectUrl = (id) => {
+    if (!id || !this.subModel)
+      return null;
+
     const subUrl = `/${id}/${this.subModel}`;
     return urlUtil.concat(this.listingUrl(), subUrl);
   }
@@ -31,7 +42,7 @@ class BaseApi {
       cancelToken: this.cancelTokenSource.token,
     };
 
-    const url = await urlUtil.getAbsoluteUrl(this.listingObjectUrl(id));
+    const url = await urlUtil.getAbsoluteUrl(this.listingNestedObjectUrl(id));
     this.sendRequest(url, options, 'json', successCallback, failedCallback);
   }
 
@@ -40,6 +51,9 @@ class BaseApi {
   }
 
   request = async (url, options, token = null, contentType = 'json') => {
+    if (!url)
+      return;
+
     try {
       const response = await axios({
         method: options.method,
@@ -87,6 +101,10 @@ class BaseApi {
   }
 
   sendRequest = async (url, options, contentType = 'json', successCallback, failedCallback) => {
+    if (!url) {
+      failedCallback({ status: ERROR_SOMETHING_WENT_WRONG });
+      return;
+    }
     const token = await BaseApi.authenticate();
 
     this.request(url, options, token, contentType).then((response) => {
