@@ -10,7 +10,7 @@ import { handleApiResponse } from '../services/api_service';
 const qs = require('qs');
 
 class BaseApi {
-  constructor(responsibleModel = '', subModel = '') {
+  constructor(responsibleModel, subModel = '') {
     this.responsibleModel = responsibleModel;
     this.subModel = subModel;
     this.cancelTokenSource = axios.CancelToken.source();
