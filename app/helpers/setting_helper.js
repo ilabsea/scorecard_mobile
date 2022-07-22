@@ -3,6 +3,8 @@ import Scorecard from '../models/Scorecard';
 import { PROPOSED_INDICATOR_METHODS, INDICATOR_BASE, PARTICIPANT_BASE } from '../constants/scorecard_constant';
 import { environment } from '../config/environment';
 import EndpointUrl from '../models/EndpointUrl';
+import cryptoUtil from '../utils/crypto_util';
+import userService from '../services/user_service';
 
 const keyName = 'TEMP_SETTING_DATA';
 
@@ -64,11 +66,11 @@ const settingHelper = (() => {
   }
 
   async function getFullyEndpointUrl() {
-    const savedSetting = JSON.parse(await AsyncStorage.getItem('SETTING'));
-    if (!savedSetting || !savedSetting.email)
-      return '';
+    const endpointUrl = await getSavedEndpointUrl();
+    const user = userService.getSignedInUser();
+    if (!user) return null;
 
-    return `${savedSetting.email}@${savedSetting.backendUrl}`;
+    return `${user.email}@${endpointUrl}`;
   }
 
   async function getSavedEndpointUrl() {
@@ -77,11 +79,20 @@ const settingHelper = (() => {
   }
 
   function setTempSettingData(backendUrl, email, password) {
-    AsyncStorage.setItem(keyName, JSON.stringify({ backendUrl: backendUrl, email: email, password: password }));
+    AsyncStorage.setItem(keyName, JSON.stringify({
+      backendUrl: backendUrl,
+      email: cryptoUtil.encrypt(email),
+      password: cryptoUtil.encrypt(password)
+    }));
   }
 
   async function getTempSettingData() {
-    return JSON.parse(await AsyncStorage.getItem(keyName));
+    const tempData = JSON.parse(await AsyncStorage.getItem(keyName));
+    if (!tempData) return null;
+
+    tempData.email = cryptoUtil.decrypt(tempData.email);
+    tempData.password = cryptoUtil.decrypt(tempData.password);
+    return tempData;
   }
 
   function clearTempSettingData() {
@@ -90,7 +101,13 @@ const settingHelper = (() => {
 
   async function getSettingData() {
     const tempSettingData = await getTempSettingData();
-    return !!tempSettingData ? tempSettingData : JSON.parse(await AsyncStorage.getItem('SETTING'));
+    if (!!tempSettingData)
+      return tempSettingData;
+
+    const user = userService.getSignedInUser();
+    const email = !!user ? user.email : null;
+    const password = !!user ? user.password : null;
+    return { email: email, password: password, ...JSON.parse(await AsyncStorage.getItem('SETTING')) }
   }
 
   async function getSavedEndpointUrlId() {

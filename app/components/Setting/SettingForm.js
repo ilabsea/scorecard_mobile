@@ -26,8 +26,8 @@ class SettingForm extends Component {
 
   componentDidMount = async () => {
     this.setState({ backendUrl: await settingHelper.getSavedEndpointUrl() });
-
     const settingData = await settingHelper.getSettingData();
+
     if (settingData !== null && !!settingData.email) {
       this.setState({
         email: settingData.email,

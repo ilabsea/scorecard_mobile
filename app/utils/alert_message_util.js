@@ -7,8 +7,7 @@ import { getReadableAppLanguage } from './translation_util';
 import scorecardProgress from '../db/jsons/scorecardProgress';
 
 const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, localization) => {
-  const settingData = await settingHelper.getSettingData();
-  const backendUrl = settingData.backendUrl || '';
+  const backendUrl = await settingHelper.getSavedEndpointUrl();
   const scorecardCode = <BoldLabel label={scorecardUuid || ''} />
   const endpoint = <BoldLabel label={backendUrl} color="blue" />
   const { translations, app_language } = localization
