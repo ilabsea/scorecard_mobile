@@ -9,8 +9,8 @@ import VotingIndicator from '../../migrations/v14/votingIndicator';
 import Facilitator from '../../migrations/v16/facilitator';
 import Participant from '../../migrations/v21/participant';
 
-import schemaHelper from '../../../helpers/schema_helper';
-import { schemaNames } from '../../../constants/schema_constant';
+import schemaHelper from '../../helpers/schema_helper';
+import { schemaNames } from '../../constants/schema_constant';
 
 const changedSchemas = [
   { label: schemaNames[0], data: Scorecard },

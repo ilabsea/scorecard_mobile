@@ -25,6 +25,7 @@ class ParticipantForm extends Component {
       isMinority: false,
       isPoor: false,
       isYouth: false,
+      uncounted: false,
     };
   }
 
@@ -88,6 +89,21 @@ class ParticipantForm extends Component {
     return doms;
   }
 
+  _renderMarkAsCountedOptions = () => {
+    return (
+      <View style={{ marginTop: 10, paddingLeft: 16 }}>
+        <OptionsSelectBox
+          title={ this.context.translations.uncounted }
+          iconName='ban'
+          fieldName='uncounted'
+          onChangeValue={this.onChangeValue}
+          isSelected={this.state.uncounted}
+          renderSmallSize={this.props.renderSmallSize}
+        />
+      </View>
+    )
+  }
+
   render() {
     const {translations} = this.context;
     const {age} = this.state;
@@ -117,6 +133,8 @@ class ParticipantForm extends Component {
             { translations.attributes }
           </Text>
           { this._renderParticipantAttributes() }
+
+          { this._renderMarkAsCountedOptions() }
         </View>
       </TouchableWithoutFeedback>
     );
