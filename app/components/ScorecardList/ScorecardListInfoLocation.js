@@ -19,8 +19,8 @@ class ScorecardListInfoLocation extends Component {
 
   renderPrimarySchool() {
     return (
-      <Text style={[responsiveStyles.locationLabel, {marginRight: 2}]}>
-        { JSON.parse(this.props.scorecard.primary_school).name_en },
+      <Text style={responsiveStyles.locationLabel}>
+        { JSON.parse(this.props.scorecard.primary_school).name_en }{`, `}
       </Text>
     )
   }
@@ -32,14 +32,16 @@ class ScorecardListInfoLocation extends Component {
       <View style={{flex: 1, flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
         <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: getDeviceStyle(-3, -4)}} />
         <View style={{flex: 3, flexDirection: 'row'}}>
-          { scorecard.primary_school &&
-            this.renderPrimarySchool(scorecard)
-          }
+          <Text numberOfLines={1}>
+            { scorecard.primary_school &&
+              this.renderPrimarySchool(scorecard)
+            }
 
-          <Text numberOfLines={1} style={[ responsiveStyles.locationLabel, { maxWidth: getLocationMaxWidth(scorecard), marginRight: 3} ]}>
-            { scorecard.commune }, { scorecard.district },
+            <Text numberOfLines={1} style={[ responsiveStyles.locationLabel, { maxWidth: getLocationMaxWidth(scorecard), marginRight: 3} ]}>
+              { scorecard.commune }, { scorecard.district },
+            </Text>
+            <Text style={responsiveStyles.locationLabel}>{scorecard.province}</Text>
           </Text>
-          <Text style={responsiveStyles.locationLabel}>{scorecard.province}</Text>
         </View>
       </View>
     )
