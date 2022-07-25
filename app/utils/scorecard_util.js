@@ -23,7 +23,7 @@ export const getListStickyIndices = (finishedScorecards) => {
   return indices;
 }
 
-export const getLocationMaxWidth = (scorecard) => {
+export const getLocationMaxWidth = (scorecard, language) => {
   const pixelPerCharacter = wp('2%');
   let locationWidth = (scorecard.province.length + scorecard.commune.length + scorecard.district.length);
 
@@ -38,10 +38,17 @@ export const getLocationMaxWidth = (scorecard) => {
   locationWidth = locationWidth * pixelPerCharacter;
   const locationLength = scorecard.district.length + scorecard.commune.length + 2;           // +2 because district and commune are include , and 1 space
 
-  if (locationWidth > wp('70%') && scorecard.uploaded_date)
-    return locationLength * (scorecard.primary_school != null ? getDeviceStyle(wp('0.8%'), wp('0.6%')) : getDeviceStyle(wp('1%'), wp('0.8%')));
+  if (locationWidth > wp('70%') && scorecard.uploaded_date) {
+    const locationPixel = {
+      'km': getDeviceStyle(wp('1%'), wp('0.7%')),
+      'en': getDeviceStyle(wp('0.4%'), 0),
+      default: getDeviceStyle(wp('1%'), wp('0.8%'))
+    }
 
-  return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1.2%'))
+    return locationLength * (scorecard.primary_school != null ? locationPixel[language] : locationPixel.default);
+  }
+
+  return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1.4%'))
 }
 
 export const handleScorecardCodeClipboard = async (updateErrorState) => {
