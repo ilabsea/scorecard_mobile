@@ -18,9 +18,11 @@ class ScorecardListInfoLocation extends Component {
   static contextType = LocalizationContext;
 
   renderPrimarySchool() {
+    const primarySchool = JSON.parse(this.props.scorecard.primary_school);
+
     return (
       <Text style={responsiveStyles.locationLabel}>
-        { JSON.parse(this.props.scorecard.primary_school).name_en }{`, `}
+        { primarySchool[`name_${this.context.appLanguage}`] }{`, `}
       </Text>
     )
   }
