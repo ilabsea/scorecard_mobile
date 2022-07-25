@@ -99,7 +99,7 @@ class AddNewParticipantMain extends Component {
       youth: isYouth,
       scorecard_uuid: this.props.scorecardUuid,
       order: isUpdate ? this.props.selectedParticipant.order : 0,
-      counted: !this.state.uncounted
+      counted: isUpdate ? this.props.selectedParticipant.counted : !this.state.uncounted
     };
 
     saveParticipantInfo(attrs, this.props.scorecardUuid, isUpdate, (participants, participant) => {

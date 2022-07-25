@@ -12,6 +12,7 @@ import GendersCheckBox from './GendersCheckBox';
 import OptionsSelectBox from './OptionsSelectBox';
 
 import { bodyFontSize } from '../../utils/font_size_util';
+import Participant from '../../models/Participant';
 
 class ParticipantForm extends Component {
   static contextType = LocalizationContext;
@@ -89,7 +90,10 @@ class ParticipantForm extends Component {
     return doms;
   }
 
-  _renderMarkAsCountedOptions = () => {
+  _renderMarkAsUncountedOptions = () => {
+    if (Participant.hasUncounted())
+      return;
+
     return (
       <View style={{ marginTop: 10, paddingLeft: 16 }}>
         <OptionsSelectBox
@@ -134,7 +138,7 @@ class ParticipantForm extends Component {
           </Text>
           { this._renderParticipantAttributes() }
 
-          { this._renderMarkAsCountedOptions() }
+          { this._renderMarkAsUncountedOptions() }
         </View>
       </TouchableWithoutFeedback>
     );
