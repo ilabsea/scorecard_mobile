@@ -402,5 +402,6 @@
   "serverShortcut": "Server shortcut (maximum 8 characters)",
   "enterServerShortcut": "Enter server shortcut",
   "serverShortcutIsExisted": "Server shortcut is existed",
-  "uncounted": "uncounted"
+  "uncounted": "uncounted",
+  "other": "Other"
 }

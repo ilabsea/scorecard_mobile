@@ -8,4 +8,9 @@ const isCreateNewIndicatorScreen = () => {
   return navigationRef.current?.getCurrentRoute().name === 'CreateNewIndicator';
 }
 
-export { isProposedIndicatorScreen, isCreateNewIndicatorScreen };
+const isVotingScreen = () => {
+  const currentRoute = navigationRef.current?.getCurrentRoute();
+  return currentRoute.name == 'VotingIndicatorList' || currentRoute.name == 'VotingIndicatorForm'
+}
+
+export { isProposedIndicatorScreen, isCreateNewIndicatorScreen, isVotingScreen };

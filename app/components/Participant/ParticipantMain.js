@@ -7,7 +7,7 @@ import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 import EmptyListAction from '../Share/EmptyListAction';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
-import { participantListContentHeight } from '../../constants/modal_constant';
+import { participantContentHeight } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
@@ -35,7 +35,7 @@ class ParticipantMain extends React.Component {
             subTitle={this.context.translations.participantInformation}
             selectedParticipant={selectedParticipant}
             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
-            contentHeight={participantListContentHeight}
+            contentHeight={participantContentHeight}
           />
   }
 

@@ -40,7 +40,7 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     borderRadius: 10,
     position: 'absolute',
     top: -3,
-    right: -4
+    right: -2
   }
 });
 

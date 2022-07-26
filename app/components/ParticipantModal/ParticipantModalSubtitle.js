@@ -9,7 +9,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
-import Participant from '../../models/Participant';
+import participantHelper from '../../helpers/participant_helper';
 
 const ProposedIndicatorParticipantListSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -34,10 +34,6 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     }
   }
 
-  function listHasUncountParticipant() {
-    return props.participants.filter(participant => !participant.counted).length > 0;
-  }
-
   return (
     <View>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center'}}>
@@ -45,11 +41,10 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
           {translations.selectParticipant + ' '} 
           { renderRaisedParticipant() }
         </Text>
-
         { renderAddNewParticipantButton() }
       </View>
 
-      { (Participant.hasUncounted(props.scorecardUuid) && listHasUncountParticipant())  &&
+      { participantHelper.isFilterUncountedVisible(props.scorecardUuid, props.participants) &&
         <UncountedFilterButton toggleFilter={(isFiltered) => props.toggleFilter(isFiltered)} />
       }
     </View>

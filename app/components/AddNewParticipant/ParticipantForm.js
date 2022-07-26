@@ -7,14 +7,12 @@ import NumericInput from '../Share/NumericInput';
 import { getIntegerOf } from '../../utils/math';
 import uuidv4 from '../../utils/uuidv4'
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { bodyFontSize } from '../../utils/font_size_util';
 import { MALE } from '../../constants/participant_constant';
 import participantHelper from '../../helpers/participant_helper';
 
 import GendersCheckBox from './GendersCheckBox';
 import OptionsSelectBox from './OptionsSelectBox';
-
-import { bodyFontSize } from '../../utils/font_size_util';
-import Participant from '../../models/Participant';
 
 class ParticipantForm extends Component {
   static contextType = LocalizationContext;
@@ -92,20 +90,26 @@ class ParticipantForm extends Component {
     return doms;
   }
 
-  _renderMarkAsUncountedOptions = () => {
-    if (Participant.hasUncounted(this.props.scorecardUuid) || this.props.isUpdate)
+  _renderMarkAsUncountedOption = () => {
+    if (participantHelper.isUncountedOptionVisible(this.props.scorecardUuid) || this.props.isUpdate)
       return;
 
     return (
-      <View style={{ marginTop: 10, flexDirection: 'row', paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
-        <OptionsSelectBox
-          title={ this.context.translations.uncounted }
-          iconName='ban'
-          fieldName='uncounted'
-          onChangeValue={this.onChangeValue}
-          isSelected={this.state.uncounted}
-          renderSmallSize={this.props.renderSmallSize}
-        />
+      <View>
+        <Text style={{marginTop: 5, fontSize: bodyFontSize()}}>
+          { this.context.translations.other }
+        </Text>
+
+        <View style={{ marginTop: 8, paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
+          <OptionsSelectBox
+            title={ this.context.translations.uncounted }
+            iconName='ban'
+            fieldName='uncounted'
+            onChangeValue={this.onChangeValue}
+            isSelected={this.state.uncounted}
+            renderSmallSize={this.props.renderSmallSize}
+          />
+        </View>
       </View>
     )
   }
@@ -140,7 +144,7 @@ class ParticipantForm extends Component {
           </Text>
           { this._renderParticipantAttributes() }
 
-          { this._renderMarkAsUncountedOptions() }
+          { this._renderMarkAsUncountedOption() }
         </View>
       </TouchableWithoutFeedback>
     );

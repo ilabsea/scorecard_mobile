@@ -57,7 +57,7 @@ const Participant = (() => {
   }
 
   function getUnvoted(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = false SORT(order ASC)`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = false AND counted = true SORT(order ASC)`);
   }
 
   function getNotRaised(scorecardUuid) {

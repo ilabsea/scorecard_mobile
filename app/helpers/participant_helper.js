@@ -2,6 +2,7 @@ import Color from '../themes/color';
 import ProposedIndicator from '../models/ProposedIndicator';
 import Participant from '../models/Participant';
 import { MALE } from '../constants/participant_constant';
+import { isVotingScreen } from '../utils/screen_util';
 
 const participantHelper = (() => {
   return {
@@ -10,6 +11,8 @@ const participantHelper = (() => {
     isYouth,
     getParticipantByIndicator,
     getDefaultParticipantInfo,
+    isFilterUncountedVisible,
+    isUncountedOptionVisible,
   };
 
   function getGenderIconLabel(gender) {
@@ -56,6 +59,17 @@ const participantHelper = (() => {
     });
 
     return defaultValue;
+  }
+
+  function isFilterUncountedVisible(scorecardUuid, participants) {
+    if (isVotingScreen())
+      return false
+
+    return Participant.hasUncounted(scorecardUuid) && participants.filter(participant => !participant.counted).length > 0;
+  }
+
+  function isUncountedOptionVisible(scorecardUuid) {
+    return isVotingScreen() || Participant.hasUncounted(scorecardUuid);
   }
 
   // private method
