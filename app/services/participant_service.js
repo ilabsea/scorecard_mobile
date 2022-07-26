@@ -5,11 +5,10 @@ const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => 
   const participants = Participant.findByScorecard(scorecardUuid);
   let attrs = participant;
 
-  if (!isUpdate)
-    attrs.order = attrs.counted ? Participant.getAllCounted().length : 98;
-
-  if (!isUpdate)
+  if (!isUpdate) {
+    attrs.order = attrs.counted ? Participant.getAllCountedByScorecard(scorecardUuid).length : 98;
     Participant.create(attrs);
+  }
   else
     Participant.update(attrs.uuid, attrs);
 

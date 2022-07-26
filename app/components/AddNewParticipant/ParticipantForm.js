@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import NumericInput from '../Share/NumericInput';
 import { getIntegerOf } from '../../utils/math';
 import uuidv4 from '../../utils/uuidv4'
+import { getDeviceStyle } from '../../utils/responsive_util';
 import { MALE } from '../../constants/participant_constant';
 import participantHelper from '../../helpers/participant_helper';
 
@@ -91,11 +93,11 @@ class ParticipantForm extends Component {
   }
 
   _renderMarkAsUncountedOptions = () => {
-    if (Participant.hasUncounted())
+    if (Participant.hasUncounted(this.props.scorecardUuid) || this.props.isUpdate)
       return;
 
     return (
-      <View style={{ marginTop: 10, paddingLeft: 16 }}>
+      <View style={{ marginTop: 10, flexDirection: 'row', paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
         <OptionsSelectBox
           title={ this.context.translations.uncounted }
           iconName='ban'

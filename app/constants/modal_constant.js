@@ -12,11 +12,13 @@ export const tipModalSnapPoints = {
   'SCORECARD_RESULT': [getDeviceStyle('37%', isShortScreenDevice() ? '42%' : '47%')],
 };
 
-export const participantModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['85%'] : ['75%']);
-export const participantContentHeight = getDeviceStyle('68%', isShortScreenDevice() ? '82%' : '72.5%');
+export const participantModalSnapPoints = getDeviceStyle(['80%'], ['87%']);
+export const participantContentHeight = getDeviceStyle('78%', '84%');
+// export const participantModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['85%'] : ['75%']);
+// export const participantContentHeight = getDeviceStyle('68%', isShortScreenDevice() ? '82%' : '72.5%');
 
-export const participantListModalSnapPoints = getDeviceStyle(['85%'], ['86%']);
-export const participantListContentHeight = getDeviceStyle('83%', '84%');
+export const participantListModalSnapPoints = getDeviceStyle(['80%'], ['87%']);
+export const participantListContentHeight = getDeviceStyle('78%', '84%');
 // export const participantListModalSnapPoints = getDeviceStyle(['85%'], ['82%']);
 // export const participantListContentHeight = getDeviceStyle('83%', '80%');
 

@@ -17,7 +17,7 @@ const Participant = (() => {
     getNumberOfProposedParticipant,
     getRaisedParticipants,
     hasUncounted,
-    getAllCounted,
+    getAllCountedByScorecard,
   }
 
   function find(uuid) {
@@ -80,12 +80,12 @@ const Participant = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
   }
 
-  function hasUncounted() {
-    return realm.objects(MODEL).filtered('counted == false').length > 0;
+  function hasUncounted(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND counted == false`).length > 0;
   }
 
-  function getAllCounted() {
-    return realm.objects(MODEL).filtered('counted == true');
+  function getAllCountedByScorecard(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND counted == true`);
   }
 })();
 

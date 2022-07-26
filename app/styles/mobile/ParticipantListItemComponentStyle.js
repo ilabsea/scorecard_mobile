@@ -32,6 +32,15 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   attributeLabel: {
     paddingHorizontal: 6,
     fontSize: smallTextFontSize()
+  },
+  uncountedBadge: {
+    width: 10,
+    height: 10,
+    backgroundColor: Color.darkRedColor,
+    borderRadius: 10,
+    position: 'absolute',
+    top: -3,
+    right: -4
   }
 });
 
