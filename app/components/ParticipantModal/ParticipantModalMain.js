@@ -25,16 +25,16 @@ class ParticipantModalMain extends React.Component {
     super(props);
     this.state = {
       raisedParticipantUuids: [],
+      participants: !!props.participants ? props.participants
+                        : Participant.findByScorecard(props.scorecardUuid),
     }
-    this.participants = !!props.participants ? props.participants
-                        : Participant.findByScorecard(props.scorecardUuid);
     this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 
   async componentDidMount() {
     if (this.isCreateIndicatorByIndicatorBase) {
       const raisedParticipantUuids = [];
-      this.participants.map(participant => {
+      this.state.participants.map(participant => {
         if (this.isParticipantRaised(participant.uuid))
           raisedParticipantUuids.push(participant.uuid);
       });
@@ -82,7 +82,7 @@ class ParticipantModalMain extends React.Component {
   }
 
   renderParticipantList() {
-    return this.participants.map((participant, index) => {
+    return this.state.participants.map((participant, index) => {
       return (
         <ParticipantModalListItem
           key={participant.uuid}
@@ -101,6 +101,13 @@ class ParticipantModalMain extends React.Component {
            </View>
   }
 
+  toggleFilter(isFiltered) {
+    const unfilteredParticipants = !!this.props.participants ? this.props.participants : Participant.findByScorecard(this.props.scorecardUuid);
+    this.setState({
+      participants: isFiltered ? this.state.participants.filter(participant => !participant.counted) : unfilteredParticipants
+    });
+  }
+
   render() {
     const customTitle = !!this.props.selectedIndicator ? this.props.selectedIndicator.name :  this.props.title;
     const title = customTitle || this.context.translations.proposeTheIndicator;
@@ -110,13 +117,16 @@ class ParticipantModalMain extends React.Component {
         <BottomSheetModalTitle title={title} />
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
-          <ParticipantModalSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.participants.length}
+          <ParticipantModalSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.state.participants.length}
             showAddParticipantModal={() => this.props.showAddParticipantModal()}
             isIndicatorBase={this.props.isIndicatorBase}
+            scorecardUuid={this.props.scorecardUuid}
+            participants={this.state.participants}
+            toggleFilter={(isFiltered) => this.toggleFilter(isFiltered)}
           />
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
-            { this.participants.length > 0 ? this.renderParticipantList() : this.renderNoMessage() }
+            { this.state.participants.length > 0 ? this.renderParticipantList() : this.renderNoMessage() }
           </ScrollView>
         </View>
 
