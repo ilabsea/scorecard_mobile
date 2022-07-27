@@ -17,7 +17,8 @@ class ScorecardProgressTitle extends Component {
   static contextType = LocalizationContext;
 
   renderScorecardLocation() {
-    const primarySchool = this.props.scorecard.primary_school ? `${JSON.parse(this.props.scorecard.primary_school).name_en}, ` : '';
+    const language = `name_${this.context.appLanguage}`;
+    const primarySchool = this.props.scorecard.primary_school ? `${JSON.parse(this.props.scorecard.primary_school)[language]}, ` : '';
 
     return `${primarySchool}${this.props.scorecard.commune},  ${this.props.scorecard.district}, ${this.props.scorecard.province}`;
   }
