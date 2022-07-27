@@ -33,11 +33,11 @@ const EndpointUrl = (() => {
   }
 
   function findByLabel(label) {
-    return realm.objects(MODEL).filtered(`label = '${label}'`)[0];
+    return realm.objects(MODEL).filtered(`label = $0`, label)[0];
   }
 
   function findByUrlValue(value) {
-    return realm.objects(MODEL).filtered(`value = '${value}'`)[0];
+    return realm.objects(MODEL).filtered(`value = $0`, value)[0];
   }
 
   function create(data) {
