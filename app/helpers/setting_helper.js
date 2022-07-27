@@ -22,6 +22,7 @@ const settingHelper = (() => {
     getSelectedProposedIndicatorMethodId,
     getSelectedProposedIndicatorMethodName,
     hasDiscardAlert,
+    hasFullyEndpointUrl,
   };
 
   async function changeable(newEndpoint) {
@@ -106,6 +107,10 @@ const settingHelper = (() => {
   async function getSelectedProposedIndicatorMethodName() {
     const selectedProposedMethod = await _getSelectedProposedIndicatorMethod();
     return selectedProposedMethod.name;
+  }
+
+  async function hasFullyEndpointUrl() {
+    return !!await settingHelper.getFullyEndpointUrl();
   }
 
   // private method

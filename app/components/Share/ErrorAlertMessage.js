@@ -1,12 +1,14 @@
 import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { LocalizationContext } from '../Translations';
 import CustomAlertMessage from './CustomAlertMessage';
-import SessionTimeoutAlert from './SessionTimeoutAlert';
-import ReLoginModalButton from './ReLoginModalButton';
+import CustomAlertMessageBigButton from './CustomAlertMessage/CustomAlertMessageBigButton';
 
 import { getAlertMessageObject } from '../../utils/alert_message_util';
 import { ERROR_AUTHENTICATION, RE_LOGIN_REQUIRED } from '../../constants/error_constant';
+import { environment } from '../../config/environment';
+import { navigate } from '../../navigators/app_navigator';
 
 class ErrorAlertMessage extends React.Component {
   static contextType = LocalizationContext;
@@ -16,6 +18,11 @@ class ErrorAlertMessage extends React.Component {
     this.state = {
       alertMessage: {},
     }
+
+    AsyncStorage.getItem('SETTING', (err, result) => {
+      const savedSetting = JSON.parse(result);
+      this.backendUrl = (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
+    });
   }
 
   async componentDidUpdate(prevProps) {
@@ -33,17 +40,22 @@ class ErrorAlertMessage extends React.Component {
     }
   }
 
-  renderSessionTimeoutAlert() {
-    return <SessionTimeoutAlert visible={this.props.visible} onDismiss={this.props.onDismiss} />
+  goToSetting() {
+    this.props.onDismiss();
+    navigate('Setting', { backend_url: this.backendUrl });
   }
 
-  reLoginButton() {
-    if (this.props.errorType === RE_LOGIN_REQUIRED)
-      return <ReLoginModalButton  onDismiss={() => this.props.onDismiss()}/>
+  bigButton() {
+    if (this.props.errorType === RE_LOGIN_REQUIRED || this.props.errorType == ERROR_AUTHENTICATION)
+      return <CustomAlertMessageBigButton
+                label={this.context.translations.goToSetting}
+                onPress={() => this.goToSetting()}
+             />
   }
 
-  renderErrorActionAlert() {
+  render() {
     const { translations } = this.context;
+
     return <CustomAlertMessage
               visible={this.props.visible}
               title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
@@ -54,14 +66,8 @@ class ErrorAlertMessage extends React.Component {
               isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
               onDismiss={() => this.props.onDismiss(true)}
               onConfirm={() => this.props.onConfirm()}
-              customButton={this.reLoginButton()}
+              customButton={this.bigButton()}
            />
-  }
-
-  render() {
-    return this.props.errorType === ERROR_AUTHENTICATION ?
-            this.renderSessionTimeoutAlert()
-            : this.renderErrorActionAlert();
   }
 }
 
