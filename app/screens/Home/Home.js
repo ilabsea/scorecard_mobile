@@ -7,6 +7,7 @@ import deepLinkService from '../../services/deep_link_service';
 import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import reLoginService from '../../services/re_login_service';
+import { navigationRef } from '../../navigators/app_navigator';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -14,6 +15,7 @@ import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant'
 import { ERROR_NOT_FOUND, ERROR_SCORECARD_NOT_EXIST, RE_LOGIN_REQUIRED } from '../../constants/error_constant';
 
 let _this = null;
+const HOME = 'home';
 
 class Home extends Component {
   constructor(props) {
@@ -36,12 +38,12 @@ class Home extends Component {
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
 
-    const routes = this.props.navigation.getState().routes;
+    const currentRoute = navigationRef.current?.getCurrentRoute();
     setTimeout(async () => {
       // Show the re-login alert message when there is only home screen on the navigation stack
-      if (routes.length == 1 && routes[0].name.toLowerCase() == 'home') {
+      if (currentRoute.name.toLowerCase() == HOME) {
         const isRequiredReLogin = await reLoginService.isRequireReLogin()
-        this.setState({
+        _this.setState({
           infoModalVisible: isRequiredReLogin,
           errorType: isRequiredReLogin ? RE_LOGIN_REQUIRED : ''
         });
@@ -53,8 +55,7 @@ class Home extends Component {
     BackHandler.addEventListener('hardwareBackPress', () => {
       // If the the user clicks on the android's back button on the other screens except the home screen,
       // it will redirect to the previous screen normally
-      const navRoutes = _this.props.navigation.getState().routes;
-      if (navRoutes[navRoutes.length - 1].name.toLowerCase() != 'home')
+      if (navigationRef.current?.getCurrentRoute().name.toLowerCase() != HOME)
         return false;
 
       const now = Date.now();
