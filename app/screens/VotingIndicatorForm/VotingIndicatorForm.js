@@ -9,9 +9,10 @@ import BottomButton from '../../components/BottomButton';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
+import VotingIndicatorFormConfirmation from '../../components/VotingIndicatorForm/VotingIndicatorFormConfirmation';
 import HeaderWithDiscardAlert from '../../components/Share/HeaderWithDiscardAlert';
 
-import { participantModalSnapPoints } from '../../constants/modal_constant';
+import { participantModalSnapPoints, votingConfirmationSnapPoints } from '../../constants/modal_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';
 import Participant from '../../models/Participant';
@@ -93,6 +94,12 @@ class VotingIndicatorForm extends Component {
     )
   }
 
+  showSubmitConfirmation() {
+    this.formRef.current?.setSnapPoints(votingConfirmationSnapPoints)
+    this.formRef.current?.setBodyContent(<VotingIndicatorFormConfirmation onConfirm={() => this._submit()}/>);
+    this.participantModalRef.current?.present();
+  }
+
   _submit() {
     const { participant_uuid } = this.state;
     votingIndicatorService.submitVoting(this.state.indicators, participant_uuid);
@@ -108,7 +115,7 @@ class VotingIndicatorForm extends Component {
     return (
       <View style={{padding: containerPadding, paddingTop: containerPaddingTop}}>
         <BottomButton
-          onPress={() => this._submit()}
+          onPress={() => this.showSubmitConfirmation()}
           customBackgroundColor={Color.headerColor}
           disabled={!this.state.isValid}
           label={translations.save}

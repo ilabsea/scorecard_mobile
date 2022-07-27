@@ -1,16 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import OutlineInfoIcon from '../components/Share/OutlineInfoIcon';
-import DashedLine from '../components/DashedLine';
 import VotingParticipantInfo from '../components/VotingIndicator/VotingParticipantInfo';
 import VotingAverageScoreInfo from '../components/VotingIndicator/VotingAverageScoreInfo';
 import VotingMedianScoreInfo from '../components/VotingIndicator/VotingMedianInfo';
+import BottomSheetInfoTitle from '../components/Share/BottomSheetInfoTitle';
+import BottomSheetModalTitle from '../components/BottomSheetModalTitle';
 
-import CustomStyle from '../themes/customStyle';
-import Color from '../themes/color';
 import { getVotingInfos, isVotingIndicatorRated } from './voting_indicator_helper';
-import { titleFontSize } from '../utils/font_size_util';
 import { getDeviceStyle, containerPadding, isShortScreenDevice } from '../utils/responsive_util';
 import VotingInfoTabletStyles from '../styles/tablet/VotingInfoComponentStyle';
 import VotingInfoMobileStyles from '../styles/mobile/VotingInfoComponentStyle';
@@ -46,21 +43,13 @@ const votingInfoModalHelper = (() => {
   }
 
   // private method
-  function _modalTitle(order, indicator, customStyle) {
-    return <Text numberOfLines={1} style={[CustomStyle.modalTitle, { fontSize: titleFontSize(), padding: containerPadding, flex: 1 }, customStyle]}>
-            {order}. { indicator && indicator.content }
-           </Text>
-  }
-
   function  _getVotingDetail(scorecard, selectedIndicator, indicator) {
     const votingInfos = getVotingInfos(scorecard.uuid, indicator.indicatorable_id);
     const hasLessInfo = _hasLessInfo(votingInfos);
     const votingParticipantInfo = <VotingParticipantInfo scorecard={scorecard} />;
 
     const firstContent = <React.Fragment>
-                          { _modalTitle(indicator.order, selectedIndicator, { paddingBottom: 0 }) }
-                          <DashedLine />
-
+                          <BottomSheetModalTitle title={`${indicator.order}. ${selectedIndicator && selectedIndicator.content}`} />
                           <View style={{ paddingHorizontal: containerPadding, paddingTop: 10 }}>
                             <VotingMedianScoreInfo indicator={indicator} />
                             <VotingAverageScoreInfo votingInfos={votingInfos} />
@@ -80,12 +69,7 @@ const votingInfoModalHelper = (() => {
 
   function _getNoDataContent(indicator, selectedIndicator, translations) {
     return <React.Fragment>
-              <View style={{flexDirection: 'row', paddingHorizontal: containerPadding, justifyContent: 'center', alignItems: 'center'}}>
-                <OutlineInfoIcon color={Color.warningColor} customIconContainerStyles={{ marginTop: -10 }} />
-                { _modalTitle(indicator.order, selectedIndicator, { paddingLeft: 0, paddingBottom: 5 }) }
-              </View>
-              <DashedLine />
-
+              <BottomSheetInfoTitle title={`${indicator.order}. ${selectedIndicator && selectedIndicator.content}`} />
               <View style={{flex: 1, justifyContent: 'center', padding: containerPadding}}>
                 <Text style={responsiveStyles.normalText}>
                   { translations.thereIsNoVotingYet }
