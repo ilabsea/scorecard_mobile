@@ -3,13 +3,11 @@ import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
-import UncountedFilterButton from './UncountedFilterButton';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
-import participantHelper from '../../helpers/participant_helper';
 
 const ProposedIndicatorParticipantListSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -35,18 +33,12 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   }
 
   return (
-    <View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center'}}>
-        <Text style={{ fontSize: bodyFontSize(), marginBottom: 20, textTransform: 'capitalize', flex: 1, paddingRight: 5, marginTop: -8 }}>
-          {translations.selectParticipant + ' '} 
-          { renderRaisedParticipant() }
-        </Text>
-        { renderAddNewParticipantButton() }
-      </View>
-
-      { participantHelper.isFilterUncountedVisible(props.scorecardUuid, props.participants) &&
-        <UncountedFilterButton toggleFilter={(isFiltered) => props.toggleFilter(isFiltered)} />
-      }
+    <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 5}}>
+      <Text style={{ fontSize: bodyFontSize(), textTransform: 'capitalize', flex: 1, paddingRight: 5 }}>
+        {translations.selectParticipant + ' '} 
+        { renderRaisedParticipant() }
+      </Text>
+      { renderAddNewParticipantButton() }
     </View>
   )
 }

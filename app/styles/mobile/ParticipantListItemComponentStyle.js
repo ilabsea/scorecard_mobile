@@ -44,8 +44,8 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   },
   uncountedButton: {
     marginRight: 20,
-    width: 48,
-    height: 48,
+    width: pressableItemSize(),
+    height: pressableItemSize(),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'

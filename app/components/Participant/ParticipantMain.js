@@ -7,8 +7,9 @@ import ParticipantHeader from './ParticipantHeader';
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 import EmptyListAction from '../Share/EmptyListAction';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
+import UncountedParticipantDetail from '../ParticipantModal/UncountedParticipantDetail';
 
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantContentHeight, participantModalSnapPoints, uncountedParticipantDetailSnapPoints } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
@@ -25,6 +26,7 @@ class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
+    this.props.formModalRef.current?.setSnapPoints(participantModalSnapPoints);
     this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain(selectedParticipant));
     this.props.participantModalRef.current?.present();
   }
@@ -46,9 +48,15 @@ class ParticipantMain extends React.Component {
             addNewParticipant={() => this.showParticipantBottomSheet(null)} />
   }
 
+  showUncountedInfo() {
+    this.props.formModalRef.current?.setSnapPoints(uncountedParticipantDetailSnapPoints);
+    this.props.formModalRef.current?.setBodyContent(<UncountedParticipantDetail/>);
+    this.props.participantModalRef.current?.present();
+  }
+  
   renderRightIcon(participant) {
     if (!participant.counted)
-      return <TouchableOpacity style={responsiveStyles.uncountedButton}>
+      return <TouchableOpacity onPress={() => this.showUncountedInfo()} style={responsiveStyles.uncountedButton}>
                 <Icon name='eye-off' color={Color.grayColor} size={24} />
              </TouchableOpacity>
   }

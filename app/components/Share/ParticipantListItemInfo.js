@@ -18,7 +18,7 @@ class ParticipantListItemInfo extends React.Component {
   }
 
   renderOrderNumber() {
-    return <View style={{justifyContent: 'center'}}>
+    return <View style={{justifyContent: 'center', position: 'relative'}}>
             <View style={[styles.numberContainer, this.props.customNumberContainerStyle]}>
               <Text style={[styles.numberLabel, this.props.customNumberLabelStyle]}>{this.props.participant.order + 1}</Text>
             </View>

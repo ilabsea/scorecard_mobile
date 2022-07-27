@@ -404,5 +404,10 @@
   "serverShortcutIsExisted": "Server shortcut is existed",
   "uncounted": "uncounted",
   "other": "Other",
-  "anonymous": "anonymous"
+  "anonymous": "anonymous",
+  "uncountedParticipant": "Uncounted participant",
+  "uncountedParticipantDetail": "The uncounted participant is created in order to make the scorecard implementation easier and faster by using an uncounted participant to propose all the indicators for the whole scorecard implementation instead of using each participant to propose the indicator.",
+  "uncountedParticipantCan": "Uncounted participant can",
+  "uncountedParticipantCannot": "Uncounted participant cannot",
+  "votingTheIndicator": "voting the indicator (will not be shown on the voting screen)"
 }

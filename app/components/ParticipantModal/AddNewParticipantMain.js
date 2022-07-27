@@ -21,8 +21,6 @@ import { MALE } from '../../constants/participant_constant';
 import { participantContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
 
-import Participant from '../../models/Participant';
-
 class AddNewParticipantMain extends Component {
   static contextType = LocalizationContext;
 
