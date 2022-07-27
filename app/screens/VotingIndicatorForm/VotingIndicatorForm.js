@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { getAll } from '../../actions/votingIndicatorAction';
 
 import Color from '../../themes/color';
-import { navigationRef } from '../../navigators/app_navigator';
 import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
-import NavigationHeader from '../../components/NavigationHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
+import HeaderWithDiscardAlert from '../../components/Share/HeaderWithDiscardAlert';
 
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
@@ -121,7 +120,12 @@ class VotingIndicatorForm extends Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
-        <NavigationHeader title={this.context.translations.scorecardVoting} onBackPress={() => navigationRef.current?.goBack()} />
+        <HeaderWithDiscardAlert
+          title={this.context.translations.scorecardVoting}
+          modalTitle={this.context.translations.discardTheVoting}
+          modalDescription={this.context.translations.areYouSureYouWantToDiscardThisVoting}
+          hasDiscardAlert={() => this.state.indicators.filter(indicator => indicator.ratingScore).length > 0}
+        />
         { this._renderContent() }
         { this._renderFooter() }
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />

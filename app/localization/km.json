@@ -391,5 +391,7 @@
   "discardTheChanges": "បោះបង់ការផ្លាស់ប្ដូរ",
   "unableToDeleteTheScorecard": "មិនអាចលុបប័ណ្ណដាក់ពិន្ទុ",
   "finishTheScorecard": "បញ្ចប់ប័ណ្ណដាក់ពិន្ទុ",
-  "removeTheImage": "លុបរូបភាព"
+  "removeTheImage": "លុបរូបភាព",
+  "discardTheVoting": "បោះបង់ការដាក់ពិន្ទុ",
+  "areYouSureYouWantToDiscardThisVoting": "តើអ្នកពិតជាចង់បោះបង់ការដាក់ពិន្ទុនេះមែនទេ?"
 }
