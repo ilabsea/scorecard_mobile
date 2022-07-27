@@ -44,8 +44,8 @@ class ParticipantListItemInfo extends React.Component {
           { this.renderOrderNumber() }
           { this.renderAttributes() }
         </View>
-        { this.hasArrowIcon && <RightArrowIcon color={this.props.arrowColor || Color.blackColor} /> }
         { this.props.rightIcon }
+        { this.hasArrowIcon && <RightArrowIcon color={this.props.arrowColor || Color.blackColor} /> }
       </TouchableOpacity>
     )
   }

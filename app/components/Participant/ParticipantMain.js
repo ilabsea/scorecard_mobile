@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
@@ -45,6 +46,13 @@ class ParticipantMain extends React.Component {
             addNewParticipant={() => this.showParticipantBottomSheet(null)} />
   }
 
+  renderRightIcon(participant) {
+    if (!participant.counted)
+      return <TouchableOpacity style={responsiveStyles.uncountedButton}>
+                <Icon name='eye-off' color={Color.grayColor} size={24} />
+             </TouchableOpacity>
+  }
+
   renderParticipantList = () => {
     const numberOfParticipant = Scorecard.find(this.props.scorecardUuid).number_of_participant;
     this.totalParticipant = numberOfParticipant;
@@ -58,6 +66,7 @@ class ParticipantMain extends React.Component {
           onPress={() => this.showParticipantBottomSheet(participant)}
           containerStyle={[responsiveStyles.itemContainer, listItemStyles.card]}
           hasArrowIcon={true}
+          rightIcon={this.renderRightIcon(participant)}
           arrowColor={Color.headerColor}
         />
       )

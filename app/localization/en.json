@@ -403,5 +403,6 @@
   "enterServerShortcut": "Enter server shortcut",
   "serverShortcutIsExisted": "Server shortcut is existed",
   "uncounted": "uncounted",
-  "other": "Other"
+  "other": "Other",
+  "anonymous": "anonymous"
 }

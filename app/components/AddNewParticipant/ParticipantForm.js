@@ -97,13 +97,14 @@ class ParticipantForm extends Component {
     return (
       <View>
         <Text style={{marginTop: 5, fontSize: bodyFontSize()}}>
-          { this.context.translations.other }
+          { this.context.translations.other } ({ this.context.translations.anonymous })
         </Text>
 
         <View style={{ marginTop: 8, paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
           <OptionsSelectBox
             title={ this.context.translations.uncounted }
-            iconName='ban'
+            iconName='eye-off'
+            iconType='material'
             fieldName='uncounted'
             onChangeValue={this.onChangeValue}
             isSelected={this.state.uncounted}
@@ -143,7 +144,6 @@ class ParticipantForm extends Component {
             { translations.attributes }
           </Text>
           { this._renderParticipantAttributes() }
-
           { this._renderMarkAsUncountedOption() }
         </View>
       </TouchableWithoutFeedback>
