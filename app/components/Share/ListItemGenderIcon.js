@@ -9,7 +9,7 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 class ListItemGenderIcon extends React.Component {
   render() {
     return <GenderIcon gender={this.props.gender}
-              color={Color.blackColor}
+              color={ this.props.color || Color.blackColor}
               size={mediumIconSize()}
               otherIconSize={mediumIconSize() - 6}
               containerStyle={styles.container}

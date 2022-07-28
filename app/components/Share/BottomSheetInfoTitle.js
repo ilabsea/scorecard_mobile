@@ -12,11 +12,16 @@ import CustomStyle from '../../themes/customStyle';
 const BottomSheetInfoTitle = (props) => {
   return (
     <View>
-      <View style={styles.titleContainer}>
-        <OutlineInfoIcon color={Color.warningColor} customIconContainerStyles={{ marginTop: -10 }} />
-        <Text numberOfLines={1} style={[CustomStyle.modalTitle, styles.title]}>
-          { props.title }
-        </Text>
+      <View style={[styles.container, props.customContainerStyle]}>
+        <View>
+          <OutlineInfoIcon color={Color.warningColor} customIconContainerStyles={{ marginTop: -10 }} />
+        </View>
+        <View style={[styles.titleContainer, props.customTitleContainerStyle]}>
+          <Text numberOfLines={1} style={[CustomStyle.modalTitle, styles.title]}>
+            { props.title }
+          </Text>
+          { props.children }
+        </View>
       </View>
       <DashedLine />
     </View>
@@ -24,18 +29,20 @@ const BottomSheetInfoTitle = (props) => {
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
     flexDirection: 'row',
     paddingHorizontal: containerPadding,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  titleContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingVertical: containerPadding
   },
   title: {
     fontSize: titleFontSize(),
-    padding: containerPadding,
-    flex: 1,
-    paddingLeft: 0,
-    paddingBottom: 5
+    marginBottom: 8,
   }
 });
 

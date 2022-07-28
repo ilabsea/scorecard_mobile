@@ -96,7 +96,13 @@ class VotingIndicatorForm extends Component {
 
   showSubmitConfirmation() {
     this.formRef.current?.setSnapPoints(votingConfirmationSnapPoints)
-    this.formRef.current?.setBodyContent(<VotingIndicatorFormConfirmation onConfirm={() => this._submit()}/>);
+    this.formRef.current?.setBodyContent(
+      <VotingIndicatorFormConfirmation
+        scorecardUuid={this.props.route.params.scorecard_uuid}
+        indicators={this.state.indicators}
+        participantUuid={this.state.participant_uuid}
+        onConfirm={() => this._submit()}/>
+    );
     this.participantModalRef.current?.present();
   }
 

@@ -395,8 +395,6 @@
   "discardTheVoting": "បោះបង់ការដាក់ពិន្ទុ",
   "areYouSureYouWantToDiscardThisVoting": "តើអ្នកពិតជាចង់បោះបង់ការដាក់ពិន្ទុនេះមែនទេ?",
   "saveTheVoting": "រក្សាទុកការដាក់ពិន្ទុ",
-  "doYouWantToSaveThisVoting": "តើអ្នកពិតជាចង់រក្សាទុកការដាក់ពិន្ទុនេះមែនទេ?",
-  "afterSavingYouWillNotMakeUpdate": "បន្ទាប់ពីរក្សាទុកការដាក់ពិន្ទុនេះហើយ អ្នកនឹងមិនអាចធ្វើការកែប្រែព័ត៌មានបានឡើយ។",
-  "pleaseCheckVotingBeforeSaving": "សូមពិនិត្យមើលដាក់ពិន្ទុរបស់អ្នកមុននឹងរក្សាទុក។",
-  "confirm": "យល់ព្រម"
+  "confirmAndSave": "យល់ព្រម និងរក្សាទុក",
+  "confirmYourVote": "បញ្ជាក់ការដាក់ពិន្ទុរបស់អ្នក"
 }

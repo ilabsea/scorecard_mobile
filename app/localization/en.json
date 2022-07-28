@@ -395,8 +395,6 @@
   "discardTheVoting": "Discard the voting",
   "areYouSureYouWantToDiscardThisVoting": "Are you sure you want to discard this voting?",
   "saveTheVoting": "Save the voting",
-  "doYouWantToSaveThisVoting": "Do you want to save this voting?",
-  "afterSavingYouWillNotMakeUpdate": "After saving this voting you will not be able to make an update to it.",
-  "pleaseCheckVotingBeforeSaving": "Please check your voting before saving.",
-  "confirm": "Confirm"
+  "confirmAndSave": "Confirm & save",
+  "confirmYourVote": "Confirm your vote"
 }
