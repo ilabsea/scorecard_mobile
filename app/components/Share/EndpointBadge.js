@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 import endpointUrlHelper from '../../helpers/endpoint_url_helper';
+import { isShortWidthScreen } from '../../utils/responsive_util';
 
 const EndpointBadge = (props) => {
   const {shortcut, shortcut_bg_color, shortcut_text_color} = props.endpoint;
@@ -16,14 +17,14 @@ const EndpointBadge = (props) => {
 const styles = StyleSheet.create({
   badge: {
     paddingHorizontal: 4,
-    marginLeft: 20,
+    marginLeft: isShortWidthScreen() ? 4 : 20,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
     height: 20
   },
   badgeLabel: {
-    fontSize: 11,
+    fontSize: isShortWidthScreen() ? 10 : 11,
     textTransform: 'uppercase'
   }
 });

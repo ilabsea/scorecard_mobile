@@ -20,7 +20,7 @@ class ScorecardListInfoLocation extends Component {
   renderPrimarySchool() {
     return (
       <Text style={responsiveStyles.locationLabel}>
-        { JSON.parse(this.props.scorecard.primary_school)[`name_${this.context.appLanguage}`] }{`, `}
+        { JSON.parse(this.props.scorecard.primary_school)[`name_${this.context.appLanguage}`] }
       </Text>
     )
   }
@@ -35,7 +35,7 @@ class ScorecardListInfoLocation extends Component {
           { scorecard.primary_school && this.renderPrimarySchool(scorecard) }
 
           <Text numberOfLines={1} style={[responsiveStyles.locationLabel, { maxWidth: getLocationMaxWidth(scorecard, this.context.appLanguage)}]}>
-            { scorecard.commune }, { scorecard.district }
+            { this.props.scorecard.primary_school && `, `}{ scorecard.commune }, { scorecard.district }
           </Text>
           <Text style={responsiveStyles.locationLabel}>, {scorecard.province}</Text>
         </View>

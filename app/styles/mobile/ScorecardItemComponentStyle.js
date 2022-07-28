@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { smLabelSize, xlIconSize } from '../../constants/mobile_font_size_constant';
+import { scorecardListSubTitleMobileFontSize } from '../../constants/scorecard_constant';
 import Color from '../../themes/color';
-import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
-
-const subTitleFontSize = getMobileFontSizeByPixelRatio(12, 11.5);
+import { bodyFontSize } from '../../utils/font_size_util';
+import { isShortWidthScreen } from '../../utils/responsive_util';
 
 const ScorecardItemComponentStyles = StyleSheet.create({
   itemContainer: {
@@ -61,7 +61,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     fontSize: bodyFontSize(),
   },
   locationLabel: {
-    fontSize: subTitleFontSize,
+    fontSize: scorecardListSubTitleMobileFontSize,
     marginLeft: 4,
     color: Color.grayColor,
     marginRight: 0,
@@ -77,11 +77,11 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     borderRadius: 30, 
   },
   removeDateIcon: {
-    marginTop: 5,
+    marginTop: isShortWidthScreen() ? 4 : 5,
     marginRight: 4
   },
   removeDateLabel: {
-    fontSize: subTitleFontSize,
+    fontSize: scorecardListSubTitleMobileFontSize,
     color: Color.redColor,
     fontFamily: FontFamily.body,
     textAlign: 'right',
