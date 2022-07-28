@@ -134,7 +134,7 @@ class VotingIndicatorForm extends Component {
     return (
       <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
         <HeaderWithDiscardAlert
-          title={this.context.translations.scorecardVoting}
+          title={this.context.translations.newVoting}
           modalTitle={this.context.translations.discardTheVoting}
           modalDescription={this.context.translations.areYouSureYouWantToDiscardThisVoting}
           hasDiscardAlert={() => this.state.indicators.filter(indicator => indicator.ratingScore).length > 0}
