@@ -9,8 +9,9 @@ import EndpointBadge from '../Share/EndpointBadge';
 import VotingIndicator from '../../models/VotingIndicator';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { scorecardListSubTitleMobileFontSize } from '../../constants/scorecard_constant';
 
-const subTextFontSize = getDeviceStyle(13, 12);
+const subTextFontSize = getDeviceStyle(13, scorecardListSubTitleMobileFontSize);
 
 class ScorecardListInfoDetail extends Component {
   static contextType = LocalizationContext;

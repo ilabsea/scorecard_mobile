@@ -1,3 +1,5 @@
+import { getMobileFontSizeByPixelRatio } from '../utils/font_size_util';
+
 // Download phases of scorecard contain indicator, language_indicator, caf,
 // rating_scale, program_language, lang_indicator_audio, lang_rating_scale_audio, and indicator_image
 const scorecardDownloadSteps = 6;
@@ -63,6 +65,8 @@ const scorecardTrackingSteps = {
   12: 'propose_by_participant_base',
 };
 
+const scorecardListSubTitleMobileFontSize = getMobileFontSizeByPixelRatio(11.5, 12);
+
 export {
   scorecardDownloadPhases,
   indicatorPhase,
@@ -86,4 +90,5 @@ export {
   VOTING,
   SCORECARD_RESULT,
   scorecardTrackingSteps,
+  scorecardListSubTitleMobileFontSize,
 };
