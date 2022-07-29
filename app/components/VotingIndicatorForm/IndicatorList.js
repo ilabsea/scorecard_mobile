@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     height: getDeviceStyle(76, 70),
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: 6,
   },
   label: {
     fontSize: bodyFontSize()
