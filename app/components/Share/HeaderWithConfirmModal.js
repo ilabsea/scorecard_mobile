@@ -25,7 +25,7 @@ class HeaderWithConfirmModal extends React.Component {
 
         <CustomAlertMessage
           visible={this.props.visibleConfirmModal}
-          title={translations.discardTheChanges}
+          title={this.props.modalTitle}
           description={this.props.modalDescription}
           closeButtonLabel={translations.buttonLabelNo}
           hasConfirmButton={true}

@@ -14,7 +14,7 @@ class VotingIndicatorFormParticipantInfo extends React.Component {
   render() {
     return (
       <View style={{paddingHorizontal: getDeviceStyle(16, 10)}}>
-        <HeaderTitle headline="addNewVoting" subheading="pleaseVoteForTheProposedIndicatorsBelow"/>
+        <HeaderTitle subheading="pleaseVoteForTheProposedIndicatorsBelow"/>
 
         <ParticipantInfo
           title={this.context.translations.addNewVoting}

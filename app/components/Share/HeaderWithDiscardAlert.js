@@ -20,7 +20,7 @@ class HeaderWithDiscardAlert extends React.Component {
 
   goBack() {
     this.setState({ visibleConfirmModal: false }, () => {
-      this.props.onGoBack();
+      !!this.props.onGoBack && this.props.onGoBack();
       navigateBack();
     });
   }
@@ -30,7 +30,8 @@ class HeaderWithDiscardAlert extends React.Component {
 
     return <HeaderWithConfirmModal
               title={this.props.title}
-              modalDescription={translations.doYouWantToDiscardTheseChanges}
+              modalTitle={this.props.modalTitle|| translations.discardTheChanges}
+              modalDescription={this.props.modalDescription || translations.doYouWantToDiscardTheseChanges}
               visibleConfirmModal={this.state.visibleConfirmModal}
               onBackPress={() => this.onBackPress()}
               goBack={() => this.goBack()}

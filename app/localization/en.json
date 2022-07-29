@@ -391,5 +391,11 @@
   "discardTheChanges": "Discard the changes",
   "unableToDeleteTheScorecard": "Unable to delete the scorecard",
   "finishTheScorecard": "Finish the scorecard",
-  "removeTheImage": "Remove the image"
+  "removeTheImage": "Remove the image",
+  "discardTheVoting": "Discard the voting",
+  "areYouSureYouWantToDiscardThisVoting": "Are you sure you want to discard this voting?",
+  "saveTheVoting": "Save the voting",
+  "confirmAndSave": "Confirm & save",
+  "confirmYourVote": "Confirm your vote",
+  "newVoting": "New voting"
 }

@@ -21,7 +21,7 @@ class HeaderTitle extends Component {
 
     return (
       <View style={this.props.customStyle}>
-        <Text style={styles.headline}>{translations[headline]}</Text>
+        { !!headline && <Text style={styles.headline}>{translations[headline]}</Text> }
         <Text style={styles.subTitle}>{translations[subheading]}</Text>
       </View>
     );

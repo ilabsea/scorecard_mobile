@@ -11,6 +11,7 @@ import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { isProposedIndicatorScreen } from '../../utils/screen_util';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 export default class ParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -54,6 +55,7 @@ export default class ParticipantInfo extends Component {
       navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
       this.setState({ participantListVisible: true });
+      this.props.formModalRef.current?.setSnapPoints(participantModalSnapPoints);
       this.props.formModalRef.current?.setBodyContent(this.getParticipantListContent());
 
       setTimeout(() => {
