@@ -93,10 +93,10 @@ class PlaySound extends Component {
 
   getIconName() {
     if (!this.props.filePath) {
-      return 'volume-mute';
+      return 'volume-mute-outline';
     }
 
-    return this.state.playState == 'playing' ? 'pause' : 'volume-medium';
+    return this.state.playState == 'playing' ? 'pause' : 'volume-medium-outline';
   }
 
   render() {
