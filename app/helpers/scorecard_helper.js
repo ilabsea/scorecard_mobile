@@ -35,7 +35,7 @@ const scorecardHelper = (() => {
       return '';
 
     const errorTypes = {
-      submitted: ERROR_SCORECARD_COMPLETED,
+      completed: ERROR_SCORECARD_COMPLETED,
       default: ERROR_SCORECARD_EXECUTED
     };
 
