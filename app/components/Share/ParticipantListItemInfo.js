@@ -26,7 +26,10 @@ class ParticipantListItemInfo extends React.Component {
   }
 
   renderAttributes() {
-    return <ParticipantListItemAttributes participant={this.props.participant} fontSize={this.props.fontSize} labelColor={this.props.labelColor} />
+    return <ParticipantListItemAttributes participant={this.props.participant} fontSize={this.props.fontSize}
+              labelColor={this.props.labelColor}
+              customGenderStyle={this.props.customGenderStyle}
+           />
   }
 
   render() {

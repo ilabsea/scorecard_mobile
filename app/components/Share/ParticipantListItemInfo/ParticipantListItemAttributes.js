@@ -26,7 +26,7 @@ class ParticipantAttributes extends React.Component {
     if (this.props.participant.gender === '')
       return <MaterialIcon name="person" size={mediumIconSize()} color={this.labelColor ||"#b9b9b9"} style={{paddingHorizontal: 10}} />;
 
-    return <ListItemGenderIcon gender={this.props.participant.gender} color={this.labelColor} />
+    return <ListItemGenderIcon gender={this.props.participant.gender} color={this.labelColor} customGenderStyle={this.props.customGenderStyle} />
   };
 
   getAge = () => {

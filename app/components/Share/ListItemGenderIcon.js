@@ -12,7 +12,7 @@ class ListItemGenderIcon extends React.Component {
               color={ this.props.color || Color.blackColor}
               size={mediumIconSize()}
               otherIconSize={mediumIconSize() - 6}
-              containerStyle={styles.container}
+              containerStyle={[styles.container, this.props.customGenderStyle]}
               questionIconStyle={{ top: getDeviceStyle(-10, -9), left: -2 }}
             />
   }
