@@ -28,7 +28,6 @@ import appStatusService from './app/services/app_status_service';
 import { LocalizationProvider, LocalizationContext } from './app/components/Translations';
 import { NavigationContainer } from '@react-navigation/native';
 
-import MobileTokenService from './app/services/mobile_token_service';
 import notificationService from './app/services/notification_service';
 import { SELECTED_FILTERS } from './app/constants/main_constant';
 import settingHelper from './app/helpers/setting_helper';
@@ -66,7 +65,7 @@ const App: () => React$Node = () => {
   useEffect(() => {
     setLoading(false);
     SplashScreen.hide();
-    MobileTokenService.handleSyncingToken();
+    appStatusService.checkAppVersionSyncStatus();
 
     // Clear the unsaved data of the setting when the app is freshly lauching,
     // to prevent the setting screen from using the unsaved data after the user killed the app
