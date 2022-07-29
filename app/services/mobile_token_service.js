@@ -1,20 +1,26 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import DeviceInfo from 'react-native-device-info';
 import MobileTokenApi from '../api/MobileTokenApi';
+import pkg from '../../package';
+import deviceUtil from '../utils/device_util';
+import { VERSIONING_SYNCED, REGISTRATION_TOKEN } from '../constants/main_constant';
 
-const TOKEN_KEY = 'registeredToken';
 const retryTime = 1;
 
 const MobileTokenService = (() => {
   return {
     handleSyncingToken: handleSyncingToken,
-    updateToken: updateToken,
+    updateToken,
     getToken
   }
 
   function handleSyncingToken() {
-    _requestFirebaseToken(retryTime, (token) => handleToken(token));
+    AsyncStorage.getItem(VERSIONING_SYNCED, (error, isSynced) => {
+      if (!isSynced)
+        _requestFirebaseToken(retryTime, (token) => sendToken(token));
+    });
 
     // // Listen to whether the token changes
     // return messaging().onTokenRefresh(token => {
@@ -22,39 +28,27 @@ const MobileTokenService = (() => {
     // });
   }
 
-  function handleToken(token) {
-    AsyncStorage.getItem(TOKEN_KEY, (error, storageToken) => {
-      if(!storageToken) {
-        return sendToken(token);
-      }
-
+  function sendToken(token, programId = '') {
+    AsyncStorage.getItem(REGISTRATION_TOKEN, (error, storageToken) => {
       let jsonValue = JSON.parse(storageToken) || {};
+      if (!!programId && programId == jsonValue.program_id)
+        return;
 
-      if(jsonValue.token == token) { return }
-
-      sendToken(token, jsonValue.id);
+      let params = _getMobileTokenParams(token, jsonValue.id, programId || jsonValue.program_id);
+      _sendTokenToApi(params);
     })
   }
 
-  async function sendToken(token, id) {
-    let data =  { mobile_token: {token: token, id: id} };
-    _sendTokenToApi(data);
-  }
-
-  async function updateToken(program_id) {
-    if (!program_id) return;
+  function updateToken(programId) {
+    if (!programId) return;
 
     _requestFirebaseToken(retryTime, (token) => {
-      AsyncStorage.getItem(TOKEN_KEY, (error, storageToken) => {
-        let jsonValue = JSON.parse(storageToken) || {};
-        let data = { mobile_token: {token: token, id: jsonValue.id, program_id: program_id} };
-        _sendTokenToApi(data);
-      })
+      sendToken(token, programId);
     });
   }
 
   async function getToken() {
-    const storageToken = await AsyncStorage.getItem(TOKEN_KEY);
+    const storageToken = await AsyncStorage.getItem(REGISTRATION_TOKEN);
     if (!storageToken)
       return null;
 
@@ -63,14 +57,6 @@ const MobileTokenService = (() => {
   }
 
   // private function
-
-  async function _saveToken(value) {
-    try {
-      await AsyncStorage.setItem(TOKEN_KEY, JSON.stringify(value));
-    } catch (e) {
-    }
-  }
-
   function _requestFirebaseToken(count, callback) {
     NetInfo.fetch().then(state => {
       if (state.isConnected && state.isInternetReachable) {
@@ -95,9 +81,25 @@ const MobileTokenService = (() => {
     new MobileTokenApi().put(data)
       .then(res => {
         if(res.status == 200) {
-          _saveToken(res.data);
+          AsyncStorage.setItem(REGISTRATION_TOKEN, JSON.stringify(res.data));
+          AsyncStorage.setItem(VERSIONING_SYNCED, 'true');
         }
       });
+  }
+
+  function _getMobileTokenParams(token, id = '', programId = '') {
+    const params = {
+      mobile_token: {
+        id: id,
+        token: token,
+        device_type: deviceUtil.getDeviceType(),
+        app_version: pkg.version,
+        program_id: programId
+      }
+    }
+
+    DeviceInfo.getAndroidId().then((androidId) => params.mobile_token.device_id = androidId);
+    return params;
   }
 })();
 
