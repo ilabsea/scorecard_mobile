@@ -23,8 +23,8 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       description: translations.formatString(translations.cannotSubmitScorecardErrorMsg, endpoint, scorecardCode)
     },
     'ERROR_SCORECARD_NOT_EXIST': {
-      title: translations.theScorecardIsNotExist,
-      description: translations.formatString(translations.thisScorecardIsNotExist, scorecardCode)
+      title: translations.verifyScorecard,
+      description: translations.formatString(translations.thisScorecardIsInvalid, scorecardCode)
     },
     'ERROR_UNAUTHORIZED': {
       title: translations.invalidScorecard,
