@@ -29,7 +29,7 @@ const scorecardValidationService = (() => {
   async function _checkAuthentication(code, setErrorState, updateInfoModalState) {
     const isAuthenticated = await authenticationFormService.isAuthenticated();
     if (!isAuthenticated) {
-      setErrorState('422');
+      setErrorState('401');
       return false;
     }
 

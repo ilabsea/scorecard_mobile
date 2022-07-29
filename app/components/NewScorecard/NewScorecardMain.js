@@ -38,6 +38,11 @@ class NewScorecardMain extends Component {
   async joinScorecard(code) {
     _this.props.updateScorecardCode(code);
 
+    if (!_this.state.hasInternetConnection) {
+      _this.props.setErrorState('511')
+      return;
+    }
+
     const isAbleToJoinNewScorecard = await scorecardValidationService.validateScorecardCode(code, (errorStatus) => {
       _this.props.setErrorState(errorStatus);
     }, (visible, isSubmitted, hasMatchedEndpoint) => {
@@ -46,11 +51,6 @@ class NewScorecardMain extends Component {
 
     if (!isAbleToJoinNewScorecard)
       return;
-
-    if (!_this.state.hasInternetConnection) {
-      internetConnectionService.showAlertMessage(_this.context.translations.noInternetConnection);
-      return;
-    }
 
     AsyncStorage.setItem('IS_CONNECTED', 'false');
     _this.props.joinScorecard(code);
