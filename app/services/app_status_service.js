@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import reLoginService from './re_login_service';
 import settingHelper from '../helpers/setting_helper';
 import pkg from '../../package';
-import { VERSIONING_SYNCED, REGISTRATION_TOKEN } from '../constants/main_constant';
+import { TOKEN_SYNCED, TOKEN_REGISTERED } from '../constants/main_constant';
 import MobileTokenService from './mobile_token_service';
 
 const appStatusService = (() => {
@@ -22,10 +22,10 @@ const appStatusService = (() => {
   }
 
   function checkAppVersionSyncStatus() {
-    AsyncStorage.getItem(REGISTRATION_TOKEN, async(error, attrs) => {
+    AsyncStorage.getItem(TOKEN_REGISTERED, async(error, attrs) => {
       const jsonValue = JSON.parse(attrs);
       if (!jsonValue || await isFirstTimeLaunch() || jsonValue.app_version != pkg.version)
-        AsyncStorage.removeItem(VERSIONING_SYNCED);
+        AsyncStorage.removeItem(TOKEN_SYNCED);
 
       MobileTokenService.handleSyncingToken();
     });

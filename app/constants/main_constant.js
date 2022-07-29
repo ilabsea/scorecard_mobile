@@ -5,8 +5,8 @@ const ACCORDION_LEFT = 'accordionLeft';
 const ACCORDION_RIGHT = 'accordionRight';
 const CUSTOM = 'c';
 const DEFAULT = 'd';
-const VERSIONING_SYNCED = 'versioningSynced';
-const REGISTRATION_TOKEN = 'registeredToken';
+const TOKEN_SYNCED = 'tokenSynced';
+const TOKEN_REGISTERED = 'registeredToken';
 
 export {
   DEFAULT_LANGUAGE,
@@ -16,6 +16,6 @@ export {
   ACCORDION_RIGHT,
   CUSTOM,
   DEFAULT,
-  VERSIONING_SYNCED,
-  REGISTRATION_TOKEN,
+  TOKEN_SYNCED,
+  TOKEN_REGISTERED,
 };

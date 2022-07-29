@@ -5,7 +5,7 @@ import DeviceInfo from 'react-native-device-info';
 import MobileTokenApi from '../api/MobileTokenApi';
 import pkg from '../../package';
 import deviceUtil from '../utils/device_util';
-import { VERSIONING_SYNCED, REGISTRATION_TOKEN } from '../constants/main_constant';
+import { TOKEN_SYNCED, TOKEN_REGISTERED } from '../constants/main_constant';
 
 const retryTime = 1;
 
@@ -17,7 +17,7 @@ const MobileTokenService = (() => {
   }
 
   function handleSyncingToken() {
-    AsyncStorage.getItem(VERSIONING_SYNCED, (error, isSynced) => {
+    AsyncStorage.getItem(TOKEN_SYNCED, (error, isSynced) => {
       if (!isSynced)
         _requestFirebaseToken(retryTime, (token) => sendToken(token));
     });
@@ -29,7 +29,7 @@ const MobileTokenService = (() => {
   }
 
   function sendToken(token, programId = '') {
-    AsyncStorage.getItem(REGISTRATION_TOKEN, (error, storageToken) => {
+    AsyncStorage.getItem(TOKEN_REGISTERED, (error, storageToken) => {
       let jsonValue = JSON.parse(storageToken) || {};
       if (!!programId && programId == jsonValue.program_id)
         return;
@@ -48,7 +48,7 @@ const MobileTokenService = (() => {
   }
 
   async function getToken() {
-    const storageToken = await AsyncStorage.getItem(REGISTRATION_TOKEN);
+    const storageToken = await AsyncStorage.getItem(TOKEN_REGISTERED);
     if (!storageToken)
       return null;
 
@@ -81,8 +81,8 @@ const MobileTokenService = (() => {
     new MobileTokenApi().put(data)
       .then(res => {
         if(res.status == 200) {
-          AsyncStorage.setItem(REGISTRATION_TOKEN, JSON.stringify(res.data));
-          AsyncStorage.setItem(VERSIONING_SYNCED, 'true');
+          AsyncStorage.setItem(TOKEN_REGISTERED, JSON.stringify(res.data));
+          AsyncStorage.setItem(TOKEN_SYNCED, 'true');
         }
       });
   }
