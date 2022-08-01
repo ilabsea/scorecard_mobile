@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   playVideoIcon: {
     padding: 0,
     marginRight: 5,
-    marginTop: getDeviceStyle(-4, 0),
+    marginTop: -4,
     height: 20
   }
 });
