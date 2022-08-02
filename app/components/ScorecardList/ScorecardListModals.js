@@ -27,7 +27,7 @@ class ScorecardListModals extends Component {
           closeButtonLabel={this.props.isConfirmModal ? translations.close : translations.infoCloseLabel}
           hasConfirmButton={this.props.isConfirmModal}
           confirmButtonLabel={translations.ok}
-          isConfirmButtonDisabled={false}
+          isConfirmButtonDisabled={this.props.isDeleting}
           onDismiss={() => this.props.onConfirmModalDismiss()}
           onConfirm={() => this.props.confirmDelete()}
         />

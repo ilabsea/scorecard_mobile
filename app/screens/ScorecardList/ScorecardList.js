@@ -107,6 +107,7 @@ class ScorecardList extends Component {
         isConfirmModal: isErrorUnauthorize,
         visibleModal: !isErrorUnauthorize,
         visibleErrorModal: isErrorUnauthorize,
+        isDeleting: false
       });
     });
   }
@@ -151,6 +152,7 @@ class ScorecardList extends Component {
           confirmDelete={() => this._confirmDelete()}
           headerHeight={this.state.headerHeight}
           scorecards={this.state.scorecards}
+          isDeleting={this.state.isDeleting}
         />
       </View>
     )
