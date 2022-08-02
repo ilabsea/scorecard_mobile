@@ -43,7 +43,7 @@ class GendersCheckBox extends Component {
     const iconSize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
     return <GenderIcon gender={gender}
-              color={participantHelper.getItemColor(isSelected, 'text')}
+              color={participantHelper.getItemColor(isSelected, 'text', this.props.disabled)}
               size={iconSize}
               otherIconSize={iconSize - 11}
               containerStyle={{width: 60}}
@@ -71,6 +71,7 @@ class GendersCheckBox extends Component {
             label={ gender == 'other' ? translations.otherGender : translations[gender] }
             isSelected={gender === this.state.selectedGender}
             renderSmallSize={this.props.renderSmallSize}
+            disabled={this.props.disabled}
           >
             {this._renderGenderIcon(gender)}
           </SelectBox>

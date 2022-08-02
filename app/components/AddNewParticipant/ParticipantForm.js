@@ -26,7 +26,7 @@ class ParticipantForm extends Component {
       isMinority: false,
       isPoor: false,
       isYouth: false,
-      uncounted: false,
+      uncountable: false,
     };
   }
 
@@ -34,6 +34,21 @@ class ParticipantForm extends Component {
     if (this.props.isUpdate) {
       this.setState(this.props.participant);
     }
+  }
+
+  onUncountableChange = (fieldName, uncountable) => {
+    const newState = {
+      age: uncountable ? -1 : 0,
+      selectedGender: 'other',
+      isDisability: false,
+      isMinority: false,
+      isPoor: false,
+      isYouth: false,
+      uncountable: uncountable
+    };
+    this.setState(newState);
+    this.props.updateNewState(newState);
+    this.props.updateValidationStatus(uncountable);
   }
 
   onChangeValue = (fieldName, value) => {
@@ -78,6 +93,7 @@ class ParticipantForm extends Component {
                     onChangeValue={this.onChangeValue}
                     isSelected={attribute.isSelected}
                     renderSmallSize={this.props.renderSmallSize}
+                    disabled={this.state.uncountable}
                   />
                 </View>
               )
@@ -90,7 +106,7 @@ class ParticipantForm extends Component {
     return doms;
   }
 
-  _renderMarkAsUncountedOption = () => {
+  _renderUncountableOption = () => {
     if (participantHelper.isUncountedOptionVisible(this.props.scorecardUuid) || this.props.isUpdate)
       return;
 
@@ -105,9 +121,9 @@ class ParticipantForm extends Component {
             title={ this.context.translations.uncounted }
             iconName='eye-off'
             iconType='material'
-            fieldName='uncounted'
-            onChangeValue={this.onChangeValue}
-            isSelected={this.state.uncounted}
+            fieldName='uncountable'
+            onChangeValue={this.onUncountableChange}
+            isSelected={this.state.uncountable}
             renderSmallSize={this.props.renderSmallSize}
           />
         </View>
@@ -132,19 +148,21 @@ class ParticipantForm extends Component {
             }}
             isRequired={true}
             requiredMessage={translations.pleaseEnterTheAge}
+            disabled={this.state.uncountable}
           />
 
           <GendersCheckBox
             onChangeValue={this.onChangeValue}
             selectedGender={this.state.selectedGender}
             renderSmallSize={this.props.renderSmallSize}
+            disabled={this.state.uncountable}
           />
 
           <Text style={{marginTop: 15, fontSize: bodyFontSize()}}>
             { translations.attributes }
           </Text>
           { this._renderParticipantAttributes() }
-          { this._renderMarkAsUncountedOption() }
+          { this._renderUncountableOption() }
         </View>
       </TouchableWithoutFeedback>
     );

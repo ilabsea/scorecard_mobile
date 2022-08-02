@@ -36,11 +36,12 @@ class OptionsSelectBox extends Component {
 
   renderIcon() {
     const iconsize = this.props.renderSmallSize ? getDeviceStyle(smTabletIconSize, smMobileIconSize) : getDeviceStyle(mdTabletIconSize, mdMobileIconSize);
+    const color = participantHelper.getItemColor(this.state.isSelected, 'text', this.props.disabled);
     if (this.props.iconType == 'material')
-      return <MaterialIcon name={this.props.iconName} color={participantHelper.getItemColor(this.state.isSelected, 'text')} size={iconsize} />
+      return <MaterialIcon name={this.props.iconName} color={color} size={iconsize} />
 
     return <FontAwesomeIcon name={this.props.iconName} size={iconsize} style={{paddingHorizontal: 10}}
-            color={participantHelper.getItemColor(this.state.isSelected, 'text')}
+            color={color}
            />
   }
 
@@ -53,6 +54,7 @@ class OptionsSelectBox extends Component {
           label={ this.props.title }
           isSelected={this.state.isSelected}
           renderSmallSize={this.props.renderSmallSize}
+          disabled={this.props.disabled}
         >
           { this.renderIcon() }
         </SelectBox>

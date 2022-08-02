@@ -26,11 +26,16 @@ const participantHelper = (() => {
     }
   }
 
-  function getItemColor(isSelected, type) {
-    if (isSelected)
-      return Color.headerColor;
+  function getItemColor(isSelected, type, disabled) {
+    const colors = {
+      'border': '#ebebeb',
+      'default': Color.grayColor,
+    }
 
-    return type == 'border' ? '#ebebeb' : 'gray';
+    if (disabled) return Color.disableCardColor;
+    if (isSelected) return Color.headerColor;
+
+    return colors[type] || colors.default;
   }
 
   function isYouth(age) {
