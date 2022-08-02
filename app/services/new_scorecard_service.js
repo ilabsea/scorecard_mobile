@@ -23,10 +23,11 @@ const newScorecardService = (() => {
     return validationService('scorecardCode', scorecardUuid) ? false : true;
   }
 
-  function handleExistedScorecard(scorecardUuid, isDownloadedCallback, notDownloadedCallback) {
+  async function handleExistedScorecard(scorecardUuid, isDownloadedCallback, notDownloadedCallback) {
     AsyncStorage.setItem('SELECTED_SCORECARD_UUID', scorecardUuid);
+    const scorecard = Scorecard.find(scorecardUuid);
 
-    if (!isDownloaded(scorecardUuid)) {
+    if (!isDownloaded(scorecardUuid) && await Scorecard.isEditable(scorecard)) {
       isDownloadedCallback();
       return;
     }
