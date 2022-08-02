@@ -43,7 +43,7 @@ const schemaV21 = {
       const newParticipants = newRealm.objects('Participant');
 
       for (let i = 0; i < oldParticipants.length; i ++) {
-        newParticipants[i].counted = !oldParticipants[i].counted ? true : oldParticipants[i].counted;
+        newParticipants[i].countable = !oldParticipants[i].countable ? true : oldParticipants[i].countable;
       }
     }
   }

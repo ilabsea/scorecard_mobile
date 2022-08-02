@@ -37,7 +37,8 @@ class AddNewParticipantMain extends Component {
       isMinority: minority,
       isPoor: poor,
       isYouth: youth,
-      isValidAge: age > 0
+      isValidAge: age > 0,
+      countable: true
     };
   }
 
@@ -50,7 +51,7 @@ class AddNewParticipantMain extends Component {
       isPoor: false,
       isYouth: false,
       isValidAge: false,
-      uncounted: false,
+      countable: true,
     });
   }
 
@@ -100,7 +101,7 @@ class AddNewParticipantMain extends Component {
       youth: isYouth,
       scorecard_uuid: this.props.scorecardUuid,
       order: isUpdate ? this.props.selectedParticipant.order : 0,
-      counted: isUpdate ? this.props.selectedParticipant.counted : !this.state.uncounted
+      countable: isUpdate ? this.props.selectedParticipant.countable : this.state.countable
     };
 
     saveParticipantInfo(attrs, this.props.scorecardUuid, isUpdate, (participants, participant) => {

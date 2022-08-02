@@ -16,7 +16,7 @@ const ParticipantSchema = {
     note: 'string?',
     voted: { type: 'bool', default: false },
     raised: { type: 'bool', default: false },
-    counted: { type: 'bool', default: true }
+    countable: { type: 'bool', default: true }
   },
 };
 

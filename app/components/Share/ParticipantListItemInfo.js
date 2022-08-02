@@ -23,7 +23,7 @@ class ParticipantListItemInfo extends React.Component {
               <Text style={[styles.numberLabel, this.props.customNumberLabelStyle]}>{this.props.participant.order + 1}</Text>
             </View>
 
-            {!this.props.participant.counted && <View style={styles.uncountedBadge} />}
+            {!this.props.participant.countable && <View style={styles.uncountedBadge} />}
           </View>
   }
 

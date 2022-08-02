@@ -6,7 +6,7 @@ const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => 
   let attrs = participant;
 
   if (!isUpdate) {
-    attrs.order = attrs.counted ? Participant.getAllCountedByScorecard(scorecardUuid).length : 98;
+    attrs.order = attrs.countable ? Participant.getAllCountableByScorecard(scorecardUuid).length : 98;
     Participant.create(attrs);
   }
   else

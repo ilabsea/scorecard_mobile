@@ -55,7 +55,7 @@ class ParticipantMain extends React.Component {
   }
   
   renderRightIcon(participant) {
-    if (!participant.counted)
+    if (!participant.countable)
       return <TouchableOpacity onPress={() => this.showUncountedInfo()} style={responsiveStyles.uncountedButton}>
                 <Icon name='eye-off' color={Color.grayColor} size={24} />
              </TouchableOpacity>

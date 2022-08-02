@@ -16,8 +16,8 @@ const Participant = (() => {
     findByScorecardAndParticipantUuid,
     getNumberOfProposedParticipant,
     getRaisedParticipants,
-    hasUncounted,
-    getAllCountedByScorecard,
+    hasUncountable,
+    getAllCountableByScorecard,
   }
 
   function find(uuid) {
@@ -57,7 +57,7 @@ const Participant = (() => {
   }
 
   function getUnvoted(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = false AND counted = true SORT(order ASC)`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = false AND countable = true SORT(order ASC)`);
   }
 
   function getNotRaised(scorecardUuid) {
@@ -80,12 +80,12 @@ const Participant = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
   }
 
-  function hasUncounted(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND counted == false`).length > 0;
+  function hasUncountable(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == false`).length > 0;
   }
 
-  function getAllCountedByScorecard(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND counted == true`);
+  function getAllCountableByScorecard(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == true`);
   }
 })();
 

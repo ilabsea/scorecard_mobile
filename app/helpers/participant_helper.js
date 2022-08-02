@@ -65,11 +65,11 @@ const participantHelper = (() => {
     if (isVotingScreen())
       return false
 
-    return Participant.hasUncounted(scorecardUuid) && participants.filter(participant => !participant.counted).length > 0;
+    return Participant.hasUncountable(scorecardUuid) && participants.filter(participant => !participant.countable).length > 0;
   }
 
   function isUncountedOptionVisible(scorecardUuid) {
-    return isVotingScreen() || Participant.hasUncounted(scorecardUuid);
+    return isVotingScreen() || Participant.hasUncountable(scorecardUuid);
   }
 
   // private method
