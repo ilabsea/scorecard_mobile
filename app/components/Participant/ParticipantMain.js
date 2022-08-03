@@ -7,9 +7,9 @@ import ParticipantHeader from './ParticipantHeader';
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 import EmptyListAction from '../Share/EmptyListAction';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
-import UncountedParticipantDetail from '../ParticipantModal/UncountedParticipantDetail';
+import UncountableParticipantDetail from '../ParticipantModal/UncountableParticipantDetail';
 
-import { participantContentHeight, participantModalSnapPoints, uncountedParticipantDetailSnapPoints } from '../../constants/modal_constant';
+import { participantContentHeight, participantModalSnapPoints, uncountableParticipantDetailSnapPoints } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
@@ -49,14 +49,14 @@ class ParticipantMain extends React.Component {
   }
 
   showUncountedInfo() {
-    this.props.formModalRef.current?.setSnapPoints(uncountedParticipantDetailSnapPoints);
-    this.props.formModalRef.current?.setBodyContent(<UncountedParticipantDetail/>);
+    this.props.formModalRef.current?.setSnapPoints(uncountableParticipantDetailSnapPoints);
+    this.props.formModalRef.current?.setBodyContent(<UncountableParticipantDetail/>);
     this.props.participantModalRef.current?.present();
   }
   
   renderRightIcon(participant) {
     if (!participant.countable)
-      return <TouchableOpacity onPress={() => this.showUncountedInfo()} style={responsiveStyles.uncountedButton}>
+      return <TouchableOpacity onPress={() => this.showUncountedInfo()} style={responsiveStyles.uncountableButton}>
                 <Icon name='eye-off' color={Color.grayColor} size={24} />
              </TouchableOpacity>
   }

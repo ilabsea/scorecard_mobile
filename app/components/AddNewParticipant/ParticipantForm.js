@@ -118,7 +118,7 @@ class ParticipantForm extends Component {
 
         <View style={{ marginTop: 8, paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
           <OptionsSelectBox
-            title={ this.context.translations.uncounted }
+            title={ this.context.translations.anonymous }
             iconName='eye-off'
             iconType='material'
             fieldName='uncountable'

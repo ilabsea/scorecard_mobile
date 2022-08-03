@@ -26,11 +26,14 @@ class ParticipantAttributes extends React.Component {
   }
 
   renderBooleanData(data, fieldName) {
+    if (fieldName == 'countable')
+      return !data ? this.context.translations.anonymous : '';
+
     return !!data ? `${this.context.translations[fieldName]}  ` : '';
   }
 
   renderAttributes() {
-    const attributes = ['disability', 'minority', 'poor', 'youth'];
+    const attributes = ['disability', 'minority', 'poor', 'youth', 'countable'];
     let info = '';
     attributes.map(attribute => {
       info += this.renderBooleanData(this.props.participant[attribute], attribute);

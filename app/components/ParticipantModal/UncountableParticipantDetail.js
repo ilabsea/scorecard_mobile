@@ -6,19 +6,19 @@ import {LocalizationContext} from '../Translations';
 import BottomSheetInfoTitle from '../Share/BottomSheetInfoTitle';
 
 import Color from '../../themes/color';
-import { uncoutnedParticipantDetailContentHeight } from '../../constants/modal_constant';
+import { uncountableParticipantDetailContentHeight } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4'
 
-class UncountedParticipantDetail extends React.Component {
+class UncountableParticipantDetail extends React.Component {
   static contextType = LocalizationContext;
 
   renderDetails() {
     const { translations } = this.context;
     const details = {
-      'uncountedParticipantCan': ['proposeTheIndicator', 'addNewIndicator'],
-      'uncountedParticipantCannot': ['votingTheIndicator']
+      'anonymousParticipantCan': ['proposeTheIndicator', 'addNewIndicator'],
+      'anonymousParticipantCannot': ['votingTheIndicator']
     }
 
     let doms = [];
@@ -29,7 +29,7 @@ class UncountedParticipantDetail extends React.Component {
           {
             details[key].map(detail => {
               return (
-                <View key={uuidv4()} style={{marginLeft: 10, flexDirection: 'row', alignItems: 'center'}}>
+                <View key={uuidv4()} style={{marginLeft: 15, flexDirection: 'row', alignItems: 'center'}}>
                   <View style={{width: 6, height: 6, borderRadius: 6, backgroundColor: Color.blackColor, marginRight: 5}} />
                   <Text style={{ fontSize: bodyFontSize(), textTransform: 'lowercase' }}>{ translations[detail] }</Text>
                 </View>
@@ -45,14 +45,14 @@ class UncountedParticipantDetail extends React.Component {
 
   render() {
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp(uncoutnedParticipantDetailContentHeight)}}>
-        <BottomSheetInfoTitle title={this.context.translations.uncountedParticipant}
+      <View style={{backgroundColor: Color.whiteColor, height: hp(uncountableParticipantDetailContentHeight)}}>
+        <BottomSheetInfoTitle title={this.context.translations.anonymousParticipant}
           customContainerStyle={{marginTop: -6}}
         />
 
         <View style={{padding: containerPadding, paddingHorizontal: containerPadding + 5, flex: 1}}>
           <Text style={{fontSize: bodyFontSize(), marginTop: 5}}>
-            { this.context.translations.uncountedParticipantDetail }
+            { this.context.translations.anonymousParticipantDetail }
           </Text>
           { this.renderDetails() }
         </View>
@@ -61,4 +61,4 @@ class UncountedParticipantDetail extends React.Component {
   }
 }
 
-export default UncountedParticipantDetail;
+export default UncountableParticipantDetail;

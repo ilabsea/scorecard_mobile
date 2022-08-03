@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Color from '../../themes/color';
-import { getIntegerOf } from '../../utils/math';
+import { getIntegerOf, getNumberOf } from '../../utils/math';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { LocalizationContext } from '../Translations';
 
@@ -50,6 +50,7 @@ class NumericInput extends Component {
           hasActiveOutline={true}
           onFocus={ () => this.onFocus() }
           onBlur={ () => this.onBlur() }
+          onChangeText={(value) => this.props.onChangeText(getNumberOf(value))}
         />
 
         <Text style={styles.messageLabel}>{ this.getErrorMessage() }</Text>

@@ -33,16 +33,7 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     paddingHorizontal: 6,
     fontSize: smallTextFontSize()
   },
-  uncountedBadge: {
-    width: 10,
-    height: 10,
-    backgroundColor: Color.darkRedColor,
-    borderRadius: 10,
-    position: 'absolute',
-    top: -3,
-    right: -4
-  },
-  uncountedButton: {
+  uncountableButton: {
     marginRight: 20,
     width: pressableItemSize(),
     height: pressableItemSize(),
