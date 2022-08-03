@@ -41,7 +41,7 @@ class ParticipantListItemInfo extends React.Component {
     this.props.participantModalRef.current?.present();
   }
 
-  renderAnonymousIcon() {
+  renderAnonymousButton() {
     return <TouchableOpacity onPress={() => this.showAnonymousDetail()} style={[styles.anonymousButton, this.props.anonymousStyle]} disabled={!this.props.anonymousPressable}>
               <AnonymousParticipantIcon/>
             </TouchableOpacity>
@@ -57,7 +57,7 @@ class ParticipantListItemInfo extends React.Component {
           { this.renderOrderNumber() }
           { this.renderAttributes() }
         </View>
-        { !this.props.participant.countable && this.renderAnonymousIcon() }
+        { !this.props.participant.countable && this.renderAnonymousButton() }
         { this.props.rightIcon }
         { this.hasArrowIcon && <RightArrowIcon color={this.props.arrowColor || Color.blackColor} /> }
       </TouchableOpacity>

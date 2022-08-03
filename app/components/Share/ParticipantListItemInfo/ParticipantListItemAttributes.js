@@ -26,10 +26,12 @@ class ParticipantAttributes extends React.Component {
   }
 
   renderBooleanData(data, fieldName) {
-    if (fieldName == 'countable')
-      return !data ? this.context.translations.anonymous : '';
+    const labels = {
+      'countable': !data ? this.context.translations.anonymous : '',
+      'default': !!data ? `${this.context.translations[fieldName]}  ` : ''
+    }
 
-    return !!data ? `${this.context.translations[fieldName]}  ` : '';
+    return labels[fieldName] ?? labels.default;
   }
 
   renderAttributes() {

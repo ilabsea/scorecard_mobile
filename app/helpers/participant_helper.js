@@ -11,8 +11,7 @@ const participantHelper = (() => {
     isYouth,
     getParticipantByIndicator,
     getDefaultParticipantInfo,
-    isFilterUncountedVisible,
-    isUncountedOptionVisible,
+    isUncountableOptionVisible,
   };
 
   function getGenderIconLabel(gender) {
@@ -35,7 +34,7 @@ const participantHelper = (() => {
     if (disabled) return Color.disableCardColor;
     if (isSelected) return Color.headerColor;
 
-    return colors[type] || colors.default;
+    return colors[type] ?? colors.default;
   }
 
   function isYouth(age) {
@@ -66,14 +65,7 @@ const participantHelper = (() => {
     return defaultValue;
   }
 
-  function isFilterUncountedVisible(scorecardUuid, participants) {
-    if (isVotingScreen())
-      return false
-
-    return Participant.hasUncountable(scorecardUuid) && participants.filter(participant => !participant.countable).length > 0;
-  }
-
-  function isUncountedOptionVisible(scorecardUuid) {
+  function isUncountableOptionVisible(scorecardUuid) {
     return isVotingScreen() || Participant.hasUncountable(scorecardUuid);
   }
 

@@ -27,7 +27,7 @@ class ParticipantModalMain extends React.Component {
       raisedParticipantUuids: [],
     }
     this.participants = !!props.participants ? props.participants
-                        : Participant.findByScorecard(props.scorecardUuid);
+                        : Participant.getAllByScorecard(props.scorecardUuid);
     this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 

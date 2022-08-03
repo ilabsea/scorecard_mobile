@@ -17,9 +17,10 @@ class ParticipantList extends React.Component {
     const numberOfParticipant = Scorecard.find(this.props.scorecardUuid).number_of_participant;
     this.totalParticipant = numberOfParticipant;
     let doms = null;
+    const participants = Participant.getAllByScorecard(this.props.scorecardUuid);
 
-    if (Participant.getAll(this.props.scorecardUuid).length > 0) {
-      doms = this.props.participants.map((participant, index) =>
+    if (participants.length > 0) {
+      doms = participants.map((participant, index) =>
         <ParticipantListItemInfo
           key={index}
           participant={participant}

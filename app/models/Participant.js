@@ -5,19 +5,19 @@ const MODEL = 'Participant';
 const Participant = (() => {
   return {
     find,
-    getAll,
+    getAllByScorecard,
     deleteAll,
     getVoted,
     getUnvoted,
     getNotRaised,
     create,
     update,
-    findByScorecard,
     findByScorecardAndParticipantUuid,
     getNumberOfProposedParticipant,
     getRaisedParticipants,
     hasUncountable,
-    getAllCountableByScorecard,
+    getAllCountable,
+    getUncountableByScorecard,
   }
 
   function find(uuid) {
@@ -38,8 +38,8 @@ const Participant = (() => {
     }
   }
 
-  function getAll(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}'`);
+  function getAllByScorecard(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
   }
 
   function deleteAll(scorecardUuid) {
@@ -64,10 +64,6 @@ const Participant = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' AND raised=false SORT(order ASC)`)
   }
 
-  function findByScorecard(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
-  }
-
   function findByScorecardAndParticipantUuid(scorecardUuid, participantUuid) {
     return realm.objects('Participant').filtered('scorecard_uuid = "'+ scorecardUuid +'" AND uuid ="'+ participantUuid +'"')[0];
   }
@@ -84,8 +80,12 @@ const Participant = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == false`).length > 0;
   }
 
-  function getAllCountableByScorecard(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == true`);
+  function getAllCountable(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == true`).sorted('order', false);
+  }
+
+  function getUncountableByScorecard(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == false`);
   }
 })();
 

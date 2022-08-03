@@ -67,7 +67,7 @@ class CreateNewIndicator extends Component {
   }
 
   updateParticipantInfo() {
-    const participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.route.params.scorecard_uuid)));
+    const participants = JSON.parse(JSON.stringify(Participant.getAllByScorecard(this.props.route.params.scorecard_uuid)));
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 

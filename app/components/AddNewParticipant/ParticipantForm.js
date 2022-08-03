@@ -107,7 +107,7 @@ class ParticipantForm extends Component {
   }
 
   _renderUncountableOption = () => {
-    if (participantHelper.isUncountedOptionVisible(this.props.scorecardUuid) || this.props.isUpdate)
+    if (participantHelper.isUncountableOptionVisible(this.props.scorecardUuid) || this.props.isUpdate)
       return;
 
     return (

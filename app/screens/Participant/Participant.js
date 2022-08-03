@@ -28,14 +28,11 @@ class Participant extends Component {
     }
     this.participantModalRef = React.createRef();
     this.formModalRef = React.createRef();
-  }
-
-  componentDidMount() {
     this.fetchParticipant();
   }
 
   fetchParticipant = () => {
-    const participants = ParticipantModel.findByScorecard(this.props.route.params.scorecard_uuid);
+    const participants = ParticipantModel.getAllByScorecard(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 
