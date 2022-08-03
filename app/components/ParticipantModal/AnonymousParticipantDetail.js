@@ -6,12 +6,12 @@ import {LocalizationContext} from '../Translations';
 import BottomSheetInfoTitle from '../Share/BottomSheetInfoTitle';
 
 import Color from '../../themes/color';
-import { uncountableParticipantDetailContentHeight } from '../../constants/modal_constant';
+import { anonymousParticipantDetailContentHeight } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4'
 
-class UncountableParticipantDetail extends React.Component {
+class AnonymousParticipantDetail extends React.Component {
   static contextType = LocalizationContext;
 
   renderDetails() {
@@ -45,7 +45,7 @@ class UncountableParticipantDetail extends React.Component {
 
   render() {
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp(uncountableParticipantDetailContentHeight)}}>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(anonymousParticipantDetailContentHeight)}}>
         <BottomSheetInfoTitle title={this.context.translations.anonymousParticipant}
           customContainerStyle={{marginTop: -6}}
         />
@@ -61,4 +61,4 @@ class UncountableParticipantDetail extends React.Component {
   }
 }
 
-export default UncountableParticipantDetail;
+export default AnonymousParticipantDetail;
