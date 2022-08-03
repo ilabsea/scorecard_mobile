@@ -35,7 +35,10 @@ class ParticipantAccordion extends Component {
   renderTitleText(participant) {
     const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 13);
     const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
-    return <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={styles.accordionItemContainer} />
+    return <ParticipantListItemInfo participant={participant} fontSize={fontSize}
+              containerStyle={styles.accordionItemContainer}
+              anonymousStyle={{ marginRight: getDeviceStyle(-10, -25), height: 'auto' }}
+           />
   }
 
   renderAccordionContent(participant) {

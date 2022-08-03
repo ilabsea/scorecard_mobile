@@ -3,8 +3,11 @@ import {View, Text, TouchableOpacity} from 'react-native';
 
 import RightArrowIcon from './RightArrowIcon';
 import ParticipantListItemAttributes from './ParticipantListItemInfo/ParticipantListItemAttributes';
+import AnonymousParticipantIcon from './AnonymousParticipantIcon';
+import AnonymousParticipantDetail from '../ParticipantModal/AnonymousParticipantDetail';
 
 import Color from '../../themes/color';
+import { anonymousParticipantDetailSnapPoints } from '../../constants/modal_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
 import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
@@ -32,6 +35,18 @@ class ParticipantListItemInfo extends React.Component {
            />
   }
 
+  showAnonymousDetail() {
+    this.props.formModalRef.current?.setSnapPoints(anonymousParticipantDetailSnapPoints);
+    this.props.formModalRef.current?.setBodyContent(<AnonymousParticipantDetail/>);
+    this.props.participantModalRef.current?.present();
+  }
+
+  renderAnonymousIcon() {
+    return <TouchableOpacity onPress={() => this.showAnonymousDetail()} style={[styles.anonymousButton, this.props.anonymousStyle]} disabled={!this.props.anonymousPressable}>
+              <AnonymousParticipantIcon/>
+            </TouchableOpacity>
+  }
+
   render() {
     return (
       <TouchableOpacity style={[{flexDirection: 'row'}, this.props.containerStyle]}
@@ -42,6 +57,7 @@ class ParticipantListItemInfo extends React.Component {
           { this.renderOrderNumber() }
           { this.renderAttributes() }
         </View>
+        { !this.props.participant.countable && this.renderAnonymousIcon() }
         { this.props.rightIcon }
         { this.hasArrowIcon && <RightArrowIcon color={this.props.arrowColor || Color.blackColor} /> }
       </TouchableOpacity>

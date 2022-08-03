@@ -21,6 +21,7 @@ export default class ParticipantModalListItem extends Component {
           containerStyle={styles.participantItem}
           rightIcon={this.props.rightIcon}
           hasArrowIcon={this.props.hasArrowIcon}
+          anonymousStyle={{marginRight: 0}}
         />
         <Divider />
       </React.Fragment>

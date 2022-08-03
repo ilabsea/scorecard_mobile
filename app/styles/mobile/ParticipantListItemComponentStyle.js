@@ -33,10 +33,10 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     paddingHorizontal: 6,
     fontSize: smallTextFontSize()
   },
-  uncountableButton: {
-    marginRight: 20,
+  anonymousButton: {
     width: pressableItemSize(),
     height: pressableItemSize(),
+    marginRight: 15,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'

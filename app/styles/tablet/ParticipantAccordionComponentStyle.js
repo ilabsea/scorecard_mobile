@@ -9,7 +9,7 @@ const labelFontSize = bodyFontSize();
 const ParticipantAccordionComponentStyles = StyleSheet.create({
   accordionItemContainer: {
     flexDirection: 'row',
-    width: wp('71%'),
+    width: wp('80%'),
     alignItems: 'center',
   },
   titleText: {

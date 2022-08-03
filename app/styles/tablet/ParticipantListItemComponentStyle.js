@@ -33,13 +33,13 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     paddingHorizontal: 8,
     fontSize: smallTextFontSize()
   },
-  uncountableButton: {
-    marginRight: 20,
+  anonymousButton: {
     width: pressableItemSize(),
     height: pressableItemSize(),
+    marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   }
 });
 
