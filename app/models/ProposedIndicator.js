@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import Participant from './Participant';
 
 const MODEL = 'ProposedIndicator';
 
@@ -18,6 +19,7 @@ const ProposedIndicator = (() => {
     getLastOrderNumberOfScorecard,
     destroyUnconfirmProposedIndicators,
     getUnconfirmedProposedIndicators,
+    getRaisedParticipants,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -96,6 +98,19 @@ const ProposedIndicator = (() => {
     const query = `scorecard_uuid = '${ scorecardUuid }' ${ participantQuery } AND order > ${ lastOrderNumber }`;
 
     return realm.objects(MODEL).filtered(query);
+  }
+
+  function getRaisedParticipants(scorecardUuid, indicatorableId) {
+    const proposedIndicators = findByIndicator(scorecardUuid, indicatorableId);
+    if (proposedIndicators.length == 0)
+      return null;
+
+    let participants = [];
+    proposedIndicators.map(proposedIndicator => {
+      participants.push(Participant.find(proposedIndicator.participant_uuid))
+    });
+
+    return participants;
   }
 })();
 

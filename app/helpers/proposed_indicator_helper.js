@@ -7,6 +7,7 @@ import Scorecard from '../models/Scorecard';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
 import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
+import arrayUtil from '../utils/array_util';
 
 import { navigate } from '../navigators/app_navigator';
 
@@ -23,6 +24,7 @@ const proposedIndicatorHelper = (() => {
     getNumberOfRaisedParticipant,
     isIndicatorProposed,
     getProposedIndicators,
+    getRaisedParticipantSummary,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -103,6 +105,16 @@ const proposedIndicatorHelper = (() => {
 
   function getProposedIndicators(scorecardUuid, participantUuid) {
     return !!participantUuid ? ProposedIndicator.find(scorecardUuid, participantUuid) : ProposedIndicator.getAllByScorecard(scorecardUuid);
+  }
+
+  function getRaisedParticipantSummary(scorecardUuid, indicatorableId) {
+    const participants = ProposedIndicator.getRaisedParticipants(scorecardUuid, indicatorableId);
+    const female = arrayUtil.getTotalOf(participants, 'gender', 'female');
+    const disability = arrayUtil.getTotalOf(participants, 'disability', true);
+    const minority = arrayUtil.getTotalOf(participants, 'minority', true);
+    const poor = arrayUtil.getTotalOf(participants, 'poor', true);
+    const youth = arrayUtil.getTotalOf(participants, 'youth', true);
+    return { female, disability, minority, poor, youth };
   }
 
   // private methods

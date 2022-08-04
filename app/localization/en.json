@@ -397,5 +397,10 @@
   "saveTheVoting": "Save the voting",
   "confirmAndSave": "Confirm & save",
   "confirmYourVote": "Confirm your vote",
-  "newVoting": "New voting"
+  "newVoting": "New voting",
+  "shortcutFemale": "F",
+  "shortcutDisability": "PwD",
+  "shortcutMinority": "EM",
+  "shortcutPoor": "IP",
+  "shortcutYouth": "Y"
 }

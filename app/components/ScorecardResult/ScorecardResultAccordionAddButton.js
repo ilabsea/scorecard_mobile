@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { LocalizationContext } from '../Translations';
-import ScorecardResultAddButton from './ScorecardResultAddButton';
+import ScorecardResultButton from './ScorecardResultButton';
 import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 
 class ScorecardResultAccordionAddButton extends Component {
@@ -18,12 +18,13 @@ class ScorecardResultAccordionAddButton extends Component {
 
   render() {
     return (
-      <ScorecardResultAddButton
+      <ScorecardResultButton
         onPress={() => this.onPress()}
         btnStyle={styles.btn}
         textStyle={styles.btnText}
         isScorecardFinished={this.props.isScorecardFinished}
         indicator={this.props.indicator}
+        showDefaultLabel={true}
       />
     );
   }

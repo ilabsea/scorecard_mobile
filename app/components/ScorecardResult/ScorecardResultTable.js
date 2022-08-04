@@ -24,6 +24,7 @@ class ScorecardResultTable extends Component {
               order={index + 1}
               onPress={(fieldName, selectedIndicator) => this.props.handleShowModal(indicator, fieldName, selectedIndicator)}
               isScorecardFinished={this.props.scorecard.finished}
+              scorecardUuid={this.props.scorecard.uuid}
             />
           ))
         }
