@@ -1,11 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { Icon } from 'native-base';
+import { Text } from 'react-native';
 
 import ScorecardResultButton from './ScorecardResultButton';
 import Color from '../../themes/color';
-import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
-import { pressableItemSize } from '../../utils/component_util';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 
 class ScorecardResultAddButton extends React.Component {
@@ -19,13 +16,11 @@ class ScorecardResultAddButton extends React.Component {
     return (
       <ScorecardResultButton
         onPress={() => this.props.onPress()}
-        // btnStyle={styles.btn}
-        // textStyle={styles.btnText}
         isScorecardFinished={this.props.isScorecardFinished}
         indicator={indicator}
         showDefaultLabel={true}
       >
-        { fieldName == 'suggested_action' &&
+        { (fieldName == 'suggested_action' && this.props.requireSignVisible) &&
           <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(isScorecardFinished, indicator, color)]}> *</Text>
         }
       </ScorecardResultButton>

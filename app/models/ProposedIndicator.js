@@ -103,7 +103,7 @@ const ProposedIndicator = (() => {
   function getRaisedParticipants(scorecardUuid, indicatorableId) {
     const proposedIndicators = findByIndicator(scorecardUuid, indicatorableId);
     if (proposedIndicators.length == 0)
-      return null;
+      return [];
 
     let participants = [];
     proposedIndicators.map(proposedIndicator => {

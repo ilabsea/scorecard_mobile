@@ -28,7 +28,7 @@ class ScorecardResultAccordion extends Component {
   }
 
   renderTitleText(indicator, index) {
-    return <ScorecardResultAccordionTitle indicator={indicator} order={index + 1} isRequired={_this.isRequired(indicator)} />
+    return <ScorecardResultAccordionTitle indicator={indicator} order={index + 1} scorecardUuid={_this.props.scorecardUuid} isRequired={_this.isRequired(indicator)} />
   }
 
   render() {
@@ -37,6 +37,7 @@ class ScorecardResultAccordion extends Component {
         items={this.props.indicators}
         accordionTitle={this.renderTitleText}
         accordionContent={this.renderAccordionContent}
+        customItemStyle={{ paddingVertical: 2 }}
       />
     );
   }

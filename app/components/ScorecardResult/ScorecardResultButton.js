@@ -6,6 +6,7 @@ import { LocalizationContext } from '../Translations';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 import { pressableItemSize } from '../../utils/component_util';
 import { smallTextFontSize } from '../../utils/font_size_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class ScorecardResultButton extends Component {
   static contextType = LocalizationContext;
@@ -29,13 +30,13 @@ class ScorecardResultButton extends Component {
 const styles = StyleSheet.create({
   btn: {
     width: '85%',
-    maxWidth: 102,
+    maxWidth: getDeviceStyle(102, 90),
     height: pressableItemSize(),
     backgroundColor: '#cacaca',
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 6,
+    alignSelf: 'center',
     flexDirection: 'row',
   },
   text: {

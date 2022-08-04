@@ -26,6 +26,7 @@ export default class ScorecardResultTableRow extends Component {
               fieldName={fieldName}
               indicator={this.props.indicator}
               isScorecardFinished={this.props.isScorecardFinished}
+              requireSignVisible={true}
               onPress={() => this.onPress(fieldName, indicator, true)}
            />
   }
