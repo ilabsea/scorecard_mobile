@@ -18,7 +18,7 @@ import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 import toastMessageUtil from '../../utils/toast_message_util';
 import { MALE } from '../../constants/participant_constant';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
 
 class AddNewParticipantMain extends Component {
@@ -119,7 +119,7 @@ class AddNewParticipantMain extends Component {
 
   render() {
     const {translations} = this.context;
-    const contentHeight = !!this.props.contentHeight ? this.props.contentHeight : participantContentHeight;
+    const contentHeight = !!this.props.contentHeight ? this.props.contentHeight : participantModalContentHeight;
 
     return (
       <View style={{backgroundColor: Color.whiteColor, height: hp(contentHeight)}}>

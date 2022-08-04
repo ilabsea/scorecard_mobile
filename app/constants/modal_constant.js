@@ -13,7 +13,7 @@ export const tipModalSnapPoints = {
 };
 
 export const participantModalSnapPoints = getDeviceStyle(['82.5%'], ['90%']);
-export const participantContentHeight = getDeviceStyle('80%', '87%');
+export const participantModalContentHeight = getDeviceStyle('80%', '87%');
 
 export const indicatorDevelopmentModalSnapPoints = getDeviceStyle(['77%'], isShortScreenDevice() ? ['89.5%']  : ['80%']);
 export const indicatorDevelopmentContentHeight = getDeviceStyle('75%', isShortScreenDevice() ? '86.5%' : '78%');

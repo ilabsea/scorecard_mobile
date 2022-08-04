@@ -16,7 +16,7 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
 
 class ParticipantModalMain extends React.Component {
@@ -106,7 +106,7 @@ class ParticipantModalMain extends React.Component {
     const title = customTitle || this.context.translations.proposeTheIndicator;
 
     return (
-      <View style={{ height: hp(participantContentHeight) }}>
+      <View style={{ height: hp(participantModalContentHeight) }}>
         <BottomSheetModalTitle title={title} />
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
