@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import Participant from './Participant';
 
 const MODEL = 'ProposedIndicator';
 
@@ -18,6 +19,7 @@ const ProposedIndicator = (() => {
     getLastOrderNumberOfScorecard,
     destroyUnconfirmProposedIndicators,
     getUnconfirmedProposedIndicators,
+    getRaisedCountableParticipants,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -96,6 +98,12 @@ const ProposedIndicator = (() => {
     const query = `scorecard_uuid = '${ scorecardUuid }' ${ participantQuery } AND order > ${ lastOrderNumber }`;
 
     return realm.objects(MODEL).filtered(query);
+  }
+
+  function getRaisedCountableParticipants(scorecardUuid, indicatorableId) {
+    const anonymousParticpant = Participant.getUncountableByScorecard(scorecardUuid)[0];
+    const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}' AND participant_uuid != '${anonymousUuid}'`).length;
   }
 })();
 

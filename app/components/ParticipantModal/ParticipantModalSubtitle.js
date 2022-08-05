@@ -8,6 +8,8 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
+import Participant from '../../models/Participant';
+import ProposedIndicator from '../../models/ProposedIndicator';
 
 const ProposedIndicatorParticipantListSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -22,10 +24,13 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
 
   function renderRaisedParticipant() {
     if (props.isIndicatorBase && isCreateNewIndicatorScreen()) {
+      const allParticipants = Participant.getAllCountable(props.scorecardUuid).length;
+      const raisedParticipants = ProposedIndicator.getRaisedCountableParticipants(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
+
       return (
         <React.Fragment>
           ({ translations.raised }
-          <Text style={{fontFamily: FontFamily.title, fontSize: getDeviceStyle(18, 16)}}> { props.raisedParticipant }/{props.totalParticipant} </Text>
+          <Text style={{fontFamily: FontFamily.title, fontSize: getDeviceStyle(18, 16)}}> { raisedParticipants }/{allParticipants} </Text>
           { translations.pax })
         </React.Fragment>
       )
