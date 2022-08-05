@@ -75,12 +75,12 @@ const deepLinkService = (() => {
     _redirectTo('ScorecardDetail', { scorecard_uuid: scorecardUuid });
   }
 
-  function _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard) {
+  async function _handleExistingScorecard(scorecardUuid, closeModal, handleOccupiedScorecard) {
     resetLockService.resetLockData(INVALID_SCORECARD_ATTEMPT);
     const scorecard = Scorecard.find(scorecardUuid);
     closeModal();
 
-    if (scorecard.isUploaded || scorecard.finished) {
+    if (scorecard.isUploaded || scorecard.finished || !await Scorecard.isEditable(scorecard)) {
       handleOccupiedScorecard(scorecard);
       return;
     }

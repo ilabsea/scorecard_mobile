@@ -6,7 +6,7 @@ import CustomAlertMessage from './CustomAlertMessage';
 import CustomAlertMessageBigButton from './CustomAlertMessage/CustomAlertMessageBigButton';
 
 import { getAlertMessageObject } from '../../utils/alert_message_util';
-import { ERROR_AUTHENTICATION, RE_LOGIN_REQUIRED } from '../../constants/error_constant';
+import { ERROR_AUTHENTICATION, RE_LOGIN_REQUIRED, MISMATCHED_ENDPOINT } from '../../constants/error_constant';
 import { environment } from '../../config/environment';
 import { navigate } from '../../navigators/app_navigator';
 
@@ -46,7 +46,7 @@ class ErrorAlertMessage extends React.Component {
   }
 
   bigButton() {
-    if (this.props.errorType === RE_LOGIN_REQUIRED || this.props.errorType == ERROR_AUTHENTICATION)
+    if (this.props.errorType === RE_LOGIN_REQUIRED || this.props.errorType == ERROR_AUTHENTICATION || this.props.errorType == MISMATCHED_ENDPOINT)
       return <CustomAlertMessageBigButton
                 label={this.context.translations.goToSetting}
                 onPress={() => this.goToSetting()}
