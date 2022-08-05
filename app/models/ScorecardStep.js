@@ -34,7 +34,7 @@ class ScorecardStep {
   }
 
   getScorecardSetupSubTitle(scorecard) {
-    return Participant.getAllByScorecard(scorecard.uuid).length;
+    return Participant.getAllCountable(scorecard.uuid).length;
   }
 
   getProposedIndicatorSubTitle(scorecard) {
