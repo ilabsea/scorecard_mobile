@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import Scorecard from '../models/Scorecard';
-import { SUBMITTED, COMPLETED } from '../constants/milestone_constant';
+import { SUBMITTED, COMPLETED } from '../constants/scorecard_constant';
 import { navigationRef } from '../navigators/app_navigator';
 
 const notificationService = (() => {

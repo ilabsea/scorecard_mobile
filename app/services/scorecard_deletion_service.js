@@ -12,7 +12,7 @@ import proposedIndicatorService from './proposed_indicator_service';
 import scorecardSharingService from './scorecard_sharing_service';
 import customIndicatorService from './custom_indicator_service';
 
-import { RENEWED } from '../constants/milestone_constant';
+import { RENEWED } from '../constants/scorecard_constant';
 
 const scorecardDeletionService = (() => {
   return {

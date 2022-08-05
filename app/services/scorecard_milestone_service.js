@@ -1,7 +1,7 @@
 import DeviceInfo from 'react-native-device-info';
 import Scorecard from '../models/Scorecard';
 import ScorecardProgressApi from '../api/ScorecardProgressApi';
-import { RUNNING, RENEWED } from '../constants/milestone_constant';
+import { RUNNING, RENEWED } from '../constants/scorecard_constant';
 
 const scorecardMilestoneService = (() => {
   return {
@@ -21,7 +21,11 @@ const scorecardMilestoneService = (() => {
     ScorecardProgressApi.post(await _getScorecardAttrs(params, data))
       .then(function (response) {
         if (response.status == 200) {
-          Scorecard.update(scorecardUuid, { milestone: milestone });
+          const attrs = { milestone: milestone }
+          if (milestone == RUNNING)
+            attrs['running_status_uploaded'] = true;
+
+          Scorecard.update(scorecardUuid, attrs);
           callback && callback();
         }
         else

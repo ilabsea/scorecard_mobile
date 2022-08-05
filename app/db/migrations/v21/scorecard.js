@@ -80,7 +80,8 @@ Scorecard.schema = {
     conducted_at: { type: 'date', optional: true },
     endpoint_url: 'string?',
     program_uuid: 'string?',
-    proposed_indicator_method: 'int?'         // storing 1 for 'participant_based' and 2 for 'indicator_based'
+    proposed_indicator_method: 'int?',         // storing 1 for 'participant_based' and 2 for 'indicator_based'
+    running_status_uploaded: { type: 'bool', default: false }
   }
 }
 

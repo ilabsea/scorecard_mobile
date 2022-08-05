@@ -9,7 +9,7 @@ import ProgramLanguage from '../models/ProgramLanguage';
 
 import { currentDateTime } from '../utils/date_util';
 import { isKhmerLanguage } from '../utils/program_language_util';
-import { RUNNING } from '../constants/milestone_constant';
+import { RUNNING } from '../constants/scorecard_constant';
 
 const scorecardPreferenceService = (() => {
   return {

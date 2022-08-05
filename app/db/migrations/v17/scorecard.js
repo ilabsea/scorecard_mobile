@@ -1,7 +1,7 @@
 'use strict';
 
 import scorecardProgress from '../../jsons/scorecardProgress';
-import { SUBMITTED } from '../../../constants/milestone_constant';
+import { SUBMITTED } from '../../../constants/scorecard_constant';
 
 class Scorecard {
   get isInLastPhase() {

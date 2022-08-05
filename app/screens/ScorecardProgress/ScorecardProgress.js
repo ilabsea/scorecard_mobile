@@ -13,9 +13,12 @@ import ScorecardService from '../../services/scorecardService';
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import scorecardProgressService from '../../services/scorecard_progress_service';
+import scorecardMilestoneService from '../../services/scorecard_milestone_service';
+import { getErrorType } from '../../services/api_service';
 import Scorecard from '../../models/Scorecard';
 import settingHelper from '../../helpers/setting_helper';
 import { ERROR_SUBMIT_SCORECARD, ERROR_NOT_FOUND } from '../../constants/error_constant';
+import { RUNNING } from '../../constants/scorecard_constant';
 
 import { connect } from 'react-redux';
 
@@ -31,13 +34,10 @@ class ScorecardProgress extends Component {
       visibleModal: false,
       errorType: null,
       hasInternetConnection: false,
-      messageModalTitle: null,
-      messageModalDescription: null,
       isLoading: false,
       hasMatchedEndpointUrl: false,
       isEditable: false,
       isSyncing: false,
-
       progressMessage: '',
     };
     this.unsubscribeNetInfo;
@@ -79,8 +79,22 @@ class ScorecardProgress extends Component {
     });
 
     this.checkScorecardProposeIndicatorMethod(() => {
+      if (!this.state.scorecard.running_status_uploaded) {
+        this.uploadScorecardRunningStatus();
+        return;
+      }
       this.uploadScorecard();
     });
+  }
+
+  uploadScorecardRunningStatus() {
+    const params = {
+      scorecardUuid: this.state.scorecard.uuid,
+      milestone: RUNNING
+    }
+    scorecardMilestoneService.updateMilestone(params, null, () => {
+      this.uploadScorecard();
+    }, (error) => this.handleSubmitError(getErrorType(error.status)));
   }
 
   uploadScorecard() {
@@ -97,15 +111,17 @@ class ScorecardProgress extends Component {
         }, 500);
         scorecardTracingStepsService.trace(this.state.scorecard.uuid, 10);
       }
-    }, (errorType) => {
-      this.setState({
-        visibleModal: true,
-        errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_SUBMIT_SCORECARD,
-        showProgress: false,
-      });
-    });
+    }, (errorType) => this.handleSubmitError(errorType));
 
     this.checkSubmitProgress();
+  }
+
+  handleSubmitError(errorType) {
+    this.setState({
+      visibleModal: true,
+      errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_SUBMIT_SCORECARD,
+      showProgress: false,
+    });
   }
 
   async checkScorecardProposeIndicatorMethod(callback) {
