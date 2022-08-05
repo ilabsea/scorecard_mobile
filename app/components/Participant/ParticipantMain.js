@@ -33,6 +33,7 @@ class ParticipantMain extends React.Component {
   renderTitle() {
     return <ParticipantHeader
             participants={this.props.participants}
+            scorecardUuid={this.props.scorecardUuid}
             addNewParticipant={() => this.showParticipantBottomSheet(null)} />
   }
 

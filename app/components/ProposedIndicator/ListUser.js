@@ -50,7 +50,7 @@ class ListUser extends Component {
       <View>
         <View style={styles.headingContainer}>
           <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
-            { translations.numberOfParticipant }: { this.props.numberOfParticipant } {translations.pax}
+            { translations.numberOfParticipant }: { Participant.getAllCountable(this.props.scorecardUuid).length } {translations.pax}
           </Text>
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>

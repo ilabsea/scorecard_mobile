@@ -69,7 +69,9 @@ const Participant = (() => {
   }
 
   function getNumberOfProposedParticipant(scorecardUuid) {
-    return realm.objects('ProposedIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
+    const anonymousParticpant = getUncountableByScorecard(scorecardUuid)[0];
+    const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
+    return realm.objects('ProposedIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' AND participant_uuid != '${anonymousUuid}' DISTINCT(participant_uuid)`).length;
   }
 
   function getRaisedParticipants(scorecardUuid) {

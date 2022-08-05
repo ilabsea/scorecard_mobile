@@ -59,7 +59,7 @@ const proposedIndicatorService = (() => {
 
     proposedIndicators.map(proposedIndicator => {
       const indicator = indicatorHelper.getDisplayIndicator(proposedIndicator);
-      proposedIndicator.raised_count = _getRaisedCount(allIndicators, proposedIndicator);;
+      proposedIndicator.raised_count = _getRaisedCount(allIndicators, proposedIndicator);
       proposedIndicator.name = indicator.name || indicator.content;
 
       return proposedIndicator;
@@ -106,9 +106,9 @@ const proposedIndicatorService = (() => {
 
   // private method
   function _getRaisedCount(proposedIndicators, proposedIndicator) {
-    const newProposedIndicators = proposedIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id);
+    const filteredProposedIndicators = proposedIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id);
     let count = 0;
-    newProposedIndicators.map(indicator => {
+    filteredProposedIndicators.map(indicator => {
       Participant.isCountable(indicator.participant_uuid) && count++;
     });
     return count;
