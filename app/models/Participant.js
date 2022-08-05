@@ -17,6 +17,7 @@ const Participant = (() => {
     getRaisedParticipants,
     getAllCountable,
     getUncountableByScorecard,
+    isCountable,
   }
 
   function find(uuid) {
@@ -81,6 +82,10 @@ const Participant = (() => {
 
   function getUncountableByScorecard(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == false`);
+  }
+
+  function isCountable(uuid) {
+    return find(uuid).countable;
   }
 })();
 

@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import ProposedIndicator from '../models/ProposedIndicator';
+import Participant from '../models/Participant';
 import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
 import scorecardProposedIndicatorHelper from '../helpers/scorecard_proposed_indicator_helper';
@@ -57,9 +58,8 @@ const proposedIndicatorService = (() => {
     let proposedIndicators = JSON.parse(JSON.stringify(ProposedIndicator.getAllDistinct(scorecardUuid)));
 
     proposedIndicators.map(proposedIndicator => {
-      proposedIndicator.count = allIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id && x.indicatorable_type == proposedIndicator.indicatorable_type ).length;
       const indicator = indicatorHelper.getDisplayIndicator(proposedIndicator);
-      proposedIndicator.raised_count = allIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id).length;
+      proposedIndicator.raised_count = _getRaisedCount(allIndicators, proposedIndicator);;
       proposedIndicator.name = indicator.name || indicator.content;
 
       return proposedIndicator;
@@ -102,6 +102,16 @@ const proposedIndicatorService = (() => {
       }
     });
     AsyncStorage.removeItem('previous-proposed-indicators');
+  }
+
+  // private method
+  function _getRaisedCount(proposedIndicators, proposedIndicator) {
+    const newProposedIndicators = proposedIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id);
+    let count = 0;
+    newProposedIndicators.map(indicator => {
+      Participant.isCountable(indicator.participant_uuid) && count++;
+    });
+    return count;
   }
 })();
 

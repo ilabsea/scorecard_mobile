@@ -56,7 +56,7 @@ class ProposedIndicatorItem extends Component {
         <IndicatorTitle
           title={this.state.indicator.content}
           subText={translations.raisedTimes}
-          indicatorCount={this.props.indicator.count}
+          indicatorCount={this.props.indicator.raised_count}
           indicator={this.state.indicator}
           customContainerStyle={[itemStyles.contentWrapper, {paddingLeft: 10, paddingTop: 0}]}
           customTitleStyle={responsiveStyles.titleText}
