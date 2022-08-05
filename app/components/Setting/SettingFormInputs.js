@@ -5,6 +5,7 @@ import { TextInput } from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import TextFieldInput from '../Share/TextFieldInput';
 import { environment } from '../../config/environment';
+import { pressableItemSize } from '../../utils/component_util';
 
 class SettingFormInputs extends React.Component {
   static contextType = LocalizationContext
@@ -17,6 +18,8 @@ class SettingFormInputs extends React.Component {
       <TextInput.Icon
         name={this.state.showPasswordIcon}
         color="#959595"
+        accessibilityLabel='toggle password visibility'
+        style={{width: pressableItemSize(), height: pressableItemSize()}}
         onPress={() => this.setState({ showPasswordIcon: this.state.showPasswordIcon == 'eye' ? 'eye-off' : 'eye' })}
       />
     )
@@ -29,6 +32,7 @@ class SettingFormInputs extends React.Component {
               label={`${translations.email} *`}
               placeholder={translations["enterEmail"]}
               fieldName="email"
+              accessibilityLabel="email text input"
               onChangeText={this.props.onChangeText}
               message={translations[this.props.emailErrorMsg]}
               keyboardType='email-address'
@@ -43,6 +47,7 @@ class SettingFormInputs extends React.Component {
             label={`${translations.password} *`}
             placeholder={translations["enterPassword"]}
             fieldName="password"
+            accessibilityLabel="password text input"
             onChangeText={this.props.onChangeText}
             message={translations[this.props.passwordErrorMsg]}
             secureTextEntry={this.state.showPasswordIcon == 'eye' ? true : false}
