@@ -7,6 +7,7 @@ import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
+import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
 import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
 
@@ -61,18 +62,35 @@ class IndicatorCard extends Component {
     proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams);
   }
 
+  renderAnonymous() {
+    return <Text style={styles.raisedParticipantLabel}>
+              {` + `}{this.context.translations.anonymous}
+              <Text style={styles.raisedLabel}> 1</Text>
+           </Text>
+  }
+
   renderNumberOfParticipant() {
     if (!this.props.isIndicatorBase)
       return;
 
-    const numberOfRaisedParticipant = proposedIndicatorHelper.getNumberOfRaisedParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid);
+    const raisedCountableParticipant = ProposedIndicator.getRaisedCountableParticipants(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
+    const hasRaisedAnonymousParticipant = ProposedIndicator.hasRaisedAnonymousParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
+    const hasRaisedParticipant = ProposedIndicator.findByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id).length > 0;
 
-    if (numberOfRaisedParticipant > 0)
+    if (hasRaisedParticipant)
       return <View style={styles.raisedParticipantBadge}>
-                <Text style={styles.raisedParticipantLabel}>
-                  { this.context.translations.raised }<Text style={styles.raisedLabel}> { numberOfRaisedParticipant } </Text>
-                  { this.context.translations.pax }
-                </Text>
+                { raisedCountableParticipant > 0 ? 
+                  <Text style={styles.raisedParticipantLabel}>
+                    { this.context.translations.raised }<Text style={styles.raisedLabel}> { raisedCountableParticipant } </Text>
+                    { this.context.translations.pax }
+                    { hasRaisedAnonymousParticipant && this.renderAnonymous() }
+                  </Text>
+                  :
+                  <Text style={styles.raisedParticipantLabel}>
+                    { this.context.translations.raisedBy }
+                    { this.context.translations.anonymous }
+                  </Text>
+                }
             </View>
   }
 

@@ -5,8 +5,7 @@ import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { bodyFontSize } from '../../utils/font_size_util';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -22,16 +21,21 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
           />
   }
 
+  function renderAnonymous() {
+    return <Text style={{fontSize: bodyFontSize()}}> + {translations.anonymous} 1</Text>
+  }
+
   function renderRaisedParticipant() {
     if (props.isIndicatorBase && isCreateNewIndicatorScreen()) {
       const allParticipants = Participant.getAllCountable(props.scorecardUuid).length;
       const raisedParticipants = ProposedIndicator.getRaisedCountableParticipants(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
+      const hasRaisedAnonymousParticipant = ProposedIndicator.hasRaisedAnonymousParticipant(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
 
       return (
         <React.Fragment>
           ({ translations.raised }
-          <Text style={{fontFamily: FontFamily.title, fontSize: getDeviceStyle(18, 16)}}> { raisedParticipants }/{allParticipants} </Text>
-          { translations.pax })
+          <Text style={{fontFamily: FontFamily.title, fontSize: subTitleFontSize()}}> { raisedParticipants }/{allParticipants} </Text>
+          { translations.pax }{ hasRaisedAnonymousParticipant && renderAnonymous() })
         </React.Fragment>
       )
     }

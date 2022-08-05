@@ -20,6 +20,7 @@ const ProposedIndicator = (() => {
     destroyUnconfirmProposedIndicators,
     getUnconfirmedProposedIndicators,
     getRaisedCountableParticipants,
+    hasRaisedAnonymousParticipant,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -104,6 +105,12 @@ const ProposedIndicator = (() => {
     const anonymousParticpant = Participant.getUncountableByScorecard(scorecardUuid)[0];
     const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}' AND participant_uuid != '${anonymousUuid}'`).length;
+  }
+
+  function hasRaisedAnonymousParticipant(scorecardUuid, indicatorableId) {
+    const anonymousParticpant = Participant.getUncountableByScorecard(scorecardUuid)[0];
+    const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}' AND participant_uuid = '${anonymousUuid}'`).length > 0;
   }
 })();
 
