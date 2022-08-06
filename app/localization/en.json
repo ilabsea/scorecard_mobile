@@ -187,7 +187,7 @@
   "ok": "OK",
   "version": "v",
   "pleaseAddIndicators": "Please add indicators",
-  "raisedTimes": "Raised times",
+  "proposedTimes": "Proposed times",
   "indicatorList": "Indicator list",
   "pleaseSelectIndicator": "Please select indicator",
   "scorecardVoting": "Scorecard Voting",
@@ -262,7 +262,6 @@
   "raisedParticipant": "Raised participant",
   "raisedIndicator": "Indicator",
   "noOfParticipant": "No. of participant",
-  "numberOfRaisedParticipant": "Raised participant {0} pax",
   "numberOfParticipant": "Participant",
   "pleaseProposeIndicator": "Please propose indicator",
   "editIndicator": "Edit Indicator",
@@ -317,7 +316,7 @@
   "detailOfProposedIndicatorMethods": "Detail of the proposed indicator methods",
   "select": "Select",
   "selected": "Selected",
-  "raised": "Raised",
+  "proposed": "Proposed",
   "serverLabelRequireMsg": "Please enter the server label",
   "serverLabelIsExisted": "Server label is existed",
   "serverUrlIsExisted": "Server URL is existed",
@@ -410,5 +409,5 @@
   "anonymousParticipantCan": "Anonymous participant can",
   "anonymousParticipantCannot": "Anonymous participant cannot",
   "votingTheIndicator": "voting the indicator (will not be shown on the voting screen)",
-  "raisedBy": "raised by"
+  "proposedParticipant": "Proposed participant"
 }

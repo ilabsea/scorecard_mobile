@@ -25,17 +25,17 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     return <Text style={{fontSize: bodyFontSize()}}> + {translations.anonymous} 1</Text>
   }
 
-  function renderRaisedParticipant() {
+  function renderProposedParticipant() {
     if (props.isIndicatorBase && isCreateNewIndicatorScreen()) {
       const allParticipants = Participant.getAllCountable(props.scorecardUuid).length;
-      const raisedParticipants = ProposedIndicator.getRaisedCountableParticipants(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
-      const hasRaisedAnonymousParticipant = ProposedIndicator.hasRaisedAnonymousParticipant(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
+      const proposedParticipants = ProposedIndicator.getProposedCountableParticipants(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
+      const hasAnonymousProposed = ProposedIndicator.hasAnonymousProposed(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
 
       return (
         <React.Fragment>
-          ({ translations.raised }
-          <Text style={{fontFamily: FontFamily.title, fontSize: subTitleFontSize()}}> { raisedParticipants }/{allParticipants} </Text>
-          { translations.pax }{ hasRaisedAnonymousParticipant && renderAnonymous() })
+          ({ translations.proposed }
+          <Text style={{fontFamily: FontFamily.title, fontSize: subTitleFontSize()}}> { proposedParticipants }/{allParticipants} </Text>
+          { translations.pax }{ hasAnonymousProposed && renderAnonymous() })
         </React.Fragment>
       )
     }
@@ -45,7 +45,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 5}}>
       <Text style={{ fontSize: bodyFontSize(), textTransform: 'capitalize', flex: 1, paddingRight: 5 }}>
         {translations.selectParticipant + ' '} 
-        { renderRaisedParticipant() }
+        { renderProposedParticipant() }
       </Text>
       { renderAddNewParticipantButton() }
     </View>

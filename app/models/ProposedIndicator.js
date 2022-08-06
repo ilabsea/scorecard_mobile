@@ -19,8 +19,9 @@ const ProposedIndicator = (() => {
     getLastOrderNumberOfScorecard,
     destroyUnconfirmProposedIndicators,
     getUnconfirmedProposedIndicators,
-    getRaisedCountableParticipants,
-    hasRaisedAnonymousParticipant,
+    getProposedCountableParticipants,
+    hasAnonymousProposed,
+    getAnonymousProposeByIndicator,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -101,16 +102,25 @@ const ProposedIndicator = (() => {
     return realm.objects(MODEL).filtered(query);
   }
 
-  function getRaisedCountableParticipants(scorecardUuid, indicatorableId) {
-    const anonymousParticpant = Participant.getUncountableByScorecard(scorecardUuid)[0];
+  function getProposedCountableParticipants(scorecardUuid, indicatorableId) {
+    const anonymousParticpant = Participant.getAnonymousByScorecard(scorecardUuid)[0];
     const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}' AND participant_uuid != '${anonymousUuid}'`).length;
   }
 
-  function hasRaisedAnonymousParticipant(scorecardUuid, indicatorableId) {
-    const anonymousParticpant = Participant.getUncountableByScorecard(scorecardUuid)[0];
+  function hasAnonymousProposed(scorecardUuid, indicatorableId) {
+    const anonymousParticpant = Participant.getAnonymousByScorecard(scorecardUuid)[0];
     const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
     return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}' AND participant_uuid = '${anonymousUuid}'`).length > 0;
+  }
+
+  function getAnonymousProposeByIndicator(scorecardUuid, indicatorableId) {
+    const proposedIndicators = findByIndicator(scorecardUuid, indicatorableId);
+    let anonymousCount = 0;
+    proposedIndicators.map(proposedIndicator => {
+      Participant.isAnonymous(proposedIndicator.participant_uuid) && anonymousCount++;
+    });
+    return anonymousCount;
   }
 })();
 

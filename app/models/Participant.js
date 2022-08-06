@@ -16,8 +16,8 @@ const Participant = (() => {
     getRaisedCountableParticipant,
     getRaisedParticipants,
     getAllCountable,
-    getUncountableByScorecard,
-    isCountable,
+    getAnonymousByScorecard,
+    isAnonymous,
   }
 
   function find(uuid) {
@@ -80,12 +80,12 @@ const Participant = (() => {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == true`).sorted('order', false);
   }
 
-  function getUncountableByScorecard(scorecardUuid) {
+  function getAnonymousByScorecard(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == false`);
   }
 
-  function isCountable(uuid) {
-    return find(uuid).countable;
+  function isAnonymous(uuid) {
+    return !find(uuid).countable;
   }
 })();
 

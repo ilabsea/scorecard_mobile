@@ -69,8 +69,9 @@ class SelectedIndicatorItem extends Component {
         <IndicatorTitle
           title={this.state.indicator.content}
           order={this.props.order}
-          subText={this.context.translations.raisedTimes}
-          indicatorCount={this.props.indicator.raised_count}
+          subText={this.context.translations.proposedTimes}
+          proposedCount={this.props.indicator.proposed_count}
+          anonymousCount={this.props.indicator.anonymous_count}
           indicator={this.state.indicator}
           customContainerStyle={responsiveStyles.container}
           customTitleStyle={responsiveStyles.titleText}

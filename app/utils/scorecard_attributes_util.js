@@ -20,7 +20,7 @@ export const scorecardAttributes = async (scorecard) => {
     number_of_ethnic_minority: participants.filter(p => !!p.minority).length,
     number_of_youth: participants.filter(p => !!p.youth).length,
     number_of_id_poor: participants.filter(p => !!p.poor).length,
-    number_of_anonymous: Participant.getUncountableByScorecard(scorecard.uuid).length,
+    number_of_anonymous: Participant.getAnonymousByScorecard(scorecard.uuid).length,
     language_conducted_code: scorecard.audio_language_code,
     finished_date: scorecard.finished_date ? scorecard.finished_date : null,
     running_date: scorecard.running_date ? scorecard.running_date : null,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import participantHelper from '../../helpers/participant_helper';
+import ProposedIndicatorParticipant from '../Share/ProposedIndicatorParticipant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 import IndicatorAccordionMobileStyles from '../../styles/mobile/IndicatorAccordionComponentStyle';
@@ -15,14 +15,18 @@ class IndicatorAccordionTitle extends Component {
 
   render() {
     const { translations } = this.context;
-    const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
 
     return (
       <View style={styles.accordionItemContainer}>
         <Text numberOfLines={2} style={styles.titleLabel}>{ this.props.indicator.name }</Text>
-        <Text style={styles.subTitleLabel}>
-          { translations.formatString(translations.numberOfRaisedParticipant, participantOrderNumbers.length) }
-        </Text>
+        <ProposedIndicatorParticipant
+          scorecardUuid={this.props.scorecardUuid}
+          indicator={this.props.indicator}
+          participantUuid={this.props.participantUuid}
+          label={translations.proposedParticipant}
+          labelStyle={styles.subTitleLabel}
+          numberStyle={styles.subTitleLabel}
+        />
       </View>
     )
   }

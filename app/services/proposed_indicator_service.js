@@ -5,7 +5,7 @@ import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
 import scorecardProposedIndicatorHelper from '../helpers/scorecard_proposed_indicator_helper';
 import uuidv4 from '../utils/uuidv4';
-import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
+import { sortIndicatorByProposedCount } from '../utils/indicator_util';
 
 const proposedIndicatorService = (() => {
   return {
@@ -54,18 +54,17 @@ const proposedIndicatorService = (() => {
   }
 
   function getProposedIndicators(scorecardUuid) {
-    const allIndicators = ProposedIndicator.getAllByScorecard(scorecardUuid);
     let proposedIndicators = JSON.parse(JSON.stringify(ProposedIndicator.getAllDistinct(scorecardUuid)));
-
     proposedIndicators.map(proposedIndicator => {
       const indicator = indicatorHelper.getDisplayIndicator(proposedIndicator);
-      proposedIndicator.raised_count = _getRaisedCount(allIndicators, proposedIndicator);
+      proposedIndicator.proposed_count = ProposedIndicator.findByIndicator(scorecardUuid, proposedIndicator.indicatorable_id).length;
+      proposedIndicator.anonymous_count = ProposedIndicator.getAnonymousProposeByIndicator(scorecardUuid, proposedIndicator.indicatorable_id);
       proposedIndicator.name = indicator.name || indicator.content;
 
       return proposedIndicator;
     });
 
-    return sortIndicatorByRaisedCount(proposedIndicators);
+    return sortIndicatorByProposedCount(proposedIndicators);
   }
 
   function getSelectedProposedIndicators(scorecardUuid, orderedIndicatorableIds) {
@@ -102,16 +101,6 @@ const proposedIndicatorService = (() => {
       }
     });
     AsyncStorage.removeItem('previous-proposed-indicators');
-  }
-
-  // private method
-  function _getRaisedCount(proposedIndicators, proposedIndicator) {
-    const filteredProposedIndicators = proposedIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id);
-    let count = 0;
-    filteredProposedIndicators.map(indicator => {
-      Participant.isCountable(indicator.participant_uuid) && count++;
-    });
-    return count;
   }
 })();
 

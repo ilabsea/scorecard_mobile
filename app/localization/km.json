@@ -187,7 +187,7 @@
   "ok": "យល់ព្រម",
   "version": "កំណែ",
   "pleaseAddIndicators": "សូម​ជ្រើស​រើស​លក្ខណៈវិនិច្ឆ័យ",
-  "raisedTimes": "ចំនួនដងដែលបានស្នើឡើង",
+  "proposedTimes": "ចំនួនដងដែលបានស្នើឡើង",
   "indicatorList": "បញ្ជីលក្ខណៈវិនិច្ឆ័យ",
   "pleaseSelectIndicator": "សូមធ្វើកាជ្រើសរើសលក្ខណៈវិនិច្ឆ័យ",
   "scorecardVoting": "ការដាក់ពិន្ទុ",
@@ -262,7 +262,6 @@
   "raisedParticipant": "អ្នកស្នើ",
   "raisedIndicator": "លក្ខណៈវិនិច្ឆ័យ",
   "noOfParticipant": "លេខកូដអ្នកស្នើ",
-  "numberOfRaisedParticipant": "ចំនួនអ្នកស្នើ {0} នាក់",
   "numberOfParticipant": "ចំនួនអ្នកចូលរូម",
   "pleaseProposeIndicator": "សូមធ្វើការបំផុសលក្ខណៈវិនិច្ឆ័យ",
   "editIndicator": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",
@@ -317,7 +316,7 @@
   "detailOfProposedIndicatorMethods": "ព័ត៌មានលម្អិតអំពីវិធីសាស្ត្របំផុសលក្ខណៈវិនិច្ឆ័យ",
   "select": "ជ្រើសរើស",
   "selected": "បានជ្រើសរើស",
-  "raised": "បានស្នើ",
+  "proposed": "បានស្នើ",
   "serverLabelRequireMsg": "សូមបញ្ចូលឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេ",
   "serverLabelIsExisted": "ឈ្មោះតំណាងអាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
   "serverUrlIsExisted": "អាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
@@ -410,5 +409,5 @@
   "anonymousParticipantCan": "អ្នកចូលរួមអនាមិកអាច",
   "anonymousParticipantCannot": "អ្នកចូលរួមអនាមិកមិនអាច",
   "votingTheIndicator": "ធ្វើការដាក់ពិន្ទុឱ្យលក្ខណៈវិនិច្ឆ័យ (មិនបង្ហាញក្នុងការផ្ទាំងដាក់ពិន្ទុឡើយ)",
-  "raisedBy": "បានស្នើដោយ"
+  "proposedParticipant": "ចំនួនអ្នកស្នើ"
 }

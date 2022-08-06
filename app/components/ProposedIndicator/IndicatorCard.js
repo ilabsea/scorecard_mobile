@@ -3,11 +3,13 @@ import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
+import ProposedIndicatorParticipant from '../Share/ProposedIndicatorParticipant';
+
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
+import Indicator from '../../models/Indicator';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
-import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
 import IndicatorCardMobileStyle from '../../styles/mobile/IndicatorCardComponentStyle';
 
@@ -26,7 +28,7 @@ class IndicatorCard extends Component {
   }
 
   selectedIndicatorBoxStyle = (indicator) => {
-    if (!this.props.isEdit && proposedIndicatorHelper.isIndicatorProposed(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
+    if (!this.props.isEdit && Indicator.isProposed(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     return {};
@@ -62,36 +64,20 @@ class IndicatorCard extends Component {
     proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams);
   }
 
-  renderAnonymous() {
-    return <Text style={styles.raisedParticipantLabel}>
-              {` + `}{this.context.translations.anonymous}
-              <Text style={styles.raisedLabel}> 1</Text>
-           </Text>
-  }
-
   renderNumberOfParticipant() {
     if (!this.props.isIndicatorBase)
       return;
 
-    const raisedCountableParticipant = ProposedIndicator.getRaisedCountableParticipants(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
-    const hasRaisedAnonymousParticipant = ProposedIndicator.hasRaisedAnonymousParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id);
-    const hasRaisedParticipant = ProposedIndicator.findByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id).length > 0;
-
-    if (hasRaisedParticipant)
+    if (Indicator.isProposed(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid))
       return <View style={styles.raisedParticipantBadge}>
-                { raisedCountableParticipant > 0 ? 
-                  <Text style={styles.raisedParticipantLabel}>
-                    { this.context.translations.raised }<Text style={styles.raisedLabel}> { raisedCountableParticipant } </Text>
-                    { this.context.translations.pax }
-                    { hasRaisedAnonymousParticipant && this.renderAnonymous() }
-                  </Text>
-                  :
-                  <Text style={styles.raisedParticipantLabel}>
-                    { this.context.translations.raisedBy }
-                    { this.context.translations.anonymous }
-                  </Text>
-                }
-            </View>
+                <ProposedIndicatorParticipant
+                  scorecardUuid={this.props.scorecardUuid}
+                  indicator={this.props.indicator}
+                  label={this.context.translations.proposed}
+                  labelStyle={styles.raisedParticipantLabel}
+                  numberStyle={styles.raisedLabel}
+                />
+             </View>
   }
 
   render() {
