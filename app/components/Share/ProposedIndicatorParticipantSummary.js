@@ -6,12 +6,12 @@ import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 
-class IndicatorRaisedParticipants extends React.Component {
+class ProposedIndicatorParticipantSummary extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
     const { translations } = this.context;
-    const participantTypes = proposedIndicatorHelper.getRaisedParticipantSummary(this.props.scorecardUuid, this.props.indicatorableId)
+    const participantTypes = proposedIndicatorHelper.getProposedParticipantSummary(this.props.scorecardUuid, this.props.indicatorableId)
     const labels = {
       'female': translations.femaleAbbreviation,
       'disability': translations.disabilityAbbreviation,
@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default IndicatorRaisedParticipants
+export default ProposedIndicatorParticipantSummary
 
 // How to use this component
-{/* <IndicatorRaisedParticipants
+{/* <ProposedIndicatorParticipantSummary
   scorecardUuid={scorecardUuid}
   indicatorableId={indicatorableId} /> */}

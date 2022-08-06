@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import IndicatorRaisedParticipants from '../Share/IndicatorRaisedParticipants';
+import ProposedIndicatorParticipantSummary from '../Share/ProposedIndicatorParticipantSummary';
 import Color from '../../themes/color';
 import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 import indicatorHelper from '../../helpers/indicator_helper';
@@ -20,7 +20,7 @@ class ScorecardResultAccordionTitle extends Component {
           <Text style={[styles.titleText, textColor]}> *</Text>
         </View>
 
-        <IndicatorRaisedParticipants scorecardUuid={this.props.scorecardUuid} indicatorableId={this.props.indicator.indicatorable_id}
+        <ProposedIndicatorParticipantSummary scorecardUuid={this.props.scorecardUuid} indicatorableId={this.props.indicator.indicatorable_id}
           containerStyle={{ marginTop: 4, marginLeft: 16 }}
         />
       </View>

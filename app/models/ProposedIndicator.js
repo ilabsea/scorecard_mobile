@@ -19,7 +19,7 @@ const ProposedIndicator = (() => {
     getLastOrderNumberOfScorecard,
     destroyUnconfirmProposedIndicators,
     getUnconfirmedProposedIndicators,
-    getRaisedParticipants,
+    getProposedParticipants,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -100,7 +100,7 @@ const ProposedIndicator = (() => {
     return realm.objects(MODEL).filtered(query);
   }
 
-  function getRaisedParticipants(scorecardUuid, indicatorableId) {
+  function getProposedParticipants(scorecardUuid, indicatorableId) {
     const proposedIndicators = findByIndicator(scorecardUuid, indicatorableId);
     if (proposedIndicators.length == 0)
       return [];

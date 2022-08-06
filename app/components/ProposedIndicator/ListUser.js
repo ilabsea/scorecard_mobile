@@ -44,7 +44,7 @@ class ListUser extends Component {
 
   render() {
     const {translations} = this.context;
-    const raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
+    const raisedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
 
     return (
       <View>
