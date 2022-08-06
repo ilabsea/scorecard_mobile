@@ -9,8 +9,10 @@ import VotingIndicator from '../../migrations/v14/votingIndicator';
 import Facilitator from '../../migrations/v16/facilitator';
 import Participant from '../../migrations/v21/participant';
 
-import schemaHelper from '../../helpers/schema_helper';
-import { schemaNames } from '../../constants/schema_constant';
+import schemaHelper from '../../../helpers/schema_helper';
+import { schemaNames } from '../../../constants/schema_constant';
+import scorecardMigrationService from './scorecard_migration_service';
+import participantMigrationService from './participant_migration_service';
 
 const changedSchemas = [
   { label: schemaNames[0], data: Scorecard },
@@ -30,21 +32,8 @@ const schemaV21 = {
   schemaVersion: 21,
   migration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 21) {
-      const oldScorecards = oldRealm.objects('Scorecard');
-      const newScorecards = newRealm.objects('Scorecard');
-
-      for (let i = 0; i < oldScorecards.length; i ++) {
-        // If the existing scorecard has milestone as null or downloaded, it means the scorecard didn't upload the running milestone yet
-        const isUploaded = (!oldScorecards[i].milestone || oldScorecards[i].milestone == DOWNLOADED) ? false : true;
-        newScorecards[i].running_status_uploaded = !oldScorecards[i].running_status_uploaded ? isUploaded : oldScorecards[i].running_status_uploaded;
-      }
-
-      const oldParticipants = oldRealm.objects('Participant');
-      const newParticipants = newRealm.objects('Participant');
-
-      for (let i = 0; i < oldParticipants.length; i ++) {
-        newParticipants[i].countable = !oldParticipants[i].countable ? true : oldParticipants[i].countable;
-      }
+      scorecardMigrationService.addRunningStatusUploaded(oldRealm, newRealm);
+      participantMigrationService.addCountable(oldRealm, newRealm);
     }
   }
 }

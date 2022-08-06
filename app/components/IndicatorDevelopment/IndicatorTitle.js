@@ -18,7 +18,7 @@ class IndicatorTitle extends Component {
   static contextType = LocalizationContext;
 
   renderAnonymousCount() {
-    return <Text style={[styles.subText, this.props.customSubTextStyle]}> {this.context.translations.anonymous} {this.props.anonymousCount}</Text>
+    return <Text style={[styles.subText, this.props.customSubTextStyle]}> ({this.context.translations.anonymous} {this.props.anonymousCount})</Text>
   }
 
   renderIndicatorTitleContent() {
