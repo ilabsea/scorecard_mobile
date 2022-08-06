@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import OptionsSelectBox from './OptionsSelectBox';
+import SelectBoxTitle from './SelectBoxTitle';
 import uuidv4 from '../../utils/uuidv4';
 import { bodyFontSize } from '../../utils/font_size_util';
 
@@ -55,9 +56,7 @@ class AttributeSelectBoxes extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Text style={{marginTop: 15, fontSize: bodyFontSize()}}>
-          { this.context.translations.attributes }
-        </Text>
+        <SelectBoxTitle label={this.context.translations.attributes} disabled={this.props.disabled} labelStyle={{marginTop: 15}} />
         { this.renderSelectBoxes() }
       </React.Fragment>
     )

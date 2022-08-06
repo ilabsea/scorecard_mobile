@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import NumericInput from '../Share/NumericInput';
 import AttributeSelectBoxes from './AttributeSelectBoxes';
 import UncountableSelectBox from './UncountableSelectBox';
-import GendersCheckBox from './GendersCheckBox';
+import GenderSelectBoxes from './GenderSelectBoxes';
 
 import { getIntegerOf } from '../../utils/math';
 import { MALE } from '../../constants/participant_constant';
@@ -104,7 +104,7 @@ class ParticipantForm extends Component {
             disabled={this.state.uncountable}
           />
 
-          <GendersCheckBox
+          <GenderSelectBoxes
             onChangeValue={this.onChangeValue}
             selectedGender={this.state.selectedGender}
             renderSmallSize={this.props.renderSmallSize}

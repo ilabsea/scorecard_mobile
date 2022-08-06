@@ -409,5 +409,6 @@
   "anonymousParticipantCan": "អ្នកចូលរួមអនាមិកអាច",
   "anonymousParticipantCannot": "អ្នកចូលរួមអនាមិកមិនអាច",
   "votingTheIndicator": "ធ្វើការដាក់ពិន្ទុឱ្យលក្ខណៈវិនិច្ឆ័យ (មិនបង្ហាញក្នុងការផ្ទាំងដាក់ពិន្ទុឡើយ)",
-  "proposedParticipant": "ចំនួនអ្នកស្នើ"
+  "proposedParticipant": "ចំនួនអ្នកស្នើ",
+  "anonymousCannotChoose": "អនាមិកមិនអាចកំណត់បាន"
 }

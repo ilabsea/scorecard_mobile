@@ -409,5 +409,6 @@
   "anonymousParticipantCan": "Anonymous participant can",
   "anonymousParticipantCannot": "Anonymous participant cannot",
   "votingTheIndicator": "voting the indicator (will not be shown on the voting screen)",
-  "proposedParticipant": "Proposed participant"
+  "proposedParticipant": "Proposed participant",
+  "anonymousCannotChoose": "anonymous cannot choose"
 }
