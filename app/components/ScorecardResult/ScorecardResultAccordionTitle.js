@@ -21,7 +21,7 @@ class ScorecardResultAccordionTitle extends Component {
         </View>
 
         <IndicatorRaisedParticipants scorecardUuid={this.props.scorecardUuid} indicatorableId={this.props.indicator.indicatorable_id}
-          containerStyle={{ marginTop: 4 }}
+          containerStyle={{ marginTop: 4, marginLeft: 16 }}
         />
       </View>
     )
