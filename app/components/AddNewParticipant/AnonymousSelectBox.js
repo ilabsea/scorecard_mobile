@@ -7,7 +7,7 @@ import OptionsSelectBox from './OptionsSelectBox';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 
-class UncountableSelectBox extends React.Component {
+class AnonymousSelectBox extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
@@ -22,7 +22,7 @@ class UncountableSelectBox extends React.Component {
             title={ this.context.translations.anonymous }
             iconName='eye-off'
             iconType='material'
-            fieldName='uncountable'
+            fieldName='anonymous'
             onChangeValue={this.props.onChange}
             isSelected={this.props.value}
             renderSmallSize={this.props.renderSmallSize}
@@ -33,4 +33,4 @@ class UncountableSelectBox extends React.Component {
   }
 }
 
-export default UncountableSelectBox;
+export default AnonymousSelectBox;

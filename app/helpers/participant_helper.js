@@ -11,7 +11,7 @@ const participantHelper = (() => {
     isYouth,
     getParticipantByIndicator,
     getDefaultParticipantInfo,
-    isUncountableOptionInvisible,
+    isAnonymousOptionInvisible,
   };
 
   function getGenderIconLabel(gender) {
@@ -65,7 +65,7 @@ const participantHelper = (() => {
     return defaultValue;
   }
 
-  function isUncountableOptionInvisible(scorecardUuid) {
+  function isAnonymousOptionInvisible(scorecardUuid) {
     return isVotingScreen() || Participant.getAllByScorecard(scorecardUuid).length > 0;
   }
 

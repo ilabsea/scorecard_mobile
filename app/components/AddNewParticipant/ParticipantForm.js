@@ -4,7 +4,7 @@ import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {LocalizationContext} from '../Translations';
 import NumericInput from '../Share/NumericInput';
 import AttributeSelectBoxes from './AttributeSelectBoxes';
-import UncountableSelectBox from './UncountableSelectBox';
+import AnonymousSelectBox from './AnonymousSelectBox';
 import GenderSelectBoxes from './GenderSelectBoxes';
 
 import { getIntegerOf } from '../../utils/math';
@@ -23,7 +23,7 @@ class ParticipantForm extends Component {
       isMinority: false,
       isPoor: false,
       isYouth: false,
-      uncountable: false,
+      anonymous: false,
     };
   }
 
@@ -33,19 +33,19 @@ class ParticipantForm extends Component {
     }
   }
 
-  onUncountableChange = (fieldName, uncountable) => {
+  onAnonymousChange = (fieldName, anonymous) => {
     const newState = {
-      age: uncountable ? -1 : 0,
+      age: anonymous ? -1 : 0,
       selectedGender: 'other',
       isDisability: false,
       isMinority: false,
       isPoor: false,
       isYouth: false,
-      uncountable: uncountable
+      anonymous: anonymous
     };
     this.setState(newState);
     this.props.updateNewState(newState);
-    this.props.updateValidationStatus(uncountable);
+    this.props.updateValidationStatus(anonymous);
   }
 
   onChangeValue = (fieldName, value) => {
@@ -68,51 +68,52 @@ class ParticipantForm extends Component {
               isMinority={this.state.isMinority}
               isPoor={this.state.isPoor}
               renderSmallSize={this.props.renderSmallSize}
-              disabled={this.state.uncountable}
+              disabled={this.state.anonymous}
               onChange={this.onChangeValue}
            />
   }
 
-  _renderUncountableOption = () => {
-    if (participantHelper.isUncountableOptionInvisible(this.props.scorecardUuid) || this.props.isUpdate)
+  _renderAnonymousOption = () => {
+    if (participantHelper.isAnonymousOptionInvisible(this.props.scorecardUuid) || this.props.isUpdate)
       return;
 
-    return <UncountableSelectBox
-              value={this.state.uncountable}
-              onChange={this.onUncountableChange}
+    return <AnonymousSelectBox
+              value={this.state.anonymous}
+              onChange={this.onAnonymousChange}
               renderSmallSize={this.props.renderSmallSize}
            />
   }
 
-  render() {
+  renderAgeTextInput() {
     const {translations} = this.context;
-    const {age} = this.state;
+    return <NumericInput
+              value={this.state.age.toString()}
+              label={`${translations['age']} * ${this.state.anonymous ? `(${translations.anonymousCannotChoose})` : ''}`}
+              placeholder={translations['enterAge']}
+              onChangeText={(value) => {
+                this.onChangeValue('age', value);
+                this.props.updateValidationStatus(getIntegerOf(value) > 0);
+              }}
+              isRequired={true}
+              requiredMessage={translations.pleaseEnterTheAge}
+              disabled={this.state.anonymous}
+           />
+  }
 
+  render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={this.props.containerStyle}>
-          <NumericInput
-            value={age.toString()}
-            label={`${translations['age']} *`}
-            placeholder={translations['enterAge']}
-            onChangeText={(value) => {
-              this.onChangeValue('age', value);
-              this.props.updateValidationStatus(getIntegerOf(value) > 0);
-            }}
-            isRequired={true}
-            requiredMessage={translations.pleaseEnterTheAge}
-            disabled={this.state.uncountable}
-          />
-
+          { this.renderAgeTextInput() }
           <GenderSelectBoxes
             onChangeValue={this.onChangeValue}
             selectedGender={this.state.selectedGender}
             renderSmallSize={this.props.renderSmallSize}
-            disabled={this.state.uncountable}
+            disabled={this.state.anonymous}
           />
 
           { this._renderParticipantAttributes() }
-          { this._renderUncountableOption() }
+          { this._renderAnonymousOption() }
         </View>
       </TouchableWithoutFeedback>
     );
