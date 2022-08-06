@@ -13,11 +13,11 @@ class IndicatorRaisedParticipants extends React.Component {
     const { translations } = this.context;
     const participantTypes = proposedIndicatorHelper.getRaisedParticipantSummary(this.props.scorecardUuid, this.props.indicatorableId)
     const labels = {
-      'female': translations.shortcutFemale,
-      'disability': translations.shortcutDisability,
-      'minority': translations.shortcutMinority,
-      'poor': translations.shortcutPoor,
-      'youth': translations.shortcutYouth
+      'female': translations.femaleAbbreviation,
+      'disability': translations.disabilityAbbreviation,
+      'minority': translations.minorityAbbreviation,
+      'poor': translations.poorAbbreviation,
+      'youth': translations.youthAbbreviation
     }
 
     let doms = [];

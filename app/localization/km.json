@@ -398,9 +398,9 @@
   "confirmAndSave": "យល់ព្រម និងរក្សាទុក",
   "confirmYourVote": "បញ្ជាក់ការដាក់ពិន្ទុរបស់អ្នក",
   "newVoting": "ការដាក់ពិន្ទុថ្មី",
-  "shortcutFemale": "ស",
-  "shortcutDisability": "ពិ",
-  "shortcutMinority": "ជ",
-  "shortcutPoor": "ក្រ",
-  "shortcutYouth": "យ"
+  "femaleAbbreviation": "ស",
+  "disabilityAbbreviation": "ពិ",
+  "minorityAbbreviation": "ជ",
+  "poorAbbreviation": "ក្រ",
+  "youthAbbreviation": "យ"
 }
