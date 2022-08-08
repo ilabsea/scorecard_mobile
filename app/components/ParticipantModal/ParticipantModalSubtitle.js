@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
@@ -7,11 +7,15 @@ import OutlinedButton from '../OutlinedButton';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
-import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 
 const ProposedIndicatorParticipantListSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
+  const [anonymousParticipant, setAnonymousParticipant] = useState([]);
+
+  useEffect(() => {
+    setAnonymousParticipant(ProposedIndicator.getNumberAnonymousProposeByIndicator(props.scorecardUuid, props.selectedIndicator.indicatorable_id));
+  }, [props.raisedParticipant])
 
   function renderAddNewParticipantButton() {
     return <OutlinedButton
@@ -21,21 +25,21 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
           />
   }
 
+  function boldLabel(label) {
+    return <Text style={{fontFamily: FontFamily.title, fontSize: subTitleFontSize()}}>{label}</Text>
+  }
+
   function renderAnonymous() {
-    return <Text style={{fontSize: bodyFontSize()}}> + {translations.anonymous} 1</Text>
+    return <Text style={{fontSize: bodyFontSize()}}> [{translations.anonymous} { boldLabel(anonymousParticipant) }]</Text>
   }
 
   function renderProposedParticipant() {
     if (props.isIndicatorBase && isCreateNewIndicatorScreen()) {
-      const allParticipants = Participant.getAllCountable(props.scorecardUuid).length;
-      const proposedParticipants = ProposedIndicator.getProposedCountableParticipants(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
-      const hasAnonymousProposed = ProposedIndicator.hasAnonymousProposed(props.scorecardUuid, props.selectedIndicator.indicatorable_id);
-
       return (
         <React.Fragment>
           ({ translations.proposed }
-          <Text style={{fontFamily: FontFamily.title, fontSize: subTitleFontSize()}}> { proposedParticipants }/{allParticipants} </Text>
-          { translations.pax }{ hasAnonymousProposed && renderAnonymous() })
+          { boldLabel(` ${props.raisedParticipant}/${props.totalParticipant}`) }
+          { translations.pax }{ anonymousParticipant > 0 && renderAnonymous() })
         </React.Fragment>
       )
     }

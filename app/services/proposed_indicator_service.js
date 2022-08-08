@@ -58,7 +58,7 @@ const proposedIndicatorService = (() => {
     proposedIndicators.map(proposedIndicator => {
       const indicator = indicatorHelper.getDisplayIndicator(proposedIndicator);
       proposedIndicator.proposed_count = ProposedIndicator.findByIndicator(scorecardUuid, proposedIndicator.indicatorable_id).length;
-      proposedIndicator.anonymous_count = ProposedIndicator.getAnonymousProposeByIndicator(scorecardUuid, proposedIndicator.indicatorable_id);
+      proposedIndicator.anonymous_count = ProposedIndicator.getNumberAnonymousProposeByIndicator(scorecardUuid, proposedIndicator.indicatorable_id);
       proposedIndicator.name = indicator.name || indicator.content;
 
       return proposedIndicator;

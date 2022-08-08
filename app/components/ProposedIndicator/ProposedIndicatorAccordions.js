@@ -34,8 +34,8 @@ class ProposedIndicatorAccordions extends Component {
     return (
       <AccordionSwitcher
         scorecardUuid={this.props.scorecardUuid}
-        leftLabel={ translations.raisedParticipant }
-        rightLabel={ translations.raisedIndicator }
+        leftLabel={ translations.proposedParticipant }
+        rightLabel={ translations.indicator }
         activeSide={activeSide}
         onPressLeft={() => this.setState({ accordionType: 'participant' })}
         onPressRight={() => this.setState({ accordionType: 'indicator' })}
@@ -64,7 +64,7 @@ class ProposedIndicatorAccordions extends Component {
       <React.Fragment>
         { this.renderAccordionSwitcher() }
 
-        { this.props.raisedParticipants.length == 0 &&
+        { this.props.proposedParticipants.length == 0 &&
           this.renderEmptyListAction()
         }
 

@@ -127,7 +127,7 @@
   "top_indicators": "លក្ខណៈវិនិច្ឆ័យ",
   "proposedList": "លក្ខណៈវិនិច្ឆ័យ-លើកឡើង",
   "selectedList": "លក្ខណៈវិនិច្ឆ័យ​-ជ្រើសរើស",
-  "indicator": "លក្ខណៈវិនិច្ឆ័យអាទិភាព",
+  "indicator": "លក្ខណៈវិនិច្ឆ័យ",
   "score": "ពិន្ទុមធ្យម",
   "strength": "ចំនុចខ្លាំង",
   "weakness": "ចំនុចគួរកែលម្អ (ចំនុចខ្សោយ/បញ្ហា)",
@@ -259,7 +259,7 @@
   "apply": "ដាក់ប្រើ",
   "reset": "សារឡើងវិញ",
   "yr": "ឆ្នាំ",
-  "raisedParticipant": "អ្នកស្នើ",
+  "proposedParticipant": "អ្នកស្នើ",
   "raisedIndicator": "លក្ខណៈវិនិច្ឆ័យ",
   "noOfParticipant": "លេខកូដអ្នកស្នើ",
   "numberOfParticipant": "ចំនួនអ្នកចូលរូម",
@@ -409,6 +409,7 @@
   "anonymousParticipantCan": "អ្នកចូលរួមអនាមិកអាច",
   "anonymousParticipantCannot": "អ្នកចូលរួមអនាមិកមិនអាច",
   "votingTheIndicator": "ធ្វើការដាក់ពិន្ទុឱ្យលក្ខណៈវិនិច្ឆ័យ (មិនបង្ហាញក្នុងការផ្ទាំងដាក់ពិន្ទុឡើយ)",
-  "proposedParticipant": "ចំនួនអ្នកស្នើ",
-  "anonymousCannotChoose": "អនាមិកមិនអាចកំណត់បាន"
+  "proposedParticipantAccordionTitle": "ចំនួនអ្នកស្នើ",
+  "anonymousCannotChoose": "អនាមិកមិនអាចកំណត់បាន",
+  "indicatorDevelopmentEmptyButtonLabel": "លក្ខណៈវិនិច្ឆ័យអាទិភាព"
 }

@@ -259,7 +259,7 @@
   "apply": "Apply",
   "reset": "Reset",
   "yr": "yr",
-  "raisedParticipant": "Raised participant",
+  "proposedParticipant": "Proposed participant",
   "raisedIndicator": "Indicator",
   "noOfParticipant": "No. of participant",
   "numberOfParticipant": "Participant",
@@ -409,6 +409,7 @@
   "anonymousParticipantCan": "Anonymous participant can",
   "anonymousParticipantCannot": "Anonymous participant cannot",
   "votingTheIndicator": "voting the indicator (will not be shown on the voting screen)",
-  "proposedParticipant": "Proposed participant",
-  "anonymousCannotChoose": "anonymous cannot choose"
+  "proposedParticipantAccordionTitle": "Proposed participant",
+  "anonymousCannotChoose": "anonymous cannot choose",
+  "indicatorDevelopmentEmptyButtonLabel": "Indicator"
 }

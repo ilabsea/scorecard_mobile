@@ -111,10 +111,12 @@ class ParticipantModalMain extends React.Component {
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
           <ParticipantModalSubtitle
+            raisedParticipant={this.state.raisedParticipantUuids.length}
+            totalParticipant={this.participants.length}
             showAddParticipantModal={() => this.props.showAddParticipantModal()}
             isIndicatorBase={this.props.isIndicatorBase}
-            scorecardUuid={this.props.scorecardUuid}
             selectedIndicator={this.props.selectedIndicator}
+            scorecardUuid={this.props.scorecardUuid}
           />
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>

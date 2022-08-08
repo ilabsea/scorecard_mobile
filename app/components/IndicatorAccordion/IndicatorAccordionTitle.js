@@ -23,7 +23,7 @@ class IndicatorAccordionTitle extends Component {
           scorecardUuid={this.props.scorecardUuid}
           indicator={this.props.indicator}
           participantUuid={this.props.participantUuid}
-          label={translations.proposedParticipant}
+          label={translations.proposedParticipantAccordionTitle}
           labelStyle={styles.subTitleLabel}
           numberStyle={styles.subTitleLabel}
         />

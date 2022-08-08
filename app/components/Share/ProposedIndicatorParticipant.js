@@ -11,7 +11,7 @@ class ProposedIndicatorParticipant extends React.Component {
     return <Text style={this.props.labelStyle}>
               {` (`}{this.context.translations.anonymous}{` `}
               <Text style={this.props.numberStyle}>
-                { ProposedIndicator.getAnonymousProposeByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id) }
+                { ProposedIndicator.getNumberAnonymousProposeByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id) }
               </Text>)
            </Text>
   }

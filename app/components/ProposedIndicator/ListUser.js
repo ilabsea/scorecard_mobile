@@ -42,15 +42,22 @@ class ListUser extends Component {
     }
   }
 
+  renderAnonymous() {
+    const anonymous = Participant.getAnonymousByScorecard(this.props.scorecardUuid).length;
+    if (anonymous > 0)
+      return ` (${this.context.translations.anonymous} ${anonymous})`;
+  }
+
   render() {
     const {translations} = this.context;
-    const raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
+    const proposedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
 
     return (
       <View>
         <View style={styles.headingContainer}>
           <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
-            { translations.numberOfParticipant }: { Participant.getAllCountable(this.props.scorecardUuid).length } {translations.pax}
+            { translations.numberOfParticipant }: { Participant.getAllByScorecard(this.props.scorecardUuid).length } {translations.pax}
+            { this.renderAnonymous() }
           </Text>
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
@@ -58,7 +65,7 @@ class ListUser extends Component {
               title={translations.proposeTheIndicator}
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }
-              buttonVisible={raisedParticipants.length > 0}
+              buttonVisible={proposedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
               selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               closeModal={() => this.closeModal()}
@@ -70,7 +77,7 @@ class ListUser extends Component {
 
         <ProposedIndicatorAccordions
           scorecardUuid={this.props.scorecardUuid}
-          raisedParticipants={raisedParticipants}
+          proposedParticipants={proposedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
           showModal={() => this.props.updateModalVisible(true)}
           startProposeIndicator={() => this.startProposeIndicator()}
