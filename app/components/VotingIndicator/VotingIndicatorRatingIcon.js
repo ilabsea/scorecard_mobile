@@ -43,9 +43,9 @@ class VotingIndicatorRatingIcon extends Component {
           onPress={() => this.props.onClickIcon(rating)}
           onSavePlayingAudio={() => votingIndicatorService.savePlayingIndicatorAudio(position)}
           position={position}
-          iconColor={Color.whiteColor}
+          iconColor={Color.clickableColor}
           useSmallIcon={true}
-          hasBackground={true}
+          hasBackground={false}
         >
           <Text style={responsiveStyles.playSoundLabel}>{translations.listen}</Text>
         </PlaySound>

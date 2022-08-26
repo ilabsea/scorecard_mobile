@@ -18,7 +18,7 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
     paddingTop: 3
   },
   ratingIndicatorWrapper: {
-    backgroundColor: Color.accordionContentBgColor,
+    backgroundColor: Color.whiteColor,
     paddingBottom: 8,
     paddingHorizontal: 10,
     paddingTop: 2,
@@ -44,8 +44,8 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
   },
   ratingWrapper: {
     alignItems: 'center',
-    marginHorizontal: 2,
-    borderWidth: 4,
+    marginHorizontal: 3,
+    borderWidth: 2,
     borderColor: '#d1d2d4',
     paddingBottom: 10,
     borderRadius: 10,
@@ -70,11 +70,13 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
   },
   playSoundLabel: {
     marginRight: 2,
-    color: Color.whiteColor,
+    color: Color.clickableColor,
     fontSize: wp('2.7%'),
   },
   ratingPlaySoundContainer: {
     borderRadius: 2,
+    borderColor: Color.clickableColor,
+    borderWidth: 1,
     width: '85%',
     maxWidth: 100,
     flexDirection: 'row',
