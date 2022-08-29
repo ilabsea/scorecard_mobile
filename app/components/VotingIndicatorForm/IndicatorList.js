@@ -4,7 +4,6 @@ import { Divider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import Images from '../../utils/images';
 import ratings from '../../db/jsons/ratings';
@@ -18,11 +17,11 @@ const IndicatorList = (props) => {
 
   const renderRatingImage = (ratingScore) => {
     const imageName = ratings.filter(rating => rating.value == ratingScore)[0].image;
-    const label = LanguageRatingScale.findByLanguageCodeAndRatingScaleId(scorecard.text_language_code, ratingScore);
+    const ratingScale = LanguageRatingScale.findByLanguageCodeAndRatingScaleId(scorecard.text_language_code, ratingScore);
     return (
       <View style={{width: 90, alignItems: 'center'}}>
         <Image source={Images[imageName]} style={styles.ratingImage} />
-        <Text style={{fontSize: 12}}>{ratingScore} {label.content}</Text>
+        <Text style={{fontSize: 12, textAlign: 'center'}}>{ratingScore} {ratingScale.content}</Text>
       </View>
     )
   }
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    height: getDeviceStyle(76, 70),
+    height: 76,
     alignItems: 'center',
     paddingHorizontal: 6,
   },

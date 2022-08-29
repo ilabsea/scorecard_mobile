@@ -35,7 +35,7 @@ class ParticipantListItemInfo extends React.Component {
   render() {
     return (
       <TouchableOpacity style={[{flexDirection: 'row'}, this.props.containerStyle]}
-        onPress={() => this.props.onPress()}
+        onPress={() => this.props.onPress && this.props.onPress()}
         disabled={this.props.disabled || false}
       >
         <View style={{flexDirection: 'row', flex: 1, borderWidth: 0, alignItems: 'center'}}>

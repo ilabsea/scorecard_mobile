@@ -21,6 +21,7 @@ class VotingIndicatorRatingIcon extends Component {
     const { rating } = this.props;
     const ratingLanguage = this.props.getLanguageRatingScale(rating.label);
     const position = `${this.props.colIndex}${this.props.rowIndex}`;
+    const buttonColor = ratingLanguage.local_audio ? Color.clickableColor : Color.grayColor;
 
     return (
       <View style={[responsiveStyles.ratingWrapper, this.props.activeIconStyle, this.props.activeBgStyle]}>
@@ -37,17 +38,17 @@ class VotingIndicatorRatingIcon extends Component {
         <View style={{flex: 1}}></View>
 
         <PlaySound
-          containerStyle={responsiveStyles.ratingPlaySoundContainer}
+          containerStyle={[responsiveStyles.ratingPlaySoundContainer, { borderColor: buttonColor }]}
           filePath={ratingLanguage.local_audio}
           isLocal={true}
           onPress={() => this.props.onClickIcon(rating)}
           onSavePlayingAudio={() => votingIndicatorService.savePlayingIndicatorAudio(position)}
           position={position}
-          iconColor={Color.clickableColor}
+          iconColor={buttonColor}
           useSmallIcon={true}
           hasBackground={false}
         >
-          <Text style={responsiveStyles.playSoundLabel}>{translations.listen}</Text>
+          <Text style={[responsiveStyles.playSoundLabel, { color: buttonColor }]}>{translations.listen}</Text>
         </PlaySound>
       </View>
     )

@@ -16,11 +16,13 @@ class NavigationHeader extends Component {
           <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.props.onBackPress()} style={{ marginLeft: 0, width: pressableItemSize(), height: pressableItemSize() }} />
         </Left>
 
-        <NavigationHeaderBody title={this.props.title} />
+        { this.props.children ? this.props.children : <NavigationHeaderBody title={this.props.title} /> }
 
-        <Right style={[{maxWidth: wp('14%'), alignSelf: 'center', marginRight: getDeviceStyle(-19, -6)}, this.props.rightButtonStyle]}>
-          { !!this.props.rightComponent && this.props.rightComponent() }
-        </Right>
+        { !this.props.hideRightComponent &&
+          <Right style={[{maxWidth: wp('14%'), alignSelf: 'center', marginRight: getDeviceStyle(-19, -6)}, this.props.rightButtonStyle]}>
+            { !!this.props.rightComponent && this.props.rightComponent() }
+          </Right>
+        }
       </Header>
     )
   }
