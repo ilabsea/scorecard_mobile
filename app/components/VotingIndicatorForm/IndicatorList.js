@@ -9,7 +9,7 @@ import { bodyFontSize } from '../../utils/font_size_util';
 import Images from '../../utils/images';
 import ratings from '../../db/jsons/ratings';
 import Scorecard from '../../models/Scorecard';
-import LanguageIndicator from '../../models/LanguageIndicator';
+import indicatorHelper from '../../helpers/indicator_helper';
 
 const imageSize = 30;
 const IndicatorList = (props) => {
@@ -22,14 +22,12 @@ const IndicatorList = (props) => {
 
   const renderIndicators = () => {
     return props.indicators.map((indicator, index) => {
-      const languageIndicator = LanguageIndicator.findByIndicatorAndLanguageCode(indicator.indicatorable_id, indicator.indicatorable_type, scorecard.text_language_code)
-
       return (
         <React.Fragment key={`indicator-item-${index}`}>
           <View key={`indicator-${index}`} style={styles.container}>
             <Text style={[styles.label, {fontFamily: FontFamily.title}]}>{ indicator.order }.</Text>
             <Text numberOfLines={2} style={[styles.label, {flex: 1, marginHorizontal: 6,}]}>
-              { languageIndicator.content }
+              { indicatorHelper.getDisplayIndicator(indicator, scorecard).content }
             </Text>
             { renderRatingImage(indicator.ratingScore) }
           </View>
