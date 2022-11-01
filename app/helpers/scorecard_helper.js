@@ -23,6 +23,7 @@ const scorecardHelper = (() => {
     getTranslatedDate,
     updateFinishedMilestone,
     getEndpointUrl,
+    getFactoryLabel,
   };
 
   function isScorecardAvailable(scorecard) {
@@ -121,6 +122,16 @@ const scorecardHelper = (() => {
   function getEndpointUrl(scorecard) {
     const endpoint = !!scorecard.endpoint_url ? scorecard.endpoint_url.split('@')[2] : null;
     return EndpointUrl.findByUrlValue(endpoint);
+  }
+
+  function getFactoryLabel(scorecard, language) {
+    if (!!scorecard.dataset) {
+      const facility = JSON.parse(scorecard.facility)[`name_${language}`];
+      let factory = `${JSON.parse(scorecard.dataset)[`name_${language}`]}`
+      factory = language == 'km' ? `${facility} ${factory}, ` : `${factory} ${facility}, `;
+      return factory;
+    }
+    return '';
   }
 
   //private method

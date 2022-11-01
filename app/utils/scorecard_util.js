@@ -28,15 +28,16 @@ export const getLocationMaxWidth = (scorecard, language) => {
   let locationWidth = (scorecard.province.length + scorecard.commune.length + scorecard.district.length);
 
   const primarySchoolLength = scorecard.primary_school != null ? JSON.parse(scorecard.primary_school).name_en.length : 0;
-  locationWidth += primarySchoolLength;
-  const mainLocationWidth = (primarySchoolLength + scorecard.province.length) * pixelPerCharacter;
+  const factoryLength = scorecard.dataset != null ? JSON.parse(scorecard.dataset)[`name_${language}`].length / 5 : 0;
+  locationWidth += (primarySchoolLength + factoryLength);
+  const mainLocationWidth = (primarySchoolLength + factoryLength + scorecard.province.length) * pixelPerCharacter;
 
   // If the width of  primary school + province very long then the district and commun will not show in the list item
   if (isShortWidthScreen() && mainLocationWidth >= wp('42%'))
     return 0;
 
   locationWidth = locationWidth * pixelPerCharacter;
-  const locationLength = scorecard.district.length + scorecard.commune.length + 2;           // +2 because district and commune are include , and 1 space
+  const locationLength = factoryLength > 0 ? scorecard.district.length + getDeviceStyle(0, 10) : scorecard.commune.length + 2;            // +2 because district and commune are include , and 1 space
 
   if (locationWidth > wp('70%') && scorecard.uploaded_date) {
     const locationPixel = {
