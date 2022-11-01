@@ -15,32 +15,30 @@ class DisplayScorecardInfo extends Component {
     const {translations, appLanguage} = this.context;
     const {scorecardDetail} = this.props;
     const renderFields = [
-      {label: 'year', fieldName: 'year'},
-      {label: 'facility', fieldName: 'facility'},
-      {label: 'scorecardType', fieldName: 'scorecard_type'},
-      {label: 'province', fieldName: 'province'},
-      {label: 'district', fieldName: 'district'},
-      {label: 'commune', fieldName: 'commune'},
-      {label: 'implementer', fieldName: 'local_ngo_name'},
+      {label: 'year', fieldName: 'year', isObject: false},
+      {label: 'facility', fieldName: 'facility', isObject: true},
+      {label: 'scorecardType', fieldName: 'program_scorecard_type', isObject: false},
+      {label: 'province', fieldName: 'province', isObject: false},
+      {label: 'district', fieldName: 'district', isObject: false},
+      {label: 'commune', fieldName: 'commune', isObject: false},
+      {label: 'factory', fieldName: 'dataset', isObject: true},
+      {label: 'implementer', fieldName: 'local_ngo_name', isObject: false},
     ];
 
     if (scorecardDetail.primary_school != null) {
-      const primarySchool = { label: 'primarySchool', fieldName: 'primary_school' };
+      const primarySchool = { label: 'primarySchool', fieldName: 'primary_school', isObject: true };
       renderFields.splice(6, 0, primarySchool);
     }
 
     return renderFields.map((renderField, index) => {
       let value = scorecardDetail[renderField.fieldName] != undefined ? scorecardDetail[renderField.fieldName].toString() : ''
 
-      if (renderField.label == 'scorecardType') {
-        value = translations[scorecardDetail[renderField.fieldName]]
-      }
-
-      if (renderField.label == 'primarySchool')
-        value = this.getFieldValueByLanguage(scorecardDetail.primary_school, appLanguage);
-
-      if (renderField.label == 'facility')
-        value = value = this.getFieldValueByLanguage(scorecardDetail.facility, appLanguage);
+      if (renderField.label == 'scorecardType')
+        value = scorecardDetail.program_scorecard_type ? this.getFieldValueByLanguage(scorecardDetail.program_scorecard_type, appLanguage) : translations[scorecardDetail.scorecard_type];
+      else if (!value)
+        return;
+      else if (renderField.isObject)
+        value = this.getFieldValueByLanguage(scorecardDetail[renderField.fieldName], appLanguage);
 
       return (
         <TextInput
