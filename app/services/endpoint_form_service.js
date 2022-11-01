@@ -1,4 +1,3 @@
-import { ENDPOINT_VALUE_FIELDNAME } from '../constants/endpoint_constant';
 import { CUSTOM } from '../constants/main_constant';
 import urlUtil from '../utils/url_util';
 import uuidv4 from '../utils/uuidv4';
@@ -13,14 +12,16 @@ const endpointFormService = (() => {
     getSelectedEndpoint,
   }
 
-  function isValidForm(endpointLabel, endpointValue) {
+  function isValidForm(endpointLabel, endpointValue, endpointShortcut) {
     const endpointLabelValidationMsg = getValidationMessage('endpointLabel', endpointLabel);
-    const endpointValueValidationMsg = getValidationMessage('endpointValue', endpointValue );
+    const endpointValueValidationMsg = getValidationMessage('endpointValue', endpointValue);
+    const endpointShortcutValidationMsg = getValidationMessage('endpointShortcut', endpointShortcut);
 
     const fieldsValidation = {
       label: endpointLabelValidationMsg == '' && endpointLabel != '',
       value: endpointValueValidationMsg == '' && endpointValue != '',
-      endpointIsNotExisted: !isEndpointExisted(endpointLabel, endpointValue)
+      shortcut: endpointShortcutValidationMsg == '' && endpointShortcut != '',
+      endpointIsNotExisted: !isEndpointExisted(endpointLabel, endpointValue, endpointShortcut)
     }
 
     for (let key in fieldsValidation) {
@@ -47,13 +48,16 @@ const endpointFormService = (() => {
       'endpointLabel': {
         'alreadyExistedMsg': 'serverLabelIsExisted',
         'invalidMsg': '',
+      },
+      'endpointShortcut': {
+        'alreadyExistedMsg': 'serverShortcutIsExisted',
+        'invalidMsg': '',
       }
     };
 
     if (!value) return '';
 
-    const type = fieldName === ENDPOINT_VALUE_FIELDNAME ? 'value' : 'label';
-    const messageType = isFieldExisted(type, value) ? 'alreadyExistedMsg' : 'invalidMsg';
+    const messageType = isFieldExisted(fieldName, value) ? 'alreadyExistedMsg' : 'invalidMsg';
     return endpointErrorMessage[fieldName][messageType];
   }
 
@@ -63,14 +67,15 @@ const endpointFormService = (() => {
   }
 
   // private method
-  function isEndpointExisted(endpointLabel, endpointValue) {
-    return isFieldExisted('label', endpointLabel) || isFieldExisted('value', endpointValue);
+  function isEndpointExisted(endpointLabel, endpointValue, endpointShortcut) {
+    return isFieldExisted('label', endpointLabel) || isFieldExisted('value', endpointValue) || isFieldExisted('shortcut', endpointShortcut);
   }
 
   function isFieldExisted(type, value) {
     const isExist = {
-      'label': EndpointUrl.findByLabel(value),
-      'value': EndpointUrl.findByUrlValue(value),
+      'endpointLabel': EndpointUrl.findByLabel(value),
+      'endpointValue': EndpointUrl.findByUrlValue(value),
+      'endpointShortcut': EndpointUrl.findByShortcut(value),
     }
 
     return isExist[type];

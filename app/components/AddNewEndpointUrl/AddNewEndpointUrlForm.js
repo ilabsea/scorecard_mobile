@@ -5,7 +5,7 @@ import {LocalizationContext} from '../../components/Translations';
 import TextFieldInput from '../Share/TextFieldInput';
 
 import endpointFormService from '../../services/endpoint_form_service';
-import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME } from '../../constants/endpoint_constant';
+import { ENDPOINT_LABEL_FIELDNAME, ENDPOINT_VALUE_FIELDNAME, ENDPOINT_SHORTCUT_FIELDNAME } from '../../constants/endpoint_constant';
 import { bodyFontSize } from '../../utils/font_size_util';
 
 class AddNewEndpointUrlForm extends React.Component {
@@ -16,8 +16,10 @@ class AddNewEndpointUrlForm extends React.Component {
     this.state = {
       endpointLabel: '',
       endpointValue: '',
+      endpointShortcut: '',
       endpointLabelErrorMsg: '',
       endpointValueErrorMsg: '',
+      endpointShortcutErrorMsg: '',
     }
 
     this.props.validateForm && this.props.validateForm();
@@ -32,6 +34,7 @@ class AddNewEndpointUrlForm extends React.Component {
       const endpoint = {
         label: this.state.endpointLabel,
         value: this.state.endpointValue,
+        shortcut: this.state.endpointShortcut,
       }
       !!this.props.updateEndpoint && this.props.updateEndpoint(endpoint);
     });
@@ -45,14 +48,24 @@ class AddNewEndpointUrlForm extends React.Component {
         label: translations.serverLabel,
         placeholder: translations.enterServerLabel,
         field_name: ENDPOINT_LABEL_FIELDNAME,
-        message: translations[this.state.endpointLabelErrorMsg]
+        message: translations[this.state.endpointLabelErrorMsg],
+        maxLength: 28
       },
       {
         value: this.state.endpointValue,
         label: `${translations.serverUrl} (${translations.httpsRecommended})`,
         placeholder: translations.enterServerUrl,
         field_name: ENDPOINT_VALUE_FIELDNAME,
-        message: translations[this.state.endpointValueErrorMsg]
+        message: translations[this.state.endpointValueErrorMsg],
+        maxLength: 60
+      },
+      {
+        value: this.state.endpointShortcut,
+        label: translations.serverShortcut,
+        placeholder: translations.enterServerShortcut,
+        field_name: ENDPOINT_SHORTCUT_FIELDNAME,
+        message: translations[this.state.endpointShortcutErrorMsg],
+        maxLength: 8
       }
     ];
 
@@ -66,6 +79,7 @@ class AddNewEndpointUrlForm extends React.Component {
                 isRequire={true}
                 onChangeText={this.onChangeText}
                 message={attr.message}
+                maxLength={attr.maxLength}
               />
     });
   }

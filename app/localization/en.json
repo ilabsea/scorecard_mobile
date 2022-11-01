@@ -324,8 +324,8 @@
   "serverUrlIsNotValid": "Server URL is not valid",
   "newServerURL": "New server URL",
   "closeTheForm": "Close the form",
-  "serverLabel": "Server label",
-  "enterServerLabel": "Enter server label",
+  "serverLabel": "Server label (maximum 28 characters)",
+  "enterServerLabel": "Enter server label (maximum 28 characters)",
   "pleaseEnterInformationBelow": "Please enter information below",
   "selectServerUrl": "Select server URL",
   "change": "Change",
@@ -398,5 +398,8 @@
   "confirmAndSave": "Confirm & save",
   "confirmYourVote": "Confirm your vote",
   "newVoting": "New voting",
-  "factory": "Factory"
+  "factory": "Factory",
+  "serverShortcut": "Server shortcut (maximum 8 characters)",
+  "enterServerShortcut": "Enter server shortcut",
+  "serverShortcutIsExisted": "Server shortcut is existed"
 }
