@@ -65,7 +65,7 @@ class IndicatorCard extends Component {
     if (!this.props.isIndicatorBase)
       return;
 
-    const numberOfRaisedParticipant = proposedIndicatorHelper.getNumberOfRaisedParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid);
+    const numberOfRaisedParticipant = proposedIndicatorHelper.getNumberOfProposedParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid);
 
     if (numberOfRaisedParticipant > 0)
       return <View style={styles.raisedParticipantBadge}>

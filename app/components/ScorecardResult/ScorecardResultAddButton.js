@@ -1,25 +1,30 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Text } from 'react-native';
 
+import ScorecardResultButton from './ScorecardResultButton';
 import Color from '../../themes/color';
-import { LocalizationContext } from '../Translations';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 
-class ScorecardResultAddButton extends Component {
-  static contextType = LocalizationContext;
-
+class ScorecardResultAddButton extends React.Component {
   render() {
-    return (
-      <TouchableOpacity onPress={() => this.props.onPress()} style={{alignItems: 'center'}}>
-        <View style={this.props.btnStyle}>
-          <Text style={[this.props.textStyle, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.indicator, Color.blackColor)]}>
-            { this.context.translations.addText }
-          </Text>
+    const { fieldName, isScorecardFinished, indicator } = this.props;
+    let color = Color.blackColor;
 
-          { this.props.children }
-        </View>
-      </TouchableOpacity>
-    )
+    if (fieldName == 'suggested_action' && !indicator['suggested_action'])
+      color = Color.redColor;
+
+    return (
+      <ScorecardResultButton
+        onPress={() => this.props.onPress()}
+        isScorecardFinished={this.props.isScorecardFinished}
+        indicator={indicator}
+        showDefaultLabel={true}
+      >
+        { (fieldName == 'suggested_action' && this.props.requireSignVisible) &&
+          <Text style={[{fontSize: 18}, scorecardResultHelper.btnTextColor(isScorecardFinished, indicator, color)]}> *</Text>
+        }
+      </ScorecardResultButton>
+    );
   }
 }
 

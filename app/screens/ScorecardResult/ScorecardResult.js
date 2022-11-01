@@ -82,6 +82,7 @@ class ScorecardResult extends Component {
     return (
       <ScorecardResultAccordion
         indicators={this.props.indicators}
+        scorecardUuid={this.props.route.params.scorecard_uuid}
         onPress={(selectedIndicator, fieldName, indicator) => this._handleShowModal(selectedIndicator, fieldName, indicator)}
         isScorecardFinished={this.state.scorecard.finished}
       />

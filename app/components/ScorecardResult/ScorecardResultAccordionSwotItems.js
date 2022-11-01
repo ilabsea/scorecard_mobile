@@ -2,21 +2,28 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import ScorecardResultAccordionFieldLabel from './ScorecardResultAccordionFieldLabel';
-import ScorecardResultAccordionAddButton from './ScorecardResultAccordionAddButton';
-import ScorecardResultAccordionEditButton from './ScorecardResultAccordionEditButton';
+import ScorecardResultAddButton from './ScorecardResultAddButton';
+import ScorecardResultEditButton from './ScorecardResultEditButton';
 
 class ScorecardResultAccordionSwotItems extends Component {
+  onPress() {
+    const { indicator, fieldName, languageIndicator } = this.props;
+    this.props.onPress(indicator, fieldName, languageIndicator);
+  }
+
   render() {
     const { indicator, fieldName, languageIndicator } = this.props;
 
     return (
-      <View style={{flexDirection: 'row', marginVertical: !indicator[fieldName] ? 14 : 6}}>
+      <View style={{flexDirection: 'row', marginVertical: 12}}>
         <ScorecardResultAccordionFieldLabel indicator={indicator} fieldName={fieldName} isRequired={this.props.isRequired} />
 
         { !indicator[fieldName] ?
-          <ScorecardResultAccordionAddButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={this.props.onPress} isScorecardFinished={this.props.isScorecardFinished} />
+          <ScorecardResultAddButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator}
+            onPress={() => this.onPress()} isScorecardFinished={this.props.isScorecardFinished} requireSignVisible={false}
+          />
         :
-          <ScorecardResultAccordionEditButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={this.props.onPress} />
+          <ScorecardResultEditButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={() => this.onPress()} />
         }
       </View>
     )

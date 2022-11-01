@@ -397,5 +397,10 @@
   "saveTheVoting": "Save the voting",
   "confirmAndSave": "Confirm & save",
   "confirmYourVote": "Confirm your vote",
-  "newVoting": "New voting"
+  "newVoting": "New voting",
+  "femaleAbbreviation": "F",
+  "disabilityAbbreviation": "PwD",
+  "minorityAbbreviation": "EM",
+  "poorAbbreviation": "IP",
+  "youthAbbreviation": "Y"
 }

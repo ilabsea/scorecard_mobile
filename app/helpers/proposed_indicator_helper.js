@@ -7,6 +7,7 @@ import Scorecard from '../models/Scorecard';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
 import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
+import arrayUtil from '../utils/array_util';
 
 import { navigate } from '../navigators/app_navigator';
 
@@ -20,12 +21,13 @@ const proposedIndicatorHelper = (() => {
     getDisplayName,
     showFormModal,
     showParticipantListModal,
-    getNumberOfRaisedParticipant,
+    getNumberOfProposedParticipant,
     isIndicatorProposed,
     getProposedIndicators,
+    getProposedParticipantSummary,
   };
 
-  function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
+  function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isProposedIndicatorAttrs) {
     return proposedIndicators.map(proposedIndicator => {
       let indicatorAttrs = _getIndicatorAttrs(proposedIndicator);
       let attr = getAttributesByColumns(proposedIndicator, columns);
@@ -34,7 +36,7 @@ const proposedIndicatorHelper = (() => {
       attr.indicatorable_id = indicatorAttrs.indicatorable_id;
       attr.indicator_uuid = indicatorAttrs.indicator_uuid;
 
-      if (!!isRaisedIndicatorAttrs) {
+      if (!!isProposedIndicatorAttrs) {
         const votingIndicator = VotingIndicator.find(scorecard.uuid, proposedIndicator.indicatorable_id);
         attr.tag_attributes = { name: proposedIndicator.tag }
         attr.selected = !!votingIndicator ? true : false;
@@ -90,7 +92,7 @@ const proposedIndicatorHelper = (() => {
     );
   }
 
-  function getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) {
+  function getNumberOfProposedParticipant(scorecardUuid, indicatorId, participantUuid) {
     if (!!participantUuid)
       return !!ProposedIndicator.findByParticipant(scorecardUuid, indicatorId, participantUuid) ? 1 : 0;
 
@@ -98,11 +100,21 @@ const proposedIndicatorHelper = (() => {
   }
 
   function isIndicatorProposed(scorecardUuid, indicatorId, participantUuid) {
-    return getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) > 0;
+    return getNumberOfProposedParticipant(scorecardUuid, indicatorId, participantUuid) > 0;
   }
 
   function getProposedIndicators(scorecardUuid, participantUuid) {
     return !!participantUuid ? ProposedIndicator.find(scorecardUuid, participantUuid) : ProposedIndicator.getAllByScorecard(scorecardUuid);
+  }
+
+  function getProposedParticipantSummary(scorecardUuid, indicatorableId) {
+    const participants = ProposedIndicator.getProposedParticipants(scorecardUuid, indicatorableId);
+    const female = arrayUtil.getTotalOf(participants, 'gender', 'female');
+    const disability = arrayUtil.getTotalOf(participants, 'disability', true);
+    const minority = arrayUtil.getTotalOf(participants, 'minority', true);
+    const poor = arrayUtil.getTotalOf(participants, 'poor', true);
+    const youth = arrayUtil.getTotalOf(participants, 'youth', true);
+    return { female, disability, minority, poor, youth };
   }
 
   // private methods

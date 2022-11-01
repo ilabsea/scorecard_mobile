@@ -28,7 +28,7 @@ class ParticipantAccordion extends Component {
   }
 
   componentDidMount() {
-    const  raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
+    const  raisedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
     this.setState({ participants: raisedParticipants})
   }
 
