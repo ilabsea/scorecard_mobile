@@ -40,7 +40,7 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     marginHorizontal: 8,
-    borderWidth: 4,
+    borderWidth: 2.5,
     borderColor: '#d1d2d4',
     paddingBottom: 10,
     borderRadius: 10
@@ -69,10 +69,12 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
   },
   playSoundLabel: {
     marginRight: 8,
-    color: Color.whiteColor,
+    color: Color.clickableColor
   },
   ratingPlaySoundContainer: {
     borderRadius: 2,
+    borderWidth: 1.2,
+    borderColor: Color.clickableColor,
     width: '90%',
     maxWidth: 100,
     flexDirection: 'row',

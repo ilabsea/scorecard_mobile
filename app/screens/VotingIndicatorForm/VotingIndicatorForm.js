@@ -7,10 +7,10 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+import VotingIndicatorFormHeader from '../../components/VotingIndicatorForm/VotingIndicatorFormHeader';
 import VotingIndicatorFormParticipantInfo from '../../components/VotingIndicatorForm/VotingIndicatorFormParticipantInfo';
 import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/VotingIndicatorFormRatingList';
 import VotingIndicatorFormConfirmation from '../../components/VotingIndicatorForm/VotingIndicatorFormConfirmation';
-import HeaderWithDiscardAlert from '../../components/Share/HeaderWithDiscardAlert';
 
 import { participantModalSnapPoints, votingConfirmationSnapPoints } from '../../constants/modal_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
@@ -35,6 +35,8 @@ class VotingIndicatorForm extends Component {
       indicators: JSON.parse(JSON.stringify(VotingIndicator.getAll(scorecard_uuid))),
       isValid: false,
       participant_uuid: props.route.params.participant_uuid,
+      participantInfoTitleVisible: false,
+      participant: Participant.find(props.route.params.participant_uuid),
     };
 
     this.participantModalRef = React.createRef();
@@ -76,15 +78,27 @@ class VotingIndicatorForm extends Component {
               participantUuid={this.props.route.params.participant_uuid}
               participantModalRef={this.participantModalRef}
               formModalRef={this.formRef}
-              onGetParticipant={(participantUuid) => this.setState({participant_uuid: participantUuid})}
+              onGetParticipant={(participantUuid) => this.setState({
+                participant_uuid: participantUuid,
+                participant: Participant.find(participantUuid)
+              })}
             />
+  }
+
+  onScroll(event) {
+    // When scrolling on pass 115dp (on tablet) or 100dp (on mobile), change the header title to show the paritcipant info
+    const titleVisible = event.nativeEvent.contentOffset.y >= getDeviceStyle(115, 100);
+    if (this.state.participantInfoTitleVisible != titleVisible)
+      this.setState({participantInfoTitleVisible: titleVisible});
   }
 
   _renderContent() {
     const { translations } = this.context;
 
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, padding: 10, paddingTop: getDeviceStyle(16, 10), paddingHorizontal: 0}}>
+      <ScrollView contentContainerStyle={{flexGrow: 1, padding: 10, paddingTop: getDeviceStyle(16, 10), paddingHorizontal: 0}}
+        onScroll={(event) => this.onScroll(event)}
+      >
         { this._renderParticipant() }
 
         <Text style={[{ paddingHorizontal: getDeviceStyle(16, 10) }, responsiveStyles.title]}>{translations.pleaseSelect}</Text>
@@ -133,11 +147,10 @@ class VotingIndicatorForm extends Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
-        <HeaderWithDiscardAlert
-          title={this.context.translations.newVoting}
-          modalTitle={this.context.translations.discardTheVoting}
-          modalDescription={this.context.translations.areYouSureYouWantToDiscardThisVoting}
-          hasDiscardAlert={() => this.state.indicators.filter(indicator => indicator.ratingScore).length > 0}
+        <VotingIndicatorFormHeader
+          indicators={this.state.indicators}
+          participant={this.state.participant}
+          participantInfoTitleVisible={this.state.participantInfoTitleVisible}
         />
         { this._renderContent() }
         { this._renderFooter() }

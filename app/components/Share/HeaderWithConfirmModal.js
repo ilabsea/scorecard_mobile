@@ -21,7 +21,10 @@ class HeaderWithConfirmModal extends React.Component {
           title={ this.props.title }
           onBackPress={() => this.onBackPress()}
           rightButtonStyle={{marginRight: 6}}
-        />
+          hideRightComponent={this.props.hideRightComponent}
+        >
+          { this.props.children }
+        </NavigationHeader>
 
         <CustomAlertMessage
           visible={this.props.visibleConfirmModal}

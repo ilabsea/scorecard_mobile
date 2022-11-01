@@ -33,10 +33,13 @@ class HeaderWithDiscardAlert extends React.Component {
               modalTitle={this.props.modalTitle|| translations.discardTheChanges}
               modalDescription={this.props.modalDescription || translations.doYouWantToDiscardTheseChanges}
               visibleConfirmModal={this.state.visibleConfirmModal}
+              hideRightComponent={this.props.hideRightComponent}
               onBackPress={() => this.onBackPress()}
               goBack={() => this.goBack()}
               onDismiss={() => this.setState({ visibleConfirmModal: false })}
-           />
+           >
+            { this.props.children }
+          </HeaderWithConfirmModal>
   }
 }
 
