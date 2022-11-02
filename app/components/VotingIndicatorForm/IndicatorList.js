@@ -10,6 +10,7 @@ import ratings from '../../db/jsons/ratings';
 import Scorecard from '../../models/Scorecard';
 import indicatorHelper from '../../helpers/indicator_helper';
 import LanguageRatingScale from '../../models/LanguageRatingScale';
+import RatingScale from '../../models/RatingScale';
 
 const imageSize = 30;
 const IndicatorList = (props) => {
@@ -17,11 +18,13 @@ const IndicatorList = (props) => {
 
   const renderRatingImage = (ratingScore) => {
     const imageName = ratings.filter(rating => rating.value == ratingScore)[0].image;
-    const ratingScale = LanguageRatingScale.findByLanguageCodeAndRatingScaleId(scorecard.text_language_code, ratingScore);
+    const ratingScale = RatingScale.findByScore(ratingScore);
+    const langRatingScale = LanguageRatingScale.findByLanguageCodeAndRatingScaleId(scorecard.text_language_code, ratingScale.id);
+
     return (
       <View style={{width: 90, alignItems: 'center'}}>
         <Image source={Images[imageName]} style={styles.ratingImage} />
-        <Text style={{fontSize: 12, textAlign: 'center'}}>{ratingScore} {ratingScale.content}</Text>
+        <Text style={{fontSize: 12, textAlign: 'center'}}>{ratingScore} {langRatingScale.content}</Text>
       </View>
     )
   }

@@ -23,6 +23,7 @@ class AddNewEndpointUrlMain extends React.Component {
     const params = {
       label: this.props.endpoint.label,
       value: this.props.endpoint.value,
+      shortcut: this.props.endpoint.shortcut,
       type: CUSTOM,
     }
 
@@ -40,7 +41,7 @@ class AddNewEndpointUrlMain extends React.Component {
   }
 
   updateEndpoint(endpoint) {
-    this.setState({ isFormValid: endpointFormService.isValidForm(endpoint.label, endpoint.value) });
+    this.setState({ isFormValid: endpointFormService.isValidForm(endpoint.label, endpoint.value, endpoint.shortcut) });
     !!this.props.updateEndpoint && this.props.updateEndpoint(endpoint);
   }
 

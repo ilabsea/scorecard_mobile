@@ -12,6 +12,7 @@ const EndpointUrl = (() => {
     findByUuid,
     findByLabel,
     findByUrlValue,
+    findByShortcut,
     create,
     update,
     isExist,
@@ -38,6 +39,10 @@ const EndpointUrl = (() => {
 
   function findByUrlValue(value) {
     return realm.objects(MODEL).filtered(`value = $0`, value)[0];
+  }
+
+  function findByShortcut(value) {
+    return realm.objects(MODEL).filtered(`shortcut = $0`, value)[0];
   }
 
   function create(data) {
@@ -72,7 +77,7 @@ const EndpointUrl = (() => {
   }
 
    function _buildData(data) {
-    const shortcutData = endpointUrlHelper.generateShortcutInfo(null, data.value);
+    const shortcutData = endpointUrlHelper.generateShortcutInfo(null, data.value, data.shortcut);
     const lastId = realm.objects(MODEL).max('id');
 
     const params = {

@@ -30,6 +30,8 @@ const scorecardDataUtil = (() => {
       planned_end_date: Moment(response.planned_end_date).format(apiDateFormat),
       endpoint_url: await settingHelper.getFullyEndpointUrl(),
       program_uuid: response.program_uuid,
+      program_scorecard_type: !!response.program_scorecard_type ? JSON.stringify(response.program_scorecard_type) : null,
+      dataset: !!response.dataset ? JSON.stringify(response.dataset) : null,
     })
   }
 

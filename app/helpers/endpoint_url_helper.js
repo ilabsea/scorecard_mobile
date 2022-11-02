@@ -13,9 +13,9 @@ const endpointUrlHelper = (() => {
     getEndpointUrlByScorecard,
   }
 
-  function generateShortcutInfo(customEndpointUrls, url) {
+  function generateShortcutInfo(customEndpointUrls, url, label) {
     const shortcutInfo = _getDefaultEndpointShortcutInfo(url);
-    return !!shortcutInfo ? shortcutInfo : _getCustomShortcutInfo(customEndpointUrls, url);
+    return !!shortcutInfo ? shortcutInfo : _getCustomShortcutInfo(customEndpointUrls, url, label);
   }
 
   function getColor(savedColor, type) {
@@ -48,13 +48,13 @@ const endpointUrlHelper = (() => {
     }
   }
 
-  function _getCustomShortcutInfo(customEndpoints, url) {
+  function _getCustomShortcutInfo(customEndpoints, url, label) {
     const customEndpointUrls = !!customEndpoints ? customEndpoints : EndpointUrl.getAllCustomEndpointUrls();
     const color = _getCustomEndpointColor(customEndpointUrls, url);
     let orderNumber = customEndpointUrls.length > 0 ? _findCustomEndpointUrlOrder(customEndpointUrls, url) : 1;
 
     return {
-      shortcut: `CUSTOM ${orderNumber}`,
+      shortcut: label,
       shortcut_bg_color: color.background,
       shortcut_text_color: color.text,
     }

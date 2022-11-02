@@ -25,8 +25,13 @@ class ScorecardListInfoLocation extends Component {
     )
   }
 
+  renderCommune() {
+    return !!this.props.scorecard.commune ? `${this.props.scorecard.commune}, ` : '';
+  }
+
   renderScorecardLocation() {
     const { scorecard } = this.props;
+    const {appLanguage} = this.context;
 
     return (
       <View style={{flex: 1, flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
@@ -34,8 +39,8 @@ class ScorecardListInfoLocation extends Component {
         <View style={{flex: 3, flexDirection: 'row'}}>
           { scorecard.primary_school && this.renderPrimarySchool(scorecard) }
 
-          <Text numberOfLines={1} style={[responsiveStyles.locationLabel, { maxWidth: getLocationMaxWidth(scorecard, this.context.appLanguage)}]}>
-            { this.props.scorecard.primary_school && `, `}{ scorecard.commune }, { scorecard.district }
+          <Text numberOfLines={1} style={[responsiveStyles.locationLabel, { maxWidth: getLocationMaxWidth(scorecard, appLanguage)}]}>
+            { this.props.scorecard.primary_school && `, `}{ scorecardHelper.getFactoryLabel(scorecard, appLanguage) }{ this.renderCommune() }{ scorecard.district }
           </Text>
           <Text style={responsiveStyles.locationLabel}>, {scorecard.province}</Text>
         </View>
