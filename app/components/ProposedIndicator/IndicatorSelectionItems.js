@@ -11,6 +11,9 @@ class IndicatorSelectionItems extends Component {
     playingIndicatorId: null,
   }
 
+  participantModalRef = React.createRef();
+  formModalRef = React.createRef();
+
   audioButton = (indicator) => {
     return <IndicatorAudioButton indicator={indicator} scorecardUUID={this.props.scorecardUuid}
               playingIndicatorId={this.state.playingIndicatorId}

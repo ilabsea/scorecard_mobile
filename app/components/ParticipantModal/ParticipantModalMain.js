@@ -28,6 +28,7 @@ class ParticipantModalMain extends React.Component {
     }
     this.participants = !!props.participants ? props.participants
                         : Participant.findByScorecard(props.scorecardUuid);
+    // this.participants = []
     this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 

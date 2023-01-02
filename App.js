@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 import { Provider } from 'react-redux';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import { StyleProvider } from "native-base";
 import getTheme from './app/themes/components';
@@ -92,9 +93,11 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <StyleProvider style={getTheme(material)}>
           <PaperProvider style={{flex: 1}} theme={theme}>
-            <NavigationContainer ref={navigationRef}>
-              { !loading && <AppNavigator /> }
-            </NavigationContainer>
+            <BottomSheetModalProvider>
+              <NavigationContainer ref={navigationRef}>
+                { !loading && <AppNavigator /> }
+              </NavigationContainer>
+            </BottomSheetModalProvider>
           </PaperProvider>
         </StyleProvider>
       </Provider>
