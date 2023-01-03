@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
 import { Provider } from 'react-redux';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import { StyleProvider } from "native-base";
 import getTheme from './app/themes/components';
@@ -93,11 +94,13 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <StyleProvider style={getTheme(material)}>
           <PaperProvider style={{flex: 1}} theme={theme}>
-            <BottomSheetModalProvider>
-              <NavigationContainer ref={navigationRef}>
-                { !loading && <AppNavigator /> }
-              </NavigationContainer>
-            </BottomSheetModalProvider>
+            <GestureHandlerRootView style={{flex: 1}}>
+              <BottomSheetModalProvider>
+                <NavigationContainer ref={navigationRef}>
+                  { !loading && <AppNavigator /> }
+                </NavigationContainer>
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
           </PaperProvider>
         </StyleProvider>
       </Provider>

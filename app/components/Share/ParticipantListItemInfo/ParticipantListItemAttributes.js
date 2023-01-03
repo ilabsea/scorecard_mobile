@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {LocalizationContext} from '../../Translations';
 import ListItemGenderIcon from '../ListItemGenderIcon';
@@ -21,13 +20,6 @@ class ParticipantAttributes extends React.Component {
     this.fontSize = props.fontSize || smallTextFontSize();
     this.labelColor = props.labelColor || Color.blackColor;
   }
-
-  renderGender = () => {
-    if (this.props.participant.gender === '')
-      return <MaterialIcon name="person" size={mediumIconSize()} color={this.labelColor ||"#b9b9b9"} style={{paddingHorizontal: 10}} />;
-
-    return <ListItemGenderIcon gender={this.props.participant.gender} color={this.labelColor} customGenderStyle={this.props.customGenderStyle} />
-  };
 
   getAge = () => {
     return !this.props.participant ? '' : this.props.participant.age;
@@ -57,7 +49,7 @@ class ParticipantAttributes extends React.Component {
           <Text style={{fontSize: this.fintSize, color: this.labelColor}}> { translations.year }{ appLanguage == 'en' && 's' }</Text>
         </View>
 
-        { this.renderGender() }
+        <ListItemGenderIcon gender={this.props.participant.gender} color={this.labelColor} customGenderStyle={this.props.customGenderStyle} />
         {this.renderAttributes()}
       </View>
     )

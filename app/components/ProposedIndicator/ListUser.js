@@ -38,7 +38,7 @@ class ListUser extends Component {
       this._goToCreateNewIndicator(null);
     else {
       const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: null };
-      proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams, null);
+      proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams);
     }
   }
 

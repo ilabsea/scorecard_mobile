@@ -7,19 +7,16 @@ import {connect} from 'react-redux';
 
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
 import CreateNewIndicatorBody from '../../components/CreateNewIndicator/CreateNewIndicatorBody';
-import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import IndicatorService from '../../services/indicator_service';
 import { updateRaisedParticipants } from '../../services/participant_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
-import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 class CreateNewIndicator extends Component {
   constructor(props) {
     super(props);
-    this.indicatorSelectionRef = React.createRef();
     this.state = {
       indicators: [],
       searchedName: '',
@@ -28,9 +25,6 @@ class CreateNewIndicator extends Component {
       participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
       isLoading: false,
     };
-
-    this.participantModalRef = React.createRef();
-    this.formModalRef = React.createRef();
 
     let previousProposedIndicators = [];
 
@@ -132,8 +126,6 @@ class CreateNewIndicator extends Component {
             save={() => this.save()}
             handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
             updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
-            formModalRef={this.formModalRef}
-            participantModalRef={this.participantModalRef}
             isLoading={this.state.isLoading}
           />
   }
@@ -145,8 +137,6 @@ class CreateNewIndicator extends Component {
           { this.renderSearchableHeader() }
           
           { this.renderBody() }
-
-          <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} />
         </View>
       </TouchableWithoutFeedback>
     );

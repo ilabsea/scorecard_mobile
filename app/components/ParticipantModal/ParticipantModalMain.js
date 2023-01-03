@@ -28,7 +28,6 @@ class ParticipantModalMain extends React.Component {
     }
     this.participants = !!props.participants ? props.participants
                         : Participant.findByScorecard(props.scorecardUuid);
-    // this.participants = []
     this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 
@@ -45,11 +44,13 @@ class ParticipantModalMain extends React.Component {
 
   isParticipantRaised(participantUuid) {
     const { scorecardUuid, selectedIndicator } = this.props;
+    if (!selectedIndicator) return false;
+
     return !!ProposedIndicator.findByParticipant(scorecardUuid, selectedIndicator.indicatorable_id, participantUuid);
   }
 
-  listItemRightIcon(participant) {
-    return <ParticipantModalListItemRightIcon participant={participant} raisedParticipantUuids={this.state.raisedParticipantUuids}
+  listItemRightIcon = (participantUuid) => {
+    return <ParticipantModalListItemRightIcon participantUuid={participantUuid} raisedParticipantUuids={this.state.raisedParticipantUuids}
             isIndicatorBase={this.props.isIndicatorBase} />
   }
 
@@ -59,27 +60,24 @@ class ParticipantModalMain extends React.Component {
       this.props.selectParticipant(participant);
     }
     else
-      this.props.isIndicatorBase ? this.handleToggleParticipantOnIndicatorBase(participant)
-                                 : this.handleToggleParticipantOnParticipantBase(participant);
+      this.props.isIndicatorBase ? this.handleToggleParticipantOnIndicatorBase(participant.uuid)
+                                 : this.handleToggleParticipantOnParticipantBase(participant.uuid);
   }
 
-  handleToggleParticipantOnParticipantBase(participant) {
+  handleToggleParticipantOnParticipantBase(participantUuid) {
     this.props.participantModalRef.current?.dismiss();
-    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid});
+    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participantUuid});
   }
 
-  handleToggleParticipantOnIndicatorBase(participant) {
+  handleToggleParticipantOnIndicatorBase(participantUuid) {
     let newRaisedParticipantUuids = this.state.raisedParticipantUuids;
-    if (this.isParticipantRaised(participant.uuid))
-      newRaisedParticipantUuids =  this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid != participant.uuid);
+    if (this.isParticipantRaised(participantUuid))
+      newRaisedParticipantUuids =  this.state.raisedParticipantUuids.filter(raisedParticipantUuid => raisedParticipantUuid != participantUuid);
     else
-      newRaisedParticipantUuids.push(participant.uuid);
+      newRaisedParticipantUuids.push(participantUuid);
 
     this.setState({ raisedParticipantUuids: newRaisedParticipantUuids }, () => {
-      proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, this.props.selectedIndicator, participant.uuid);
-      setTimeout(() => {
-        !!this.props.updateIndicatorList && this.props.updateIndicatorList();
-      }, 50);
+      proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, this.props.selectedIndicator, participantUuid);
     });
   }
 
@@ -87,10 +85,10 @@ class ParticipantModalMain extends React.Component {
     return this.participants.map((participant, index) => {
       return (
         <ParticipantModalListItem
-          key={index}
+          key={participant.uuid}
           participant={participant}
           onPress={() => this.toggleParticipant(participant) }
-          rightIcon={this.listItemRightIcon(participant)}
+          rightIcon={this.listItemRightIcon(participant.uuid)}
           hasArrowIcon={false}
         />
       )
