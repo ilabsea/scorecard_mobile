@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import {LocalizationContext} from '../Translations';
 import Accordion from '../Accordion';
@@ -13,15 +14,6 @@ class IndicatorAccordion extends Component {
   constructor(props) {
     super(props);
     _this = this;
-
-    this.state = {
-      indicators: [],
-    }
-  }
-
-  componentDidMount() {
-    const indicators = proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid);
-    this.setState({ indicators })
   }
 
   renderTitleText(indicator) {
@@ -35,7 +27,7 @@ class IndicatorAccordion extends Component {
   render() {
     return (
       <Accordion
-        items={this.state.indicators}
+        items={this.props.selectedIndicators.length > 0 ? this.props.selectedIndicators : proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid)}
         accordionTitle={this.renderTitleText}
         accordionContent={this.renderAccordionContent}
       />
@@ -43,4 +35,8 @@ class IndicatorAccordion extends Component {
   }
 }
 
-export default IndicatorAccordion;
+function mapStateToProps(state) {
+  return {selectedIndicators: state.selectedIndicators}
+}
+
+export default connect(mapStateToProps, null)(IndicatorAccordion);

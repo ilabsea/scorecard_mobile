@@ -3,6 +3,7 @@ import {View, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {saveParticipant} from '../../actions/participantAction';
+import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
 import {connect} from 'react-redux';
 
 import SearchableHeader from '../../components/CreateNewIndicator/SearchableHeader';
@@ -73,6 +74,7 @@ class CreateNewIndicator extends Component {
     updateRaisedParticipants(this.props.route.params.scorecard_uuid);
 
     this.updateParticipantInfo();
+    this.props.setSelectedIndicators(proposedIndicatorService.getProposedIndicators(this.props.route.params.scorecard_uuid));
     this.props.navigation.goBack();
   }
 
@@ -146,6 +148,7 @@ class CreateNewIndicator extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID)),
+    setSelectedIndicators: (selectedIndicators) => dispatch(setSelectedIndicators(selectedIndicators)),
   };
 }
 
