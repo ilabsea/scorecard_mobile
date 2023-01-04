@@ -1,4 +1,4 @@
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import FormDataApi from './FormDataApi';
 import customIndicatorHelper from '../helpers/custom_indicator_helper';
 import { handleApiResponse, getErrorType } from '../services/api_service';

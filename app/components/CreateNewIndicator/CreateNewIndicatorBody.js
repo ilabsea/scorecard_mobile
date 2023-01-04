@@ -12,6 +12,9 @@ import { containerPaddingTop, containerPadding } from '../../utils/responsive_ut
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Color from '../../themes/color';
 
+import FormBottomSheetModal from '../FormBottomSheetModal/FormBottomSheetModal';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
+
 class CreateIndicatorBody extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +25,9 @@ class CreateIndicatorBody extends React.Component {
       participantUuid: props.participantUuid,
       isIndicatorBase: false
     }
+
+    this.participantModalRef = React.createRef();
+    this.formModalRef = React.createRef();
   }
 
   async componentDidMount() {
@@ -35,7 +41,7 @@ class CreateIndicatorBody extends React.Component {
 
   closeModal = () => {
     this.setState({ selectedCustomIndicator: null });
-    this.props.participantModalRef.current?.dismiss();
+    this.participantModalRef.current?.dismiss();
   }
 
   updateSelectedParticipant(participantUuid) {
@@ -47,7 +53,7 @@ class CreateIndicatorBody extends React.Component {
         participantUuid: participantUuid
       }, () => {
         !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participantUuid);
-        this.props.participantModalRef.current?.dismiss();
+        this.participantModalRef.current?.dismiss();
       });
     }
   }
@@ -70,9 +76,9 @@ class CreateIndicatorBody extends React.Component {
 
   showAddNewIndicatorModal(customIndicator) {
     this.setState({ selectedCustomIndicator: customIndicator }, () => {
-      this.props.formModalRef.current?.setBodyContent(this.renderModalContent());
+      this.formModalRef.current?.setBodyContent(this.renderModalContent());
       setTimeout(() => {
-        this.props.participantModalRef.current?.present();
+        this.participantModalRef.current?.present();
       }, 50);
     });
   }
@@ -89,8 +95,8 @@ class CreateIndicatorBody extends React.Component {
             showAddNewIndicatorModal={(indicator) => this.showAddNewIndicatorModal(indicator)}
             updateIndicatorList={() => this.updateIndicatorList()}
             closeModal={() => this.closeModal()}
-            formModalRef={this.props.formModalRef}
-            participantModalRef={this.props.participantModalRef}
+            formModalRef={this.formModalRef}
+            participantModalRef={this.participantModalRef}
             isLoading={this.props.isLoading}
           />
   }
@@ -119,23 +125,26 @@ class CreateIndicatorBody extends React.Component {
             isIndicatorBase={this.state.isIndicatorBase}
             finishSaveOrUpdateCustomIndicator={(isEdit) => this.finishSaveOrUpdateCustomIndicator(isEdit)}
             updateIndicatorList={() => this.updateIndicatorList()}
-            formModalRef={this.props.formModalRef}
-            participantModalRef={this.props.participantModalRef}
+            formModalRef={this.formModalRef}
+            participantModalRef={this.participantModalRef}
           />
   }
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
-        <Spinner
-          visible={this.props.isLoading}
-          color={Color.primaryColor}
-          overlayColor={Color.loadingBackgroundColor}
-        />
+      <React.Fragment>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor, padding: containerPadding, paddingBottom: 0, paddingTop: containerPaddingTop}}>
+          <Spinner
+            visible={this.props.isLoading}
+            color={Color.primaryColor}
+            overlayColor={Color.loadingBackgroundColor}
+          />
 
-        { this.renderContent() }
-        { this.renderBottomButton() }
-      </View>
+          { this.renderContent() }
+          { this.renderBottomButton() }
+        </View>
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.updateIndicatorList()} />
+      </React.Fragment>
     )
   }
 }

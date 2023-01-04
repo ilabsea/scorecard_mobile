@@ -12,7 +12,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import Participant from '../../models/Participant';
 import Scorecard from '../../models/Scorecard';
 import {connect} from 'react-redux' ;
-import { removeFromSelected } from '../../actions/selectedIndicatorAction';
+import { removeFromSelected, setSelectedIndicators } from '../../actions/selectedIndicatorAction';
 import { containerPadding } from '../../utils/responsive_util';
 import { navigate } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
@@ -20,9 +20,14 @@ import settingHelper from '../../helpers/setting_helper';
 class ProposedIndicatorContent extends Component {
   static contextType = LocalizationContext;
 
+  componentDidMount() {
+    this.props.setSelectedIndicators([])
+  }
+
   onPress = async () => {
     Scorecard.update(this.props.scorecardUuid, { proposed_indicator_method: await settingHelper.getSelectedProposedIndicatorMethodId() });
     this.clearSelectedIndicators();
+    this.props.setSelectedIndicators([])
     scorecardTracingStepsService.trace(this.props.scorecardUuid, 5);
     navigate('OfflineIndicatorDevelopment', {scorecard_uuid: this.props.scorecardUuid});
   }
@@ -95,6 +100,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     removeFromSelected: (indicator) => dispatch(removeFromSelected(indicator)),
+    setSelectedIndicators: (selectedIndicators) => dispatch(setSelectedIndicators(selectedIndicators))
   };
 }
 

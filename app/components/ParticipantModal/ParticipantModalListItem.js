@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { LocalizationContext } from '../Translations';
 import styles from '../../themes/participantListItemStyle';
@@ -15,7 +14,7 @@ export default class ParticipantModalListItem extends Component {
 
   renderParticipantItem() {
     return (
-      <View>
+      <React.Fragment>
         <ParticipantListItemInfo
           participant={this.props.participant}
           onPress={() => this.onPress(this.props.participant)}
@@ -24,7 +23,7 @@ export default class ParticipantModalListItem extends Component {
           hasArrowIcon={this.props.hasArrowIcon}
         />
         <Divider />
-      </View>
+      </React.Fragment>
     );
   }
 

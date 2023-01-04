@@ -1,6 +1,6 @@
 import { PermissionsAndroid } from 'react-native';
 import RNFS from 'react-native-fs';
-import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from 'rn-fetch-blob'
 import Share from 'react-native-share';
 import AsyncStorage from '@react-native-community/async-storage';
 

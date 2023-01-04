@@ -69,21 +69,20 @@ const proposedIndicatorHelper = (() => {
     return !!languageIndicator ? languageIndicator.content : proposedIndicator.indicatorable_name;
   }
 
-  function showFormModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+  function showFormModal(formRef, participantModalRef, proposedIndicatorParams) {
     // proposedIndicatorParams is equal to { scorecardUuid, indicator }
-    showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+    showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams);
     participantModalRef.current?.present();
   }
 
-  async function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+  async function showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams) {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
     const isIndicatorBase = await isProposeByIndicatorBase();
 
     formRef.current?.setBodyContent(
       <ParticipantModalMain scorecardUuid={scorecardUuid}
         selectedIndicator={indicator}
-        showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList)}
-        updateIndicatorList={() => updateIndicatorList()}
+        showAddParticipantModal={() => _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams)}
         isIndicatorBase={isIndicatorBase}
         participantModalRef={participantModalRef}
       />
@@ -119,7 +118,7 @@ const proposedIndicatorHelper = (() => {
     return indicatorAttrs[indicator.type];
   }
 
-  function _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList) {
+  function _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams) {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
 
     formRef.current?.setBodyContent(
@@ -129,8 +128,7 @@ const proposedIndicatorHelper = (() => {
           if (!!indicator) {
             proposedIndicatorService.create(scorecardUuid, indicator, participant.uuid);
             setTimeout(() => {
-              updateIndicatorList();
-              showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams, updateIndicatorList);
+              showParticipantListModal(formRef, participantModalRef, proposedIndicatorParams);
             }, 50);
           }
           else {

@@ -41,7 +41,7 @@ class IndicatorCard extends Component {
     if (this.props.isIndicatorBase) {
       if (this.props.isExistedIndicator) {
         const indicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
-        proposedIndicatorHelper.showParticipantListModal(this.props.formModalRef, this.props.participantModalRef, indicatorParams, this.props.updateIndicatorList);
+        proposedIndicatorHelper.showParticipantListModal(this.props.formModalRef, this.props.participantModalRef, indicatorParams);
         return;
       }
 
@@ -58,7 +58,7 @@ class IndicatorCard extends Component {
 
   openFormModal(indicator) {
     const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
-    proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams, this.props.updateIndicatorList);
+    proposedIndicatorHelper.showFormModal(this.props.formModalRef, this.props.participantModalRef, proposedIndicatorParams);
   }
 
   renderNumberOfParticipant() {
