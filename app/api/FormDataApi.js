@@ -1,4 +1,4 @@
-import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from 'rn-fetch-blob'
 import AsyncStorage from '@react-native-community/async-storage';
 
 const formDataApi = (() => {

@@ -10,7 +10,6 @@
 buildscript {
     ext {
         buildToolsVersion = "29.0.2"
-        // minSdkVersion = 19
         minSdkVersion = 21
         compileSdkVersion = 30
         targetSdkVersion = 30
@@ -30,15 +29,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("$rootDir/../node_modules/react-native/android")
-        }
-        maven {
-            // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
-        }
-
         exclusiveContent {
             // Official recommended fix for Android build problem with React Native versions below 0.71
             // https://github.com/facebook/react-native/issues/35210
@@ -51,6 +41,15 @@ allprojects {
                     url "$rootDir/../node_modules/react-native/android"
                 }
             }
+        }
+
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
         }
 
         google()
