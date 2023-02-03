@@ -71,6 +71,8 @@ class IndicatorDevelopmentContent extends Component {
             renderHeader={() => this.renderHeader()}
             headerHeight={this.state.headerHeight}
             hasRating={this.state.hasRating}
+            playingUuid={this.props.playingUuid}
+            updatePlayingUuid={this.props.updatePlayingUuid}
           />
         </View>
 
