@@ -25,8 +25,10 @@ class SearchableHeader extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
-      if (!this.props.formModalRef.current?.isOpen()) {
-        this._onPress();
+      if (this.props.formModalRef.current?.isOpen())
+        this.props.participantModalRef.current?.dismiss()
+      else {
+        this.handleRedirectBack();
         if (this.props.isSearching || this.props.isEdit) return false;
       }
       return true;
@@ -40,7 +42,7 @@ class SearchableHeader extends Component {
     return null;
   }
 
-  _onPress() {
+  handleRedirectBack() {
     if (this.props.isSearching)
       this.cancel();
     else if (this.props.isEdit)
@@ -106,7 +108,7 @@ class SearchableHeader extends Component {
       <React.Fragment>
         <Header searchBar>
           <Left style={{flex: 0.22, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
-            <HeaderBackButton tintColor={"#fff"} onPress={() => this._onPress()} style={{ marginLeft: getDeviceStyle(11, 0), width: pressableItemSize(), height: pressableItemSize() }} />
+            <HeaderBackButton tintColor={"#fff"} onPress={() => this.handleRedirectBack()} style={{ marginLeft: getDeviceStyle(11, 0), width: pressableItemSize(), height: pressableItemSize() }} />
           </Left>
           { !this.props.isSearching ? this._renderTitle() : this._renderSearchBox() }
         </Header>

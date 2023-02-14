@@ -108,6 +108,7 @@ class CreateNewIndicator extends Component {
         isSearching={this.state.isSearching}
         searchedName={this.state.searchedName}
         formModalRef={this.createNewIndicatorRef.current?.formModalRef}
+        participantModalRef={this.createNewIndicatorRef.current?.participantModalRef}
       />
     )
   }
