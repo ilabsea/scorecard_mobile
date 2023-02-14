@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {BackHandler} from 'react-native';
 import { Header, Left } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack';
 
@@ -20,6 +21,16 @@ class SearchableHeader extends Component {
       query: '',
       isModalVisible: false,
     };
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (!this.props.formModalRef.current?.isOpen()) {
+        this._onPress();
+        if (this.props.isSearching || this.props.isEdit) return false;
+      }
+      return true;
+    })
   }
 
   static getDerivedStateFromProps(props, state) {

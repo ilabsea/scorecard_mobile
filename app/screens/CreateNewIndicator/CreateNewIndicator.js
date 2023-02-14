@@ -42,6 +42,7 @@ class CreateNewIndicator extends Component {
 
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
     this.componentIsUnmount = false;
+    this.createNewIndicatorRef = React.createRef();
   }
 
   componentDidMount() {
@@ -106,6 +107,7 @@ class CreateNewIndicator extends Component {
         isEdit={this.state.isEdit}
         isSearching={this.state.isSearching}
         searchedName={this.state.searchedName}
+        formModalRef={this.createNewIndicatorRef.current?.formModalRef}
       />
     )
   }
@@ -116,6 +118,7 @@ class CreateNewIndicator extends Component {
 
   renderBody() {
     return <CreateNewIndicatorBody
+            ref={this.createNewIndicatorRef}
             indicators={this.state.indicators}
             scorecardUuid={this.props.route.params.scorecard_uuid}
             participantUuid={this.state.participantUuid}
@@ -137,7 +140,6 @@ class CreateNewIndicator extends Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flex: 1}}>
           { this.renderSearchableHeader() }
-          
           { this.renderBody() }
         </View>
       </TouchableWithoutFeedback>
