@@ -401,5 +401,7 @@
   "factory": "រោងចក្រ",
   "serverShortcut": "ឈ្មោះកាត់អាស័យដ្ឋានម៉ាស៊ីនមេ (ច្រើនបំផុត 8តួ)",
   "enterServerShortcut": "សូមបញ្ចូលឈ្មោះកាត់អាស័យដ្ឋានម៉ាស៊ីនមេ",
-  "serverShortcutIsExisted": "ឈ្មោះកាត់អាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ"
+  "serverShortcutIsExisted": "ឈ្មោះកាត់អាស័យដ្ឋានម៉ាស៊ីនមេមានរួចហើយ",
+  "noVideoAvailable": "មិនមានវីដេអូ",
+  "noInternetConnectionToPlayVideo": "មិនមានសេវាអ៊ីនធឺណិតដើម្បីលេងវីដេអូ"
 }

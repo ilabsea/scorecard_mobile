@@ -3,14 +3,14 @@ import { View } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
+import ProposedIndicatorTip from '../../components/ProposedIndicator/ProposedIndicatorTip';
 import ProgressHeader from '../../components/Share/ProgressHeader';
-import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 class ProposedIndicator extends Component {
   static contextType = LocalizationContext;
@@ -37,7 +37,6 @@ class ProposedIndicator extends Component {
   render() {
     const {translations} = this.context;
     const { scorecard_uuid } = this.props.route.params;
-    const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
 
     return (
       <React.Fragment>
@@ -54,7 +53,7 @@ class ProposedIndicator extends Component {
           />
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
+        <ProposedIndicatorTip tipModalRef={this.tipModalRef} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />

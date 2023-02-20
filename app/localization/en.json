@@ -401,5 +401,7 @@
   "factory": "Factory",
   "serverShortcut": "Server shortcut (maximum 8 characters)",
   "enterServerShortcut": "Enter server shortcut",
-  "serverShortcutIsExisted": "Server shortcut is existed"
+  "serverShortcutIsExisted": "Server shortcut is existed",
+  "noVideoAvailable": "No video available",
+  "noInternetConnectionToPlayVideo": "No internet connection to play the video"
 }
