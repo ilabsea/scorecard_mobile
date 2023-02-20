@@ -24,7 +24,6 @@ import ParticipantScreen from '../screens/Participant/Participant';
 import ContactScreen from '../screens/Contact/Contact';
 import AboutScreen from '../screens/About/About';
 import SelectedImageScreen from '../screens/SelectedImage/SelectedImage';
-import VideoPlayerScreen from '../screens/VideoPlayer/VideoPlayer';
 import AddNewEndpointUrlScreen from '../screens/AddNewEndpointUrl/AddNewEndpointUrl';
 
 import OfflineInstructionScreen from '../screens/OfflineInstruction/OfflineInstruction';
@@ -229,13 +228,6 @@ function AppNavigator() {
       <Stack.Screen
         name="FilterScorecardScreen"
         component={FilterScorecardScreen}
-        options={({navigator}) => ({
-          header: () => null,
-        })}
-      />
-      <Stack.Screen
-        name="VideoPlayer"
-        component={VideoPlayerScreen}
         options={({navigator}) => ({
           header: () => null,
         })}
