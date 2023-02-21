@@ -10,7 +10,8 @@ import { getAllScorecardReferences } from '../../actions/scorecardReferenceActio
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
-import TipModal from '../../components/Tip/TipModal';
+// import TipModal from '../../components/Tip/TipModal';
+import TipBottomSheet from '../../components/Tip/TipBottomSheet';
 import Color from '../../themes/color';
 import Tip from '../../components/Share/Tip';
 
@@ -142,7 +143,8 @@ class ScorecardResult extends Component {
             label={translations.save}/>
         </View>
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='ScorecardResult' />
+        <TipBottomSheet tipModalRef={this.tipModalRef} type={SCORECARD_RESULT} />
+        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='ScorecardResult' /> */}
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.swotModalRef} snapPoints={swotModalSnapPoints} />
       </View>
     )

@@ -6,10 +6,13 @@ export const VOTING_INDICATOR = 'VOTING_INDICATOR';
 export const SCORECARD_RESULT = 'SCORECARD_RESULT';
 
 export const tipModalSnapPoints = {
-  'PROPOSED_INDICATOR': [getDeviceStyle('53%', '49%'), getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
-  'INDICATOR_DEVELOPMENT': [getDeviceStyle('37%', '43%')],
-  'VOTING_INDICATOR': [getDeviceStyle('37%', isShortScreenDevice() ? '43%' : '41%')],
-  'SCORECARD_RESULT': [getDeviceStyle('37%', isShortScreenDevice() ? '42%' : '47%')],
+  'PROPOSED_INDICATOR': [getDeviceStyle('58%', isShortWidthScreen() ? '60%' : '53%')],
+  'INDICATOR_DEVELOPMENT': [getDeviceStyle('61%', isShortWidthScreen() ? '67%' : '56%')],
+  'VOTING_INDICATOR': [getDeviceStyle('61%', isShortScreenDevice() ? '63%' : '56%')],
+  'SCORECARD_RESULT': [getDeviceStyle('61%', isShortScreenDevice() ? '67%' : '56%')],
+  // 'INDICATOR_DEVELOPMENT': [getDeviceStyle('37%', '43%')],
+  // 'VOTING_INDICATOR': [getDeviceStyle('37%', isShortScreenDevice() ? '43%' : '41%')],
+  // 'SCORECARD_RESULT': [getDeviceStyle('37%', isShortScreenDevice() ? '42%' : '47%')],
 };
 
 export const participantModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['85%'] : ['75%']);
@@ -49,5 +52,3 @@ export const facilitatorPickerContentExpanedHeight = getDeviceStyle('92%', '90%'
 
 export const votingConfirmationSnapPoints = getDeviceStyle(['73%'], isShortWidthScreen() ? ['68%'] : ['70%']);
 export const votingConfirmationContentHeight = getDeviceStyle('71%', isShortWidthScreen() ? '66%' : '68%');
-
-export const proposedIndicatorTipSnapPoints = getDeviceStyle(['58%'], isShortWidthScreen() ? ['60%'] : ['50%'])

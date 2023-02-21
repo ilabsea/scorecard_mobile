@@ -7,7 +7,8 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import ProposedIndicatorListModalContent from '../../components/IndicatorDevelopment/ProposedIndicatorListModalContent';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
-import TipModal from '../../components/Tip/TipModal';
+// import TipModal from '../../components/Tip/TipModal';
+import TipBottomSheet from '../../components/Tip/TipBottomSheet';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import Color from '../../themes/color';
@@ -109,7 +110,7 @@ class IndicatorDevelopment extends Component {
 
   render() {
     const { translations } = this.context;
-    const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
+    // const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
 
     return (
       <View style={{flex: 1}}>
@@ -126,7 +127,8 @@ class IndicatorDevelopment extends Component {
           </View>
         }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='IndicatorDevelopment' />
+        <TipBottomSheet tipModalRef={this.tipModalRef} type={INDICATOR_DEVELOPMENT} />
+        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='IndicatorDevelopment' /> */}
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
       </View>
     )

@@ -3,14 +3,14 @@ import { View } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
-import ProposedIndicatorTip from '../../components/ProposedIndicator/ProposedIndicatorTip';
+import TipBottomSheet from '../../components/Tip/TipBottomSheet';
 import ProgressHeader from '../../components/Share/ProgressHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
-import { participantModalSnapPoints } from '../../constants/modal_constant';
+import { participantModalSnapPoints, PROPOSED_INDICATOR } from '../../constants/modal_constant';
 
 class ProposedIndicator extends Component {
   static contextType = LocalizationContext;
@@ -53,7 +53,7 @@ class ProposedIndicator extends Component {
           />
         </View>
 
-        <ProposedIndicatorTip tipModalRef={this.tipModalRef} screenName='ProposedIndicator' />
+        <TipBottomSheet tipModalRef={this.tipModalRef} type={PROPOSED_INDICATOR} />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />

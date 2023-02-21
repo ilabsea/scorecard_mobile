@@ -8,6 +8,7 @@ import TipModal from '../../components/Tip/TipModal';
 import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import VotingIndicatorListContent from '../../components/VotingIndicator/VotingIndicatorListContent';
+import TipBottomSheet from '../../components/Tip/TipBottomSheet';
 import { getAll } from '../../actions/votingIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 
@@ -74,7 +75,8 @@ class VotingIndicatorList extends Component {
 
         { this._renderBody() }
 
-        <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' />
+        <TipBottomSheet tipModalRef={this.tipModalRef} type={VOTING_INDICATOR} />
+        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' /> */}
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
