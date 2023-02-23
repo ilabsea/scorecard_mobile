@@ -7,7 +7,6 @@ import HorizontalProgressHeader from '../../components/HorizontalProgressHeader'
 import BottomButton from '../../components/BottomButton';
 import ProposedIndicatorListModalContent from '../../components/IndicatorDevelopment/ProposedIndicatorListModalContent';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
-// import TipModal from '../../components/Tip/TipModal';
 import TipBottomSheet from '../../components/Tip/TipBottomSheet';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
@@ -22,7 +21,7 @@ import votingIndicatorService from '../../services/voting_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
-import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
+import { INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -128,7 +127,6 @@ class IndicatorDevelopment extends Component {
         }
 
         <TipBottomSheet tipModalRef={this.tipModalRef} type={INDICATOR_DEVELOPMENT} />
-        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='IndicatorDevelopment' /> */}
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
       </View>
     )

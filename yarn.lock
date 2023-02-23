@@ -1191,6 +1191,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@miblanchard/react-native-slider@^2.2.0":
+  "integrity" "sha512-LepVGFVy6KtDVgMRIAAJJKQCXbcADkzK2R61t3LkD+IF2wG1J4I4KVo99GAsvU0EBKeCsjHPkR+6LGnB6xGzVA=="
+  "resolved" "https://registry.npmjs.org/@miblanchard/react-native-slider/-/react-native-slider-2.2.0.tgz"
+  "version" "2.2.0"
+
 "@react-native-clipboard/clipboard@^1.7.0":
   "integrity" "sha512-1kFA5TEf7iUPR/T4/jFfYMe38iy6HOx7DsLjMHYuAISsGgUElZa+bnW+gIebfLebpFcQZKROC5sB61LWe4MTMQ=="
   "resolved" "https://registry.npmjs.org/@react-native-clipboard/clipboard/-/clipboard-1.8.1.tgz"
@@ -7687,6 +7692,11 @@
   dependencies:
     "escape-string-regexp" "2.0.0"
     "invariant" "2.2.4"
+
+"react-native-youtube-iframe-player@^1.0.0":
+  "integrity" "sha512-D367pZ1f6YFRBJFB5OVu5mic8lhLl4nqLfVtTAP7JyLXxYM/NUJTmVJ77oM3NC6Ddbd08I/LLf3sN1pNYNVuLA=="
+  "resolved" "https://registry.npmjs.org/react-native-youtube-iframe-player/-/react-native-youtube-iframe-player-1.0.0.tgz"
+  "version" "1.0.0"
 
 "react-native-youtube-iframe@^2.2.2":
   "integrity" "sha512-og2KW21kCwAHKcnWoyWWBYC6J2Xtqjjwpghhoy9G6zfwZkr8Ej27BbQIAKM/TheJJUZ5/YUrqsgqAdnFYDx5TQ=="

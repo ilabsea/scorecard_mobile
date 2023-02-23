@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
-import TipModal from '../../components/Tip/TipModal';
 import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import VotingIndicatorListContent from '../../components/VotingIndicator/VotingIndicatorListContent';
@@ -13,7 +12,7 @@ import { getAll } from '../../actions/votingIndicatorAction';
 import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, VOTING_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
+import { VOTING_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 import VotingIndicator from '../../models/VotingIndicator';
 
 class VotingIndicatorList extends Component {
@@ -67,8 +66,6 @@ class VotingIndicatorList extends Component {
   }
 
   render() {
-    const snapPoints = tipModalSnapPoints[VOTING_INDICATOR];
-
     return (
       <View style={{height: '100%'}}>
         { this._renderHeader() }
@@ -76,7 +73,6 @@ class VotingIndicatorList extends Component {
         { this._renderBody() }
 
         <TipBottomSheet tipModalRef={this.tipModalRef} type={VOTING_INDICATOR} />
-        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' /> */}
         <VotingInfoModal ref={this.infoModalRef} votingInfoModalRef={this.votingInfoModalRef} snapPoints={[]} />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}

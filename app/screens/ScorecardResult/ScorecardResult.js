@@ -10,7 +10,6 @@ import { getAllScorecardReferences } from '../../actions/scorecardReferenceActio
 import { LocalizationContext } from '../../components/Translations';
 import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
-// import TipModal from '../../components/Tip/TipModal';
 import TipBottomSheet from '../../components/Tip/TipBottomSheet';
 import Color from '../../themes/color';
 import Tip from '../../components/Share/Tip';
@@ -25,7 +24,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 
 import ScorecardResultModalMain from '../../components/ScorecardResult/ScorecardResultModalMain';
 import Scorecard from '../../models/Scorecard';
-import { tipModalSnapPoints, SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
+import { SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
 
 let _this = null;
@@ -118,8 +117,6 @@ class ScorecardResult extends Component {
 
   render() {
     const { translations } = this.context;
-    const snapPoints = tipModalSnapPoints[SCORECARD_RESULT];
-
     return (
       <View style={{height: '100%'}}>
         { this._renderHeader() }
@@ -144,7 +141,6 @@ class ScorecardResult extends Component {
         </View>
 
         <TipBottomSheet tipModalRef={this.tipModalRef} type={SCORECARD_RESULT} />
-        {/* <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='ScorecardResult' /> */}
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.swotModalRef} snapPoints={swotModalSnapPoints} />
       </View>
     )
