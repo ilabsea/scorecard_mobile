@@ -109,8 +109,6 @@ class IndicatorDevelopment extends Component {
 
   render() {
     const { translations } = this.context;
-    // const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
-
     return (
       <View style={{flex: 1}}>
         { this._renderHeader() }

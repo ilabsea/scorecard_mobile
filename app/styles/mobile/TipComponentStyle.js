@@ -12,7 +12,7 @@ const TipComponentStyles = StyleSheet.create({
     paddingRight: 5,
   },
   viewDetailIcon: {
-    fontSize: wp('4%'),
+    fontSize: wp('5%'),
   },
   tipIconContainer: {
     width: 50,

@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import DeviceInfo from 'react-native-device-info'
+import { View, Text, StyleSheet } from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons'
 
 import { LocalizationContext } from '../Translations';
-import PressableLabel from './PressableLabel';
 import { Icon } from 'native-base';
 import Color from '../../themes/color';
-import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';
 import { TouchableRipple } from 'react-native-paper';
 
@@ -20,41 +18,28 @@ const responsiveStyles = getDeviceStyle(TipTabletStyles, TipMobileStyles);
 
 export default class Tip extends Component {
   static contextType = LocalizationContext;
-
   renderTipIcon() {
-    return (
-      <View style={[cardListItemStyle.statusIconWrapper, responsiveStyles.tipIconContainer]}>
-        <Image source={require('../../assets/images/tip.png')} style={responsiveStyles.tipIcon}/>
-      </View>
-    )
+    return <View style={[{alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12}]}>
+              <IonIcon name="bulb-outline" size={getDeviceStyle(45, 35)} color={Color.tipBgColor} />
+           </View>
   }
 
   render() {
-    let scorecard = this.props.scorecard || {};
     const { translations } = this.context;
-
     return (
-      <View>
-        <TouchableRipple
-          onPress={() => this.props.showTipModal()}
-          style={[customStyle.card, {marginBottom: 16, borderRadius: cardBorderRadius}]}>
-
-          <View style={{flexDirection: 'row'}}>
-            { this.renderTipIcon() }
-
-            <View style={styles.contentWrapper}>
-              <Text numberOfLines={1} style={[cardListItemStyle.h2, responsiveStyles.title]}>
-                { translations.tips } - { translations[getTipByScreenName(this.props.screenName).mainTitle] }
-              </Text>
-
-              { DeviceInfo.isTablet() &&
-                <PressableLabel label={translations.viewTips} />
-              }
-              <Icon name='chevron-forward-outline' style={[{color: Color.headerColor}, responsiveStyles.viewDetailIcon]} />
-            </View>
+      <TouchableRipple onPress={() => this.props.showTipModal()}
+        style={{marginBottom: 16, borderRadius: cardBorderRadius, elevation: 0, borderWidth: 2, borderColor: Color.tipBgColor, backgroundColor: Color.whiteColor}}
+      >
+        <View style={{flexDirection: 'row'}}>
+          { this.renderTipIcon() }
+          <View style={styles.contentWrapper}>
+            <Text numberOfLines={1} style={[cardListItemStyle.h2, responsiveStyles.title, {color: Color.tipBgColor}]}>
+              { translations.tips } - { translations[getTipByScreenName(this.props.screenName).mainTitle] }
+            </Text>
+            <Icon name='chevron-forward-outline' style={[{color: Color.tipBgColor}, responsiveStyles.viewDetailIcon]} />
           </View>
-        </TouchableRipple>
-      </View>
+        </View>
+      </TouchableRipple>
     )
   }
 }
@@ -65,6 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     padding: 16,
-    paddingRight: 10
+    paddingRight: 10,
+    paddingLeft: 6
   }
 });
