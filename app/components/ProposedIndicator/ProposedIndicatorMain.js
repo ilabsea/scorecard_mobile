@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {Animated, View, StyleSheet, ScrollView} from 'react-native';
 
 import Color from '../../themes/color';
+
+import ProposedIndicatorNavHeader from './ProposedIndicatorNavHeader';
 
 import Tip from '../Share/Tip';
 import ListUser from './ListUser';
@@ -19,6 +21,10 @@ import settingHelper from '../../helpers/setting_helper';
 
 class ProposedIndicatorContent extends Component {
   static contextType = LocalizationContext;
+  constructor(props) {
+    super(props)
+    this.scrollY = new Animated.Value(0)
+  }
 
   componentDidMount() {
     this.props.setSelectedIndicators([])
@@ -55,7 +61,10 @@ class ProposedIndicatorContent extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 28, flexGrow: 1}}>
+        <ProposedIndicatorNavHeader scrollY={this.scrollY}/>
+        <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 228, flexGrow: 1, marginTop: 156}}
+          onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}], { useNativeDriver: false })}
+        >
           <Tip screenName='ProposedIndicator' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
           <ListUser

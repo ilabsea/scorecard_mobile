@@ -3,7 +3,6 @@ import { View, BackHandler } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
-import ProgressHeader from '../../components/Share/ProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 
@@ -57,8 +56,6 @@ class ProposedIndicator extends Component {
     return (
       <React.Fragment>
         <View style={{flex: 1}}>
-          <ProgressHeader title={translations['getStarted']} progressIndex={3} />
-
           <ProposedIndicatorMain
             scorecardUuid={scorecard_uuid}
             visibleModal={this.state.visibleModal}
