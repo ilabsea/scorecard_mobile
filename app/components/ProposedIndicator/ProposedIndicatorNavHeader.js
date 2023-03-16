@@ -1,29 +1,25 @@
 import React from 'react';
 import { Animated, View, Text } from 'react-native';
-import { Header, Left, Right, Title } from "native-base";
+import { Header, Left, Right } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { HeaderBackButton } from '@react-navigation/stack';
+import IonIcon from 'react-native-vector-icons/Ionicons'
 
 import {LocalizationContext} from '../Translations';
-import ProgressHeader from '../Share/ProgressHeader';
 import HeaderIconButton from '../Share/HeaderIconButton';
 import CustomAlertMessage from '../Share/CustomAlertMessage';
 import NavigationHeaderBody from '../NavigationHeaderBody';
 import ProgressStep from '../ProgressStep';
 import Color from '../../themes/color';
 import { navigateBack, navigateHome } from '../../utils/navigation_util';
-import { getDeviceStyle, navigationBackButtonFlex, navigationTitlePaddingLeft } from '../../utils/responsive_util';
-import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { navigationHeaderTitleFontSize } from '../../utils/font_size_util';
+import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
 
-// const headerWithAudioMaxHeight = getDeviceStyle(265, 230);
-const headerMaxHeight = getDeviceStyle(156, 230);
-const headerMinHeight = 64;
+const headerMaxHeight = getDeviceStyle(156, 156);
+const headerMinHeight = 56;
 const headerScrollDistance = (headerMaxHeight - headerMinHeight);
 
 const ProposedIndicatorNavHeader = (props) => {
-  // const contextType = LocalizationContext;
-  // const {translations} = context;
+  const {translations} = React.useContext(LocalizationContext);
   const [visibleModal, setVisibleModal] = React.useState(false)
 
   const headerHeight = props.scrollY.interpolate({
@@ -38,46 +34,58 @@ const ProposedIndicatorNavHeader = (props) => {
     extrapolate: 'extend'
   });
 
+  const tipIconOpacity = props.scrollY.interpolate({
+    inputRange: [0, headerMaxHeight, headerMaxHeight + 30],
+    outputRange: [0, 0, 1],
+    extrapolate: 'clamp',
+  })
+
+  const goToHomeScreen = () => {
+    setVisibleModal(false)
+    navigateHome();
+  }
+
   const renderProgressStep = () => {
     return <Animated.View style={{marginTop: getDeviceStyle(10, 4), alignSelf: 'center', opacity: progressOpacity}}>
              <ProgressStep progressIndex={3} steps={!!props.steps && props.steps}/>
            </Animated.View>
   }
 
+  const renderTipIcon = () => {
+    return <Animated.View style={{opacity: tipIconOpacity, marginRight: 4}} >
+              <HeaderIconButton onPress={() => props.showTipModal()}>
+                <IonIcon name="bulb-outline" size={getDeviceStyle(24, wp('5.5%'))} color={Color.whiteColor} />
+              </HeaderIconButton>
+           </Animated.View>
+  }
+
   return (
-    <Animated.View style={{position: 'absolute', top: 0, zIndex: 1, backgroundColor: 'green', height: headerHeight, width: '100%'}}>
-      <View style={{borderWidth: 1, flexGrow: 1}}>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
-          <Left style={{flex: navigationBackButtonFlex}}>
-            <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: 0 }} />
-          </Left>
-
-          <NavigationHeaderBody title={'ការបំផុសលក្ខណៈវិនិច្ឆ័យ'} />
-          {/* <Title style={{fontSize: navigationHeaderTitleFontSize(), fontFamily: FontFamily.title, textTransform: 'capitalize'}}>
-            ការបំផុសលក្ខណៈវិនិច្ឆ័យ
-          </Title> */}
-
-          {/* <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, -6)}}> */}
-          <Right style={{maxWidth: wp('14%'), borderWidth: 1, marginRight: 0}}>
-            <HeaderIconButton onPress={() => setVisibleModal(true)} icon='home' />
-          </Right>
+    <Animated.View style={{position: 'absolute', top: 0, zIndex: 1, backgroundColor: Color.headerColor, height: headerHeight, width: '100%', elevation: 3}}>
+      <Header backgroundColor={Color.headerColor} style={{elevation: 0}}>
+        <View style={{borderWidth: 0, flexGrow: 1}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
+            <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(0, 10)}}>
+              <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: getDeviceStyle(0, 10) }} />
+            </Left>
+            <NavigationHeaderBody title={translations.proposeTheIndicator} />
+            <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, 6)}}>
+              {renderTipIcon()}
+              <HeaderIconButton onPress={() => setVisibleModal(true)} icon='home'/>
+            </Right>
+          </View>
+          {renderProgressStep()}
         </View>
-        {/* {renderProgressStep()} */}
-      </View>
+      </Header>
       <CustomAlertMessage
         visible={visibleModal}
-        // title={translations.returnToHomeScreen}
-        // description={translations.doYouWantToReturnToHomeScreen}
-        // closeButtonLabel={translations.close}
-        title={'Return home?'}
-        description={'Do you really want to return home?'}
-        closeButtonLabel={'Close'}
+        title={translations.returnToHomeScreen}
+        description={translations.doYouWantToReturnToHomeScreen}
+        closeButtonLabel={translations.close}
         hasConfirmButton={true}
-        // confirmButtonLabel={translations.ok}
-        confirmButtonLabel={'Ok'}
+        confirmButtonLabel={translations.ok}
         isConfirmButtonDisabled={false}
         onDismiss={() => setVisibleModal(false)}
-        onConfirm={() => {}}
+        onConfirm={() => goToHomeScreen()}
       />
     </Animated.View>
   )

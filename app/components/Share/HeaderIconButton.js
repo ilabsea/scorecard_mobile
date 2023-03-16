@@ -9,8 +9,10 @@ class HeaderIconButton extends Component {
     const mobileIconSize = this.props.mobileIconSize || wp('5.5%');
 
     return (
-      <Button transparent onPress={() => this.props.onPress()}>
-        <Icon name={this.props.icon} style={{fontSize: getDeviceStyle(24, mobileIconSize), marginTop: -2, marginRight: getDeviceStyle(16, 0)}} />
+      <Button transparent onPress={() => !!this.props.onPress && this.props.onPress()}>
+        { !!this.props.children ? this.props.children
+          : <Icon name={this.props.icon} style={[{fontSize: getDeviceStyle(24, mobileIconSize), marginTop: -2, marginRight: getDeviceStyle(16, 0)}, this.props.iconStyle]} />
+        }
       </Button>
     )
   }

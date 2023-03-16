@@ -61,7 +61,7 @@ class ProposedIndicatorContent extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ProposedIndicatorNavHeader scrollY={this.scrollY}/>
+        <ProposedIndicatorNavHeader scrollY={this.scrollY} showTipModal={() => this.props.tipModalRef.current?.present()}/>
         <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 228, flexGrow: 1, marginTop: 156}}
           onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}], { useNativeDriver: false })}
         >
@@ -75,6 +75,7 @@ class ProposedIndicatorContent extends Component {
             participantModalRef={this.props.participantModalRef}
             formModalRef={this.props.formModalRef}
             updateModalVisible={(status) => this.props.updateModalVisible(status)}
+            scrollY={this.scrollY}
           />
         </ScrollView>
 

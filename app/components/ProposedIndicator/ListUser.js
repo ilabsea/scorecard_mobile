@@ -52,6 +52,13 @@ class ListUser extends Component {
     const {translations} = this.context;
     const proposedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
 
+    const addNewButtonTop = this.props.scrollY.interpolate({
+      inputRange: [0, 100, 150],
+      outputRange: [0, 0, 1],
+      extrapolate: 'clamp',
+      useNativeDriver: true,
+    })
+
     return (
       <View>
         <View style={styles.headingContainer}>
