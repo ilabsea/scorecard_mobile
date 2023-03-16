@@ -33,6 +33,7 @@ const Color = {
   lightGreenColor: '#52c72c',
   accordionContentBgColor: '#fbf9ed',
   orangeColor: '#ffa500',
+  defaultBgColor: '#f0f0f0',
 };
 
 export default Color;

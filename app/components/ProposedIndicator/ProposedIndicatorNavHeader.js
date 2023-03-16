@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, View, Text } from 'react-native';
+import { Animated, View } from 'react-native';
 import { Header, Left, Right } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { HeaderBackButton } from '@react-navigation/stack';
@@ -14,7 +14,7 @@ import Color from '../../themes/color';
 import { navigateBack, navigateHome } from '../../utils/navigation_util';
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
 
-const headerMaxHeight = getDeviceStyle(156, 156);
+const headerMaxHeight = 156;
 const headerMinHeight = 56;
 const headerScrollDistance = (headerMaxHeight - headerMinHeight);
 
@@ -35,8 +35,8 @@ const ProposedIndicatorNavHeader = (props) => {
   });
 
   const tipIconOpacity = props.scrollY.interpolate({
-    inputRange: [0, headerMaxHeight, headerMaxHeight + 30],
-    outputRange: [0, 0, 1],
+    inputRange: [0, headerMaxHeight],
+    outputRange: [0, 1],
     extrapolate: 'clamp',
   })
 
@@ -59,23 +59,27 @@ const ProposedIndicatorNavHeader = (props) => {
            </Animated.View>
   }
 
+  const renderHeader = () => {
+    return <Header backgroundColor={Color.headerColor} style={{elevation: 0}}>
+            <View style={{flexGrow: 1}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
+                <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(0, 10)}}>
+                  <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: getDeviceStyle(0, 10) }} />
+                </Left>
+                <NavigationHeaderBody title={translations.proposeTheIndicator} />
+                <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, 6)}}>
+                  {renderTipIcon()}
+                  <HeaderIconButton onPress={() => setVisibleModal(true)} icon='home'/>
+                </Right>
+              </View>
+              {renderProgressStep()}
+            </View>
+          </Header>
+  }
+
   return (
     <Animated.View style={{position: 'absolute', top: 0, zIndex: 1, backgroundColor: Color.headerColor, height: headerHeight, width: '100%', elevation: 3}}>
-      <Header backgroundColor={Color.headerColor} style={{elevation: 0}}>
-        <View style={{borderWidth: 0, flexGrow: 1}}>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
-            <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(0, 10)}}>
-              <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: getDeviceStyle(0, 10) }} />
-            </Left>
-            <NavigationHeaderBody title={translations.proposeTheIndicator} />
-            <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, 6)}}>
-              {renderTipIcon()}
-              <HeaderIconButton onPress={() => setVisibleModal(true)} icon='home'/>
-            </Right>
-          </View>
-          {renderProgressStep()}
-        </View>
-      </Header>
+      {renderHeader()}
       <CustomAlertMessage
         visible={visibleModal}
         title={translations.returnToHomeScreen}

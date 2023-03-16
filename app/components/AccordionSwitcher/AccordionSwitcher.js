@@ -26,7 +26,7 @@ class AccordionSwitcher extends Component {
     const indicators = proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid);
 
     return (
-      <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row', marginTop: 6, justifyContent: 'center'}}>
         { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel, this.props.numberOfProposedParticipant) }
         { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel, indicators.length) }
       </View>

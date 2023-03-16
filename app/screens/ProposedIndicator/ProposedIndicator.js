@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { View, BackHandler } from 'react-native';
 
-import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
@@ -12,8 +11,6 @@ import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 
 class ProposedIndicator extends Component {
-  static contextType = LocalizationContext;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -49,28 +46,24 @@ class ProposedIndicator extends Component {
   }
 
   render() {
-    const {translations} = this.context;
     const { scorecard_uuid } = this.props.route.params;
     const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
 
     return (
-      <React.Fragment>
-        <View style={{flex: 1}}>
-          <ProposedIndicatorMain
-            scorecardUuid={scorecard_uuid}
-            visibleModal={this.state.visibleModal}
-            tipModalRef={this.tipModalRef}
-            participantModalRef={this.participantModalRef}
-            formModalRef={this.formModalRef}
-            updateModalVisible={(status) => this.setState({ visibleModal: status })}
-          />
-        </View>
-
+      <View style={{flexGrow: 1}}>
+        <ProposedIndicatorMain
+          scorecardUuid={scorecard_uuid}
+          visibleModal={this.state.visibleModal}
+          tipModalRef={this.tipModalRef}
+          participantModalRef={this.participantModalRef}
+          formModalRef={this.formModalRef}
+          updateModalVisible={(status) => this.setState({ visibleModal: status })}
+        />
         <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.onDismissBottomSheet()}
         />
-      </React.Fragment>
+      </View>
     );
   }
 }
