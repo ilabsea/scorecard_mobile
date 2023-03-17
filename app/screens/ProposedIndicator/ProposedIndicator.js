@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import { View, BackHandler } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposedIndicatorMain from '../../components/ProposedIndicator/ProposedIndicatorMain';
@@ -34,6 +34,21 @@ class ProposedIndicator extends Component {
     this.formModalRef = React.createRef();
   }
 
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (!!this.formModalRef.current?.isOpen()) {
+        this.participantModalRef.current?.dismiss();
+        return true;
+      }
+      return false;
+    })
+  }
+
+  onDismissBottomSheet() {
+    this.setState({ visibleModal: false });
+    this.formModalRef.current?.setBodyContent(null)
+  }
+
   render() {
     const {translations} = this.context;
     const { scorecard_uuid } = this.props.route.params;
@@ -56,7 +71,7 @@ class ProposedIndicator extends Component {
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
-          onDismissModal={() => this.setState({ visibleModal: false })}
+          onDismissModal={() => this.onDismissBottomSheet()}
         />
       </React.Fragment>
     );

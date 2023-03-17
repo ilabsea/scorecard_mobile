@@ -18,6 +18,10 @@ class FormBottomSheetModal extends React.Component {
     this.setState({ snapPoints });
   }
 
+  isOpen() {
+    return !!this.state.bodyContent;
+  }
+
   onDismissModal() {
     !!this.props.onDismissModal && this.props.onDismissModal()
   }

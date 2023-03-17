@@ -130,6 +130,11 @@ class CreateIndicatorBody extends React.Component {
           />
   }
 
+  onDismissBottomSheet() {
+    this.updateIndicatorList();
+    this.formModalRef.current?.setBodyContent(null);
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -139,11 +144,10 @@ class CreateIndicatorBody extends React.Component {
             color={Color.primaryColor}
             overlayColor={Color.loadingBackgroundColor}
           />
-
           { this.renderContent() }
           { this.renderBottomButton() }
         </View>
-        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.updateIndicatorList()} />
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.onDismissBottomSheet()} />
       </React.Fragment>
     )
   }
