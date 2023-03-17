@@ -66,6 +66,7 @@ class ProposedIndicatorContent extends Component {
             participantModalRef={this.props.participantModalRef}
             formModalRef={this.props.formModalRef}
             updateModalVisible={(status) => this.props.updateModalVisible(status)}
+            isIndicatorBase={this.props.isIndicatorBase}
           />
         </ScrollView>
 

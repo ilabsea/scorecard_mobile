@@ -66,6 +66,7 @@ class ProposedIndicator extends Component {
             participantModalRef={this.participantModalRef}
             formModalRef={this.formModalRef}
             updateModalVisible={(status) => this.setState({ visibleModal: status })}
+            isIndicatorBase={this.props.route.params.isIndicatorBase}
           />
         </View>
 

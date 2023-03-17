@@ -16,6 +16,8 @@ import screenInstructions from '../../db/jsons/screenInstructions';
 import TipListItem from '../../components/Tip/TipListItem';
 import { containerPadding } from '../../utils/responsive_util'
 
+import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+
 export default class OfflineInstruction extends Component {
   static contextType = LocalizationContext;
 
@@ -23,8 +25,14 @@ export default class OfflineInstruction extends Component {
     super(props);
 
     this.state = {
-      screen: screenInstructions.filter(x => x.screenName == props.route.name)[0] || screenInstructions[0]
+      screen: screenInstructions.filter(x => x.screenName == props.route.name)[0] || screenInstructions[0],
+      isIndicatorBase: true
     };
+    this.initProposeIndicatorType()
+  }
+
+  async initProposeIndicatorType() {
+    this.setState({ isIndicatorBase: await isProposeByIndicatorBase() })
   }
 
   _renderHeader() {
@@ -83,7 +91,7 @@ export default class OfflineInstruction extends Component {
         </ImageBackground>
 
         <View style={{padding: containerPadding}}>
-          <BottomButton label={translations.next} onPress={() => this.props.navigation.navigate(this.state.screen.navigateTo, {scorecard_uuid: this.props.route.params.scorecard_uuid})} />
+          <BottomButton label={translations.next} onPress={() => this.props.navigation.navigate(this.state.screen.navigateTo, {scorecard_uuid: this.props.route.params.scorecard_uuid, isIndicatorBase: this.state.isIndicatorBase})} />
         </View>
       </View>
     )
