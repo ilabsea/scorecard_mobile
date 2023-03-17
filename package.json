@@ -30,7 +30,7 @@
     "native-base": "^2.13.14",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
-    "react-native": "0.63.2",
+    "react-native": "0.71.4",
     "react-native-audio-player-button": "^1.0.2",
     "react-native-copilot": "^2.5.1",
     "react-native-device-info": "^10.3.0",
