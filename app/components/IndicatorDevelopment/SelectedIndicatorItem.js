@@ -78,6 +78,8 @@ class SelectedIndicatorItem extends Component {
           customAudioContainerStyle={{justifyContent: 'center'}}
           isDraggable={this.props.isDraggable}
           onLongPress={this.props.onLongPress}
+          playingUuid={this.props.playingUuid}
+          updatePlayingUuid={this.props.updatePlayingUuid}
         />
       </View>
     )

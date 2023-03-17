@@ -40,6 +40,8 @@ class IndicatorDevelopmentList extends Component {
         isActive={isActive}
         updateFirstVisitStatus={(status) => this.updateFirstVisitStatus(status, index)}
         hasRating={this.props.hasRating}
+        playingUuid={this.props.playingUuid}
+        updatePlayingUuid={this.props.updatePlayingUuid}
       />
     )
   }

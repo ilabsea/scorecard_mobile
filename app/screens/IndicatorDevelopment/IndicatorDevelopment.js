@@ -31,6 +31,7 @@ class IndicatorDevelopment extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
+      playingUuid: null
     };
 
     this.tipModalRef = React.createRef();
@@ -74,6 +75,7 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
+    this.setState({playingUuid: null});
     votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedIndicators) => {
       this.props.setVotingIndicators(savedIndicators);
     });
@@ -98,6 +100,8 @@ class IndicatorDevelopment extends Component {
         updateSelectedIndicatorsOrder={(indicators) => this.updateSelectedIndicatorsOrder(indicators)}
         navigation={this.props.navigation}
         tipModalRef={this.tipModalRef}
+        playingUuid={this.state.playingUuid}
+        updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
       />
     )
   }

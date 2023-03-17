@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import PlaySound from '../Share/PlaySound';
+import CustomAudioPlayerButton from '../Share/CustomAudioPlayerButton';
 import { LocalizationContext } from '../Translations';
 
 import Color from '../../themes/color';
@@ -60,7 +60,13 @@ class IndicatorTitle extends Component {
         { this.renderIndicatorTitle() }
 
         <View style={[{paddingRight: 10}, this.props.customAudioContainerStyle]}>
-          <PlaySound filePath={this.props.indicator.local_audio}/>
+          <CustomAudioPlayerButton
+            audio={this.props.indicator.local_audio}
+            itemUuid={this.props.indicator.indicator_uuid}
+            playingUuid={this.props.playingUuid}
+            updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
+            buttonStyle={{alignItems: 'flex-end'}}
+          />
         </View>
       </View>
     );

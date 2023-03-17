@@ -29,7 +29,8 @@ class ProposedIndicatorListModalContent extends Component {
     super(props);
 
     this.state = {
-      indicators: []
+      indicators: [],
+      playingUuid: null,
     };
   }
 
@@ -63,6 +64,8 @@ class ProposedIndicatorListModalContent extends Component {
                 onPress={(proposedIndicator, action) => this.handleAddingIndicator(proposedIndicator, action)}
                 maximumIndicatorAmount={this.maximumIndicatorAmount}
                 indicator={proposedIndicator}
+                playingUuid={this.state.playingUuid}
+                updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
               />
       });
     }

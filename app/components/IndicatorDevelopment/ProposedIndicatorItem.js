@@ -62,6 +62,8 @@ class ProposedIndicatorItem extends Component {
           customTitleStyle={responsiveStyles.titleText}
           customSubTextStyle={responsiveStyles.subText}
           customAudioContainerStyle={{justifyContent: 'center'}}
+          playingUuid={this.props.playingUuid}
+          updatePlayingUuid={this.props.updatePlayingUuid}
         />
       </TouchableOpacity>
     )
