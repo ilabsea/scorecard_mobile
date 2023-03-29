@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import RightArrowIcon from './RightArrowIcon';
 import ParticipantListItemAttributes from './ParticipantListItemInfo/ParticipantListItemAttributes';
@@ -34,11 +35,13 @@ class ParticipantListItemInfo extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity style={[{flexDirection: 'row'}, this.props.containerStyle]}
+      <TouchableOpacity style={[{flexDirection: 'row', borderWidth: 0}, this.props.containerStyle]}
         onPress={() => this.props.onPress && this.props.onPress()}
+        onLongPress={() => this.props.onLongPress && this.props.onLongPress()}
         disabled={this.props.disabled || false}
       >
         <View style={{flexDirection: 'row', flex: 1, borderWidth: 0, alignItems: 'center'}}>
+          { this.props.isDraggable && <Icon name="more-vert" style={{color: Color.lightGrayColor, fontSize: 20, textAlign: 'center'}} /> }
           { this.renderOrderNumber() }
           { this.renderAttributes() }
         </View>

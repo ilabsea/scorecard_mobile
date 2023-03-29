@@ -12,6 +12,7 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     borderRadius: 4,
     paddingHorizontal: cardItemPadding,
+    paddingLeft: 2,
     justifyContent: 'center',
   },
   numberContainer: {

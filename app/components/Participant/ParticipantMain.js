@@ -1,30 +1,21 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
-import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
+import ParticipantList from './ParticipantList';
 import EmptyListAction from '../Share/EmptyListAction';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
-import { participantListContentHeight } from '../../constants/modal_constant';
+import { participantListContentHeight, participantListModalSnapPoints } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
-import Scorecard from '../../models/Scorecard';
-import Participant from '../../models/Participant';
-
-import Color from '../../themes/color';
-import listItemStyles from '../../themes/scorecardListItemStyle';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
-import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
-
-const responsiveStyles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
     this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain(selectedParticipant));
+    this.props.formModalRef.current?.setSnapPoints(participantListModalSnapPoints);
     this.props.participantModalRef.current?.present();
   }
 
@@ -46,24 +37,13 @@ class ParticipantMain extends React.Component {
   }
 
   renderParticipantList = () => {
-    const numberOfParticipant = Scorecard.find(this.props.scorecardUuid).number_of_participant;
-    this.totalParticipant = numberOfParticipant;
-    let doms = null;
-
-    if (Participant.getAll(this.props.scorecardUuid).length > 0) {
-      doms = this.props.participants.map((participant, index) =>
-        <ParticipantListItemInfo
-          key={index}
-          participant={participant}
-          onPress={() => this.showParticipantBottomSheet(participant)}
-          containerStyle={[responsiveStyles.itemContainer, listItemStyles.card]}
-          hasArrowIcon={true}
-          arrowColor={Color.headerColor}
-        />
-      )
-    }
-
-    return doms;
+    return <ParticipantList participants={this.props.participants} scorecardUuid={this.props.scorecardUuid}
+              showParticipantBottomSheet={(participant) => this.showParticipantBottomSheet(participant)}
+              updateParticipants={this.props.updateParticipants}
+              formModalRef={this.props.formModalRef}
+              participantModalRef={this.props.participantModalRef}
+              navigation={this.props.navigation}
+           />
   }
 
   renderNoData() {
@@ -75,12 +55,14 @@ class ParticipantMain extends React.Component {
   }
 
   render () {
+    console.log('=== participant main = ', this.props.participants)
+
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         { this.renderTitle() }
-        { this.renderParticipantList() }
-        { this.props.participants.length == 0 && this.renderNoData() }
-      </ScrollView>
+        {/* { this.renderParticipantList() } */}
+        { this.props.participants.length == 0 ? this.renderNoData() : this.renderParticipantList() }
+      </View>
     )
   }
 }

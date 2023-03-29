@@ -75,6 +75,8 @@ class Participant extends Component {
               participants={this.props.participants}
               participantModalRef={this.participantModalRef}
               formModalRef={this.formModalRef}
+              updateParticipants={(participants) => this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid)}
+              navigation={this.props.navigation}
             />
 
             { this.renderBottomSection() }
