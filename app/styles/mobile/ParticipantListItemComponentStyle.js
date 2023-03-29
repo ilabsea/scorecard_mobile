@@ -7,6 +7,7 @@ import { cardItemPadding } from '../../utils/responsive_util';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
+    margin: 1,
     marginBottom: 14,
     minHeight: pressableItemSize(20),
     backgroundColor: Color.whiteColor,

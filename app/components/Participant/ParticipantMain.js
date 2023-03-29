@@ -14,6 +14,7 @@ class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
+    this.props.updateIsEditFormBottomSheet(true)
     this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain(selectedParticipant));
     this.props.formModalRef.current?.setSnapPoints(participantListModalSnapPoints);
     this.props.participantModalRef.current?.present();
@@ -43,6 +44,7 @@ class ParticipantMain extends React.Component {
               formModalRef={this.props.formModalRef}
               participantModalRef={this.props.participantModalRef}
               navigation={this.props.navigation}
+              updateIsEditFormBottomSheet={this.props.updateIsEditFormBottomSheet}
            />
   }
 
@@ -55,12 +57,9 @@ class ParticipantMain extends React.Component {
   }
 
   render () {
-    console.log('=== participant main = ', this.props.participants)
-
     return (
       <View style={styles.container}>
         { this.renderTitle() }
-        {/* { this.renderParticipantList() } */}
         { this.props.participants.length == 0 ? this.renderNoData() : this.renderParticipantList() }
       </View>
     )
@@ -69,7 +68,6 @@ class ParticipantMain extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: containerPadding,
     paddingHorizontal: 14,
     flexGrow: 1,
     paddingTop: containerPaddingTop,

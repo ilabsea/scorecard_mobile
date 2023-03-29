@@ -2,12 +2,13 @@ import React from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
-import ParticipantOrderChangedMessage from './ParticipantOrderChangedMessage';
+import ParticipantConfirmationBottomSheet from './ParticipantConfirmationBottomSheet';
 import Color from '../../themes/color';
 import listItemStyles from '../../themes/scorecardListItemStyle';
 import participantListingService from '../../services/participant_listing_service';
 import Scorecard from '../../models/Scorecard';
 import {SETUP} from '../../constants/scorecard_constant';
+import {participantConfirmModalSnapPoints} from '../../constants/modal_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
 import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
@@ -21,7 +22,6 @@ class ParticipantList extends React.Component {
 
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener("focus", async () => {
-      console.log('== on participant list focus ===')
       this.setState({isDraggable: Scorecard.find(this.props.scorecardUuid).status == SETUP ? true : false})
     });
   }
@@ -31,7 +31,7 @@ class ParticipantList extends React.Component {
   }
 
   renderItem = (params) => {
-    const {item, index, drag, isActive} = params;
+    const {item, drag} = params;
     return <ParticipantListItemInfo
               participant={item}
               onPress={() => this.props.showParticipantBottomSheet(item)}
@@ -46,10 +46,16 @@ class ParticipantList extends React.Component {
   updateParticipantOrder = (data, from, to) => {
     if (from == to) return
 
-    !!this.props.updateParticipants && this.props.updateParticipants(participantListingService.updateParticipantOrder(data))
-    this.props.formModalRef.current?.setBodyContent(<ParticipantOrderChangedMessage closeModal={() => this.props.participantModalRef.current?.dismiss()}/>)
-    this.props.formModalRef.current?.setSnapPoints(['34%'])
+    !!this.props.updateParticipants && this.props.updateParticipants(data)
+    this.props.updateIsEditFormBottomSheet(false)
+    this.props.formModalRef.current?.setBodyContent(<ParticipantConfirmationBottomSheet save={() => this.save(data)}/>)
+    this.props.formModalRef.current?.setSnapPoints(participantConfirmModalSnapPoints)
     this.props.participantModalRef.current?.present();
+  }
+
+  save = (data) => {
+    !!this.props.updateParticipants && this.props.updateParticipants(participantListingService.updateParticipantOrder(data))
+    this.props.participantModalRef.current?.dismiss()
   }
 
   render() {
@@ -59,7 +65,7 @@ class ParticipantList extends React.Component {
         onDragEnd={({ data, from, to }) => this.updateParticipantOrder(data, from, to)}
         keyExtractor={(item, index) => index.toString()}
         renderItem={(params) => this.renderItem(params)}
-        containerStyle={{marginHorizontal: -4}}
+        containerStyle={{marginHorizontal: -1}}
         disabled={true}
       />
     )

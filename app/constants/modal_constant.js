@@ -15,6 +15,8 @@ export const tipModalSnapPoints = {
 export const participantModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['85%'] : ['75%']);
 export const participantContentHeight = getDeviceStyle('68%', isShortScreenDevice() ? '82%' : '72.5%');
 
+export const participantConfirmModalSnapPoints  = getDeviceStyle(['30%'], isShortScreenDevice() ? ['40%'] : ['34%'])
+
 export const participantListModalSnapPoints = getDeviceStyle(['85%'], ['82%']);
 export const participantListContentHeight = getDeviceStyle('83%', '80%');
 

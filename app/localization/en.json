@@ -403,5 +403,6 @@
   "enterServerShortcut": "Enter server shortcut",
   "serverShortcutIsExisted": "Server shortcut is existed",
   "participantOrderHasBeenChanged": "The Participant order has been changed",
-  "participantOrderHasBeenChangedDescription": "The participant order has been changed, please change the order number that is stuck to the participant's shirt to prevent confusion."
+  "participantOrderHasBeenChangedDescription": "Please change the order number that is stuck to the participant's shirt to be the same as the updated order number to prevent confusion.",
+  "confirm": "Confirm"
 }

@@ -8,7 +8,7 @@ import Color from '../../themes/color';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 
-class ParticipantOrderChangedMessage extends React.Component {
+class ParticipantConfirmationBottomSheet extends React.Component {
   static contextType = LocalizationContext;
 
   render() {
@@ -20,10 +20,10 @@ class ParticipantOrderChangedMessage extends React.Component {
             {this.context.translations.participantOrderHasBeenChangedDescription}
           </Text>
         </View>
-        <FormBottomSheetButton label={'យល់ព្រម'} isValid={true} save={() => this.props.closeModal()} wrapperStyle={{marginTop: 0}}/>
+        <FormBottomSheetButton label={this.context.translations.confirm} isValid={true} save={() => this.props.save()} wrapperStyle={{marginTop: 0}}/>
       </View>
     )
   }
 }
 
-export default ParticipantOrderChangedMessage;
+export default ParticipantConfirmationBottomSheet;
