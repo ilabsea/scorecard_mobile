@@ -401,5 +401,8 @@
   "factory": "Factory",
   "serverShortcut": "Server shortcut (maximum 8 characters)",
   "enterServerShortcut": "Enter server shortcut",
-  "serverShortcutIsExisted": "Server shortcut is existed"
+  "serverShortcutIsExisted": "Server shortcut is existed",
+  "participantOrderHasBeenChanged": "The Participant order has been changed",
+  "participantOrderHasBeenChangedDescription": "Please change the order number that is stuck to the participant's shirt to be the same as the updated order number to prevent confusion.",
+  "confirm": "Confirm"
 }

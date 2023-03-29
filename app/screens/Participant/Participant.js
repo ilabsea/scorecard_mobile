@@ -28,6 +28,7 @@ class Participant extends Component {
     }
     this.participantModalRef = React.createRef();
     this.formModalRef = React.createRef();
+    this.isEditFormBottomSheet = true;
   }
 
   componentDidMount() {
@@ -44,15 +45,19 @@ class Participant extends Component {
     this.props.navigation.navigate('OfflineProposedIndicator', {scorecard_uuid: this.props.route.params.scorecard_uuid})
   }
 
+  onModalDismiss = () => {
+    if (!this.isEditFormBottomSheet)
+      this.props.saveParticipant(ParticipantModel.findByScorecard(this.props.route.params.scorecard_uuid), this.props.route.params.scorecard_uuid)
+  }
+
   renderBottomSection() {
     return (
       <React.Fragment>
         <View style={{padding: containerPadding}}>
           <BottomButton label={this.context.translations.next} onPress={() => this.next()} />
         </View>
-
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantListModalSnapPoints}
-          onDismissModal={() => this.setState({ visibleModal: false })}
+          onDismissModal={() => this.onModalDismiss()}
         />
       </React.Fragment>
     )
@@ -75,6 +80,9 @@ class Participant extends Component {
               participants={this.props.participants}
               participantModalRef={this.participantModalRef}
               formModalRef={this.formModalRef}
+              updateParticipants={(participants) => this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid)}
+              navigation={this.props.navigation}
+              updateIsEditFormBottomSheet={(status) => this.isEditFormBottomSheet = status}
             />
 
             { this.renderBottomSection() }
