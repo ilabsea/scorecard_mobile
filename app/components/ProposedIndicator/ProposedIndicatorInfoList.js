@@ -5,40 +5,41 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
 import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
-import IndicatorAccordion from '../IndicatorAccordion/IndicatorAccordion';
+import ProposedIndicatorRaisedIndicatorList from './ProposedIndicatorRaisedIndicatorList';
 import EmptyListAction from '../Share/EmptyListAction';
 
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
-import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicatorTabletStyles from '../../styles/tablet/ProposedIndicatorComponentStyle';
 import ProposedIndicatorMobileStyles from '../../styles/mobile/ProposedIndicatorComponentStyle';
 
 const responsiveStyles = getDeviceStyle(ProposedIndicatorTabletStyles, ProposedIndicatorMobileStyles);
 
-class ProposedIndicatorAccordions extends Component {
+class ProposedIndicatorInfoList extends Component {
   static contextType = LocalizationContext;
-  state = {
-    accordionType: 'participant',
-    isIndicatorBase: false,
-  }
-
-  async componentDidMount() {
-    this.setState({ isIndicatorBase: await isProposeByIndicatorBase() });
+  constructor(props) {
+    super(props)
+    this.state = {
+      listType: props.isIndicatorBase ? 'indicator' : 'participant'
+    }
   }
 
   renderAccordionSwitcher() {
     const { translations } =  this.context;
-    const activeSide = this.state.accordionType == 'indicator' ? ACCORDION_RIGHT : ACCORDION_LEFT;
+    const tabs = {
+      indicatorBase: {left_label: translations.raisedIndicator, left_type: 'indicator', right_label: translations.raisedParticipant, right_type: 'participant'},
+      participantBase: {left_label: translations.raisedParticipant, left_type: 'participant', right_label: translations.raisedIndicator, right_type: 'indicator'}
+    }
+    const tab = tabs[this.props.isIndicatorBase ? 'indicatorBase' : 'participantBase']
 
     return (
       <AccordionSwitcher
         scorecardUuid={this.props.scorecardUuid}
-        leftLabel={ translations.proposedParticipant }
-        rightLabel={ translations.indicator }
-        activeSide={activeSide}
-        onPressLeft={() => this.setState({ accordionType: 'participant' })}
-        onPressRight={() => this.setState({ accordionType: 'indicator' })}
+        leftLabel={ tab.left_label }
+        rightLabel={ tab.right_label }
+        activeSide={this.state.listType == tab.left_type ? ACCORDION_LEFT : ACCORDION_RIGHT}
+        onPressLeft={() => this.setState({ listType: tab.left_type })}
+        onPressRight={() => this.setState({ listType: tab.right_type })}
         numberOfProposedParticipant={this.props.numberOfProposedParticipant}
       />
     )
@@ -63,19 +64,16 @@ class ProposedIndicatorAccordions extends Component {
     return (
       <React.Fragment>
         { this.renderAccordionSwitcher() }
-
-        { this.props.proposedParticipants.length == 0 &&
-          this.renderEmptyListAction()
-        }
-
-        { this.state.accordionType == 'participant' ?
-          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.state.isIndicatorBase} />
+        { this.props.raisedParticipants.length == 0 && this.renderEmptyListAction() }
+        { this.state.listType == 'participant' ?
+          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.props.isIndicatorBase} />
           :
-          <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
+          <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} />
+          // <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
         }
       </React.Fragment>
     )
   }
 }
 
-export default ProposedIndicatorAccordions;
+export default ProposedIndicatorInfoList;

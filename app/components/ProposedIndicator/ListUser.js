@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
-import ProposedIndicatorAccordions from './ProposedIndicatorAccordions';
+import {LocalizationContext} from '../Translations';
+import ProposedIndicatorInfoList from './ProposedIndicatorInfoList';
+
 import { connect } from 'react-redux';
 import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
@@ -25,13 +27,40 @@ class ListUser extends Component {
 
   render() {
     const proposedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
-    return <ProposedIndicatorAccordions
-              scorecardUuid={this.props.scorecardUuid}
-              proposedParticipants={proposedParticipants}
-              numberOfProposedParticipant={this.props.numberOfProposedParticipant}
-              showModal={() => this.props.updateModalVisible(true)}
-              startProposeIndicator={() => this.startProposeIndicator()}
-           />
+
+    return (
+      <View>
+        <View style={styles.headingContainer}>
+          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
+            { translations.numberOfParticipant }: { Participant.getAllByScorecard(this.props.scorecardUuid).length } {translations.pax}
+            { this.renderAnonymous() }
+          </Text>
+
+          <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
+            <ParticipantInfo
+              title={translations.proposeTheIndicator}
+              participants={Participant.getNotRaised(this.props.scorecardUuid)}
+              scorecardUuid={ this.props.scorecardUuid }
+              buttonVisible={proposedParticipants.length > 0}
+              mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
+              selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
+              closeModal={() => this.closeModal()}
+              participantModalRef={this.props.participantModalRef}
+              formModalRef={this.props.formModalRef}
+            />
+          </View>
+        </View>
+
+        <ProposedIndicatorInfoList
+          scorecardUuid={this.props.scorecardUuid}
+          proposedParticipants={proposedParticipants}
+          numberOfProposedParticipant={this.props.numberOfProposedParticipant}
+          showModal={() => this.props.updateModalVisible(true)}
+          startProposeIndicator={() => this.startProposeIndicator()}
+          isIndicatorBase={this.props.isIndicatorBase}
+        />
+      </View>
+    );
   }
 }
 
