@@ -9,7 +9,6 @@ const participantHelper = (() => {
     getGenderIconLabel,
     getItemColor,
     isYouth,
-    getParticipantByIndicator,
     getRaisedParticipantByIndicator,
     getDefaultParticipantInfo,
     isAnonymousOptionInvisible,
@@ -40,10 +39,6 @@ const participantHelper = (() => {
 
   function isYouth(age) {
     return age >= 15 && age <= 30;
-  }
-
-  function getParticipantByIndicator(scorecardUuid, indicatorableId) {
-    return getRaisedParticipantByIndicator(scorecardUuid, indicatorableId).map(participant => (participant.order + 1))
   }
 
   function getRaisedParticipantByIndicator(scorecardUuid, indicatorableId) {

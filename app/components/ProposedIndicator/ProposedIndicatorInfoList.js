@@ -66,7 +66,7 @@ class ProposedIndicatorInfoList extends Component {
         { this.renderAccordionSwitcher() }
         { this.props.raisedParticipants.length == 0 && this.renderEmptyListAction() }
         { this.state.listType == 'participant' ?
-          <ProposedIndicatorRaisedParticipantList scorecardUuid={this.props.scorecardUuid} />
+          <ProposedIndicatorRaisedParticipantList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef} />
           :
           <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef} />
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -16,20 +16,14 @@ import { participantContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
   static contextType = LocalizationContext;
-  renderTitleText(participant) {
-    const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 15);
-    const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
-    return <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={{flex: 1}} />
-  }
-
   renderParticipants = () => {
     const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 15);
     const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
     return participantHelper.getRaisedParticipantByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id).map(participant => {
-      return <React.Fragment key={participant.uuid}>
+      return <View key={participant.uuid} style={{paddingLeft: 8}}>
                 <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={itemStyles.participantItem} />
                 <Divider/>
-             </React.Fragment>
+             </View>
     })
   }
 
@@ -38,8 +32,8 @@ class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
       <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
         <BottomSheetModalTitle title={this.props.indicator.name} />
         <View style={{flex: 1, padding: containerPadding}}>
-          <Text style={{fontSize: bodyFontSize(), marginBottom: 10}}>{this.context.translations.raisedParticipant}</Text>
-          <ScrollView contentContainerStyle={{borderWidth: 0, flexGrow: 1}}>
+          <Text style={{fontSize: bodyFontSize(), marginBottom: 16}}>{this.context.translations.raisedParticipant}</Text>
+          <ScrollView contentContainerStyle={{flexGrow: 1}}>
             {this.renderParticipants()}
           </ScrollView>
         </View>

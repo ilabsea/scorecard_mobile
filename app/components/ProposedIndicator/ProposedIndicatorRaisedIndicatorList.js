@@ -16,7 +16,6 @@ const styles = getDeviceStyle(InfoListTabletStyles, InfoListMobileStyles);
 class ProposedIndicatorRaisedIndicatorList extends React.Component {
   static contextType = LocalizationContext;
   showRaisedParticipant = (indicator) => {
-    console.log('do something')
     this.props.formModalRef.current?.setBodyContent(<ProposedIndicatorRaisedParticipantBottomSheet indicator={indicator} scorecardUuid={this.props.scorecardUuid}/>)
     this.props.participantModalRef.current?.present();
   }
@@ -24,12 +23,12 @@ class ProposedIndicatorRaisedIndicatorList extends React.Component {
   renderIndicatorList = () => {
     const { translations } = this.context;
     return proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid).map((indicator, index) => {
-      const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, indicator.indicatorable_id);
+      const raisedParticipants = participantHelper.getRaisedParticipantByIndicator(this.props.scorecardUuid, indicator.indicatorable_id);
       return <AudioCardView
                 key={indicator.uuid}
                 containerStyle={styles.indicatorCardContainer}
                 title={indicator.name}
-                subtitle={ translations.formatString(translations.numberOfRaisedParticipant, participantOrderNumbers.length) }
+                subtitle={ translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length) }
                 hideAudioPlayer={true}
                 titleStyle={[{marginTop: 0}, styles.label]}
                 subtitleStyle={styles.subLabel}
