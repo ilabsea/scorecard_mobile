@@ -4,7 +4,6 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
-import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
 import ProposedIndicatorRaisedIndicatorList from './ProposedIndicatorRaisedIndicatorList';
 import ProposedIndicatorRaisedParticipantList from './ProposedIndicatorRaisedParticipantList';
 import EmptyListAction from '../Share/EmptyListAction';
@@ -67,11 +66,9 @@ class ProposedIndicatorInfoList extends Component {
         { this.renderAccordionSwitcher() }
         { this.props.raisedParticipants.length == 0 && this.renderEmptyListAction() }
         { this.state.listType == 'participant' ?
-          // <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.props.isIndicatorBase} />
           <ProposedIndicatorRaisedParticipantList scorecardUuid={this.props.scorecardUuid} />
           :
           <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef} />
-          // <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
         }
       </React.Fragment>
     )

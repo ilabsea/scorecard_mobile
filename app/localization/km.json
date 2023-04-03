@@ -261,7 +261,7 @@
   "yr": "ឆ្នាំ",
   "proposedParticipant": "អ្នកស្នើ",
   "raisedIndicator": "លក្ខណៈវិនិច្ឆ័យ",
-  "noOfParticipant": "លេខកូដអ្នកស្នើ",
+  "numberOfRaisedParticipant": "ចំនួនអ្នកស្នើ {0} នាក់",
   "numberOfParticipant": "ចំនួនអ្នកចូលរូម",
   "pleaseProposeIndicator": "សូមធ្វើការបំផុសលក្ខណៈវិនិច្ឆ័យ",
   "editIndicator": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",

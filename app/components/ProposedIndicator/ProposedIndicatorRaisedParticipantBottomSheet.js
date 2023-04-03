@@ -26,7 +26,7 @@ class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
     const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 15);
     const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
     return participantHelper.getRaisedParticipantByIndicator(this.props.scorecardUuid, this.props.indicator.indicatorable_id).map(participant => {
-      return <React.Fragment>
+      return <React.Fragment key={participant.uuid}>
                 <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={itemStyles.participantItem} />
                 <Divider/>
              </React.Fragment>
@@ -38,7 +38,7 @@ class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
       <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
         <BottomSheetModalTitle title={this.props.indicator.name} />
         <View style={{flex: 1, padding: containerPadding}}>
-          <Text style={{fontSize: bodyFontSize()}}>{this.context.translations.raisedParticipant}</Text>
+          <Text style={{fontSize: bodyFontSize(), marginBottom: 10}}>{this.context.translations.raisedParticipant}</Text>
           <ScrollView contentContainerStyle={{borderWidth: 0, flexGrow: 1}}>
             {this.renderParticipants()}
           </ScrollView>

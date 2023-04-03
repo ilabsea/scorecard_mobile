@@ -261,7 +261,7 @@
   "yr": "yr",
   "proposedParticipant": "Proposed participant",
   "raisedIndicator": "Indicator",
-  "noOfParticipant": "No. of participant",
+  "numberOfRaisedParticipant": "Raised participant {0} pax",
   "numberOfParticipant": "Participant",
   "pleaseProposeIndicator": "Please propose indicator",
   "editIndicator": "Edit Indicator",
