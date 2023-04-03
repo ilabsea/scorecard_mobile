@@ -6,6 +6,7 @@ import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
 import ParticipantAccordion from '../ParticipantAccordion/ParticipantAccordion';
 import ProposedIndicatorRaisedIndicatorList from './ProposedIndicatorRaisedIndicatorList';
+import ProposedIndicatorRaisedParticipantList from './ProposedIndicatorRaisedParticipantList';
 import EmptyListAction from '../Share/EmptyListAction';
 
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
@@ -66,7 +67,8 @@ class ProposedIndicatorInfoList extends Component {
         { this.renderAccordionSwitcher() }
         { this.props.raisedParticipants.length == 0 && this.renderEmptyListAction() }
         { this.state.listType == 'participant' ?
-          <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.props.isIndicatorBase} />
+          // <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.props.isIndicatorBase} />
+          <ProposedIndicatorRaisedParticipantList scorecardUuid={this.props.scorecardUuid} />
           :
           <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} />
           // <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />

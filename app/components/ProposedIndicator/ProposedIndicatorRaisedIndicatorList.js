@@ -20,7 +20,7 @@ class ProposedIndicatorRaisedIndicatorList extends React.Component {
       const participantOrderNumbers = participantHelper.getParticipantByIndicator(this.props.scorecardUuid, indicator.indicatorable_id);
       return <AudioCardView
                 key={indicator.uuid}
-                containerStyle={styles.container}
+                containerStyle={styles.indicatorCardContainer}
                 title={indicator.name}
                 subtitle={ translations.formatString(translations.numberOfRaisedParticipant, participantOrderNumbers.length) }
                 hideAudioPlayer={true}
@@ -32,7 +32,7 @@ class ProposedIndicatorRaisedIndicatorList extends React.Component {
   }
 
   render() {
-    return <View style={{marginTop: 14}}>{this.renderIndicatorList()}</View>
+    return <View style={{marginTop: 10}}>{this.renderIndicatorList()}</View>
   }
 }
 
