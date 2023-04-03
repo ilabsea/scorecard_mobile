@@ -58,6 +58,8 @@ class ListUser extends Component {
           showModal={() => this.props.updateModalVisible(true)}
           startProposeIndicator={() => this.startProposeIndicator()}
           isIndicatorBase={this.props.isIndicatorBase}
+          participantModalRef={this.props.participantModalRef}
+          formModalRef={this.props.formModalRef}
         />
       </View>
     );

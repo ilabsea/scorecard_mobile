@@ -70,7 +70,7 @@ class ProposedIndicatorInfoList extends Component {
           // <ParticipantAccordion scorecardUuid={this.props.scorecardUuid} isIndicatorBase={this.props.isIndicatorBase} />
           <ProposedIndicatorRaisedParticipantList scorecardUuid={this.props.scorecardUuid} />
           :
-          <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} />
+          <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef} />
           // <IndicatorAccordion scorecardUuid={this.props.scorecardUuid} />
         }
       </React.Fragment>

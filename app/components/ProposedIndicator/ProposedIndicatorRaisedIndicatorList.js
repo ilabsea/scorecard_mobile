@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import AudioCardView from 'react-native-audio-card-view';
 
+import ProposedIndicatorRaisedParticipantBottomSheet from './ProposedIndicatorRaisedParticipantBottomSheet';
 import {LocalizationContext} from '../Translations';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import participantHelper from '../../helpers/participant_helper';
@@ -14,6 +15,12 @@ const styles = getDeviceStyle(InfoListTabletStyles, InfoListMobileStyles);
 
 class ProposedIndicatorRaisedIndicatorList extends React.Component {
   static contextType = LocalizationContext;
+  showRaisedParticipant = (indicator) => {
+    console.log('do something')
+    this.props.formModalRef.current?.setBodyContent(<ProposedIndicatorRaisedParticipantBottomSheet indicator={indicator} scorecardUuid={this.props.scorecardUuid}/>)
+    this.props.participantModalRef.current?.present();
+  }
+
   renderIndicatorList = () => {
     const { translations } = this.context;
     return proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid).map((indicator, index) => {
@@ -26,7 +33,7 @@ class ProposedIndicatorRaisedIndicatorList extends React.Component {
                 hideAudioPlayer={true}
                 titleStyle={[{marginTop: 0}, styles.label]}
                 subtitleStyle={styles.subLabel}
-                onPress={() => console.log('do something')}
+                onPress={() => this.showRaisedParticipant(indicator)}
              />
     })
   }
