@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { smLabelSize } from '../../constants/mobile_font_size_constant';
 import { isSmallMobileScreenDevice } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 
@@ -8,14 +7,14 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
   indicatorCardContainer: {
     elevation: 2,
     height: isSmallMobileScreenDevice() ? 90 : 95,
-    marginTop: 10,
+    marginTop: 14,
     paddingHorizontal: 14
   },
   label: {
-    fontSize: getMobileFontSizeByPixelRatio(14.2, 15)
+    fontSize: getMobileFontSizeByPixelRatio(14.2, 14)
   },
   subLabel: {
-    fontSize: wp(smLabelSize),
+    fontSize: wp('3.2%'),
   },
   participantCardContainer: {
     height: isSmallMobileScreenDevice() ? 90 : 95,
@@ -24,8 +23,12 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
     elevation: 2,
     height: 60,
     minHeight: 60,
-    marginTop: 12,
-    paddingHorizontal: 14
+    marginTop: 8,
+    paddingHorizontal: 14,
+  },
+  swipeLeftButton: {
+    height: 60,
+    marginTop: 8,
   }
 });
 

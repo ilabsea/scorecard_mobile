@@ -34,6 +34,7 @@ const Color = {
   accordionContentBgColor: '#fbf9ed',
   orangeColor: '#ffa500',
   defaultBgColor: '#f0f0f0',
+  lightBlue: '#007bff',
 };
 
 export default Color;
