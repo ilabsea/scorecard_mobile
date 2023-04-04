@@ -24,6 +24,7 @@ const IndicatorAccordionComponentStyles = StyleSheet.create({
   swipeLeftButton: {
     height: 70,
     marginTop: 8,
+    width: 90
   }
 });
 

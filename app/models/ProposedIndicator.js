@@ -21,6 +21,7 @@ const ProposedIndicator = (() => {
     getUnconfirmedProposedIndicators,
     hasAnonymousProposed,
     getNumberAnonymousProposeByIndicator,
+    deleteByParticipant,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -114,6 +115,15 @@ const ProposedIndicator = (() => {
       Participant.isAnonymous(proposedIndicator.participant_uuid) && anonymousCount++;
     });
     return anonymousCount;
+  }
+
+  function deleteByParticipant(scorecardUuid, participantUuid) {
+    const proposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }'`);
+
+    if (proposedIndicators.length > 0){
+      destroy(proposedIndicators);
+      Participant.update(participantUuid, { raised: false })
+    }
   }
 })();
 
