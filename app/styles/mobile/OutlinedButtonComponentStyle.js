@@ -1,10 +1,16 @@
 import { StyleSheet } from 'react-native';
-import { bodyFontSize, outlinedButtonIconSize } from '../../utils/font_size_util';
+import { bodyFontSize, outlinedButtonIconSize, smallTextFontSize } from '../../utils/font_size_util';
+import Color from '../../themes/color';
 
 const OutlinedButtonComponentStyles = StyleSheet.create({
   buttonLabel: {
     fontSize: bodyFontSize(),
     paddingRight: 0,
+  },
+  buttonSubLabel: {
+    color: Color.lightGrayColor,
+    fontSize: smallTextFontSize(),
+    textAlign: 'center'
   },
   buttonIcon: {
     fontSize: outlinedButtonIconSize(),

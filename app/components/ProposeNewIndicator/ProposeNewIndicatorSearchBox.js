@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AudioCardView from 'react-native-audio-card-view';
 
@@ -11,7 +11,7 @@ import IndicatorService from '../../services/indicator_service';
 
 class ProposeNewIndicatorSearchBox extends React.Component {
   state = {
-    searchIndicator: '',
+    searchedText: '',
     showResult: false,
     indicators: []
   }
@@ -20,7 +20,8 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     const defaultIndicators = await Indicator.findByScorecard(this.props.scorecardUuid)
     this.setState({
       showResult: true,
-      indicators: defaultIndicators.slice(0, 5)
+      // indicators: defaultIndicators.slice(0, 5)
+      indicators: defaultIndicators.slice(0, 1)
     })
   }
 
@@ -32,28 +33,34 @@ class ProposeNewIndicatorSearchBox extends React.Component {
 
   onChangeText = (text) => {
     this.setState({
-      searchIndicator: text,
+      searchedText: text,
     }, () => {
       this.findIndicator(text)
     })
   }
 
+  closeSearch = () => {
+    Keyboard.dismiss()
+    this.setState({showResult: false, searchedText: ''})
+  }
+
   render() {
     return (
       <React.Fragment>
-        <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
-          <Text>បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យណាមួយដើម្បីធ្វើការបំផុស</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
+          <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
+            <Text>បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យណាមួយដើម្បីធ្វើការបំផុស</Text>
+          </View>
+        </TouchableWithoutFeedback>
 
-        <SearchBox value={this.state.searchIndicator} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
+        <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
           inputContainerStyle={{backgroundColor: Color.whiteColor}}
           placeholder='បញ្ចូលលក្ខណៈវិនិច្ឆ័យដែលអ្នកចង់បំផុស'
           onChangeText={(text) => this.onChangeText(text)}
-          onClearSearch={() => this.setState({searchIndicator: ''})}
+          onClearSearch={() => this.setState({searchedText: ''})}
           onFocus={() => this.onFocus()}
-          // onBlur={() => this.setState({showResult: false})}
         />
-        { this.state.showResult && <ProposeNewIndicatorSearchResultList indicators={this.state.indicators}/> }
+        { this.state.showResult && <ProposeNewIndicatorSearchResultList indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText} closeSearch={() => this.closeSearch()}/> }
       </React.Fragment>
     )
   }
