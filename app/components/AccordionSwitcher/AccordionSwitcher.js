@@ -13,7 +13,6 @@ const responsiveStyles = getDeviceStyle(AccordionSwitcherTabletStyles, Accordion
 class AccordionSwitcher extends Component {
   renderButton(buttonStyle, side, label, numberOfItem) {
     const isActive = this.props.activeSide == side;
-
     return (
       <TouchableOpacity onPress={() => side == ACCORDION_LEFT ? this.props.onPressLeft() : this.props.onPressRight()}
         style={[responsiveStyles.filterBtn, buttonStyle, isActive ? responsiveStyles.activeBtn : {}]}
@@ -24,13 +23,10 @@ class AccordionSwitcher extends Component {
   }
 
   render() {
-    const indicators = proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid);
-    const numOfRaisedParticipant = Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)
-
     return (
       <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
-        { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel, numOfRaisedParticipant) }
-        { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel, indicators.length) }
+        { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel, Participant.getRaisedParticipants(this.props.scorecardUuid).length) }
+        { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel, proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid).length) }
       </View>
     )
   }

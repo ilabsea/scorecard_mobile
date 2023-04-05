@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import AudioCardView from 'react-native-audio-card-view';
+import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import {Text} from 'react-native-paper';
 
 import SearchBox from '../SearchBox/SearchBox';
-import ProposeNewIndicatorSearchResultList from './ProposeNewIndicatorSearchResultList';
+import ProposeNewIndicatorSearchResult from './ProposeNewIndicatorSearchResult';
 import Color from '../../themes/color';
 import Indicator from '../../models/Indicator';
 import IndicatorService from '../../services/indicator_service';
+import {bodyFontSize} from '../../utils/font_size_util';
 
 class ProposeNewIndicatorSearchBox extends React.Component {
   state = {
@@ -49,7 +49,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       <React.Fragment>
         <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
           <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
-            <Text>បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យណាមួយដើម្បីធ្វើការបំផុស</Text>
+            <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យណាមួយដើម្បីធ្វើការបំផុស</Text>
           </View>
         </TouchableWithoutFeedback>
 
@@ -60,7 +60,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
           onClearSearch={() => this.setState({searchedText: ''})}
           onFocus={() => this.onFocus()}
         />
-        { this.state.showResult && <ProposeNewIndicatorSearchResultList indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText} closeSearch={() => this.closeSearch()}/> }
+        { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText} closeSearch={() => this.closeSearch()}/> }
       </React.Fragment>
     )
   }

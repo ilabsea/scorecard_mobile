@@ -11,6 +11,7 @@ import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 
 class ListUser extends Component {
+  static contextType = LocalizationContext;
   _goToCreateNewIndicator(participant_uuid) {
     const params = !!participant_uuid ? { scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid } : { scorecard_uuid: this.props.scorecardUuid };
     // navigate('CreateNewIndicator', params);
@@ -27,7 +28,8 @@ class ListUser extends Component {
   }
 
   render() {
-    const proposedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
+    const {translations} = this.context;
+    const proposedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
 
     return (
       <View>
@@ -44,7 +46,6 @@ class ListUser extends Component {
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={proposedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
-              // selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               selectParticipant={(participant) => navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}
@@ -55,7 +56,7 @@ class ListUser extends Component {
 
         <ProposedIndicatorInfoList
           scorecardUuid={this.props.scorecardUuid}
-          proposedParticipants={proposedParticipants}
+          raisedParticipants={proposedParticipants}
           numberOfProposedParticipant={this.props.numberOfProposedParticipant}
           showModal={() => this.props.updateModalVisible(true)}
           startProposeIndicator={() => this.startProposeIndicator()}

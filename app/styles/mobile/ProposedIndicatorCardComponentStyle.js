@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { isSmallMobileScreenDevice } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import Color from '../../themes/color';
 
 const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
   indicatorCardContainer: {
@@ -26,6 +27,19 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 14,
   },
+  indicatorOutlinedCardContainer: {
+    marginTop: 40,
+    height: 98,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: Color.lightGrayColor,
+    elevation: 0
+  },
+  indicatorOutlinedLabelContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 14
+  }
 });
 
 export const labelFontSize = getMobileFontSizeByPixelRatio(14.2, 14);

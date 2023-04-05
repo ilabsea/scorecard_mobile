@@ -259,7 +259,7 @@
   "apply": "Apply",
   "reset": "Reset",
   "yr": "yr",
-  "proposedParticipant": "Proposed participant",
+  "raisedParticipant": "Proposed participant",
   "raisedIndicator": "Indicator",
   "numberOfRaisedParticipant": "Raised participant {0} pax",
   "numberOfParticipant": "Participant",
@@ -415,5 +415,6 @@
   "showForTheFirstParticipantOnly": "show for the first participant only",
   "deleteTheProposedIndicators": "Delete the proposed indicators",
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "Do you want to delete all the proposed indicators of the participant with this number ({0})?",
-  "proposeNewIndicatorTitle": "Propose new indicator"
+  "proposeNewIndicatorTitle": "Propose new indicator",
+  "createNewIndicator": "Create new indicator"
 }

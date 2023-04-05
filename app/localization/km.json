@@ -259,7 +259,7 @@
   "apply": "ដាក់ប្រើ",
   "reset": "សារឡើងវិញ",
   "yr": "ឆ្នាំ",
-  "proposedParticipant": "អ្នកស្នើ",
+  "raisedParticipant": "អ្នកស្នើ",
   "raisedIndicator": "លក្ខណៈវិនិច្ឆ័យ",
   "numberOfRaisedParticipant": "ចំនួនអ្នកស្នើ {0} នាក់",
   "numberOfParticipant": "ចំនួនអ្នកចូលរូម",
@@ -415,5 +415,6 @@
   "showForTheFirstParticipantOnly": "បង្ហាញសម្រាប់តែអ្នកចូលរួមដំបូង",
   "deleteTheProposedIndicators": "លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុស",
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "តើ​អ្នក​ពិត​ជា​ចង់​លុបលក្ខណៈវិនច្ឆ័យទាំងអស់ដែលបានបំផុសដោយអ្នកចូលរួមដែលមានលេខសម្គាល់ ({0}) ​នេះ​មែន​ទេ?",
-  "proposeNewIndicatorTitle": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី"
+  "proposeNewIndicatorTitle": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី",
+  "createNewIndicator": "បង្កើតលក្ខណៈវិនិច្ឆ័យថ្មី"
 }

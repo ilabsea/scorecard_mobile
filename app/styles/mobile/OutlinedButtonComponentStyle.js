@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { bodyFontSize, outlinedButtonIconSize, smallTextFontSize } from '../../utils/font_size_util';
+import { bodyFontSize, outlinedButtonIconSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 
 const OutlinedButtonComponentStyles = StyleSheet.create({
@@ -9,7 +9,7 @@ const OutlinedButtonComponentStyles = StyleSheet.create({
   },
   buttonSubLabel: {
     color: Color.lightGrayColor,
-    fontSize: smallTextFontSize(),
+    fontSize: getMobileFontSizeByPixelRatio(13, 14),
     textAlign: 'center'
   },
   buttonIcon: {

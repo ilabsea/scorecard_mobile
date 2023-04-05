@@ -29,6 +29,11 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Color.lightGrayColor,
     elevation: 0
+  },
+  indicatorOutlinedLabelContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 10
   }
 });
 
