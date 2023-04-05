@@ -58,6 +58,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
     "react-native-table-component": "^1.2.1",
+    "react-native-text-highlighter": "^1.0.3",
     "react-native-vector-icons": "^7.1.0",
     "react-native-walkthrough-tooltip": "^1.1.11",
     "react-native-webview": "^11.0.0",

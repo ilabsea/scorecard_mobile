@@ -28,4 +28,6 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
   },
 });
 
+export const labelFontSize = getMobileFontSizeByPixelRatio(14.2, 14);
+
 export default ProposedIndicatorInfoListComponentStyles;

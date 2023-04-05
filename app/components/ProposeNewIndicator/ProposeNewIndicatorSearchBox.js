@@ -20,8 +20,8 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     const defaultIndicators = await Indicator.findByScorecard(this.props.scorecardUuid)
     this.setState({
       showResult: true,
-      // indicators: defaultIndicators.slice(0, 5)
-      indicators: defaultIndicators.slice(0, 1)
+      indicators: defaultIndicators.slice(0, 5)
+      // indicators: defaultIndicators.slice(0, 1)
     })
   }
 

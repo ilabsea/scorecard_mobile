@@ -24,12 +24,14 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
   indicatorOutlinedCardContainer: {
     marginTop: 46,
-    height: 120,
+    height: 118,
     width: '100%',
     borderWidth: 1,
     borderColor: Color.lightGrayColor,
     elevation: 0
   }
 });
+
+export const labelFontSize = bodyFontSize();
 
 export default ProposedIndicatorCardComponentStyles;
