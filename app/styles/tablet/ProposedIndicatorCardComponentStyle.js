@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import Color from '../../themes/color';
 
-const IndicatorAccordionComponentStyles = StyleSheet.create({
+const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   indicatorCardContainer: {
     elevation: 2,
     height: 105,
@@ -21,11 +22,14 @@ const IndicatorAccordionComponentStyles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 14
   },
-  swipeLeftButton: {
-    height: 70,
-    marginTop: 8,
-    width: 90
+  indicatorOutlinedCardContainer: {
+    marginTop: 46,
+    height: 120,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: Color.lightGrayColor,
+    elevation: 0
   }
 });
 
-export default IndicatorAccordionComponentStyles;
+export default ProposedIndicatorCardComponentStyles;

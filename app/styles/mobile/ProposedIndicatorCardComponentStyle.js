@@ -26,10 +26,6 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 14,
   },
-  swipeLeftButton: {
-    height: 60,
-    marginTop: 8,
-  }
 });
 
 export default ProposedIndicatorInfoListComponentStyles;

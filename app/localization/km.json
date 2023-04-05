@@ -414,5 +414,6 @@
   "indicatorDevelopmentEmptyButtonLabel": "លក្ខណៈវិនិច្ឆ័យអាទិភាព",
   "showForTheFirstParticipantOnly": "បង្ហាញសម្រាប់តែអ្នកចូលរួមដំបូង",
   "deleteTheProposedIndicators": "លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុស",
-  "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "តើ​អ្នក​ពិត​ជា​ចង់​លុបលក្ខណៈវិនច្ឆ័យទាំងអស់ដែលបានបំផុសដោយអ្នកចូលរួមដែលមានលេខសម្គាល់ ({0}) ​នេះ​មែន​ទេ?"
+  "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "តើ​អ្នក​ពិត​ជា​ចង់​លុបលក្ខណៈវិនច្ឆ័យទាំងអស់ដែលបានបំផុសដោយអ្នកចូលរួមដែលមានលេខសម្គាល់ ({0}) ​នេះ​មែន​ទេ?",
+  "proposeNewIndicatorTitle": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី"
 }

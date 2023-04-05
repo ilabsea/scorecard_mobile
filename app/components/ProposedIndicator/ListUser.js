@@ -13,7 +13,8 @@ import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 class ListUser extends Component {
   _goToCreateNewIndicator(participant_uuid) {
     const params = !!participant_uuid ? { scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant_uuid } : { scorecard_uuid: this.props.scorecardUuid };
-    navigate('CreateNewIndicator', params);
+    // navigate('CreateNewIndicator', params);
+    navigate('ProposeNewIndicator', params);
   }
 
   async startProposeIndicator() {
@@ -43,7 +44,8 @@ class ListUser extends Component {
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={proposedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
-              selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
+              // selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
+              selectParticipant={(participant) => navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}
               formModalRef={this.props.formModalRef}

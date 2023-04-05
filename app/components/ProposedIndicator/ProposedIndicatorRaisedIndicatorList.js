@@ -8,10 +8,10 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import participantHelper from '../../helpers/participant_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
-import InfoListTabletStyles from '../../styles/tablet/ProposedIndicatorInfoListComponentStyle';
-import InfoListMobileStyles from '../../styles/mobile/ProposedIndicatorInfoListComponentStyle';
+import cardItemTabletStyles from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
+import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
 
-const styles = getDeviceStyle(InfoListTabletStyles, InfoListMobileStyles);
+const styles = getDeviceStyle(cardItemTabletStyles, cardItemMobileStyles);
 
 class ProposedIndicatorRaisedIndicatorList extends React.Component {
   static contextType = LocalizationContext;

@@ -17,11 +17,10 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import {navigationRef} from '../../navigators/app_navigator';
 import {saveParticipant} from '../../actions/participantAction';
+import cardItemTabletStyles from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
+import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
 
-import InfoListTabletStyles from '../../styles/tablet/ProposedIndicatorInfoListComponentStyle';
-import InfoListMobileStyles from '../../styles/mobile/ProposedIndicatorInfoListComponentStyle';
-
-const styles = getDeviceStyle(InfoListTabletStyles, InfoListMobileStyles);
+const styles = getDeviceStyle(cardItemTabletStyles, cardItemMobileStyles);
 
 class ProposedIndicatorRaisedParticipantList extends React.Component {
   static contextType = LocalizationContext;
@@ -49,8 +48,9 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
 
   renderRightButtons = (participant, index) => {
     const {translations} = this.context;
+    const btnStyles = getDeviceStyle({ height: 70, marginTop: 8, width: 90 }, { height: 60, marginTop: 8 })
     return <View style={{flexDirection: 'row'}}>
-              <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={styles.swipeLeftButton} onPress={() => this.goToEdit(participant, index)} />
+              <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => this.goToEdit(participant, index)} />
               <SwipeLeftButton label={translations.delete} customStyle={[styles.swipeLeftButton]} onPress={() => this.showConfirmModal(participant, index)} />
            </View>
   }
@@ -74,11 +74,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
           onSwipeableOpen={() => this.handleCloseRow(index) }
           enabled={!this.props.isIndicatorBase}
         >
-          <AudioCardView
-            containerStyle={styles.participantCardContainer}
-            hideAudioPlayer={true}
-            titleStyle={[{marginTop: 0}, styles.label]}
-          >
+          <AudioCardView containerStyle={styles.participantCardContainer} hideAudioPlayer={true} titleStyle={[{marginTop: 0}, styles.label]}>
             <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={{flex: 1}} onPress={() => this.showRaisedParticipant(participant)} />
           </AudioCardView>
         </Swipeable>

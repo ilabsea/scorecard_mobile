@@ -52,7 +52,8 @@ export default class ParticipantInfo extends Component {
 
   openParticipantListModal() {
     if (this.isIndicatorBase && isProposedIndicatorScreen())
-      navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
+      navigate('ProposeNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
+      // navigate('CreateNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
       this.setState({ participantListVisible: true });
       this.props.formModalRef.current?.setSnapPoints(participantModalSnapPoints);

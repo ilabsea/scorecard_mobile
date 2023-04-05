@@ -19,6 +19,7 @@ import VotingIndicatorFormScreen from '../screens/VotingIndicatorForm/VotingIndi
 import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
 import ProposedIndicatorScreen from '../screens/ProposedIndicator/ProposedIndicator';
 import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
+import ProposeNewIndicatorScreen from '../screens/ProposeNewIndicator/ProposeNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
 import ParticipantScreen from '../screens/Participant/Participant';
 import ContactScreen from '../screens/Contact/Contact';
@@ -176,6 +177,13 @@ function AppNavigator() {
         options={() => ({
           header: () => null,
         })}
+      />
+      <Stack.Screen
+        name="ProposeNewIndicator"
+        component={ProposeNewIndicatorScreen}
+        options={{
+          title: `${translations.proposeNewIndicatorTitle}`
+        }}
       />
       <Stack.Screen
         name="Contact"
