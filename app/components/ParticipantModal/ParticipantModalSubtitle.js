@@ -14,7 +14,8 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   const [anonymousParticipant, setAnonymousParticipant] = useState([]);
 
   useEffect(() => {
-    setAnonymousParticipant(ProposedIndicator.getNumberAnonymousProposeByIndicator(props.scorecardUuid, props.selectedIndicator.indicatorable_id));
+    if (!!props.selectedIndicator)
+      setAnonymousParticipant(ProposedIndicator.getNumberAnonymousProposeByIndicator(props.scorecardUuid, props.selectedIndicator.indicatorable_id));
   }, [props.raisedParticipant])
 
   function renderAddNewParticipantButton() {

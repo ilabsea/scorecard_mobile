@@ -88,7 +88,7 @@ class ParticipantModalMain extends React.Component {
           key={participant.uuid}
           participant={participant}
           onPress={() => this.toggleParticipant(participant) }
-          rightIcon={this.listItemRightIcon(participant)}
+          rightIcon={this.listItemRightIcon(participant.uuid)}
           hasArrowIcon={!this.isCreateIndicatorByIndicatorBase}
         />
       )

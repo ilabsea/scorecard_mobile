@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
@@ -124,15 +125,17 @@ class AddNewParticipantMain extends Component {
     return (
       <View style={{backgroundColor: Color.whiteColor, height: hp(contentHeight)}}>
         <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposeTheIndicator } />
-
-        <View style={{padding: containerPadding, flex: 1}}>
-          <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
-            { !!this.props.subTitle ? this.props.subTitle : translations.addNewParticipant }
-          </Text>
-          {this.renderForm()}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
+          <View style={{padding: containerPadding, flex: 1}}>
+            <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
+              { !!this.props.subTitle ? this.props.subTitle : translations.addNewParticipant }
+            </Text>
+            {this.renderForm()}
+          </View>
+        </ScrollView>
+        <View style={{width: '100%', position: 'absolute', bottom: 0, backgroundColor: Color.whiteColor}}>
+          <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} wrapperStyle={{paddingTop: 0, marginTop: 12}}/>
         </View>
-
-        <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} />
       </View>
     );
   }

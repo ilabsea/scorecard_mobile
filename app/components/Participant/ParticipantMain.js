@@ -14,6 +14,9 @@ class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
+    if (!!selectedParticipant && !selectedParticipant.countable)
+      return;
+    
     this.props.formModalRef.current?.setSnapPoints(participantModalSnapPoints);
     this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain(selectedParticipant));
     this.props.participantModalRef.current?.present();
