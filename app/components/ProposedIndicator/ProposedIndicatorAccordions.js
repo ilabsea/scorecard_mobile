@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
@@ -8,7 +9,6 @@ import IndicatorAccordion from '../IndicatorAccordion/IndicatorAccordion';
 import EmptyListAction from '../Share/EmptyListAction';
 
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
-
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicatorTabletStyles from '../../styles/tablet/ProposedIndicatorComponentStyle';
@@ -48,7 +48,7 @@ class ProposedIndicatorAccordions extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{height: '100%'}}>
+      <View style={{height: '100%', paddingTop: hp('10%')}}>
         <EmptyListAction
           title={translations.pleaseProposeIndicator}
           buttonLabel={translations.proposeNewIndicator}
