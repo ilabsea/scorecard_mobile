@@ -42,15 +42,20 @@ class ParticipantListItemInfo extends React.Component {
   }
 
   renderAnonymousButton() {
-    return <TouchableOpacity onPress={() => this.showAnonymousDetail()} style={[styles.anonymousButton, this.props.anonymousStyle]} disabled={!this.props.anonymousPressable}>
-              <AnonymousParticipantIcon/>
-            </TouchableOpacity>
+    return <View style={[styles.anonymousButton, this.props.anonymousStyle]}><AnonymousParticipantIcon/></View>
+  }
+
+  onPressParticipant = () => {
+    if (!this.props.participant.countable && this.props.isParticipantScreen)
+      return this.showAnonymousDetail()
+
+    !!this.props.onPress && this.props.onPress()
   }
 
   render() {
     return (
       <TouchableOpacity style={[{flexDirection: 'row'}, this.props.containerStyle]}
-        onPress={() => this.props.onPress && this.props.onPress()}
+        onPress={() => this.onPressParticipant()}
         disabled={this.props.disabled || false}
       >
         <View style={{flexDirection: 'row', flex: 1, borderWidth: 0, alignItems: 'center'}}>

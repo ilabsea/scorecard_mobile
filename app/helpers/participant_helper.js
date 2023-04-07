@@ -12,6 +12,7 @@ const participantHelper = (() => {
     getParticipantByIndicator,
     getDefaultParticipantInfo,
     isAnonymousOptionInvisible,
+    getParticipantsForProposedIndicator,
   };
 
   function getGenderIconLabel(gender) {
@@ -67,6 +68,17 @@ const participantHelper = (() => {
 
   function isAnonymousOptionInvisible(scorecardUuid) {
     return isVotingScreen() || Participant.getAllByScorecard(scorecardUuid).length > 0;
+  }
+
+  function getParticipantsForProposedIndicator(scorecardUuid) {
+    let participants = Participant.getAllByScorecard(scorecardUuid)
+    // if there is an anonymous participant then move the anonymous to the first item of the array
+    if (!participants[participants.length - 1].countable) {
+      const anonymous = participants[participants.length - 1]
+      participants = participants.filter(participant => participant.countable == true)
+      return [...[anonymous], ...participants]
+    }
+    return participants
   }
 
   // private method

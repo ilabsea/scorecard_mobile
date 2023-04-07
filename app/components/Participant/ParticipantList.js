@@ -30,7 +30,7 @@ class ParticipantList extends React.Component {
           arrowColor={Color.headerColor}
           formModalRef={this.props.formModalRef}
           participantModalRef={this.props.participantModalRef}
-          anonymousPressable={true}
+          isParticipantScreen={true}
         />
       )
     }
