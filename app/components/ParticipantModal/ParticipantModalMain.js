@@ -11,13 +11,13 @@ import ParticipantModalSubtitle from './ParticipantModalSubtitle';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
 import ProposedIndicator from '../../models/ProposedIndicator';
+import Participant from '../../models/Participant';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
 import { participantModalContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
-import participantHelper from '../../helpers/participant_helper';
 
 class ParticipantModalMain extends React.Component {
   static contextType = LocalizationContext;
@@ -27,7 +27,7 @@ class ParticipantModalMain extends React.Component {
       raisedParticipantUuids: [],
     }
     this.participants = !!props.participants ? props.participants
-                        : participantHelper.getParticipantsForProposedIndicator(props.scorecardUuid)
+                        : Participant.getAllByScorecard(props.scorecardUuid);
     this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 

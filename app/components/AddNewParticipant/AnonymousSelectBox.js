@@ -4,8 +4,10 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import OptionsSelectBox from './OptionsSelectBox';
+import OutlineInfoIcon from '../Share/OutlineInfoIcon';
+import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import { bodyFontSize } from '../../utils/font_size_util';
+import { participantFormTitleFontSize } from '../../utils/font_size_util';
 
 class AnonymousSelectBox extends React.Component {
   static contextType = LocalizationContext;
@@ -13,9 +15,15 @@ class AnonymousSelectBox extends React.Component {
   render() {
     return (
       <View>
-        <Text style={{marginTop: 5, fontSize: bodyFontSize()}}>
-          { this.context.translations.other } ({ this.context.translations.anonymous })
-        </Text>
+        <View style={{flexDirection: 'row', marginTop: 5, alignItems: 'center'}}>
+          <Text style={{fontSize: participantFormTitleFontSize()}}>
+            { this.context.translations.other } ({ this.context.translations.anonymous })  -
+          </Text>
+          <OutlineInfoIcon color={Color.warningColor} customIconStyle={{fontSize: 20}} customIconContainerStyles={{width: 23, height: 23, marginLeft: 8, borderWidth: 2, marginRight: 6}} />
+          <Text style={{fontSize: participantFormTitleFontSize()}}>
+            {this.context.translations.showForTheFirstParticipantOnly}
+          </Text>
+        </View>
 
         <View style={{ marginTop: 8, paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
           <OptionsSelectBox

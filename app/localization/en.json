@@ -408,8 +408,9 @@
   "anonymousParticipantDetail": "The anonymous participant is created in order to make the scorecard implementation easier and faster by using an anonymous participant to propose all the indicators for the whole scorecard implementation instead of using each participant to propose the indicator.",
   "anonymousParticipantCan": "Anonymous participant can",
   "anonymousParticipantCannot": "Anonymous participant cannot",
-  "votingTheIndicator": "voting the indicator (will not be shown on the voting screen)",
+  "votingTheIndicator": "voting the indicator (data will not be used and shown on the voting screen)",
   "proposedParticipantAccordionTitle": "Proposed participant",
   "anonymousCannotChoose": "anonymous cannot choose",
-  "indicatorDevelopmentEmptyButtonLabel": "Indicator"
+  "indicatorDevelopmentEmptyButtonLabel": "Indicator",
+  "showForTheFirstParticipantOnly": "show for the first participant only"
 }

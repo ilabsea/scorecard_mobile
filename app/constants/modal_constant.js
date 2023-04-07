@@ -47,5 +47,5 @@ export const facilitatorPickerContentExpanedHeight = getDeviceStyle('92%', '90%'
 export const votingConfirmationSnapPoints = getDeviceStyle(['73%'], isShortWidthScreen() ? ['68%'] : ['70%']);
 export const votingConfirmationContentHeight = getDeviceStyle('71%', isShortWidthScreen() ? '66%' : '68%');
 
-export const anonymousParticipantDetailSnapPoints = getDeviceStyle(['48%'], ['55%']);
-export const anonymousParticipantDetailContentHeight = getDeviceStyle('46%', '53%');
+export const anonymousParticipantDetailSnapPoints = getDeviceStyle(['51%'], isShortScreenDevice() ? ['71%'] : ['57%']);
+export const anonymousParticipantDetailContentHeight = getDeviceStyle('49%', isShortScreenDevice() ? '67%' : '55%');
