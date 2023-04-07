@@ -92,3 +92,7 @@ export const accordionItemFontSize = () => {
 export const requireSignFontSize = () => {
   return 14;
 }
+
+export const participantFormTitleFontSize = () => {
+  return getDeviceStyle(16, getMobileFontSizeByPixelRatio(14, 14));
+}

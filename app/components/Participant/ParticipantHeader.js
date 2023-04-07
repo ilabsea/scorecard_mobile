@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import OutlinedButton from '../OutlinedButton';
 
+import Participant from '../../models/Participant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListTabletStyles from '../../styles/tablet/ParticipantListScreenStyle';
 import ParticipantListMobileStyles from '../../styles/mobile/ParticipantListScreenStyle';
@@ -24,7 +25,7 @@ class ParticipantHeader extends React.Component {
           </Text>
 
           <Text style={styles.participantNumberLabel}>
-            ({ this.props.participants.length } { translations.pax })
+            ({ Participant.getAllCountable(this.props.scorecardUuid).length } { translations.pax })
           </Text>
         </View>
 

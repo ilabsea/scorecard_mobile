@@ -60,8 +60,8 @@ class ProposedIndicatorContent extends Component {
 
           <ListUser
             scorecardUuid={this.props.scorecardUuid}
-            numberOfParticipant={Participant.getAll(this.props.scorecardUuid).length}
-            numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
+            numberOfParticipant={Participant.getAllByScorecard(this.props.scorecardUuid).length}
+            numberOfProposedParticipant={Participant.getProposedParticipants(this.props.scorecardUuid).length}
             visibleModal={this.props.visibleModal}
             participantModalRef={this.props.participantModalRef}
             formModalRef={this.props.formModalRef}

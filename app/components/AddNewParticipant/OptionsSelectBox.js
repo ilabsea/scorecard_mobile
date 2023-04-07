@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import SelectBox from './SelectBox';
 import participantHelper from '../../helpers/participant_helper';
@@ -33,9 +34,18 @@ class OptionsSelectBox extends Component {
       this.props.onChangeValue(this.props.fieldName, !this.state.isSelected);
   }
 
-  render() {
+  renderIcon() {
     const iconsize = this.props.renderSmallSize ? getDeviceStyle(smTabletIconSize, smMobileIconSize) : getDeviceStyle(mdTabletIconSize, mdMobileIconSize);
+    const color = participantHelper.getItemColor(this.state.isSelected, 'text', this.props.disabled);
+    if (this.props.iconType == 'material')
+      return <MaterialIcon name={this.props.iconName} color={color} size={iconsize} />
 
+    return <FontAwesomeIcon name={this.props.iconName} size={iconsize} style={{paddingHorizontal: 10}}
+            color={color}
+           />
+  }
+
+  render() {
     return (
       <View>
         <SelectBox
@@ -44,10 +54,9 @@ class OptionsSelectBox extends Component {
           label={ this.props.title }
           isSelected={this.state.isSelected}
           renderSmallSize={this.props.renderSmallSize}
+          disabled={this.props.disabled}
         >
-          <FontAwesomeIcon name={this.props.iconName} size={iconsize} style={{paddingHorizontal: 10}}
-            color={participantHelper.getItemColor(this.state.isSelected, 'text')}
-          />
+          { this.renderIcon() }
         </SelectBox>
       </View>
     );

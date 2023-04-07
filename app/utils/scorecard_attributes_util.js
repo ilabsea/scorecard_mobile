@@ -7,7 +7,7 @@ import MobileTokenService from '../services/mobile_token_service';
 
 export const scorecardAttributes = async (scorecard) => {
   let facilitators = Facilitator.getAll(scorecard.uuid);
-  let participants = Participant.getAll(scorecard.uuid);
+  let participants = Participant.getAllCountable(scorecard.uuid);
   const conductedTime = Moment(scorecard.conducted_at).format('HH:mm:ss ZZ');
   const conductedDate = Moment(scorecard.conducted_date + ' ' + conductedTime, 'DD/MM/YYYY HH:mm:ss ZZ').toDate();
 
@@ -20,6 +20,7 @@ export const scorecardAttributes = async (scorecard) => {
     number_of_ethnic_minority: participants.filter(p => !!p.minority).length,
     number_of_youth: participants.filter(p => !!p.youth).length,
     number_of_id_poor: participants.filter(p => !!p.poor).length,
+    number_of_anonymous: Participant.getAnonymousByScorecard(scorecard.uuid).length,
     language_conducted_code: scorecard.audio_language_code,
     finished_date: scorecard.finished_date ? scorecard.finished_date : null,
     running_date: scorecard.running_date ? scorecard.running_date : null,

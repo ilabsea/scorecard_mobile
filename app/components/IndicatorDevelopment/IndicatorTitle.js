@@ -17,6 +17,10 @@ const responsiveStyles = getDeviceStyle(SelectedIndicatorItemTabletStyles, Selec
 class IndicatorTitle extends Component {
   static contextType = LocalizationContext;
 
+  renderAnonymousCount() {
+    return <Text style={[styles.subText, this.props.customSubTextStyle]}> ({this.context.translations.anonymous} {this.props.anonymousCount})</Text>
+  }
+
   renderIndicatorTitleContent() {
     const {translations, appLanguage} = this.context;
     const order = (this.props.order || this.props.order == 0) ? `${this.props.order + 1}. ` : '';
@@ -31,9 +35,9 @@ class IndicatorTitle extends Component {
 
         <View>
           <Text style={[styles.title, this.props.customTitleStyle]} numberOfLines={2}>{ order }{this.props.title}</Text>
-
           <Text style={[styles.subText, this.props.customSubTextStyle]}>
-            {this.props.subText}: ({this.props.indicatorCount} { getPluralOrSingularWord(this.props.indicatorCount, translations.time, appLanguage, 's') })
+            {this.props.subText}: {this.props.proposedCount} { getPluralOrSingularWord(this.props.proposedCount, translations.time, appLanguage, 's') }
+            { this.props.anonymousCount > 0 && this.renderAnonymousCount() }
           </Text>
         </View>
       </View>

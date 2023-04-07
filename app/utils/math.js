@@ -18,3 +18,7 @@ export const roundUpHalf = function(num) {
   let adjustNum = ((num % 0.5 > 0) && (num % 0.5 <= 0.24)) ? (num + 0.5) : num;
   return Math.round(adjustNum * 2) / 2;
 }
+
+export const getNumberOf = function(value) {
+  return value.replace(/[^0-9]/g, '');
+}

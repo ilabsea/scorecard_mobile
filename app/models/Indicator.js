@@ -1,9 +1,9 @@
 import realm from '../db/schema';
 import Scorecard from './Scorecard';
 import LanguageIndicator from './LanguageIndicator';
+import ProposedIndicator from './ProposedIndicator';
 import { CUSTOM, PREDEFINED } from '../constants/indicator_constant';
 import settingHelper from '../helpers/setting_helper';
-import scorecardHelper from '../helpers/scorecard_helper';
 import endpointUrlHelper from '../helpers/endpoint_url_helper';
 
 const  MODEL = 'Indicator';
@@ -23,6 +23,7 @@ const Indicator = (() => {
     arePredefinedIndicatorsHaveUuid,
     deleteAll,
     getPredefeinedIndicatorsWithoutUuid,
+    isProposed,
   };
 
   function find(indicatorId, type) {
@@ -127,6 +128,13 @@ const Indicator = (() => {
 
   function getPredefeinedIndicatorsWithoutUuid(facilityId) {
     return realm.objects(MODEL).filtered(`facility_id = ${facilityId} AND type = '${PREDEFINED}' AND indicator_uuid = null OR indicator_uuid = ''`);
+  }
+
+  function isProposed(scorecardUuid, indicatorableId, participantUuid = null) {
+    if (!!participantUuid)
+      return !!ProposedIndicator.findByParticipant(scorecardUuid, indicatorableId, participantUuid);
+
+    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorableId).length > 0;
   }
 
   //private method

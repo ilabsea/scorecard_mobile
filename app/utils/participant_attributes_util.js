@@ -7,7 +7,7 @@ const participantAttributesUtil = (() => {
   };
 
   function parse(scorecard) {
-    let participants = JSON.parse(JSON.stringify(Participant.getAll(scorecard.uuid)));
+    let participants = JSON.parse(JSON.stringify(Participant.getAllCountable(scorecard.uuid)));
     let columns = ['uuid', 'age', 'gender', 'disability', 'minority', 'youth', 'scorecard_uuid'];
 
     let data = participants.map(participant => {

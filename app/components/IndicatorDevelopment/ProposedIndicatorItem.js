@@ -55,8 +55,9 @@ class ProposedIndicatorItem extends Component {
         style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight(), borderRadius: cardBorderRadius}]}>
         <IndicatorTitle
           title={this.state.indicator.content}
-          subText={translations.raisedTimes}
-          indicatorCount={this.props.indicator.count}
+          subText={translations.proposedTimes}
+          proposedCount={this.props.indicator.proposed_count}
+          anonymousCount={this.props.indicator.anonymous_count}
           indicator={this.state.indicator}
           customContainerStyle={[itemStyles.contentWrapper, {paddingLeft: 10, paddingTop: 0}]}
           customTitleStyle={responsiveStyles.titleText}

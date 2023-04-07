@@ -5,17 +5,18 @@ const MODEL = 'Participant';
 const Participant = (() => {
   return {
     find,
-    getAll,
+    getAllByScorecard,
     deleteAll,
     getVoted,
     getUnvoted,
     getNotRaised,
     create,
     update,
-    findByScorecard,
     findByScorecardAndParticipantUuid,
-    getNumberOfProposedParticipant,
-    getRaisedParticipants,
+    getProposedParticipants,
+    getAllCountable,
+    getAnonymousByScorecard,
+    isAnonymous,
   }
 
   function find(uuid) {
@@ -36,8 +37,8 @@ const Participant = (() => {
     }
   }
 
-  function getAll(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}'`);
+  function getAllByScorecard(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
   }
 
   function deleteAll(scorecardUuid) {
@@ -55,27 +56,31 @@ const Participant = (() => {
   }
 
   function getUnvoted(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = false SORT(order ASC)`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND voted = false AND countable = true SORT(order ASC)`);
   }
 
   function getNotRaised(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' AND raised=false SORT(order ASC)`)
   }
 
-  function findByScorecard(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}'`).sorted('order', false)
-  }
-
   function findByScorecardAndParticipantUuid(scorecardUuid, participantUuid) {
     return realm.objects('Participant').filtered('scorecard_uuid = "'+ scorecardUuid +'" AND uuid ="'+ participantUuid +'"')[0];
   }
 
-  function getNumberOfProposedParticipant(scorecardUuid) {
-    return realm.objects('ProposedIndicator').filtered(`scorecard_uuid == '${scorecardUuid}' DISTINCT(participant_uuid)`).length;
+  function getProposedParticipants(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
   }
 
-  function getRaisedParticipants(scorecardUuid) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
+  function getAllCountable(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == true`).sorted('order', false);
+  }
+
+  function getAnonymousByScorecard(scorecardUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND countable == false`);
+  }
+
+  function isAnonymous(uuid) {
+    return !find(uuid).countable;
   }
 })();
 

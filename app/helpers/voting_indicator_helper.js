@@ -17,7 +17,7 @@ const getVotingInfos = (scorecardUuid, indicatorId) => {
   ];
 
   const votingIndicator = VotingIndicator.filterByIndicator(scorecardUuid, indicatorId, null)[0];
-  const allParticipants = Participant.getAll(scorecardUuid);
+  const allParticipants = Participant.getAllCountable(scorecardUuid);
 
   votingInfos.map((votingInfo) => {
     const type = votingInfo.type;

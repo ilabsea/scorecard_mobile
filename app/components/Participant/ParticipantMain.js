@@ -3,27 +3,21 @@ import { StyleSheet, ScrollView } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
-import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
+import ParticipantList from './ParticipantList';
 import EmptyListAction from '../Share/EmptyListAction';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
-import { participantListContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight, participantModalSnapPoints } from '../../constants/modal_constant';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
-import Scorecard from '../../models/Scorecard';
-import Participant from '../../models/Participant';
-
-import Color from '../../themes/color';
-import listItemStyles from '../../themes/scorecardListItemStyle';
-import { getDeviceStyle } from '../../utils/responsive_util';
-import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
-import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
-
-const responsiveStyles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
 
   showParticipantBottomSheet(selectedParticipant) {
+    if (!!selectedParticipant && !selectedParticipant.countable)
+      return;
+    
+    this.props.formModalRef.current?.setSnapPoints(participantModalSnapPoints);
     this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain(selectedParticipant));
     this.props.participantModalRef.current?.present();
   }
@@ -35,35 +29,25 @@ class ParticipantMain extends React.Component {
             subTitle={this.context.translations.participantInformation}
             selectedParticipant={selectedParticipant}
             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
-            contentHeight={participantListContentHeight}
+            contentHeight={participantModalContentHeight}
           />
   }
 
   renderTitle() {
     return <ParticipantHeader
             participants={this.props.participants}
+            scorecardUuid={this.props.scorecardUuid}
             addNewParticipant={() => this.showParticipantBottomSheet(null)} />
   }
 
   renderParticipantList = () => {
-    const numberOfParticipant = Scorecard.find(this.props.scorecardUuid).number_of_participant;
-    this.totalParticipant = numberOfParticipant;
-    let doms = null;
-
-    if (Participant.getAll(this.props.scorecardUuid).length > 0) {
-      doms = this.props.participants.map((participant, index) =>
-        <ParticipantListItemInfo
-          key={index}
-          participant={participant}
-          onPress={() => this.showParticipantBottomSheet(participant)}
-          containerStyle={[responsiveStyles.itemContainer, listItemStyles.card]}
-          hasArrowIcon={true}
-          arrowColor={Color.headerColor}
-        />
-      )
-    }
-
-    return doms;
+    return <ParticipantList
+              scorecardUuid={this.props.scorecardUuid}
+              participants={this.props.participants}
+              participantModalRef={this.props.participantModalRef}
+              formModalRef={this.props.formModalRef}
+              showParticipantBottomSheet={(participant) => this.showParticipantBottomSheet(participant)}
+           />
   }
 
   renderNoData() {
@@ -91,12 +75,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     flexGrow: 1,
     paddingTop: containerPaddingTop,
-  },
-  itemColumn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  }
 });
 
 export default ParticipantMain;

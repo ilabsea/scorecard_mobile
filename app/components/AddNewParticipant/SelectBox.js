@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import Color from '../../themes/color';
 import {LocalizationContext} from '../Translations';
 import participantHelper from '../../helpers/participant_helper';
 
@@ -41,7 +40,7 @@ class SelectBox extends Component {
       const topPosition = this.props.renderSmallSize ? -5 : getDeviceStyle(-10, 0);
 
       return (
-        <MaterialIcon name='check' size={iconSize} color={Color.headerColor}
+        <MaterialIcon name='check' size={iconSize} color={this.getColor('text')}
           style={{position: 'absolute', top: topPosition, right: 0, zIndex: 10}}
         />
       )
@@ -49,7 +48,7 @@ class SelectBox extends Component {
   }
 
   getColor = (type) => {
-    return participantHelper.getItemColor(this.props.isSelected, type);
+    return participantHelper.getItemColor(this.props.isSelected, type, this.props.disabled);
   }
 
   render() {
@@ -59,6 +58,7 @@ class SelectBox extends Component {
     return (
       <TouchableOpacity
         onPress={() => this.props.onPress()}
+        disabled={this.props.disabled}
         style={[styles.container, { borderColor: this.getColor('border'), width: containerSize, height: containerSize }]}
       >
         { this._renderCheckIcon() }

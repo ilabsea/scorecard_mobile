@@ -14,7 +14,7 @@ import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import indicatorHelper from '../../helpers/indicator_helper';
 import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 import Indicator from '../../models/Indicator';
 import LanguageIndicator from '../../models/LanguageIndicator';
 import Scorecard from '../../models/Scorecard';
@@ -194,7 +194,7 @@ class AddNewIndicatorModalMain extends React.Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp(participantContentHeight)}}>
+        <View style={{height: hp(participantModalContentHeight)}}>
           <BottomSheetModalTitle title={title} />
           { this.renderForm() }
           { this.renderButton() }

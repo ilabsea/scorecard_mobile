@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import SelectBox from './SelectBox';
+import SelectBoxTitle from './SelectBoxTitle';
 import GenderIcon from '../Share/GenderIcon';
 
 import participantHelper from '../../helpers/participant_helper';
@@ -18,13 +19,12 @@ import {
   smMobileGenderIconSize,
 } from '../../styles/mobile/SelectBoxComponentStyle';
 
-import { bodyFontSize } from '../../utils/font_size_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 const mdGenderIconSize= getDeviceStyle(mdTabletGenderIconSize, mdMobileGenderIconSize);
 const smGenderIconSize = getDeviceStyle(smTabletGenderIconSize, smMobileGenderIconSize);
 
-class GendersCheckBox extends Component {
+class GenderSelectBoxes extends Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props);
@@ -43,7 +43,7 @@ class GendersCheckBox extends Component {
     const iconSize = this.props.renderSmallSize ? smGenderIconSize : mdGenderIconSize;
 
     return <GenderIcon gender={gender}
-              color={participantHelper.getItemColor(isSelected, 'text')}
+              color={participantHelper.getItemColor(isSelected, 'text', this.props.disabled)}
               size={iconSize}
               otherIconSize={iconSize - 11}
               containerStyle={{width: 60}}
@@ -71,6 +71,7 @@ class GendersCheckBox extends Component {
             label={ gender == 'other' ? translations.otherGender : translations[gender] }
             isSelected={gender === this.state.selectedGender}
             renderSmallSize={this.props.renderSmallSize}
+            disabled={this.props.disabled}
           >
             {this._renderGenderIcon(gender)}
           </SelectBox>
@@ -84,9 +85,7 @@ class GendersCheckBox extends Component {
 
     return (
       <View style={{ marginTop: -14 }}>
-        <Text style={{marginBottom: 10, fontSize: bodyFontSize()}}>
-          { translations.gender }
-        </Text>
+        <SelectBoxTitle label={translations.gender} disabled={this.props.disabled} labelStyle={{marginBottom: 10}} />
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           { this._renderCheckBoxes() }
         </View>
@@ -95,4 +94,4 @@ class GendersCheckBox extends Component {
   }
 }
 
-export default GendersCheckBox;
+export default GenderSelectBoxes;

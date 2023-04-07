@@ -20,8 +20,6 @@ const proposedIndicatorHelper = (() => {
     getDisplayName,
     showFormModal,
     showParticipantListModal,
-    getNumberOfRaisedParticipant,
-    isIndicatorProposed,
     getProposedIndicators,
   };
 
@@ -87,17 +85,6 @@ const proposedIndicatorHelper = (() => {
         participantModalRef={participantModalRef}
       />
     );
-  }
-
-  function getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) {
-    if (!!participantUuid)
-      return !!ProposedIndicator.findByParticipant(scorecardUuid, indicatorId, participantUuid) ? 1 : 0;
-
-    return ProposedIndicator.findByIndicator(scorecardUuid, indicatorId).length;
-  }
-
-  function isIndicatorProposed(scorecardUuid, indicatorId, participantUuid) {
-    return getNumberOfRaisedParticipant(scorecardUuid, indicatorId, participantUuid) > 0;
   }
 
   function getProposedIndicators(scorecardUuid, participantUuid) {

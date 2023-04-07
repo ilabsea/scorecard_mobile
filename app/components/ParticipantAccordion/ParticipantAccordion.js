@@ -28,14 +28,17 @@ class ParticipantAccordion extends Component {
   }
 
   componentDidMount() {
-    const  raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
-    this.setState({ participants: raisedParticipants})
+    const  proposedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
+    this.setState({ participants: proposedParticipants})
   }
 
   renderTitleText(participant) {
     const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 13);
     const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
-    return <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={styles.accordionItemContainer} />
+    return <ParticipantListItemInfo participant={participant} fontSize={fontSize}
+              containerStyle={styles.accordionItemContainer}
+              anonymousStyle={{ marginRight: getDeviceStyle(-10, -25), height: 'auto' }}
+           />
   }
 
   renderAccordionContent(participant) {

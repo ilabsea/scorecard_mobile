@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantForm from '../AddNewParticipant/ParticipantForm';
@@ -18,7 +19,7 @@ import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 import toastMessageUtil from '../../utils/toast_message_util';
 import { MALE } from '../../constants/participant_constant';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
 
 class AddNewParticipantMain extends Component {
@@ -37,7 +38,8 @@ class AddNewParticipantMain extends Component {
       isMinority: minority,
       isPoor: poor,
       isYouth: youth,
-      isValidAge: age > 0
+      isValidAge: age > 0,
+      anonymous: false
     };
   }
 
@@ -50,6 +52,7 @@ class AddNewParticipantMain extends Component {
       isPoor: false,
       isYouth: false,
       isValidAge: false,
+      anonymous: false,
     });
   }
 
@@ -71,6 +74,7 @@ class AddNewParticipantMain extends Component {
       isMinority: this.state.isMinority,
       isPoor: this.state.isPoor,
       isYouth: this.state.isYouth,
+      anonymous: this.state.anonymous,
     }
 
     return (
@@ -81,6 +85,7 @@ class AddNewParticipantMain extends Component {
         renderSmallSize={true}
         isUpdate={!!this.props.selectedParticipant}
         participant={participant}
+        scorecardUuid={this.props.scorecardUuid}
       />
     );
   };
@@ -98,6 +103,7 @@ class AddNewParticipantMain extends Component {
       youth: isYouth,
       scorecard_uuid: this.props.scorecardUuid,
       order: isUpdate ? this.props.selectedParticipant.order : 0,
+      countable: isUpdate ? this.props.selectedParticipant.countable : !this.state.anonymous
     };
 
     saveParticipantInfo(attrs, this.props.scorecardUuid, isUpdate, (participants, participant) => {
@@ -114,20 +120,22 @@ class AddNewParticipantMain extends Component {
 
   render() {
     const {translations} = this.context;
-    const contentHeight = !!this.props.contentHeight ? this.props.contentHeight : participantContentHeight;
+    const contentHeight = !!this.props.contentHeight ? this.props.contentHeight : participantModalContentHeight;
 
     return (
       <View style={{backgroundColor: Color.whiteColor, height: hp(contentHeight)}}>
         <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposeTheIndicator } />
-
-        <View style={{padding: containerPadding, flex: 1}}>
-          <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
-            { !!this.props.subTitle ? this.props.subTitle : translations.addNewParticipant }
-          </Text>
-          {this.renderForm()}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
+          <View style={{padding: containerPadding, flex: 1}}>
+            <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
+              { !!this.props.subTitle ? this.props.subTitle : translations.addNewParticipant }
+            </Text>
+            {this.renderForm()}
+          </View>
+        </ScrollView>
+        <View style={{width: '100%', position: 'absolute', bottom: 0, backgroundColor: Color.whiteColor}}>
+          <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} wrapperStyle={{paddingTop: 0, marginTop: 12}}/>
         </View>
-
-        <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} />
       </View>
     );
   }

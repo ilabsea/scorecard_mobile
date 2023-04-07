@@ -15,7 +15,7 @@ import {connect} from 'react-redux';
 import ParticipantModel from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
-import {participantListModalSnapPoints} from '../../constants/modal_constant';
+import {participantModalSnapPoints} from '../../constants/modal_constant';
 
 class Participant extends Component {
   static contextType = LocalizationContext;
@@ -28,14 +28,11 @@ class Participant extends Component {
     }
     this.participantModalRef = React.createRef();
     this.formModalRef = React.createRef();
-  }
-
-  componentDidMount() {
     this.fetchParticipant();
   }
 
   fetchParticipant = () => {
-    const participants = ParticipantModel.findByScorecard(this.props.route.params.scorecard_uuid);
+    const participants = ParticipantModel.getAllByScorecard(this.props.route.params.scorecard_uuid);
     this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
   }
 
@@ -51,7 +48,7 @@ class Participant extends Component {
           <BottomButton label={this.context.translations.next} onPress={() => this.next()} />
         </View>
 
-        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantListModalSnapPoints}
+        <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}
           onDismissModal={() => this.setState({ visibleModal: false })}
         />
       </React.Fragment>

@@ -32,6 +32,14 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   attributeLabel: {
     paddingHorizontal: 8,
     fontSize: smallTextFontSize()
+  },
+  anonymousButton: {
+    width: pressableItemSize(),
+    height: pressableItemSize(),
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   }
 });
 

@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import ProposedIndicator from '../models/ProposedIndicator';
+import Participant from '../models/Participant';
 import indicatorHelper from '../helpers/indicator_helper';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
 import scorecardProposedIndicatorHelper from '../helpers/scorecard_proposed_indicator_helper';
 import uuidv4 from '../utils/uuidv4';
-import { sortIndicatorByRaisedCount } from '../utils/indicator_util';
+import { sortIndicatorByProposedCount } from '../utils/indicator_util';
 
 const proposedIndicatorService = (() => {
   return {
@@ -53,19 +54,17 @@ const proposedIndicatorService = (() => {
   }
 
   function getProposedIndicators(scorecardUuid) {
-    const allIndicators = ProposedIndicator.getAllByScorecard(scorecardUuid);
     let proposedIndicators = JSON.parse(JSON.stringify(ProposedIndicator.getAllDistinct(scorecardUuid)));
-
     proposedIndicators.map(proposedIndicator => {
-      proposedIndicator.count = allIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id && x.indicatorable_type == proposedIndicator.indicatorable_type ).length;
       const indicator = indicatorHelper.getDisplayIndicator(proposedIndicator);
-      proposedIndicator.raised_count = allIndicators.filter(x => x.indicatorable_id == proposedIndicator.indicatorable_id).length;
+      proposedIndicator.proposed_count = ProposedIndicator.findByIndicator(scorecardUuid, proposedIndicator.indicatorable_id).length;
+      proposedIndicator.anonymous_count = ProposedIndicator.getNumberAnonymousProposeByIndicator(scorecardUuid, proposedIndicator.indicatorable_id);
       proposedIndicator.name = indicator.name || indicator.content;
 
       return proposedIndicator;
     });
 
-    return sortIndicatorByRaisedCount(proposedIndicators);
+    return sortIndicatorByProposedCount(proposedIndicators);
   }
 
   function getSelectedProposedIndicators(scorecardUuid, orderedIndicatorableIds) {

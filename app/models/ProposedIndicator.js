@@ -1,4 +1,5 @@
 import realm from '../db/schema';
+import Participant from './Participant';
 
 const MODEL = 'ProposedIndicator';
 
@@ -18,6 +19,8 @@ const ProposedIndicator = (() => {
     getLastOrderNumberOfScorecard,
     destroyUnconfirmProposedIndicators,
     getUnconfirmedProposedIndicators,
+    hasAnonymousProposed,
+    getNumberAnonymousProposeByIndicator,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -96,6 +99,21 @@ const ProposedIndicator = (() => {
     const query = `scorecard_uuid = '${ scorecardUuid }' ${ participantQuery } AND order > ${ lastOrderNumber }`;
 
     return realm.objects(MODEL).filtered(query);
+  }
+
+  function hasAnonymousProposed(scorecardUuid, indicatorableId) {
+    const anonymousParticpant = Participant.getAnonymousByScorecard(scorecardUuid)[0];
+    const anonymousUuid = !!anonymousParticpant ? anonymousParticpant.uuid : '';
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}' AND participant_uuid = '${anonymousUuid}'`).length > 0;
+  }
+
+  function getNumberAnonymousProposeByIndicator(scorecardUuid, indicatorableId) {
+    const proposedIndicators = findByIndicator(scorecardUuid, indicatorableId);
+    let anonymousCount = 0;
+    proposedIndicators.map(proposedIndicator => {
+      Participant.isAnonymous(proposedIndicator.participant_uuid) && anonymousCount++;
+    });
+    return anonymousCount;
   }
 })();
 

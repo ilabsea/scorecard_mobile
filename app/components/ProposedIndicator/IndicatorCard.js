@@ -3,8 +3,11 @@ import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
+import ProposedIndicatorParticipant from '../Share/ProposedIndicatorParticipant';
+
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
+import Indicator from '../../models/Indicator';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import IndicatorCardTabletStyle from '../../styles/tablet/IndicatorCardComponentStyle';
@@ -25,7 +28,7 @@ class IndicatorCard extends Component {
   }
 
   selectedIndicatorBoxStyle = (indicator) => {
-    if (!this.props.isEdit && proposedIndicatorHelper.isIndicatorProposed(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
+    if (!this.props.isEdit && Indicator.isProposed(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid))
       return { borderColor: Color.primaryButtonColor, borderWidth: 2 };
 
     return {};
@@ -65,15 +68,16 @@ class IndicatorCard extends Component {
     if (!this.props.isIndicatorBase)
       return;
 
-    const numberOfRaisedParticipant = proposedIndicatorHelper.getNumberOfRaisedParticipant(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid);
-
-    if (numberOfRaisedParticipant > 0)
+    if (Indicator.isProposed(this.props.scorecardUuid, this.props.indicator.indicatorable_id, this.props.participantUuid))
       return <View style={styles.raisedParticipantBadge}>
-                <Text style={styles.raisedParticipantLabel}>
-                  { this.context.translations.raised }<Text style={styles.raisedLabel}> { numberOfRaisedParticipant } </Text>
-                  { this.context.translations.pax }
-                </Text>
-            </View>
+                <ProposedIndicatorParticipant
+                  scorecardUuid={this.props.scorecardUuid}
+                  indicator={this.props.indicator}
+                  label={this.context.translations.proposed}
+                  labelStyle={styles.raisedParticipantLabel}
+                  numberStyle={styles.raisedLabel}
+                />
+             </View>
   }
 
   render() {

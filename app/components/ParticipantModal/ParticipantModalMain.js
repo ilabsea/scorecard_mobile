@@ -16,7 +16,7 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 import { navigate } from '../../navigators/app_navigator';
 
 class ParticipantModalMain extends React.Component {
@@ -27,7 +27,7 @@ class ParticipantModalMain extends React.Component {
       raisedParticipantUuids: [],
     }
     this.participants = !!props.participants ? props.participants
-                        : Participant.findByScorecard(props.scorecardUuid);
+                        : Participant.getAllByScorecard(props.scorecardUuid);
     this.isCreateIndicatorByIndicatorBase = props.isIndicatorBase && isCreateNewIndicatorScreen()
   }
 
@@ -89,7 +89,7 @@ class ParticipantModalMain extends React.Component {
           participant={participant}
           onPress={() => this.toggleParticipant(participant) }
           rightIcon={this.listItemRightIcon(participant.uuid)}
-          hasArrowIcon={false}
+          hasArrowIcon={!this.isCreateIndicatorByIndicatorBase}
         />
       )
     });
@@ -106,13 +106,17 @@ class ParticipantModalMain extends React.Component {
     const title = customTitle || this.context.translations.proposeTheIndicator;
 
     return (
-      <View style={{ height: hp(participantContentHeight) }}>
+      <View style={{ height: hp(participantModalContentHeight) }}>
         <BottomSheetModalTitle title={title} />
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
-          <ParticipantModalSubtitle raisedParticipant={this.state.raisedParticipantUuids.length} totalParticipant={this.participants.length}
+          <ParticipantModalSubtitle
+            raisedParticipant={this.state.raisedParticipantUuids.length}
+            totalParticipant={this.participants.length}
             showAddParticipantModal={() => this.props.showAddParticipantModal()}
             isIndicatorBase={this.props.isIndicatorBase}
+            selectedIndicator={this.props.selectedIndicator}
+            scorecardUuid={this.props.scorecardUuid}
           />
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
@@ -121,7 +125,7 @@ class ParticipantModalMain extends React.Component {
         </View>
 
         { this.isCreateIndicatorByIndicatorBase &&
-          <FormBottomSheetButton isValid={true} save={() => this.props.participantModalRef.current?.dismiss()} />
+          <FormBottomSheetButton isValid={true} save={() => this.props.participantModalRef.current?.dismiss()} wrapperStyle={{marginTop: 0, paddingTop: 16}} />
         }
       </View>
     )

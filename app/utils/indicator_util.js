@@ -2,8 +2,8 @@ const getIndicatorName = (indicatorName) => {
   return indicatorName.includes(':') ? indicatorName.split(':').pop() : indicatorName;
 }
 
-const sortIndicatorByRaisedCount = (indicators) => {
-  return indicators.sort((a, b) => b.raised_count - a.raised_count);
+const sortIndicatorByProposedCount = (indicators) => {
+  return indicators.sort((a, b) => b.proposed_count - a.proposed_count);
 }
 
-export { getIndicatorName, sortIndicatorByRaisedCount };
+export { getIndicatorName, sortIndicatorByProposedCount };
