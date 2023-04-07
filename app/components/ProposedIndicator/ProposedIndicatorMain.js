@@ -87,10 +87,11 @@ class ProposedIndicatorContent extends Component {
             {this.renderAddNewBtn()}
             <ListUser
               scorecardUuid={this.props.scorecardUuid}
-              numberOfProposedParticipant={Participant.getNumberOfProposedParticipant(this.props.scorecardUuid)}
+              numberOfProposedParticipant={Participant.getProposedParticipants(this.props.scorecardUuid).length}
               participantModalRef={this.props.participantModalRef}
               formModalRef={this.props.formModalRef}
               updateModalVisible={(status) => this.props.updateModalVisible(status)}
+              scrollY={this.scrollY}
             />
           </ScrollView>
 

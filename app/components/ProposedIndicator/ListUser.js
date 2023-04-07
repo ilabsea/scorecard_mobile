@@ -23,55 +23,15 @@ class ListUser extends Component {
     }
   }
 
-  renderAnonymous() {
-    const anonymous = Participant.getAnonymousByScorecard(this.props.scorecardUuid).length;
-    if (anonymous > 0)
-      return ` (${this.context.translations.anonymous} ${anonymous})`;
-  }
-
   render() {
-    const {translations} = this.context;
     const proposedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
-
-    const addNewButtonTop = this.props.scrollY.interpolate({
-      inputRange: [0, 100, 150],
-      outputRange: [0, 0, 1],
-      extrapolate: 'clamp',
-      useNativeDriver: true,
-    })
-
-    return (
-      <View>
-        <View style={styles.headingContainer}>
-          <Text style={[styles.headingTitle, responsiveStyles.headingTitle]}>
-            { translations.numberOfParticipant }: { Participant.getAllByScorecard(this.props.scorecardUuid).length } {translations.pax}
-            { this.renderAnonymous() }
-          </Text>
-
-          <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
-            <ParticipantInfo
-              title={translations.proposeTheIndicator}
-              participants={Participant.getNotRaised(this.props.scorecardUuid)}
-              scorecardUuid={ this.props.scorecardUuid }
-              buttonVisible={proposedParticipants.length > 0}
-              mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
-              selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
-              closeModal={() => this.closeModal()}
-              participantModalRef={this.props.participantModalRef}
-              formModalRef={this.props.formModalRef}
-            />
-          </View>
-        </View>
-
-        <ProposedIndicatorAccordions
-          scorecardUuid={this.props.scorecardUuid}
-          proposedParticipants={proposedParticipants}
-          numberOfProposedParticipant={this.props.numberOfProposedParticipant}
-          showModal={() => this.props.updateModalVisible(true)}
-          startProposeIndicator={() => this.startProposeIndicator()}
-        />
-      </View>
-    );
+    return <ProposedIndicatorAccordions
+              scorecardUuid={this.props.scorecardUuid}
+              proposedParticipants={proposedParticipants}
+              numberOfProposedParticipant={this.props.numberOfProposedParticipant}
+              showModal={() => this.props.updateModalVisible(true)}
+              startProposeIndicator={() => this.startProposeIndicator()}
+           />
   }
 }
 

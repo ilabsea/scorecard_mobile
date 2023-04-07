@@ -78,7 +78,7 @@ const ProposedIndicatorNavHeader = (props) => {
   }
 
   return (
-    <Animated.View style={{position: 'absolute', top: 0, zIndex: 1, backgroundColor: Color.headerColor, height: headerHeight, width: '100%', elevation: 3}}>
+    <Animated.View style={{position: 'absolute', top: 0, backgroundColor: Color.headerColor, height: headerHeight, width: '100%'}}>
       {renderHeader()}
       <CustomAlertMessage
         visible={visibleModal}
