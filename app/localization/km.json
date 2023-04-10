@@ -118,7 +118,7 @@
   "removeAll": "ដកចេញទាំងអស់",
   "close": "បោះបង់",
   "setup": "កំណត់ប័ណ្ណដាក់ពិន្ទុ",
-  "proposedIndicator": "លក្ខណៈវិនិច្ឆ័យដែលបានស្នើ",
+  "proposedIndicator": "លក្ខណៈវិនិច្ឆ័យដែលបានបំផុស",
   "setIndicatorDevelopment": "កំណត់លក្ខណៈវិនិច្ឆ័យអាទិភាព",
   "indicatorDevelopment": "លក្ខណៈវិនិច្ឆ័យអាទិភាព",
   "voting": "ដាក់ពិន្ទុ",
@@ -416,5 +416,6 @@
   "deleteTheProposedIndicators": "លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុស",
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "តើ​អ្នក​ពិត​ជា​ចង់​លុបលក្ខណៈវិនច្ឆ័យទាំងអស់ដែលបានបំផុសដោយអ្នកចូលរួមដែលមានលេខសម្គាល់ ({0}) ​នេះ​មែន​ទេ?",
   "proposeNewIndicatorTitle": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី",
-  "createNewIndicator": "បង្កើតលក្ខណៈវិនិច្ឆ័យថ្មី"
+  "createNewIndicator": "បង្កើតលក្ខណៈវិនិច្ឆ័យថ្មី",
+  "noIndicatorProposed": "មិនមានលក្ខណៈវិនិច្ឆ័យត្រូវបានបំផុស"
 }

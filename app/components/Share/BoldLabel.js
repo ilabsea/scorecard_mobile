@@ -6,7 +6,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 
 const BoldLabel = (props) => {
-  return <Text style={{fontFamily: FontFamily.title, fontSize: bodyFontSize(), color: props.color || Color.blackColor}}>
+  return <Text style={[{fontFamily: FontFamily.title, fontSize: bodyFontSize(), color: props.color || Color.blackColor}, props.customStyle]}>
             { props.label }
          </Text>
 }
