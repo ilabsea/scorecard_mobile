@@ -8,7 +8,8 @@ import ProposeNewIndicatorAddNewButton from './ProposeNewIndicatorAddNewButton';
 import Color from '../../themes/color';
 import settingHelper from '../../helpers/setting_helper';
 import Indicator from '../../models/Indicator';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+
 
 class ProposeNewIndicatorSearchResult extends React.Component {
   static contextType = LocalizationContext;
@@ -23,10 +24,12 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   }
 
   render() {
+    console.log('search container height = ', this.props.searchContainerHeight)
+
     return (
       <React.Fragment>
         <TouchableWithoutFeedback>
-          <View style={{maxHeight: getDeviceStyle(hp('65%'), hp('60%')), backgroundColor: Color.whiteColor, borderRadius: 10}}>
+          <View style={{maxHeight: getDeviceStyle(hp('65%'), hp('60%')), backgroundColor: Color.whiteColor, borderRadius: 10, position: 'absolute', zIndex: 1, width: '100%', left: containerPadding + 1, top: this.props.searchContainerHeight + 15}}>
             <ScrollView contentContainerStyle={{paddingBottom: 30, paddingTop: 0, paddingHorizontal: 16}}>
               <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}/>
             </ScrollView>
