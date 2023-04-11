@@ -417,5 +417,6 @@
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "តើ​អ្នក​ពិត​ជា​ចង់​លុបលក្ខណៈវិនច្ឆ័យទាំងអស់ដែលបានបំផុសដោយអ្នកចូលរួមដែលមានលេខសម្គាល់ ({0}) ​នេះ​មែន​ទេ?",
   "proposeNewIndicatorTitle": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី",
   "createNewIndicator": "បង្កើតលក្ខណៈវិនិច្ឆ័យថ្មី",
-  "noIndicatorProposed": "មិនមានលក្ខណៈវិនិច្ឆ័យត្រូវបានបំផុស"
+  "noIndicatorProposed": "មិនមានលក្ខណៈវិនិច្ឆ័យត្រូវបានបំផុស",
+  "new": "ថ្មី"
 }

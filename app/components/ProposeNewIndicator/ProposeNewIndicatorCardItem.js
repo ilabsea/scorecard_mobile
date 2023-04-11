@@ -10,6 +10,7 @@ import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import participantHelper from '../../helpers/participant_helper';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
+import {CUSTOM} from '../../constants/indicator_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import cardItemTabletStyles, {tabletLabelFontSize} from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
 import cardItemMobileStyles, {mobileLabelFontSize} from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
@@ -29,7 +30,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
     return this.props.indicatorName.split(":").pop();
   }
 
-  renderCardLabel  = () => {
+  renderCardLabel = () => {
     const { translations } = this.context;
     const raisedParticipants = participantHelper.getRaisedParticipantByIndicator(this.props.scorecardUuid, this.props.indicatorableId);
 
@@ -37,6 +38,12 @@ class ProposeNewIndicatorCardItem extends React.Component {
               {/* <TextHighlight textToHighlight={indicator.name} searchWords={[this.props.searchedText]} fontSize={cardLabelFontSize} fontFamily={FontFamily.body} /> */}
               <Text numberOfLines={2} style={styles.label}>{this.getIndicatorName()}</Text>
               <Text style={[styles.subLabel, {color: Color.lightGrayColor}]}>{translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)}</Text>
+           </View>
+  }
+
+  renderNewBadge = () => {
+    return <View style={{backgroundColor: '#E6E7E9', width: 28, height: 20, position: 'absolute', top: 0.5, right: 0.5, borderTopRightRadius: 3, borderBottomLeftRadius: 5, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{fontSize: 11, color: Color.grayColor}}>{this.context.translations.new}</Text>
            </View>
   }
 
@@ -51,6 +58,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
               onPress={() => this.props.onPressItem()}
             >
               {this.renderCardLabel()}
+              { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
             </AudioCardView>
   }
 }

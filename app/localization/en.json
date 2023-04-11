@@ -417,5 +417,6 @@
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "Do you want to delete all the proposed indicators of the participant with this number ({0})?",
   "proposeNewIndicatorTitle": "Propose new indicator",
   "createNewIndicator": "Create new indicator",
-  "noIndicatorProposed": "No indicator proposed"
+  "noIndicatorProposed": "No indicator proposed",
+  "new": "New"
 }
