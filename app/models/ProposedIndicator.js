@@ -53,7 +53,7 @@ const ProposedIndicator = (() => {
   }
 
   function findByIndicator(scorecardUuid, indicatorableId) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`).sorted('order', false);
   }
 
   function getAllDistinctTag(scorecardUuid) {

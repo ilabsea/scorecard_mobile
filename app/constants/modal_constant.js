@@ -33,9 +33,8 @@ export const settingEndpointContentHeight = '73%';
 export const settingReLoginInfoModalSnapPoints = getDeviceStyle(['36%'], ['37%']);
 export const settingReLoginInfoContentHeight = getDeviceStyle('34%', '35%');
 
-export const indicatorParticipantListModalSnapPoints = getDeviceStyle(['70%'], ['70%']);
-
-export const indicatorParticipantListModalHeight = getDeviceStyle('68%', '68%');
+// export const indicatorParticipantListModalSnapPoints = getDeviceStyle(['70%'], ['70%']);
+// export const indicatorParticipantListModalHeight = getDeviceStyle('68%', '68%');
 
 export const scorecardPreferenceLangaugePickerSnapPoints = ['60%'];
 export const scorecardPreferenceLanguagePickerContentHeight = '58%';
@@ -49,3 +48,6 @@ export const votingConfirmationContentHeight = getDeviceStyle('71%', isShortWidt
 
 export const anonymousParticipantDetailSnapPoints = getDeviceStyle(['51%'], isShortScreenDevice() ? ['71%'] : ['57%']);
 export const anonymousParticipantDetailContentHeight = getDeviceStyle('49%', isShortScreenDevice() ? '67%' : '55%');
+
+export const participantListModalSnapPoints = getDeviceStyle(['82.5%'], ['90%']);
+export const participantListModalContentHeight = getDeviceStyle('76.5%', '87%');

@@ -34,19 +34,18 @@ class ProposeNewIndicatorSearchResultCardList extends React.Component {
 
   renderResult = () => {
     return this.props.indicators.map(indicator => {
-      return <View key={indicator.uuid} >
-                <AudioCardView
-                  audio={null}
-                  audioPosition='top-left'
-                  containerStyle={styles.indicatorOutlinedCardContainer}
-                  titleStyle={styles.label}
-                  subtitleStyle={styles.subLabel}
-                  customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
-                  onPress={() => console.log('do something')}
-                >
-                  {this.renderCardLabel(indicator)}
-                </AudioCardView>
-             </View>
+      return <AudioCardView
+                key={indicator.uuid}  
+                audio={null}
+                audioPosition='top-left'
+                containerStyle={styles.indicatorOutlinedCardContainer}
+                titleStyle={styles.label}
+                subtitleStyle={styles.subLabel}
+                customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
+                onPress={() => this.props.onPressItem(indicator)}
+              >
+                {this.renderCardLabel(indicator)}
+              </AudioCardView>
     })
   }
 

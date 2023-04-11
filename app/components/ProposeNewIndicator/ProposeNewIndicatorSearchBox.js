@@ -9,20 +9,27 @@ import Indicator from '../../models/Indicator';
 import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
 
+import FormBottomSheetModal from '../FormBottomSheetModal/FormBottomSheetModal';
+import { participantListModalSnapPoints } from '../../constants/modal_constant';
+
 class ProposeNewIndicatorSearchBox extends React.Component {
-  state = {
-    searchedText: '',
-    showResult: false,
-    indicators: [],
-    searchContainerHeight: 0
+  constructor(props) {
+    super(props)
+    this.state = {
+      searchedText: '',
+      showResult: false,
+      indicators: [],
+      searchContainerHeight: 0,
+    }
+    this.formModalRef = React.createRef();
+    this.bottomSheetRef = React.createRef();
   }
 
   onFocus = async () => {
-    const defaultIndicators = await Indicator.findByScorecard(this.props.scorecardUuid)
+    const defaultIndicators = await new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', false)
     this.setState({
       showResult: true,
       indicators: defaultIndicators.slice(0, 5)
-      // indicators: defaultIndicators.slice(0, 1)
     })
   }
 
@@ -48,7 +55,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height })} style={{borderWidth: 1}}>
+        <View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height })}>
           <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
             <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
               <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យណាមួយដើម្បីធ្វើការបំផុស</Text>
@@ -64,8 +71,9 @@ class ProposeNewIndicatorSearchBox extends React.Component {
           />
         </View>
         { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
-                                    closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} />
+                                    closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.formModalRef} bottomSheetRef={this.bottomSheetRef} />
         }
+        <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantListModalSnapPoints} onDismissModal={() => this.props.updateProposedIndicators()} />
       </React.Fragment>
     )
   }
