@@ -9,9 +9,6 @@ import Indicator from '../../models/Indicator';
 import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
 
-import FormBottomSheetModal from '../FormBottomSheetModal/FormBottomSheetModal';
-import { participantListModalSnapPoints } from '../../constants/modal_constant';
-
 class ProposeNewIndicatorSearchBox extends React.Component {
   constructor(props) {
     super(props)
@@ -21,8 +18,6 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       indicators: [],
       searchContainerHeight: 0,
     }
-    this.formModalRef = React.createRef();
-    this.bottomSheetRef = React.createRef();
   }
 
   onFocus = async () => {
@@ -71,9 +66,8 @@ class ProposeNewIndicatorSearchBox extends React.Component {
           />
         </View>
         { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
-                                    closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.formModalRef} bottomSheetRef={this.bottomSheetRef} />
+                                    closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef} />
         }
-        <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantListModalSnapPoints} onDismissModal={() => this.props.updateProposedIndicators()} />
       </React.Fragment>
     )
   }

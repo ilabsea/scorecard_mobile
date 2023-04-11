@@ -17,6 +17,7 @@ const Indicator = (() => {
     findByScorecard,
     findByScorecardAndName,
     findByUuidAndCurrentEndpointId,
+    findByIndicatorableId,
     getCustomIndicators,
     getIndicatorsWithoutProgramUuidOrEndpointId,
     destroy,
@@ -92,6 +93,14 @@ const Indicator = (() => {
   async function findByUuidAndCurrentEndpointId(indicatorUuid) {
     const endpointId = await settingHelper.getSavedEndpointUrlId();
     return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
+  }
+
+  function findByIndicatorableId(indicatorableId, endpointId) {
+    let indicator = realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorableId}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
+    if (!indicator)
+      indicator = realm.objects(MODEL).filtered(`id = '${indicatorableId}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
+
+    return indicator
   }
 
   function getCustomIndicators(scorecardUuid) {

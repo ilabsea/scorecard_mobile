@@ -4,13 +4,14 @@ import {connect} from 'react-redux';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProposeNewIndicatorSearchBox from '../../components/ProposeNewIndicator/ProposeNewIndicatorSearchBox';
-import EmptyListAction from '../../components/Share/EmptyListAction';
+import ProposeNewIndicatorProposedList from '../../components/ProposeNewIndicator/ProposeNewIndicatorProposedList';
 import BoldLabel from '../../components/Share/BoldLabel';
 import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
 import BottomButton from '../../components/BottomButton';
+import settingHelper from '../../helpers/setting_helper';
 
 import { updateRaisedParticipants } from '../../services/participant_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
@@ -18,18 +19,29 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import {saveParticipant} from '../../actions/participantAction';
 import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
 
+import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+import { participantListModalSnapPoints } from '../../constants/modal_constant';
+
 class ProposeNewIndicator extends React.Component {
   static contextType = LocalizationContext;
-  state = {
-    proposedIndicators: [],
-    isValid: false,
-    isIndicatorBase: false,
-    participantUuid: !!this.props.route.params.participant_uuid ? this.props.route.params.participant_uuid : null,
+  constructor(props) {
+    super(props)
+    this.state = {
+      proposedIndicators: [],
+      isValid: false,
+      isIndicatorBase: false,
+      participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
+      endpointId: null,
+    }
+
+    this.formModalRef = React.createRef();
+    this.bottomSheetRef = React.createRef();
   }
   async componentDidMount() {
     this.setState({
-      proposedIndicator: ProposedIndicator.getAllByScorecard(this.props.route.params.scorecard_uuid),
+      proposedIndicators: ProposedIndicator.getAllDistinct(this.props.route.params.scorecard_uuid),
       isIndicatorBase: await isProposeByIndicatorBase(),
+      endpointId: await settingHelper.getSavedEndpointUrlId()
     })
   }
 
@@ -46,12 +58,10 @@ class ProposeNewIndicator extends React.Component {
   }
 
   updateProposedIndicators = () => {
-    const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.route.params.scorecard_uuid, this.props.participantUuid)
+    const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.route.params.scorecard_uuid, this.state.participantUuid)
                               : ProposedIndicator.getAllByScorecard(this.props.route.params.scorecard_uuid);
 
     this.setState({ isValid: proposedIndicators.length > 0 });
-    // this.props.updateIndicatorList();
-    // !!this.props.isEdit && this.closeModal();
   }
 
   render() {
@@ -59,20 +69,21 @@ class ProposeNewIndicator extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15}}>
-          <ProposeNewIndicatorSearchBox scorecardUuid={this.props.route.params.scorecard_uuid}
-            updateIsValid={(status) => this.setState({isValid: status})}
-            updateProposedIndicators={() => this.updateProposedIndicators()}
+          <ProposeNewIndicatorSearchBox scorecardUuid={this.props.route.params.scorecard_uuid} updateIsValid={(status) => this.setState({isValid: status})}
+            bottomSheetRef={this.bottomSheetRef}
+            formModalRef={this.formModalRef}
           />
           <BoldLabel label={`${translations.proposedIndicator}: ${this.state.proposedIndicators.length}`} customStyle={{marginTop: 10, zIndex: -1}} />
-          <EmptyListAction title={translations.noIndicatorProposed} hideButton={true}
-            contentContainerStyle={{zIndex: -1, flexGrow: 1, justifyContent: 'center', paddingTop: 26}}
+          <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
+            proposedIndicators={this.state.proposedIndicators}
+            endpointId={this.state.endpointId}
+            bottomSheetRef={this.bottomSheetRef}
+            formModalRef={this.formModalRef}
           />
-
           <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
-            <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext}
-              onPress={() => this.save()}
-            />
+            <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
           </View>
+          <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantListModalSnapPoints} onDismissModal={() => this.updateProposedIndicators()} />
         </View>
       </TouchableWithoutFeedback>
     )
