@@ -23,7 +23,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
     }
   }
 
-  onPressItem = (indicator) => {
+  startProposeIndicator = (indicator) => {
     this.props.closeSearch()
     const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
     proposedIndicatorHelper.showFormModal(this.props.bottomSheetRef, this.props.formModalRef, proposedIndicatorParams);
@@ -33,13 +33,15 @@ class ProposeNewIndicatorSearchResult extends React.Component {
     return (
       <React.Fragment>
         <TouchableWithoutFeedback>
-          <View style={{maxHeight: getDeviceStyle(hp('65%'), hp('60%')), backgroundColor: Color.whiteColor, borderRadius: 10, position: 'absolute', zIndex: 1, width: '100%', left: containerPadding + 1, top: this.props.searchContainerHeight + 15}}>
+          <View style={{maxHeight: getDeviceStyle(hp('65%'), hp('60%')), backgroundColor: Color.whiteColor, borderRadius: 10, position: 'absolute', zIndex: 2, width: '100%', left: containerPadding + 1, top: this.props.searchContainerHeight + 15}}>
             <ScrollView contentContainerStyle={{paddingBottom: 30, paddingTop: 0, paddingHorizontal: 16}}>
               <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}
-                onPressItem={(indicator) => this.onPressItem(indicator)}
+                onPressItem={(indicator) => this.startProposeIndicator(indicator)}
               />
             </ScrollView>
-            {(!!this.props.searchedText && this.state.showAddNewButton) && <ProposeNewIndicatorAddNewButton searchedText={this.props.searchedText} />}
+            {(!!this.props.searchedText && this.state.showAddNewButton) &&
+              <ProposeNewIndicatorAddNewButton scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} startProposeIndicator={(customIndicator) => this.startProposeIndicator(customIndicator)} />
+            }
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => this.props.closeSearch()}>

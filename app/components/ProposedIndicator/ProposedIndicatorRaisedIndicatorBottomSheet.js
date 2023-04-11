@@ -13,7 +13,7 @@ import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 import itemStyles from '../../themes/participantListItemStyle';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorRaisedIndicatorBottomSheet extends React.Component {
   static contextType = LocalizationContext;
@@ -44,7 +44,7 @@ class ProposedIndicatorRaisedIndicatorBottomSheet extends React.Component {
 
   render() {
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(participantModalContentHeight)}}>
         {this.renderTitle()}
         <View style={{flex: 1, padding: containerPadding}}>
           <Text style={{fontSize: bodyFontSize(), marginBottom: 16}}>{this.context.translations.proposedIndicator}: {this.proposedIndicators.length}</Text>

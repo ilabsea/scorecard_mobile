@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
@@ -29,12 +29,14 @@ class ProposeNewIndicatorProposedList extends React.Component {
 
   render() {
     if (this.props.proposedIndicators.length == 0)
-      return <EmptyListAction title={this.context.translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -1, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
+      return <EmptyListAction title={this.context.translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -2, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
 
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1, zIndex: -2}}>
-        {this.renderList()}
-      </ScrollView>
+      <View style={{flexGrow: 1, zIndex: -2}}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          {this.renderList()}
+        </ScrollView>
+      </View>
     )
   }
 }

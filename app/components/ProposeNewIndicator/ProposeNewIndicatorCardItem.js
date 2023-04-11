@@ -35,7 +35,6 @@ class ProposeNewIndicatorCardItem extends React.Component {
 
     return <View style={styles.indicatorOutlinedLabelContainer}>
               {/* <TextHighlight textToHighlight={indicator.name} searchWords={[this.props.searchedText]} fontSize={cardLabelFontSize} fontFamily={FontFamily.body} /> */}
-              {/* <Text numberOfLines={2} style={styles.label}>{`${this.props.indicatorName}`}</Text> */}
               <Text numberOfLines={2} style={styles.label}>{this.getIndicatorName()}</Text>
               <Text style={[styles.subLabel, {color: Color.lightGrayColor}]}>{translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)}</Text>
            </View>

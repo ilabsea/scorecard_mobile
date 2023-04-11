@@ -12,7 +12,7 @@ import participantHelper from '../../helpers/participant_helper';
 import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import itemStyles from '../../themes/participantListItemStyle';
-import { participantContentHeight } from '../../constants/modal_constant';
+import { participantModalContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
   static contextType = LocalizationContext;
@@ -29,7 +29,7 @@ class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
 
   render() {
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp(participantContentHeight)}}>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(participantModalContentHeight)}}>
         <BottomSheetModalTitle title={this.props.indicator.name} />
         <View style={{flex: 1, padding: containerPadding}}>
           <Text style={{fontSize: bodyFontSize(), marginBottom: 16}}>{this.context.translations.raisedParticipant}</Text>

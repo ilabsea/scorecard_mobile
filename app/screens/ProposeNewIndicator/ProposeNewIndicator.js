@@ -73,7 +73,7 @@ class ProposeNewIndicator extends React.Component {
             bottomSheetRef={this.bottomSheetRef}
             formModalRef={this.formModalRef}
           />
-          <BoldLabel label={`${translations.proposedIndicator}: ${this.state.proposedIndicators.length}`} customStyle={{marginTop: 10, zIndex: -1}} />
+          <BoldLabel label={`${translations.proposedIndicator}: ${this.state.proposedIndicators.length}`} customStyle={{marginTop: 10, zIndex: -2}} />
           <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
             proposedIndicators={this.state.proposedIndicators}
             endpointId={this.state.endpointId}
