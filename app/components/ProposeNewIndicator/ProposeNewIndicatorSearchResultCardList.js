@@ -7,7 +7,6 @@ import ProposedIndicator from '../../models/ProposedIndicator';
 
 class ProposeNewIndicatorSearchResultCardList extends React.Component {
   static contextType = LocalizationContext;
-
   renderResult = () => {
     return this.props.indicators.map(indicator => {
       const proposedStyle = ProposedIndicator.findByIndicator(this.props.scorecardUuid, indicator.indicatorable_id).length > 0 ? {borderColor: Color.clickableColor, borderWidth: 2} : {}

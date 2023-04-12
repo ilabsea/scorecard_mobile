@@ -51,7 +51,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
     const btnStyles = getDeviceStyle({ height: 70, marginTop: 8, width: 90 }, { height: 60, marginTop: 8 })
     return <View style={{flexDirection: 'row'}}>
               <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => this.goToEdit(participant, index)} />
-              <SwipeLeftButton label={translations.delete} customStyle={[styles.swipeLeftButton]} onPress={() => this.showConfirmModal(participant, index)} />
+              <SwipeLeftButton label={translations.delete} customStyle={btnStyles} onPress={() => this.showConfirmModal(participant, index)} />
            </View>
   }
 
@@ -91,14 +91,14 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
 
   render() {
     const {translations} = this.context;
-    const particpantNumber = <BoldLabel label={!!this.state.selectedParticipant ? this.state.selectedParticipant.order + 1 : ''} />
+    const participantNumber = <BoldLabel label={!!this.state.selectedParticipant ? this.state.selectedParticipant.order + 1 : ''} />
 
     return <View style={{marginTop: 12}}>
               {this.renderParticipantList()}
               <CustomAlertMessage
                 visible={this.state.visibleModal}
                 title={translations.deleteTheProposedIndicators}
-                description={translations.formatString(translations.doYouWantToDeleteTheProposedIndicatorsOfThisParticipant, particpantNumber)}
+                description={translations.formatString(translations.doYouWantToDeleteTheProposedIndicatorsOfThisParticipant, participantNumber)}
                 closeButtonLabel={translations.close}
                 hasConfirmButton={true}
                 confirmButtonLabel={translations.ok}

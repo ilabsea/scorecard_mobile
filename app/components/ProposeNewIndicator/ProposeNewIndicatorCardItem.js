@@ -3,9 +3,11 @@ import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AudioCardView from 'react-native-audio-card-view';
 import TextHighlight from 'react-native-text-highlighter';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import {LocalizationContext} from '../Translations';
 import OutlinedButton from '../OutlinedButton';
+import SwipeLeftButton from '../Share/SwipeLeftButton';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import participantHelper from '../../helpers/participant_helper';
@@ -47,19 +49,50 @@ class ProposeNewIndicatorCardItem extends React.Component {
            </View>
   }
 
+  renderRightButtons = () => {
+    const {translations} = this.context;
+    const btnStyles = getDeviceStyle({ height: 116, marginTop: 46, width: 90 }, { height: 60, marginTop: 8 })
+    return <View style={{flexDirection: 'row'}}>
+              <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => this.props.onPressEdit && this.props.onPressEdit()} />
+              <SwipeLeftButton label={translations.delete} customStyle={btnStyles} onPress={() => this.props.onPressDelete && this.props.onPressDelete()} />
+           </View>
+  }
+
   render() {
-    return <AudioCardView
-              audio={this.props.audio}
-              audioPosition='top-left'
-              containerStyle={[styles.indicatorOutlinedCardContainer, this.props.containerStyle]}
-              titleStyle={styles.label}
-              subtitleStyle={styles.subLabel}
-              customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
-              onPress={() => this.props.onPressItem()}
-            >
-              {this.renderCardLabel()}
-              { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
-            </AudioCardView>
+    return (
+      <Swipeable
+        ref={ref => this.props.updateListRef(ref)}
+        renderRightActions={() => (this.renderRightButtons())}
+        containerStyle={{paddingBottom: 6, paddingHorizontal: 2}}
+        enabled={this.props.isSwipeable}
+        onSwipeableOpen={() => this.props.onSwipeableOpen()}
+      >
+        <AudioCardView
+          audio={this.props.audio}
+          audioPosition='top-left'
+          containerStyle={[styles.indicatorOutlinedCardContainer, this.props.containerStyle]}
+          titleStyle={styles.label}
+          subtitleStyle={styles.subLabel}
+          customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
+          onPress={() => !!this.props.onPress && this.props.onPressItem()}
+        >
+          {this.renderCardLabel()}
+          { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
+        </AudioCardView>
+      </Swipeable>
+    )
+    // return <AudioCardView
+    //           audio={this.props.audio}
+    //           audioPosition='top-left'
+    //           containerStyle={[styles.indicatorOutlinedCardContainer, this.props.containerStyle]}
+    //           titleStyle={styles.label}
+    //           subtitleStyle={styles.subLabel}
+    //           customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
+    //           onPress={() => this.props.onPressItem()}
+    //         >
+    //           {this.renderCardLabel()}
+    //           { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
+    //         </AudioCardView>
   }
 }
 
