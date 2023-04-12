@@ -43,7 +43,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
                 indicatorName={indicator.name} indicatorableId={proposedIndicator.indicatorable_id} indicatorType={indicator.type}
                 updateListRef={(ref) => this.listRef[index] = ref}
                 onSwipeableOpen={() => this.handleCloseRow(index) }
-                onPressEdit={() => this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
+                onPressItem={() => this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
                 onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
              />
     })

@@ -13,6 +13,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 import participantHelper from '../../helpers/participant_helper';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {CUSTOM} from '../../constants/indicator_constant';
+import { navigationRef } from '../../navigators/app_navigator';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import cardItemTabletStyles, {tabletLabelFontSize} from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
 import cardItemMobileStyles, {mobileLabelFontSize} from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
@@ -53,7 +54,9 @@ class ProposeNewIndicatorCardItem extends React.Component {
     const {translations} = this.context;
     const btnStyles = getDeviceStyle({ height: 116, marginTop: 46, width: 90 }, { height: 60, marginTop: 8 })
     return <View style={{flexDirection: 'row'}}>
-              <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => this.props.onPressEdit && this.props.onPressEdit()} />
+              {this.props.indicatorType == CUSTOM &&
+                <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => console.log('== go to edit custom indicator')} />
+              }
               <SwipeLeftButton label={translations.delete} customStyle={btnStyles} onPress={() => this.props.onPressDelete && this.props.onPressDelete()} />
            </View>
   }
