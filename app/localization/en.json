@@ -419,5 +419,7 @@
   "createNewIndicator": "Create new indicator",
   "noIndicatorProposed": "No indicator proposed",
   "new": "New",
-  "doYouWantToDeleteThisProposedIndicator": "Do you want to delete this proposed indicator?"
+  "doYouWantToDeleteThisProposedIndicator": "Do you want to delete this proposed indicator?",
+  "proposeIndicatorInstruction": "Input the indicator name in the below box then press on any indicator card in the result below to propose.",
+  "inputIndicatorNameYouWantToPropose": "Input the indicator name you want to propose"
 }

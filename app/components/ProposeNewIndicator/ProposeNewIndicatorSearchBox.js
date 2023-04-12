@@ -2,14 +2,15 @@ import React from 'react';
 import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {Text} from 'react-native-paper';
 
+import {LocalizationContext} from '../../components/Translations';
 import SearchBox from '../SearchBox/SearchBox';
 import ProposeNewIndicatorSearchResult from './ProposeNewIndicatorSearchResult';
 import Color from '../../themes/color';
-import Indicator from '../../models/Indicator';
 import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
 
 class ProposeNewIndicatorSearchBox extends React.Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props)
     this.state = {
@@ -20,18 +21,20 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     }
   }
 
-  onFocus = async () => {
+  getDefaultIndicators = async () => {
     const defaultIndicators = await new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', false)
+    return defaultIndicators.slice(0, 5)
+  }
+
+  onFocus = async () => {
     this.setState({
       showResult: true,
-      indicators: defaultIndicators.slice(0, 5)
+      indicators: await this.getDefaultIndicators()
     })
   }
 
   findIndicator = async (text) => {
-    this.setState({
-      indicators: text != '' ? await new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, false) : await Indicator.findByScorecard(this.props.scorecardUuid)
-    })
+    this.setState({ indicators: text != '' ? await new IndicatorService().getIndicatorList(this.props.scorecardUuid, text, false) : await this.getDefaultIndicators() })
   }
 
   onChangeText = (text) => {
@@ -48,18 +51,19 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   }
 
   render() {
+    const {translations} = this.context
     return (
       <React.Fragment>
         <View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height })}>
           <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
             <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
-              <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យណាមួយដើម្បីធ្វើការបំផុស</Text>
+              <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>{translations.proposeIndicatorInstruction}</Text>
             </View>
           </TouchableWithoutFeedback>
 
           <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
             inputContainerStyle={{backgroundColor: Color.whiteColor}}
-            placeholder='បញ្ចូលលក្ខណៈវិនិច្ឆ័យដែលអ្នកចង់បំផុស'
+            placeholder={translations.inputIndicatorNameYouWantToPropose}
             onChangeText={(text) => this.onChangeText(text)}
             onClearSearch={() => this.setState({searchedText: ''})}
             onFocus={() => this.onFocus()}

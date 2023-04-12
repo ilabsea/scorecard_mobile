@@ -419,5 +419,7 @@
   "createNewIndicator": "បង្កើតលក្ខណៈវិនិច្ឆ័យថ្មី",
   "noIndicatorProposed": "មិនមានលក្ខណៈវិនិច្ឆ័យត្រូវបានបំផុស",
   "new": "ថ្មី",
-  "doYouWantToDeleteThisProposedIndicator": "តើអ្នកពិតជាចង់លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុសនេះមែនទេ?"
+  "doYouWantToDeleteThisProposedIndicator": "តើអ្នកពិតជាចង់លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុសនេះមែនទេ?",
+  "proposeIndicatorInstruction": "បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចចុចលើលក្ខណៈវិនិច្ឆ័យដែលបានបង្ហាញក្នុងលទ្ធផលដើម្បីធ្វើការបំផុស។",
+  "inputIndicatorNameYouWantToPropose": "បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យដែលអ្នកចង់បំផុស"
 }

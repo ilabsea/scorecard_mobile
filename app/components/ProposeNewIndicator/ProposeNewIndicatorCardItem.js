@@ -61,7 +61,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
   render() {
     return (
       <Swipeable
-        ref={ref => this.props.updateListRef(ref)}
+        ref={ref => this.props.updateListRef && this.props.updateListRef(ref)}
         renderRightActions={() => (this.renderRightButtons())}
         containerStyle={{paddingBottom: 6, paddingHorizontal: 2}}
         enabled={this.props.isSwipeable}
@@ -74,25 +74,13 @@ class ProposeNewIndicatorCardItem extends React.Component {
           titleStyle={styles.label}
           subtitleStyle={styles.subLabel}
           customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
-          onPress={() => !!this.props.onPress && this.props.onPressItem()}
+          onPress={() => !!this.props.onPressItem && this.props.onPressItem()}
         >
           {this.renderCardLabel()}
           { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
         </AudioCardView>
       </Swipeable>
     )
-    // return <AudioCardView
-    //           audio={this.props.audio}
-    //           audioPosition='top-left'
-    //           containerStyle={[styles.indicatorOutlinedCardContainer, this.props.containerStyle]}
-    //           titleStyle={styles.label}
-    //           subtitleStyle={styles.subLabel}
-    //           customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
-    //           onPress={() => this.props.onPressItem()}
-    //         >
-    //           {this.renderCardLabel()}
-    //           { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
-    //         </AudioCardView>
   }
 }
 

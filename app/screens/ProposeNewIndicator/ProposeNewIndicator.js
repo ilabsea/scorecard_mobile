@@ -79,6 +79,7 @@ class ProposeNewIndicator extends React.Component {
             endpointId={this.state.endpointId}
             bottomSheetRef={this.bottomSheetRef}
             formModalRef={this.formModalRef}
+            updateProposedIndicators={() => this.updateProposedIndicators()}
           />
           <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
             <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />

@@ -6,6 +6,7 @@ import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
 import EmptyListAction from '../Share/EmptyListAction';
 import CustomAlertMessage from '../Share/CustomAlertMessage';
 import Indicator from '../../models/Indicator';
+import ProposedIndicator from '../../models/ProposedIndicator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 
 class ProposeNewIndicatorProposedList extends React.Component {
@@ -15,6 +16,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
     this.state = {
       visibleModal: false
     }
+    this.selectedIndicatorableId = null;
     this.listRef = []
     this.prevOpenedRow = null;
   }
@@ -42,14 +44,22 @@ class ProposeNewIndicatorProposedList extends React.Component {
                 updateListRef={(ref) => this.listRef[index] = ref}
                 onSwipeableOpen={() => this.handleCloseRow(index) }
                 onPressEdit={() => this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
-                onPressDelete={() => this.openConfirmationModal(index)}
+                onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
              />
     })
   }
 
-  openConfirmationModal = (index) => {
+  openConfirmationModal = (indicatorableId, index) => {
+    this.selectedIndicatorableId = indicatorableId
     this.setState({visibleModal: true})
     this.listRef[index].close()
+  }
+
+  confirmDelete = () => {
+    ProposedIndicator.deleteByIndicator(this.props.scorecardUuid, this.selectedIndicatorableId)
+    this.selectedIndicatorableId = null
+    this.setState({visibleModal: false})
+    this.props.updateProposedIndicators();
   }
 
   render() {
