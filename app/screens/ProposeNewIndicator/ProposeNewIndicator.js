@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {connect} from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../../components/Translations';
+import ProposeNewIndicatorNavHeader from '../../components/ProposeNewIndicator/ProposeNewIndicatorNavHeader';
 import ProposeNewIndicatorSearchBox from '../../components/ProposeNewIndicator/ProposeNewIndicatorSearchBox';
 import ProposeNewIndicatorProposedList from '../../components/ProposeNewIndicator/ProposeNewIndicatorProposedList';
 import BoldLabel from '../../components/Share/BoldLabel';
@@ -36,10 +38,25 @@ class ProposeNewIndicator extends React.Component {
 
     this.formModalRef = React.createRef();
     this.bottomSheetRef = React.createRef();
+
+    let previousProposedIndicators = [];
+    const { scorecard_uuid, participant_uuid } = props.route.params;
+    if (props.route.params.participant_uuid) {
+      this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfParticipant(scorecard_uuid, participant_uuid); // Last order of the proposed indicator of the participant
+      previousProposedIndicators = ProposedIndicator.find(scorecard_uuid, participant_uuid);   // Previous proposed indicators of the participant
+    }
+    else {
+      this.lastOrderNumber = ProposedIndicator.getLastOrderNumberOfScorecard(scorecard_uuid);   // last order of the proposed indicator of the scorecard
+      previousProposedIndicators = ProposedIndicator.getAllByScorecard(scorecard_uuid);    // Previous proposed indicators of the scorecard
+    }
+
+    AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previousProposedIndicators));
   }
   async componentDidMount() {
+    const proposedIndicators = ProposedIndicator.getAllDistinct(this.props.route.params.scorecard_uuid)
     this.setState({
-      proposedIndicators: ProposedIndicator.getAllDistinct(this.props.route.params.scorecard_uuid),
+      proposedIndicators: proposedIndicators,
+      isValid: proposedIndicators.length > 0,
       isIndicatorBase: await isProposeByIndicatorBase(),
       endpointId: await settingHelper.getSavedEndpointUrlId()
     })
@@ -64,28 +81,42 @@ class ProposeNewIndicator extends React.Component {
     this.setState({ isValid: proposedIndicators.length > 0 });
   }
 
+  handleUnconfirmedIndicator = () => {
+    proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber);
+  }
+
+  onBottomSheetDismiss = () => {
+    this.updateProposedIndicators()
+    this.bottomSheetRef.current?.setBodyContent(null)
+  }
+
   render() {
     const {translations} = this.context
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15}}>
-          <ProposeNewIndicatorSearchBox scorecardUuid={this.props.route.params.scorecard_uuid} updateIsValid={(status) => this.setState({isValid: status})}
-            bottomSheetRef={this.bottomSheetRef}
-            formModalRef={this.formModalRef}
+        <React.Fragment>
+          <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef}
+            handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
           />
-          <BoldLabel label={`${translations.proposedIndicator}: ${this.state.proposedIndicators.length}`} customStyle={{marginTop: 10, zIndex: -2}} />
-          <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
-            proposedIndicators={this.state.proposedIndicators}
-            endpointId={this.state.endpointId}
-            bottomSheetRef={this.bottomSheetRef}
-            formModalRef={this.formModalRef}
-            updateProposedIndicators={() => this.updateProposedIndicators()}
-          />
-          <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
-            <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
+          <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15}}>
+            <ProposeNewIndicatorSearchBox scorecardUuid={this.props.route.params.scorecard_uuid} updateIsValid={(status) => this.setState({isValid: status})}
+              bottomSheetRef={this.bottomSheetRef}
+              formModalRef={this.formModalRef}
+            />
+            <BoldLabel label={`${translations.proposedIndicator}: ${this.state.proposedIndicators.length}`} customStyle={{marginTop: 10, zIndex: -2}} />
+            <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
+              proposedIndicators={this.state.proposedIndicators}
+              endpointId={this.state.endpointId}
+              bottomSheetRef={this.bottomSheetRef}
+              formModalRef={this.formModalRef}
+              updateProposedIndicators={() => this.updateProposedIndicators()}
+            />
+            <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
+              <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
+            </View>
+            <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantListModalSnapPoints} onDismissModal={() => this.onBottomSheetDismiss()} />
           </View>
-          <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantListModalSnapPoints} onDismissModal={() => this.updateProposedIndicators()} />
-        </View>
+        </React.Fragment>
       </TouchableWithoutFeedback>
     )
   }
