@@ -66,7 +66,6 @@ class ProposeNewIndicatorCardItem extends React.Component {
         ref={ref => this.props.updateListRef && this.props.updateListRef(ref)}
         renderRightActions={() => (this.renderRightButtons())}
         containerStyle={{paddingBottom: 0, paddingHorizontal: 2}}
-        // containerStyle={{paddingBottom: 6, paddingHorizontal: 2}}
         enabled={this.props.isSwipeable}
         onSwipeableOpen={() => this.props.onSwipeableOpen()}
       >

@@ -43,7 +43,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
                 indicatorName={indicator.name} indicatorableId={proposedIndicator.indicatorable_id} indicatorType={indicator.type}
                 updateListRef={(ref) => this.listRef[index] = ref}
                 onSwipeableOpen={() => this.handleCloseRow(index) }
-                onPressItem={() => this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
+                onPressItem={() => this.props.isIndicatorBase && this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
                 onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
                 isIndicatorBase={this.props.isIndicatorBase}
              />
@@ -57,7 +57,8 @@ class ProposeNewIndicatorProposedList extends React.Component {
   }
 
   confirmDelete = () => {
-    ProposedIndicator.deleteByIndicator(this.props.scorecardUuid, this.selectedIndicatorableId)
+    this.props.isIndicatorBase ? ProposedIndicator.deleteByIndicator(this.props.scorecardUuid, this.selectedIndicatorableId)
+                               : ProposedIndicator.deleteByIndicatorByParticipant(this.props.scorecardUuid, this.selectedIndicatorableId, this.props.participantUuid)
     this.selectedIndicatorableId = null
     this.setState({visibleModal: false})
     this.props.updateProposedIndicators();
