@@ -70,7 +70,10 @@ class ProposeNewIndicatorSearchBox extends React.Component {
           />
         </View>
         { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
-                                    closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef} />
+                                      closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef}
+                                      isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
+                                      updateProposedIndicators={this.props.updateProposedIndicators}
+                                   />
         }
       </React.Fragment>
     )

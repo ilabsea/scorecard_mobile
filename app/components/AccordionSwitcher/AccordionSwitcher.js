@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import Participant from '../../models/Participant';
 import AccordionSwitcherTabletStyles from '../../styles/tablet/AccordionSwitcherComponentStyle';
 import AccordionSwitcherMobileStyles from '../../styles/mobile/AccordionSwitcherComponentStyle';
 
@@ -25,8 +23,8 @@ class AccordionSwitcher extends Component {
   render() {
     return (
       <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
-        { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel, Participant.getRaisedParticipants(this.props.scorecardUuid).length) }
-        { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel, proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid).length) }
+        { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel, this.props.numberOfLeftItem) }
+        { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel, this.props.numberOfRightItem) }
       </View>
     )
   }

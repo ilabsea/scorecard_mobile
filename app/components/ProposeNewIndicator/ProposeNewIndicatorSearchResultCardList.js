@@ -9,11 +9,15 @@ class ProposeNewIndicatorSearchResultCardList extends React.Component {
   static contextType = LocalizationContext;
   renderResult = () => {
     return this.props.indicators.map(indicator => {
-      const proposedStyle = ProposedIndicator.findByIndicator(this.props.scorecardUuid, indicator.indicatorable_id).length > 0 ? {borderColor: Color.clickableColor, borderWidth: 2} : {}
+      const proposedIndicator = this.props.isIndicatorBase ? ProposedIndicator.findByIndicator(this.props.scorecardUuid, indicator.indicatorable_id)[0]
+                                  : ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid)
+      const proposedStyle = !!proposedIndicator ? {borderColor: Color.clickableColor, borderWidth: 2} : {}
+
       return <ProposeNewIndicatorCardItem key={indicator.uuid} scorecardUuid={this.props.scorecardUuid} audio={null} searchedText={this.props.searchedText}
                 indicatorName={indicator.name} indicatorableId={indicator.indicatorable_id} indicatorType={indicator.type}
                 containerStyle={proposedStyle}
                 onPressItem={() => this.props.onPressItem(indicator)}
+                isSwipeable={false}
              />
     })
   }

@@ -23,6 +23,7 @@ const proposedIndicatorService = (() => {
     const proposedIndicator = ProposedIndicator.findByParticipant(scorecardUuid, indicator.indicatorable_id, participantUuid);
 
     if (!!proposedIndicator) {
+      console.log('=== delete proposed indicator -======')
       ProposedIndicator.destroy(proposedIndicator);
       return;
     }

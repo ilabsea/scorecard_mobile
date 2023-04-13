@@ -26,7 +26,10 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props)
-    this.state = { visibleModal: false, selectedParticipant: null }
+    this.state = {
+      visibleModal: false,
+      selectedParticipant: null
+    }
     this.listRef = []
     this.prevOpenedRow = null;
   }
@@ -38,7 +41,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
 
   goToEdit = (participant, index) => {
     this.listRef[index].close()
-    navigationRef.current?.navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})
+    navigationRef.current?.navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})
   }
 
   showConfirmModal = (participant, index) => {
@@ -85,7 +88,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
   confirmDelete = () => {
     ProposedIndicator.deleteByParticipant(this.props.scorecardUuid, this.state.selectedParticipant.uuid)
     this.setState({selectedParticipant: null, visibleModal: false})
-    const participants = JSON.parse(JSON.stringify(Participant.findByScorecard(this.props.scorecardUuid)));
+    const participants = JSON.parse(JSON.stringify(Participant.getAllByScorecard(this.props.scorecardUuid)));
     this.props.saveParticipant(participants, this.props.scorecardUuid);         //call saveParticipant to make the switcher info update after deletion
   }
 
@@ -110,6 +113,12 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    participants: state.participantReducer.participants,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID)),
@@ -117,6 +126,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ProposedIndicatorRaisedParticipantList);

@@ -6,14 +6,13 @@ import TextHighlight from 'react-native-text-highlighter';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import {LocalizationContext} from '../Translations';
-import OutlinedButton from '../OutlinedButton';
 import SwipeLeftButton from '../Share/SwipeLeftButton';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import participantHelper from '../../helpers/participant_helper';
+import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {CUSTOM} from '../../constants/indicator_constant';
-import { navigationRef } from '../../navigators/app_navigator';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import cardItemTabletStyles, {tabletLabelFontSize} from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
 import cardItemMobileStyles, {mobileLabelFontSize} from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
@@ -40,7 +39,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
     return <View style={styles.indicatorOutlinedLabelContainer}>
               {/* <TextHighlight textToHighlight={indicator.name} searchWords={[this.props.searchedText]} fontSize={cardLabelFontSize} fontFamily={FontFamily.body} /> */}
               <Text numberOfLines={2} style={styles.label}>{this.getIndicatorName()}</Text>
-              <Text style={[styles.subLabel, {color: Color.lightGrayColor}]}>{translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)}</Text>
+              { this.props.isIndicatorBase && <Text style={[styles.subLabel, {color: Color.lightGrayColor}]}>{translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)}</Text> }
            </View>
   }
 
@@ -52,7 +51,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
 
   renderRightButtons = () => {
     const {translations} = this.context;
-    const btnStyles = getDeviceStyle({ height: 116, marginTop: 46, width: 90 }, { height: 60, marginTop: 8 })
+    const btnStyles = proposedIndicatorStyleHelper.getStyleByProposeType(this.props.isIndicatorBase, 'swipeableButton')
     return <View style={{flexDirection: 'row'}}>
               {this.props.indicatorType == CUSTOM &&
                 <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => console.log('== go to edit custom indicator')} />
@@ -66,14 +65,15 @@ class ProposeNewIndicatorCardItem extends React.Component {
       <Swipeable
         ref={ref => this.props.updateListRef && this.props.updateListRef(ref)}
         renderRightActions={() => (this.renderRightButtons())}
-        containerStyle={{paddingBottom: 6, paddingHorizontal: 2}}
+        containerStyle={{paddingBottom: 0, paddingHorizontal: 2}}
+        // containerStyle={{paddingBottom: 6, paddingHorizontal: 2}}
         enabled={this.props.isSwipeable}
         onSwipeableOpen={() => this.props.onSwipeableOpen()}
       >
         <AudioCardView
           audio={this.props.audio}
           audioPosition='top-left'
-          containerStyle={[styles.indicatorOutlinedCardContainer, this.props.containerStyle]}
+          containerStyle={[proposedIndicatorStyleHelper.getStyleByProposeType(this.props.isIndicatorBase, 'outlineCard'), this.props.containerStyle]}
           titleStyle={styles.label}
           subtitleStyle={styles.subLabel}
           customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}

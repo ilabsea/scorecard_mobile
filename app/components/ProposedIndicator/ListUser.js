@@ -27,6 +27,25 @@ class ListUser extends Component {
     }
   }
 
+  renderAnonymous() {
+    const anonymous = Participant.getAnonymousByScorecard(this.props.scorecardUuid).length;
+    if (anonymous > 0)
+      return ` (${this.context.translations.anonymous} ${anonymous})`;
+  }
+
+  renderList = (proposedParticipants) => {
+    return <ProposedIndicatorInfoList
+              scorecardUuid={this.props.scorecardUuid}
+              raisedParticipants={proposedParticipants}
+              numberOfProposedParticipant={this.props.numberOfProposedParticipant}
+              showModal={() => this.props.updateModalVisible(true)}
+              startProposeIndicator={() => this.startProposeIndicator()}
+              isIndicatorBase={this.props.isIndicatorBase}
+              participantModalRef={this.props.participantModalRef}
+              formModalRef={this.props.formModalRef}
+           />
+  }
+
   render() {
     const {translations} = this.context;
     const proposedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
@@ -53,17 +72,7 @@ class ListUser extends Component {
             />
           </View>
         </View>
-
-        <ProposedIndicatorInfoList
-          scorecardUuid={this.props.scorecardUuid}
-          raisedParticipants={proposedParticipants}
-          numberOfProposedParticipant={this.props.numberOfProposedParticipant}
-          showModal={() => this.props.updateModalVisible(true)}
-          startProposeIndicator={() => this.startProposeIndicator()}
-          isIndicatorBase={this.props.isIndicatorBase}
-          participantModalRef={this.props.participantModalRef}
-          formModalRef={this.props.formModalRef}
-        />
+        {this.renderList(proposedParticipants)}
       </View>
     );
   }

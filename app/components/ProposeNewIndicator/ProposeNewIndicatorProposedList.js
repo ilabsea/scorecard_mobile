@@ -45,6 +45,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
                 onSwipeableOpen={() => this.handleCloseRow(index) }
                 onPressItem={() => this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
                 onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
+                isIndicatorBase={this.props.isIndicatorBase}
              />
     })
   }
@@ -69,7 +70,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
       return <EmptyListAction title={translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -2, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
 
     return (
-      <View style={{flexGrow: 1, zIndex: -2}}>
+      <View style={{flex: 1}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           {this.renderList()}
         </ScrollView>

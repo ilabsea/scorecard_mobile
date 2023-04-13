@@ -13,6 +13,7 @@ const ProposedIndicator = (() => {
     findByIndicator,
     getAllDistinctTag,
     getAllDistinct,
+    getAllDistinctByParticipant,
     destroy,
     getLastOrderNumberOfParticipant,
     getLastOrderNumberOfIndicator,
@@ -63,6 +64,10 @@ const ProposedIndicator = (() => {
 
   function getAllDistinct(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id, indicatorable_type) SORT(indicatorable_name ASC)`);
+  }
+
+  function getAllDistinctByParticipant(scorecardUuid, participantUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' AND participant_uuid='${participantUuid}' DISTINCT(indicatorable_id, indicatorable_type) SORT(indicatorable_name ASC)`);
   }
 
   function destroy(proposedIndicator) {

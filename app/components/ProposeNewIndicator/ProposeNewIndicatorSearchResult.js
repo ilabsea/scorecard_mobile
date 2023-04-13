@@ -8,6 +8,7 @@ import ProposeNewIndicatorAddNewButton from './ProposeNewIndicatorAddNewButton';
 import Color from '../../themes/color';
 import settingHelper from '../../helpers/setting_helper';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 import Indicator from '../../models/Indicator';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 
@@ -24,9 +25,15 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   }
 
   startProposeIndicator = (indicator) => {
-    this.props.closeSearch()
-    const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
-    proposedIndicatorHelper.showFormModal(this.props.bottomSheetRef, this.props.formModalRef, proposedIndicatorParams);
+    if (this.props.isIndicatorBase) {
+      this.props.closeSearch()
+      const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
+      proposedIndicatorHelper.showFormModal(this.props.bottomSheetRef, this.props.formModalRef, proposedIndicatorParams);
+    }
+    else {
+      proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
+      this.props.updateProposedIndicators()
+    }
   }
 
   render() {
@@ -37,6 +44,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
             <ScrollView contentContainerStyle={{paddingBottom: 30, paddingTop: 0, paddingHorizontal: 16}}>
               <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}
                 onPressItem={(indicator) => this.startProposeIndicator(indicator)}
+                isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
               />
             </ScrollView>
             {(!!this.props.searchedText && this.state.showAddNewButton) &&

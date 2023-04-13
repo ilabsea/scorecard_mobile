@@ -66,7 +66,8 @@ class ParticipantModalMain extends React.Component {
 
   handleToggleParticipantOnParticipantBase(participantUuid) {
     this.props.participantModalRef.current?.dismiss();
-    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participantUuid});
+    // navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participantUuid});
+    navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participantUuid});
   }
 
   handleToggleParticipantOnIndicatorBase(participantUuid) {

@@ -7,8 +7,9 @@ import AccordionSwitcher from '../AccordionSwitcher/AccordionSwitcher';
 import ProposedIndicatorRaisedIndicatorList from './ProposedIndicatorRaisedIndicatorList';
 import ProposedIndicatorRaisedParticipantList from './ProposedIndicatorRaisedParticipantList';
 import EmptyListAction from '../Share/EmptyListAction';
-
 import { ACCORDION_LEFT, ACCORDION_RIGHT } from '../../constants/main_constant';
+import Participant from '../../models/Participant';
+import proposedIndicatorService from '../../services/proposed_indicator_service';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicatorTabletStyles from '../../styles/tablet/ProposedIndicatorComponentStyle';
 import ProposedIndicatorMobileStyles from '../../styles/mobile/ProposedIndicatorComponentStyle';
@@ -26,9 +27,11 @@ class ProposedIndicatorInfoList extends Component {
 
   renderAccordionSwitcher() {
     const { translations } =  this.context;
+    const numOfProposedIndicator = proposedIndicatorService.getProposedIndicators(this.props.scorecardUuid).length
+    const numOfRaisedParticipant = Participant.getRaisedParticipants(this.props.scorecardUuid).length
     const tabs = {
-      indicatorBase: {left_label: translations.raisedIndicator, left_type: 'indicator', right_label: translations.raisedParticipant, right_type: 'participant'},
-      participantBase: {left_label: translations.raisedParticipant, left_type: 'participant', right_label: translations.raisedIndicator, right_type: 'indicator'}
+      indicatorBase: {left_label: translations.raisedIndicator, left_type: 'indicator', right_label: translations.raisedParticipant, right_type: 'participant', left_amount: numOfProposedIndicator, right_amount: numOfRaisedParticipant},
+      participantBase: {left_label: translations.raisedParticipant, left_type: 'participant', right_label: translations.raisedIndicator, right_type: 'indicator', left_amount: numOfRaisedParticipant, right_amount: numOfProposedIndicator}
     }
     const tab = tabs[this.props.isIndicatorBase ? 'indicatorBase' : 'participantBase']
 
@@ -41,6 +44,8 @@ class ProposedIndicatorInfoList extends Component {
         onPressLeft={() => this.setState({ listType: tab.left_type })}
         onPressRight={() => this.setState({ listType: tab.right_type })}
         numberOfProposedParticipant={this.props.numberOfProposedParticipant}
+        numberOfLeftItem={tab.left_amount}
+        numberOfRightItem={tab.right_amount}
       />
     )
   }
