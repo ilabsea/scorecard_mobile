@@ -19,6 +19,7 @@ class ProposeNewIndicatorParticipantInfo extends Component {
           selectParticipant={(participant) => !!this.props.updateSelectedParticipant && this.props.updateSelectedParticipant(participant.uuid)}
           formModalRef={this.props.bottomSheetRef}
           participantModalRef={this.props.formModalRef}
+          isDisabled={this.props.isEdit}
         />
       </View>
     )

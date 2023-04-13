@@ -38,7 +38,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
 
   renderList = () => {
     return this.props.proposedIndicators.map((proposedIndicator, index) => {
-      const indicator = Indicator.findByIndicatorableId(proposedIndicator.indicatorable_id, this.props.endpointId)
+      const indicator = Indicator.findByIndicatorableId(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type, this.props.endpointId)
       if (!!indicator)
         return <ProposeNewIndicatorCardItem key={proposedIndicator.uuid} scorecardUuid={this.props.scorecardUuid} searchedText=''
                   indicatorName={indicator.name} indicatorableId={proposedIndicator.indicatorable_id} indicatorType={indicator.type} indicatorUuid={indicator.indicator_uuid}
@@ -64,7 +64,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
                                : ProposedIndicator.deleteByIndicatorByParticipant(this.props.scorecardUuid, this.selectedIndicatorableId, this.props.participantUuid)
     this.selectedIndicatorableId = null
     this.setState({visibleModal: false})
-    this.props.validateProposedIndicator();
+    this.props.updateProposedIndicator();
   }
 
   render() {

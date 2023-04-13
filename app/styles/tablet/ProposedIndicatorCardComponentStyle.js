@@ -30,9 +30,9 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     borderColor: Color.lightGrayColor,
     elevation: 0
   },
-  indicatorBaseSwipebleButton: {
-    height: 116,
-    marginTop: 46,
+  indicatorBaseSwipeableButton: {
+    height: 118,
+    marginTop: 40,
     width: 90
   },
   participantBaseOutlinedCardContainer: {

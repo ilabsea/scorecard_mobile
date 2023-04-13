@@ -63,14 +63,16 @@ class ProposeNewIndicator extends React.Component {
     this.props.navigation.goBack();
   }
 
-  validateProposedIndicator = () => {
-    const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.route.params.scorecard_uuid, this.state.participantUuid)
-                              : ProposedIndicator.getAllByScorecard(this.props.route.params.scorecard_uuid);
-    this.setState({ isValid: proposedIndicators.length > 0 });
+  updateProposedIndicator = () => {
+    const proposedIndicators = this.state.isIndicatorBase ? ProposedIndicator.getAllDistinct(this.props.route.params.scorecard_uuid) : ProposedIndicator.getAllDistinctByParticipant(this.props.route.params.scorecard_uuid, this.state.participantUuid)
+    this.setState({
+      isValid: proposedIndicators.length > 0,
+      proposedIndicators: proposedIndicators
+    });
   }
 
   onBottomSheetDismiss = () => {
-    this.validateProposedIndicator()
+    this.updateProposedIndicator()
     this.bottomSheetRef.current?.setBodyContent(null)
   }
 
@@ -96,6 +98,7 @@ class ProposeNewIndicator extends React.Component {
               updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
               bottomSheetRef={this.bottomSheetRef}
               formModalRef={this.formModalRef}
+              isEdit={this.props.route.params.is_edit}
            />
   }
 
@@ -107,7 +110,7 @@ class ProposeNewIndicator extends React.Component {
                 formModalRef={this.formModalRef}
                 isIndicatorBase={this.state.isIndicatorBase}
                 participantUuid={this.state.participantUuid}
-                validateProposedIndicator={() => this.validateProposedIndicator()}
+                updateProposedIndicator={() => this.updateProposedIndicator()}
                 playingUuid={this.state.playingUuid}
                 updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
               />
@@ -121,7 +124,7 @@ class ProposeNewIndicator extends React.Component {
                   formModalRef={this.formModalRef}
                   isIndicatorBase={this.state.isIndicatorBase}
                   participantUuid={this.state.participantUuid}
-                  validateProposedIndicator={() => this.validateProposedIndicator()}
+                  updateProposedIndicator={() => this.updateProposedIndicator()}
                   playingUuid={this.state.playingUuid}
                   updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
                 />

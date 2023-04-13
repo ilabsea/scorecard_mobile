@@ -34,7 +34,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
       !!isNewCustomIndicator && this.props.closeSearch()
       proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
       setTimeout(() => {
-        this.props.validateProposedIndicator()
+        this.props.updateProposedIndicator()
       }, 200)
     }
   }

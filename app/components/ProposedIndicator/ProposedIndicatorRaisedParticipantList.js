@@ -41,7 +41,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
 
   goToEdit = (participant, index) => {
     this.listRef[index].close()
-    navigationRef.current?.navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})
+    navigationRef.current?.navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid, is_edit: true})
   }
 
   showConfirmModal = (participant, index) => {

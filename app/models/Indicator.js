@@ -95,11 +95,9 @@ const Indicator = (() => {
     return realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorUuid}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
   }
 
-  function findByIndicatorableId(indicatorableId, endpointId) {
-    let indicator = realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorableId}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
-    if (!indicator)
-      indicator = realm.objects(MODEL).filtered(`id = '${indicatorableId}' AND endpoint_id = ${parseInt(endpointId)}`)[0];
-
+  function findByIndicatorableId(indicatorableId, type, endpointId) {
+    let indicator = (type == CUSTOM) ? indicator = realm.objects(MODEL).filtered(`indicator_uuid = '${indicatorableId}' AND endpoint_id = ${parseInt(endpointId)}`)[0]
+                                       : indicator = realm.objects(MODEL).filtered(`id = ${parseInt(indicatorableId)} AND endpoint_id = ${parseInt(endpointId)}`)[0];
     return indicator
   }
 
