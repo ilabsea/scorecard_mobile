@@ -34,8 +34,8 @@ class ProposeNewIndicatorSearchResult extends React.Component {
       !!isNewCustomIndicator && this.props.closeSearch()
       proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid);
       setTimeout(() => {
-        this.props.updateProposedIndicators()
-      }, 150)
+        this.props.validateProposedIndicator()
+      }, 200)
     }
   }
 
@@ -48,6 +48,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
               <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}
                 onPressItem={(indicator) => this.startProposeIndicator(indicator, false)}
                 isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
+                playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
               />
             </ScrollView>
             {(!!this.props.searchedText && this.state.showAddNewButton) &&

@@ -102,6 +102,21 @@ const proposedIndicatorService = (() => {
       }
     });
     AsyncStorage.removeItem('previous-proposed-indicators');
+
+    // Check if the particiant doesn't raised any indicator, set the raised status to false
+    handleUnraisedParticipant(scorecardUuid, participantUuid)
+  }
+
+  // private method
+  function handleUnraisedParticipant(scorecardUuid, participantUuid) {
+    if (!!participantUuid && ProposedIndicator.getAllDistinctByParticipant(scorecardUuid, participantUuid).length == 0)
+      return Participant.update(participantUuid, {raised: false})
+
+    Participant.getAllByScorecard(scorecardUuid).map(participant => {
+      const proposedIndicators = ProposedIndicator.getAllDistinctByParticipant(scorecardUuid, participant.uuid)
+      if (proposedIndicators.length == 0)
+        Participant.update(participant.uuid, {raised: false})
+    })
   }
 })();
 

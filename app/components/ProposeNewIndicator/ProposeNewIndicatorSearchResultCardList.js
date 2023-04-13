@@ -14,10 +14,12 @@ class ProposeNewIndicatorSearchResultCardList extends React.Component {
       const proposedStyle = !!proposedIndicator ? {borderColor: Color.clickableColor, borderWidth: 2} : {}
 
       return <ProposeNewIndicatorCardItem key={indicator.uuid} scorecardUuid={this.props.scorecardUuid} audio={null} searchedText={this.props.searchedText}
-                indicatorName={indicator.name} indicatorableId={indicator.indicatorable_id} indicatorType={indicator.type}
+                indicatorName={indicator.name} indicatorableId={indicator.indicatorable_id} indicatorType={indicator.type} indicatorUuid={indicator.indicator_uuid}
                 containerStyle={proposedStyle}
                 onPressItem={() => this.props.onPressItem(indicator)}
                 isSwipeable={false}
+                playingUuid={this.props.playingUuid}
+                updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
              />
     })
   }

@@ -33,6 +33,7 @@ class ProposeNewIndicator extends React.Component {
       isIndicatorBase: true,
       participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
       endpointId: null,
+      playingUuid: null
     }
 
     this.formModalRef = React.createRef();
@@ -62,25 +63,29 @@ class ProposeNewIndicator extends React.Component {
     this.props.navigation.goBack();
   }
 
-  updateProposedIndicators = () => {
+  validateProposedIndicator = () => {
     const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.route.params.scorecard_uuid, this.state.participantUuid)
-                              : ProposedIndicator.getAllDistinctByParticipant(this.props.route.params.scorecard_uuid, this.state.participantUuid);
+                              : ProposedIndicator.getAllByScorecard(this.props.route.params.scorecard_uuid);
     this.setState({ isValid: proposedIndicators.length > 0 });
   }
 
   onBottomSheetDismiss = () => {
-    this.updateProposedIndicators()
+    this.validateProposedIndicator()
     this.bottomSheetRef.current?.setBodyContent(null)
+  }
+
+  handleUnconfirmedIndicator = () => {
+    proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber)
   }
 
   updateSelectedParticipant(participantUuid) {
     if (this.state.participantUuid != participantUuid) {
-      !!this.props.handleUnconfirmedIndicator && this.props.handleUnconfirmedIndicator();
+      this.handleUnconfirmedIndicator();
 
       this.setState({
         isValid: false,
         participantUuid: participantUuid
-      }, () => this.updateProposedIndicators());
+      });
     }
   }
 
@@ -102,7 +107,9 @@ class ProposeNewIndicator extends React.Component {
                 formModalRef={this.formModalRef}
                 isIndicatorBase={this.state.isIndicatorBase}
                 participantUuid={this.state.participantUuid}
-                updateProposedIndicators={() => this.updateProposedIndicators()}
+                validateProposedIndicator={() => this.validateProposedIndicator()}
+                playingUuid={this.state.playingUuid}
+                updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
               />
               { !this.state.isIndicatorBase && this.renderParticipantInfo() }
               <BoldLabel label={`${translations.proposedIndicator}: ${this.state.proposedIndicators.length}`} customStyle={{marginTop: 10, zIndex: -2}} />
@@ -114,7 +121,9 @@ class ProposeNewIndicator extends React.Component {
                   formModalRef={this.formModalRef}
                   isIndicatorBase={this.state.isIndicatorBase}
                   participantUuid={this.state.participantUuid}
-                  updateProposedIndicators={() => this.updateProposedIndicators()}
+                  validateProposedIndicator={() => this.validateProposedIndicator()}
+                  playingUuid={this.state.playingUuid}
+                  updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
                 />
                 <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
                   <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
@@ -129,7 +138,7 @@ class ProposeNewIndicator extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <React.Fragment>
           <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef}
-            handleUnconfirmedIndicator={() => proposedIndicatorService.handleUnconfirmedIndicator(this.props.route.params.scorecard_uuid, this.state.participantUuid, this.lastOrderNumber)}
+            handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
           />
           {this.renderBody()}
         </React.Fragment>

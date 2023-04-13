@@ -31,6 +31,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       showResult: true,
       indicators: await this.getDefaultIndicators()
     })
+    this.props.updatePlayingUuid(null)
   }
 
   findIndicator = async (text) => {
@@ -48,6 +49,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   closeSearch = () => {
     Keyboard.dismiss()
     this.setState({showResult: false, searchedText: ''})
+    this.props.updatePlayingUuid(null)
   }
 
   render() {
@@ -63,7 +65,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
 
           <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
             inputContainerStyle={{backgroundColor: Color.whiteColor}}
-            placeholder={translations.inputIndicatorNameYouWantToPropose}
+            placeholder={translations.theIndicatorNameYouWantToPropose}
             onChangeText={(text) => this.onChangeText(text)}
             onClearSearch={() => this.setState({searchedText: ''})}
             onFocus={() => this.onFocus()}
@@ -72,7 +74,8 @@ class ProposeNewIndicatorSearchBox extends React.Component {
         { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
                                       closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef}
                                       isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
-                                      updateProposedIndicators={this.props.updateProposedIndicators}
+                                      validateProposedIndicator={this.props.validateProposedIndicator}
+                                      playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
                                    />
         }
       </React.Fragment>

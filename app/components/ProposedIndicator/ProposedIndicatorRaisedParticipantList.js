@@ -68,6 +68,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
   renderParticipantList = () => {
     const mobileFontSize = getMobileFontSizeByPixelRatio(14.2, 14);
     const fontSize = getDeviceStyle(bodyFontSize(), mobileFontSize);
+
     return Participant.getRaisedParticipants(this.props.scorecardUuid).map((participant, index) => {
       return (
         <Swipeable key={participant.uuid}

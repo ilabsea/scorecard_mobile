@@ -31,8 +31,9 @@ class ProposeNewIndicatorNavHeader extends Component {
   confirmGoBack() {
     this.setState({ isModalVisible: false });
     !!this.props.handleUnconfirmedIndicator && this.props.handleUnconfirmedIndicator();
-    this.props.handleUnconfirmedIndicator && this.props.handleUnconfirmedIndicator();
-    navigationRef.current?.goBack();
+    setTimeout(() => {
+      navigationRef.current?.goBack();
+    }, 500)
   }
 
   renderComfirmModal() {

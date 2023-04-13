@@ -14,7 +14,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      visibleModal: false
+      visibleModal: false,
     }
     this.selectedIndicatorableId = null;
     this.listRef = []
@@ -39,14 +39,17 @@ class ProposeNewIndicatorProposedList extends React.Component {
   renderList = () => {
     return this.props.proposedIndicators.map((proposedIndicator, index) => {
       const indicator = Indicator.findByIndicatorableId(proposedIndicator.indicatorable_id, this.props.endpointId)
-      return <ProposeNewIndicatorCardItem key={proposedIndicator.uuid} scorecardUuid={this.props.scorecardUuid} audio={null} searchedText=''
-                indicatorName={indicator.name} indicatorableId={proposedIndicator.indicatorable_id} indicatorType={indicator.type}
-                updateListRef={(ref) => this.listRef[index] = ref}
-                onSwipeableOpen={() => this.handleCloseRow(index) }
-                onPressItem={() => this.props.isIndicatorBase && this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
-                onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
-                isIndicatorBase={this.props.isIndicatorBase}
-             />
+      if (!!indicator)
+        return <ProposeNewIndicatorCardItem key={proposedIndicator.uuid} scorecardUuid={this.props.scorecardUuid} searchedText=''
+                  indicatorName={indicator.name} indicatorableId={proposedIndicator.indicatorable_id} indicatorType={indicator.type} indicatorUuid={indicator.indicator_uuid}
+                  updateListRef={(ref) => this.listRef[index] = ref}
+                  onSwipeableOpen={() => this.handleCloseRow(index) }
+                  onPressItem={() => this.props.isIndicatorBase && this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
+                  onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
+                  isIndicatorBase={this.props.isIndicatorBase}
+                  playingUuid={this.props.playingUuid}
+                  updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
+              />
     })
   }
 
@@ -61,7 +64,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
                                : ProposedIndicator.deleteByIndicatorByParticipant(this.props.scorecardUuid, this.selectedIndicatorableId, this.props.participantUuid)
     this.selectedIndicatorableId = null
     this.setState({visibleModal: false})
-    this.props.updateProposedIndicators();
+    this.props.validateProposedIndicator();
   }
 
   render() {
