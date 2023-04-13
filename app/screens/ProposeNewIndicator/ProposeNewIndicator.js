@@ -64,7 +64,7 @@ class ProposeNewIndicator extends React.Component {
 
   updateProposedIndicators = () => {
     const proposedIndicators = !this.state.isIndicatorBase ? ProposedIndicator.find(this.props.route.params.scorecard_uuid, this.state.participantUuid)
-                              : ProposedIndicator.getAllByScorecard(this.props.route.params.scorecard_uuid);
+                              : ProposedIndicator.getAllDistinctByParticipant(this.props.route.params.scorecard_uuid, this.state.participantUuid);
     this.setState({ isValid: proposedIndicators.length > 0 });
   }
 

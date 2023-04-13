@@ -13,7 +13,8 @@ class ProposedNewIndicatorAddNewButton extends React.Component {
       name: this.props.searchedText,
       tag: null
     };
-    customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, this.props.participantUuid, async (customIndicator) => {
+
+    customIndicatorService.createNewIndicator(this.props.scorecardUuid, indicator, async (customIndicator) => {
       this.props.startProposeIndicator(customIndicator)
     });
   }
