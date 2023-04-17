@@ -55,9 +55,9 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   function renderRaisedParticipants() {
     return props.raisedParticipantUuids.map(participantUuid => {
       const participant = Participant.find(participantUuid)
-      return <View key={participantUuid} style={{justifyContent: 'center', position: 'relative'}}>
-                <View style={[styles.numberContainer, {width: 28, height: 28, marginRight: 5}]}>
-                  <Text style={[styles.numberLabel, {fontSize: smallTextFontSize()}]}>{participant.order + 1}</Text>
+      return <View key={participantUuid} style={{justifyContent: 'center', position: 'relative', marginBottom: 4}}>
+                <View style={styles.raisedNumberContainer}>
+                  <Text style={styles.raisedNumberLabel}>{participant.order + 1}</Text>
                 </View>
             </View>
     })
@@ -70,7 +70,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
           {translations.selectParticipant + ' '} 
           { renderProposedParticipant() }
         </Text>
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
+        <View style={{flexDirection: 'row', marginBottom: 10, flexWrap: 'wrap'}}>
           {renderRaisedParticipants()}
         </View>
       </View>
