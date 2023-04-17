@@ -41,7 +41,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
   }
 
   renderNewBadge = () => {
-    return <View style={{backgroundColor: '#E6E7E9', width: 28, height: 20, position: 'absolute', top: 0.5, right: 0.5, borderTopRightRadius: 3, borderBottomLeftRadius: 5, justifyContent: 'center', alignItems: 'center'}}>
+    return <View style={{backgroundColor: '#E6E7E9', width: 28, height: 20, position: 'absolute', top: 0.2, right: 0.2, borderTopRightRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={{fontSize: 11, color: Color.grayColor}}>{this.context.translations.new}</Text>
            </View>
   }
@@ -51,7 +51,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
     const btnStyles = proposedIndicatorStyleHelper.getStyleByProposeType(this.props.isIndicatorBase, 'swipeableButton')
     return <View style={{flexDirection: 'row'}}>
               {this.props.indicatorType == CUSTOM &&
-                <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => console.log('== go to edit custom indicator')} />
+                <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => this.props.onPressEdit && this.props.onPressEdit()} />
               }
               <SwipeLeftButton label={translations.delete} customStyle={btnStyles} onPress={() => this.props.onPressDelete && this.props.onPressDelete()} />
            </View>

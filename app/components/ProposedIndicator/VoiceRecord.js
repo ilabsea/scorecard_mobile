@@ -134,6 +134,7 @@ class VoiceRecord extends Component {
       <RecordAudioButton
         recordDuration={this.state.recordDuration}
         isRecording={this.state.isRecording}
+        disabled={this.props.disabled}
         recordVoice={() => this.recordVoice()}
         stopRecordVoice={() => this.stopRecordVoice()}
       />

@@ -4,7 +4,7 @@ import { isSmallMobileScreenDevice } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 
-const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
+const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   indicatorCardContainer: {
     elevation: 2,
     height: isSmallMobileScreenDevice() ? 90 : 95,
@@ -35,10 +35,10 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
     borderColor: Color.lightGrayColor,
     elevation: 0
   },
-  indicatorBaseSwipebleButton: {
-    height: 116,
-    marginTop: 46,
-    width: 90
+  indicatorBaseSwipeableButton: {
+    height: 98,
+    marginTop: 40,
+    width: 90,
   },
   participantBaseOutlinedCardContainer: {
     marginTop: 40,
@@ -48,10 +48,10 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
     borderColor: Color.lightGrayColor,
     elevation: 0
   },
-  participantBaseSwipebleButton: {
+  participantBaseSwipeableButton: {
     height: 95,
     marginTop: 40,
-    width: 90
+    width: 90,
   },
   indicatorOutlinedLabelContainer: {
     flex: 1,
@@ -62,4 +62,4 @@ const ProposedIndicatorInfoListComponentStyles = StyleSheet.create({
 
 export const labelFontSize = getMobileFontSizeByPixelRatio(14.2, 14);
 
-export default ProposedIndicatorInfoListComponentStyles;
+export default ProposedIndicatorCardComponentStyles;

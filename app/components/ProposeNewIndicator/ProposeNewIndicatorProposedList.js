@@ -5,9 +5,11 @@ import {LocalizationContext} from '../Translations';
 import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
 import EmptyListAction from '../Share/EmptyListAction';
 import CustomAlertMessage from '../Share/CustomAlertMessage';
+import CustomIndicatorBottomSheet from '../CustomIndicatorBottomSheet/CustomIndicatorBottomSheet';
 import Indicator from '../../models/Indicator';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
+import {customIndicatorModalSnapPoints, participantListModalSnapPoints} from '../../constants/modal_constant';
 
 class ProposeNewIndicatorProposedList extends React.Component {
   static contextType = LocalizationContext;
@@ -24,6 +26,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
   editProposedIndicator = (indicator, indicatorableId, index) => {
     let indicatorParams = indicator
     indicatorParams['indicatorable_id'] = indicatorableId
+    this.props.bottomSheetRef.current?.setSnapPoints(participantListModalSnapPoints)
     const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicatorParams };
     proposedIndicatorHelper.showFormModal(this.props.bottomSheetRef, this.props.formModalRef, proposedIndicatorParams);
     this.listRef[index].close()
@@ -36,6 +39,28 @@ class ProposeNewIndicatorProposedList extends React.Component {
     this.prevOpenedRow = this.listRef[index];
   }
 
+  renderModalContent(customIndicator) {
+    return <CustomIndicatorBottomSheet
+              closeModal={() => this.closeModal()}
+              participantUuid={this.props.participantUuid}
+              scorecardUuid={this.props.scorecardUuid}
+              selectedCustomIndicator={customIndicator}
+              isEdit={true}
+              isIndicatorBase={this.props.isIndicatorBase}
+              bottomSheetRef={this.props.bottomSheetRef}
+              formModalRef={this.props.formModalRef}
+           />
+  }
+
+  showCustomIndicatorModal(customIndicator, index) {
+    this.listRef[index].close()
+    this.props.bottomSheetRef.current?.setBodyContent(this.renderModalContent(customIndicator));
+    this.props.bottomSheetRef.current?.setSnapPoints(customIndicatorModalSnapPoints)
+    setTimeout(() => {
+      this.props.formModalRef.current?.present();
+    }, 50);
+  }
+
   renderList = () => {
     return this.props.proposedIndicators.map((proposedIndicator, index) => {
       const indicator = Indicator.findByIndicatorableId(proposedIndicator.indicatorable_id, proposedIndicator.indicatorable_type, this.props.endpointId)
@@ -45,6 +70,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
                   updateListRef={(ref) => this.listRef[index] = ref}
                   onSwipeableOpen={() => this.handleCloseRow(index) }
                   onPressItem={() => this.props.isIndicatorBase && this.editProposedIndicator(indicator, proposedIndicator.indicatorable_id, index)}
+                  onPressEdit={() => this.showCustomIndicatorModal(indicator, index)}
                   onPressDelete={() => this.openConfirmationModal(proposedIndicator.indicatorable_id, index)}
                   isIndicatorBase={this.props.isIndicatorBase}
                   playingUuid={this.props.playingUuid}

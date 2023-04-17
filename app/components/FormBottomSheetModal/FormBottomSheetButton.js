@@ -12,7 +12,7 @@ const FormBottomSheetButton = (props) => {
 
   return (
     <View style={[styles.btnWrapper,
-      { margin: containerPadding, paddingTop: containerPadding }, props.wrapperStyle]}
+      { margin: containerPadding, paddingTop: containerPadding, marginBottom: 16 }, props.wrapperStyle]}
     >
       <SaveButton
         disabled={!props.isValid}

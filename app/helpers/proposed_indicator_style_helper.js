@@ -19,10 +19,9 @@ const proposedIndicatorStyleHelper = (() => {
       participantBase: {
         solidCard: styles.indicatorCardContainer,
         outlineCard: styles.participantBaseOutlinedCardContainer,
-        swipeableButton: styles.participantBaseSwipebleButton
+        swipeableButton: styles.participantBaseSwipeableButton
       },
     }
-
     return allStyles[isIndicatorBase ? 'indicatorBase' : 'participantBase'][type]
   }
 })()
