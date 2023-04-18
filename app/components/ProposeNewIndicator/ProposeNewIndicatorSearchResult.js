@@ -11,7 +11,7 @@ import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import Indicator from '../../models/Indicator';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
-import {participantListModalSnapPoints} from '../../constants/modal_constant';
+import {participantModalSnapPoints} from '../../constants/modal_constant';
 
 class ProposeNewIndicatorSearchResult extends React.Component {
   static contextType = LocalizationContext;
@@ -26,9 +26,8 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   }
 
   startProposeIndicator = (indicator, isNewCustomIndicator) => {
-    this.props.bottomSheetRef.current?.setSnapPoints(participantListModalSnapPoints)
-
     if (this.props.isIndicatorBase) {
+      this.props.bottomSheetRef.current?.setSnapPoints(participantModalSnapPoints)
       this.props.closeSearch()
       const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicator };
       proposedIndicatorHelper.showFormModal(this.props.bottomSheetRef, this.props.formModalRef, proposedIndicatorParams);

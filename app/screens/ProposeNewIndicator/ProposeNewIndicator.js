@@ -21,7 +21,7 @@ import { updateRaisedParticipants } from '../../services/participant_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import {saveParticipant} from '../../actions/participantAction';
 import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
-import { participantListModalSnapPoints } from '../../constants/modal_constant';
+import { participantModalSnapPoints } from '../../constants/modal_constant';
 
 class ProposeNewIndicator extends React.Component {
   static contextType = LocalizationContext;
@@ -81,6 +81,7 @@ class ProposeNewIndicator extends React.Component {
   }
 
   updateSelectedParticipant(participantUuid) {
+    this.formModalRef.current?.dismiss()
     if (this.state.participantUuid != participantUuid) {
       this.handleUnconfirmedIndicator();
 
@@ -132,7 +133,6 @@ class ProposeNewIndicator extends React.Component {
                   <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
                 </View>
               </View>
-              <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantListModalSnapPoints} onDismissModal={() => this.onBottomSheetDismiss()} />
             </View>
   }
 
@@ -144,6 +144,7 @@ class ProposeNewIndicator extends React.Component {
             handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
           />
           {this.renderBody()}
+          <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.onBottomSheetDismiss()} />
         </React.Fragment>
       </TouchableWithoutFeedback>
     )

@@ -121,7 +121,6 @@ const proposedIndicatorHelper = (() => {
 
   function _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams) {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
-
     formRef.current?.setBodyContent(
       <AddNewParticipantMain scorecardUuid={ scorecardUuid }
         title={!!indicator ? indicator.name : ''}

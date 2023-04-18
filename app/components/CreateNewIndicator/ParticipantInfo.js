@@ -21,8 +21,6 @@ export default class ParticipantInfo extends Component {
 
     this.state = {
       participants: props.participants || [],
-      participantListVisible: false,
-      addParticipantVisible: false,
       currentParticipant: Participant.find(props.participantUuid),
       participantUuid: props.participantUuid,
     };
@@ -54,7 +52,6 @@ export default class ParticipantInfo extends Component {
     if (this.isIndicatorBase && isProposedIndicatorScreen())
       navigate('ProposeNewIndicator', { scorecard_uuid: this.props.scorecardUuid });
     else {
-      this.setState({ participantListVisible: true });
       this.props.formModalRef.current?.setSnapPoints(participantModalSnapPoints);
       this.props.formModalRef.current?.setBodyContent(this.getParticipantListContent());
 
@@ -92,27 +89,9 @@ export default class ParticipantInfo extends Component {
   }
 
   selectParticipant(participant) {
-    this.dismissModal();
+    !!this.props.closeModal && this.props.closeModal();
     this.setState({currentParticipant: participant});
     !!this.props.selectParticipant && this.props.selectParticipant(participant);
-  }
-
-  showAddParticipantModal = () => {
-    this.setState({
-      participantVisible: false,
-      addParticipantVisible: true,
-    });
-
-    this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain());
-  }
-
-  dismissModal() {
-    this.setState({
-      participantListVisible: false,
-      addParticipantVisible: false,
-    });
-
-    !!this.props.closeModal && this.props.closeModal();
   }
 
   getParticipantListContent() {
@@ -122,7 +101,7 @@ export default class ParticipantInfo extends Component {
               participants={this.state.participants || []}
               selectedIndicator={null}
               isIndicatorBase={this.isIndicatorBase}
-              showAddParticipantModal={() => this.showAddParticipantModal()}
+              showAddParticipantModal={() =>  this.props.formModalRef.current?.setBodyContent(this.getAddNewParticipantMain())}
               selectParticipant={(participant) => this.selectParticipant(participant)}
               participantModalRef={this.props.participantModalRef}
            />

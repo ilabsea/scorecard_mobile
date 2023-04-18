@@ -23,7 +23,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
 
   getDefaultIndicators = async () => {
     const defaultIndicators = await new IndicatorService().getIndicatorList(this.props.scorecardUuid, '', false)
-    return defaultIndicators.slice(0, 5)
+    return defaultIndicators.slice(0, 10)
   }
 
   onFocus = async () => {

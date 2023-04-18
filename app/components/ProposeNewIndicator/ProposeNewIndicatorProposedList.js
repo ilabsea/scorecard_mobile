@@ -9,7 +9,7 @@ import CustomIndicatorBottomSheet from '../CustomIndicatorBottomSheet/CustomIndi
 import Indicator from '../../models/Indicator';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
-import {customIndicatorModalSnapPoints, participantListModalSnapPoints} from '../../constants/modal_constant';
+import {customIndicatorModalSnapPoints, participantModalSnapPoints} from '../../constants/modal_constant';
 
 class ProposeNewIndicatorProposedList extends React.Component {
   static contextType = LocalizationContext;
@@ -26,7 +26,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
   editProposedIndicator = (indicator, indicatorableId, index) => {
     let indicatorParams = indicator
     indicatorParams['indicatorable_id'] = indicatorableId
-    this.props.bottomSheetRef.current?.setSnapPoints(participantListModalSnapPoints)
+    this.props.bottomSheetRef.current?.setSnapPoints(participantModalSnapPoints)
     const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: indicatorParams };
     proposedIndicatorHelper.showFormModal(this.props.bottomSheetRef, this.props.formModalRef, proposedIndicatorParams);
     this.listRef[index].close()

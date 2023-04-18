@@ -1,5 +1,5 @@
 const sort = (arr) => {
-  return arr.sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+  return arr.sort((a, b) => b.count - a.count);
 }
 
 const proposedIndicatorReducer = (state=[], action) => {
