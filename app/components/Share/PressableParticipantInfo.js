@@ -13,7 +13,7 @@ import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { isProposedIndicatorScreen } from '../../utils/screen_util';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 
-export default class ParticipantInfo extends Component {
+export default class PressableParticipantInfo extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 
 import {LocalizationContext} from '../Translations';
 import ProposedIndicatorInfoList from './ProposedIndicatorInfoList';
-
-import { connect } from 'react-redux';
+import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
@@ -59,7 +59,7 @@ class ListUser extends Component {
           </Text>
 
           <View style={{flexGrow: 1, alignItems: 'flex-end'}}>
-            <ParticipantInfo
+            <PressableParticipantInfo
               title={translations.proposeTheIndicator}
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }

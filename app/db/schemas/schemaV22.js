@@ -23,7 +23,7 @@ const changedSchemas = [
   { label: schemaNames[20], data: EndpointUrl }
 ];
 
-const schemaV20 = {
+const schemaV22 = {
   schema: schemaHelper.getSchemas(changedSchemas),
   schemaVersion: 22,
   migration: (oldRealm, newRealm) => {
@@ -39,4 +39,4 @@ const schemaV20 = {
   }
 }
 
-export default schemaV20;
+export default schemaV22;

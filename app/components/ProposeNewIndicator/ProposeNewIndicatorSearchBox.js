@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {Text} from 'react-native-paper';
 
-import {LocalizationContext} from '../../components/Translations';
+import {LocalizationContext} from '../Translations';
 import SearchBox from '../SearchBox/SearchBox';
 import ProposeNewIndicatorSearchResult from './ProposeNewIndicatorSearchResult';
 import Color from '../../themes/color';
@@ -18,7 +18,9 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       showResult: false,
       indicators: [],
       searchContainerHeight: 0,
+      hasTourtip: false
     }
+    this.isComponentUnmount = false;
   }
 
   getDefaultIndicators = async () => {
@@ -62,7 +64,6 @@ class ProposeNewIndicatorSearchBox extends React.Component {
               <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>{translations.proposeIndicatorInstruction}</Text>
             </View>
           </TouchableWithoutFeedback>
-
           <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
             inputContainerStyle={{backgroundColor: Color.whiteColor}}
             placeholder={translations.theIndicatorNameYouWantToPropose}

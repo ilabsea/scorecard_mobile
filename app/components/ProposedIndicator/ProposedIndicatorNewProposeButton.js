@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Text} from 'native-base';
 
 import {LocalizationContext} from '../Translations';
-import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -38,7 +38,7 @@ class ProposedIndicatorNewProposeButton extends Component {
 
         { raisedParticipants.length > 0 &&
           <View style={{flex: 1, alignItems: 'flex-end'}}>
-            <ParticipantInfo
+            <PressableParticipantInfo
               title={translations.proposeTheIndicator}
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }

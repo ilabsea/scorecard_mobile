@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
-import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import Participant from '../../models/Participant';
 
 class ProposeNewIndicatorParticipantInfo extends Component {
@@ -10,7 +10,7 @@ class ProposeNewIndicatorParticipantInfo extends Component {
   render() {
     return (
       <View style={[{paddingVertical: 10}, this.props.containerStyle]}>
-        <ParticipantInfo
+        <PressableParticipantInfo
           title={this.context.translations.proposeTheIndicator}
           participants={Participant.getNotRaised(this.props.scorecardUuid)}
           scorecardUuid={ this.props.scorecardUuid }

@@ -1,5 +1,5 @@
 export const environment = {
-  domain: 'http://192.168.1.138:3000',
+  domain: 'http://192.168.0.107:3000',
   type: 'development',
   defaultLanguage: 'km',
   removeScorecardDay: 90,
@@ -11,4 +11,4 @@ export const environment = {
   resetLockDuration: 900000,       // milliseconds (15 mins)
   resetCountDuration: 900000,     // milliseconds (15 mins)
   youtubeApiKey: '',
-};
+};g

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ScrollView } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import VotingIndicatorListItem from './VotingIndicatorListItem';
-import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import BottomButton from '../BottomButton';
 import Tip from '../Share/Tip';
 import { navigate } from '../../navigators/app_navigator';
@@ -47,7 +47,7 @@ class VotingIndicatorListContent extends React.Component {
         <View style={{flexDirection: 'row'}}>
           <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
 
-          <ParticipantInfo
+          <PressableParticipantInfo
             title={translations.addNewVoting}
             participants={ Participant.getUnvoted(this.props.scorecard.uuid) }
             scorecardUuid={ this.props.scorecard.uuid }
