@@ -14,11 +14,11 @@ import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {CUSTOM} from '../../constants/indicator_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import cardItemTabletStyles, {tabletLabelFontSize} from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
-import cardItemMobileStyles, {mobileLabelFontSize} from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
+import {bodyFontSize} from '../../utils/font_size_util';
+import cardItemTabletStyles from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
+import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
 
 const styles = getDeviceStyle(cardItemTabletStyles, cardItemMobileStyles);
-const cardLabelFontSize = getDeviceStyle(tabletLabelFontSize, mobileLabelFontSize)
 
 class ProposeNewIndicatorCardItem extends React.Component {
   static contextType = LocalizationContext;
@@ -35,7 +35,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
     const { translations } = this.context;
     const raisedParticipants = participantHelper.getRaisedParticipantByIndicator(this.props.scorecardUuid, this.props.indicatorableId);
     return <View style={styles.indicatorOutlinedLabelContainer}>
-              <TextHighlight textToHighlight={this.getIndicatorName()} searchWords={[this.props.searchedText]} fontSize={cardLabelFontSize} fontFamily={FontFamily.body} />
+              <TextHighlight textToHighlight={this.getIndicatorName()} searchWords={[this.props.searchedText]} fontSize={bodyFontSize()} fontFamily={FontFamily.body} numberOfLines={2} />
               { this.props.isIndicatorBase && <Text style={[styles.subLabel, {color: Color.lightGrayColor}]}>{translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)}</Text> }
            </View>
   }

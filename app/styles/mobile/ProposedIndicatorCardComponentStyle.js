@@ -29,20 +29,21 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
   indicatorBaseOutlinedCardContainer: {
     marginTop: 40,
-    height: 98,
+    height: 110,
     width: '100%',
     borderWidth: 1,
     borderColor: Color.lightGrayColor,
     elevation: 0
   },
   indicatorBaseSwipeableButton: {
-    height: 98,
+    height: 110,
     marginTop: 40,
-    width: 90,
+    width: 70,
   },
   participantBaseOutlinedCardContainer: {
     marginTop: 40,
-    height: 95,
+    minHeight: 90,
+    height: 90,
     width: '100%',
     borderWidth: 1,
     borderColor: Color.lightGrayColor,
@@ -59,7 +60,5 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     paddingTop: 14
   }
 });
-
-export const labelFontSize = getMobileFontSizeByPixelRatio(14.2, 14);
 
 export default ProposedIndicatorCardComponentStyles;

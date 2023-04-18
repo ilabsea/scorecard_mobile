@@ -55,6 +55,6 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
 });
 
-export const labelFontSize = bodyFontSize();
+export const tabletLabelFontSize = bodyFontSize();
 
 export default ProposedIndicatorCardComponentStyles;

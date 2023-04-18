@@ -7668,10 +7668,10 @@
   "resolved" "https://registry.npmjs.org/react-native-table-component/-/react-native-table-component-1.2.1.tgz"
   "version" "1.2.1"
 
-"react-native-text-highlighter@^1.0.3":
-  "integrity" "sha512-WtVsRIKB71IyLijBZskFna+FZn30YcBJTRzrBsg/g/8kS2nqweBc1aduC1G1TsqIVHlgoZCu8TpRO6/utn1hNw=="
-  "resolved" "https://registry.npmjs.org/react-native-text-highlighter/-/react-native-text-highlighter-1.0.3.tgz"
-  "version" "1.0.3"
+"react-native-text-highlighter@^1.0.4":
+  "integrity" "sha512-CnqTggmiG2p3QYmpzEWKME/Cnjed/nFCyLvN+GYTSur1eQFgAepZDhcr2wAi3ORNMw44RCL8oiqoJTJBcsFxdQ=="
+  "resolved" "https://registry.npmjs.org/react-native-text-highlighter/-/react-native-text-highlighter-1.0.4.tgz"
+  "version" "1.0.4"
   dependencies:
     "highlight-words-core" "^1.2.2"
 
