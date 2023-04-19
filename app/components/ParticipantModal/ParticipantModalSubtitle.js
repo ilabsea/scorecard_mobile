@@ -44,8 +44,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     if (props.isIndicatorBase && isCreateNewIndicatorScreen()) {
       return (
         <React.Fragment>
-          ({ translations.proposed }
-          { boldLabel(` ${props.raisedParticipantUuids.length}/${props.totalParticipant}`) }
+          ({ boldLabel(`${props.raisedParticipantUuids.length}/${props.totalParticipant}`) }
           { translations.pax }{ anonymousParticipant > 0 && renderAnonymous() }):
         </React.Fragment>
       )
@@ -67,7 +66,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 5}}>
       <View style={{flex: 1, paddingRight: 5}}>
         <Text style={{ fontSize: bodyFontSize(), textTransform: 'capitalize' }}>
-          {translations.selectParticipant + ' '} 
+          {`${props.isIndicatorBase ? translations.selectRaisedParticipant : translations.selectParticipant} `}
           { renderProposedParticipant() }
         </Text>
         <View style={{flexDirection: 'row', marginBottom: 10, flexWrap: 'wrap'}}>
