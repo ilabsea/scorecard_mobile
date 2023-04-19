@@ -133,7 +133,7 @@ const proposedIndicatorHelper = (() => {
           }
           else {
             participantModalRef.current?.dismiss();
-            navigate('CreateNewIndicator', { scorecard_uuid: proposedIndicatorParams.scorecardUuid, participant_uuid: participant.uuid });
+            navigate('ProposeNewIndicator', { scorecard_uuid: proposedIndicatorParams.scorecardUuid, participant_uuid: participant.uuid });
           }
         }}
       />

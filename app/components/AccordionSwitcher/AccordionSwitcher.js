@@ -22,7 +22,7 @@ class AccordionSwitcher extends Component {
 
   render() {
     return (
-      <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         { this.renderButton(responsiveStyles.btnLeft, ACCORDION_LEFT, this.props.leftLabel, this.props.numberOfLeftItem) }
         { this.renderButton(responsiveStyles.btnRight, ACCORDION_RIGHT, this.props.rightLabel, this.props.numberOfRightItem) }
       </View>

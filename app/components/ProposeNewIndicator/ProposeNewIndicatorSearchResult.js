@@ -44,22 +44,22 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <TouchableWithoutFeedback>
-          <View style={{maxHeight: getDeviceStyle(hp('65%'), hp('60%')), backgroundColor: Color.whiteColor, borderRadius: 10, position: 'absolute', zIndex: 2, width: '100%', left: containerPadding + 1, top: this.props.searchContainerHeight + 15}}>
-            <ScrollView contentContainerStyle={{paddingBottom: 30, paddingTop: 0, paddingHorizontal: 16}}>
+        <View style={{maxHeight: getDeviceStyle(hp('65%'), hp('60%')), backgroundColor: Color.whiteColor, borderRadius: 10, position: 'absolute', zIndex: 2, width: '100%', left: containerPadding + 1, top: this.props.searchContainerHeight + 15}}>
+          <ScrollView contentContainerStyle={{paddingBottom: 30, paddingTop: 0, paddingHorizontal: 16}}>
+            <TouchableWithoutFeedback>
               <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}
                 onPressItem={(indicator) => this.startProposeIndicator(indicator, false)}
                 isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
                 playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
               />
-            </ScrollView>
-            {(!!this.props.searchedText && this.state.showAddNewButton) &&
-              <ProposeNewIndicatorAddNewButton scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
-                startProposeIndicator={(customIndicator) => this.startProposeIndicator(customIndicator, true)}
-              />
-            }
-          </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+          </ScrollView>
+          {(!!this.props.searchedText && this.state.showAddNewButton) &&
+            <ProposeNewIndicatorAddNewButton scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
+              startProposeIndicator={(customIndicator) => this.startProposeIndicator(customIndicator, true)}
+            />
+          }
+        </View>
         <TouchableWithoutFeedback onPress={() => this.props.closeSearch()}>
           <View style={{position: 'absolute', height: hp('100%'), width: wp('100%'), backgroundColor: 'rgba(0,0,0,0.7)', zIndex: -1}} />
         </TouchableWithoutFeedback>

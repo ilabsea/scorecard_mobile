@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {Text} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {LocalizationContext} from '../Translations';
 import SearchBox from '../SearchBox/SearchBox';
 import ProposeNewIndicatorSearchResult from './ProposeNewIndicatorSearchResult';
-import InstructionModal from '../InstructionModal';
+import ProposeNewIndicatorInstructionModal from './ProposeNewIndicatorInstructionModal';
 import Color from '../../themes/color';
 import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
-import {
-  getProposeNewIndicatorInstructionImage,
-} from '../../utils/scorecard_instruction_util';
+
+const PROPOSE_TOOLTIP = 'PROPOSE_TOOLTIP'
 
 class ProposeNewIndicatorSearchBox extends React.Component {
   static contextType = LocalizationContext;
@@ -22,13 +22,20 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       showResult: false,
       indicators: [],
       searchContainerHeight: 0,
-      tipVisible: false,
+      instructionVisible: false,
     }
     this.isComponentUnmount = false;
   }
 
   componentDidMount() {
-    this.setState({tipVisible: true})
+    setTimeout(async () => {
+      if (!this.isComponentUnmount && !await AsyncStorage.getItem(PROPOSE_TOOLTIP))
+        this.setState({instructionVisible: true})
+    }, 200);
+  }
+
+  componentWillUnmount() {
+    this.isComponentUnmounted = true;
   }
 
   getDefaultIndicators = async () => {
@@ -62,24 +69,33 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     this.props.updatePlayingUuid(null)
   }
 
-  render() {
+  onInstructionDismiss = () => {
+    AsyncStorage.setItem(PROPOSE_TOOLTIP, 'true');
+    this.setState({instructionVisible: false})
+  }
+
+  renderSearchBox = () => {
     const {translations} = this.context
+    return <View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height })}>
+              <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
+                <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
+                  <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>{translations.proposeIndicatorInstruction}</Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
+                inputContainerStyle={{backgroundColor: Color.whiteColor}}
+                placeholder={translations.theIndicatorNameYouWantToPropose}
+                onChangeText={(text) => this.onChangeText(text)}
+                onClearSearch={() => this.setState({searchedText: ''})}
+                onFocus={() => this.onFocus()}
+              />
+           </View>
+  }
+
+  render() {
     return (
       <React.Fragment>
-        <View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height })}>
-          <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
-            <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
-              <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>{translations.proposeIndicatorInstruction}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
-            inputContainerStyle={{backgroundColor: Color.whiteColor}}
-            placeholder={translations.theIndicatorNameYouWantToPropose}
-            onChangeText={(text) => this.onChangeText(text)}
-            onClearSearch={() => this.setState({searchedText: ''})}
-            onFocus={() => this.onFocus()}
-          />
-        </View>
+        { this.renderSearchBox() }
         { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
                                       closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef}
                                       isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
@@ -87,16 +103,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
                                       playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
                                    />
         }
-
-        <InstructionModal
-          visible={this.state.tipVisible}
-          onDismiss={() => this.setState({tipVisible: false})}
-          imageStyle={{width: '100%', marginTop: -20}}
-          imageSource={getProposeNewIndicatorInstructionImage()}
-
-          customCloseButtonContainerStyle={{width: 80, alignSelf: 'center', marginTop: 10}}
-          closeButtonLabelStyle={{textAlign: 'center'}}
-        />
+        <ProposeNewIndicatorInstructionModal visible={this.state.instructionVisible} isIndicatorBase={this.props.isIndicatorBase} onDismiss={() => this.onInstructionDismiss()}/>
       </React.Fragment>
     )
   }

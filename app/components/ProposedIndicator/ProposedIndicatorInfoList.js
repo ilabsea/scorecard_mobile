@@ -54,7 +54,7 @@ class ProposedIndicatorInfoList extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={{height: '100%', paddingTop: hp('10%')}}>
+      <View style={{height: '100%', paddingTop: hp('2%')}}>
         <EmptyListAction
           title={translations.pleaseProposeIndicator}
           buttonLabel={translations.proposeNewIndicator}
