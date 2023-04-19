@@ -38,7 +38,7 @@ class ProposedIndicatorRaisedIndicatorList extends React.Component {
   }
 
   render() {
-    return <View style={{marginTop: 6}}>{this.renderIndicatorList()}</View>
+    return <View style={{marginTop: 6, zIndex: 0}}>{this.renderIndicatorList()}</View>
   }
 }
 

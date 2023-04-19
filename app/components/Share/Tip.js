@@ -34,7 +34,7 @@ export default class Tip extends Component {
     const { translations } = this.context;
 
     return (
-      <View>
+      <View style={this.props.containerStyle}>
         <TouchableRipple
           onPress={() => this.props.showTipModal()}
           style={[customStyle.card, {marginBottom: 16, borderRadius: cardBorderRadius}]}>

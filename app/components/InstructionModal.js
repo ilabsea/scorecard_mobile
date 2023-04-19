@@ -17,7 +17,7 @@ class InstructionModal extends React.Component {
       <View style={styles.buttonContainer}>
         <View style={[styles.closeButtonContainer, this.props.customCloseButtonContainerStyle]}>
           <TouchableOpacity onPress={() => this.props.onDismiss()} style={styles.closeButton}>
-            <Text style={styles.closeButtonLabel}>{ this.context.translations.infoCloseLabel }</Text>
+            <Text style={[styles.closeButtonLabel, this.props.closeButtonLabelStyle]}>{ this.context.translations.infoCloseLabel }</Text>
           </TouchableOpacity>
         </View>
       </View>

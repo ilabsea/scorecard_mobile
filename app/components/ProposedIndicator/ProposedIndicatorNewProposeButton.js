@@ -28,7 +28,7 @@ class ProposedIndicatorNewProposeButton extends Component {
 
   render() {
     const {translations} = this.context;
-    const raisedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
+    const raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
     return (
       <View style={styles.addNewButtonContainer}>
         <Text style={[styles.headingTitle, {flex: 1}]}>

@@ -5,9 +5,13 @@ import {Text} from 'react-native-paper';
 import {LocalizationContext} from '../Translations';
 import SearchBox from '../SearchBox/SearchBox';
 import ProposeNewIndicatorSearchResult from './ProposeNewIndicatorSearchResult';
+import InstructionModal from '../InstructionModal';
 import Color from '../../themes/color';
 import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
+import {
+  getProposeNewIndicatorInstructionImage,
+} from '../../utils/scorecard_instruction_util';
 
 class ProposeNewIndicatorSearchBox extends React.Component {
   static contextType = LocalizationContext;
@@ -18,9 +22,13 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       showResult: false,
       indicators: [],
       searchContainerHeight: 0,
-      hasTourtip: false
+      tipVisible: false,
     }
     this.isComponentUnmount = false;
+  }
+
+  componentDidMount() {
+    this.setState({tipVisible: true})
   }
 
   getDefaultIndicators = async () => {
@@ -79,6 +87,16 @@ class ProposeNewIndicatorSearchBox extends React.Component {
                                       playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
                                    />
         }
+
+        <InstructionModal
+          visible={this.state.tipVisible}
+          onDismiss={() => this.setState({tipVisible: false})}
+          imageStyle={{width: '100%', marginTop: -20}}
+          imageSource={getProposeNewIndicatorInstructionImage()}
+
+          customCloseButtonContainerStyle={{width: 80, alignSelf: 'center', marginTop: 10}}
+          closeButtonLabelStyle={{textAlign: 'center'}}
+        />
       </React.Fragment>
     )
   }

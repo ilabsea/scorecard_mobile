@@ -36,3 +36,7 @@ export const getIndicatorDevelopmentInstructionModalMarginTop = (headerHeight) =
 
   return headerHeight + extraMargin;
 }
+
+export const getProposeNewIndicatorInstructionImage = () => {
+  return require('../assets/images/tablet_proposed_indicator_based.gif')
+}

@@ -78,12 +78,12 @@ class ProposedIndicatorContent extends Component {
       <View style={{flexGrow: 1}}>
         <ProposedIndicatorNavHeader scrollY={this.scrollY} showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()}/>
         <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
-          <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 16, flexGrow: 1}}
+          <ScrollView contentContainerStyle={{paddingVertical: containerPadding, paddingBottom: 16, flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                      { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}
             stickyHeaderIndices={[1]}
           >
-            <Tip screenName='ProposedIndicator' showTipModal={() => this.props.tipModalRef.current?.present()} />
+            <Tip screenName='ProposedIndicator' showTipModal={() => this.props.tipModalRef.current?.present()} containerStyle={{marginHorizontal: containerPadding}} />
             {this.renderAddNewBtn()}
             <ListUser
               scorecardUuid={this.props.scorecardUuid}
