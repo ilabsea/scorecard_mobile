@@ -6,10 +6,9 @@ import {connect} from 'react-redux';
 
 import { LocalizationContext } from '../Translations';
 import ProposedIndicatorRaisedIndicatorBottomSheet from './ProposedIndicatorRaisedIndicatorBottomSheet';
+import ProposedIndicatorConfirmDeleteModal from './ProposedIndicatorConfirmDeleteModal';
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 import SwipeLeftButton from '../Share/SwipeLeftButton';
-import BoldLabel from '../Share/BoldLabel';
-import CustomAlertMessage from '../Share/CustomAlertMessage';
 import Color from '../../themes/color';
 import Participant from '../../models/Participant';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -94,19 +93,11 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
   }
 
   render() {
-    const {translations} = this.context;
-    const participantNumber = <BoldLabel label={!!this.state.selectedParticipant ? this.state.selectedParticipant.order + 1 : ''} />
-
     return <View style={{marginTop: 12}}>
               {this.renderParticipantList()}
-              <CustomAlertMessage
+              <ProposedIndicatorConfirmDeleteModal
                 visible={this.state.visibleModal}
-                title={translations.deleteTheProposedIndicators}
-                description={translations.formatString(translations.doYouWantToDeleteTheProposedIndicatorsOfThisParticipant, participantNumber)}
-                closeButtonLabel={translations.close}
-                hasConfirmButton={true}
-                confirmButtonLabel={translations.ok}
-                isConfirmButtonDisabled={false}
+                participant={this.state.selectedParticipant}
                 onDismiss={() => this.setState({visibleModal: false, selectedParticipant: null})}
                 onConfirm={() => this.confirmDelete()}
               />

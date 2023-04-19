@@ -18,12 +18,12 @@ export default class ParticipantModalListItem extends Component {
         <ParticipantListItemInfo
           participant={this.props.participant}
           onPress={() => this.onPress(this.props.participant)}
-          containerStyle={styles.participantItem}
+          containerStyle={[styles.participantItem, this.props.containerStyle]}
           rightIcon={this.props.rightIcon}
           hasArrowIcon={this.props.hasArrowIcon}
           anonymousStyle={{marginRight: 0}}
         />
-        <Divider />
+        { !this.props.hideDivider && <Divider /> }
       </React.Fragment>
     );
   }
