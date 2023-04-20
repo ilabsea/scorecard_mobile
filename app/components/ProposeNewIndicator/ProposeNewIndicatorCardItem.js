@@ -88,6 +88,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
             buttonStyle={{position: 'absolute', top: -26, left: 0, backgroundColor: 'white', elevation: 2, zIndex: 5}}
             useSmallIcon={true}
+            isPlayIcon={true}
           />
           {this.renderCardLabel()}
           { this.props.indicatorType == CUSTOM && this.renderNewBadge() }

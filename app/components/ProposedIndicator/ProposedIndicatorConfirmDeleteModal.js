@@ -21,7 +21,7 @@ class ProposedIndicatorConfirmDeleteModal extends React.Component {
         onConfirm={() => this.props.onConfirm()}
       >
         <CustomAlertMessageMain description={translations.doYouWantToDeleteTheProposedIndicatorsOfThisParticipant} customStyle={{marginBottom: 0}} />
-        { !!this.props.participant && <ParticipantModalListItem participant={this.props.participant} hasArrowIcon={false} hideDivider={true} containerStyle={{marginBottom: -10}} /> }
+        { !!this.props.participant && <ParticipantModalListItem participant={this.props.participant} hasArrowIcon={false} hideDivider={true} containerStyle={{marginBottom: -10, paddingHorizontal: 10}} />}
       </CustomAlertMessage>
     )
   }
