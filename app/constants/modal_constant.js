@@ -48,3 +48,6 @@ export const anonymousParticipantDetailContentHeight = getDeviceStyle('49%', isS
 
 export const customIndicatorModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['70%'] :['70%']);
 export const customIndicatorModalContentHeight = getDeviceStyle('68%', isShortWidthScreen() ? '67%' :'68%');
+
+export const proposedInfoModaSnapPoints = getDeviceStyle(['52.5%', '82.5%'], ['55%', '90%']);
+export const proposedInfoModaContentHeight = getDeviceStyle('50%', '53%');

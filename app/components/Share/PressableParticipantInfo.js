@@ -82,6 +82,8 @@ export default class PressableParticipantInfo extends Component {
           icon={mode.iconName || 'plus'}
           label={mode.label}
           onPress={() => this.openParticipantListModal()}
+          buttonStyle={this.props.buttonStyle}
+          labelStyle={this.props.buttonLabelStyle}
         />
       </View>
       :

@@ -7,6 +7,7 @@ import {LocalizationContext} from '../Translations';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import participantHelper from '../../helpers/participant_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import {proposedInfoModaSnapPoints} from '../../constants/modal_constant';
 
 import cardItemTabletStyles from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
 import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
@@ -16,6 +17,7 @@ const styles = getDeviceStyle(cardItemTabletStyles, cardItemMobileStyles);
 class ProposedIndicatorRaisedIndicatorList extends React.Component {
   static contextType = LocalizationContext;
   showRaisedParticipant = (indicator) => {
+    this.props.formModalRef.current?.setSnapPoints(proposedInfoModaSnapPoints)
     this.props.formModalRef.current?.setBodyContent(<ProposedIndicatorRaisedParticipantBottomSheet indicator={indicator} scorecardUuid={this.props.scorecardUuid}/>)
     this.props.participantModalRef.current?.present();
   }

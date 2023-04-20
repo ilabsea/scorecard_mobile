@@ -16,6 +16,7 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import {navigationRef} from '../../navigators/app_navigator';
 import {saveParticipant} from '../../actions/participantAction';
+import {proposedInfoModaSnapPoints} from '../../constants/modal_constant';
 import cardItemTabletStyles from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
 import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
 
@@ -34,6 +35,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
   }
 
   showRaisedParticipant = (participant) => {
+    this.props.formModalRef.current?.setSnapPoints(proposedInfoModaSnapPoints)
     this.props.formModalRef.current?.setBodyContent(<ProposedIndicatorRaisedIndicatorBottomSheet participant={participant} scorecardUuid={this.props.scorecardUuid}/>)
     this.props.participantModalRef.current?.present();
   }
