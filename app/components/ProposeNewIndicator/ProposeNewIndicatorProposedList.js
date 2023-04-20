@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
@@ -10,14 +10,13 @@ import Indicator from '../../models/Indicator';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import {customIndicatorModalSnapPoints, participantModalSnapPoints} from '../../constants/modal_constant';
+import {getDeviceStyle} from '../../utils/responsive_util';
 
 class ProposeNewIndicatorProposedList extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props)
-    this.state = {
-      visibleModal: false,
-    }
+    this.state = { visibleModal: false }
     this.selectedIndicatorableId = null;
     this.listRef = []
     this.prevOpenedRow = null;
@@ -95,26 +94,25 @@ class ProposeNewIndicatorProposedList extends React.Component {
 
   render() {
     const {translations} = this.context
-
-    if (this.props.proposedIndicators.length == 0)
-      return <EmptyListAction title={translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -2, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
-
     return (
-      <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          {this.renderList()}
-        </ScrollView>
-        <CustomAlertMessage
-          visible={this.state.visibleModal}
-          title={translations.deleteTheProposedIndicators}
-          description={translations.doYouWantToDeleteThisProposedIndicator}
-          closeButtonLabel={translations.close}
-          hasConfirmButton={true}
-          confirmButtonLabel={translations.ok}
-          isConfirmButtonDisabled={false}
-          onDismiss={() => this.setState({visibleModal: false, selectedParticipant: null})}
-          onConfirm={() => this.confirmDelete()}
-        />
+      <View style={{flex: 1, marginTop: this.props.isIndicatorBase ? getDeviceStyle(110, 100) : getDeviceStyle(195, 170)}}>
+        { this.props.proposedIndicators.length == 0 ? <EmptyListAction title={translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -2, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
+          :
+          <React.Fragment>
+            {this.renderList()}
+            <CustomAlertMessage
+              visible={this.state.visibleModal}
+              title={translations.deleteTheProposedIndicators}
+              description={translations.doYouWantToDeleteThisProposedIndicator}
+              closeButtonLabel={translations.close}
+              hasConfirmButton={true}
+              confirmButtonLabel={translations.ok}
+              isConfirmButtonDisabled={false}
+              onDismiss={() => this.setState({visibleModal: false, selectedParticipant: null})}
+              onConfirm={() => this.confirmDelete()}
+            />
+          </React.Fragment>
+        }
       </View>
     )
   }

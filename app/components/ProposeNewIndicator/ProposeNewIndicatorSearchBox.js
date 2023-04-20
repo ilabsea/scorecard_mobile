@@ -1,15 +1,20 @@
 import React from 'react';
-import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Animated, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {Text} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import SearchBox from '../SearchBox/SearchBox';
 import ProposeNewIndicatorSearchResult from './ProposeNewIndicatorSearchResult';
 import ProposeNewIndicatorInstructionModal from './ProposeNewIndicatorInstructionModal';
+import ProposeNewIndicatorParticipantInfo from './ProposeNewIndicatorParticipantInfo';
+import BoldLabel from '../Share/BoldLabel';
 import Color from '../../themes/color';
 import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
+import { containerPadding } from '../../utils/responsive_util';
+import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
 
 const PROPOSE_TOOLTIP = 'PROPOSE_TOOLTIP'
 
@@ -56,9 +61,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   }
 
   onChangeText = (text) => {
-    this.setState({
-      searchedText: text,
-    }, () => {
+    this.setState({ searchedText: text}, () => {
       this.findIndicator(text)
     })
   }
@@ -74,36 +77,58 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     this.setState({instructionVisible: false})
   }
 
+  renderParticipantInfo = () => {
+    return <ProposeNewIndicatorParticipantInfo
+              scorecardUuid={this.props.scorecardUuid}
+              participantUuid={this.props.participantUuid}
+              updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
+              bottomSheetRef={this.props.bottomSheetRef}
+              formModalRef={this.props.formModalRef}
+              isEdit={this.props.isEdit}
+           />
+  }
+
   renderSearchBox = () => {
-    const {translations} = this.context
-    return <View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height })}>
-              <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
-                <View style={{backgroundColor: Color.whiteColor, padding: 8, borderRadius: 10}}>
-                  <Text style={{fontSize: bodyFontSize(), color: Color.lightBlackColor}}>{translations.proposeIndicatorInstruction}</Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent', marginTop: 12}}
-                inputContainerStyle={{backgroundColor: Color.whiteColor}}
+    const {translations, appLanguage} = this.context
+    const marginTop = this.props.scrollY.interpolate({
+      inputRange: [0, 40, 60, 80],
+      outputRange: proposedIndicatorStyleHelper.getSearchBoxMarginTop(appLanguage),
+      extrapolate: 'clamp',
+    })
+    return <Animated.View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height + 80 })} style={{marginTop: marginTop, backgroundColor: Color.defaultBgColor, borderRadius: 10, zIndex: 0}}>
+              <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent'}}
+                inputContainerStyle={{backgroundColor: Color.whiteColor, marginTop: -5, marginLeft: -1}}
                 placeholder={translations.theIndicatorNameYouWantToPropose}
                 onChangeText={(text) => this.onChangeText(text)}
                 onClearSearch={() => this.setState({searchedText: ''})}
                 onFocus={() => this.onFocus()}
               />
-           </View>
+              { !this.props.isIndicatorBase && this.renderParticipantInfo() }
+              <BoldLabel label={`${translations.proposedIndicator}: ${this.props.proposedIndicators}`} customStyle={{marginTop: 10, marginBottom: 12, zIndex: -2}} />
+           </Animated.View>
   }
 
   render() {
     return (
       <React.Fragment>
-        { this.renderSearchBox() }
-        { this.state.showResult && <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
-                                      closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef}
-                                      isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
-                                      updateProposedIndicator={this.props.updateProposedIndicator}
-                                      playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
-                                   />
-        }
-        <ProposeNewIndicatorInstructionModal visible={this.state.instructionVisible} isIndicatorBase={this.props.isIndicatorBase} onDismiss={() => this.onInstructionDismiss()}/>
+        <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
+          <View style={{backgroundColor: 'white', padding: 8, borderRadius: 10, zIndex: 0}}>
+            <Text style={{fontSize: bodyFontSize(), color: 'black'}}>{this.context.translations.proposeIndicatorInstruction}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={{position: 'absolute', width: wp('100%'), height: '100%', paddingHorizontal: containerPadding}}>
+          { this.renderSearchBox() }
+          { this.state.showResult &&
+            <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
+              closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef}
+              isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
+              updateProposedIndicator={this.props.updateProposedIndicator}
+              playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
+              scrollY={this.props.scrollY}
+            />
+          }
+          <ProposeNewIndicatorInstructionModal visible={this.state.instructionVisible} isIndicatorBase={this.props.isIndicatorBase} onDismiss={() => this.onInstructionDismiss()}/>
+        </View>
       </React.Fragment>
     )
   }

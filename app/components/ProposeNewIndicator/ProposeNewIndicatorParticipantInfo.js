@@ -4,12 +4,13 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import Participant from '../../models/Participant';
+import {getDeviceStyle} from '../../utils/responsive_util';
 
 class ProposeNewIndicatorParticipantInfo extends Component {
   static contextType = LocalizationContext;
   render() {
     return (
-      <View style={[{paddingVertical: 10}, this.props.containerStyle]}>
+      <View style={[{paddingVertical: getDeviceStyle(10, 2)}, this.props.containerStyle]}>
         <PressableParticipantInfo
           title={this.context.translations.proposeTheIndicator}
           participants={Participant.getNotRaised(this.props.scorecardUuid)}
