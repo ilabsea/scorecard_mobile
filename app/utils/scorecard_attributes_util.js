@@ -1,5 +1,6 @@
 import Moment from 'moment';
 import DeviceInfo from 'react-native-device-info'
+import VersionCheck from 'react-native-version-check';
 import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
 import { getNestedAttributes } from './scorecard_nested_attributes_util';
@@ -26,7 +27,8 @@ export const scorecardAttributes = async (scorecard) => {
     running_date: scorecard.running_date ? scorecard.running_date : null,
     device_type: DeviceInfo.isTablet() ? 'tablet' : 'mobile',
     device_token: await MobileTokenService.getToken(),
-    proposed_indicator_method: scorecard.proposed_indicator_method
+    proposed_indicator_method: scorecard.proposed_indicator_method,
+    app_version: VersionCheck.getCurrentBuildNumber()
   };
 
   scorecardAttributes = {...scorecardAttributes, ...getNestedAttributes(scorecard)};
