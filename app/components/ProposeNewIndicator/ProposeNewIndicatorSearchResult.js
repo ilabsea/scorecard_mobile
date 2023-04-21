@@ -44,13 +44,11 @@ class ProposeNewIndicatorSearchResult extends React.Component {
 
   renderIndicators = () => {
     return <ScrollView contentContainerStyle={{paddingBottom: 30, paddingTop: 0, paddingHorizontal: 16}}>
-              <TouchableWithoutFeedback>
-                <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}
-                  onPressItem={(indicator) => this.startProposeIndicator(indicator, false)}
-                  isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
-                  playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
-                />
-              </TouchableWithoutFeedback>
+              <ProposeNewIndicatorSearchResultCardList scorecardUuid={this.props.scorecardUuid} searchedText={this.props.searchedText} indicators={this.props.indicators}
+                onPressItem={(indicator) => this.startProposeIndicator(indicator, false)}
+                isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
+                playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
+              />
            </ScrollView>
   }
 
