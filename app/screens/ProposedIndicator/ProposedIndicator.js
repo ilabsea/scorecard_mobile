@@ -58,6 +58,7 @@ class ProposedIndicator extends Component {
           participantModalRef={this.participantModalRef}
           formModalRef={this.formModalRef}
           updateModalVisible={(status) => this.setState({ visibleModal: status })}
+          isIndicatorBase={this.props.route.params.isIndicatorBase}
         />
         <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}

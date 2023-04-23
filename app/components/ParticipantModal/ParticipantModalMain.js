@@ -66,7 +66,7 @@ class ParticipantModalMain extends React.Component {
 
   handleToggleParticipantOnParticipantBase(participantUuid) {
     this.props.participantModalRef.current?.dismiss();
-    navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participantUuid});
+    navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participantUuid});
   }
 
   handleToggleParticipantOnIndicatorBase(participantUuid) {
@@ -111,6 +111,7 @@ class ParticipantModalMain extends React.Component {
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
           <ParticipantModalSubtitle
+            raisedParticipantUuids={this.state.raisedParticipantUuids}
             raisedParticipant={this.state.raisedParticipantUuids.length}
             totalParticipant={this.participants.length}
             showAddParticipantModal={() => this.props.showAddParticipantModal()}

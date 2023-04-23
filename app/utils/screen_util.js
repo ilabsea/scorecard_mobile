@@ -5,7 +5,7 @@ const isProposedIndicatorScreen = () => {
 }
 
 const isCreateNewIndicatorScreen = () => {
-  return navigationRef.current?.getCurrentRoute().name === 'CreateNewIndicator';
+  return navigationRef.current?.getCurrentRoute().name === 'ProposeNewIndicator';
 }
 
 const isVotingScreen = () => {

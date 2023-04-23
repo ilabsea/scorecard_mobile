@@ -40,6 +40,20 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  raisedNumberContainer: {
+    alignItems: 'center',
+    backgroundColor: Color.grayColor,
+    borderRadius: 24,
+    justifyContent: 'center',
+    marginRight: 5,
+    height: 26,
+    width: 26,
+  },
+  raisedNumberLabel: {
+    color: Color.whiteColor,
+    fontSize: smallTextFontSize(),
+    marginLeft: -1
   }
 });
 

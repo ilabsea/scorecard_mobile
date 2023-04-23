@@ -13,6 +13,7 @@ const ProposedIndicator = (() => {
     findByIndicator,
     getAllDistinctTag,
     getAllDistinct,
+    getAllDistinctByParticipant,
     destroy,
     getLastOrderNumberOfParticipant,
     getLastOrderNumberOfIndicator,
@@ -21,6 +22,9 @@ const ProposedIndicator = (() => {
     getUnconfirmedProposedIndicators,
     hasAnonymousProposed,
     getNumberAnonymousProposeByIndicator,
+    deleteByParticipant,
+    deleteByIndicator,
+    deleteByIndicatorByParticipant,
   };
 
   function find(scorecardUuid, participantUuid) {
@@ -52,7 +56,7 @@ const ProposedIndicator = (() => {
   }
 
   function findByIndicator(scorecardUuid, indicatorableId) {
-    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`);
+    return realm.objects(MODEL).filtered(`scorecard_uuid = '${scorecardUuid}' AND indicatorable_id = '${indicatorableId}'`).sorted('order', false);
   }
 
   function getAllDistinctTag(scorecardUuid) {
@@ -61,6 +65,10 @@ const ProposedIndicator = (() => {
 
   function getAllDistinct(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' DISTINCT(indicatorable_id, indicatorable_type) SORT(indicatorable_name ASC)`);
+  }
+
+  function getAllDistinctByParticipant(scorecardUuid, participantUuid) {
+    return realm.objects(MODEL).filtered(`scorecard_uuid='${scorecardUuid}' AND participant_uuid='${participantUuid}' DISTINCT(indicatorable_id, indicatorable_type) SORT(indicatorable_name ASC)`);
   }
 
   function destroy(proposedIndicator) {
@@ -114,6 +122,26 @@ const ProposedIndicator = (() => {
       Participant.isAnonymous(proposedIndicator.participant_uuid) && anonymousCount++;
     });
     return anonymousCount;
+  }
+
+  function deleteByParticipant(scorecardUuid, participantUuid) {
+    const proposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }'`);
+
+    if (proposedIndicators.length > 0){
+      destroy(proposedIndicators);
+      Participant.update(participantUuid, { raised: false })
+    }
+  }
+
+  function deleteByIndicator(scorecardUuid, indicatorableId) {
+    const proposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorableId }'`);
+    if (proposedIndicators.length > 0)
+      destroy(proposedIndicators)
+  }
+
+  function deleteByIndicatorByParticipant(scorecardUuid, indicatorableId, participantUuid) {
+    const proposedIndicator = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorableId }' AND participant_uuid = '${participantUuid}'`)[0];
+    !!proposedIndicator && destroy(proposedIndicator)
   }
 })();
 

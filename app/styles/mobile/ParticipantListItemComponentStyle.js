@@ -5,7 +5,7 @@ import { pressableItemSize } from '../../utils/component_util';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { cardItemPadding } from '../../utils/responsive_util';
 
-const PrarticipantListItemComponentStyles = StyleSheet.create({
+const ParticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
     marginBottom: 14,
     minHeight: pressableItemSize(20),
@@ -40,7 +40,21 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'
+  },
+  raisedNumberContainer: {
+    alignItems: 'center',
+    backgroundColor: Color.grayColor,
+    borderRadius: 24,
+    justifyContent: 'center',
+    marginRight: 5,
+    height: 21,
+    width: 21,
+  },
+  raisedNumberLabel: {
+    color: Color.whiteColor,
+    fontSize: 11,
+    marginLeft: -1
   }
 });
 
-export default PrarticipantListItemComponentStyles;
+export default ParticipantListItemComponentStyles;

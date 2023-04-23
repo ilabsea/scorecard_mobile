@@ -4472,6 +4472,11 @@
   dependencies:
     "source-map" "^0.7.3"
 
+"highlight-words-core@^1.2.2":
+  "integrity" "sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg=="
+  "resolved" "https://registry.npmjs.org/highlight-words-core/-/highlight-words-core-1.2.2.tgz"
+  "version" "1.2.2"
+
 "hoist-non-react-statics@^1.0.5":
   "integrity" "sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs="
   "resolved" "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz"
@@ -7473,10 +7478,15 @@
   dependencies:
     "prop-types" "^15.7.2"
 
-"react-native-audio-player-button@^1.0.2":
-  "integrity" "sha512-QWZOeXWjW5OHYLxLM/IMUgRDkVrQEbhg7C4+CFRvYOEDhOCCdG7a7idKT49MBabRgNp0n6BA5YaJnDEmbtrMQg=="
-  "resolved" "https://registry.npmjs.org/react-native-audio-player-button/-/react-native-audio-player-button-1.0.2.tgz"
-  "version" "1.0.2"
+"react-native-audio-card-view@^1.0.6":
+  "integrity" "sha512-2npm2SzlXSS0iopC8Y4XuTs9q3trABf+JUa2WTvNxvKjqc90UNXW5EE+H8DFiYl02jclZHyIDZHG4bVGkiL6XQ=="
+  "resolved" "https://registry.npmjs.org/react-native-audio-card-view/-/react-native-audio-card-view-1.0.6.tgz"
+  "version" "1.0.6"
+
+"react-native-audio-player-button@^1.0.6":
+  "integrity" "sha512-ZjT0Q0dnqTcOmgqxmW/vbC1CM0BHSJq7wD/OUlYTcxSu/jtbuPVPJuYJBCbNaj97RauS6xuqAv8aEe/5/DGxwA=="
+  "resolved" "https://registry.npmjs.org/react-native-audio-player-button/-/react-native-audio-player-button-1.0.6.tgz"
+  "version" "1.0.6"
 
 "react-native-copilot@^2.5.1":
   "integrity" "sha512-THo7rFV35Ffnwz+2vS01H8PXUXc5IAk+CLD5Rd3kWTNla+cBww8hhxKxJc8pJF7xj+o8NZqCDPy+R6LjtFuBLQ=="
@@ -7667,6 +7677,13 @@
   "integrity" "sha512-sapwO0bONfQtpWg3GVMwP5D3lGEJlxPB3c7fb0soXBynvCa+SBktacVZ9OmYJnIbRJ3uW5pS4tzNc8GmE+UScw=="
   "resolved" "https://registry.npmjs.org/react-native-table-component/-/react-native-table-component-1.2.1.tgz"
   "version" "1.2.1"
+
+"react-native-text-highlighter@^1.0.4":
+  "integrity" "sha512-CnqTggmiG2p3QYmpzEWKME/Cnjed/nFCyLvN+GYTSur1eQFgAepZDhcr2wAi3ORNMw44RCL8oiqoJTJBcsFxdQ=="
+  "resolved" "https://registry.npmjs.org/react-native-text-highlighter/-/react-native-text-highlighter-1.0.4.tgz"
+  "version" "1.0.4"
+  dependencies:
+    "highlight-words-core" "^1.2.2"
 
 "react-native-vector-icons@^7.0.0", "react-native-vector-icons@^7.1.0":
   "integrity" "sha512-V2a1zJ4i+kS8O4j183gIwX14St9AxxXabxwYpFBgRhvr2NDXyFcjHDEAgrOYYlt2W57e20aN1tBDU/I+wn9WtQ=="

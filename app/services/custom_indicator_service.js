@@ -15,7 +15,7 @@ const customIndicatorService = (() => {
     isIndicatorAudioChanged,
   }
 
-  function createNewIndicator(scorecardUuid, indicator, participantUuid, callback) {
+  function createNewIndicator(scorecardUuid, indicator, callback) {
     const generatedUuid = uuidv4();
     const scorecard = Scorecard.find(scorecardUuid);
 
@@ -37,11 +37,7 @@ const customIndicatorService = (() => {
       LanguageIndicator.create(_getLanguageCustomIndicatorParams(indicator, scorecard, 'text', customIndicator));
 
     customIndicator['indicatorable_id'] = customIndicator.uuid;
-
-    if (!!participantUuid)
-      proposedIndicatorService.create(scorecardUuid, customIndicator, participantUuid);
-
-    callback(customIndicator);
+    !!callback && callback(customIndicator);
   }
 
   function updateIndicator(customIndicatorUuid, newIndicator, scorecardUuid, previousAudio) {

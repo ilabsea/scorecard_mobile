@@ -18,10 +18,10 @@ class SearchBox extends React.Component {
 
     return (
       <View style={[styles.container, this.props.containerStyle]}>
-        <Item rounded style={styles.inputContainer}>
+        <Item rounded style={[styles.inputContainer, this.props.inputContainerStyle]}>
           <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
           <Input
-            placeholder={ translations.searchLocation }
+            placeholder={ this.props.placeholder || translations.searchLocation }
             value={this.props.value}
             clearButtonMode='always'
             style={styles.searchInput}

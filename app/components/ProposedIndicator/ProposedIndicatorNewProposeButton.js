@@ -3,9 +3,10 @@ import {View} from 'react-native';
 import {Text} from 'native-base';
 
 import {LocalizationContext} from '../Translations';
-import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import Participant from '../../models/Participant';
 import { navigate } from '../../navigators/app_navigator';
+import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicatorTabletStyles from '../../styles/tablet/ProposedIndicatorComponentStyle';
 import ProposedIndicatorMobileStyles from '../../styles/mobile/ProposedIndicatorComponentStyle';
@@ -27,8 +28,8 @@ class ProposedIndicatorNewProposeButton extends Component {
   }
 
   render() {
-    const {translations} = this.context;
-    const raisedParticipants = Participant.getProposedParticipants(this.props.scorecardUuid);
+    const {translations, appLanguage} = this.context;
+    const raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
     return (
       <View style={styles.addNewButtonContainer}>
         <Text style={[styles.headingTitle, {flex: 1}]}>
@@ -38,16 +39,18 @@ class ProposedIndicatorNewProposeButton extends Component {
 
         { raisedParticipants.length > 0 &&
           <View style={{flex: 1, alignItems: 'flex-end'}}>
-            <ParticipantInfo
+            <PressableParticipantInfo
               title={translations.proposeTheIndicator}
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
               mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
-              selectParticipant={(participant) => navigate('CreateNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
+              selectParticipant={(participant) => navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}
               formModalRef={this.props.formModalRef}
+              buttonStyle={proposedIndicatorStyleHelper.getAddNewProposeButtonStyles(appLanguage, 'button')}
+              buttonLabelStyle={proposedIndicatorStyleHelper.getAddNewProposeButtonStyles(appLanguage, 'label')}
             />
           </View>
         }

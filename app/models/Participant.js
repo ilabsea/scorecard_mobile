@@ -13,7 +13,7 @@ const Participant = (() => {
     create,
     update,
     findByScorecardAndParticipantUuid,
-    getProposedParticipants,
+    getRaisedParticipants,
     getAllCountable,
     getAnonymousByScorecard,
     isAnonymous,
@@ -67,7 +67,7 @@ const Participant = (() => {
     return realm.objects('Participant').filtered('scorecard_uuid = "'+ scorecardUuid +'" AND uuid ="'+ participantUuid +'"')[0];
   }
 
-  function getProposedParticipants(scorecardUuid) {
+  function getRaisedParticipants(scorecardUuid) {
     return realm.objects(MODEL).filtered(`scorecard_uuid == '${scorecardUuid}' AND raised=true`).sorted('order', false);
   }
 

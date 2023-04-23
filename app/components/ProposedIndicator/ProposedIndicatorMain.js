@@ -78,20 +78,22 @@ class ProposedIndicatorContent extends Component {
       <View style={{flexGrow: 1}}>
         <ProposedIndicatorNavHeader scrollY={this.scrollY} showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()}/>
         <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
-          <ScrollView contentContainerStyle={{padding: containerPadding, paddingBottom: 16, flexGrow: 1}}
+          <ScrollView contentContainerStyle={{paddingVertical: containerPadding, paddingBottom: 16, flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                      { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}
             stickyHeaderIndices={[1]}
           >
-            <Tip screenName='ProposedIndicator' showTipModal={() => this.props.tipModalRef.current?.present()} />
+            <Tip screenName='ProposedIndicator' showTipModal={() => this.props.tipModalRef.current?.present()} containerStyle={{marginHorizontal: containerPadding}} />
             {this.renderAddNewBtn()}
             <ListUser
               scorecardUuid={this.props.scorecardUuid}
-              numberOfProposedParticipant={Participant.getProposedParticipants(this.props.scorecardUuid).length}
+              numberOfParticipant={Participant.getAllByScorecard(this.props.scorecardUuid).length}
+              numberOfProposedParticipant={Participant.getRaisedParticipants(this.props.scorecardUuid).length}
+              visibleModal={this.props.visibleModal}
               participantModalRef={this.props.participantModalRef}
               formModalRef={this.props.formModalRef}
               updateModalVisible={(status) => this.props.updateModalVisible(status)}
-              scrollY={this.scrollY}
+              isIndicatorBase={this.props.isIndicatorBase}
             />
           </ScrollView>
 

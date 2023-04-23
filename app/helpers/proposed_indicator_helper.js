@@ -21,6 +21,7 @@ const proposedIndicatorHelper = (() => {
     showFormModal,
     showParticipantListModal,
     getProposedIndicators,
+    getLastProposed,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -91,6 +92,19 @@ const proposedIndicatorHelper = (() => {
     return !!participantUuid ? ProposedIndicator.find(scorecardUuid, participantUuid) : ProposedIndicator.getAllByScorecard(scorecardUuid);
   }
 
+  function getLastProposed(scorecardUuid, participantUuid) {
+    if (participantUuid)
+      return {
+        last_order_number: ProposedIndicator.getLastOrderNumberOfParticipant(scorecardUuid, participantUuid), // Last order of the proposed indicator of the participant
+        previous_proposed_indicators: ProposedIndicator.find(scorecardUuid, participantUuid)  // Previous proposed indicators of the participant
+      }
+
+    return {
+      last_order_number: ProposedIndicator.getLastOrderNumberOfScorecard(scorecardUuid),   // last order of the proposed indicator of the scorecard
+      previous_proposed_indicators: ProposedIndicator.getAllByScorecard(scorecardUuid)   // Previous proposed indicators of the scorecard
+    }
+  }
+
   // private methods
 
   function _getIndicatorAttrs(proposedIndicator) {
@@ -107,7 +121,6 @@ const proposedIndicatorHelper = (() => {
 
   function _showAddParticipantModal(formRef, participantModalRef, proposedIndicatorParams) {
     const { scorecardUuid, indicator } = proposedIndicatorParams;
-
     formRef.current?.setBodyContent(
       <AddNewParticipantMain scorecardUuid={ scorecardUuid }
         title={!!indicator ? indicator.name : ''}
@@ -120,7 +133,7 @@ const proposedIndicatorHelper = (() => {
           }
           else {
             participantModalRef.current?.dismiss();
-            navigate('CreateNewIndicator', { scorecard_uuid: proposedIndicatorParams.scorecardUuid, participant_uuid: participant.uuid });
+            navigate('ProposeNewIndicator', { scorecard_uuid: proposedIndicatorParams.scorecardUuid, participant_uuid: participant.uuid });
           }
         }}
       />

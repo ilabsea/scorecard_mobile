@@ -14,7 +14,7 @@ class CustomAlertMessageMain extends React.Component {
   render() {
     const { appLanguage } = this.context;
     return (
-      <View style={{marginBottom: 10, marginTop: appLanguage == 'km' ? 20 : 15}}>
+      <View style={[{marginBottom: 10, marginTop: appLanguage == 'km' ? 20 : 15}, this.props.customStyle]}>
         { this.renderText(this.props.description) }
 
         { !!this.props.descriptionBottomSection && this.renderText(this.props.descriptionBottomSection, 12) }

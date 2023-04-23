@@ -36,3 +36,10 @@ export const getIndicatorDevelopmentInstructionModalMarginTop = (headerHeight) =
 
   return headerHeight + extraMargin;
 }
+
+export const getProposeNewIndicatorInstructionImage = (isIndicatorBase) => {
+  if (DeviceInfo.isTablet())
+    return isIndicatorBase ? require('../assets/images/tablet_proposed_indicator_based.gif') : require('../assets/images/tablet_proposed_participant_based.gif')
+
+  return isIndicatorBase ? require('../assets/images/mobile_proposed_indicator_based.gif') : require('../assets/images/mobile_proposed_participant_based.gif')
+}

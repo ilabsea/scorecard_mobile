@@ -41,7 +41,8 @@ class RecordAudioButton extends Component {
             onLongPress={() => this.props.recordVoice()}
             onPressOut={() => this.props.stopRecordVoice()}
             onPress={() => this.setState({ toolTipVisible: true })}
-            style={styles.voiceRecordButton}>
+            style={[styles.voiceRecordButton, this.props.disabled && {backgroundColor: "#e0e0e0"}]}
+            disabled={this.props.disabled}>
             <MaterialIcon name="mic" size={35} color={Color.whiteColor} />
           </TouchableOpacity>
         </Tooltip>

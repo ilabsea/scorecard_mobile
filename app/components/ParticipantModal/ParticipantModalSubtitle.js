@@ -5,9 +5,15 @@ import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
+import { bodyFontSize, subTitleFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
+import { getDeviceStyle } from '../../utils/responsive_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
+import Participant from '../../models/Participant';
+import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
+import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
+
+const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
 const ProposedIndicatorParticipantListSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -16,7 +22,7 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   useEffect(() => {
     if (!!props.selectedIndicator)
       setAnonymousParticipant(ProposedIndicator.getNumberAnonymousProposeByIndicator(props.scorecardUuid, props.selectedIndicator.indicatorable_id));
-  }, [props.raisedParticipant])
+  }, [props.raisedParticipantUuids])
 
   function renderAddNewParticipantButton() {
     return <OutlinedButton
@@ -38,20 +44,35 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
     if (props.isIndicatorBase && isCreateNewIndicatorScreen()) {
       return (
         <React.Fragment>
-          ({ translations.proposed }
-          { boldLabel(` ${props.raisedParticipant}/${props.totalParticipant}`) }
-          { translations.pax }{ anonymousParticipant > 0 && renderAnonymous() })
+          ({ boldLabel(`${props.raisedParticipantUuids.length}/${props.totalParticipant}`) }
+          { translations.pax }{ anonymousParticipant > 0 && renderAnonymous() }):
         </React.Fragment>
       )
     }
   }
 
+  function renderRaisedParticipants() {
+    return props.raisedParticipantUuids.map(participantUuid => {
+      const participant = Participant.find(participantUuid)
+      return <View key={participantUuid} style={{justifyContent: 'center', position: 'relative', marginBottom: 4}}>
+                <View style={styles.raisedNumberContainer}>
+                  <Text style={styles.raisedNumberLabel}>{participant.order + 1}</Text>
+                </View>
+            </View>
+    })
+  }
+
   return (
     <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 5}}>
-      <Text style={{ fontSize: bodyFontSize(), textTransform: 'capitalize', flex: 1, paddingRight: 5 }}>
-        {translations.selectParticipant + ' '} 
-        { renderProposedParticipant() }
-      </Text>
+      <View style={{flex: 1, paddingRight: 5}}>
+        <Text style={{ fontSize: bodyFontSize(), textTransform: 'capitalize' }}>
+          {`${props.isIndicatorBase ? translations.selectRaisedParticipant : translations.selectParticipant} `}
+          { renderProposedParticipant() }
+        </Text>
+        <View style={{flexDirection: 'row', marginBottom: 10, flexWrap: 'wrap'}}>
+          {renderRaisedParticipants()}
+        </View>
+      </View>
       { renderAddNewParticipantButton() }
     </View>
   )

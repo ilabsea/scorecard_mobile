@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const EmptyListActionComponentStyles = StyleSheet.create({
   label: {
-    fontSize: 24,
+    fontSize: 20,
     marginVertical: 10
   },
   icon: {

@@ -18,7 +18,7 @@ import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/Indicato
 import VotingIndicatorFormScreen from '../screens/VotingIndicatorForm/VotingIndicatorForm';
 import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
 import ProposedIndicatorScreen from '../screens/ProposedIndicator/ProposedIndicator';
-import CreateNewIndicatorScreen from '../screens/CreateNewIndicator/CreateNewIndicator';
+import ProposeNewIndicatorScreen from '../screens/ProposeNewIndicator/ProposeNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
 import ParticipantScreen from '../screens/Participant/Participant';
 import ContactScreen from '../screens/Contact/Contact';
@@ -171,8 +171,8 @@ function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name="CreateNewIndicator"
-        component={CreateNewIndicatorScreen}
+        name="ProposeNewIndicator"
+        component={ProposeNewIndicatorScreen}
         options={() => ({
           header: () => null,
         })}

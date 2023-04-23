@@ -8,7 +8,7 @@ const containerMarginTop = isShortScreenDevice() ? -(210 / 8) : -(210 / 4);
 
 const EmptyListActionComponentStyles = StyleSheet.create({
   label: {
-    fontSize: getMobileFontSizeByPixelRatio(19, 17),
+    fontSize: getMobileFontSizeByPixelRatio(17, 17),
     marginVertical: 10
   },
   icon: {

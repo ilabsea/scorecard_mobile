@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import ParticipantInfo from '../CreateNewIndicator/ParticipantInfo';
+import PressableParticipantInfo from '../Share/PressableParticipantInfo';
 import HeaderTitle from '../HeaderTitle';
 import { LocalizationContext } from '../Translations';
 
@@ -16,7 +16,7 @@ class VotingIndicatorFormParticipantInfo extends React.Component {
       <View style={{paddingHorizontal: getDeviceStyle(16, 10)}}>
         <HeaderTitle subheading="pleaseVoteForTheProposedIndicatorsBelow"/>
 
-        <ParticipantInfo
+        <PressableParticipantInfo
           title={this.context.translations.addNewVoting}
           participants={Participant.getUnvoted(this.props.scorecardUuid)}
           scorecardUuid={ this.props.scorecardUuid }

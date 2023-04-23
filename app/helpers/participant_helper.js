@@ -9,7 +9,7 @@ const participantHelper = (() => {
     getGenderIconLabel,
     getItemColor,
     isYouth,
-    getParticipantByIndicator,
+    getRaisedParticipantByIndicator,
     getDefaultParticipantInfo,
     isAnonymousOptionInvisible,
   };
@@ -41,17 +41,17 @@ const participantHelper = (() => {
     return age >= 15 && age <= 30;
   }
 
-  function getParticipantByIndicator(scorecardUuid, indicatorableId) {
+  function getRaisedParticipantByIndicator(scorecardUuid, indicatorableId) {
     const proposedIndicators = ProposedIndicator.findByIndicator(scorecardUuid, indicatorableId);
-    const participantOrderNumbers = [];
+    const raisedParticipants = [];
 
     proposedIndicators.map(indicator => {
       const participant = Participant.find(indicator.participant_uuid);
       if (!!participant)
-        participantOrderNumbers.push(participant.order + 1);
+        raisedParticipants.push(participant);
     });
 
-    return participantOrderNumbers.sort((a, b) => a > b);
+    return raisedParticipants.sort((a, b) => a.order > b.order);
   }
 
   function getDefaultParticipantInfo(selectedParticipant) {
