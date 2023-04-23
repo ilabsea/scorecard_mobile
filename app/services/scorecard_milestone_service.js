@@ -18,7 +18,7 @@ const scorecardMilestoneService = (() => {
     if (milestone == RUNNING)
       Scorecard.update(scorecardUuid, { running_date: new Date() });
 
-    ScorecardProgressApi.post(await _getScorecardAttrs(params, data))
+    ScorecardProgressApi.post(await _getScorecardAttrs(params, data, scorecard.conducted_date))
       .then(function (response) {
         if (response.status == 200) {
           const attrs = { milestone: milestone }
@@ -34,12 +34,13 @@ const scorecardMilestoneService = (() => {
   }
 
   // private method
-  async function _getScorecardAttrs(params, data) {
+  async function _getScorecardAttrs(params, data, conducatedDate) {
     const { scorecardUuid, milestone } = params;
     let attrs = {
       scorecard_progress: {
         scorecard_uuid: scorecardUuid,
         status: milestone,
+        conducated_at: conducatedDate
       }
     };
 
