@@ -217,6 +217,8 @@ dependencies {
     // For animated GIF support
     implementation 'com.facebook.fresco:animated-gif:2.0.0'
 
+    compile project(':react-native-version-check')
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
