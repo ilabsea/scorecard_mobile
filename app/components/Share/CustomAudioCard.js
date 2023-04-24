@@ -15,7 +15,7 @@ class CustomOutlinedAudioCard extends React.Component {
   renderCardLabel = () => {
     return <View style={styles.indicatorOutlinedLabelContainer}>
               { !!this.props.customTitle ? this.props.customTitle : <Text numberOfLines={2} style={{fontSize: bodyFontSize()}}>{this.props.title}</Text> }
-              { this.props.subtitle && <Text style={[styles.subLabel, {color: Color.lightGrayColor}]}>{this.props.subtitle}</Text> }
+              { this.props.subtitle && <Text style={[styles.subLabel, {color: Color.lightGrayColor}, this.props.subtitleStyle]}>{this.props.subtitle}</Text> }
            </View>
   }
 
@@ -23,11 +23,12 @@ class CustomOutlinedAudioCard extends React.Component {
     return (
       <AudioCardView
         audioPosition='top-left'
-        containerStyle={[customStyles.container, this.props.containerStyle]}
+        containerStyle={[customStyles.container, this.props.isOutlined && customStyles.outlined, this.props.containerStyle]}
         subtitleStyle={styles.subLabel}
         customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
         primaryColor={Color.clickableColor}
         onPress={() => !!this.props.onPressItem && this.props.onPressItem()}
+        onLongPress={() => !!this.props.onLongPress && this.props.onLongPress()}
         hideAudioPlayer={true}
       >
         <CustomAudioPlayerButton
@@ -48,12 +49,15 @@ class CustomOutlinedAudioCard extends React.Component {
 
 const customStyles = StyleSheet.create({
   container: {
+    marginBottom: 10, 
+    marginTop: 26,
+    height: 110,
+    width: '100%',
+  },
+  outlined: {
     borderColor: Color.lightGrayColor,
     borderWidth: 1,
     elevation: 0,
-    marginTop: 35,
-    height: 110,
-    width: '100%',
   }
 })
 

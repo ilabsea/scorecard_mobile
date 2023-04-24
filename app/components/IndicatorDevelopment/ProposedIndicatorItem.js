@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { LocalizationContext } from '../Translations';
-import CustomOutlinedAudioCard from '../Share/CustomOutlinedAudioCard';
+import CustomAudioCard from '../Share/CustomAudioCard';
 import indicatorHelper from '../../helpers/indicator_helper';
 import Color from '../../themes/color';
 import Scorecard from '../../models/Scorecard';
@@ -46,8 +46,9 @@ class ProposedIndicatorItem extends Component {
     const getBorderColor = this.state.active ? Color.headerColor : '#ccc';
     const getBorderWidth = this.state.active ? 2 : 1;
 
-    return <CustomOutlinedAudioCard
-            itemUuid={this.state.indicator.uuid}
+    return <CustomAudioCard
+            isOutlined={true}
+            itemUuid={this.state.indicator.indicator_uuid}
             title={this.state.indicator.content}
             subtitle={`${translations.proposedTimes}: ${this.props.indicator.proposed_count} ${getPluralOrSingularWord(this.props.indicator.proposed_count, translations.time, appLanguage, 's')}`}
             audio={this.state.indicator.local_audio}
