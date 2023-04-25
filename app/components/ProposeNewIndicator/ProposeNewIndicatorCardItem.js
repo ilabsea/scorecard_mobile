@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import AudioCardView from 'react-native-audio-card-view';
 import TextHighlight from 'react-native-text-highlighter';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import {LocalizationContext} from '../Translations';
-import CustomAudioPlayerButton from '../Share/CustomAudioPlayerButton';
 import SwipeLeftButton from '../Share/SwipeLeftButton';
+import CustomAudioCard from '../Share/CustomAudioCard';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import participantHelper from '../../helpers/participant_helper';
 import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
+import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import {getLanguageIndicator} from '../../services/language_indicator_service';
 import {CUSTOM} from '../../constants/indicator_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -62,6 +62,21 @@ class ProposeNewIndicatorCardItem extends React.Component {
     return languageIndicator != undefined ? languageIndicator.local_audio : null
   }
 
+  renderCard() {
+    return <CustomAudioCard
+            isOutlined={true}
+            itemUuid={this.props.indicatorUuid}
+            customTitle={<TextHighlight textToHighlight={this.getIndicatorName()} searchWords={[this.props.searchedText]} fontSize={bodyFontSize()} fontFamily={FontFamily.body} numberOfLines={2} />}
+            subtitle={this.props.isIndicatorBase && proposedIndicatorHelper.getCardSubtitle(this.context.translations, this.props.scorecardUuid, this.props.indicatorableId)}
+            audio={this.getAudio()}
+            playingUuid={this.props.playingUuid}
+            updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
+            containerStyle={[proposedIndicatorStyleHelper.getStyleByProposeType(this.props.isIndicatorBase, 'outlineCard'), this.props.containerStyle]}
+            onPressItem={() => !!this.props.onPressItem && this.props.onPressItem()}
+            badge={ this.props.indicatorType == CUSTOM && this.renderNewBadge() }
+          />
+  }
+
   render() {
     return (
       <Swipeable
@@ -71,28 +86,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
         enabled={this.props.isSwipeable}
         onSwipeableOpen={() => this.props.onSwipeableOpen()}
       >
-        <AudioCardView
-          audioPosition='top-left'
-          containerStyle={[proposedIndicatorStyleHelper.getStyleByProposeType(this.props.isIndicatorBase, 'outlineCard'), this.props.containerStyle]}
-          titleStyle={styles.label}
-          subtitleStyle={styles.subLabel}
-          customIconSet={{play: 'play-circle', pause: 'pause-circle', mute: 'repeat'}}
-          primaryColor={Color.clickableColor}
-          onPress={() => !!this.props.onPressItem && this.props.onPressItem()}
-          hideAudioPlayer={true}
-        >
-          <CustomAudioPlayerButton
-            audio={this.getAudio()}
-            itemUuid={this.props.indicatorUuid}
-            playingUuid={this.props.playingUuid}
-            updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
-            buttonStyle={{position: 'absolute', top: -26, left: 0, backgroundColor: 'white', elevation: 2, zIndex: 5}}
-            useSmallIcon={true}
-            isPlayIcon={true}
-          />
-          {this.renderCardLabel()}
-          { this.props.indicatorType == CUSTOM && this.renderNewBadge() }
-        </AudioCardView>
+        {this.renderCard()}
       </Swipeable>
     )
   }

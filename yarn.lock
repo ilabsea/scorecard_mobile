@@ -7478,15 +7478,15 @@
   dependencies:
     "prop-types" "^15.7.2"
 
-"react-native-audio-card-view@^1.0.6":
-  "integrity" "sha512-2npm2SzlXSS0iopC8Y4XuTs9q3trABf+JUa2WTvNxvKjqc90UNXW5EE+H8DFiYl02jclZHyIDZHG4bVGkiL6XQ=="
-  "resolved" "https://registry.npmjs.org/react-native-audio-card-view/-/react-native-audio-card-view-1.0.6.tgz"
-  "version" "1.0.6"
+"react-native-audio-card-view@^1.0.7":
+  "integrity" "sha512-WS/a/0MQrzDnoXaVWB4kls+9l+0D9wqt6MV7Ad6H/Lwa7qUNV6F9wl9L3bxQsPDCN3ol55VHHSVCnoVkHaHspw=="
+  "resolved" "https://registry.npmjs.org/react-native-audio-card-view/-/react-native-audio-card-view-1.0.7.tgz"
+  "version" "1.0.7"
 
-"react-native-audio-player-button@^1.0.6":
-  "integrity" "sha512-ZjT0Q0dnqTcOmgqxmW/vbC1CM0BHSJq7wD/OUlYTcxSu/jtbuPVPJuYJBCbNaj97RauS6xuqAv8aEe/5/DGxwA=="
-  "resolved" "https://registry.npmjs.org/react-native-audio-player-button/-/react-native-audio-player-button-1.0.6.tgz"
-  "version" "1.0.6"
+"react-native-audio-player-button@^1.0.7":
+  "integrity" "sha512-nDYWod4UotorE6641lTboOiS3Mun6XJEMsgD+nB0LZ1T5mWbexEGLEPYnyHhg9vuwoWtGpkUmPWrGFA1gEqE0g=="
+  "resolved" "https://registry.npmjs.org/react-native-audio-player-button/-/react-native-audio-player-button-1.0.7.tgz"
+  "version" "1.0.7"
 
 "react-native-copilot@^2.5.1":
   "integrity" "sha512-THo7rFV35Ffnwz+2vS01H8PXUXc5IAk+CLD5Rd3kWTNla+cBww8hhxKxJc8pJF7xj+o8NZqCDPy+R6LjtFuBLQ=="

@@ -23,6 +23,7 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     paddingHorizontal: 14
   },
   indicatorBaseOutlinedCardContainer: {
+    marginBottom: 0,
     marginTop: 40,
     height: 118,
     width: '100%',
@@ -36,6 +37,7 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     width: 90
   },
   participantBaseOutlinedCardContainer: {
+    marginBottom: 0,
     marginTop: 40,
     height: 95,
     width: '100%',

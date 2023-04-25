@@ -5,9 +5,9 @@ import ProposedIndicator from '../models/ProposedIndicator';
 import LanguageIndicator from '../models/LanguageIndicator';
 import Scorecard from '../models/Scorecard';
 import { getAttributesByColumns } from './scorecard_attributes_helper';
+import participantHelper from './participant_helper';
 import proposedIndicatorService from '../services/proposed_indicator_service';
 import { isProposeByIndicatorBase } from '../utils/proposed_indicator_util';
-
 import { navigate } from '../navigators/app_navigator';
 
 import ParticipantModalMain from '../components/ParticipantModal/ParticipantModalMain';
@@ -22,6 +22,7 @@ const proposedIndicatorHelper = (() => {
     showParticipantListModal,
     getProposedIndicators,
     getLastProposed,
+    getCardSubtitle,
   };
 
   function getProposedIndicatorAttributes(scorecard, proposedIndicators, columns, isRaisedIndicatorAttrs) {
@@ -103,6 +104,15 @@ const proposedIndicatorHelper = (() => {
       last_order_number: ProposedIndicator.getLastOrderNumberOfScorecard(scorecardUuid),   // last order of the proposed indicator of the scorecard
       previous_proposed_indicators: ProposedIndicator.getAllByScorecard(scorecardUuid)   // Previous proposed indicators of the scorecard
     }
+  }
+
+  function getCardSubtitle(translations, scorecardUuid, indicatorableId) {
+    const raisedParticipants = participantHelper.getRaisedParticipantByIndicator(scorecardUuid, indicatorableId);
+    let label = translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)
+    if (raisedParticipants.filter(participant => participant.countable == false).length > 0)
+      label += ` (${translations.anonymous} 1)`
+
+    return label
   }
 
   // private methods

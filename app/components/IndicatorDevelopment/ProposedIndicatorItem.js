@@ -3,16 +3,9 @@ import React, { Component } from 'react';
 import { LocalizationContext } from '../Translations';
 import CustomAudioCard from '../Share/CustomAudioCard';
 import indicatorHelper from '../../helpers/indicator_helper';
+import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Color from '../../themes/color';
 import Scorecard from '../../models/Scorecard';
-
-// import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-// import ProposedIndicatorItemTabletStyles from '../../styles/tablet/ProposedIndicatorItemStyle';
-// import ProposedIndicatorItemMobileStyles from '../../styles/mobile/ProposedIndicatorItemStyle';
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
-import { getPluralOrSingularWord } from '../../utils/translation_util';
-
-// const responsiveStyles = getDeviceStyle(ProposedIndicatorItemTabletStyles, ProposedIndicatorItemMobileStyles);
 
 class ProposedIndicatorItem extends Component {
   static contextType = LocalizationContext;
@@ -35,22 +28,15 @@ class ProposedIndicatorItem extends Component {
     !!this.props.onPress && this.props.onPress(this.props.indicator, action);
   }
 
-  // getListItemHeight = () => {
-  //   const mobileHeight = isShortScreenDevice() ? hp('13%') : hp('11.5%');
-
-  //   return getDeviceStyle(100, mobileHeight);
-  // }
-
   render() {
     const { translations, appLanguage } = this.context;
     const getBorderColor = this.state.active ? Color.headerColor : '#ccc';
     const getBorderWidth = this.state.active ? 2 : 1;
-
     return <CustomAudioCard
             isOutlined={true}
             itemUuid={this.state.indicator.indicator_uuid}
             title={this.state.indicator.content}
-            subtitle={`${translations.proposedTimes}: ${this.props.indicator.proposed_count} ${getPluralOrSingularWord(this.props.indicator.proposed_count, translations.time, appLanguage, 's')}`}
+            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, translations, appLanguage)}
             audio={this.state.indicator.local_audio}
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}

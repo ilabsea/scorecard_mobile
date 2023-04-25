@@ -7,15 +7,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { removeFromSelected } from '../../actions/selectedIndicatorAction';
 import { addToProposed } from '../../actions/proposedIndicatorAction';
-
 import { LocalizationContext } from '../Translations';
 import CustomAudioCard from '../Share/CustomAudioCard';
 import SwipeLeftButton from '../Share/SwipeLeftButton';
 import Color from '../../themes/color';
 import indicatorHelper from '../../helpers/indicator_helper';
+import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Scorecard from '../../models/Scorecard';
-
-import { getPluralOrSingularWord } from '../../utils/translation_util';
 import {bodyFontSize} from '../../utils/font_size_util';
 
 class SelectedIndicatorItem extends Component {
@@ -69,22 +67,13 @@ class SelectedIndicatorItem extends Component {
            </View>
   }
 
-  renderSubtitle() {
-    const {translations, appLanguage} = this.context
-    const label = `${translations.proposedTimes}: ${this.props.indicator.proposed_count} ${getPluralOrSingularWord(this.props.indicator.proposed_count, translations.time, appLanguage, 's')}`
-
-    if (this.props.indicator.anonymous_count > 0)
-      return `${label} (${this.context.translations.anonymous} ${this.props.indicator.anonymous_count})`
-
-    return label
-  }
-
   renderContent() {
+    const {translations, appLanguage} = this.context
     return <CustomAudioCard
             itemUuid={this.state.indicator.indicator_uuid}
             customTitle={this.renderCardTitle()}
-            subtitle={this.renderSubtitle()}
-            subtitleStyle={{marginLeft: 20}}
+            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, translations, appLanguage)}
+            subtitleStyle={{marginLeft: 6}}
             audio={this.state.indicator.local_audio}
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
