@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
 import {Container} from "native-base";
 import Spinner from 'react-native-loading-spinner-overlay';
 import BigHeader from '../../components/BigHeader';
@@ -10,7 +10,7 @@ import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
-
+import { navigateHome } from '../../utils/navigation_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ScorecardDetailTabletStyles from '../../styles/tablet/ScorecardDetailScreenStyle';
 import ScorecardDetailMobileStyles from '../../styles/mobile/ScorecardDetailScreenStyle';
@@ -28,6 +28,18 @@ class ScorecardDetail extends Component {
       modalVisible: false,
       errorType: null,
     };
+    this.backHandler = null;
+  }
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      navigateHome()
+      return true;
+    })
+  }
+
+  componentWillUnmount() {
+    !!this.backHandler && this.backHandler.remove()
   }
 
   startScorecard = () => {
@@ -58,7 +70,7 @@ class ScorecardDetail extends Component {
     const {translations} = this.context;
     const title = `${translations.scorecardApp} - ${this.props.route.params.scorecard_uuid}`;
 
-    return <BigHeader title={translations.welcomeTo} bigTitle={title} rightButton={this.syncDataButton()} />
+    return <BigHeader title={translations.welcomeTo} bigTitle={title} rightButton={this.syncDataButton()} onPressBack={() => navigateHome()} />
   }
 
   _renderErrorMessageModal() {

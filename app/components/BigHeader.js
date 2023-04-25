@@ -27,7 +27,7 @@ export default class BigHeader extends React.Component {
       <Header span style={responsiveStyles.container}>
         <View style={{flexDirection: 'row', marginTop: 10, alignItems: 'center'}}>
           <Left>
-            <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigateBack() }/>
+            <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => !!this.props.onPressBack ? this.props.onPressBack() : navigateBack() }/>
           </Left>
 
           <Body>
