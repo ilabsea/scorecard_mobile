@@ -13,7 +13,7 @@ class ScorecardResultAddButton extends Component {
       <TouchableOpacity onPress={() => this.props.onPress()} style={{alignItems: 'center'}}>
         <View style={this.props.btnStyle}>
           <Text style={[this.props.textStyle, scorecardResultHelper.btnTextColor(this.props.isScorecardFinished, this.props.indicator, Color.blackColor)]}>
-            { this.context.translations.addText }
+            { this.context.translations.input }
           </Text>
 
           { this.props.children }

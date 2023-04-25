@@ -1,24 +1,36 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
+import { LocalizationContext } from '../Translations';
 import ScorecardResultAccordionFieldLabel from './ScorecardResultAccordionFieldLabel';
-import ScorecardResultAccordionAddButton from './ScorecardResultAccordionAddButton';
-import ScorecardResultAccordionEditButton from './ScorecardResultAccordionEditButton';
+import Color from '../../themes/color';
+import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 
 class ScorecardResultAccordionSwotItems extends Component {
-  render() {
+  static contextType = LocalizationContext;
+  onPress() {
     const { indicator, fieldName, languageIndicator } = this.props;
+    if (!indicator.median)
+      return;
 
+    this.props.onPress(indicator, fieldName, languageIndicator, true)
+  }
+
+  renderInputButton() {
+    return <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={[styles.pressableText]}>{this.context.translations.input}</Text>
+              <Icon name='chevron-right' size={18} color={Color.clickableColor} style={{textAlign: 'right', height: 20}} />
+           </View>
+  }
+
+  render() {
+    const { indicator, fieldName } = this.props;
     return (
-      <View style={{flexDirection: 'row', marginVertical: !indicator[fieldName] ? 14 : 6}}>
+      <TouchableOpacity onPress={() => this.onPress()} style={{flexDirection: 'row', paddingVertical: !indicator[fieldName] ? 14 : 6, height: 60, alignItems: 'center'}}>
         <ScorecardResultAccordionFieldLabel indicator={indicator} fieldName={fieldName} isRequired={this.props.isRequired} />
-
-        { !indicator[fieldName] ?
-          <ScorecardResultAccordionAddButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={this.props.onPress} isScorecardFinished={this.props.isScorecardFinished} />
-        :
-          <ScorecardResultAccordionEditButton indicator={indicator} fieldName={fieldName} languageIndicator={languageIndicator} onPress={this.props.onPress} />
-        }
-      </View>
+        {this.renderInputButton()}
+      </TouchableOpacity>
     )
   }
 }

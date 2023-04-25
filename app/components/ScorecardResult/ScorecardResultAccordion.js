@@ -37,6 +37,7 @@ class ScorecardResultAccordion extends Component {
         items={this.props.indicators}
         accordionTitle={this.renderTitleText}
         accordionContent={this.renderAccordionContent}
+        customItemStyle={{paddingVertical: 4}}
       />
     );
   }
