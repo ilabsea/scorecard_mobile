@@ -59,7 +59,7 @@ class SelectedIndicatorItem extends Component {
   }
 
   renderCardTitle = () => {
-    return <View style={{flexDirection: 'row', marginLeft: -14}}>
+    return <View style={{flexDirection: 'row', marginLeft: -14, marginTop: 6}}>
               <Icon name="more-vert" style={{color: Color.lightGrayColor, fontSize: 20, textAlign: 'center', marginTop: 3}} />
               <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginRight: 18}}>
                 {this.props.order + 1}. {this.state.indicator.content}
@@ -68,11 +68,10 @@ class SelectedIndicatorItem extends Component {
   }
 
   renderContent() {
-    const {translations, appLanguage} = this.context
     return <CustomAudioCard
             itemUuid={this.state.indicator.indicator_uuid}
             customTitle={this.renderCardTitle()}
-            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, translations, appLanguage)}
+            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, this.context.translations)}
             subtitleStyle={{marginLeft: 6}}
             audio={this.state.indicator.local_audio}
             playingUuid={this.props.playingUuid}
@@ -83,7 +82,7 @@ class SelectedIndicatorItem extends Component {
   }
 
   renderDeleteButton()  {
-    return <SwipeLeftButton label={this.context.translations.delete} customStyle={{height: 110, marginTop: 26, width: 90}} onPress={() =>  this.handleRemoveIndicator()} />
+    return <SwipeLeftButton label={this.context.translations.delete} customStyle={{height: 116, marginTop: 26, width: 90}} onPress={() =>  this.handleRemoveIndicator()} />
   }
 
   render() {

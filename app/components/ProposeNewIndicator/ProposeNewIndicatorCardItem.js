@@ -66,7 +66,7 @@ class ProposeNewIndicatorCardItem extends React.Component {
     return <CustomAudioCard
             isOutlined={true}
             itemUuid={this.props.indicatorUuid}
-            customTitle={<TextHighlight textToHighlight={this.getIndicatorName()} searchWords={[this.props.searchedText]} fontSize={bodyFontSize()} fontFamily={FontFamily.body} numberOfLines={2} />}
+            customTitle={<TextHighlight textToHighlight={this.getIndicatorName()} searchWords={[this.props.searchedText]} fontSize={bodyFontSize()} fontFamily={FontFamily.body} numberOfLines={2} containerStyle={{marginTop: this.props.isIndicatorBase ? 10 : 6}} />}
             subtitle={this.props.isIndicatorBase && proposedIndicatorHelper.getCardSubtitle(this.context.translations, this.props.scorecardUuid, this.props.indicatorableId)}
             audio={this.getAudio()}
             playingUuid={this.props.playingUuid}

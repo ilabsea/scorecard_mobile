@@ -29,14 +29,13 @@ class ProposedIndicatorItem extends Component {
   }
 
   render() {
-    const { translations, appLanguage } = this.context;
     const getBorderColor = this.state.active ? Color.headerColor : '#ccc';
     const getBorderWidth = this.state.active ? 2 : 1;
     return <CustomAudioCard
             isOutlined={true}
             itemUuid={this.state.indicator.indicator_uuid}
             title={this.state.indicator.content}
-            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, translations, appLanguage)}
+            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, this.context.translations)}
             audio={this.state.indicator.local_audio}
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}

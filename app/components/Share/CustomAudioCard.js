@@ -11,10 +11,10 @@ import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardCompo
 
 const styles = getDeviceStyle(cardItemTabletStyles, cardItemMobileStyles);
 
-class CustomOutlinedAudioCard extends React.Component {
+class CustomAudioCard extends React.Component {
   renderCardLabel = () => {
     return <View style={styles.indicatorOutlinedLabelContainer}>
-              { !!this.props.customTitle ? this.props.customTitle : <Text numberOfLines={2} style={{fontSize: bodyFontSize()}}>{this.props.title}</Text> }
+              { !!this.props.customTitle ? this.props.customTitle : <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginTop: 10}}>{this.props.title}</Text> }
               { this.props.subtitle && <Text style={[styles.subLabel, {color: Color.lightGrayColor}, this.props.subtitleStyle]}>{this.props.subtitle}</Text> }
            </View>
   }
@@ -51,7 +51,7 @@ const customStyles = StyleSheet.create({
   container: {
     marginBottom: 10, 
     marginTop: 26,
-    height: 110,
+    height: 116,
     width: '100%',
   },
   outlined: {
@@ -61,4 +61,4 @@ const customStyles = StyleSheet.create({
   }
 })
 
-export default CustomOutlinedAudioCard
+export default CustomAudioCard

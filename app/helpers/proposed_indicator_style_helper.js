@@ -1,5 +1,5 @@
 import DeviceInfo from 'react-native-device-info'
-import { getDeviceStyle, isShortScreenDevice, isSmallMobileScreenDevice } from '../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice } from '../utils/responsive_util';
 import tabletStyles from '../styles/tablet/ProposedIndicatorCardComponentStyle';
 import mobileStyles from '../styles/mobile/ProposedIndicatorCardComponentStyle';
 
