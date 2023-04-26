@@ -8,6 +8,8 @@ const IndicatorDevelopmentScreenStyles = StyleSheet.create({
   titleLabel: {
     fontSize: titleFontSize(),
     flex: 1,
+    height: '100%',
+    textAlignVertical: "center"
   },
 });
 

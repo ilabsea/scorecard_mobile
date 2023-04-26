@@ -105,7 +105,7 @@ class ProposeNewIndicator extends React.Component {
   }
 
   renderProposedIndicators = () => {
-    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
+    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
               onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}], { useNativeDriver: false })}
            >
               <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}

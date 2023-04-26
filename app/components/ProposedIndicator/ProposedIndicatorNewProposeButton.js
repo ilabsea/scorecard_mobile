@@ -32,7 +32,7 @@ class ProposedIndicatorNewProposeButton extends Component {
     const raisedParticipants = Participant.getRaisedParticipants(this.props.scorecardUuid);
     return (
       <View style={styles.addNewButtonContainer}>
-        <Text style={[styles.headingTitle, {flex: 1}]}>
+        <Text style={[styles.headingTitle, {flex: 1, textAlignVertical: 'center', height: '100%'}]}>
           { translations.numberOfParticipant }: { Participant.getAllByScorecard(this.props.scorecardUuid).length } {translations.pax}
           {this.renderAnonymous()}
         </Text>
