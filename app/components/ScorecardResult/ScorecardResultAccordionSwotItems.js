@@ -14,13 +14,13 @@ class ScorecardResultAccordionSwotItems extends Component {
     if (!indicator.median)
       return;
 
-    this.props.onPress(indicator, fieldName, languageIndicator, true)
+    this.props.onPress(indicator, fieldName, languageIndicator, !indicator[fieldName])  // if the indicator[fieldName] = null, it means that it is the add new button otherwise it is the edit button
   }
 
   renderInputButton() {
     return <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={[styles.pressableText]}>{this.context.translations.input}</Text>
-              <Icon name='chevron-right' size={18} color={Color.clickableColor} style={{textAlign: 'right', height: 20}} />
+              <Text style={[styles.pressableText, this.props.isScorecardFinished && {color: Color.disabledBtnBg}]}>{this.context.translations.input}</Text>
+              <Icon name='chevron-right' size={18} color={this.props.isScorecardFinished ? Color.disabledBtnBg : Color.clickableColor} style={{textAlign: 'right', height: 20}} />
            </View>
   }
 

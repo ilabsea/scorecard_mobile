@@ -18,6 +18,10 @@ import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
 
+  btnColor = () => {
+    return this.props.isScorecardFinished ? Color.disabledBtnBg : Color.clickableColor
+  }
+
   onPress = (fieldName, indicator, isAddNew) => {
     if (!this.props.indicator.median|| (isAddNew && this.props.isScorecardFinished))
       return;
@@ -34,7 +38,7 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <ScorecardResultAddButton
         onPress={() => this.onPress(fieldName, indicator, true)}
-        btnStyle={styles.btn}
+        btnStyle={[styles.btn, {borderColor: this.btnColor()}]}
         textStyle={styles.btnText}
         isScorecardFinished={this.props.isScorecardFinished}
         indicator={this.props.indicator}
@@ -49,9 +53,9 @@ export default class ScorecardResultTableRow extends Component {
   renderEditText = (fieldName, indicator) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={styles.btnEdit}>
-          <Text style={{color: Color.clickableColor, marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
-          <Icon name={'pen'} type="FontAwesome5" style={{color: Color.clickableColor, fontSize: 14}}/>
+        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={[styles.btnEdit, {borderColor: this.btnColor()}]}>
+          <Text style={{color: this.btnColor(), marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
+          <Icon name={'pen'} type="FontAwesome5" style={{color: this.btnColor(), fontSize: 14}}/>
         </TouchableOpacity>
       </View>
     )
@@ -122,7 +126,6 @@ const styles = StyleSheet.create({
     maxWidth: 102,
     height: 34,
     borderWidth: 2,
-    borderColor: Color.clickableColor,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -135,7 +138,6 @@ const styles = StyleSheet.create({
   },
   btnEdit: {
     borderWidth: 2,
-    borderColor: Color.clickableColor,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
