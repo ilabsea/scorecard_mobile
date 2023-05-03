@@ -50,8 +50,8 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
         <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={styles.btnEdit}>
-          <Text style={{color: Color.whiteColor, marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
-          <Icon name={'pen'} type="FontAwesome5" style={{color: Color.whiteColor, fontSize: 14}}/>
+          <Text style={{color: Color.clickableColor, marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
+          <Icon name={'pen'} type="FontAwesome5" style={{color: Color.clickableColor, fontSize: 14}}/>
         </TouchableOpacity>
       </View>
     )
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
     width: '85%',
     maxWidth: 102,
     height: 34,
-    backgroundColor: '#cacaca',
+    borderWidth: 2,
+    borderColor: Color.clickableColor,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -130,11 +131,11 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center',
-    color: Color.blackColor,
     fontSize: 14,
   },
   btnEdit: {
-    backgroundColor: Color.headerColor,
+    borderWidth: 2,
+    borderColor: Color.clickableColor,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
