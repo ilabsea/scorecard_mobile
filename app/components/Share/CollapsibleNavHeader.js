@@ -13,6 +13,7 @@ import ProgressStep from '../ProgressStep';
 import Color from '../../themes/color';
 import { navigateBack, navigateHome } from '../../utils/navigation_util';
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
+import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 const headerMaxHeight = 156;
 const headerMinHeight = 56;
@@ -46,8 +47,9 @@ const CollapsibleNavHeader = (props) => {
   }
 
   const renderProgressStep = () => {
+    const steps = scorecardProgress.map(x => translations[x.label]);
     return <Animated.View style={{marginTop: getDeviceStyle(10, 4), alignSelf: 'center', opacity: progressOpacity}}>
-             <ProgressStep progressIndex={props.progressIndex} steps={!!props.steps && props.steps}/>
+             <ProgressStep progressIndex={props.progressIndex} steps={!!props.isPassProposeStep ? steps : '' }/>
            </Animated.View>
   }
 

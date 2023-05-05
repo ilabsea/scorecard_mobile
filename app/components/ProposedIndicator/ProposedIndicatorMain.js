@@ -16,8 +16,7 @@ import { removeFromSelected, setSelectedIndicators } from '../../actions/selecte
 import { containerPadding } from '../../utils/responsive_util';
 import { navigate } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
-
-const headerShrinkOffset = 93
+import {headerShrinkOffset} from '../../constants/component_style_constant';
 
 class ProposedIndicatorContent extends Component {
   static contextType = LocalizationContext;

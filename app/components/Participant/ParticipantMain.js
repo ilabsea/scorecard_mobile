@@ -8,8 +8,7 @@ import EmptyListAction from '../Share/EmptyListAction';
 import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 import { participantModalContentHeight, participantModalSnapPoints } from '../../constants/modal_constant';
-
-const headerShrinkOffset = 93
+import {headerShrinkOffset} from '../../constants/component_style_constant';
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
