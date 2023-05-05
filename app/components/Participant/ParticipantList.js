@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native';
 
 import ParticipantListItemInfo from '../Share/ParticipantListItemInfo';
 
@@ -6,6 +7,7 @@ import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
 import Color from '../../themes/color';
 import listItemStyles from '../../themes/scorecardListItemStyle';
+import { containerPadding } from '../../utils/responsive_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListItemTabletStyles from '../../styles/tablet/ParticipantListItemComponentStyle';
 import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantListItemComponentStyle';
@@ -35,7 +37,7 @@ class ParticipantList extends React.Component {
       )
     }
 
-    return doms;
+    return <View style={{zIndex: 0, paddingHorizontal: containerPadding}}>{doms}</View>;
   }
 }
 

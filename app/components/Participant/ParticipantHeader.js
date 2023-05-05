@@ -5,6 +5,7 @@ import {LocalizationContext} from '../Translations';
 import OutlinedButton from '../OutlinedButton';
 
 import Participant from '../../models/Participant';
+import { containerPadding } from '../../utils/responsive_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import ParticipantListTabletStyles from '../../styles/tablet/ParticipantListScreenStyle';
 import ParticipantListMobileStyles from '../../styles/mobile/ParticipantListScreenStyle';
@@ -18,7 +19,7 @@ class ParticipantHeader extends React.Component {
     const {translations} = this.context;
 
     return (
-      <View style={{flexDirection: 'row', marginBottom: 20, alignItems: 'center'}}>
+      <View style={{flexDirection: 'row', paddingVertical: 16, backgroundColor: '#ffffff', zIndex: 1, paddingHorizontal: containerPadding, alignItems: 'center'}}>
         <View style={{flexDirection: 'row', flex: 1, flexWrap: 'wrap'}}>
           <Text style={styles.titleLabel}>
             {translations.participantList}
