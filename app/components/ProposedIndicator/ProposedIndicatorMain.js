@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Animated, View, ScrollView} from 'react-native';
 
-import ProposedIndicatorNavHeader from './ProposedIndicatorNavHeader';
 import ProposedIndicatorNewProposeButton from './ProposedIndicatorNewProposeButton';
 import Tip from '../Share/Tip';
+import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
 import ListUser from './ListUser';
 import BottomButton from '../BottomButton';
 import {LocalizationContext} from '../../components/Translations';
@@ -76,7 +76,9 @@ class ProposedIndicatorContent extends Component {
 
     return (
       <View style={{flexGrow: 1}}>
-        <ProposedIndicatorNavHeader scrollY={this.scrollY} showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()}/>
+        <CollapsibleNavHeader title={this.context.translations.proposeTheIndicator} scrollY={this.scrollY} progressIndex={3}
+          showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
+        />
         <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
           <ScrollView contentContainerStyle={{paddingVertical: containerPadding, paddingBottom: 16, flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
