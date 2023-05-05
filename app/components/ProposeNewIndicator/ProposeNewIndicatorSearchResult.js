@@ -55,7 +55,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   render() {
     const containerTop = this.props.scrollY.interpolate({
       inputRange: [0, 60, 80],
-      outputRange: proposedIndicatorStyleHelper.getSearchResultTopPosition(this.props.isIndicatorBase, this.props.searchContainerHeight, this.context.appLanguage),
+      outputRange: proposedIndicatorStyleHelper.getSearchResultTopPosition(this.props.isIndicatorBase, this.props.searchContainerHeight, this.props.instructionHeight),
       extrapolate: 'clamp',
     })
     return (
