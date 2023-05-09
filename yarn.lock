@@ -7478,10 +7478,10 @@
   dependencies:
     "prop-types" "^15.7.2"
 
-"react-native-audio-card-view@^1.0.7":
-  "integrity" "sha512-WS/a/0MQrzDnoXaVWB4kls+9l+0D9wqt6MV7Ad6H/Lwa7qUNV6F9wl9L3bxQsPDCN3ol55VHHSVCnoVkHaHspw=="
-  "resolved" "https://registry.npmjs.org/react-native-audio-card-view/-/react-native-audio-card-view-1.0.7.tgz"
-  "version" "1.0.7"
+"react-native-audio-card-view@^1.0.8":
+  "integrity" "sha512-qR3338/CAzV/4UFLrHZqgkunvJ9t7RrjDbh4jLliNhAIT9WW1AYURTwkjWvVJ4bT2eVjCJO4+oNy+MqhTkdD1w=="
+  "resolved" "https://registry.npmjs.org/react-native-audio-card-view/-/react-native-audio-card-view-1.0.8.tgz"
+  "version" "1.0.8"
 
 "react-native-audio-player-button@^1.0.7":
   "integrity" "sha512-nDYWod4UotorE6641lTboOiS3Mun6XJEMsgD+nB0LZ1T5mWbexEGLEPYnyHhg9vuwoWtGpkUmPWrGFA1gEqE0g=="
