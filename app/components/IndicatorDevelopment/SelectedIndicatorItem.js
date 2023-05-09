@@ -15,6 +15,7 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Scorecard from '../../models/Scorecard';
 import {bodyFontSize} from '../../utils/font_size_util';
+import {getDeviceStyle} from '../../utils/responsive_util';
 
 class SelectedIndicatorItem extends Component {
   static contextType = LocalizationContext;
@@ -59,7 +60,7 @@ class SelectedIndicatorItem extends Component {
   }
 
   renderCardTitle = () => {
-    return <View style={{flexDirection: 'row', marginLeft: -14, marginTop: 6}}>
+    return <View style={{flexDirection: 'row', marginLeft: -14, marginTop: getDeviceStyle(18, 16)}}>
               <Icon name="more-vert" style={{color: Color.lightGrayColor, fontSize: 20, textAlign: 'center', marginTop: 3}} />
               <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginRight: 18}}>
                 {this.props.order + 1}. {this.state.indicator.content}
@@ -72,7 +73,7 @@ class SelectedIndicatorItem extends Component {
             itemUuid={this.state.indicator.indicator_uuid}
             customTitle={this.renderCardTitle()}
             subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, this.context.translations)}
-            subtitleStyle={{marginLeft: 6}}
+            subtitleStyle={{marginLeft: 6, marginBottom: getDeviceStyle(8, 6)}}
             audio={this.state.indicator.local_audio}
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
@@ -82,7 +83,7 @@ class SelectedIndicatorItem extends Component {
   }
 
   renderDeleteButton()  {
-    return <SwipeLeftButton label={this.context.translations.delete} customStyle={{height: 116, marginTop: 26, width: 90}} onPress={() =>  this.handleRemoveIndicator()} />
+    return <SwipeLeftButton label={this.context.translations.delete} customStyle={{marginTop: 26, marginBottom: 10, width: 90}} onPress={() =>  this.handleRemoveIndicator()} />
   }
 
   render() {

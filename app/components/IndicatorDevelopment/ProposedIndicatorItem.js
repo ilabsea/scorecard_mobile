@@ -6,6 +6,7 @@ import indicatorHelper from '../../helpers/indicator_helper';
 import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Color from '../../themes/color';
 import Scorecard from '../../models/Scorecard';
+import {getDeviceStyle} from '../../utils/responsive_util';
 
 class ProposedIndicatorItem extends Component {
   static contextType = LocalizationContext;
@@ -41,6 +42,8 @@ class ProposedIndicatorItem extends Component {
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
             containerStyle={{borderColor: getBorderColor, borderWidth: getBorderWidth}}
             onPressItem={ () => this.handleSelected() }
+            titleStyle={{marginTop: getDeviceStyle(18, 13)}}
+            subtitleStyle={{marginBottom: 6}}
           />
   }
 }
