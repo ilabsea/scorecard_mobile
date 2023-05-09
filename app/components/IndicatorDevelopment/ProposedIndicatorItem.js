@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
+import CustomAudioCard from '../Share/CustomAudioCard';
 import indicatorHelper from '../../helpers/indicator_helper';
-import itemStyles from '../../themes/scorecardListItemStyle';
+import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Color from '../../themes/color';
 import Scorecard from '../../models/Scorecard';
-
-import IndicatorTitle from './IndicatorTitle';
-
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import ProposedIndicatorItemTabletStyles from '../../styles/tablet/ProposedIndicatorItemStyle';
-import ProposedIndicatorItemMobileStyles from '../../styles/mobile/ProposedIndicatorItemStyle';
-import { getDeviceStyle, isShortScreenDevice } from '../../utils/responsive_util';
-import { cardBorderRadius } from '../../constants/border_radius_constant';
-
-const responsiveStyles = getDeviceStyle(ProposedIndicatorItemTabletStyles, ProposedIndicatorItemMobileStyles);
 
 class ProposedIndicatorItem extends Component {
   static contextType = LocalizationContext;
@@ -38,36 +28,20 @@ class ProposedIndicatorItem extends Component {
     !!this.props.onPress && this.props.onPress(this.props.indicator, action);
   }
 
-  getListItemHeight = () => {
-    const mobileHeight = isShortScreenDevice() ? hp('13%') : hp('11.5%');
-
-    return getDeviceStyle(100, mobileHeight);
-  }
-
   render() {
-    const { translations } = this.context;
     const getBorderColor = this.state.active ? Color.headerColor : '#ccc';
     const getBorderWidth = this.state.active ? 2 : 1;
-
-    return (
-      <TouchableOpacity
-        onPress={ () => this.handleSelected() }
-        style={[itemStyles.listItem, { borderWidth: getBorderWidth, borderColor: getBorderColor, height: this.getListItemHeight(), borderRadius: cardBorderRadius}]}>
-        <IndicatorTitle
-          title={this.state.indicator.content}
-          subText={translations.proposedTimes}
-          proposedCount={this.props.indicator.proposed_count}
-          anonymousCount={this.props.indicator.anonymous_count}
-          indicator={this.state.indicator}
-          customContainerStyle={[itemStyles.contentWrapper, {paddingLeft: 10, paddingTop: 0}]}
-          customTitleStyle={responsiveStyles.titleText}
-          customSubTextStyle={responsiveStyles.subText}
-          customAudioContainerStyle={{justifyContent: 'center'}}
-          playingUuid={this.props.playingUuid}
-          updatePlayingUuid={this.props.updatePlayingUuid}
-        />
-      </TouchableOpacity>
-    )
+    return <CustomAudioCard
+            isOutlined={true}
+            itemUuid={this.state.indicator.indicator_uuid}
+            title={this.state.indicator.content}
+            subtitle={indicatorDevelopmentHelper.getCardSubtitle(this.props.indicator, this.context.translations)}
+            audio={this.state.indicator.local_audio}
+            playingUuid={this.props.playingUuid}
+            updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
+            containerStyle={{borderColor: getBorderColor, borderWidth: getBorderWidth}}
+            onPressItem={ () => this.handleSelected() }
+          />
   }
 }
 

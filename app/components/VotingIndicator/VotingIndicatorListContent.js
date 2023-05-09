@@ -44,9 +44,8 @@ class VotingIndicatorListContent extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={[styles.h1, {flex: 1}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
-
+        <View style={{flexDirection: 'row', marginBottom: 16}}>
+          <Text style={[styles.h1, {flex: 1, height: '100%', textAlignVertical: "center", marginBottom: 0}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
           <PressableParticipantInfo
             title={translations.addNewVoting}
             participants={ Participant.getUnvoted(this.props.scorecard.uuid) }

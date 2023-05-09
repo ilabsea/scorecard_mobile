@@ -28,7 +28,7 @@ export const getIndicatorDevelopmentInstructionImage = () => {
 
 export const getIndicatorDevelopmentInstructionModalMarginTop = (headerHeight) => {
   if (DeviceInfo.isTablet())
-    return headerHeight
+    return headerHeight + 78
 
   let extraMargin = isMediumScreenDevice() ? wp('4%') : wp('5%');
   if (isShortScreenDevice())
