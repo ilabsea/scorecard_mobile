@@ -11,6 +11,7 @@ const proposedIndicatorStyleHelper = (() => {
     getAddNewProposeButtonStyles,
     getSearchBoxMarginTop,
     getSearchResultTopPosition,
+    getCardTitleStyles,
   }
 
   function getStyleByProposeType(isIndicatorBase, type) {
@@ -55,6 +56,10 @@ const proposedIndicatorStyleHelper = (() => {
       return _calculateSearchResultPosition(searchContainerHeight, instructionHeight, isShortScreenDevice() ? [75, 117] : [74, 114])
 
     return _calculateSearchResultPosition(searchContainerHeight, instructionHeight, isShortScreenDevice() ? [146, 185] : [144, 183])
+  }
+
+  function getCardTitleStyles(isIndicatorBase) {
+    return { marginTop: getDeviceStyle(18, 14), marginBottom: isIndicatorBase ? 0 : getDeviceStyle(10, 6) }
   }
 
   // private method

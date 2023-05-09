@@ -30,6 +30,7 @@ class CustomAudioCard extends React.Component {
         onPress={() => !!this.props.onPressItem && this.props.onPressItem()}
         onLongPress={() => !!this.props.onLongPress && this.props.onLongPress()}
         hideAudioPlayer={true}
+        allowFlexibleHeight={true}
       >
         <CustomAudioPlayerButton
           audio={this.props.audio}
@@ -51,7 +52,7 @@ const customStyles = StyleSheet.create({
   container: {
     marginBottom: 10, 
     marginTop: 26,
-    height: 116,
+    // height: 116,
     width: '100%',
   },
   outlined: {
