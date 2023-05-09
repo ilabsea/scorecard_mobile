@@ -31,13 +31,13 @@ class IndicatorDevelopmentContentHeader extends Component {
 
   render() {
     return (
-      <View style={{paddingTop: containerPadding}}>
+      <View style={{paddingTop: containerPadding, paddingBottom: getDeviceStyle(6, 0), backgroundColor: Color.defaultBgColor}}>
         <Tip screenName='IndicatorDevelopment' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
         <View style={responsiveStyles.titleContainer}>
           <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ this.context.translations.indicatorDevelopment }</Text>
 
-          { this.props.hasData && this._renderBtnAddIndicator() }
+          {  this.props.hasData && this._renderBtnAddIndicator() }
         </View>
       </View>
     )
