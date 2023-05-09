@@ -12,7 +12,9 @@ const ScorecardResultAccordionFieldLabel = (props) => {
   const renderInputtedItem = () => {
     if (!!props.indicator[props.fieldName]) {
       const inputtedItem = <BoldLabel label={JSON.parse(props.indicator[props.fieldName]).length} customStyle={{fontSize: 12, color: Color.grayColor}} />
-      return  <Text style={styles.itemSubtitleText}>{translations.formatString(translations.inputted, inputtedItem)}</Text>
+      return  <Text style={styles.itemSubtitleText}>
+                {translations.formatString(JSON.parse(props.indicator[props.fieldName]).length > 1 ? translations.inputtedPlural : translations.inputted, inputtedItem)}
+              </Text>
     }
   } 
 

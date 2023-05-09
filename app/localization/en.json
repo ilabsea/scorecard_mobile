@@ -84,7 +84,7 @@
   "thereIsNoScorecardVotingYet": "There is no scorecard voting yet.",
   "pleaseCreateTheVoteBelow": "Please create the vote below.",
   "tips": "Tips",
-  "viewTips": "View tips",
+  "view": "View",
   "viewAll": "View all",
   "participant": "Participant",
   "no": "No",
@@ -423,5 +423,6 @@
   "theIndicatorNameYouWantToPropose": "The indicator name you want to propose",
   "selectRaisedParticipant": "Select raised participant",
   "input": "Input",
-  "inputted": "Inputted {0} point"
+  "inputted": "Inputted {0} point",
+  "inputtedPlural": "Inputted {0} points"
 }
