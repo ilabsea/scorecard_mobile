@@ -6,6 +6,7 @@ import IndicatorDevelopmentContentHeader from './IndicatorDevelopmentContentHead
 import IndicatorDevelopmentList from './IndicatorDevelopmentList';
 import EmptyListAction from '../Share/EmptyListAction';
 import Rating from '../../models/Rating';
+import Color from '../../themes/color';
 
 class IndicatorDevelopmentContent extends Component {
   static contextType = LocalizationContext;
@@ -60,7 +61,7 @@ class IndicatorDevelopmentContent extends Component {
       <View style={{flex: 1}}
         onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y - 22 })}
       >
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: Color.defaultBgColor}}>
           <IndicatorDevelopmentList
             scorecardUuid={this.props.scorecardUuid}
             selectedIndicators={this.props.selectedIndicators}

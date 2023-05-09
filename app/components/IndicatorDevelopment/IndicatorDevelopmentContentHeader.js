@@ -31,7 +31,7 @@ class IndicatorDevelopmentContentHeader extends Component {
 
   render() {
     return (
-      <View style={{paddingTop: containerPadding, paddingBottom: getDeviceStyle(6, 0), backgroundColor: Color.defaultBgColor}}>
+      <View style={{paddingVertical: containerPadding, paddingBottom: getDeviceStyle(12, 14), backgroundColor: Color.defaultBgColor}}>
         <Tip screenName='IndicatorDevelopment' showTipModal={() => this.props.tipModalRef.current?.present()} />
 
         <View style={responsiveStyles.titleContainer}>

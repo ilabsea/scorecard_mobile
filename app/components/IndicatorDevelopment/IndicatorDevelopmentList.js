@@ -70,7 +70,7 @@ class IndicatorDevelopmentList extends Component {
     this.isHeaderShrunk = offset >= headerShrinkOffset
   }
 
-  renderScrollList() {
+  renderScrollView() {
     const selectedIndicators = this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid);
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
@@ -97,7 +97,7 @@ class IndicatorDevelopmentList extends Component {
         <CollapsibleNavHeader title={this.context.translations.voting} scrollY={this.scrollY} progressIndex={2} isPassProposeStep={true}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
-        {this.renderScrollList()}
+        {this.renderScrollView()}
         <IndicatorDevelopmentInstructionModal
           visible={this.state.isFirstVisit}
           onDismiss={() => this.onInstructionModalDismiss()}

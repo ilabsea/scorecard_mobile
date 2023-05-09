@@ -37,7 +37,7 @@ class ParticipantList extends React.Component {
       )
     }
 
-    return <View style={{zIndex: 0, paddingHorizontal: containerPadding}}>{doms}</View>;
+    return <View style={{zIndex: 0, paddingHorizontal: containerPadding, paddingTop: 1}}>{doms}</View>;
   }
 }
 
