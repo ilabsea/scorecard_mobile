@@ -48,7 +48,7 @@ export default class Tip extends Component {
               </Text>
 
               { DeviceInfo.isTablet() &&
-                <PressableLabel label={translations.viewTips} />
+                <PressableLabel label={translations.view} />
               }
               <Icon name='chevron-forward-outline' style={[{color: Color.headerColor}, responsiveStyles.viewDetailIcon]} />
             </View>

@@ -18,6 +18,10 @@ import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
 
+  btnColor = () => {
+    return this.props.isScorecardFinished ? Color.disabledBtnBg : Color.clickableColor
+  }
+
   onPress = (fieldName, indicator, isAddNew) => {
     if (!this.props.indicator.median|| (isAddNew && this.props.isScorecardFinished))
       return;
@@ -34,7 +38,7 @@ export default class ScorecardResultTableRow extends Component {
     return (
       <ScorecardResultAddButton
         onPress={() => this.onPress(fieldName, indicator, true)}
-        btnStyle={styles.btn}
+        btnStyle={[styles.btn, {borderColor: this.btnColor()}]}
         textStyle={styles.btnText}
         isScorecardFinished={this.props.isScorecardFinished}
         indicator={this.props.indicator}
@@ -49,9 +53,9 @@ export default class ScorecardResultTableRow extends Component {
   renderEditText = (fieldName, indicator) => {
     return (
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={styles.btnEdit}>
-          <Text style={{color: Color.whiteColor, marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
-          <Icon name={'pen'} type="FontAwesome5" style={{color: Color.whiteColor, fontSize: 14}}/>
+        <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={[styles.btnEdit, {borderColor: this.btnColor()}]}>
+          <Text style={{color: this.btnColor(), marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
+          <Icon name={'pen'} type="FontAwesome5" style={{color: this.btnColor(), fontSize: 14}}/>
         </TouchableOpacity>
       </View>
     )
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     width: '85%',
     maxWidth: 102,
     height: 34,
-    backgroundColor: '#cacaca',
+    borderWidth: 2,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -130,11 +134,10 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center',
-    color: Color.blackColor,
     fontSize: 14,
   },
   btnEdit: {
-    backgroundColor: Color.headerColor,
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

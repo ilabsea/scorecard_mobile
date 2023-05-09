@@ -19,7 +19,7 @@ const scorecardResultHelper = (() => {
   }
 
   function btnTextColor(isScorecardFinished, indicator, defaultColor) {
-    return (isScorecardFinished || !indicator.median) ? { color: Color.grayColor } : { color: defaultColor };
+    return (isScorecardFinished || !indicator.median) ? { color: Color.disabledBtnBg } : { color: defaultColor };
   }
 
   function isSuggestedAction(currentFieldName) {
