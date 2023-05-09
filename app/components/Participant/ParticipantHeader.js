@@ -18,7 +18,7 @@ class ParticipantHeader extends React.Component {
     const {translations} = this.context;
 
     return (
-      <View style={{flexDirection: 'row', marginBottom: 20}}>
+      <View style={{flexDirection: 'row', marginBottom: 20, alignItems: 'center'}}>
         <View style={{flexDirection: 'row', flex: 1, flexWrap: 'wrap'}}>
           <Text style={styles.titleLabel}>
             {translations.participantList}

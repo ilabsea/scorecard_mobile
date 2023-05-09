@@ -28,6 +28,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       indicators: [],
       searchContainerHeight: 0,
       instructionVisible: false,
+      instructionHeight: 0,
     }
     this.isComponentUnmount = false;
   }
@@ -89,10 +90,10 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   }
 
   renderSearchBox = () => {
-    const {translations, appLanguage} = this.context
+    const {translations} = this.context
     const marginTop = this.props.scrollY.interpolate({
       inputRange: [0, 40, 60, 80],
-      outputRange: proposedIndicatorStyleHelper.getSearchBoxMarginTop(appLanguage),
+      outputRange: proposedIndicatorStyleHelper.getSearchBoxMarginTop(this.state.instructionHeight),
       extrapolate: 'clamp',
     })
     return <Animated.View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height + 80 })} style={{marginTop: marginTop, backgroundColor: Color.defaultBgColor, borderRadius: 10, zIndex: 0}}>
@@ -112,7 +113,9 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     return (
       <React.Fragment>
         <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
-          <View style={{backgroundColor: 'white', padding: 8, borderRadius: 10, zIndex: 0}}>
+          <View style={{backgroundColor: 'white', padding: 8, borderRadius: 10, zIndex: 0}}
+            onLayout={(event) => this.setState({instructionHeight: event.nativeEvent.layout.height})}
+          >
             <Text style={{fontSize: bodyFontSize(), color: 'black'}}>{this.context.translations.proposeIndicatorInstruction}</Text>
           </View>
         </TouchableWithoutFeedback>
@@ -121,6 +124,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
           { this.state.showResult &&
             <ProposeNewIndicatorSearchResult indicators={this.state.indicators} scorecardUuid={this.props.scorecardUuid} searchedText={this.state.searchedText}
               closeSearch={() => this.closeSearch()} searchContainerHeight={this.state.searchContainerHeight} formModalRef={this.props.formModalRef} bottomSheetRef={this.props.bottomSheetRef}
+              instructionHeight={this.state.instructionHeight}
               isIndicatorBase={this.props.isIndicatorBase} participantUuid={this.props.participantUuid}
               updateProposedIndicator={this.props.updateProposedIndicator}
               playingUuid={this.props.playingUuid} updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}

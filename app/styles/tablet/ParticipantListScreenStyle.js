@@ -9,9 +9,8 @@ const PrarticipantListScreenStyles = StyleSheet.create({
   },
   participantNumberLabel: {
     fontSize: bigTitleFontSize(),
-    fontWeight: 'bold',
+    fontFamily: FontFamily.title,
     marginLeft: 5,
-    marginTop: 3
   },
   orderNumberHeaderContainer: {
     paddingRight: 20,
