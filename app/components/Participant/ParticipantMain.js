@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, ScrollView } from 'react-native';
+import { Animated, ScrollView, View } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
@@ -72,7 +72,7 @@ class ParticipantMain extends React.Component {
     })
 
     return (
-      <React.Fragment>
+      <View style={{flexGrow: 1}}>
         <CollapsibleNavHeader title={this.context.translations.getStarted} progressIndex={2}  scrollY={this.scrollY} tipIconVisible={false} />
         <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
           <ScrollView contentContainerStyle={{flexGrow: 1}}
@@ -85,7 +85,7 @@ class ParticipantMain extends React.Component {
             { this.props.participants.length == 0 && this.renderNoData() }
           </ScrollView>
         </Animated.View>
-      </React.Fragment>
+      </View>
     )
   }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import Color from '../../themes/color';
-import Tip from '../Share/Tip';
 import OutlinedButton from '../OutlinedButton';
 import { LocalizationContext } from '../Translations';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -12,7 +11,7 @@ import IndicatorDevelopmentMobileStyles from '../../styles/mobile/IndicatorDevel
 
 const responsiveStyles = getDeviceStyle(IndicatorDevelopmentTabletStyles, IndicatorDevelopmentMobileStyles);
 
-class IndicatorDevelopmentContentHeader extends Component {
+class IndicatorDevelopmentAddNewHeader extends Component {
   static contextType = LocalizationContext;
 
   _renderBtnAddIndicator() {
@@ -31,12 +30,9 @@ class IndicatorDevelopmentContentHeader extends Component {
 
   render() {
     return (
-      <View style={{paddingVertical: containerPadding, paddingBottom: getDeviceStyle(12, 14), backgroundColor: Color.defaultBgColor}}>
-        <Tip screenName='IndicatorDevelopment' showTipModal={() => this.props.tipModalRef.current?.present()} />
-
+      <View style={{paddingBottom: getDeviceStyle(12, 14), paddingTop: getDeviceStyle(4, 0), backgroundColor: Color.defaultBgColor}}>
         <View style={responsiveStyles.titleContainer}>
           <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ this.context.translations.indicatorDevelopment }</Text>
-
           {  this.props.hasData && this._renderBtnAddIndicator() }
         </View>
       </View>
@@ -52,4 +48,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default IndicatorDevelopmentContentHeader;
+export default IndicatorDevelopmentAddNewHeader;

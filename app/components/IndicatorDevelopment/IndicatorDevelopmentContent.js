@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Dimensions } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import IndicatorDevelopmentContentHeader from './IndicatorDevelopmentContentHeader';
+import IndicatorDevelopmentAddNewHeader from './IndicatorDevelopmentAddNewHeader';
 import IndicatorDevelopmentList from './IndicatorDevelopmentList';
 import EmptyListAction from '../Share/EmptyListAction';
 import Rating from '../../models/Rating';
@@ -43,9 +43,9 @@ class IndicatorDevelopmentContent extends Component {
     );
   }
 
-  renderHeader() {
+  renderAddNewHeader() {
     return (
-      <IndicatorDevelopmentContentHeader
+      <IndicatorDevelopmentAddNewHeader
         openModal={this.props.openModal}
         hasData={!!this.props.selectedIndicators.length}
         hasRating={this.state.hasRating}
@@ -68,7 +68,7 @@ class IndicatorDevelopmentContent extends Component {
             updateSelectedIndicatorsOrder={this.props.updateSelectedIndicatorsOrder}
             hasData={hasData}
             openModal={this.props.openModal}
-            renderHeader={() => this.renderHeader()}
+            renderAddNewHeader={() => this.renderAddNewHeader()}
             headerHeight={this.state.headerHeight}
             hasRating={this.state.hasRating}
             playingUuid={this.props.playingUuid}

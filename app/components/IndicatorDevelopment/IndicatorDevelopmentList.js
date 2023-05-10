@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {Animated, View} from 'react-native';
+import {Animated} from 'react-native';
 import DraggableFlatList from "react-native-draggable-flatlist";
 import AsyncStorage from '@react-native-community/async-storage';
 import SelectedIndicatorItem from './SelectedIndicatorItem';
 import IndicatorDevelopmentInstructionModal from './IndicatorDevelopmentInstructionModal';
 import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
+import Tip from '../Share/Tip';
 import { LocalizationContext } from '../Translations';
 
 import {headerShrinkOffset} from '../../constants/component_style_constant';
@@ -40,6 +41,8 @@ class IndicatorDevelopmentList extends Component {
 
   renderItem(params) {
     const {item, index, drag, isActive} = params;
+    if (index == 0)
+      return this.props.renderAddNewHeader()
 
     return (
       <SelectedIndicatorItem indicator={item} key={index}
@@ -71,10 +74,10 @@ class IndicatorDevelopmentList extends Component {
   }
 
   renderScrollView() {
-    const selectedIndicators = this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid);
+    const selectedIndicators = [{item: 'header'}, ...this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid)];
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 60, 58],
+      outputRange: [156, 80, 70],
       extrapolate: 'clamp',
     })
     return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
@@ -84,9 +87,9 @@ class IndicatorDevelopmentList extends Component {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={(params) => this.renderItem(params)}
                 containerStyle={{marginHorizontal: -4, paddingHorizontal: containerPadding}}
-                ListHeaderComponent={this.props.renderHeader()}
+                ListHeaderComponent={<Tip screenName='IndicatorDevelopment' showTipModal={() => this.props.tipModalRef.current?.present()} containerStyle={{marginTop: containerPadding}} />}
                 onScrollOffsetChange={(offset) => this.onListScroll(offset)}
-                stickyHeaderIndices={[0]}
+                stickyHeaderIndices={[1]}
               />
            </Animated.View>
   }
