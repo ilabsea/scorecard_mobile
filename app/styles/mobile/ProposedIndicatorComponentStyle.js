@@ -11,7 +11,8 @@ const ProposedIndicatorComponentStyles = StyleSheet.create({
     backgroundColor: Color.defaultBgColor,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingBottom: 14,
+    paddingBottom: 18,
+    paddingTop: 4,
     paddingHorizontal: containerPadding
   },
   headingTitle: {

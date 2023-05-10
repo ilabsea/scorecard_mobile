@@ -53,7 +53,7 @@ class Accordion extends Component {
 
   render() {
     return (
-      <View style={{ marginTop: 10 }}>
+      <View style={[{ marginTop: 10 }, this.props.customContainerStyle]}>
         <List.Section>
           { this.renderAccordion() }
         </List.Section>

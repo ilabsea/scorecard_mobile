@@ -5,8 +5,8 @@ import { LocalizationContext } from '../Translations';
 import IndicatorDevelopmentContentHeader from './IndicatorDevelopmentContentHeader';
 import IndicatorDevelopmentList from './IndicatorDevelopmentList';
 import EmptyListAction from '../Share/EmptyListAction';
-import { containerPadding } from '../../utils/responsive_util';
 import Rating from '../../models/Rating';
+import Color from '../../themes/color';
 
 class IndicatorDevelopmentContent extends Component {
   static contextType = LocalizationContext;
@@ -31,7 +31,7 @@ class IndicatorDevelopmentContent extends Component {
 
   _renderNoData() {
     const { translations } = this.context;
-    const top = (Dimensions.get('screen').height - 305) / 2;
+    const top = (Dimensions.get('screen').height - 305) / 1.2;
 
     return (
       <EmptyListAction
@@ -61,7 +61,7 @@ class IndicatorDevelopmentContent extends Component {
       <View style={{flex: 1}}
         onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y - 22 })}
       >
-        <View style={{flex: 1, paddingHorizontal: containerPadding}}>
+        <View style={{flex: 1, backgroundColor: Color.defaultBgColor}}>
           <IndicatorDevelopmentList
             scorecardUuid={this.props.scorecardUuid}
             selectedIndicators={this.props.selectedIndicators}
@@ -73,6 +73,7 @@ class IndicatorDevelopmentContent extends Component {
             hasRating={this.state.hasRating}
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={this.props.updatePlayingUuid}
+            tipModalRef={this.props.tipModalRef}
           />
         </View>
 

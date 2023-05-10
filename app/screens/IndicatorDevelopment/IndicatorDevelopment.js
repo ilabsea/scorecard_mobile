@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
-import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import ProposedIndicatorListModalContent from '../../components/IndicatorDevelopment/ProposedIndicatorListModalContent';
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
@@ -63,17 +62,6 @@ class IndicatorDevelopment extends Component {
     this.props.setProposedIndicators(proposedIndicators);
   }
 
-  _renderHeader() {
-    const { translations } = this.context;
-
-    return (
-      <HorizontalProgressHeader
-        title={translations.setIndicatorDevelopment}
-        navigation={this.props.navigation}
-        progressIndex={2}/>
-    )
-  }
-
   _submit() {
     this.setState({playingUuid: null});
     votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedIndicators) => {
@@ -117,10 +105,7 @@ class IndicatorDevelopment extends Component {
 
     return (
       <View style={{flex: 1}}>
-        { this._renderHeader() }
-
         { this._renderContent() }
-
         { !!this.props.selectedIndicators.length &&
           <View style={{padding: containerPadding}}>
             <BottomButton

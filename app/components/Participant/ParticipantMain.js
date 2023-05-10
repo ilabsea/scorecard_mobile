@@ -1,17 +1,23 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { Animated, ScrollView } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
 import ParticipantList from './ParticipantList';
 import EmptyListAction from '../Share/EmptyListAction';
+import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
-
 import { participantModalContentHeight, participantModalSnapPoints } from '../../constants/modal_constant';
-import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import {headerShrinkOffset} from '../../constants/component_style_constant';
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
+
+  constructor(props) {
+    super(props)
+    this.scrollY = new Animated.Value(0)
+    this.isHeaderShrunk = false
+  }
 
   showParticipantBottomSheet(selectedParticipant) {
     if (!!selectedParticipant && !selectedParticipant.countable)
@@ -59,23 +65,29 @@ class ParticipantMain extends React.Component {
   }
 
   render () {
+    const containerPaddingTop = this.scrollY.interpolate({
+      inputRange: [0, 100, 140],
+      outputRange: [156, 56, 56],
+      extrapolate: 'clamp',
+    })
+
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        { this.renderTitle() }
-        { this.renderParticipantList() }
-        { this.props.participants.length == 0 && this.renderNoData() }
-      </ScrollView>
+      <React.Fragment>
+        <CollapsibleNavHeader title={this.context.translations.getStarted} progressIndex={2}  scrollY={this.scrollY} tipIconVisible={false} />
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+          <ScrollView contentContainerStyle={{flexGrow: 1}}
+            onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
+                      { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}
+            stickyHeaderIndices={[0]}
+          >
+            { this.renderTitle() }
+            { this.renderParticipantList() }
+            { this.props.participants.length == 0 && this.renderNoData() }
+          </ScrollView>
+        </Animated.View>
+      </React.Fragment>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: containerPadding,
-    paddingHorizontal: 14,
-    flexGrow: 1,
-    paddingTop: containerPaddingTop,
-  }
-});
 
 export default ParticipantMain;

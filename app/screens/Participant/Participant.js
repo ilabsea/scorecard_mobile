@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Root } from 'native-base';
+import { View } from 'react-native';
 
 import Color from '../../themes/color';
 
 import {LocalizationContext} from '../../components/Translations';
 import ParticipantMain from '../../components/Participant/ParticipantMain';
 import BottomButton from '../../components/BottomButton';
-import ProgressHeader from '../../components/Share/ProgressHeader';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
@@ -56,28 +54,17 @@ class Participant extends Component {
   }
 
   render() {
-    const {translations} = this.context;
-
     return (
-      <Root>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
-            <ProgressHeader
-              title={translations.getStarted}
-              progressIndex={2}
-            />
+      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+        <ParticipantMain
+          scorecardUuid={this.props.route.params.scorecard_uuid}
+          participants={this.props.participants}
+          participantModalRef={this.participantModalRef}
+          formModalRef={this.formModalRef}
+        />
 
-            <ParticipantMain
-              scorecardUuid={this.props.route.params.scorecard_uuid}
-              participants={this.props.participants}
-              participantModalRef={this.participantModalRef}
-              formModalRef={this.formModalRef}
-            />
-
-            { this.renderBottomSection() }
-          </View>
-        </TouchableWithoutFeedback>
-      </Root>
+        { this.renderBottomSection() }
+      </View>
     );
   }
 }

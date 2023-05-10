@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../../components/Translations';
-import HorizontalProgressHeader from '../../components/HorizontalProgressHeader';
 import TipModal from '../../components/Tip/TipModal';
 import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
@@ -43,15 +42,6 @@ class VotingIndicatorList extends Component {
     }
   }
 
-  _renderHeader() {
-    return (
-      <HorizontalProgressHeader
-        title={this.context.translations.voting}
-        navigation={this.props.navigation}
-        progressIndex={3}/>
-    )
-  }
-
   _renderBody() {
     return <VotingIndicatorListContent
             scorecard={this.state.scorecard}
@@ -70,8 +60,6 @@ class VotingIndicatorList extends Component {
 
     return (
       <View style={{height: '100%'}}>
-        { this._renderHeader() }
-
         { this._renderBody() }
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' />

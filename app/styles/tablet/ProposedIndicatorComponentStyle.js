@@ -13,6 +13,7 @@ const ProposedIndicatorComponentStyles = StyleSheet.create({
     flexWrap: 'wrap',
     marginBottom: 6,
     paddingBottom: 14,
+    paddingTop: 4,
     paddingHorizontal: containerPadding
   },
   headingTitle: {

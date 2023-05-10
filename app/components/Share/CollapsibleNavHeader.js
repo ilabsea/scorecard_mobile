@@ -13,12 +13,13 @@ import ProgressStep from '../ProgressStep';
 import Color from '../../themes/color';
 import { navigateBack, navigateHome } from '../../utils/navigation_util';
 import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
+import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 const headerMaxHeight = 156;
 const headerMinHeight = 56;
 const headerScrollDistance = (headerMaxHeight - headerMinHeight);
 
-const ProposedIndicatorNavHeader = (props) => {
+const CollapsibleNavHeader = (props) => {
   const {translations} = React.useContext(LocalizationContext);
   const [visibleModal, setVisibleModal] = React.useState(false)
 
@@ -46,8 +47,9 @@ const ProposedIndicatorNavHeader = (props) => {
   }
 
   const renderProgressStep = () => {
+    const steps = scorecardProgress.map(x => translations[x.label]);
     return <Animated.View style={{marginTop: getDeviceStyle(10, 4), alignSelf: 'center', opacity: progressOpacity}}>
-             <ProgressStep progressIndex={3} steps={!!props.steps && props.steps}/>
+             <ProgressStep progressIndex={props.progressIndex} steps={!!props.isPassProposeStep ? steps : '' }/>
            </Animated.View>
   }
 
@@ -66,9 +68,9 @@ const ProposedIndicatorNavHeader = (props) => {
                 <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(0, 10)}}>
                   <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: getDeviceStyle(0, 10) }} />
                 </Left>
-                <NavigationHeaderBody title={translations.proposeTheIndicator} />
+                <NavigationHeaderBody title={props.title} />
                 <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, 6)}}>
-                  {renderTipIcon()}
+                  {props.tipIconVisible && renderTipIcon()}
                   <HeaderIconButton onPress={() => setVisibleModal(true)} icon='home'/>
                 </Right>
               </View>
@@ -95,4 +97,4 @@ const ProposedIndicatorNavHeader = (props) => {
   )
 }
 
-export default ProposedIndicatorNavHeader
+export default CollapsibleNavHeader
