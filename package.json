@@ -31,7 +31,7 @@
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.2",
-    "react-native-audio-card-view": "^1.0.7",
+    "react-native-audio-card-view": "^1.0.8",
     "react-native-audio-player-button": "^1.0.7",
     "react-native-copilot": "^2.5.1",
     "react-native-device-info": "^10.3.0",

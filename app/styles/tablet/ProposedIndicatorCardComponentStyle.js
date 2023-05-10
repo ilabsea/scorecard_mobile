@@ -23,31 +23,27 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     paddingHorizontal: 14
   },
   indicatorBaseOutlinedCardContainer: {
-    marginBottom: 0,
+    marginBottom: 1,
     marginTop: 35,
-    height: 118,
     width: '100%',
     borderWidth: 1,
     borderColor: Color.lightGrayColor,
-    elevation: 0
+    elevation: 0,
   },
   indicatorBaseSwipeableButton: {
-    height: 118,
-    marginTop: 40,
+    marginTop: 35,
     width: 90
   },
   participantBaseOutlinedCardContainer: {
-    marginBottom: 0,
+    marginBottom: 1,
     marginTop: 35,
-    height: 95,
     width: '100%',
     borderWidth: 1,
     borderColor: Color.lightGrayColor,
     elevation: 0,
   },
   participantBaseSwipeableButton: {
-    height: 95,
-    marginTop: 40,
+    marginTop: 35,
     width: 90
   },
   indicatorOutlinedLabelContainer: {
