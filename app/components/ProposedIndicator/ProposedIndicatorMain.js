@@ -69,12 +69,12 @@ class ProposedIndicatorContent extends Component {
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 80, 66],
+      outputRange: [156, 80, 70],
       extrapolate: 'clamp',
     })
 
     return (
-      <View style={{flexGrow: 1}}>
+      <React.Fragment>
         <CollapsibleNavHeader title={this.context.translations.proposeTheIndicator} scrollY={this.scrollY} progressIndex={3}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
@@ -100,7 +100,7 @@ class ProposedIndicatorContent extends Component {
 
           { this.renderFinishButton() }
         </Animated.View>
-      </View>
+      </React.Fragment>
     );
   }
 }
