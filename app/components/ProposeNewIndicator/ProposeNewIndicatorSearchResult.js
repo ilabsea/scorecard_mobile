@@ -69,7 +69,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
           }
         </Animated.View>
         <TouchableWithoutFeedback onPress={() => this.props.closeSearch()}>
-          <View style={{position: 'absolute', height: hp('100%'), width: wp('100%'), backgroundColor: 'rgba(0,0,0,0.7)', zIndex: -1}} />
+          <View style={{position: 'absolute', height: hp('100%'), width: wp('100%'), backgroundColor: 'rgba(0,0,0,0.5)', zIndex: -1}} />
         </TouchableWithoutFeedback>
       </React.Fragment>
     )

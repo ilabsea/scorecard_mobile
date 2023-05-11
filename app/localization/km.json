@@ -429,5 +429,6 @@
   "anonymousHasNoIdentity": "អនាមិកមិនមានអត្តសញ្ញាណ",
   "fillInInformationBelow": "បំពេញព័ត៌មានខាងក្រោម",
   "fillInNewParticipantInfo": "បំពេញព័ត៌មានអ្នកចូលរួមថ្មី",
-  "proposedParticipant": "អ្នកស្នើ"
+  "proposedParticipant": "អ្នកស្នើ",
+  "anon": "អនា."
 }

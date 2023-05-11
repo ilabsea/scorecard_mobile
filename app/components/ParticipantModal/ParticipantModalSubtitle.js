@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
+import DeviceInfo from 'react-native-device-info'
 
 import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
@@ -15,14 +16,14 @@ import ParticipantListItemMobileStyles from '../../styles/mobile/ParticipantList
 
 const styles = getDeviceStyle(ParticipantListItemTabletStyles, ParticipantListItemMobileStyles);
 
-const ProposedIndicatorParticipantListSubtitle = (props) => {
+const ParticipantModalSubtitle = (props) => {
   const { translations } = useContext(LocalizationContext);
   const [anonymousParticipant, setAnonymousParticipant] = useState([]);
 
   useEffect(() => {
     if (!!props.selectedIndicator)
       setAnonymousParticipant(ProposedIndicator.getNumberAnonymousProposeByIndicator(props.scorecardUuid, props.selectedIndicator.indicatorable_id));
-  }, [props.raisedParticipantUuids])
+  }, [props.raisedParticipantUuids.length])
 
   function renderAddNewParticipantButton() {
     return <OutlinedButton
@@ -37,7 +38,8 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   }
 
   function renderAnonymous() {
-    return <Text style={{fontSize: bodyFontSize()}}> [{translations.anonymous} { boldLabel(anonymousParticipant) }]</Text>
+    const anonLabel = DeviceInfo.isTablet() ? translations.anonymous : translations.anon
+    return <Text style={{fontSize: bodyFontSize()}}> [{anonLabel}{ boldLabel(anonymousParticipant) }]</Text>
   }
 
   function renderProposedParticipant() {
@@ -78,4 +80,4 @@ const ProposedIndicatorParticipantListSubtitle = (props) => {
   )
 }
 
-export default ProposedIndicatorParticipantListSubtitle;
+export default ParticipantModalSubtitle;

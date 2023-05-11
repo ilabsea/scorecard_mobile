@@ -24,7 +24,7 @@ class ProposedIndicatorNewProposeButton extends Component {
   renderAnonymous() {
     const anonymous = Participant.getAnonymousByScorecard(this.props.scorecardUuid).length;
     if (anonymous > 0)
-      return ` (${this.context.translations.anonymous} ${anonymous})`;
+      return ` (${getDeviceStyle(this.context.translations.anon, this.context.translations.anonymous)} ${anonymous})`;
   }
 
   render() {

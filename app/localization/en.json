@@ -429,5 +429,6 @@
   "anonymousHasNoIdentity": "Anonymous has no identity",
   "fillInInformationBelow": "Fill in information below",
   "fillInNewParticipantInfo": "Fill in new participant information",
-  "proposedParticipant": "Proposed participant"
+  "proposedParticipant": "Proposed participant",
+  "anon": "Anon."
 }
