@@ -36,8 +36,8 @@ const CollapsibleNavHeader = (props) => {
   });
 
   const tipIconOpacity = props.scrollY.interpolate({
-    inputRange: [0, headerMaxHeight],
-    outputRange: [0, 1],
+    inputRange: [0, headerMaxHeight / 2, headerMaxHeight],
+    outputRange: [0, 1, 1],
     extrapolate: 'clamp',
   })
 

@@ -261,6 +261,7 @@
   "raisedParticipant": "អ្នកស្នើ",
   "raisedIndicator": "លក្ខណៈវិនិច្ឆ័យ",
   "numberOfRaisedParticipant": "ចំនួនអ្នកស្នើ {0} នាក់",
+  "numberOfRaisedParticipants": "ចំនួនអ្នកស្នើ {0} នាក់",
   "numberOfParticipant": "ចំនួនអ្នកចូលរូម",
   "pleaseProposeIndicator": "សូមធ្វើការបំផុសលក្ខណៈវិនិច្ឆ័យ",
   "editIndicator": "កែប្រែលក្ខណៈវិនិច្ឆ័យ",
@@ -421,11 +422,12 @@
   "doYouWantToDeleteThisProposedIndicator": "តើអ្នកពិតជាចង់លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុសនេះមែនទេ?",
   "proposeIndicatorInstruction": "បញ្ចូលឈ្មោះលក្ខណៈវិនិច្ឆ័យក្នុងប្រអប់ខាងក្រោមរួចជ្រើសរើសលក្ខណៈវិនិច្ឆ័យដែលបានបង្ហាញក្នុងលទ្ធផលដើម្បីធ្វើការបំផុស៖",
   "theIndicatorNameYouWantToPropose": "ឈ្មោះលក្ខណៈវិនិច្ឆ័យដែលអ្នកចង់បំផុស",
-  "selectRaisedParticipant": "ជ្រើសរើសអ្នកចូលរួមដែលបានស្នើ",
+  "selectRaisedParticipant": "ជ្រើសរើសអ្នកដែលបានស្នើ",
   "input": "បញ្ចូល",
   "inputted": "បានបញ្ចូល {0} ចំនុច",
   "inputtedPlural": "បានបញ្ចូល {0} ចំនុច",
   "anonymousHasNoIdentity": "អនាមិកមិនមានអត្តសញ្ញាណ",
   "fillInInformationBelow": "បំពេញព័ត៌មានខាងក្រោម",
-  "fillInNewParticipantInfo": "បំពេញព័ត៌មានអ្នកចូលរួមថ្មី"
+  "fillInNewParticipantInfo": "បំពេញព័ត៌មានអ្នកចូលរួមថ្មី",
+  "proposedParticipant": "អ្នកស្នើ"
 }

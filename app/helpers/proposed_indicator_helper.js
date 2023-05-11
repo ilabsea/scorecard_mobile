@@ -108,7 +108,8 @@ const proposedIndicatorHelper = (() => {
 
   function getCardSubtitle(translations, scorecardUuid, indicatorableId) {
     const raisedParticipants = participantHelper.getRaisedParticipantByIndicator(scorecardUuid, indicatorableId);
-    let label = translations.formatString(translations.numberOfRaisedParticipant, raisedParticipants.length)
+    const translatedLabel = raisedParticipants.length > 1 ? translations.numberOfRaisedParticipants : translations.numberOfRaisedParticipant
+    let label = translations.formatString(translatedLabel, raisedParticipants.length)
     if (raisedParticipants.filter(participant => participant.countable == false).length > 0)
       label += ` (${translations.anonymous} 1)`
 
