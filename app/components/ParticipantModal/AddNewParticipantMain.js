@@ -13,9 +13,8 @@ import {saveParticipant} from '../../actions/participantAction';
 import {connect} from 'react-redux';
 
 import Color from '../../themes/color';
-import styles from '../../themes/participantListItemStyle';
 import { containerPadding } from '../../utils/responsive_util';
-import { bodyFontSize } from '../../utils/font_size_util';
+import { bottomMessageFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 import toastMessageUtil from '../../utils/toast_message_util';
 import { MALE } from '../../constants/participant_constant';
@@ -81,7 +80,7 @@ class AddNewParticipantMain extends Component {
       <ParticipantForm
         updateNewState={this.updateNewState}
         updateValidationStatus={this.updateValidationStatus}
-        containerStyle={{paddingBottom: 65, paddingTop: 0}}
+        containerStyle={{paddingBottom: 65}}
         renderSmallSize={true}
         isUpdate={!!this.props.selectedParticipant}
         participant={participant}
@@ -112,10 +111,18 @@ class AddNewParticipantMain extends Component {
 
       setTimeout(() => {
         !!this.props.onSaveParticipant && this.props.onSaveParticipant(participant);
-        const message = isUpdate ? this.context.translations.successfullyUpdatedParticipant : this.context.translations.successfullyCreatedParticipant;
+        const message = isUpdate ? this.context.translations.participantSuccessfullyUpdated : this.context.translations.newParticipantSuccessfullyCreated;
         toastMessageUtil.showMessage(message);
       }, 50);
     });
+  }
+
+  renderAnonymousMessage() {
+    return (
+      <Text style={{ fontSize: bottomMessageFontSize(), color: Color.redColor, textAlign: 'center', marginTop: 5, borderWidth: 0}}>
+        {this.context.translations.anonymousHasNoIdentity}
+      </Text>
+    )
   }
 
   render() {
@@ -124,17 +131,17 @@ class AddNewParticipantMain extends Component {
 
     return (
       <View style={{backgroundColor: Color.whiteColor, height: hp(contentHeight)}}>
-        <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposeTheIndicator } />
+        <BottomSheetModalTitle title={ !!this.props.title ? this.props.title : translations.proposeTheIndicator }
+          subtitle={!!this.props.subTitle ? this.props.subTitle : translations.fillInNewParticipantInfo}
+        />
         <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
           <View style={{padding: containerPadding, flex: 1}}>
-            <Text style={[styles.header, {marginBottom: 10, fontSize: bodyFontSize()}]}>
-              { !!this.props.subTitle ? this.props.subTitle : translations.addNewParticipant }
-            </Text>
             {this.renderForm()}
           </View>
         </ScrollView>
         <View style={{width: '100%', position: 'absolute', bottom: 0, backgroundColor: Color.whiteColor}}>
-          <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} wrapperStyle={{paddingTop: 0, marginTop: 12}}/>
+          { this.state.anonymous && this.renderAnonymousMessage() }
+          <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} wrapperStyle={{paddingTop: 0, marginTop: this.state.anonymous ? 4 : 12}}/>
         </View>
       </View>
     );

@@ -342,8 +342,8 @@
   "theServerUrlHasBeenChanged": "The server URL has been changed",
   "editServerUrl": "Edit server URL",
   "editParticipant": "Edit participant",
-  "successfullyCreatedParticipant": "Successfully created participant",
-  "successfullyUpdatedParticipant": "Successfully updated participant",
+  "newParticipantSuccessfullyCreated": "New participant successfully created",
+  "participantSuccessfullyUpdated": "Participant successfully updated",
   "reLoginRequired": "Re-login required",
   "reLoginDescription": "The app requires you to re-login and save the current server URL in the setting.",
   "goToSetting": "Go to setting",
@@ -411,7 +411,7 @@
   "proposedParticipantAccordionTitle": "Proposed participant",
   "anonymousCannotChoose": "anonymous cannot choose",
   "indicatorDevelopmentEmptyButtonLabel": "Indicator",
-  "showForTheFirstParticipantOnly": "show for the first participant only",
+  "forTheFirstParticipantOnly": "for the first participant only",
   "deleteTheProposedIndicators": "Delete the proposed indicators",
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "Do you want to delete all the proposed indicators of this participant?",
   "proposeNewIndicatorTitle": "Propose new indicator",
@@ -424,5 +424,8 @@
   "selectRaisedParticipant": "Select raised participant",
   "input": "Input",
   "inputted": "Inputted {0} point",
-  "inputtedPlural": "Inputted {0} points"
+  "inputtedPlural": "Inputted {0} points",
+  "anonymousHasNoIdentity": "Anonymous has no identity",
+  "fillInInformationBelow": "Fill in information below",
+  "fillInNewParticipantInfo": "Fill in new participant information"
 }

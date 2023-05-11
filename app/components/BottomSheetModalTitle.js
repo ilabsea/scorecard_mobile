@@ -5,7 +5,7 @@ import DashedLine from './DashedLine';
 import {LocalizationContext} from './Translations';
 import OutlinedButton from './OutlinedButton';
 import styles from '../themes/modalStyle';
-import { smallTitleFontSize, titleFontSize } from '../utils/font_size_util';
+import { smallTitleFontSize, titleFontSize, smallTextFontSize } from '../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../utils/responsive_util';
 import PopupModalTabletStyles from '../styles/tablet/PopupModalComponentStyle';
 import PopupModalMobileStyles from '../styles/mobile/PopupModalComponentStyle';
@@ -17,13 +17,11 @@ const BottomSheetModalTitle = (props) => {
   const [ isMultiLine, setIsMultiLine ] = useState(false);
 
   function renderRightButton() {
-    return <View style={{paddingBottom: containerPadding, paddingTop: containerPadding - getDeviceStyle(6, 10)}}>
-            <OutlinedButton
+    return <OutlinedButton
               icon="plus"
               label={translations.addNew}
               onPress={() => !!props.onPressRightButton && props.onPressRightButton() }
-            />
-          </View>
+           />
   }
 
   function headerFontSize() {
@@ -31,19 +29,25 @@ const BottomSheetModalTitle = (props) => {
   }
 
   return (
-    <View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: containerPadding}}>
-        <Text style={[styles.title, responsiveStyles.headerTitle, headerFontSize(), { paddingVertical: containerPadding, flex: 1}]} numberOfLines={2}
-          onTextLayout={(e) => { if (!isMultiLine) setIsMultiLine(e.nativeEvent.lines.length > 1) }}
-        >
-          { props.title }
-          { props.isRequire && <Text style={[{color: Color.redColor}, responsiveStyles.headerTitle, headerFontSize()]}> *</Text> }
-        </Text>
-
-        { !!props.hasAddButton && renderRightButton() }
+    <React.Fragment>
+      <View style={{marginVertical: containerPadding}}>
+        <View style={[{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: containerPadding}, !!props.hasAddButton && {alignItems: 'center'}]}>
+          <Text style={[styles.title, responsiveStyles.headerTitle, headerFontSize(), {flex: 1}]} numberOfLines={2}
+            onTextLayout={(e) => { if (!isMultiLine) setIsMultiLine(e.nativeEvent.lines.length > 1) }}
+          >
+            { props.title }
+            { props.isRequire && <Text style={[{color: Color.redColor}, responsiveStyles.headerTitle, headerFontSize()]}> *</Text> }
+          </Text>
+          { !!props.hasAddButton && renderRightButton() }
+        </View>
+        { props.subtitle &&
+          <Text style={{marginLeft: containerPadding, fontSize: smallTextFontSize(), color: Color.grayColor}}>
+            {props.subtitle}
+          </Text>
+        }
       </View>
       <DashedLine containerStyle={props.dashedLineStyle} />
-    </View>
+    </React.Fragment>
   )
 }
 

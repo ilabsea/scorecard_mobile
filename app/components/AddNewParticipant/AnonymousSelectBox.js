@@ -4,7 +4,6 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';
 import OptionsSelectBox from './OptionsSelectBox';
-import OutlineInfoIcon from '../Share/OutlineInfoIcon';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { participantFormTitleFontSize } from '../../utils/font_size_util';
@@ -12,17 +11,20 @@ import { participantFormTitleFontSize } from '../../utils/font_size_util';
 class AnonymousSelectBox extends React.Component {
   static contextType = LocalizationContext;
 
+  renderInfoBadge() {
+    return <View style={{marginLeft: 10, backgroundColor: Color.paleGrayColor, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6}}>
+              <Text style={{fontSize: getDeviceStyle(12, 10.2), color: '#a0a0a0'}}>{this.context.translations.forTheFirstParticipantOnly}</Text>
+           </View>
+  }
+
   render() {
     return (
       <View>
         <View style={{flexDirection: 'row', marginTop: 5, alignItems: 'center'}}>
           <Text style={{fontSize: participantFormTitleFontSize()}}>
-            { this.context.translations.other } ({ this.context.translations.anonymous })  -
+            { this.context.translations.other } ({ this.context.translations.anonymous })
           </Text>
-          <OutlineInfoIcon color={Color.warningColor} customIconStyle={{fontSize: 20}} customIconContainerStyles={{width: 23, height: 23, marginLeft: 8, borderWidth: 2, marginRight: 6}} />
-          <Text style={{fontSize: participantFormTitleFontSize()}}>
-            {this.context.translations.showForTheFirstParticipantOnly}
-          </Text>
+          {this.renderInfoBadge()}
         </View>
 
         <View style={{ marginTop: 8, paddingLeft: wp(getDeviceStyle('8.3%', '4.5%')) }}>
