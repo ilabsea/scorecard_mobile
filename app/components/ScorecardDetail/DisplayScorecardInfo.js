@@ -21,14 +21,9 @@ class DisplayScorecardInfo extends Component {
       {label: 'province', fieldName: 'province', isObject: false},
       {label: 'district', fieldName: 'district', isObject: false},
       {label: 'commune', fieldName: 'commune', isObject: false},
-      {label: 'factory', fieldName: 'dataset', isObject: true},
+      {label: 'facilityName', fieldName: 'dataset', isObject: true},
       {label: 'implementer', fieldName: 'local_ngo_name', isObject: false},
     ];
-
-    if (scorecardDetail.primary_school != null) {
-      const primarySchool = { label: 'primarySchool', fieldName: 'primary_school', isObject: true };
-      renderFields.splice(6, 0, primarySchool);
-    }
 
     return renderFields.map((renderField, index) => {
       let value = scorecardDetail[renderField.fieldName] != undefined ? scorecardDetail[renderField.fieldName].toString() : ''
@@ -42,7 +37,7 @@ class DisplayScorecardInfo extends Component {
 
       return (
         <TextInput
-          label={translations[renderField.label]}
+          label={ renderField.label != 'facilityName' ? translations[renderField.label] : this.getFieldValueByLanguage(scorecardDetail.facility, appLanguage)}
           mode="outlined"
           value={value}
           editable={false}
