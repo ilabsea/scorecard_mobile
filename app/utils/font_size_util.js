@@ -96,3 +96,7 @@ export const requireSignFontSize = () => {
 export const participantFormTitleFontSize = () => {
   return getDeviceStyle(16, getMobileFontSizeByPixelRatio(14, 14));
 }
+
+export const bottomMessageFontSize = () => {
+  return getDeviceStyle(15, getMobileFontSizeByPixelRatio(13.5, 12.5));
+}

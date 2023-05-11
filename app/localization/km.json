@@ -141,7 +141,7 @@
   "participant_id": "លេខសំគាល់អ្នកចូលរួម",
   "noData": "គ្មាន​ទិន្នន័យ",
   "participantList": "អ្នកចូលរួម",
-  "addNewParticipant": "បន្ថែម​អ្នកចូលរួម",
+  "addNewParticipant": "បន្ថែម​អ្នកចូលរួមថ្មី",
   "reachTotalParticipant": "គ្រប់ចំនួននាក់ចូលរួមទាំងអស់ហើយ",
   "issueNote": "ចំណាំ",
   "very_bad": "មិនពេញចិត្តខ្លាំង",
@@ -342,8 +342,8 @@
   "theServerUrlHasBeenChanged": "អាស័យដ្ឋានម៉ាសុីនមេត្រូវបានផ្លាស់ប្ដូរ",
   "editServerUrl": "កែប្រែអាស័យដ្ឋានម៉ាសុីនមេ",
   "editParticipant": "កែប្រែព័ត៌មានអ្នកចូលរួម",
-  "successfullyCreatedParticipant": "បានបង្កើតអ្នកចូលរួមបានដោយជោគជ័យ",
-  "successfullyUpdatedParticipant": "បានកែប្រែអ្នកចូលរួមដោយជោគជ័យ",
+  "newParticipantSuccessfullyCreated": "អ្នកចូលរួមថ្មីបានបង្កើតដោយជោគជ័យ",
+  "participantSuccessfullyUpdated": "អ្នកចូលរួមបានកែប្រែដោយជោគជ័យ",
   "reLoginRequired": "ត្រូវការការផ្ទៀងផ្ទាត់គណនីឡើងវិញ",
   "reLoginDescription": "កម្មវិធី​តម្រូវ​ឱ្យ​អ្នក​ធ្វើ​ការ​ផ្ទៀងផ្ទាត់​គណនី និងរក្សា​ទុក​អាស័យដ្ឋាន​ម៉ាសុីន​មេ​របស់​អ្នក​ម្តង​ទៀត​នៅ​ក្នុង​ផ្ទាំង​ការ​កំណត់។",
   "goToSetting": "ទៅកាន់ផ្ទាំងការកំណត់",
@@ -411,7 +411,7 @@
   "proposedParticipantAccordionTitle": "ចំនួនអ្នកស្នើ",
   "anonymousCannotChoose": "អនាមិកមិនអាចកំណត់បាន",
   "indicatorDevelopmentEmptyButtonLabel": "លក្ខណៈវិនិច្ឆ័យអាទិភាព",
-  "showForTheFirstParticipantOnly": "បង្ហាញសម្រាប់តែអ្នកចូលរួមដំបូង",
+  "forTheFirstParticipantOnly": "សម្រាប់តែអ្នកចូលរួមដំបូង",
   "deleteTheProposedIndicators": "លុបលក្ខណៈវិនិច្ឆ័យដែលបានបំផុស",
   "doYouWantToDeleteTheProposedIndicatorsOfThisParticipant": "តើ​អ្នក​ពិត​ជា​ចង់​លុបលក្ខណៈវិនច្ឆ័យទាំងអស់ដែលបានបំផុសដោយអ្នកចូលរួម​នេះ​មែន​ទេ?",
   "proposeNewIndicatorTitle": "បំផុសលក្ខណៈវិនិច្ឆ័យថ្មី",
@@ -424,5 +424,8 @@
   "selectRaisedParticipant": "ជ្រើសរើសអ្នកចូលរួមដែលបានស្នើ",
   "input": "បញ្ចូល",
   "inputted": "បានបញ្ចូល {0} ចំនុច",
-  "inputtedPlural": "បានបញ្ចូល {0} ចំនុច"
+  "inputtedPlural": "បានបញ្ចូល {0} ចំនុច",
+  "anonymousHasNoIdentity": "អនាមិកមិនមានអត្តសញ្ញាណ",
+  "fillInInformationBelow": "បំពេញព័ត៌មានខាងក្រោម",
+  "fillInNewParticipantInfo": "បំពេញព័ត៌មានអ្នកចូលរួមថ្មី"
 }

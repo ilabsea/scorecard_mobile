@@ -32,7 +32,7 @@ class ParticipantMain extends React.Component {
     return <AddNewParticipantMain
             scorecardUuid={ this.props.scorecardUuid }
             title={!!selectedParticipant ? this.context.translations.editParticipant : this.context.translations.addNewParticipant}
-            subTitle={this.context.translations.participantInformation}
+            subTitle={this.context.translations.fillInInformationBelow}
             selectedParticipant={selectedParticipant}
             onSaveParticipant={ (participant) => this.props.participantModalRef.current?.dismiss() }
             contentHeight={participantModalContentHeight}
