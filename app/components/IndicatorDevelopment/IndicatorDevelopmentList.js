@@ -97,7 +97,7 @@ class IndicatorDevelopmentList extends Component {
   render() {
     return (
       <React.Fragment>
-        <CollapsibleNavHeader title={this.context.translations.voting} scrollY={this.scrollY} progressIndex={2} isPassProposeStep={true}
+        <CollapsibleNavHeader title={this.context.translations.setIndicatorDevelopment} scrollY={this.scrollY} progressIndex={2} isPassProposeStep={true}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
         {this.renderScrollView()}
