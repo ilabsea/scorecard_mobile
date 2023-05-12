@@ -20,6 +20,11 @@ class CustomAudioPlayerButton extends React.Component {
               iconPrimaryColor={Color.clickableColor}
               iconSecondaryColor={Color.clickableColor}
               iconSize={this.props.iconSize || iconSize}
+              rippled={true}
+              rippleStyle={{top: -26, left: -0.3}}
+              rippleScaleSize='small'
+              rippleHeight={pressableItemSize()}
+              rippleWidth={pressableItemSize()}
             />
   }
 }
