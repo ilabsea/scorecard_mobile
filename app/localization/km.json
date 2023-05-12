@@ -135,7 +135,6 @@
   "tipsDetails": "គន្លឹះ - ជំនួយក្នុងការសម្របសម្រួល",
   "welcomeTo": "សូមស្វាគមន៍មកកាន់",
   "scorecardApp": "ប័ណ្ណដាក់ពិន្ទុឌីជីថល",
-  "proposeNewIndicator": "លក្ខណៈវិនិច្ឆ័យថ្មី",
   "edit": "កែ​ប្រែ​",
   "play": "ចាក់​សម្លេង​",
   "participant_id": "លេខសំគាល់អ្នកចូលរួម",
@@ -358,7 +357,7 @@
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "សូមជ្រើសរើសភាសានៃព័ត៌មានរបស់ប័ណ្ណដាក់ពិន្ទុ",
   "pleaseChooseTheFacilitators": "សូមធ្វើការជ្រើសរើសអ្នកសម្របសម្រួល",
   "pleaseEnterTheAge": "សូមបញ្ចូលអាយុ",
-  "proposeTheIndicator": "បំផុសលក្ខណៈ វិនិច្ឆ័យ",
+  "proposeTheIndicator": "បំផុសលក្ខណៈវិនិច្ឆ័យ",
   "pleaseVoteForTheProposedIndicatorsBelow": "សូមធ្វើការដាក់ពិន្ទុឱ្យលក្ខណៈវិនិច្ឆ័យខាងក្រោម",
   "httpsRecommended": "https ត្រូវបានណែនាំ",
   "doYouWantToDiscardTheseChanges": "តើអ្នកពិតជាចង់បោះបង់ការកែប្រែទាំងនេះមែនទេ?",
@@ -430,5 +429,6 @@
   "fillInInformationBelow": "បំពេញព័ត៌មានខាងក្រោម",
   "fillInNewParticipantInfo": "បំពេញព័ត៌មានអ្នកចូលរួមថ្មី",
   "proposedParticipant": "អ្នកស្នើ",
-  "anon": "អនា."
+  "anon": "អនា.",
+  "newIndicator": "លក្ខណៈវិនិច្ឆ័យថ្មី"
 }

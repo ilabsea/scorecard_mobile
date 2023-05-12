@@ -135,7 +135,6 @@
   "tipsDetails": "Tips Details",
   "welcomeTo": "Welcome to",
   "scorecardApp": "Scorecard App",
-  "proposeNewIndicator": "Propose new indicator",
   "edit": "Edit",
   "play": "Play",
   "participant_id": "Participant ID",
@@ -358,7 +357,7 @@
   "pleaseChooseTheLanguagesOfTheScorecardInformation": "Please choose the languages of the scorecard information",
   "pleaseChooseTheFacilitators": "Please choose the facilitators",
   "pleaseEnterTheAge": "Please enter the age",
-  "proposeTheIndicator": "Propose the indicator",
+  "proposeTheIndicator": "Proposed indicator",
   "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below",
   "httpsRecommended": "https recommended",
   "doYouWantToDiscardTheseChanges": "Do you want to discard these changes?",
@@ -430,5 +429,6 @@
   "fillInInformationBelow": "Fill in information below",
   "fillInNewParticipantInfo": "Fill in new participant information",
   "proposedParticipant": "Proposed participant",
-  "anon": "Anon."
+  "anon": "Anon.",
+  "newIndicator": "New indicator"
 }

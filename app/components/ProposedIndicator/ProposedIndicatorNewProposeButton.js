@@ -44,7 +44,7 @@ class ProposedIndicatorNewProposeButton extends Component {
               participants={Participant.getNotRaised(this.props.scorecardUuid)}
               scorecardUuid={ this.props.scorecardUuid }
               buttonVisible={raisedParticipants.length > 0}
-              mode={{type: 'button', label: translations.proposeNewIndicator, iconName: 'plus'}}
+              mode={{type: 'button', label: translations.newIndicator, iconName: 'plus'}}
               selectParticipant={(participant) => navigate('ProposeNewIndicator', {scorecard_uuid: this.props.scorecardUuid, participant_uuid: participant.uuid})}
               closeModal={() => this.closeModal()}
               participantModalRef={this.props.participantModalRef}

@@ -57,7 +57,7 @@ class ProposedIndicatorInfoList extends Component {
       <View style={{height: '100%', paddingTop: hp('2%')}}>
         <EmptyListAction
           title={translations.pleaseProposeIndicator}
-          buttonLabel={translations.proposeNewIndicator}
+          buttonLabel={translations.newIndicator}
           onPress={() => this.props.startProposeIndicator()}
           customContainerStyle={responsiveStyles.noDataContainer}
         />

@@ -51,7 +51,7 @@ export default class ProgressStep extends Component {
     }
 
     let wrapperStyle = this.props.steps.length > 4 ? { width: '20%' } : {};
-    const smallTitleStyles = (!DeviceInfo.isTablet() && index == 2) ? {...responsiveStyles.smallTitle, width: 79} : responsiveStyles.smallTitle
+    const smallTitleStyles = (!DeviceInfo.isTablet() && index == 2) ? {...responsiveStyles.smallTitle, width: 82} : responsiveStyles.smallTitle
 
     return (
       <View style={[styles.itemWrapper, wrapperStyle]} key={uuidv4()}>
