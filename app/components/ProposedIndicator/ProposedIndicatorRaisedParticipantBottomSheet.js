@@ -34,7 +34,7 @@ class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
         <BottomSheetModalTitle title={this.props.indicator.name} />
         <View style={{flex: 1, padding: containerPadding}}>
           <Text style={{fontSize: bodyFontSize(), marginBottom: 6}}>
-            {this.context.translations.raisedParticipant} ({raisedParticipants.length}){this.context.appLanguage == 'km' ? '៖' : ':'}
+            {this.context.translations.proposedParticipant} ({raisedParticipants.length}){this.context.appLanguage == 'km' ? '៖' : ':'}
           </Text>
           <ScrollView contentContainerStyle={{flexGrow: 1}}>
             {this.renderParticipants(raisedParticipants)}

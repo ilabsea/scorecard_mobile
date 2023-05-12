@@ -3,7 +3,7 @@ import { Animated, View } from 'react-native';
 import { Header, Left, Right } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { HeaderBackButton } from '@react-navigation/stack';
-import IonIcon from 'react-native-vector-icons/Ionicons'
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import {LocalizationContext} from '../Translations';
 import HeaderIconButton from '../Share/HeaderIconButton';
@@ -36,8 +36,8 @@ const CollapsibleNavHeader = (props) => {
   });
 
   const tipIconOpacity = props.scrollY.interpolate({
-    inputRange: [0, headerMaxHeight],
-    outputRange: [0, 1],
+    inputRange: [0, headerMaxHeight / 2, headerMaxHeight],
+    outputRange: [0, 1, 1],
     extrapolate: 'clamp',
   })
 
@@ -56,7 +56,7 @@ const CollapsibleNavHeader = (props) => {
   const renderTipIcon = () => {
     return <Animated.View style={{opacity: tipIconOpacity, marginRight: 4}} >
               <HeaderIconButton onPress={() => props.showTipModal()}>
-                <IonIcon name="bulb-outline" size={getDeviceStyle(24, wp('5.5%'))} color={Color.whiteColor} />
+                <MaterialIcon name="lightbulb-on-outline" size={getDeviceStyle(27, wp('6%'))} color={Color.whiteColor} style={{marginTop: -5}} />
               </HeaderIconButton>
            </Animated.View>
   }
