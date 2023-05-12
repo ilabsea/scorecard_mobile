@@ -35,7 +35,7 @@ class IndicatorDevelopmentContent extends Component {
 
     return (
       <EmptyListAction
-        title={translations.pleaseAddIndicators}
+        title={translations.noIndicatorsDevelopment}
         buttonLabel={translations.indicatorDevelopmentEmptyButtonLabel}
         onPress={() => this.props.openModal() }
         customContainerStyle={{position: 'absolute', width: '100%', top: top}}
