@@ -87,7 +87,7 @@ class ProposedIndicatorListModalContent extends Component {
         <View style={{flex: 1, padding: containerPadding, paddingBottom: 0}}>
           { this._renderSubTitle() }
 
-          <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <ScrollView contentContainerStyle={{flexGrow: 1, paddingTop: 5}}>
             { this._renderList() }
           </ScrollView>
         </View>

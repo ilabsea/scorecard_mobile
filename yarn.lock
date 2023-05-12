@@ -7483,10 +7483,10 @@
   "resolved" "https://registry.npmjs.org/react-native-audio-card-view/-/react-native-audio-card-view-1.0.8.tgz"
   "version" "1.0.8"
 
-"react-native-audio-player-button@^1.0.7":
-  "integrity" "sha512-nDYWod4UotorE6641lTboOiS3Mun6XJEMsgD+nB0LZ1T5mWbexEGLEPYnyHhg9vuwoWtGpkUmPWrGFA1gEqE0g=="
-  "resolved" "https://registry.npmjs.org/react-native-audio-player-button/-/react-native-audio-player-button-1.0.7.tgz"
-  "version" "1.0.7"
+"react-native-audio-player-button@^1.0.9":
+  "integrity" "sha512-CGf4U0eGLvmMc03FHI7CSSGOsTgLD9rHuLzsL1RLXkpLHJlCmrMDyFsCq1tYgNaHZlVp46nWFPWh6CiJvPg6Fw=="
+  "resolved" "https://registry.npmjs.org/react-native-audio-player-button/-/react-native-audio-player-button-1.0.9.tgz"
+  "version" "1.0.9"
 
 "react-native-copilot@^2.5.1":
   "integrity" "sha512-THo7rFV35Ffnwz+2vS01H8PXUXc5IAk+CLD5Rd3kWTNla+cBww8hhxKxJc8pJF7xj+o8NZqCDPy+R6LjtFuBLQ=="

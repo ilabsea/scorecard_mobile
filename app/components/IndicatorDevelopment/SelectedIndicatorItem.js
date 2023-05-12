@@ -77,18 +77,18 @@ class SelectedIndicatorItem extends Component {
             audio={this.state.indicator.local_audio}
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
-            containerStyle={this.props.isActive && {backgroundColor: '#f5cfb6'}}
+            containerStyle={[{marginBottom: 6}, this.props.isActive && {backgroundColor: '#f5cfb6'}]}
             onLongPress={this.props.onLongPress}
           />
   }
 
   renderDeleteButton()  {
-    return <SwipeLeftButton label={this.context.translations.delete} customStyle={{marginTop: 26, marginBottom: 10, width: 90}} onPress={() =>  this.handleRemoveIndicator()} />
+    return <SwipeLeftButton label={this.context.translations.delete} customStyle={{marginTop: 32, marginBottom: 6, width: 90}} onPress={() =>  this.handleRemoveIndicator()} />
   }
 
   render() {
     return (
-      <Swipeable renderRightActions={() => this.renderDeleteButton()} ref={ref => { this.itemRef = ref }} enabled={!this.props.hasRating}>
+      <Swipeable renderRightActions={() => this.renderDeleteButton()} ref={ref => { this.itemRef = ref }} enabled={!this.props.hasRating} containerStyle={{paddingTop: 6}}>
         <View style={{marginHorizontal: 2}}>{ this.renderContent() }</View>
       </Swipeable>
     )

@@ -20,6 +20,7 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import {saveParticipant} from '../../actions/participantAction';
 import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
+import Color from '../../themes/color';
 
 class ProposeNewIndicator extends React.Component {
   static contextType = LocalizationContext;
@@ -105,7 +106,7 @@ class ProposeNewIndicator extends React.Component {
   }
 
   renderProposedIndicators = () => {
-    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
+    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2, backgroundColor: Color.defaultBgColor}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
               onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}], { useNativeDriver: false })}
            >
               <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
