@@ -99,7 +99,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
         { this.props.proposedIndicators.length == 0 ? <EmptyListAction title={translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -2, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
           :
           <React.Fragment>
-            {this.renderList()}
+            <View style={{paddingTop: 6}}>{this.renderList()}</View>
             <CustomAlertMessage
               visible={this.state.visibleModal}
               title={translations.deleteTheProposedIndicators}

@@ -89,7 +89,7 @@ class SelectedIndicatorItem extends Component {
   render() {
     return (
       <Swipeable renderRightActions={() => this.renderDeleteButton()} ref={ref => { this.itemRef = ref }} enabled={!this.props.hasRating} containerStyle={{paddingTop: 6}}>
-        <View style={{marginHorizontal: 2, borderWidth: 0}}>{ this.renderContent() }</View>
+        <View style={{marginHorizontal: 2}}>{ this.renderContent() }</View>
       </Swipeable>
     )
   }

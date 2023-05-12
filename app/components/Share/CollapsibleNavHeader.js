@@ -4,6 +4,7 @@ import { Header, Left, Right } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { HeaderBackButton } from '@react-navigation/stack';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
 import HeaderIconButton from '../Share/HeaderIconButton';
@@ -62,7 +63,7 @@ const CollapsibleNavHeader = (props) => {
   }
 
   const renderHeader = () => {
-    return <Header backgroundColor={Color.headerColor} style={{elevation: 0}}>
+    return <Header backgroundColor={Color.headerColor} style={[{elevation: 0}, !DeviceInfo.isTablet() && {paddingLeft: 0, paddingRight: 0}]}>
             <View style={{flexGrow: 1}}>
               <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
                 <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(0, 10)}}>
