@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info'
 
 import { Icon } from 'native-base';
 import uuidv4 from '../utils/uuidv4';
@@ -50,14 +51,14 @@ export default class ProgressStep extends Component {
     }
 
     let wrapperStyle = this.props.steps.length > 4 ? { width: '20%' } : {};
+    const smallTitleStyles = (!DeviceInfo.isTablet() && index == 2) ? {...responsiveStyles.smallTitle, width: 79} : responsiveStyles.smallTitle
 
     return (
       <View style={[styles.itemWrapper, wrapperStyle]} key={uuidv4()}>
         <View style={[styles.badgeIcon, iconStyle]}>
           { badgeIcon }
         </View>
-
-        <Text style={[responsiveStyles.title, titleStyle, {width: this.titleWidth}, this.props.steps ? responsiveStyles.smallTitle : {}]}>
+        <Text style={[responsiveStyles.title, titleStyle, {width: this.titleWidth}, this.props.steps ? smallTitleStyles : {}]}>
           {title}
         </Text>
       </View>
