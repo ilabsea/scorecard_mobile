@@ -15,10 +15,11 @@ class ProposeNewIndicatorNavHeader extends Component {
   constructor(props) {
     super(props);
     this.state = { isModalVisible: false };
+    this.backHandler = null;
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       if (this.props.bottomSheetRef.current?.isOpen())
         this.props.formModalRef.current?.dismiss()
       else
@@ -26,6 +27,10 @@ class ProposeNewIndicatorNavHeader extends Component {
 
       return true;
     })
+  }
+
+  componentWillUnmount() {
+    !!this.backHandler && this.backHandler.remove()
   }
 
   confirmGoBack() {

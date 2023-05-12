@@ -32,6 +32,7 @@ class Home extends Component {
     _this = this;
     this.componentIsUnmount = false;
     this.lastPress = null;
+    this.backHandler = null;
   };
 
   async componentDidMount() {
@@ -52,7 +53,7 @@ class Home extends Component {
       deepLinkService.watchIncommingDeepLink(this.updateModalStatus, this.closeModal, this.handleOccupiedScorecard);
     }, 100)
 
-    BackHandler.addEventListener('hardwareBackPress', () => {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       // If the the user clicks on the android's back button on the other screens except the home screen,
       // it will redirect to the previous screen normally
       if (navigationRef.current?.getCurrentRoute().name.toLowerCase() != HOME)
@@ -73,6 +74,7 @@ class Home extends Component {
     this.componentIsUnmount = true;
     clearInterval(_this.resetLockInterval);
     _this.resetLockInterval = null;
+    !!this.backHandler && this.backHandler.remove()
   }
 
   async updateModalStatus(isLoading, scorecardUuid, errorType, isInvalidScorecard) {
