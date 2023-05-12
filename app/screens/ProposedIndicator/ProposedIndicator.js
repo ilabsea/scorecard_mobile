@@ -28,16 +28,21 @@ class ProposedIndicator extends Component {
     this.tipModalRef = React.createRef();
     this.participantModalRef = React.createRef();
     this.formModalRef = React.createRef();
+    this.backHandler = null;
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       if (!!this.formModalRef.current?.isOpen()) {
         this.participantModalRef.current?.dismiss();
         return true;
       }
       return false;
     })
+  }
+
+  componentWillUnmount() {
+    !!this.backHandler && this.backHandler.remove()
   }
 
   onDismissBottomSheet() {
