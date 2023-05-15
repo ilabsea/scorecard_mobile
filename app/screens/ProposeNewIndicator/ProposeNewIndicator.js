@@ -8,7 +8,7 @@ import ProposeNewIndicatorNavHeader from '../../components/ProposeNewIndicator/P
 import ProposeNewIndicatorSearchBox from '../../components/ProposeNewIndicator/ProposeNewIndicatorSearchBox';
 import ProposeNewIndicatorProposedList from '../../components/ProposeNewIndicator/ProposeNewIndicatorProposedList';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
-import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
+import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
@@ -40,6 +40,7 @@ class ProposeNewIndicator extends React.Component {
     const { last_order_number, previous_proposed_indicators } = proposedIndicatorHelper.getLastProposed(props.route.params.scorecard_uuid, props.route.params.participant_uuid)
     this.lastOrderNumber = last_order_number
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previous_proposed_indicators));
+    this.searchBoxRef = React.createRef();
   }
   async componentDidMount() {
     const {scorecard_uuid, participant_uuid} = this.props.route.params;
@@ -102,6 +103,7 @@ class ProposeNewIndicator extends React.Component {
               scrollY={this.scrollY}
               proposedIndicators={this.state.proposedIndicators.length}
               isEdit={this.props.route.params.is_edit}
+              ref={this.searchBoxRef}
             />
   }
 
@@ -140,7 +142,7 @@ class ProposeNewIndicator extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <React.Fragment>
-          <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef} handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()} />
+          <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef} handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()} searchBoxRef={this.searchBoxRef} />
           {this.renderBody()}
           <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.onBottomSheetDismiss()} />
         </React.Fragment>

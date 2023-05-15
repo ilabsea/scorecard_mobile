@@ -29,8 +29,12 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       searchContainerHeight: 0,
       instructionVisible: false,
       instructionHeight: 0,
+      isSearchFocused: false
     }
     this.isComponentUnmount = false;
+    this.searchMarginTop = new Animated.Value(0)
+    this.scrollingTop = new Animated.Value(0)
+    this.searchOffsetY = 0
   }
 
   componentDidMount() {
@@ -49,12 +53,27 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     return defaultIndicators.slice(0, 10)
   }
 
-  onFocus = async () => {
+  onFocus = () => {
+    this.setState({isSearchFocused: true})
+    this.props.updatePlayingUuid(null)
+    if (this.isSearchAtTop()) return this.showSearchResult()
+
+    Animated.timing(this.searchMarginTop, {
+      toValue: -this.searchOffsetY + 13,
+      duration: 550,
+      useNativeDriver: false,
+    }).start(() => this.showSearchResult());
+  }
+
+  showSearchResult = async () => {
     this.setState({
       showResult: true,
       indicators: await this.getDefaultIndicators()
     })
-    this.props.updatePlayingUuid(null)
+  }
+
+  isSearchAtTop = () => {
+    return parseInt(JSON.stringify(this.scrollingTop)) == 12
   }
 
   findIndicator = async (text) => {
@@ -71,6 +90,11 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     Keyboard.dismiss()
     this.setState({showResult: false, searchedText: ''})
     this.props.updatePlayingUuid(null)
+    Animated.timing(this.searchMarginTop, {
+      toValue: 0,
+      duration: 400,
+      useNativeDriver: false,
+    }).start();
   }
 
   onInstructionDismiss = () => {
@@ -86,26 +110,37 @@ class ProposeNewIndicatorSearchBox extends React.Component {
               bottomSheetRef={this.props.bottomSheetRef}
               formModalRef={this.props.formModalRef}
               isEdit={this.props.isEdit}
+              containerStyle={{opacity: (this.state.isSearchFocused && !this.isSearchAtTop()) ? 0 : 1}}
            />
+  }
+
+  onLayout = (event) => {
+    this.setState({ searchContainerHeight: event.nativeEvent.layout.height + 80 })
+    this.searchOffsetY = event.nativeEvent.layout.y
   }
 
   renderSearchBox = () => {
     const {translations} = this.context
-    const marginTop = this.props.scrollY.interpolate({
+    this.scrollingTop = this.props.scrollY.interpolate({
       inputRange: [0, 40, 60, 80],
       outputRange: proposedIndicatorStyleHelper.getSearchBoxMarginTop(this.state.instructionHeight),
       extrapolate: 'clamp',
     })
-    return <Animated.View onLayout={(event) => this.setState({ searchContainerHeight: event.nativeEvent.layout.height + 80 })} style={{marginTop: marginTop, backgroundColor: Color.defaultBgColor, borderRadius: 10, zIndex: 0}}>
-              <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent'}}
-                inputContainerStyle={{backgroundColor: Color.whiteColor, marginTop: -5, marginLeft: -1}}
-                placeholder={translations.theIndicatorNameYouWantToPropose}
-                onChangeText={(text) => this.onChangeText(text)}
-                onClearSearch={() => this.setState({searchedText: ''})}
-                onFocus={() => this.onFocus()}
-              />
-              { !this.props.isIndicatorBase && this.renderParticipantInfo() }
-              <BoldLabel label={`${translations.proposedIndicator}: ${this.props.proposedIndicators}`} customStyle={{marginTop: 10, marginBottom: 12, zIndex: -2}} />
+
+    return <Animated.View style={{marginTop: this.searchMarginTop}}>
+              <Animated.View onLayout={(event) => this.onLayout(event)} style={{marginTop: this.scrollingTop, backgroundColor: Color.defaultBgColor, borderRadius: 10, zIndex: 0}}>
+                <SearchBox value={this.state.searchedText} containerStyle={{paddingVertical: 0, paddingHorizontal: 0, paddingBottom: 0, backgroundColor: 'transparent'}}
+                  inputContainerStyle={{backgroundColor: Color.whiteColor, marginTop: -5, marginLeft: -1}}
+                  placeholder={translations.theIndicatorNameYouWantToPropose}
+                  onChangeText={(text) => this.onChangeText(text)}
+                  onClearSearch={() => this.setState({searchedText: ''})}
+                  onFocus={() => this.onFocus()}
+                  onBlur={() => this.setState({isSearchFocused: false})}
+                />
+                { !this.props.isIndicatorBase && this.renderParticipantInfo() }
+                <BoldLabel label={`${translations.proposedIndicator}: ${this.props.proposedIndicators}`}
+                  customStyle={{marginTop: 10, marginBottom: 12, zIndex: -2, opacity: (this.state.isSearchFocused && !this.isSearchAtTop()) ? 0 : 1}} />
+              </Animated.View>
            </Animated.View>
   }
 
@@ -113,9 +148,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     return (
       <React.Fragment>
         <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
-          <View style={{backgroundColor: 'white', padding: 8, borderRadius: 10, zIndex: 0}}
-            onLayout={(event) => this.setState({instructionHeight: event.nativeEvent.layout.height})}
-          >
+          <View style={{backgroundColor: 'white', padding: 8, borderRadius: 10, zIndex: 0}} onLayout={(event) => this.setState({instructionHeight: event.nativeEvent.layout.height})}>
             <Text style={{fontSize: bodyFontSize(), color: 'black'}}>{this.context.translations.proposeIndicatorInstruction}</Text>
           </View>
         </TouchableWithoutFeedback>
