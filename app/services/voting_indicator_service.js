@@ -27,12 +27,13 @@ const votingIndicatorService = (() => {
   }
 
   function submitIndicators(scorecard_uuid, selectedIndicators, callback) {
-    _cleanArchiveIndicators(scorecard_uuid, selectedIndicators);
+    const filteredSelectedIndicators = selectedIndicators.filter(item => item.scorecard_uuid != undefined)
+    _cleanArchiveIndicators(scorecard_uuid, filteredSelectedIndicators);
     let savedIndicators = [];
 
-    for(let i=0; i<selectedIndicators.length; i++) {
+    for(let i=0; i<filteredSelectedIndicators.length; i++) {
       const order = i+1;
-      let indicator = selectedIndicators[i];
+      let indicator = filteredSelectedIndicators[i];
       let obj = VotingIndicator.filterByIndicator(indicator.scorecard_uuid, indicator.indicatorable_id, indicator.indicatorable_type)[0];
 
       if (!!obj && obj.order == order) { continue; }
