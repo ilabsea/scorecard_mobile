@@ -63,7 +63,7 @@ class SelectedIndicatorItem extends Component {
     return <View style={{flexDirection: 'row', marginLeft: -14, marginTop: getDeviceStyle(18, 16)}}>
               <Icon name="more-vert" style={{color: Color.lightGrayColor, fontSize: 20, textAlign: 'center', marginTop: 3}} />
               <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginRight: 18}}>
-                {this.props.order + 1}. {this.state.indicator.content}
+                {this.props.order}. {this.state.indicator.content}
               </Text>
            </View>
   }
