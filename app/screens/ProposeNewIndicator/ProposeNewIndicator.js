@@ -8,7 +8,7 @@ import ProposeNewIndicatorNavHeader from '../../components/ProposeNewIndicator/P
 import ProposeNewIndicatorSearchBox from '../../components/ProposeNewIndicator/ProposeNewIndicatorSearchBox';
 import ProposeNewIndicatorProposedList from '../../components/ProposeNewIndicator/ProposeNewIndicatorProposedList';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
-import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
+import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
@@ -32,7 +32,8 @@ class ProposeNewIndicator extends React.Component {
       isIndicatorBase: true,
       participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
       endpointId: null,
-      playingUuid: null
+      playingUuid: null,
+      isSearching: false
     }
     this.scrollY = new Animated.Value(0)
     this.formModalRef = React.createRef();
@@ -40,6 +41,7 @@ class ProposeNewIndicator extends React.Component {
     const { last_order_number, previous_proposed_indicators } = proposedIndicatorHelper.getLastProposed(props.route.params.scorecard_uuid, props.route.params.participant_uuid)
     this.lastOrderNumber = last_order_number
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previous_proposed_indicators));
+    this.searchBoxRef = React.createRef();
   }
   async componentDidMount() {
     const {scorecard_uuid, participant_uuid} = this.props.route.params;
@@ -102,11 +104,13 @@ class ProposeNewIndicator extends React.Component {
               scrollY={this.scrollY}
               proposedIndicators={this.state.proposedIndicators.length}
               isEdit={this.props.route.params.is_edit}
+              ref={this.searchBoxRef}
+              updateIsSearching={(isSearching) => this.setState({isSearching})}
             />
   }
 
   renderProposedIndicators = () => {
-    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2, backgroundColor: Color.defaultBgColor}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
+    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2, backgroundColor: Color.defaultBgColor, opacity: this.state.isSearching ? 0 : 1}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
               onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}], { useNativeDriver: false })}
            >
               <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
@@ -129,18 +133,18 @@ class ProposeNewIndicator extends React.Component {
               {this.renderSearchBox()}
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}
-                <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
+                <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2, opacity: this.state.isSearching ? 0 : 1}}>
                   <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
                 </View>
               </View>
-            </View>
+           </View>
   }
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <React.Fragment>
-          <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef} handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()} />
+          <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef} handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()} searchBoxRef={this.searchBoxRef} />
           {this.renderBody()}
           <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.onBottomSheetDismiss()} />
         </React.Fragment>

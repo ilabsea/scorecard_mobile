@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native'
 
 const ProposeNewIndicatorInstructionModalComponentStyles = StyleSheet.create({
   image: {
+    resizeMode: 'stretch',
     top: 5,
     height: '89%',
     width: '100%',

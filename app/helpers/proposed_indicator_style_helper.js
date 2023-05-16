@@ -1,5 +1,7 @@
 import DeviceInfo from 'react-native-device-info'
-import { getDeviceStyle, isShortScreenDevice } from '../utils/responsive_util';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { getDeviceStyle, isShortScreenDevice, containerPadding } from '../utils/responsive_util';
+import Color from '../themes/color';
 import tabletStyles from '../styles/tablet/ProposedIndicatorCardComponentStyle';
 import mobileStyles from '../styles/mobile/ProposedIndicatorCardComponentStyle';
 
@@ -10,8 +12,8 @@ const proposedIndicatorStyleHelper = (() => {
     getStyleByProposeType,
     getAddNewProposeButtonStyles,
     getSearchBoxMarginTop,
-    getSearchResultTopPosition,
     getCardTitleStyles,
+    getSearchResultStyles,
   }
 
   function getStyleByProposeType(isIndicatorBase, type) {
@@ -48,23 +50,33 @@ const proposedIndicatorStyleHelper = (() => {
     return [initPosition, 77, 47, 12]
   }
 
-  function getSearchResultTopPosition(isIndicatorBase, searchContainerHeight, instructionHeight) {
+  function getSearchResultStyles(isIndicatorBase, searchContainerHeight) {
+    return {
+              backgroundColor: Color.whiteColor,
+              borderRadius: 10,
+              elevation: 3,
+              left: containerPadding,
+              maxHeight: hp('80%'),
+              position: 'absolute',
+              top: _getSearchResultTopPosition(isIndicatorBase, searchContainerHeight),
+              width: '100%',
+              zIndex: 2,
+           }
+  }
+
+  // private method
+  function _getSearchResultTopPosition(isIndicatorBase, searchContainerHeight) {
     if (DeviceInfo.isTablet())
-      return _calculateSearchResultPosition(searchContainerHeight, instructionHeight + 6, isIndicatorBase ? [82, 119] : [164, 203])
+      return searchContainerHeight - (isIndicatorBase ? 119 : 203)
 
     if (isIndicatorBase)
-      return _calculateSearchResultPosition(searchContainerHeight, instructionHeight, isShortScreenDevice() ? [75, 117] : [74, 114])
+      return searchContainerHeight - (isShortScreenDevice() ? 117 : 114)
 
-    return _calculateSearchResultPosition(searchContainerHeight, instructionHeight, isShortScreenDevice() ? [146, 185] : [144, 183])
+    return searchContainerHeight - (isShortScreenDevice() ? 185 : 183)
   }
 
   function getCardTitleStyles(isIndicatorBase) {
     return { marginTop: getDeviceStyle(18, 14), marginBottom: isIndicatorBase ? 0 : getDeviceStyle(10, 6) }
-  }
-
-  // private method
-  function _calculateSearchResultPosition(searchContainerHeight, instructionHeight, positions) {
-    return [instructionHeight + 80, searchContainerHeight - positions[0], searchContainerHeight - positions[1]]
   }
 })()
 

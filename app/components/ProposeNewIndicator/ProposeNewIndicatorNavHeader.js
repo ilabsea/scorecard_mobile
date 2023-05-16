@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BackHandler} from 'react-native';
+import {BackHandler, TouchableWithoutFeedback} from 'react-native';
 import { Body, Header, Left, Title } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack';
 
@@ -23,7 +23,7 @@ class ProposeNewIndicatorNavHeader extends Component {
       if (this.props.bottomSheetRef.current?.isOpen())
         this.props.formModalRef.current?.dismiss()
       else
-        this.setState({ isModalVisible: true })
+        this.onBackPress()
 
       return true;
     })
@@ -56,19 +56,28 @@ class ProposeNewIndicatorNavHeader extends Component {
            />
   }
 
+  onBackPress = () => {
+    if (this.props.searchBoxRef.current?.state.showResult)
+      return this.props.searchBoxRef.current?.closeSearch()
+
+    this.setState({isModalVisible: true})
+  }
+
   render() {
     return (
       <React.Fragment>
-        <Header searchBar>
-          <Left style={{flex: 0.22, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
-            <HeaderBackButton tintColor={"#fff"} onPress={() => this.setState({isModalVisible: true})} style={{ marginLeft: getDeviceStyle(11, 0), width: pressableItemSize(), height: pressableItemSize() }} />
-          </Left>
-          <Body style={{flex: 2, marginLeft: 18}}>
-            <Title style={{fontSize: navigationHeaderTitleFontSize()}}>
-              { this.context.translations.proposeNewIndicatorTitle }
-            </Title>
-          </Body>
-        </Header>
+        <TouchableWithoutFeedback onPress={() => this.props.searchBoxRef.current?.closeSearch()}>
+          <Header style={{zIndex: -2}}>
+            <Left style={{flex: 0.22, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
+              <HeaderBackButton tintColor={"#fff"} onPress={() => this.onBackPress()} style={{ marginLeft: getDeviceStyle(11, 0), width: pressableItemSize(), height: pressableItemSize() }} />
+            </Left>
+            <Body style={{flex: 2, marginLeft: 18}}>
+              <Title style={{fontSize: navigationHeaderTitleFontSize()}}>
+                { this.context.translations.proposeNewIndicatorTitle }
+              </Title>
+            </Body>
+          </Header>
+        </TouchableWithoutFeedback>
 
         { this.renderComfirmModal() }
       </React.Fragment>
