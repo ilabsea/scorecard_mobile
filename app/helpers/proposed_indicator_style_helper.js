@@ -56,7 +56,7 @@ const proposedIndicatorStyleHelper = (() => {
               borderRadius: 10,
               elevation: 3,
               left: containerPadding,
-              maxHeight: getDeviceStyle(hp('65%'), hp('74%')),
+              maxHeight: getDeviceStyle(hp('77.5%'), hp('74%')),
               position: 'absolute',
               top: _getSearchResultTopPosition(isIndicatorBase, searchContainerHeight),
               width: '100%',

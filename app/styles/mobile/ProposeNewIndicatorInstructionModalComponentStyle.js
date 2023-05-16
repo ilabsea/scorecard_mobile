@@ -6,7 +6,7 @@ const ProposeNewIndicatorInstructionModalComponentStyles = StyleSheet.create({
     marginTop: 0,
     height: isShortScreenDevice() ? '85%' : '87%',
     width: '100%',
-    resizeMode: isShortScreenDevice() ? 'stretch' : 'cover',
+    resizeMode: 'stretch'
   },
   closeButtonContainer: {
     alignSelf: 'center',

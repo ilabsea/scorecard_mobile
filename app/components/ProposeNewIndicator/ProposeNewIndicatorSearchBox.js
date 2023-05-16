@@ -17,6 +17,7 @@ import { containerPadding } from '../../utils/responsive_util';
 import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
 
 const PROPOSE_TOOLTIP = 'PROPOSE_TOOLTIP'
+const TOP_POSITION = 12
 
 class ProposeNewIndicatorSearchBox extends React.Component {
   static contextType = LocalizationContext;
@@ -73,7 +74,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   }
 
   isSearchAtTop = () => {
-    return parseInt(JSON.stringify(this.scrollingTop)) == 12
+    return parseInt(JSON.stringify(this.scrollingTop)) == TOP_POSITION
   }
 
   findIndicator = async (text) => {
