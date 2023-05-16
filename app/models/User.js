@@ -2,7 +2,7 @@ import realm from '../db/schema';
 
 const MODEL = 'User';
 
-const Contact =  (() => {
+const User =  (() => {
   return {
     get,
     upsert,
@@ -23,4 +23,4 @@ const Contact =  (() => {
   }
 })();
 
-export default Contact;
+export default User;
