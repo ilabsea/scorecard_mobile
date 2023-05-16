@@ -55,13 +55,14 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   }
 
   onFocus = () => {
+    this.props.updateIsSearching(true)
     this.setState({isSearchFocused: true})
     this.props.updatePlayingUuid(null)
     if (this.isSearchAtTop()) return this.showSearchResult()
 
     Animated.timing(this.searchMarginTop, {
       toValue: -this.searchOffsetY + 13,
-      duration: 550,
+      duration: 400,
       useNativeDriver: false,
     }).start(() => this.showSearchResult());
   }
@@ -90,6 +91,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
   closeSearch = () => {
     Keyboard.dismiss()
     this.setState({showResult: false, searchedText: ''})
+    this.props.updateIsSearching(false)
     this.props.updatePlayingUuid(null)
     Animated.timing(this.searchMarginTop, {
       toValue: 0,

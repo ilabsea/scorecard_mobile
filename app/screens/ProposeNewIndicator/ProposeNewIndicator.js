@@ -32,7 +32,8 @@ class ProposeNewIndicator extends React.Component {
       isIndicatorBase: true,
       participantUuid: !!props.route.params.participant_uuid ? props.route.params.participant_uuid : null,
       endpointId: null,
-      playingUuid: null
+      playingUuid: null,
+      isSearching: false
     }
     this.scrollY = new Animated.Value(0)
     this.formModalRef = React.createRef();
@@ -104,11 +105,12 @@ class ProposeNewIndicator extends React.Component {
               proposedIndicators={this.state.proposedIndicators.length}
               isEdit={this.props.route.params.is_edit}
               ref={this.searchBoxRef}
+              updateIsSearching={(isSearching) => this.setState({isSearching})}
             />
   }
 
   renderProposedIndicators = () => {
-    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2, backgroundColor: Color.defaultBgColor}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
+    return <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 6, paddingTop: 2, backgroundColor: Color.defaultBgColor, opacity: this.state.isSearching ? 0 : 1}} style={{zIndex: -2}} showsVerticalScrollIndicator={false}
               onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}], { useNativeDriver: false })}
            >
               <ProposeNewIndicatorProposedList scorecardUuid={this.props.route.params.scorecard_uuid}
@@ -131,11 +133,11 @@ class ProposeNewIndicator extends React.Component {
               {this.renderSearchBox()}
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}
-                <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2}}>
+                <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2, opacity: this.state.isSearching ? 0 : 1}}>
                   <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
                 </View>
               </View>
-            </View>
+           </View>
   }
 
   render() {
