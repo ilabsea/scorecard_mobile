@@ -86,8 +86,8 @@ class VotingIndicatorForm extends Component {
   }
 
   onScroll(event) {
-    // When scrolling on pass 115dp (on tablet) or 100dp (on mobile), change the header title to show the paritcipant info
-    const titleVisible = event.nativeEvent.contentOffset.y >= getDeviceStyle(115, 100);
+    // When scrolling on pass 65dp, change the header title to show the paritcipant info
+    const titleVisible = event.nativeEvent.contentOffset.y >= 65;
     if (this.state.participantInfoTitleVisible != titleVisible)
       this.setState({participantInfoTitleVisible: titleVisible});
   }
@@ -100,9 +100,7 @@ class VotingIndicatorForm extends Component {
         onScroll={(event) => this.onScroll(event)}
       >
         { this._renderParticipant() }
-
-        <Text style={[{ paddingHorizontal: getDeviceStyle(16, 10) }, responsiveStyles.title]}>{translations.pleaseSelect}</Text>
-
+        <Text style={[{ paddingHorizontal: getDeviceStyle(16, 10) }, responsiveStyles.title]}>{translations.pleaseVoteForTheProposedIndicatorsBelow}</Text>
         { this._renderIndicatorRatingList() }
       </ScrollView>
     )
