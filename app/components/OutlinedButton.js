@@ -27,9 +27,11 @@ class OutlinedButton extends Component {
         iconLeft
         style={[{padding: 0, height: pressableItemSize()}, this.props.buttonStyle]}
       >
-        <Icon name={this.props.icon || 'plus'} type="FontAwesome"
-          style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize()}, this.props.buttonColor, this.props.iconStyle]}
-        />
+        { !this.props.hideIcon &&
+          <Icon name={this.props.icon || 'plus'} type="FontAwesome"
+            style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize()}, this.props.buttonColor, this.props.iconStyle]}
+          />
+        }
         { !!this.props.subLabel ? this.renderlabelAndSubLabel()
           : <Text style={[{color: Color.headerColor}, responsiveStyles.buttonLabel, this.props.buttonColor, this.props.labelStyle]}>{this.props.label}</Text>
         }

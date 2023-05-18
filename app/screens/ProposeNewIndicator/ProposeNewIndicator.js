@@ -129,7 +129,7 @@ class ProposeNewIndicator extends React.Component {
 
   renderBody = () => {
     const {translations} = this.context
-    return <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15}}>
+    return <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15, backgroundColor: Color.defaultBgColor}}>
               {this.renderSearchBox()}
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}
