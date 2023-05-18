@@ -14,10 +14,11 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
   subLabel: {
     fontSize: smallTextFontSize(),
+    color: Color.lightGrayColor
   },
   participantCardContainer: {
     elevation: 2,
-    height: 70,
+    height: 94,
     minHeight: 70,
     marginTop: 8,
     paddingHorizontal: 14
@@ -51,6 +52,15 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 10
   },
+  participantInfoContainer: {
+    flex: 1,
+    maxHeight: 45,
+    marginTop: 12
+  },
+  participantInfoSubLabel: {
+    marginTop: -2,
+    zIndex: 0
+  }
 });
 
 export const tabletLabelFontSize = bodyFontSize();

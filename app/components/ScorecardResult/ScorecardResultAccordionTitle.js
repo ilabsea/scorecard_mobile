@@ -23,7 +23,7 @@ class ScorecardResultAccordionTitle extends Component {
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={[{marginRight: 3}, styles.itemSubtitleText]}>{this.context.translations.score}:</Text>
-          <BoldLabel label={this.props.indicator.median} customStyle={{fontSize: 12, color: Color.grayColor}} />
+          <BoldLabel label={this.props.indicator.median} customStyle={{fontSize: 12, color: Color.lightGrayColor}} />
         </View>
       </View>
     )

@@ -16,13 +16,11 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
   subLabel: {
     fontSize: wp('3.2%'),
-  },
-  participantCardContainer: {
-    height: isSmallMobileScreenDevice() ? 90 : 95,
+    color: Color.lightGrayColor
   },
   participantCardContainer: {
     elevation: 2,
-    height: 60,
+    height: 83,
     minHeight: 60,
     marginTop: 8,
     paddingHorizontal: 14,
@@ -55,6 +53,15 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingTop: 14
+  },
+  participantInfoContainer: {
+    flex: 1,
+    maxHeight: 45,
+    marginTop: 7
+  },
+  participantInfoSubLabel: {
+    marginTop: -6,
+    zIndex: 0
   }
 });
 
