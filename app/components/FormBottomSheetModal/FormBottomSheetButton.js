@@ -11,7 +11,7 @@ const FormBottomSheetButton = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   return (
-    <View style={[styles.btnWrapper, { marginHorizontal: containerPadding, marginBottom: 16}, props.wrapperStyle]}>
+    <View style={[styles.btnWrapper, { marginHorizontal: containerPadding, marginBottom: 14}, props.wrapperStyle]}>
       <SaveButton
         disabled={!props.isValid}
         onPress={() => props.save()}

@@ -5,12 +5,14 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import {LocalizationContext} from '../Translations';
 import ProposeNewIndicatorSearchResultCardList from './ProposeNewIndicatorSearchResultCardList';
 import ProposeNewIndicatorAddNewButton from './ProposeNewIndicatorAddNewButton';
+import OutlinedButton from '../OutlinedButton';
 import settingHelper from '../../helpers/setting_helper';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import Indicator from '../../models/Indicator';
 import {participantModalSnapPoints} from '../../constants/modal_constant';
+import { getDeviceStyle } from '../../utils/responsive_util';
 
 class ProposeNewIndicatorSearchResult extends React.Component {
   static contextType = LocalizationContext;
@@ -22,6 +24,8 @@ class ProposeNewIndicatorSearchResult extends React.Component {
       const duplicatedIndicators = Indicator.findByScorecardAndName(this.props.scorecardUuid, this.props.searchedText, endpointId);
       this.setState({showAddNewButton: duplicatedIndicators.length > 0 ? false : true})
     }
+    else if (!this.props.searchedText)
+      this.setState({showAddNewButton: false})
   }
 
   startProposeIndicator = (indicator, isNewCustomIndicator) => {
@@ -50,6 +54,16 @@ class ProposeNewIndicatorSearchResult extends React.Component {
            </ScrollView>
   }
 
+  renderSaveBtn = () => {
+    return <OutlinedButton
+              label={this.context.translations.confirmAndSave}
+              buttonStyle={{marginBottom: getDeviceStyle(20, 16), marginHorizontal: 16, height: 56}}
+              labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 16), paddingLeft: 0, flex: 1}}
+              hideIcon={true}
+              onPress={() => this.props.closeSearch()}
+           />
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -60,6 +74,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
               startProposeIndicator={(customIndicator) => this.startProposeIndicator(customIndicator, true)}
             />
           }
+          {(!this.props.isIndicatorBase && !this.state.showAddNewButton) && this.renderSaveBtn()}
         </View>
         <TouchableWithoutFeedback onPress={() => this.props.closeSearch()}>
           <View style={{position: 'absolute', height: hp('100%'), width: wp('100%'), zIndex: -1}} />

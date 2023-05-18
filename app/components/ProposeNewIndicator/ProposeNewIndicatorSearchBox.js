@@ -136,7 +136,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
                   inputContainerStyle={{backgroundColor: Color.whiteColor, marginTop: -5, marginLeft: -1}}
                   placeholder={translations.theIndicatorNameYouWantToPropose}
                   onChangeText={(text) => this.onChangeText(text)}
-                  onClearSearch={() => this.setState({searchedText: ''})}
+                  onClearSearch={() => this.onChangeText('')}
                   onFocus={() => this.onFocus()}
                   onBlur={() => this.setState({isSearchFocused: false})}
                 />
