@@ -20,7 +20,7 @@ class CustomAlertMessageHeader extends React.Component {
         </View>
         { !!this.props.title &&
           <View style={{alignItems: 'center'}}>
-            <Text style={[CustomStyle.modalTitle, { marginBottom: 0 }]}>
+            <Text style={[CustomStyle.modalTitle, { marginBottom: 0 }, this.props.titleStyle]}>
               { this.props.title }
             </Text>
           </View>

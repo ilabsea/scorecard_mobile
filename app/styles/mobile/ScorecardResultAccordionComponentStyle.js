@@ -13,7 +13,7 @@ const ScorecardResultAccordionComponentStyles = StyleSheet.create({
     fontSize: accordionItemFontSize(),
   },
   itemSubtitleText: {
-    color: Color.grayColor,
+    color: Color.lightGrayColor,
     fontSize: 12
   },
   itemValueText: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import AudioCardView from 'react-native-audio-card-view';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {connect} from 'react-redux';
@@ -52,7 +52,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
 
   renderRightButtons = (participant, index) => {
     const {translations} = this.context;
-    const btnStyles = getDeviceStyle({ height: 70, marginTop: 8, width: 90 }, { height: 60, marginTop: 8 })
+    const btnStyles = getDeviceStyle({ height: 94, marginTop: 8, width: 90 }, { height: 83, marginTop: 8 })
     return <View style={{flexDirection: 'row'}}>
               <SwipeLeftButton label={translations.edit} backgroundColor={Color.lightBlue} customStyle={btnStyles} onPress={() => this.goToEdit(participant, index)} />
               <SwipeLeftButton label={translations.delete} customStyle={btnStyles} onPress={() => this.showConfirmModal(participant, index)} />
@@ -79,8 +79,15 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
           onSwipeableOpen={() => this.handleCloseRow(index) }
           enabled={!this.props.isIndicatorBase}
         >
-          <AudioCardView containerStyle={styles.participantCardContainer} hideAudioPlayer={true} titleStyle={[{marginTop: 0}, styles.label]}>
-            <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={{flex: 1}} onPress={() => this.showRaisedParticipant(participant)} />
+          <AudioCardView containerStyle={styles.participantCardContainer} hideAudioPlayer={true} titleStyle={[{marginTop: 0}, styles.label]}
+            onPress={() => this.showRaisedParticipant(participant)}
+          >
+            <View style={{flex: 1}}>
+              <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={styles.participantInfoContainer} onPress={() => this.showRaisedParticipant(participant)} />
+              <Text style={[styles.subLabel, styles.participantInfoSubLabel]}>
+                {this.context.translations.numberOfIndicator} {ProposedIndicator.find(this.props.scorecardUuid, participant.uuid).length}
+              </Text>
+            </View>
           </AudioCardView>
         </Swipeable>
       )
