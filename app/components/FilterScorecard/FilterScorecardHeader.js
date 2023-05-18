@@ -32,6 +32,7 @@ class FilterScorecardHeader extends Component {
         title={translations.filterScorecard}
         rightComponent={() => this.renderRightButton()}
         rightButtonStyle={{ alignSelf: 'center', maxWidth: wp('34%'), marginRight: -6 }}
+        leftButtonStyle={{flex: getDeviceStyle(0.27, 0.20)}}
         bodyStyle={{flex: getDeviceStyle(2, 1), paddingLeft: getDeviceStyle(wp('1.5%'), mobileBodyPaddingLeft)}}
         onBackPress={() => this._onPress()}
       />

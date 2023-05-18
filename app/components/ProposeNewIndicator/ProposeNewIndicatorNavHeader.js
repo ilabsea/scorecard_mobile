@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import {BackHandler, TouchableWithoutFeedback} from 'react-native';
-import { Body, Header, Left, Title } from 'native-base';
+import { Header, Left } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack';
 
 import { LocalizationContext } from '../Translations';
+import NavigationHeaderBody from '../NavigationHeaderBody'
 import CustomAlertMessage from '../Share/CustomAlertMessage';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { navigationBackButtonFlex } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
-import { navigationHeaderTitleFontSize } from '../../utils/font_size_util';
 import { navigationRef } from '../../navigators/app_navigator';
+import Color from '../../themes/color';
 
 class ProposeNewIndicatorNavHeader extends Component {
   static contextType = LocalizationContext;
@@ -67,15 +68,11 @@ class ProposeNewIndicatorNavHeader extends Component {
     return (
       <React.Fragment>
         <TouchableWithoutFeedback onPress={() => this.props.searchBoxRef.current?.closeSearch()}>
-          <Header style={{zIndex: -2}}>
-            <Left style={{flex: 0.22, marginLeft: getDeviceStyle(-10, 0), justifyContent: 'center'}}>
-              <HeaderBackButton tintColor={"#fff"} onPress={() => this.onBackPress()} style={{ marginLeft: getDeviceStyle(11, 0), width: pressableItemSize(), height: pressableItemSize() }} />
+          <Header>
+            <Left style={{ flex: navigationBackButtonFlex, marginRight: -10 }}>
+              <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.onBackPress()} style={{ marginLeft: 0, width: pressableItemSize(), height: pressableItemSize() }} />
             </Left>
-            <Body style={{flex: 2, marginLeft: 18}}>
-              <Title style={{fontSize: navigationHeaderTitleFontSize()}}>
-                { this.context.translations.proposeNewIndicatorTitle }
-              </Title>
-            </Body>
+            <NavigationHeaderBody title={this.context.translations.proposeNewIndicatorTitle} />
           </Header>
         </TouchableWithoutFeedback>
 

@@ -64,8 +64,7 @@ const cardItemPadding = 16;
 
 const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('4%') : wp('1%'));
 
-// const navigationBackButtonFlex = 0.26;
-const navigationBackButtonFlex = 0.15;
+const navigationBackButtonFlex =  getDeviceStyle(0.21, 0.15);
 
 export {
   getDeviceStyle,
