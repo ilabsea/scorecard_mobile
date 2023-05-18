@@ -35,7 +35,7 @@ class ScorecardListInfoLocation extends Component {
 
     return (
       <View style={{flex: 1, flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
-        <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: getDeviceStyle(-3, -4)}} />
+        <AppIcon name='map-marker' size={14} color={Color.lightGrayColor} style={{marginRight: 5, marginTop: getDeviceStyle(-3, -4)}} />
         <View style={{flex: 3, flexDirection: 'row'}}>
           { scorecard.primary_school && this.renderPrimarySchool(scorecard) }
 

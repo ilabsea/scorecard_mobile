@@ -55,7 +55,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   locationLabel: {
     fontSize: 14,
     marginLeft: 4,
-    color: Color.grayColor,
+    color: Color.lightGrayColor,
     marginRight: 0,
     marginLeft: 0,
     fontFamily: FontFamily.body,
