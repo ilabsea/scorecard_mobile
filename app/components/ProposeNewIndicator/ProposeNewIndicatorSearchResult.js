@@ -24,6 +24,8 @@ class ProposeNewIndicatorSearchResult extends React.Component {
       const duplicatedIndicators = Indicator.findByScorecardAndName(this.props.scorecardUuid, this.props.searchedText, endpointId);
       this.setState({showAddNewButton: duplicatedIndicators.length > 0 ? false : true})
     }
+    else if (!this.props.searchedText)
+      this.setState({showAddNewButton: false})
   }
 
   startProposeIndicator = (indicator, isNewCustomIndicator) => {
@@ -72,7 +74,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
               startProposeIndicator={(customIndicator) => this.startProposeIndicator(customIndicator, true)}
             />
           }
-          {!this.props.isIndicatorBase && this.renderSaveBtn()}
+          {(!this.props.isIndicatorBase && !this.state.showAddNewButton) && this.renderSaveBtn()}
         </View>
         <TouchableWithoutFeedback onPress={() => this.props.closeSearch()}>
           <View style={{position: 'absolute', height: hp('100%'), width: wp('100%'), zIndex: -1}} />
