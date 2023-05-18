@@ -1,5 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import { HeaderBackButton } from '@react-navigation/stack';
+import { View, Text } from "react-native";
 
 import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'; // 1
@@ -59,6 +60,8 @@ function AppNavigator() {
           fontFamily: FontFamily.title,
           fontSize: getDeviceStyle(20, mobileHeadingTitleSize()),
           marginTop: getDeviceStyle(0, 2),
+          paddingLeft: 0,
+          marginLeft: -18
         },
         headerTintColor: 'white',
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -68,6 +71,7 @@ function AppNavigator() {
         name="Home"
         component={HomeScreen}
         options={({navigation}) => ({
+          headerTitleStyle: {marginLeft: 0, fontSize: getDeviceStyle(20, mobileHeadingTitleSize()), fontFamily: FontFamily.title},
           title: `${translations['scorecardApp']}`,
           headerRight: () => (
             <SettingMenu navigation={navigation} />

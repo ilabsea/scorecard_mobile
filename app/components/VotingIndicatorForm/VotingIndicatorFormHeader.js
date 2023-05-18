@@ -18,10 +18,10 @@ class VotingIndicatorFormHeader extends React.Component {
         modalTitle={this.context.translations.discardTheVoting}
         modalDescription={this.context.translations.areYouSureYouWantToDiscardThisVoting}
         hasDiscardAlert={() => this.props.indicators.filter(indicator => indicator.ratingScore).length > 0}
-        hideRightComponent={true}
+        hideRightComponent={this.props.participantInfoTitleVisible}
       >
         { this.props.participantInfoTitleVisible &&
-          <Body style={{flex: getDeviceStyle(2, 1),marginLeft: getDeviceStyle(0, -20)}}>
+          <Body style={{flex: getDeviceStyle(2, 1),marginLeft: getDeviceStyle(0, -10)}}>
             <ParticipantListItemInfo
               participant={this.props.participant}
               labelColor={Color.whiteColor}

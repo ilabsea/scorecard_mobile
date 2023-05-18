@@ -66,7 +66,7 @@ const CollapsibleNavHeader = (props) => {
     return <Header backgroundColor={Color.headerColor} style={[{elevation: 0}, !DeviceInfo.isTablet() && {paddingLeft: 0, paddingRight: 0}]}>
             <View style={{flexGrow: 1}}>
               <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
-                <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(0, 10)}}>
+                <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(-4, 6)}}>
                   <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: getDeviceStyle(0, 10) }} />
                 </Left>
                 <NavigationHeaderBody title={props.title} />

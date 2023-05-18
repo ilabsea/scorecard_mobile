@@ -12,7 +12,7 @@ class NavigationHeader extends Component {
   render() {
     return (
       <Header style={{alignItems: 'center'}}>
-        <Left style={{ flex: navigationBackButtonFlex }}>
+        <Left style={[{ flex: navigationBackButtonFlex, marginRight: -3 }, this.props.leftButtonStyle]}>
           <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.props.onBackPress()} style={{ marginLeft: 0, width: pressableItemSize(), height: pressableItemSize() }} />
         </Left>
 

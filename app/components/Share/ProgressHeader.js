@@ -37,7 +37,7 @@ export default class BigHeader extends React.Component {
     return (
       <Header span>
         <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
-          <Left style={{flex: navigationBackButtonFlex}}>
+          <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(-3.4, -3)}}>
             <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: 0 }} />
           </Left>
 

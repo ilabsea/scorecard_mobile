@@ -7,7 +7,7 @@ import { navigationHeaderTitleFontSize } from '../utils/font_size_util';
 
 const NavigationHeaderBody = (props) => {
   return (
-    <Body style={{flex: getDeviceStyle(2, 1), paddingLeft: navigationTitlePaddingLeft, alignItems: 'flex-start'}}>
+    <Body style={{flex: getDeviceStyle(2, 1), paddingLeft: navigationTitlePaddingLeft, alignItems: 'flex-start', marginLeft: 0}}>
       <Title style={{fontSize: navigationHeaderTitleFontSize(), fontFamily: FontFamily.title, textTransform: 'capitalize'}}>
         { props.title }
       </Title>

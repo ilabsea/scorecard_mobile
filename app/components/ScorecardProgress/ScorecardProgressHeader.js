@@ -29,6 +29,7 @@ class ScorecardProgressHeader extends Component {
           rightComponent={() => this.renderRightComponent()}
           onBackPress={() => navigateBack()}
           rightButtonStyle={{marginRight: 6}}
+          leftButtonStyle={{marginRight: -2}}
         />
       </React.Fragment>
     )
