@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     height: 20
   },
   badgeLabel: {
-    fontSize: isShortWidthScreen() ? 10 : 11,
+    fontSize: isShortWidthScreen() ? 9 : 10,
     textTransform: 'uppercase'
   }
 });

@@ -9,9 +9,8 @@ import EndpointBadge from '../Share/EndpointBadge';
 import VotingIndicator from '../../models/VotingIndicator';
 import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import { scorecardListSubTitleMobileFontSize } from '../../constants/scorecard_constant';
-
-const subTextFontSize = getDeviceStyle(13, scorecardListSubTitleMobileFontSize);
 
 class ScorecardListInfoDetail extends Component {
   static contextType = LocalizationContext;
@@ -21,7 +20,7 @@ class ScorecardListInfoDetail extends Component {
 
     if (scorecard.conducted_date)
       return (
-        <Text style={{ flex: 1, textAlign: 'right', color: Color.grayColor, fontSize: subTextFontSize, marginTop: getDeviceStyle(2, 4)}}>
+        <Text style={{ flex: 1, textAlign: 'right', color: Color.lightGrayColor, fontSize: getDeviceStyle(13, getMobileFontSizeByPixelRatio(11.5, 11.5)), marginTop: getDeviceStyle(2, 4)}}>
           { !!scorecard.conducted_date ? scorecardHelper.getTranslatedDate(scorecard.conducted_date, this.context.appLanguage, 'DD MMM') : '' }
         </Text>
       )
@@ -36,14 +35,14 @@ class ScorecardListInfoDetail extends Component {
   render() {
     const { scorecard } = this.props;
     const indicatorsSize = VotingIndicator.getAll(scorecard.uuid).length;
-    const subTextStyles = { paddingTop: getDeviceStyle(2, 1), fontSize: subTextFontSize, marginLeft: 0};
+    const subTextStyles = { paddingTop: getDeviceStyle(2, 1), fontSize: getDeviceStyle(13, scorecardListSubTitleMobileFontSize), marginLeft: 0};
     const subTitleMarginTop = getDeviceStyle(2, 3);
 
     return (
       <View style={{flexDirection: 'row'}}>
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>{ scorecard.facility_code }: </Text>
         <Text style={[{fontSize: getDeviceStyle(16, 15), marginTop: 0}]}>{ scorecard.uuid } </Text>
-        <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>
+        <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.lightGrayColor}]}>
           ({this.context.translations.raisedIndicator}: {indicatorsSize})
         </Text>
 

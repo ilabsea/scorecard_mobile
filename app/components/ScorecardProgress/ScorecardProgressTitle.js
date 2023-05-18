@@ -18,11 +18,8 @@ class ScorecardProgressTitle extends Component {
 
   renderScorecardLocation() {
     const {appLanguage} = this.context;
-    const language = `name_${appLanguage}`;
-    const primarySchool = this.props.scorecard.primary_school ? `${JSON.parse(this.props.scorecard.primary_school)[language]}, ` : '';
     const commune = this.props.scorecard.commune ? `${this.props.scorecard.commune}, ` : '';
-
-    return `${primarySchool}${scorecardHelper.getFactoryLabel(this.props.scorecard, appLanguage)}${commune}${this.props.scorecard.district}, ${this.props.scorecard.province}`;
+    return `${scorecardHelper.getFacilityLabel(this.props.scorecard, appLanguage, false)}${commune}${this.props.scorecard.district}, ${this.props.scorecard.province}`;
   }
 
   renderConductedDate() {

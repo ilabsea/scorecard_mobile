@@ -16,15 +16,6 @@ const responsiveStyles = getDeviceStyle(ScorecardItemTabletStyles, ScorecardItem
 
 class ScorecardListInfoLocation extends Component {
   static contextType = LocalizationContext;
-
-  renderPrimarySchool() {
-    return (
-      <Text style={responsiveStyles.locationLabel}>
-        { JSON.parse(this.props.scorecard.primary_school)[`name_${this.context.appLanguage}`] }
-      </Text>
-    )
-  }
-
   renderCommune() {
     return !!this.props.scorecard.commune ? `${this.props.scorecard.commune}, ` : '';
   }
@@ -32,15 +23,14 @@ class ScorecardListInfoLocation extends Component {
   renderScorecardLocation() {
     const { scorecard } = this.props;
     const {appLanguage} = this.context;
+    const facilityLabel = scorecardHelper.getFacilityLabel(scorecard, appLanguage, true)
 
     return (
       <View style={{flex: 1, flexDirection: 'row', paddingRight: 10, alignItems: 'center', marginTop: getDeviceStyle(-4, 0)}}>
-        <AppIcon name='map-marker' size={14} color={Color.grayColor} style={{marginRight: 5, marginTop: getDeviceStyle(-3, -4)}} />
+        <AppIcon name='map-marker' size={14} color={Color.lightGrayColor} style={{marginRight: 5, marginTop: getDeviceStyle(-3, -4)}} />
         <View style={{flex: 3, flexDirection: 'row'}}>
-          { scorecard.primary_school && this.renderPrimarySchool(scorecard) }
-
           <Text numberOfLines={1} style={[responsiveStyles.locationLabel, { maxWidth: getLocationMaxWidth(scorecard, appLanguage)}]}>
-            { this.props.scorecard.primary_school && `, `}{ scorecardHelper.getFactoryLabel(scorecard, appLanguage) }{ this.renderCommune() }{ scorecard.district }
+            { facilityLabel && `${facilityLabel}, ` }{ this.renderCommune() }{ scorecard.district }
           </Text>
           <Text style={responsiveStyles.locationLabel}>, {scorecard.province}</Text>
         </View>
