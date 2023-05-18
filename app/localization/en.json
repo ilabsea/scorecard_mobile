@@ -431,5 +431,6 @@
   "proposedParticipant": "Proposed participant",
   "anon": "Anon.",
   "newIndicator": "New indicator",
-  "votingParticipantLabel": "Participant"
+  "votingParticipantLabel": "Participant",
+  "deleteProposedIndicatorByParticipant": "Delete proposed indicators raised by the participant"
 }

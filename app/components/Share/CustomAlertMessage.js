@@ -32,7 +32,7 @@ class CustomAlertMessage extends React.Component {
           onDismiss={this.props.onDismiss}
           contentContainerStyle={[CustomStyle.modalContainer, responsiveStyles.container]}
         >
-          <CustomAlertMessageHeader title={this.props.title} iconName={this.props.iconName} />
+          <CustomAlertMessageHeader title={this.props.title} iconName={this.props.iconName} titleStyle={this.props.titleStyle} />
           { !!this.props.description &&
             <CustomAlertMessageMain description={this.props.description} descriptionBottomSection={this.props.descriptionBottomSection} />
           }
