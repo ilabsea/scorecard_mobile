@@ -358,7 +358,7 @@
   "pleaseChooseTheFacilitators": "Please choose the facilitators",
   "pleaseEnterTheAge": "Please enter the age",
   "proposeTheIndicator": "Proposed indicator",
-  "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below",
+  "pleaseVoteForTheProposedIndicatorsBelow": "Please vote for the proposed indicators below:",
   "httpsRecommended": "https recommended",
   "doYouWantToDiscardTheseChanges": "Do you want to discard these changes?",
   "theServerUrlHasChanged": "The server URL has been changed",
@@ -430,5 +430,6 @@
   "fillInNewParticipantInfo": "Fill in new participant information",
   "proposedParticipant": "Proposed participant",
   "anon": "Anon.",
-  "newIndicator": "New indicator"
+  "newIndicator": "New indicator",
+  "votingParticipantLabel": "Participant"
 }

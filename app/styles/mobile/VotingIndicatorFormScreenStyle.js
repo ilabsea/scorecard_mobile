@@ -4,8 +4,7 @@ import { subTitleFontSize } from '../../utils/font_size_util';
 
 const VotingIndicatorFormScreenStyles = StyleSheet.create({
   title: {
-    marginTop: 10,
-    marginBottom: 5,
+    marginVertical: 16,
     fontSize: subTitleFontSize()
   },
   itemSeparator: {

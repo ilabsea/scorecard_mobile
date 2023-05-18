@@ -55,15 +55,17 @@ class BottomSheetPicker extends React.Component {
           { this.props.isRequire && <Text style={{color: Color.redColor, marginTop: -2, fontSize: requireSignFontSize()}}> *</Text> }
         </View>
 
-        <TouchableOpacity onPress={() => this.showPicker()}>
-          <View style={styles.textContainer}>
-            <View style={{flex: 1}}>
-              <Text style={[styles.itemTitle, this.getDisableStyle(TEXT)]}>{ this.getLabel() }</Text>
-              { this.props.showSubtitle && <Text style={[styles.itemSubtitle, this.getDisableStyle(TEXT)]}>{ this.props.selectedItem }</Text> }
-            </View>
-            <PressableLabel label={this.context.translations.choose} customStyles={[ styles.chooseLabel, this.getDisableStyle(TEXT) ]} />
-          </View>
-        </TouchableOpacity>
+        { !!this.props.children ? this.props.children
+          : <TouchableOpacity onPress={() => this.showPicker()}>
+              <View style={styles.textContainer}>
+                <View style={{flex: 1}}>
+                  <Text style={[styles.itemTitle, this.getDisableStyle(TEXT)]}>{ this.getLabel() }</Text>
+                  { this.props.showSubtitle && <Text style={[styles.itemSubtitle, this.getDisableStyle(TEXT)]}>{ this.props.selectedItem }</Text> }
+                </View>
+                <PressableLabel label={this.context.translations.choose} customStyles={[ styles.chooseLabel, this.getDisableStyle(TEXT) ]} />
+              </View>
+            </TouchableOpacity>
+        }
       </View>
     )
   }

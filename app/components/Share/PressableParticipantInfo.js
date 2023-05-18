@@ -72,6 +72,10 @@ export default class PressableParticipantInfo extends Component {
           translations={translations}
           onPress={() => !this.props.isDisabled && this.openParticipantListModal()}
           hasArrowIcon={true}
+          hideDivider={this.props.hideDivider}
+          isOutlined={this.props.isOutlined}
+          containerStyle={{paddingLeft: 14, paddingRight: 12, paddingBottom: 4}}
+          arrowIconStyle={this.props.arrowIconStyle}
         />
       )
     }

@@ -64,7 +64,7 @@ class ParticipantListItemInfo extends React.Component {
         </View>
         { !this.props.participant.countable && this.renderAnonymousButton() }
         { this.props.rightIcon }
-        { this.hasArrowIcon && <RightArrowIcon color={this.props.arrowColor || Color.blackColor} /> }
+        { this.hasArrowIcon && <RightArrowIcon color={this.props.arrowColor || Color.blackColor} iconStyle={this.props.arrowIconStyle} /> }
       </TouchableOpacity>
     )
   }
