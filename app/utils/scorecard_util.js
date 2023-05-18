@@ -34,7 +34,7 @@ export const getLocationMaxWidth = (scorecard, language) => {
 
   // If the width of  primary school + province very long then the district and commun will not show in the list item
   if (isShortWidthScreen() && mainLocationWidth >= wp('42%'))
-    return 0;
+    return wp('23%')
 
   locationWidth = locationWidth * pixelPerCharacter;
   const locationLength = factoryLength > 0 ? scorecard.district.length + getDeviceStyle(0, 10) : scorecard.commune.length + 2;            // +2 because district and commune are include , and 1 space
@@ -48,8 +48,8 @@ export const getLocationMaxWidth = (scorecard, language) => {
 
     return locationLength * (scorecard.primary_school != null ? locationPixel[language] : locationPixel.default);
   }
-
-  return getDeviceStyle(locationLength * wp('3.8%'), locationLength * wp('1.4%'))
+  const mobilePixel = isShortWidthScreen() ? wp('2.5%') : wp('3%')
+  return getDeviceStyle(locationLength * wp('6.3%'), locationLength * mobilePixel)
 }
 
 export const handleScorecardCodeClipboard = async (updateErrorState) => {
