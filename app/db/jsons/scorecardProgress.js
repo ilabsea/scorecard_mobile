@@ -8,7 +8,7 @@ export default [
   },
   { value: 2,
     headerTitle: 'proposeTheIndicator',
-    label: 'proposedIndicator',
+    label: 'proposeTheIndicator',
     getSubTitle: 'getProposedIndicatorSubTitle',
     routeName: 'OfflineProposedIndicator'
   },
