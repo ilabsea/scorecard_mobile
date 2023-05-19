@@ -56,7 +56,7 @@ const proposedIndicatorStyleHelper = (() => {
               borderRadius: 10,
               elevation: 3,
               left: containerPadding,
-              maxHeight: hp('100%') - 170,    // 170 is the total of 122 (height of the nav header + the search box), 48 (total of the margin top)
+              maxHeight: hp('100%') - 160, // 160 is the total of 112 (height of the nav header + the search box), 48 (total of the margin top)
               position: 'absolute',
               top: _getSearchResultTopPosition(isIndicatorBase, searchContainerHeight),
               width: '100%',
