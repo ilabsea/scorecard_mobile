@@ -27,7 +27,7 @@ class DownloadButton extends Component {
 
         <Button iconRight full bordered primary
           {...this.props}
-          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.disabledBtnBg} : {}]}>
+          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.disabledBtnBg} : {}, {borderRadius: 6}]}>
 
           <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: Color.disabledBtnBg} : {color: Color.clickableColor}]}>
             {this.props.label}
