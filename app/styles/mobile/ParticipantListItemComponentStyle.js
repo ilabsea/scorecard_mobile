@@ -36,7 +36,6 @@ const ParticipantListItemComponentStyles = StyleSheet.create({
   anonymousButton: {
     width: pressableItemSize(),
     height: pressableItemSize(),
-    marginRight: 15,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'

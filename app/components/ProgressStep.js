@@ -12,7 +12,7 @@ import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { LocalizationContext } from './Translations';
 
-import { getDeviceStyle } from '../utils/responsive_util';
+import { getDeviceStyle, isShortWidthScreen } from '../utils/responsive_util';
 import
   ProgressStepTabletStyles,
   {
@@ -53,7 +53,7 @@ export default class ProgressStep extends Component {
     let wrapperStyle = this.props.steps.length > 4 ? { width: '20%' } : {};
     const smallTitleStyles = (!DeviceInfo.isTablet() && index == 2) ? {...responsiveStyles.smallTitle, width: 82} : responsiveStyles.smallTitle
     let progressTitle = title
-    if (this.context.appLanguage == 'km') {
+    if (this.context.appLanguage == 'km' && !DeviceInfo.isTablet()) {
       if (this.props.steps.length > 4 && index == 1)
         progressTitle = "បំផុស លក្ខណៈវិនិច្ឆ័យ"
       else if (!this.props.steps && index == 3)
@@ -66,7 +66,7 @@ export default class ProgressStep extends Component {
           { badgeIcon }
         </View>
         <Text style={[responsiveStyles.title, titleStyle, {width: this.titleWidth}, this.props.steps ? smallTitleStyles : {}]}>
-          {DeviceInfo.isTablet() ? title : progressTitle}
+          {progressTitle}
         </Text>
       </View>
     )
