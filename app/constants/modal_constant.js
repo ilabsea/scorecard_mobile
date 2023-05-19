@@ -1,3 +1,4 @@
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { getDeviceStyle, isShortScreenDevice, isShortWidthScreen } from '../utils/responsive_util';
 
 export const PROPOSED_INDICATOR = 'PROPOSED_INDICATOR';
@@ -18,7 +19,7 @@ export const participantModalContentHeight = getDeviceStyle('80%', '87%');
 export const indicatorDevelopmentModalSnapPoints = getDeviceStyle(['77%'], isShortScreenDevice() ? ['89.5%']  : ['80%']);
 export const indicatorDevelopmentContentHeight = getDeviceStyle('75%', isShortScreenDevice() ? '86.5%' : '78%');
 
-export const swotModalSnapPoints = getDeviceStyle(['88%'], ['86%']);
+export const swotModalSnapPoints = getDeviceStyle([hp('85.5%')], [hp('83.5%')]);
 export const swotContentHeight = getDeviceStyle('85.5%', '83.4%');
 
 export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);

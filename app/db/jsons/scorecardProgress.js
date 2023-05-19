@@ -13,7 +13,7 @@ export default [
     routeName: 'OfflineProposedIndicator'
   },
   { value: 3,
-    headerTitle: 'setIndicatorDevelopment',
+    headerTitle: 'indicatorDevelopment',
     label: 'indicatorDevelopment',
     getSubTitle: 'getIndicatorDevelopmentSubTitle',
     routeName: 'OfflineIndicatorDevelopment'
