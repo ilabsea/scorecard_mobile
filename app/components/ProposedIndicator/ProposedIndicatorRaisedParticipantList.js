@@ -83,7 +83,7 @@ class ProposedIndicatorRaisedParticipantList extends React.Component {
             onPress={() => this.showRaisedParticipant(participant)}
           >
             <View style={{flex: 1}}>
-              <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={styles.participantInfoContainer} onPress={() => this.showRaisedParticipant(participant)} />
+              <ParticipantListItemInfo participant={participant} fontSize={fontSize} containerStyle={styles.participantInfoContainer} onPress={() => this.showRaisedParticipant(participant)} anonymousStyle={{alignItems: 'flex-end'}} />
               <Text style={[styles.subLabel, styles.participantInfoSubLabel]}>
                 {this.context.translations.numberOfIndicator} {ProposedIndicator.find(this.props.scorecardUuid, participant.uuid).length}
               </Text>

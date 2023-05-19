@@ -60,7 +60,7 @@ class ScorecardResult extends Component {
   }
 
   _renderHeader() {
-    return <CollapsibleNavHeader title={this.context.translations.voting} scrollY={this.scrollY} progressIndex={4} isPassProposeStep={true}
+    return <CollapsibleNavHeader title={this.context.translations.scorecardResult} scrollY={this.scrollY} progressIndex={4} isPassProposeStep={true}
               showTipModal={() => !!this.isHeaderShrunk && this.tipModalRef.current?.present()} tipIconVisible={true}
            />
   }

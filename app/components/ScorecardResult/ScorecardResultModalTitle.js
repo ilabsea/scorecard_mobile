@@ -18,9 +18,9 @@ class ScorecardResultModalTitle extends Component {
   }
 
   render() {
-    const { translations } = this.context;
+    const { translations, appLanguage } = this.context;
     const fieldName = translations[this.props.indicator.currentFieldName] ? translations[this.props.indicator.currentFieldName].toLowerCase() : '';
-    const subTitle = this.props.isScorecardFinished ? fieldName : `${translations.insert} ${fieldName}`;
+    const subTitle = this.props.isScorecardFinished ? fieldName : `${translations.insert}${appLanguage == 'en' ? ' ' : ''}${fieldName}`;
 
     return (
       <View>

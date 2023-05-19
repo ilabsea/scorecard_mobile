@@ -8,12 +8,12 @@ export default [
   },
   { value: 2,
     headerTitle: 'proposeTheIndicator',
-    label: 'proposedIndicator',
+    label: 'proposeTheIndicator',
     getSubTitle: 'getProposedIndicatorSubTitle',
     routeName: 'OfflineProposedIndicator'
   },
   { value: 3,
-    headerTitle: 'setIndicatorDevelopment',
+    headerTitle: 'indicatorDevelopment',
     label: 'indicatorDevelopment',
     getSubTitle: 'getIndicatorDevelopmentSubTitle',
     routeName: 'OfflineIndicatorDevelopment'

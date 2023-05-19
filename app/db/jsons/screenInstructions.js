@@ -34,7 +34,7 @@ export default [
     ],
     navigateTo: "IndicatorDevelopment",
     header: {
-      title: "setIndicatorDevelopment",
+      title: "indicatorDevelopment",
       type: "HorizontalProgressHeader",
       progressIndex: 2
     }

@@ -57,7 +57,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   renderSaveBtn = () => {
     return <OutlinedButton
               label={this.context.translations.confirmAndSave}
-              buttonStyle={{marginBottom: getDeviceStyle(20, 16), marginHorizontal: 16, height: 56}}
+              buttonStyle={{marginBottom: getDeviceStyle(20, 16), marginHorizontal: 16, height: 48}}
               labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 16), paddingLeft: 0, flex: 1}}
               hideIcon={true}
               onPress={() => this.props.closeSearch()}

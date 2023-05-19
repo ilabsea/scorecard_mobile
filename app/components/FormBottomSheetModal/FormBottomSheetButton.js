@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import SaveButton from '../SaveButton';
 
 import styles from '../../themes/participantListItemStyle';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, isShortScreenDevice } from '../../utils/responsive_util';
 
 const FormBottomSheetButton = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -16,7 +16,7 @@ const FormBottomSheetButton = (props) => {
         disabled={!props.isValid}
         onPress={() => props.save()}
         label={props.label || translations.save}
-        customStyle={{ flex: 1, marginLeft: 0 }}
+        customStyle={{ flex: 1, marginLeft: 0, height: isShortScreenDevice() ? 48 : 50 }}
       />
     </View>
   )

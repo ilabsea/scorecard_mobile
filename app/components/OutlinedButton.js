@@ -25,7 +25,7 @@ class OutlinedButton extends Component {
         {...this.props}
         bordered
         iconLeft
-        style={[{padding: 0, height: pressableItemSize()}, this.props.buttonStyle]}
+        style={[{padding: 0, height: pressableItemSize(), borderRadius: getDeviceStyle(6, 4)}, this.props.buttonStyle]}
       >
         { !this.props.hideIcon &&
           <Icon name={this.props.icon || 'plus'} type="FontAwesome"

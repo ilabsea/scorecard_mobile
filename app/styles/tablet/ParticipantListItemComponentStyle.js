@@ -36,7 +36,6 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   anonymousButton: {
     width: pressableItemSize(),
     height: pressableItemSize(),
-    marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
