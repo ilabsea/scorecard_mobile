@@ -109,7 +109,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
     return <ProposeNewIndicatorParticipantInfo
               scorecardUuid={this.props.scorecardUuid}
               participantUuid={this.props.participantUuid}
-              updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
+              updateSelectedParticipant={(participantUuid) => this.props.updateSelectedParticipant(participantUuid)}
               bottomSheetRef={this.props.bottomSheetRef}
               formModalRef={this.props.formModalRef}
               isEdit={this.props.isEdit}

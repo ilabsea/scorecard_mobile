@@ -106,6 +106,7 @@ class ProposeNewIndicator extends React.Component {
               isEdit={this.props.route.params.is_edit}
               ref={this.searchBoxRef}
               updateIsSearching={(isSearching) => this.setState({isSearching})}
+              updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
             />
   }
 
