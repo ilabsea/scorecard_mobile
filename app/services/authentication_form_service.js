@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import validationService from './validation_service';
 import lockDeviceService from './lock_device_service';
+import userService from './user_service';
 import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';
 
 const authenticationFormService = (() => {
@@ -20,11 +21,7 @@ const authenticationFormService = (() => {
   }
 
   async function isAuthenticated() {
-    let settings = await AsyncStorage.getItem('SETTING');
-    settings = JSON.parse(settings);
-    
-    if (settings == null || settings.email == null || settings.password == null)
-      return false;
+    if (!userService.getSignedInUser()) return false;
 
     const isError = await AsyncStorage.getItem('IS_ERROR_AUTHENTICATION');
     return !isError ? true : false;

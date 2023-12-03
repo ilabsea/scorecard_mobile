@@ -20,4 +20,5 @@ export const schemaNames = [
   'VotingIndicator',
   'ScorecardProposedIndicator',
   'EndpointUrl',
+  'User',
 ];

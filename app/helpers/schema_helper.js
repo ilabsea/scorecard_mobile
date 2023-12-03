@@ -17,8 +17,9 @@ import ContactSchema from '../db/migrations/v1/contact';
 import ScorecardReferenceSchema from '../db/migrations/v1/scorecardReference';
 import ProposedIndicatorSchema from '../db/migrations/v12/proposedIndicator';
 import VotingIndicatorSchema from '../db/migrations/v14/votingIndicator';
-import ScorecardProposedIndicator from '../db/migrations/v15/scorecardProposedIndicator';
-import EndpointUrl from '../db/migrations/v18/endpointUrl';
+import ScorecardProposedIndicatorSchema from '../db/migrations/v15/scorecardProposedIndicator';
+import EndpointUrlSchema from '../db/migrations/v18/endpointUrl';
+import UserSchema from '../db/migrations/v23/user';
 
 import { schemaNames } from '../constants/schema_constant';
 
@@ -51,8 +52,9 @@ const schemaHelper = (() => {
       ScorecardReferenceSchema,
       ProposedIndicatorSchema,
       VotingIndicatorSchema,
-      ScorecardProposedIndicator,
-      EndpointUrl,
+      ScorecardProposedIndicatorSchema,
+      EndpointUrlSchema,
+      UserSchema,
     ];
 
     changedSchemas.map((schema) => {

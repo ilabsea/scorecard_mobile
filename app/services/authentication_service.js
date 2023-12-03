@@ -6,6 +6,7 @@ import contactService from './contact_service';
 import MobileTokenService from './mobile_token_service';
 import lockDeviceService from './lock_device_service';
 import resetLockService from './reset_lock_service';
+import userService from './user_service';
 import { ERROR_UNPROCESSABLE } from '../constants/error_constant';
 import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';
 import settingHelper from '../helpers/setting_helper';
@@ -67,12 +68,11 @@ const authenticationService = (() => {
 
   async function saveSignInInfo(state) {
     const { backendUrl, email, password } = state;
+    userService.saveSignedInUser(email, password);
 
     if (!!backendUrl) AsyncStorage.setItem('ENDPOINT_URL', backendUrl);
     AsyncStorage.setItem('SETTING', JSON.stringify({
       backendUrl: backendUrl,
-      email: email,
-      password: password,
       proposedIndicatorMethod: await settingHelper.getSelectedProposedIndicatorMethodName(),
     }));
   }
