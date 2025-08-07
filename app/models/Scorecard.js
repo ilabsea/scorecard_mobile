@@ -1,5 +1,5 @@
 import realm from '../db/schema';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { INDICATOR_DEVELOPMENT, DOWNLOADED, RUNNING, SUBMITTED, IN_REVIEW } from '../constants/scorecard_constant';
 import scorecardHelper from '../helpers/scorecard_helper';
 import settingHelper from '../helpers/setting_helper';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Pressable } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {LocalizationContext} from '../Translations';
 import SettingForm from './SettingForm';

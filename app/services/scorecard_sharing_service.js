@@ -2,7 +2,7 @@ import { PermissionsAndroid } from 'react-native';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob'
 import Share from 'react-native-share';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { downloadFileFromUrl } from './local_file_system_service';
 import { ERROR_SOMETHING_WENT_WRONG, ERROR_DOWNLOAD_PDF } from '../constants/error_constant';

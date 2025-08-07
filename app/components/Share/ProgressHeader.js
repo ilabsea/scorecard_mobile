@@ -4,7 +4,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { Header, Left, Right } from "native-base";
 
-import { HeaderBackButton } from '@react-navigation/stack';
+import { HeaderBackButton } from '@react-navigation/native-stack';
 import ProgressStep from '../ProgressStep';
 import CustomAlertMessage from './CustomAlertMessage';
 import HeaderIconButton from './HeaderIconButton';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Animated} from 'react-native';
 import DraggableFlatList from "react-native-draggable-flatlist";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SelectedIndicatorItem from './SelectedIndicatorItem';
 import IndicatorDevelopmentInstructionModal from './IndicatorDevelopmentInstructionModal';
 import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';

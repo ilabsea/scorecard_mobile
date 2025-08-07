@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScorecardService from './scorecardService';
 import { load as loadProgramLanguage } from './program_language_service';
 import validationService from './validation_service';

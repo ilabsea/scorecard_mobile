@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {BackHandler, TouchableWithoutFeedback} from 'react-native';
 import { Header, Left } from 'native-base';
-import { HeaderBackButton } from '@react-navigation/stack';
+import { HeaderBackButton } from '@react-navigation/native-stack';
 
 import { LocalizationContext } from '../Translations';
 import NavigationHeaderBody from '../NavigationHeaderBody'

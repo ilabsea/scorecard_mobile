@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import lockDeviceService from './lock_device_service';
 import { lockConditions } from '../utils/lock_device_util';
 

@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { AppState, Text, TextInput } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
-import AsyncStorage from '@react-native-community/async-storage'; // 1
+import AsyncStorage from '@react-native-async-storage/async-storage'; // 1
 import { Provider } from 'react-redux';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';

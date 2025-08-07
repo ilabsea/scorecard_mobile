@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Moment from 'moment';
 import { currentDateTime } from '../utils/date_util';
 import { getTimeFromMilliseconds } from '../utils/time_util';

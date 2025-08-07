@@ -1,9 +1,7 @@
 import React, {useContext, useEffect} from 'react';
-import { HeaderBackButton } from '@react-navigation/stack';
+import { HeaderBackButton, createStackNavigator, CardStyleInterpolators } from '@react-navigation/native-stack';
 import { View, Text } from "react-native";
 
-import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-community/async-storage'; // 1
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 // Screens

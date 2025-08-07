@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Divider } from 'react-native-paper';
 import AppIcon from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';

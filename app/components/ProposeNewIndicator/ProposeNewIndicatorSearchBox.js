@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {Text} from 'react-native-paper';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {LocalizationContext} from '../Translations';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Header, Left, Right } from "native-base";
-import { HeaderBackButton } from '@react-navigation/stack';
+import { HeaderBackButton } from '@react-navigation/native-stack';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import NavigationHeaderBody from './NavigationHeaderBody'

@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { Header, Left, Right } from "native-base";
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import { HeaderBackButton } from '@react-navigation/stack';
+import { HeaderBackButton } from '@react-navigation/native-stack';
 import { FontFamily } from '../assets/stylesheets/theme/font';
 import Color from '../themes/color';
 
