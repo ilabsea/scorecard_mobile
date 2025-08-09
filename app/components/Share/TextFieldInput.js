@@ -5,6 +5,7 @@ import Color from '../../themes/color';
 import validationService from '../../services/validation_service';
 import {LocalizationContext} from '../Translations';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class TextFieldInput extends Component {
   static contextType = LocalizationContext;
@@ -84,8 +85,8 @@ class TextFieldInput extends Component {
           clearButtonMode="while-editing"
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
-          style={[{backgroundColor: Color.whiteColor, width: '100%', fontSize: bodyFontSize()}, customStyle]}
-          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}, fontSize: 49}}
+          style={[{backgroundColor: Color.whiteColor, width: '100%', fontSize: bodyFontSize(), fontFamily: FontFamily.body}, customStyle]}
+          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}, fonts: { bodyLarge: { fontFamily: FontFamily.body }}}}
           left={this.renderLeftIcon()}
           autoCompleteType='off'
           autoCapitalize='none'
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     color: Color.errorColor,
     marginBottom: 10,
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   }
 });
 

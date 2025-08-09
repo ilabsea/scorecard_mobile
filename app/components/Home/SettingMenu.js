@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LocalizationContext } from '../Translations';
 import Color from '../../themes/color';
 import { environment } from '../../config/environment';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class SettingMenu extends Component {
   static contextType = LocalizationContext;
@@ -57,13 +58,15 @@ class SettingMenu extends Component {
         <Menu.Item
           onPress={() => this.navigate('Setting', { backend_url: this.backendUrl })}
           title={translations.setting}
-          icon='wrench'
+          titleStyle={{ fontFamily: FontFamily.body }}
+          leadingIcon='wrench'
         />
         <Divider />
         <Menu.Item
           onPress={() => this.navigate('About', null)}
           title={translations.about}
-          icon='information'
+          titleStyle={{ fontFamily: FontFamily.body }}
+          leadingIcon='information'
         />
       </Menu>
     );

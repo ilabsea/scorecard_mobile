@@ -3,6 +3,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { xxlIconSize, xlIconSize } from '../../constants/mobile_font_size_constant';
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import { bigButtonFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const BigButtonComponentStyles = StyleSheet.create({
   button: {
@@ -15,7 +16,8 @@ const BigButtonComponentStyles = StyleSheet.create({
     marginRight: 15
   },
   label: {
-    fontSize: bigButtonFontSize()
+    fontSize: bigButtonFontSize(),
+    fontFamily: FontFamily.body
   }
 });
 

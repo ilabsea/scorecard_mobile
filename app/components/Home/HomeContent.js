@@ -19,13 +19,13 @@ class HomeContent extends Component {
         <BigButton
           onPress={() => this.props.navigation.navigate('NewScorecard')}
           label={ this.context.translations.startScorecard }
-          icon={'add-circle-sharp'}
+          icon={'add-circle-outline'}
         />
 
         <BigButton
           onPress={() => this.props.navigation.navigate('ScorecardList')}
           label={ this.context.translations['savedScorecard'] }
-          icon={'list-circle'}
+          icon={'list'}
         />
 
         <Logos />

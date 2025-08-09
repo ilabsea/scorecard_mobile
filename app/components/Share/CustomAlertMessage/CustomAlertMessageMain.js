@@ -3,12 +3,13 @@ import { View, Text } from 'react-native';
 
 import { LocalizationContext } from '../../Translations';
 import { bodyFontSize } from '../../../utils/font_size_util';
+import { FontFamily } from '../../../assets/stylesheets/theme/font';
 
 class CustomAlertMessageMain extends React.Component {
   static contextType = LocalizationContext;
 
   renderText(text, marginTop = 0) {
-    return <Text style={{ textAlign: 'center', fontSize: bodyFontSize(), marginTop: marginTop }}>{ text }</Text>
+    return <Text style={{ textAlign: 'center', fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginTop: marginTop }}>{ text }</Text>
   }
 
   render() {

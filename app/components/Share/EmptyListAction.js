@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import OutlinedButton from '../OutlinedButton';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -14,12 +14,12 @@ class EmptyListAction extends Component {
     return (
       <View style={[styles.container, this.props.customContainerStyle]}>
         <View style={[responsiveStyles.messageContainer, this.props.contentContainerStyle]}>
-          <Icon name={'document-outline'} style={responsiveStyles.icon} />
+          <Icon name={'document-text-outline'} style={responsiveStyles.icon} />
           <Text style={responsiveStyles.label}>{this.props.title}</Text>
           { !this.props.hideButton &&
             <View>
               <OutlinedButton
-                icon={ this.props.icon || 'plus' }
+                icon={ this.props.icon || 'add-circle-outline' }
                 label={this.props.buttonLabel}
                 onPress={() => this.props.onPress() }
               />

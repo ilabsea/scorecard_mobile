@@ -1,8 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import { HeaderBackButton, createStackNavigator, CardStyleInterpolators } from '@react-navigation/native-stack';
-import { View, Text } from "react-native";
-
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { HeaderBackButton, createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
 import HomeScreen from '../screens/Home/Home';
@@ -38,7 +35,7 @@ import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
 import { getDeviceStyle, mobileHeadingTitleSize } from '../utils/responsive_util';
 import { pressableItemSize } from '../utils/component_util';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
   const { translations, initializeAppLanguage } = useContext(LocalizationContext);
@@ -50,21 +47,52 @@ function AppNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        headerStyle: {
+      screenOptions={({route}) => {
+        const hideHeaderRoutes = [
+          'Home',
+          'ScorecardList',
+          'ScorecardProgress',
+          'IndicatorDevelopment',
+          'VotingIndicatorList',
+          'VotingIndicatorForm',
+          'ScorecardResult',
+          'Setting',
+          'NewScorecard',
+          'ScorecardDetail',
+          'ScorecardPreference',
+          'Facilitator',
+          'Participant',
+          'ProposedIndicator',
+          'ProposeNewIndicator',
+          'Contact',
+          'About',
+          'OfflineParticipantList',
+          'OfflineProposedIndicator',
+          'OfflineIndicatorDevelopment',
+          'OfflineScorecardResult',
+          'SelectedImage',
+          'FilterScorecardScreen',
+          'VideoPlayer',
+          'AddNewEndpointUrl'
+        ];
+        const hideHeader = hideHeaderRoutes.includes(route.name);
+
+        return {
+          headerStyle: {
           backgroundColor: Color.headerColor,
-        },
-        headerTitleStyle: {
-          fontFamily: FontFamily.title,
-          fontSize: getDeviceStyle(20, mobileHeadingTitleSize()),
-          marginTop: getDeviceStyle(0, 2),
-          paddingLeft: 0,
-          marginLeft: -18
-        },
-        headerTintColor: 'white',
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        headerLeft: () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>
-      }}>
+          },
+          headerTitleStyle: {
+            fontFamily: FontFamily.title,
+            fontSize: getDeviceStyle(20, mobileHeadingTitleSize()),
+            marginTop: getDeviceStyle(0, 2),
+            paddingLeft: 0,
+            marginLeft: -18
+          },
+          headerTintColor: 'white',
+          headerLeft: hideHeader ? () => null : () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>,
+        }
+      }}
+      >
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -74,7 +102,7 @@ function AppNavigator() {
           headerRight: () => (
             <SettingMenu navigation={navigation} />
           ),
-          headerLeft: null
+          // headerLeft: () => null
         })}
       />
       <Stack.Screen

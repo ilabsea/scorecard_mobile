@@ -3,6 +3,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import Color from '../../themes/color';
 import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const SettingScreenStyles = StyleSheet.create({
   container: {
@@ -12,7 +13,8 @@ const SettingScreenStyles = StyleSheet.create({
     paddingBottom: 10,
   },
   textLabel: {
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   },
   messageContainer: {
     // marginTop: isShortScreenDevice() ? hp('1%') : hp('2%'),

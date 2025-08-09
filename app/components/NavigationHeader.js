@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
-import { Header, Left, Right } from "native-base";
-import { HeaderBackButton } from '@react-navigation/native-stack';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Appbar, View, Text} from 'react-native-paper';
 
 import NavigationHeaderBody from './NavigationHeaderBody'
 import Color from '../themes/color';
-import { getDeviceStyle, navigationBackButtonFlex } from '../utils/responsive_util';
+import { getDeviceStyle } from '../utils/responsive_util';
 import { pressableItemSize } from '../utils/component_util';
 
 class NavigationHeader extends Component {
   render() {
     return (
-      <Header style={{alignItems: 'center'}}>
-        <Left style={[{ flex: navigationBackButtonFlex, marginRight: -3 }, this.props.leftButtonStyle]}>
-          <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.props.onBackPress()} style={{ marginLeft: 0, width: pressableItemSize(), height: pressableItemSize() }} />
-        </Left>
+      <Appbar.Header style={{ backgroundColor: Color.headerColor }}>
+        <Appbar.BackAction onPress={() => this.props.onBackPress()} color='white' />
 
         { this.props.children ? this.props.children : <NavigationHeaderBody title={this.props.title} /> }
 
-        { !this.props.hideRightComponent &&
-          <Right style={[{maxWidth: wp('14%'), alignSelf: 'center', marginRight: getDeviceStyle(-19, -6)}, this.props.rightButtonStyle]}>
+        { !!this.props.rightComponent && this.props.rightComponent() }
+
+        {/* { !this.props.hideRightComponent &&
+          <View style={[{maxWidth: wp('14%'), alignSelf: 'center', marginRight: getDeviceStyle(-19, -6)}, this.props.rightButtonStyle]}>
             { !!this.props.rightComponent && this.props.rightComponent() }
-          </Right>
-        }
-      </Header>
+          </View>
+        } */}
+      </Appbar.Header>
     )
   }
 }

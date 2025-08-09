@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
 
 import Color from '../../themes/color';

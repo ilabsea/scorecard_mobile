@@ -91,7 +91,7 @@ class BottomSheetPickerMain extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor}}>
+        <View style={{height: hp(this.state.contentHeight), backgroundColor: Color.whiteColor, paddingBottom: 40}}>
           <BottomSheetModalTitle title={this.props.title} isRequire={this.props.isRequire}
             rightContainerStyle={{marginTop: -10}}
             onPressRightButton={() => this.props.onPressRightButton()}

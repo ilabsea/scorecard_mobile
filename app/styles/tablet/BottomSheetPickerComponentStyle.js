@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { pressableItemSize, listItemPaddingVertical } from '../../utils/component_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const BottomSheetPickerComponentStyles = StyleSheet.create({
   mainContainer: {
@@ -24,6 +25,7 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     color: Color.inputBorderLineColor,
     fontSize: 12,
+    fontFamily: FontFamily.body
   },
   textContainer: {
     flexDirection: 'row',
@@ -33,6 +35,7 @@ const BottomSheetPickerComponentStyles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   },
   itemSubtitle: {
     fontSize: 13,

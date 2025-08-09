@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useContext, useState } from 'react';
+import {Node} from 'react';
 import { AppState, Text, TextInput } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -8,7 +9,7 @@ import { Provider } from 'react-redux';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import { StyleProvider } from "native-base";
+import { StyleProvider, NativeBaseProvider, extendTheme } from "native-base";
 import getTheme from './app/themes/components';
 import material from './app/themes/variables/material';
 
@@ -16,7 +17,7 @@ import AppNavigator, { navigationRef } from './app/navigators/app_navigator';
 
 import configureStore from './app/store/configureStore';
 
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme, configureFonts } from 'react-native-paper';
 import { FontSize, FontFamily } from './app/assets/stylesheets/theme/font';
 import Color from './app/themes/color';
 
@@ -51,7 +52,7 @@ const theme = {
     medium: { fontFamily: FontFamily.title },
     regular: { fontFamily: FontFamily.body },
     light: { fontFamily: FontFamily.body },
-    thin: { fontFamily: FontFamily.body }
+    thin: { fontFamily: FontFamily.body },
   }
 };
 
@@ -61,7 +62,7 @@ Text.defaultProps.allowFontScaling = false;
 TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 
-const App: () => React$Node = () => {
+const App: () => Node = () => {
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const App: () => React$Node = () => {
   return (
     <LocalizationProvider>
       <Provider store={store}>
-        <StyleProvider style={getTheme(material)}>
+        {/* <NativeBaseProvider style={extendTheme(material)}> */}
           <PaperProvider style={{flex: 1}} theme={theme}>
             <GestureHandlerRootView style={{flex: 1}}>
               <BottomSheetModalProvider>
@@ -102,7 +103,7 @@ const App: () => React$Node = () => {
               </BottomSheetModalProvider>
             </GestureHandlerRootView>
           </PaperProvider>
-        </StyleProvider>
+        {/* </NativeBaseProvider> */}
       </Provider>
     </LocalizationProvider>
   );

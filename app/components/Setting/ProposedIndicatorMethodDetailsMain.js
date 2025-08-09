@@ -10,6 +10,7 @@ import { containerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getProposedIndicatorVideoId } from '../../utils/proposed_indicator_util';
 import { pressableItemSize } from '../../utils/component_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ProposedIndicatorMethodDetailsMain extends React.Component {
   static contextType = LocalizationContext;
@@ -29,7 +30,7 @@ class ProposedIndicatorMethodDetailsMain extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{padding: containerPadding, paddingBottom: 15}}>
-          <Text style={{fontSize: bodyFontSize()}}>
+          <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body}}>
             { this.props.proposeMethod.description }
           </Text>
 
