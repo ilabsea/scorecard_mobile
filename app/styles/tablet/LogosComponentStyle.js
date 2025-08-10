@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const LogosComponentStyles = StyleSheet.create({
   label: {
+    fontFamily: FontFamily.body,
     fontSize: bodyFontSize()
   },
   euLogo: {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {LocalizationContext} from '../Translations';
 
@@ -24,7 +24,7 @@ class ButtonForgetCode extends Component {
           style={responsiveStyles.button}>
 
           <Text style={[{color: Color.whiteColor}, responsiveStyles.label]}>{translations.clickHereIfForgetCode}</Text>
-          <Icon name={'chevron-forward'} style={responsiveStyles.icon}/>
+          <Icon name='chevron-right' style={responsiveStyles.icon}/>
         </TouchableOpacity>
       </View>
     )

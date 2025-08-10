@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { mdLabelSize, smLabelSize } from '../../constants/mobile_font_size_constant';
 import { isShortScreenDevice } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const LogosComponentStyles = StyleSheet.create({
   label: {
+    fontFamily: FontFamily.body,
     fontSize: bodyFontSize()
   },
   euLogo: {

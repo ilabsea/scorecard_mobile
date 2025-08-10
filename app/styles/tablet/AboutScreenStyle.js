@@ -14,7 +14,6 @@ const AboutScreenStyles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontFamily: FontFamily.title,
-    marginTop: 30,
     textAlign: 'center',
   },
   englishTitle: {
@@ -24,12 +23,14 @@ const AboutScreenStyles = StyleSheet.create({
   khmerText: {
     marginTop: 50,
     textAlign: 'center',
-    fontSize: contentFontSize
+    fontSize: contentFontSize,
+    fontFamily: FontFamily.body
   },
   englishText: {
     marginTop: 20,
     textAlign: 'center',
-    fontSize: contentFontSize
+    fontSize: contentFontSize,
+    lineHeight: 22
   },
   logoTitle: {
     fontSize: subTitleFontSize(),
@@ -52,7 +53,8 @@ const AboutScreenStyles = StyleSheet.create({
   versionText: {
     textAlign: 'center',
     marginTop: 10,
-    fontSize: contentFontSize
+    fontSize: contentFontSize,
+    fontFamily: FontFamily.body
   }
 });
 

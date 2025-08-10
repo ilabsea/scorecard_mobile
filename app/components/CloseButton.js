@@ -12,7 +12,7 @@ const CloseButton = (props) => {
       {...props}
       mode="outlined"
       style={{ borderWidth: 2, borderColor: Color.primaryButtonColor, height: pressableItemSize(modalButtonPaddingVertical) }}
-      labelStyle={{fontSize: bodyFontSize(), fontFamily: FontFamily.body}}
+      labelStyle={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, lineHeight: 34}}
       contentStyle={{height: pressableItemSize(modalButtonPaddingVertical), marginTop: -2}}
     >
       {props.label}

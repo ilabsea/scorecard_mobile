@@ -102,7 +102,6 @@ function AppNavigator() {
           headerRight: () => (
             <SettingMenu navigation={navigation} />
           ),
-          // headerLeft: () => null
         })}
       />
       <Stack.Screen
