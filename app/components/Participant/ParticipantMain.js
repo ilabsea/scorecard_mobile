@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, ScrollView, View } from 'react-native';
+import { Animated, ScrollView, View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
@@ -67,7 +67,8 @@ class ParticipantMain extends React.Component {
   render () {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 56, 56],
+      // outputRange: [156, 56, 56],
+      outputRange: [186, 86, 86],
       extrapolate: 'clamp',
     })
 

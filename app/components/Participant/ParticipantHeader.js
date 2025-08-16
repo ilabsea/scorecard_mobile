@@ -32,7 +32,7 @@ class ParticipantHeader extends React.Component {
 
         { this.props.participants.length > 0 &&
           <OutlinedButton
-            icon="plus"
+            icon="add-outline"
             label={translations.addNewParticipant}
             onPress={() => this.props.addNewParticipant() }
           />

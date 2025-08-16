@@ -7,13 +7,14 @@ import OptionsSelectBox from './OptionsSelectBox';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { participantFormTitleFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class AnonymousSelectBox extends React.Component {
   static contextType = LocalizationContext;
 
   renderInfoBadge() {
     return <View style={{marginLeft: 10, backgroundColor: Color.paleGrayColor, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6}}>
-              <Text style={{fontSize: getDeviceStyle(12, 10.2), color: '#a0a0a0'}}>{this.context.translations.forTheFirstParticipantOnly}</Text>
+              <Text style={{fontSize: getDeviceStyle(12, 10.2), fontFamily: FontFamily.body, color: '#a0a0a0'}}>{this.context.translations.forTheFirstParticipantOnly}</Text>
            </View>
   }
 
@@ -21,7 +22,7 @@ class AnonymousSelectBox extends React.Component {
     return (
       <View>
         <View style={{flexDirection: 'row', marginTop: 5, alignItems: 'center'}}>
-          <Text style={{fontSize: participantFormTitleFontSize()}}>
+          <Text style={{fontSize: participantFormTitleFontSize(), fontFamily: FontFamily.body}}>
             { this.context.translations.other } ({ this.context.translations.anonymous })
           </Text>
           {this.renderInfoBadge()}

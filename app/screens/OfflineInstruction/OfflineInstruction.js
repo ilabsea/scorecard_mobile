@@ -16,6 +16,7 @@ import screenInstructions from '../../db/jsons/screenInstructions';
 import TipListItem from '../../components/Tip/TipListItem';
 import { containerPadding } from '../../utils/responsive_util'
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 
 export default class OfflineInstruction extends Component {
   static contextType = LocalizationContext;
@@ -76,7 +77,7 @@ export default class OfflineInstruction extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom}}>
         { this._renderHeader() }
 
         <ImageBackground

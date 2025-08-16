@@ -14,6 +14,7 @@ import ParticipantModel from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
 import {participantModalSnapPoints} from '../../constants/modal_constant';
+import {screenPaddingBottom} from '../../constants/component_style_constant';
 
 class Participant extends Component {
   static contextType = LocalizationContext;
@@ -55,7 +56,7 @@ class Participant extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+      <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
         <ParticipantMain
           scorecardUuid={this.props.route.params.scorecard_uuid}
           participants={this.props.participants}

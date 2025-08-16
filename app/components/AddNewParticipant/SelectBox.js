@@ -4,6 +4,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {LocalizationContext} from '../Translations';
 import participantHelper from '../../helpers/participant_helper';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import {
   mdTabletContainerSize,
@@ -63,7 +64,7 @@ class SelectBox extends Component {
       >
         { this._renderCheckIcon() }
         { this.props.children }
-        <Text style={{ color: this.getColor('text'), marginTop: 5, textAlign: 'center', fontSize: labelSize }}>
+        <Text style={{ color: this.getColor('text'), marginTop: 5, textAlign: 'center', fontSize: labelSize, fontFamily: FontFamily.body }}>
           {this.props.label}
         </Text>
       </TouchableOpacity>

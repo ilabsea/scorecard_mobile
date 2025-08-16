@@ -4,6 +4,7 @@ import { numberContainerSize } from '../../utils/participant_list_util';
 import { pressableItemSize } from '../../utils/component_util';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { cardItemPadding } from '../../utils/responsive_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const PrarticipantListItemComponentStyles = StyleSheet.create({
   itemContainer: {
@@ -24,6 +25,7 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   },
   numberLabel: {
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body,
     color: Color.whiteColor,
     margin: 0,
     padding: 0,
@@ -31,7 +33,8 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   },
   attributeLabel: {
     paddingHorizontal: 8,
-    fontSize: smallTextFontSize()
+    fontSize: smallTextFontSize(),
+    fontFamily: FontFamily.body,
   },
   anonymousButton: {
     width: pressableItemSize(),
@@ -52,6 +55,7 @@ const PrarticipantListItemComponentStyles = StyleSheet.create({
   raisedNumberLabel: {
     color: Color.whiteColor,
     fontSize: smallTextFontSize(),
+    fontFamily: FontFamily.body,
     marginLeft: -1
   }
 });

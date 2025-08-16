@@ -41,7 +41,7 @@ const BottomSheetModalTitle = (props) => {
           { !!props.hasAddButton && renderRightButton() }
         </View>
         { props.subtitle &&
-          <Text style={{marginLeft: containerPadding, fontSize: smallTextFontSize(), color: Color.grayColor}}>
+          <Text style={responsiveStyles.subTitle}>
             {props.subtitle}
           </Text>
         }

@@ -20,6 +20,7 @@ import toastMessageUtil from '../../utils/toast_message_util';
 import { MALE } from '../../constants/participant_constant';
 import { participantModalContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class AddNewParticipantMain extends Component {
   static contextType = LocalizationContext;
@@ -119,7 +120,7 @@ class AddNewParticipantMain extends Component {
 
   renderAnonymousMessage() {
     return (
-      <Text style={{ fontSize: bottomMessageFontSize(), color: Color.redColor, textAlign: 'center', marginTop: 5, borderWidth: 0}}>
+      <Text style={{ fontSize: bottomMessageFontSize(), fontFamily: FontFamily.body, color: Color.redColor, textAlign: 'center', marginTop: 5, borderWidth: 0}}>
         {this.context.translations.anonymousHasNoIdentity}
       </Text>
     )
@@ -139,7 +140,7 @@ class AddNewParticipantMain extends Component {
             {this.renderForm()}
           </View>
         </ScrollView>
-        <View style={{width: '100%', position: 'absolute', bottom: 0, backgroundColor: Color.whiteColor}}>
+        <View style={{width: '100%', backgroundColor: Color.whiteColor, paddingBottom: 16}}>
           { this.state.anonymous && this.renderAnonymousMessage() }
           <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} wrapperStyle={{paddingTop: 0, marginTop: this.state.anonymous ? 4 : 12}}/>
         </View>
