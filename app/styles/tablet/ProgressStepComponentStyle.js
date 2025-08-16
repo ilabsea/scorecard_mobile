@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const mdTabletTitleWidth = 145;
 const smTabletTitleWidth = 120;
@@ -9,6 +10,7 @@ const ProgressStepComponentStyles = StyleSheet.create({
     paddingTop: 2,
     paddingHorizontal: 2,
     fontSize: 15,
+    fontFamily: FontFamily.body,
     textAlign: 'center',
     color: Color.horizontalLineColor,
   },

@@ -10,6 +10,7 @@ import authenticationFormService from '../../services/authentication_form_servic
 import internetConnectionService from '../../services/internet_connection_service';
 import Color from '../../themes/color';
 import { containerPadding } from '../../utils/responsive_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ScorecardPreferenceButtons extends Component {
   static contextType = LocalizationContext;
@@ -60,7 +61,7 @@ class ScorecardPreferenceButtons extends Component {
     return (
       <View>
         { this.props.isErrorDownload &&
-          <Text style={{textAlign: 'center', marginBottom: 5, color: Color.redColor}}>{translations.failedToDownloadScorecard}</Text>
+          <Text style={{textAlign: 'center', marginBottom: 5, color: Color.redColor, fontFamily: FontFamily.body}}>{translations.failedToDownloadScorecard}</Text>
         }
 
         <DownloadButton

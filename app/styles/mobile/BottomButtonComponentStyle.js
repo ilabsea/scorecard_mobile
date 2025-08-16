@@ -3,10 +3,12 @@ import { isShortScreenDevice } from '../../utils/responsive_util';
 import { bottomButtonFontSize, bottomButtonIconSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
 import { buttonBorderRadius } from '../../constants/border_radius_constant';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const BottomButtonComponentStyles = StyleSheet.create({
   buttonLabel: {
     fontSize: bottomButtonFontSize(),
+    fontFamily: FontFamily.body,
     flex: 1,
     textAlign: 'center',
     color: Color.whiteColor,

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import uuidv4 from '../utils/uuidv4';
 import Color from '../themes/color';
 import { FontSize, FontFamily } from '../assets/stylesheets/theme/font';
@@ -57,7 +57,7 @@ export default class ProgressStep extends Component {
       if (this.props.steps.length > 4 && index == 1)
         progressTitle = "បំផុស លក្ខណៈវិនិច្ឆ័យ"
       else if (!this.props.steps && index == 3)
-        progressTitle = "បំផុស     លក្ខណៈវិនិច្ឆ័យ"
+        progressTitle = "បំផុសលក្ខណៈវិនិច្ឆ័យ"
     }
 
     return (

@@ -17,6 +17,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 import { scorecardPreferenceLangaugePickerSnapPoints } from '../../constants/modal_constant';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -220,7 +221,7 @@ class ScorecardPreference extends Component {
   render() {
     return (
       <TouchableWithoutFeedback>
-        <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
           <ProgressHeader
             title={this.context.translations['getStarted']}
             progressIndex={0}/>

@@ -85,8 +85,8 @@ class TextFieldInput extends Component {
           clearButtonMode="while-editing"
           value={value.toString()}
           onChangeText={(text) => this.onChangeText(text)}
-          style={[{backgroundColor: Color.whiteColor, width: '100%', fontSize: bodyFontSize(), fontFamily: FontFamily.body}, customStyle]}
-          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}, fonts: { bodyLarge: { fontFamily: FontFamily.body }}}}
+          style={[{backgroundColor: Color.whiteColor, width: '100%', fontSize: bodyFontSize()}, customStyle]}
+          theme={{colors: {primary: this.getBorderColor() || Color.clickableColor}}}
           left={this.renderLeftIcon()}
           autoCompleteType='off'
           autoCapitalize='none'

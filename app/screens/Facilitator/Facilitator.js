@@ -17,6 +17,7 @@ import { environment } from '../../config/environment';
 import Color from '../../themes/color';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
 import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 
 class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
@@ -113,7 +114,7 @@ class FacilitatorScreen extends Component {
 
     return (
       <TouchableWithoutFeedback>
-        <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
           <ProgressHeader
             title={translations['getStarted']}
             progressIndex={1}

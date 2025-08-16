@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button, Icon} from "native-base";
-import {ProgressBar} from 'react-native-paper';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {ProgressBar, Button} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import CustomStyle from '../../themes/customStyle';
 import Color from '../../themes/color';
@@ -25,15 +25,15 @@ class DownloadButton extends Component {
           </View>
         }
 
-        <Button iconRight full bordered primary
+        <TouchableOpacity
           {...this.props}
-          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.disabledBtnBg} : {}, {borderRadius: 6}]}>
-
+          style={[CustomStyle.bottomButton, responsiveStyles.button, this.props.disabled ? {borderColor: Color.disabledBtnBg} : {}]}
+        >
           <Text style={[styles.buttonLabel, responsiveStyles.buttonLabel, this.props.disabled ? {color: Color.disabledBtnBg} : {color: Color.clickableColor}]}>
             {this.props.label}
           </Text>
-          <Icon name="download" style={[{right: 0, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: Color.disabledBtnBg} : {color: Color.clickableColor}]} />
-        </Button>
+          <Icon name="download" style={[{right: 6, position: 'absolute'}, responsiveStyles.icon, this.props.disabled ? {color: Color.disabledBtnBg} : {color: Color.clickableColor}]} />
+        </TouchableOpacity>
       </View>
     );
   }

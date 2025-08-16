@@ -12,7 +12,7 @@ const SaveButton = (props) => {
       {...props}
       mode="contained"
       style={[{ marginLeft: 20, height: pressableItemSize(modalButtonPaddingVertical)}, props.customStyle]}
-      labelStyle={{fontSize: bottomButtonFontSize(), color: Color.whiteColor, alignSelf: 'center', lineHeight: 34, fontFamily: FontFamily.body}}
+      labelStyle={[{fontSize: bottomButtonFontSize(), color: Color.whiteColor, alignSelf: 'center', lineHeight: 34, fontFamily: FontFamily.body}, props.labelStyle]}
       contentStyle={{height: pressableItemSize(modalButtonPaddingVertical)}}
     >
       {props.label}
