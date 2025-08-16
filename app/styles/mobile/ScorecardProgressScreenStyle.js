@@ -18,11 +18,13 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   },
   facilityCode: {
     fontSize: 12,
+    fontFamily: FontFamily.body,
     color: Color.grayColor,
     alignSelf: 'center'
   },
   subTitle: {
     fontSize: getMobileFontSizeByPixelRatio(12, 12),
+    fontFamily: FontFamily.body,
     color: Color.grayColor,
   },
   btn: {
@@ -36,6 +38,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   btnText: {
     color: Color.whiteColor,
     fontSize: bottomButtonFontSize(),
+    fontFamily: FontFamily.body
   },
   btnSubText: {
     color: Color.whiteColor,
@@ -57,6 +60,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     position: 'absolute',
     fontWeight: 'bold',
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   },
   lockIcon: {
     fontSize: wp('5%'),

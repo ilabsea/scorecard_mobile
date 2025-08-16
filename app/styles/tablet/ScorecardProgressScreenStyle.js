@@ -13,10 +13,12 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
   },
   facilityCode: {
     color: Color.grayColor,
-    marginBottom: 6
+    marginBottom: 6,
+    fontFamily: FontFamily.body,
   },
   subTitle: {
     color: 'gray',
+    fontFamily: FontFamily.body,
   },
   btn: {
     backgroundColor: Color.headerColor,
@@ -50,6 +52,7 @@ const ScorecardProgressScreenStyles = StyleSheet.create({
     left: '48%',
     position: 'absolute',
     fontWeight: 'bold',
+    fontFamily: FontFamily.body,
   },
   lockIcon: {
     position: 'absolute',
