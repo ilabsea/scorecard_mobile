@@ -40,7 +40,9 @@ class IndicatorDevelopmentList extends Component {
   }
 
   renderItem(params) {
-    const {item, index, drag, isActive} = params;
+    const {item, drag, isActive} = params;
+    const index = params.getIndex()
+
     if (index == 0)
       return this.props.renderAddNewHeader()
 
@@ -77,7 +79,9 @@ class IndicatorDevelopmentList extends Component {
     const selectedIndicators = [{item: 'header'}, ...this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid)];
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 80, 70],
+      outputRange: [204, 80, 70],
+      // inputRange: [0, 100, 140],
+      // outputRange: [156, 80, 70],
       extrapolate: 'clamp',
     })
     return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>

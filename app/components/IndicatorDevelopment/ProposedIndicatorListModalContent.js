@@ -81,7 +81,7 @@ class ProposedIndicatorListModalContent extends Component {
 
   render() {
     return (
-      <View style={{ height: hp(indicatorDevelopmentContentHeight) }}>
+      <View style={{ height: hp(indicatorDevelopmentContentHeight), paddingBottom: 42 }}>
         <BottomSheetModalTitle title={ this.context.translations.proposedIndicatorList } />
 
         <View style={{flex: 1, padding: containerPadding, paddingBottom: 0}}>

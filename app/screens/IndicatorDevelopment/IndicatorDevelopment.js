@@ -21,6 +21,7 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { containerPadding } from '../../utils/responsive_util';
 import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -104,7 +105,7 @@ class IndicatorDevelopment extends Component {
     const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom}}>
         { this._renderContent() }
         { !!this.props.selectedIndicators.length &&
           <View style={{padding: containerPadding}}>

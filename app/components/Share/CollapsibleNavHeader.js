@@ -93,7 +93,7 @@ const CollapsibleNavHeader = (props) => {
   }
 
   return (
-    <Animated.View style={{position: 'absolute', top: 0, backgroundColor: Color.headerColor, height: headerHeight, width: '100%'}}>
+    <Animated.View style={{position: 'absolute', top: 0, backgroundColor: Color.headerColor, height: headerHeight, width: '100%', zIndex: 1}}>
       {renderHeader()}
       <CustomAlertMessage
         visible={visibleModal}

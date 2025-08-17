@@ -28,7 +28,7 @@ export default class TipModal extends Component {
 
   renderTips() {
     let doms = this.state.tip.tips.map((tip, index) => {
-      if (index == 3 ) {
+      if (index == 4 ) {
         return (
           <React.Fragment key={index}>
             { !this.state.isExpanded &&
@@ -58,7 +58,7 @@ export default class TipModal extends Component {
   renderContent() {
     return (
       <React.Fragment>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1, paddingBottom: 16}}>
           <BottomSheetModalTitle
             title={`${this.context.translations.tips} - ${this.context.translations[this.state.tip.mainTitle]}`}
             dashedLineStyle={{ marginBottom: 8 }}

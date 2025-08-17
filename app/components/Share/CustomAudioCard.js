@@ -6,6 +6,7 @@ import CustomAudioPlayerButton from './CustomAudioPlayerButton';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import {bodyFontSize} from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import cardItemTabletStyles from '../../styles/tablet/ProposedIndicatorCardComponentStyle';
 import cardItemMobileStyles from '../../styles/mobile/ProposedIndicatorCardComponentStyle';
 
@@ -14,7 +15,7 @@ const styles = getDeviceStyle(cardItemTabletStyles, cardItemMobileStyles);
 class CustomAudioCard extends React.Component {
   renderCardLabel = () => {
     return <View style={styles.indicatorOutlinedLabelContainer}>
-              { !!this.props.customTitle ? this.props.customTitle : <Text numberOfLines={2} style={[{fontSize: bodyFontSize(), marginTop: 10}, this.props.titleStyle]}>{this.props.title}</Text> }
+              { !!this.props.customTitle ? this.props.customTitle : <Text numberOfLines={2} style={[{fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginTop: 10}, this.props.titleStyle]}>{this.props.title}</Text> }
               { this.props.subtitle && <Text style={[styles.subLabel, {color: Color.lightGrayColor}, this.props.subtitleStyle]}>{this.props.subtitle}</Text> }
            </View>
   }

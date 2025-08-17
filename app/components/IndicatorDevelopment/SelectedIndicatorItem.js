@@ -11,6 +11,7 @@ import { LocalizationContext } from '../Translations';
 import CustomAudioCard from '../Share/CustomAudioCard';
 import SwipeLeftButton from '../Share/SwipeLeftButton';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import indicatorHelper from '../../helpers/indicator_helper';
 import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Scorecard from '../../models/Scorecard';
@@ -23,6 +24,8 @@ class SelectedIndicatorItem extends Component {
   constructor(props) {
     super(props);
     this.scorecard = Scorecard.find(props.indicator.scorecard_uuid);
+
+    console.log('== indiator = ', props.indicator);
 
     this.state = {
       indicator: indicatorHelper.getDisplayIndicator(props.indicator, this.scorecard),
@@ -62,7 +65,7 @@ class SelectedIndicatorItem extends Component {
   renderCardTitle = () => {
     return <View style={{flexDirection: 'row', marginLeft: -14, marginTop: getDeviceStyle(18, 16)}}>
               <Icon name="more-vert" style={{color: Color.lightGrayColor, fontSize: 20, textAlign: 'center', marginTop: 3}} />
-              <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginRight: 18}}>
+              <Text numberOfLines={2} style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginRight: 18}}>
                 {this.props.order}. {this.state.indicator.content}
               </Text>
            </View>

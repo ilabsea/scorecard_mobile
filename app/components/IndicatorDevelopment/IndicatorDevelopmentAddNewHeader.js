@@ -19,7 +19,7 @@ class IndicatorDevelopmentAddNewHeader extends Component {
 
     return (
       <OutlinedButton
-        icon="plus"
+        icon="add-outline"
         label={this.context.translations.addNew}
         onPress={() => this.props.openModal() }
         disabled={this.props.hasRating}
