@@ -12,6 +12,7 @@ import participantHelper from '../../helpers/participant_helper';
 import { bodyFontSize, getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import itemStyles from '../../themes/participantListItemStyle';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { participantModalContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
@@ -33,7 +34,7 @@ class ProposedIndicatorRaisedParticipantBottomSheet extends React.Component {
       <View style={{backgroundColor: Color.whiteColor, height: hp(participantModalContentHeight)}}>
         <BottomSheetModalTitle title={this.props.indicator.name} />
         <View style={{flex: 1, padding: containerPadding}}>
-          <Text style={{fontSize: bodyFontSize(), marginBottom: 6}}>
+          <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginBottom: 6}}>
             {this.context.translations.proposedParticipant} ({raisedParticipants.length}){this.context.appLanguage == 'km' ? '៖' : ':'}
           </Text>
           <ScrollView contentContainerStyle={{flexGrow: 1}}>

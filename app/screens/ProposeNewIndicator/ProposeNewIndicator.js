@@ -20,6 +20,7 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import {saveParticipant} from '../../actions/participantAction';
 import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 import Color from '../../themes/color';
 
 class ProposeNewIndicator extends React.Component {
@@ -130,7 +131,7 @@ class ProposeNewIndicator extends React.Component {
 
   renderBody = () => {
     const {translations} = this.context
-    return <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15, backgroundColor: Color.defaultBgColor}}>
+    return <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15, backgroundColor: Color.defaultBgColor, paddingBottom: screenPaddingBottom}}>
               {this.renderSearchBox()}
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}

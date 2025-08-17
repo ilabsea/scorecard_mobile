@@ -4,7 +4,8 @@ import DeviceInfo from 'react-native-device-info'
 
 import { LocalizationContext } from '../Translations';
 import PressableLabel from './PressableLabel';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import Color from '../../themes/color';
 import customStyle from '../../themes/customStyle';
 import cardListItemStyle from '../../themes/cardListItemStyle';

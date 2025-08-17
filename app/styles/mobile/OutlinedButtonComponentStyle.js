@@ -12,6 +12,7 @@ const OutlinedButtonComponentStyles = StyleSheet.create({
   buttonSubLabel: {
     color: Color.lightGrayColor,
     fontSize: getMobileFontSizeByPixelRatio(13, 14),
+    fontFamily: FontFamily.body,
     textAlign: 'center'
   },
   buttonIcon: {

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const instructionModalComponentStyles = StyleSheet.create({
   buttonContainer: {
@@ -20,7 +21,8 @@ const instructionModalComponentStyles = StyleSheet.create({
     borderRadius: 5
   },
   closeButtonLabel: {
-    color: Color.clickableColor
+    color: Color.clickableColor,
+    fontFamily: FontFamily.body
   }
 });
 

@@ -18,7 +18,7 @@ const BottomSheetModalTitle = (props) => {
 
   function renderRightButton() {
     return <OutlinedButton
-              icon="add-circle-outline"
+              icon="add-outline"
               label={translations.addNew}
               onPress={() => !!props.onPressRightButton && props.onPressRightButton() }
            />

@@ -15,6 +15,7 @@ import IndicatorService from '../../services/indicator_service';
 import {bodyFontSize} from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const PROPOSE_TOOLTIP = 'PROPOSE_TOOLTIP'
 const TOP_POSITION = 12
@@ -152,7 +153,7 @@ class ProposeNewIndicatorSearchBox extends React.Component {
       <React.Fragment>
         <TouchableWithoutFeedback onPress={() => this.closeSearch()}>
           <View style={{backgroundColor: 'white', padding: 8, borderRadius: 10, zIndex: 0}} onLayout={(event) => this.setState({instructionHeight: event.nativeEvent.layout.height})}>
-            <Text style={{fontSize: bodyFontSize(), color: 'black'}}>{this.context.translations.proposeIndicatorInstruction}</Text>
+            <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, color: 'black'}}>{this.context.translations.proposeIndicatorInstruction}</Text>
           </View>
         </TouchableWithoutFeedback>
         <View style={{position: 'absolute', width: wp('100%'), height: '100%', paddingHorizontal: containerPadding}}>

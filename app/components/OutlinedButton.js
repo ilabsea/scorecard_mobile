@@ -30,7 +30,7 @@ class OutlinedButton extends Component {
         ]}
       >
         { !this.props.hideIcon &&
-          <Icon name={this.props.icon || 'add-circle-outline'} type="FontAwesome"
+          <Icon name={this.props.icon || 'add-outline'} type="FontAwesome"
             style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize(), marginRight: 8}, this.props.buttonColor, this.props.iconStyle]}
           />
         }

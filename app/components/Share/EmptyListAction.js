@@ -19,7 +19,7 @@ class EmptyListAction extends Component {
           { !this.props.hideButton &&
             <View>
               <OutlinedButton
-                icon={ this.props.icon || 'add-circle-outline' }
+                icon={ this.props.icon || 'add-outline' }
                 label={this.props.buttonLabel}
                 onPress={() => this.props.onPress() }
               />

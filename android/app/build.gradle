@@ -4,7 +4,7 @@ apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services' // <- Add this line for google firebase
 
 project.ext.vectoricons = [
-        iconFontNames: ['AntDesign.ttf', 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf', 'FontAwesome.ttf', 'Ionicons.ttf']
+        iconFontNames: ['AntDesign.ttf', 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf', 'FontAwesome.ttf', 'Ionicons.ttf', 'Feather.ttf']
 ]
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 

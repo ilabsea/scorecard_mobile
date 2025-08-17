@@ -69,7 +69,9 @@ class ProposedIndicatorContent extends Component {
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 80, 70],
+      outputRange: [186, 80, 70],
+      // inputRange: [0, 100, 140],
+      // outputRange: [156, 80, 70],
       extrapolate: 'clamp',
     })
 

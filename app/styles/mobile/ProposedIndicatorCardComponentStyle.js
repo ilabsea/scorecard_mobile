@@ -3,6 +3,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { isSmallMobileScreenDevice } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   indicatorCardContainer: {
@@ -12,10 +13,12 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     paddingHorizontal: 14
   },
   label: {
-    fontSize: getMobileFontSizeByPixelRatio(14.2, 14)
+    fontSize: getMobileFontSizeByPixelRatio(14.2, 14),
+    fontFamily: FontFamily.body,
   },
   subLabel: {
     fontSize: wp('3.2%'),
+    fontFamily: FontFamily.body,
     color: Color.lightGrayColor
   },
   participantCardContainer: {
@@ -61,7 +64,8 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
   participantInfoSubLabel: {
     marginTop: -6,
-    zIndex: 0
+    zIndex: 0,
+    fontFamily: FontFamily.body,
   }
 });
 

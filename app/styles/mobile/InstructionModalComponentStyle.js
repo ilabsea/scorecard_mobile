@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { mobileNormalLabelFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const instructionModalComponentStyles = StyleSheet.create({
   buttonContainer: {
@@ -23,6 +24,7 @@ const instructionModalComponentStyles = StyleSheet.create({
   closeButtonLabel: {
     color: Color.clickableColor,
     fontSize: mobileNormalLabelFontSize,
+    fontFamily: FontFamily.body
   }
 });
 
