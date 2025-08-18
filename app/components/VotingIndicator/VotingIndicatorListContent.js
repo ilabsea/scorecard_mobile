@@ -56,7 +56,7 @@ class VotingIndicatorListContent extends React.Component {
             title={translations.addNewVoting}
             participants={ Participant.getUnvoted(this.props.scorecard.uuid) }
             scorecardUuid={ this.props.scorecard.uuid }
-            mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
+            mode={{type: 'button', label: translations.newVote, iconName: 'add-outline'}}
             buttonVisible={true}
             selectParticipant={(participant) => navigate('VotingIndicatorForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant.uuid})}
             participantModalRef={this.props.participantModalRef}
@@ -70,8 +70,10 @@ class VotingIndicatorListContent extends React.Component {
 
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
+      // inputRange: [0, 100, 140],
+      // outputRange: [156, 80, 72],
       inputRange: [0, 100, 140],
-      outputRange: [156, 80, 72],
+      outputRange: [206, 128, 106],
       extrapolate: 'clamp',
     })
     return (
@@ -79,7 +81,7 @@ class VotingIndicatorListContent extends React.Component {
         <CollapsibleNavHeader title={this.context.translations.voting} scrollY={this.scrollY} progressIndex={3} isPassProposeStep={true}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
-        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView stickyHeaderIndices={[1]}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                       { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}

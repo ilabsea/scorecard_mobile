@@ -79,12 +79,12 @@ class IndicatorDevelopmentList extends Component {
     const selectedIndicators = [{item: 'header'}, ...this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid)];
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [204, 80, 70],
+      outputRange: [204, 128, 106],
       // inputRange: [0, 100, 140],
       // outputRange: [156, 80, 70],
       extrapolate: 'clamp',
     })
-    return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+    return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
               <DraggableFlatList
                 data={selectedIndicators}
                 onDragEnd={({ data }) => this.updateIndicatorsOrder(data)}

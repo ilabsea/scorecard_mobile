@@ -26,8 +26,10 @@ const CollapsibleNavHeader = (props) => {
   const [visibleModal, setVisibleModal] = React.useState(false)
 
   const headerHeight = props.scrollY.interpolate({
-    inputRange: [0, headerScrollDistance],
-    outputRange: [headerMaxHeight, headerMinHeight],
+    inputRange: [0, headerScrollDistance, headerMaxHeight],
+    outputRange: [206, 56, 0],
+    // outputRange: [headerMaxHeight, headerMinHeight],
+    // outputRange: [156, 56],
     extrapolate: 'clamp',
   });
 
@@ -65,7 +67,7 @@ const CollapsibleNavHeader = (props) => {
 
   const renderHeader = () => {
     return (
-      <View style={{backgroundColor: Color.headerColor}}>
+      <View style={{backgroundColor: Color.headerColor, flex: 1}}>
         <AppbarHeader
           title={props.title}
           rightButton={props.tipIconVisible && renderTipIcon()}
@@ -93,7 +95,7 @@ const CollapsibleNavHeader = (props) => {
   }
 
   return (
-    <Animated.View style={{position: 'absolute', top: 0, backgroundColor: Color.headerColor, height: headerHeight, width: '100%', zIndex: 1}}>
+    <Animated.View style={{position: 'absolute', top: 0, backgroundColor: Color.headerColor, height: headerHeight, width: '100%'}}>
       {renderHeader()}
       <CustomAlertMessage
         visible={visibleModal}
