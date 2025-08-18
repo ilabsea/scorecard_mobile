@@ -12,7 +12,7 @@ import BottomSheetModalTitle from '../BottomSheetModalTitle';
 
 import { addToSelected } from '../../actions/selectedIndicatorAction';
 import { removeFromProposed } from '../../actions/proposedIndicatorAction';
-import { indicatorDevelopmentContentHeight } from '../../constants/modal_constant';
+import { indicatorDevelopmentContentHeight, modalContentPaddingBottom } from '../../constants/modal_constant';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
 import ProposedIndicatorListModalTabletStyles from '../../styles/tablet/ProposedIndicatorListModalComponentStyle';
@@ -81,7 +81,7 @@ class ProposedIndicatorListModalContent extends Component {
 
   render() {
     return (
-      <View style={{ height: hp(indicatorDevelopmentContentHeight), paddingBottom: 42 }}>
+      <View style={{ height: hp(indicatorDevelopmentContentHeight), paddingBottom: modalContentPaddingBottom }}>
         <BottomSheetModalTitle title={ this.context.translations.proposedIndicatorList } />
 
         <View style={{flex: 1, padding: containerPadding, paddingBottom: 0}}>

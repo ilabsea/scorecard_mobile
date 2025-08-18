@@ -24,7 +24,7 @@ const IndicatorList = (props) => {
     return (
       <View style={{width: 90, alignItems: 'center'}}>
         <Image source={Images[imageName]} style={styles.ratingImage} />
-        <Text style={{fontSize: 12, textAlign: 'center'}}>{ratingScore} {langRatingScale.content}</Text>
+        <Text style={{fontSize: 12, fontFamily: FontFamily.body, textAlign: 'center'}}>{ratingScore} {langRatingScale.content}</Text>
       </View>
     )
   }
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   label: {
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   }
 });
 

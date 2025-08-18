@@ -72,6 +72,7 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
     marginRight: 2,
     color: Color.clickableColor,
     fontSize: wp('2.7%'),
+    fontFamily: FontFamily.body,
   },
   ratingPlaySoundContainer: {
     borderRadius: 2,
@@ -85,6 +86,7 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
   },
   ratingLabel: {
     fontSize: isShortWidthScreen() ? 10 : 11,
+    fontFamily: FontFamily.body,
     marginTop: 10,
   }
 });

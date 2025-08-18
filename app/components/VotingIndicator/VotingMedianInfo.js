@@ -34,12 +34,12 @@ class VotingMedianInfo extends Component {
   render() {
     const { translations, appLanguage } = this.context;
     return (
-      <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
+      <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
         <Text style={[{fontFamily: FontFamily.title}, responsiveStyles.header]}>
           { translations.score } : {this.props.indicator.median} { getPluralOrSingularWord(this.props.indicator.median, translations.point, appLanguage, 's') }
         </Text>
 
-        <View style={{borderWidth: 0, marginLeft: 10}}>
+        <View style={{borderWidth: 0, marginLeft: 10, marginTop: 3}}>
           { this._renderMedian() }
         </View>
       </View>

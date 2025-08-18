@@ -13,6 +13,7 @@ import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/
 import VotingIndicatorFormConfirmation from '../../components/VotingIndicatorForm/VotingIndicatorFormConfirmation';
 
 import { participantModalSnapPoints, votingConfirmationSnapPoints } from '../../constants/modal_constant';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';
 import Participant from '../../models/Participant';
@@ -144,7 +145,7 @@ class VotingIndicatorForm extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+      <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
         <VotingIndicatorFormHeader
           indicators={this.state.indicators}
           participant={this.state.participant}

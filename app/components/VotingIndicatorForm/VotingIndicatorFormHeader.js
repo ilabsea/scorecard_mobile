@@ -1,5 +1,6 @@
 import React from 'react';
-import { Body } from 'native-base';
+import { View } from 'react-native';
+// import { Body } from 'native-base';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
@@ -21,12 +22,12 @@ class VotingIndicatorFormHeader extends React.Component {
         hideRightComponent={this.props.participantInfoTitleVisible}
       >
         { this.props.participantInfoTitleVisible &&
-          <Body style={{flex: getDeviceStyle(2, 1),marginLeft: getDeviceStyle(0, -10)}}>
+          <View style={{flex: getDeviceStyle(2, 1),marginLeft: getDeviceStyle(0, -10)}}>
             <ParticipantListItemInfo
               participant={this.props.participant}
               labelColor={Color.whiteColor}
             />
-          </Body>
+          </View>
         }
       </HeaderWithDiscardAlert>
     )

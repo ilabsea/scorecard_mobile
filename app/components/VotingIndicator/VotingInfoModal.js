@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import {View} from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import BottomSheetModal from '../BottomSheetModal';
 import ModalViewMoreButton from '../ModalViewMoreButton';
+import { modalContentPaddingBottom } from '../../constants/modal_constant';
 
 class VotingInfoModal extends Component {
   static contextType = LocalizationContext;
@@ -36,7 +38,7 @@ class VotingInfoModal extends Component {
 
   renderContent() {
     return (
-      <React.Fragment>
+      <View style={{paddingBottom: modalContentPaddingBottom}}>
         { this.state.bodyContentFirstPart }
 
         { (!!this.state.bodyContentSecondPart && !this.state.isExpanded) &&
@@ -46,7 +48,7 @@ class VotingInfoModal extends Component {
         }
 
         { !!this.state.bodyContentSecondPart && this.state.bodyContentSecondPart }
-      </React.Fragment>
+      </View>
     )
   }
 

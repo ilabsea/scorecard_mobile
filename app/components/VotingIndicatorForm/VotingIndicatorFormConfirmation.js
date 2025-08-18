@@ -8,7 +8,7 @@ import IndicatorList from './IndicatorList';
 import VotingConfirmationHeader from './VotingConfirmationHeader';
 import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton';
 
-import { votingConfirmationContentHeight } from '../../constants/modal_constant';
+import { votingConfirmationContentHeight, modalContentPaddingBottom } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
 
 class VotingIndicatorFormConfirmation extends React.Component {
@@ -16,10 +16,10 @@ class VotingIndicatorFormConfirmation extends React.Component {
 
   render() {
     return (
-      <View style={{backgroundColor: Color.whiteColor, height: hp(votingConfirmationContentHeight)}}>
+      <View style={{backgroundColor: Color.whiteColor, height: hp(votingConfirmationContentHeight), paddingBottom: modalContentPaddingBottom}}>
         <VotingConfirmationHeader participantUuid={this.props.participantUuid} />
 
-        <View style={{paddingHorizontal: containerPadding, paddingTop: 10, flex: 1}}>
+        <View style={{paddingHorizontal: containerPadding, paddingTop: 10, paddingBottom: 8, flex: 1}}>
           <IndicatorList scorecardUuid={this.props.scorecardUuid} indicators={this.props.indicators} />
         </View>
         <FormBottomSheetButton isValid={true} label={this.context.translations.confirmAndSave} save={() => this.props.onConfirm()} />

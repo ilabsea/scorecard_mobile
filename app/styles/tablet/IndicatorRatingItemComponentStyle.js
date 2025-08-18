@@ -64,12 +64,14 @@ const IndicatorRatingItemComponentStyles = StyleSheet.create({
   },
   ratingLabel: {
     fontSize: 16,
+    fontFamily: FontFamily.body,
     color: '#22354c',
     textAlign: 'center'
   },
   playSoundLabel: {
     marginRight: 8,
-    color: Color.clickableColor
+    color: Color.clickableColor,
+    fontFamily: FontFamily.body,
   },
   ratingPlaySoundContainer: {
     borderRadius: 2,

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { LocalizationContext } from '../../components/Translations';
 import VotingIndicatorListIcons from './VotingIndicatorListIcons';
