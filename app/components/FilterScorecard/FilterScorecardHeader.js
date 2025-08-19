@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Title, Button } from "native-base";
+import { Button } from 'react-native-paper';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import { LocalizationContext } from '../Translations';
@@ -7,6 +7,8 @@ import NavigationHeader from '../NavigationHeader';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
 import { pressableItemSize } from '../../utils/component_util';
 import { navigationHeaderTitleFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme';
+import { textLineHeight } from '../../constants/component_style_constant';
 
 class FilterScorecardHeader extends Component {
   static contextType = LocalizationContext;
@@ -16,11 +18,15 @@ class FilterScorecardHeader extends Component {
   }
 
   renderRightButton() {
-    return (
-      <Button transparent onPress={() => this.props.resetFilter()} style={{padding: 0, height: pressableItemSize()}}>
-        <Title style={{fontSize: navigationHeaderTitleFontSize()}}>{ this.context.translations.reset }</Title>
-      </Button>
-    )
+    return <Button
+              mode='text'
+              onPress={() => this.props.resetFilter()}
+              textColor='white'
+              labelStyle={{ fontSize: navigationHeaderTitleFontSize(), fontFamily: FontFamily.body, lineHeight: textLineHeight }}
+              style={{height: pressableItemSize()}}
+           >
+            {this.context.translations.reset}
+           </Button>
   }
 
   render() {

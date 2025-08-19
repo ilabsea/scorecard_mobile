@@ -10,7 +10,7 @@ const FilterScorecardApplyButton = (props) => {
   const {translations} = useContext(LocalizationContext);
 
   return (
-    <View style={{padding: containerPadding, backgroundColor: Color.whiteColor, paddingVertical: 16}}>
+    <View style={{padding: containerPadding, backgroundColor: Color.whiteColor, paddingVertical: 16, paddingBottom: 32}}>
       <BottomButton
         customBackgroundColor={Color.headerColor}
         iconName='none'
