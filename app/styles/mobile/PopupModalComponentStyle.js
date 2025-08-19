@@ -12,7 +12,8 @@ const PopupModalComponentStyles = StyleSheet.create({
     paddingRight: 5,
   },
   label: {
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   },
   subTitle: {
     marginLeft: containerPadding,

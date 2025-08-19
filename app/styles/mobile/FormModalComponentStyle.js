@@ -36,6 +36,7 @@ const FormModalComponentStyles = StyleSheet.create({
   },
   subTitleText: {
     fontSize: smFontSize,
+    fontFamily: FontFamily.body
   },
   orderNumberText: {
     fontSize: mdFontSize,
@@ -44,6 +45,7 @@ const FormModalComponentStyles = StyleSheet.create({
   },
   inputText: {
     fontSize: smFontSize,
+    fontFamily: FontFamily.body,
     borderWidth: 0,
     height: 30,
     marginVertical: 10,

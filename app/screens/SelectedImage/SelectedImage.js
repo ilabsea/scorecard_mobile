@@ -17,6 +17,7 @@ import EmptyListAction from '../../components/Share/EmptyListAction';
 
 import scorecardReferenceService from '../../services/scorecard_reference_service';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../constants/component_style_constant';
 
 let _this = null;
 
@@ -99,7 +100,7 @@ class SelectedImage extends Component {
     const listContainerPadding = getDeviceStyle(wp('5%'), isShortWidthScreen() ? wp('3.3%') : wp('3.8%'));
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom}}>
         <SelectedImageHeader
           onBackPress={() => this.props.navigation.goBack()}
           hasDeleteButton={this.state.selectedImages.length > 0}

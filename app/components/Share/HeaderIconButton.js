@@ -15,7 +15,7 @@ class HeaderIconButton extends Component {
         style={{width: pressableItemSize(), justifyContent: 'center', alignItems: 'center'}}
       >
         { !!this.props.children ? this.props.children
-          : <Icon name={this.props.icon} style={[{fontSize: getDeviceStyle(24, mobileIconSize), marginTop: -2, marginRight: getDeviceStyle(16, 0)}, this.props.iconStyle]} />
+          : <Icon name={this.props.icon} style={[{fontSize: getDeviceStyle(24, mobileIconSize), marginTop: -2, marginRight: getDeviceStyle(16, 0)}, this.props.iconStyle]} color='white' />
         }
       </TouchableOpacity>
     );

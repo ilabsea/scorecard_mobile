@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import { Header, Left, Right } from "native-base";
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+// import { Header, Left, Right } from "native-base";
+// import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import { HeaderBackButton } from '@react-navigation/native-stack';
+// import { HeaderBackButton } from '@react-navigation/native-stack';
 import { FontFamily } from '../assets/stylesheets/theme/font';
 import Color from '../themes/color';
 

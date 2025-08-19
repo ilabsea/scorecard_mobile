@@ -12,7 +12,7 @@ import FormBottomSheetButton from '../FormBottomSheetModal/FormBottomSheetButton
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 import scorecardResultService from '../../services/scorecard_result_service';
 
-import { swotContentHeight } from '../../constants/modal_constant';
+import { swotContentHeight, modalContentPaddingBottom } from '../../constants/modal_constant';
 import Color from '../../themes/color';
 
 const ScorecardResultModalMain = (props) => {
@@ -110,7 +110,7 @@ const ScorecardResultModalMain = (props) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor}}>
+      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor, paddingBottom: modalContentPaddingBottom}}>
         <ScorecardResultModalTitle
           selectedIndicator={selectedIndicator}
           addNewPoint={() => addNewPoint()}
