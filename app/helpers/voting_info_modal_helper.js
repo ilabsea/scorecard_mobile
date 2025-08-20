@@ -28,8 +28,10 @@ const votingInfoModalHelper = (() => {
   }
 
   function getModalSnapPoints(scorecardUuid, indicatorId) {
-    const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : ['38%', '51%'];
-    const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['43%', '60.5%'];
+    // const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : ['38%', '51%'];
+    // const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['43%', '60.5%'];
+    const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : ['33%', '51%'];
+    const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['36.5%', '60.5%'];
     const moreInfoSnapPoints = {
       2: getDeviceStyle(['36%', '50%'], mobileTwoLinesInfoSnapPoints),
       3: getDeviceStyle(['41%', '58%'], mobileThreeLinesInfoSnapPoints)

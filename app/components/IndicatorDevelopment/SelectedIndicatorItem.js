@@ -24,9 +24,6 @@ class SelectedIndicatorItem extends Component {
   constructor(props) {
     super(props);
     this.scorecard = Scorecard.find(props.indicator.scorecard_uuid);
-
-    console.log('== indiator = ', props.indicator);
-
     this.state = {
       indicator: indicatorHelper.getDisplayIndicator(props.indicator, this.scorecard),
       scorecard: this.scorecard,
