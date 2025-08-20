@@ -27,7 +27,7 @@ const CollapsibleNavHeader = (props) => {
 
   const headerHeight = props.scrollY.interpolate({
     inputRange: [0, headerScrollDistance, headerMaxHeight],
-    outputRange: [206, 56, 0],
+    outputRange: [!!props.isPassProposeStep ? 204 : 186, 56, 0],
     // outputRange: [headerMaxHeight, headerMinHeight],
     // outputRange: [156, 56],
     extrapolate: 'clamp',

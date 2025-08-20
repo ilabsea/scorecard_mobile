@@ -66,16 +66,17 @@ class ParticipantMain extends React.Component {
 
   render () {
     const containerPaddingTop = this.scrollY.interpolate({
-      inputRange: [0, 100, 140],
+      // inputRange: [0, 100, 140],
       // outputRange: [156, 56, 56],
-      outputRange: [186, 86, 86],
+      inputRange: [0, 100, 140],
+      outputRange: [186, 118, 86],
       extrapolate: 'clamp',
     })
 
     return (
       <View style={{flexGrow: 1}}>
         <CollapsibleNavHeader title={this.context.translations.getStarted} progressIndex={2}  scrollY={this.scrollY} tipIconVisible={false} />
-        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView contentContainerStyle={{flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                       { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}

@@ -69,7 +69,7 @@ class ProposedIndicatorContent extends Component {
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [186, 80, 70],
+      outputRange: [186, 118, 96],
       // inputRange: [0, 100, 140],
       // outputRange: [156, 80, 70],
       extrapolate: 'clamp',
@@ -80,7 +80,7 @@ class ProposedIndicatorContent extends Component {
         <CollapsibleNavHeader title={this.context.translations.proposeTheIndicator} scrollY={this.scrollY} progressIndex={3}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
-        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView contentContainerStyle={{paddingVertical: containerPadding, paddingBottom: 16, flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                      { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}
