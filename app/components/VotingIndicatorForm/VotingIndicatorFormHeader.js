@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-// import { Body } from 'native-base';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';

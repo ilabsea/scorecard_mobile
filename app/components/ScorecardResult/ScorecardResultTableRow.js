@@ -5,8 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
@@ -14,6 +13,7 @@ import ScorecardResultAddButton from './ScorecardResultAddButton';
 import { TableWrapper, Cell } from 'react-native-table-component';
 import indicatorHelper from '../../helpers/indicator_helper';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 export default class ScorecardResultTableRow extends Component {
   static contextType = LocalizationContext;
@@ -55,7 +55,7 @@ export default class ScorecardResultTableRow extends Component {
       <View style={{flexDirection: 'row', padding: 6, alignItems: 'center', justifyContent: 'center'}}>
         <TouchableOpacity onPress={() => this.onPress(fieldName, indicator, false)} style={[styles.btnEdit, {borderColor: this.btnColor()}]}>
           <Text style={{color: this.btnColor(), marginRight: 6}}>{JSON.parse(this.props.indicator[fieldName]).length}</Text>
-          <Icon name={'pen'} type="FontAwesome5" style={{color: this.btnColor(), fontSize: 14}}/>
+          <Icon name='pencil' style={{color: this.btnColor(), fontSize: 14}}/>
         </TouchableOpacity>
       </View>
     )
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 6,
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: FontFamily.body
   },
   row: {
     flexDirection: 'row',
@@ -135,6 +136,7 @@ const styles = StyleSheet.create({
   btnText: {
     textAlign: 'center',
     fontSize: 14,
+    fontFamily: FontFamily.body
   },
   btnEdit: {
     borderWidth: 2,
@@ -143,5 +145,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 10,
     borderRadius: 5,
+    height: 34
   }
 });

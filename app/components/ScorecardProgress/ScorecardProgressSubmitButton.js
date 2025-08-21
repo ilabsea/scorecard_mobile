@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { ProgressBar } from 'react-native-paper';
 
 import Color from '../../themes/color';
@@ -81,7 +81,7 @@ class ScorecardProgressSubmitButton extends Component {
         }
 
         { this.props.scorecard.isUploaded &&
-          <Icon name={'lock-closed'}  style={responsiveStyles.lockIcon}/>
+          <Icon name={'lock-closed-outline'} style={responsiveStyles.lockIcon}/>
         }
       </TouchableOpacity>
     )

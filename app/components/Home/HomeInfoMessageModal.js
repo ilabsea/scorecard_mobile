@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Modal, Portal } from 'react-native-paper';
-import { Spinner } from 'native-base';
+import { Modal, Portal, ActivityIndicator } from 'react-native-paper';
 
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import { FontFamily, FontSize } from '../../assets/stylesheets/theme';
 
 import { LocalizationContext } from '../Translations';
 import ErrorAlertMessage from '../Share/ErrorAlertMessage';
@@ -24,8 +24,8 @@ class HomeInfoModal extends Component {
     return (
       <View style={styles.loadingContainer}>
         <View style={styles.loadingContentWrapper}>
-          <Spinner color={Color.primaryColor} style={{marginLeft: -5}} />
-          <Text style={{paddingLeft: 20}} numberOfLines={1}>
+          <ActivityIndicator color={Color.primaryColor} style={{marginLeft: -5}} />
+          <Text style={{paddingLeft: 20, fontSize: FontSize.body, fontFamily: FontFamily.body}} numberOfLines={1}>
             { translations.formatString(translations.joiningTheScorecard, scorecardCode) }
           </Text>
         </View>
