@@ -54,5 +54,3 @@ export const customIndicatorModalContentHeight = getDeviceStyle('68%', isShortWi
 
 export const proposedInfoModaSnapPoints = getDeviceStyle(['52.5%', '82.5%'], ['55%', '90%']);
 export const proposedInfoModaContentHeight = getDeviceStyle('50%', '53%');
-
-export const modalContentPaddingBottom = 42;

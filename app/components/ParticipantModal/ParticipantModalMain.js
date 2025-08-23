@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
 
 import { LocalizationContext } from '../Translations';
 import BottomSheetModalTitle from '../BottomSheetModalTitle';
@@ -16,8 +17,8 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import { containerPadding } from '../../utils/responsive_util';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { isCreateNewIndicatorScreen } from '../../utils/screen_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import { participantModalContentHeight } from '../../constants/modal_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
 import { navigate } from '../../navigators/app_navigator';
 
 class ParticipantModalMain extends React.Component {
@@ -107,7 +108,7 @@ class ParticipantModalMain extends React.Component {
     const title = customTitle || this.context.translations.proposeTheIndicator;
 
     return (
-      <View style={{ height: hp(participantModalContentHeight), paddingBottom: screenPaddingBottom }}>
+      <View style={{ height: hp(participantModalContentHeight), paddingBottom: screenPaddingBottom(this.props.sdkVersion) }}>
         <BottomSheetModalTitle title={title} />
 
         <View style={{ padding: containerPadding, paddingBottom: this.isCreateIndicatorByIndicatorBase ? 0 : containerPadding, flex: 1 }}>
@@ -134,4 +135,17 @@ class ParticipantModalMain extends React.Component {
   }
 }
 
-export default ParticipantModalMain;
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {}
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ParticipantModalMain);

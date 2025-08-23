@@ -25,7 +25,8 @@ import ScorecardResultModalMain from '../../components/ScorecardResult/Scorecard
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
 import { containerPadding } from '../../utils/responsive_util';
-import {headerShrinkOffset, screenPaddingBottom} from '../../constants/component_style_constant';
+import { screenPaddingBottom } from '../../utils/component_util';
+import {headerShrinkOffset} from '../../constants/component_style_constant';
 
 let _this = null;
 
@@ -141,7 +142,7 @@ class ScorecardResult extends Component {
     const { translations } = this.context;
     const snapPoints = tipModalSnapPoints[SCORECARD_RESULT];
     return (
-      <View style={{height: '100%', paddingBottom: screenPaddingBottom}}>
+      <View style={{height: '100%', paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderHeader() }
         { this._renderScrollView() }
         <View style={{padding: containerPadding}}>
@@ -163,6 +164,7 @@ class ScorecardResult extends Component {
 function mapStateToProps(state) {
   return {
     indicators: state.votingIndicators.sort((a, b) => (a.order > b.order) ? 1 : -1),
+    sdkVersion: state.sdkVersion
   };
 }
 

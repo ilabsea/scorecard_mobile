@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import Moment from 'moment';
+import { connect } from 'react-redux';
 
 import {LocalizationContext} from '../../components/Translations';
 import ProgressHeader from '../../components/Share/ProgressHeader';
@@ -17,7 +18,7 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 import { scorecardPreferenceLangaugePickerSnapPoints } from '../../constants/modal_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
+import { screenPaddingBottom } from '../../utils/component_util';
 
 import {
   isDownloaded as isScorecardDownloaded,
@@ -221,7 +222,7 @@ class ScorecardPreference extends Component {
   render() {
     return (
       <TouchableWithoutFeedback>
-        <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
           <ProgressHeader
             title={this.context.translations['getStarted']}
             progressIndex={0}/>
@@ -241,4 +242,17 @@ class ScorecardPreference extends Component {
   }
 }
 
-export default ScorecardPreference;
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ScorecardPreference);

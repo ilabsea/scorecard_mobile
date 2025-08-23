@@ -21,8 +21,8 @@ const votingInfoModalHelper = (() => {
   }
 
   function getModalContent(scorecard, selectedIndicator, indicator, translations) {
-    if (isVotingIndicatorRated(indicator.uuid))
-      return _getVotingDetail(scorecard, selectedIndicator, indicator);
+    // if (isVotingIndicatorRated(indicator.uuid))
+    //   return _getVotingDetail(scorecard, selectedIndicator, indicator);
 
     return { first_content: _getNoDataContent(indicator, selectedIndicator, translations), second_content: null }
   }

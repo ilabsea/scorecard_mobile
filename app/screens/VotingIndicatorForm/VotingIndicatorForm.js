@@ -13,12 +13,12 @@ import VotingIndicatorFormRatingList from '../../components/VotingIndicatorForm/
 import VotingIndicatorFormConfirmation from '../../components/VotingIndicatorForm/VotingIndicatorFormConfirmation';
 
 import { participantModalSnapPoints, votingConfirmationSnapPoints } from '../../constants/modal_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';
 import Participant from '../../models/Participant';
 
 import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import VotingIndicatorFormTabletStyles from '../../styles/tablet/VotingIndicatorFormScreenStyle';
 import VotingIndicatorFormMobileStyles from '../../styles/mobile/VotingIndicatorFormScreenStyle';
 
@@ -145,7 +145,7 @@ class VotingIndicatorForm extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
+      <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         <VotingIndicatorFormHeader
           indicators={this.state.indicators}
           participant={this.state.participant}
@@ -159,6 +159,12 @@ class VotingIndicatorForm extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     refreshVotingIndicatorState: (scorecard_uuid) => dispatch(getAll(scorecard_uuid)),
@@ -166,6 +172,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(VotingIndicatorForm);

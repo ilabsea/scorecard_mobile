@@ -10,6 +10,7 @@ import ProposeNewIndicatorProposedList from '../../components/ProposeNewIndicato
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import { containerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
 import BottomButton from '../../components/BottomButton';
@@ -20,7 +21,6 @@ import proposedIndicatorService from '../../services/proposed_indicator_service'
 import {saveParticipant} from '../../actions/participantAction';
 import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
 import Color from '../../themes/color';
 
 class ProposeNewIndicator extends React.Component {
@@ -131,7 +131,7 @@ class ProposeNewIndicator extends React.Component {
 
   renderBody = () => {
     const {translations} = this.context
-    return <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15, backgroundColor: Color.defaultBgColor, paddingBottom: screenPaddingBottom}}>
+    return <View style={{flexGrow: 1, paddingHorizontal: containerPadding, paddingTop: 15, backgroundColor: Color.defaultBgColor, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
               {this.renderSearchBox()}
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}
@@ -155,6 +155,12 @@ class ProposeNewIndicator extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID)),
@@ -163,6 +169,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ProposeNewIndicator)

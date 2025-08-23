@@ -5,6 +5,7 @@ import {
   ScrollView,
   ImageBackground,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import Color from '../../themes/color';
 
@@ -16,9 +17,9 @@ import screenInstructions from '../../db/jsons/screenInstructions';
 import TipListItem from '../../components/Tip/TipListItem';
 import { containerPadding } from '../../utils/responsive_util'
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
+import { screenPaddingBottom } from '../../utils/component_util';
 
-export default class OfflineInstruction extends Component {
+class OfflineInstruction extends Component {
   static contextType = LocalizationContext;
 
   constructor(props) {
@@ -77,7 +78,7 @@ export default class OfflineInstruction extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{flex: 1, paddingBottom: screenPaddingBottom}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderHeader() }
 
         <ImageBackground
@@ -97,3 +98,18 @@ export default class OfflineInstruction extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OfflineInstruction);

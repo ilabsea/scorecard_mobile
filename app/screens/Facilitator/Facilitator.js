@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, ScrollView, StyleSheet, TouchableWithoutFeedback, Pressable, KeyboardAvoidingView} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { connect } from 'react-redux';
 import {LocalizationContext} from '../../components/Translations';
 import HeaderTitle from '../../components/HeaderTitle';
 import ProgressHeader from '../../components/Share/ProgressHeader';
@@ -16,8 +17,8 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import { environment } from '../../config/environment';
 import Color from '../../themes/color';
 import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
 
 class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
@@ -114,7 +115,7 @@ class FacilitatorScreen extends Component {
 
     return (
       <TouchableWithoutFeedback>
-        <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom}}>
+        <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
           <ProgressHeader
             title={translations['getStarted']}
             progressIndex={1}
@@ -190,4 +191,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FacilitatorScreen;
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FacilitatorScreen);

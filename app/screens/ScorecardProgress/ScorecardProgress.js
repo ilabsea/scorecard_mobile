@@ -19,7 +19,7 @@ import Scorecard from '../../models/Scorecard';
 import settingHelper from '../../helpers/setting_helper';
 import { ERROR_SUBMIT_SCORECARD, ERROR_NOT_FOUND } from '../../constants/error_constant';
 import { RUNNING } from '../../constants/scorecard_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
+import { screenPaddingBottom } from '../../utils/component_util';
 
 import { connect } from 'react-redux';
 
@@ -162,7 +162,7 @@ class ScorecardProgress extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, paddingBottom: screenPaddingBottom}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         <ScorecardProgressHeader
           scorecard={this.state.scorecard}
           updateLoadingStatus={(status) => this.setState({isLoading: status})}
@@ -205,6 +205,7 @@ function mapStateToProps(state) {
   return {
     currentScorecard: state.currentScorecard,
     indicators: state.votingIndicators.sort((a, b) => (a.median > b.median) ? 1 : -1),
+    sdkVersion: state.sdkVersion
   };
 }
 

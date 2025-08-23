@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
-import { screenPaddingBottom } from '../../constants/component_style_constant';
+import { screenPaddingBottom } from '../../utils/component_util';
 
 class ProposedIndicator extends Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class ProposedIndicator extends Component {
     const tipSecondSnapPoint = tipModalSnapPoints[PROPOSED_INDICATOR];
 
     return (
-      <View style={{flexGrow: 1, paddingBottom: screenPaddingBottom}}>
+      <View style={{flexGrow: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         <ProposedIndicatorMain
           scorecardUuid={scorecard_uuid}
           visibleModal={this.state.visibleModal}
@@ -76,7 +76,9 @@ class ProposedIndicator extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    sdkVersion: state.sdkVersion
+  };
 }
 
 function mapDispatchToProps(dispatch) {
