@@ -24,6 +24,8 @@ class IndicatorDevelopmentAddNewHeader extends Component {
         onPress={() => this.props.openModal() }
         disabled={this.props.hasRating}
         buttonColor={{color: buttonColor}}
+        labelStyle={{color: Color.headerColor}}
+        iconStyle={{color: Color.headerColor}}
       />
     )
   }

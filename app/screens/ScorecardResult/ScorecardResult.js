@@ -24,7 +24,11 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import ScorecardResultModalMain from '../../components/ScorecardResult/ScorecardResultModalMain';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
-import { containerPadding } from '../../utils/responsive_util';
+import {
+  containerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+} from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
 
@@ -115,10 +119,8 @@ class ScorecardResult extends Component {
 
   _renderScrollView() {
     const containerPaddingTop = this.scrollY.interpolate({
-      // inputRange: [0, 100, 140],
-      // outputRange: [156, 80, 72],
-      inputRange: [0, 100, 140],
-      outputRange: [206, 128, 106],
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
       extrapolate: 'clamp',
     })
 

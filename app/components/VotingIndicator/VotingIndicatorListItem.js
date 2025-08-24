@@ -53,7 +53,7 @@ export default class VotingIndicatorListItem extends Component {
   showVotingDetail = (indicator) => {
     const bodyContent = votingInfoModalHelper.getModalContent(this.props.scorecard, indicator, this.props.indicator, this.context.translations);
     const votingInfoSnapPoints = votingInfoModalHelper.getModalSnapPoints(this.props.scorecard.uuid, this.props.indicator.indicatorable_id);
-    const modalSnapPoints = isVotingIndicatorRated(this.props.indicator.uuid) ? votingInfoSnapPoints : ['18%'];
+    const modalSnapPoints = isVotingIndicatorRated(this.props.indicator.uuid) ? votingInfoSnapPoints : ['22%'];
 
     this.props.infoModalRef.current?.setBodyContent(bodyContent.first_content, bodyContent.second_content);
     this.props.infoModalRef.current?.setSnapPoints(modalSnapPoints);

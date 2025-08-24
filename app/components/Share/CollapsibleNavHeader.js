@@ -10,7 +10,7 @@ import AppbarHeader from '../Share/AppbarHeader';
 import ProgressStep from '../ProgressStep';
 import Color from '../../themes/color';
 import { navigateHome } from '../../utils/navigation_util';
-import { getDeviceStyle } from '../../utils/responsive_util';
+import { getDeviceStyle, isSmallDiagonalScreen } from '../../utils/responsive_util';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 const headerMaxHeight = 156;
@@ -21,11 +21,13 @@ const CollapsibleNavHeader = (props) => {
   const {translations} = React.useContext(LocalizationContext);
   const [visibleModal, setVisibleModal] = React.useState(false)
 
+  var initOutput = !!props.isPassProposeStep ? 204 : 186;
+  if (isSmallDiagonalScreen())
+    initOutput = !!props.isPassProposeStep ? 168 : 156;
+
   const headerHeight = props.scrollY.interpolate({
     inputRange: [0, headerScrollDistance, headerMaxHeight],
-    outputRange: [!!props.isPassProposeStep ? 204 : 186, 56, 0],
-    // outputRange: [headerMaxHeight, headerMinHeight],
-    // outputRange: [156, 56],
+    outputRange: [initOutput, 56, 0],
     extrapolate: 'clamp',
   });
 

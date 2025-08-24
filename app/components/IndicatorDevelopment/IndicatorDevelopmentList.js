@@ -9,7 +9,11 @@ import Tip from '../Share/Tip';
 import { LocalizationContext } from '../Translations';
 
 import {headerShrinkOffset} from '../../constants/component_style_constant';
-import { containerPadding } from '../../utils/responsive_util';
+import {
+  containerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+} from '../../utils/responsive_util';
 
 class IndicatorDevelopmentList extends Component {
   static contextType = LocalizationContext;
@@ -78,10 +82,8 @@ class IndicatorDevelopmentList extends Component {
   renderScrollView() {
     const selectedIndicators = [{item: 'header'}, ...this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid)];
     const containerPaddingTop = this.scrollY.interpolate({
-      inputRange: [0, 100, 140],
-      outputRange: [204, 128, 106],
-      // inputRange: [0, 100, 140],
-      // outputRange: [156, 80, 70],
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
       extrapolate: 'clamp',
     })
     return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>

@@ -17,7 +17,7 @@ import { containerPadding } from '../../utils/responsive_util';
 import { bottomMessageFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
 import toastMessageUtil from '../../utils/toast_message_util';
-import { screenPaddingBottom } from '../../utils/component_util';
+import { modalContentPaddingBottom } from '../../utils/component_util';
 import { MALE } from '../../constants/participant_constant';
 import { participantModalContentHeight } from '../../constants/modal_constant';
 import participantHelper from '../../helpers/participant_helper';
@@ -141,7 +141,7 @@ class AddNewParticipantMain extends Component {
             {this.renderForm()}
           </View>
         </ScrollView>
-        <View style={{width: '100%', backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
+        <View style={{width: '100%', backgroundColor: Color.whiteColor, paddingBottom: modalContentPaddingBottom(this.props.sdkVersion)}}>
           { this.state.anonymous && this.renderAnonymousMessage() }
           <FormBottomSheetButton isValid={this.state.isValidAge} save={() => this.save()} wrapperStyle={{paddingTop: 0, marginTop: this.state.anonymous ? 4 : 12}}/>
         </View>

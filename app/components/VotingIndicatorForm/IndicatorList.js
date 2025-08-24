@@ -24,7 +24,9 @@ const IndicatorList = (props) => {
     return (
       <View style={{width: 90, alignItems: 'center'}}>
         <Image source={Images[imageName]} style={styles.ratingImage} />
-        <Text style={{fontSize: 12, fontFamily: FontFamily.body, textAlign: 'center'}}>{ratingScore} {langRatingScale.content}</Text>
+        <Text style={{fontSize: 12, fontFamily: FontFamily.body, textAlign: 'center'}}>
+          {ratingScore} {!!langRatingScale ? langRatingScale.content : ''}
+        </Text>
       </View>
     )
   }

@@ -112,7 +112,7 @@ const ScorecardResultModalMain = (props) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor, paddingBottom: modalContentPaddingBottom(this.props.sdkVersion)}}>
+      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor, paddingBottom: modalContentPaddingBottom(props.sdkVersion)}}>
         <ScorecardResultModalTitle
           selectedIndicator={selectedIndicator}
           addNewPoint={() => addNewPoint()}
@@ -156,5 +156,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ScorecardResultModalMain);
-
-// export default ScorecardResultModalMain;

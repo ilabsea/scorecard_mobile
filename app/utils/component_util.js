@@ -1,3 +1,4 @@
+import DeviceInfo from 'react-native-device-info'
 import { MIN_MODERN_ANDROID_SDK_LEVEL } from '../constants/main_constant';
 
 const defaultItemSize = 48;
@@ -10,9 +11,15 @@ export const pressableItemSize = (padding = 0) => {
 }
 
 export const screenPaddingBottom = (sdkVersion) => {
+  if (DeviceInfo.isTablet())
+    return 0;
+
   return sdkVersion >= MIN_MODERN_ANDROID_SDK_LEVEL ? 16 : 0;
 }
 
 export const modalContentPaddingBottom = (sdkVersion) => {
-  return sdkVersion >= MIN_MODERN_ANDROID_SDK_LEVEL ? 42 : 28;
+  if (DeviceInfo.isTablet())
+    return 22;
+
+  return sdkVersion >= MIN_MODERN_ANDROID_SDK_LEVEL ? 18 : 0;
 }

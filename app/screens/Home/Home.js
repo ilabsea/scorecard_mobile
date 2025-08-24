@@ -39,7 +39,7 @@ class Home extends Component {
 
   async componentDidMount() {
     DeviceInfo.getApiLevel().then((value) => {
-      _this.props.setAndroidSdkVersion(value);
+      this.props.setAndroidSdkVersion(value);
     });
 
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)

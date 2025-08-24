@@ -9,6 +9,15 @@ const isTablet = DeviceInfo.isTablet();
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
 
+const isSmallDiagonalScreen = () => {
+  const pixelRatio = PixelRatio.get();
+  const dpi = pixelRatio * 160; // base density is 160 dpi
+  const widthInches = screenWidth / dpi;
+  const heightInches = screenHeight / dpi;
+  const diagonalInches = Math.sqrt(widthInches ** 2 + heightInches ** 2);
+  return diagonalInches < 2.1;
+}
+
 const getDeviceStyle = (tabletStyle, mobileStyle) => {
   return isTablet ? tabletStyle : mobileStyle;
 }
@@ -66,6 +75,9 @@ const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('
 
 const navigationBackButtonFlex =  getDeviceStyle(0.21, 0.15);
 
+const passProposeStepContainerPaddingTopInput = [0, 100, 140];
+const passProposeStepContainerPaddingTopOutput = isSmallDiagonalScreen() ? [168, 80, 78] : [204, 128, 106];
+
 export {
   getDeviceStyle,
   isShortScreenDevice,
@@ -76,6 +88,7 @@ export {
   modalHeadingTitleSize,
   addNewParticipantModalHeight,
   isSmallMobileScreenDevice,
+  isSmallDiagonalScreen,
   containerPaddingTop,
   normalLabelSize,
   scrollViewPaddingBottom,
@@ -83,4 +96,6 @@ export {
   cardItemPadding,
   navigationTitlePaddingLeft,
   navigationBackButtonFlex,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
 };

@@ -12,7 +12,12 @@ import { navigate } from '../../navigators/app_navigator';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { titleFontSize } from '../../utils/font_size_util';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import {
+  getDeviceStyle,
+  containerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+} from '../../utils/responsive_util';
 import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { hasVoting } from '../../helpers/voting_indicator_helper';
@@ -70,10 +75,8 @@ class VotingIndicatorListContent extends React.Component {
 
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
-      // inputRange: [0, 100, 140],
-      // outputRange: [156, 80, 72],
-      inputRange: [0, 100, 140],
-      outputRange: [206, 128, 106],
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
       extrapolate: 'clamp',
     })
     return (

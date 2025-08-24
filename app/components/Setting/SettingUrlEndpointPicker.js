@@ -152,7 +152,7 @@ class SettingUrlEndpointPicker extends React.Component {
         />
 
         { this.newEndpointAdded &&
-          <Text style={{fontSize: bodyFontSize(), color: Color.errorColor}}>
+          <Text style={{fontSize: bodyFontSize(), color: Color.errorColor, lineHeight: 28}}>
             { translations.theServerUrlHasChanged }
           </Text>
         }

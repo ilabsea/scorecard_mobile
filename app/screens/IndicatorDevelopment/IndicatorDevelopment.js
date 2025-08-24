@@ -105,7 +105,7 @@ class IndicatorDevelopment extends Component {
     const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
 
     return (
-      <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVerson)}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderContent() }
         { !!this.props.selectedIndicators.length &&
           <View style={{padding: containerPadding}}>
@@ -127,7 +127,7 @@ function mapStateToProps(state) {
   return {
     proposedIndicators: state.proposedIndicators,
     selectedIndicators: state.selectedIndicators,
-    sdkVerson: state.sdkVerson
+    sdkVersion: state.sdkVersion
   };
 }
 
