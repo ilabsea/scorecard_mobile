@@ -39,7 +39,7 @@ class IndicatorDevelopmentList extends Component {
   }
 
   updateFirstVisitStatus(status, index) {
-    if (index == 0)
+    if (index == 1)
       this.setState({ isFirstVisit: status });
   }
 
