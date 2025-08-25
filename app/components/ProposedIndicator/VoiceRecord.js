@@ -9,6 +9,7 @@ import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class VoiceRecord extends Component {
   static contextType = LocalizationContext;
@@ -176,7 +177,7 @@ class VoiceRecord extends Component {
     return (
       <View>
         <View style={{alignItems: 'center', marginBottom: 10}}>
-          <Text style={{fontSize: bodyFontSize(), color: '#3a3a3a'}}>
+          <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, color: '#3a3a3a'}}>
             {translations.enterNewIndicatorAsVoice}
           </Text>
         </View>
