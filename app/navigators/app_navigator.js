@@ -47,7 +47,7 @@ function AppNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      screenOptions={({route}) => {
+      screenOptions={({route, navigation}) => {
         const hideHeaderRoutes = [
           'Home',
           'ScorecardList',
@@ -83,13 +83,14 @@ function AppNavigator() {
           },
           headerTitleStyle: {
             fontFamily: FontFamily.title,
-            fontSize: getDeviceStyle(20, mobileHeadingTitleSize()),
+            fontSize: getDeviceStyle(20, Math.round(mobileHeadingTitleSize())),
             marginTop: getDeviceStyle(0, 2),
             paddingLeft: 0,
             marginLeft: -18
           },
           headerTintColor: 'white',
-          headerLeft: hideHeader ? () => null : () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>,
+          // headerLeft: hideHeader ? () => null : () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>,
+          headerLeft: hideHeader ? () => null : () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigation.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>,
         }
       }}
       >
@@ -97,7 +98,7 @@ function AppNavigator() {
         name="Home"
         component={HomeScreen}
         options={({navigation}) => ({
-          headerTitleStyle: {marginLeft: 0, fontSize: getDeviceStyle(20, mobileHeadingTitleSize()), fontFamily: FontFamily.title},
+          headerTitleStyle: {marginLeft: 0, fontSize: getDeviceStyle(20, Math.round(mobileHeadingTitleSize())), fontFamily: FontFamily.title},
           title: `${translations['scorecardApp']}`,
           headerRight: () => (
             <SettingMenu navigation={navigation} />
@@ -117,37 +118,52 @@ function AppNavigator() {
       <Stack.Screen
         name="ScorecardProgress"
         component={ScorecardProgressScreen}
-        options={({navigator}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigator}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="IndicatorDevelopment"
         component={IndicatorDevelopmentScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="VotingIndicatorList"
         component={VotingIndicatorListScreen}
-        options={({navigation}) => ({
-          header: ()=> null
-        })}
+        options={{
+          header: () => null,
+        }}
+        // options={({navigation}) => ({
+        //   header: ()=> null
+        // })}
       />
       <Stack.Screen
         name="VotingIndicatorForm"
         component={VotingIndicatorFormScreen}
         options={{
-          header: () => null
+          header: () => null,
         }}
+        // options={{
+        //   header: () => null
+        // }}
       />
       <Stack.Screen
         name="ScorecardResult"
         component={ScorecardResultScreen}
-        options={({navigation}) => ({
-          header: ()=> null
-        })}
+        options={{
+          header: () => null,
+        }}
+        // options={({navigation}) => ({
+        //   header: ()=> null
+        // })}
       />
       <Stack.Screen
         name="Setting"
@@ -155,6 +171,9 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
+        // options={{
+        //   header: () => null,
+        // }}
       />
       <Stack.Screen
         name="NewScorecard"
@@ -167,44 +186,62 @@ function AppNavigator() {
       <Stack.Screen
         name="ScorecardDetail"
         component={ScorecardDetailScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="ScorecardPreference"
         component={ScorecardPreferenceScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="Facilitator"
         component={FacilitatorScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="Participant"
         component={ParticipantScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="ProposedIndicator"
         component={ProposedIndicatorScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="ProposeNewIndicator"
         component={ProposeNewIndicatorScreen}
-        options={() => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={() => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="Contact"
@@ -217,64 +254,91 @@ function AppNavigator() {
         name="About"
         component={AboutScreen}
         options={{
-          title: `${translations['about']}`,
+          header: () => null,
         }}
+        // options={{
+        //   title: `${translations['about']}`,
+        // }}
       />
       <Stack.Screen
         name="OfflineParticipantList"
         component={OfflineInstructionScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="OfflineProposedIndicator"
         component={OfflineInstructionScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="OfflineIndicatorDevelopment"
         component={OfflineInstructionScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="OfflineScorecardResult"
         component={OfflineInstructionScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigation}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="SelectedImage"
         component={SelectedImageScreen}
-        options={({navigator}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigator}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="FilterScorecardScreen"
         component={FilterScorecardScreen}
-        options={({navigator}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigator}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="VideoPlayer"
         component={VideoPlayerScreen}
-        options={({navigator}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigator}) => ({
+        //   header: () => null,
+        // })}
       />
       <Stack.Screen
         name="AddNewEndpointUrl"
         component={AddNewEndpointUrlScreen}
-        options={({navigator}) => ({
+        options={{
           header: () => null,
-        })}
+        }}
+        // options={({navigator}) => ({
+        //   header: () => null,
+        // })}
       />
     </Stack.Navigator>
   );
