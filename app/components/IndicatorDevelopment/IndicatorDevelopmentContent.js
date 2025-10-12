@@ -61,7 +61,7 @@ class IndicatorDevelopmentContent extends Component {
       <View style={{flex: 1}}
         onLayout={(event) => this.setState({ headerHeight: event.nativeEvent.layout.y - 22 })}
       >
-        <View style={{flex: 1, backgroundColor: Color.defaultBgColor}}>
+        <View style={{flex: 1, backgroundColor: Color.defaultBgColor, zIndex: 0}}>
           <IndicatorDevelopmentList
             scorecardUuid={this.props.scorecardUuid}
             selectedIndicators={this.props.selectedIndicators}

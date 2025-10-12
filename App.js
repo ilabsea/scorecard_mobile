@@ -8,10 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; // 1
 import { Provider } from 'react-redux';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-
-import { StyleProvider, NativeBaseProvider, extendTheme } from "native-base";
-import getTheme from './app/themes/components';
-import material from './app/themes/variables/material';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import AppNavigator, { navigationRef } from './app/navigators/app_navigator';
 
@@ -91,21 +88,23 @@ const App: () => Node = () => {
   }, []);
 
   return (
-    <LocalizationProvider>
-      <Provider store={store}>
-        {/* <NativeBaseProvider style={extendTheme(material)}> */}
+    <SafeAreaProvider>
+      <LocalizationProvider>
+        <Provider store={store}>
           <PaperProvider style={{flex: 1}} theme={theme}>
             <GestureHandlerRootView style={{flex: 1}}>
               <BottomSheetModalProvider>
-                <NavigationContainer ref={navigationRef}>
-                  { !loading && <AppNavigator /> }
-                </NavigationContainer>
+                <SafeAreaView edges={{top: 'off', bottom: 'maximum'}} style={{flex: 1}}>
+                  <NavigationContainer ref={navigationRef}>
+                    { !loading && <AppNavigator /> }
+                  </NavigationContainer>
+                </SafeAreaView>
               </BottomSheetModalProvider>
             </GestureHandlerRootView>
           </PaperProvider>
-        {/* </NativeBaseProvider> */}
-      </Provider>
-    </LocalizationProvider>
+        </Provider>
+      </LocalizationProvider>
+    </SafeAreaProvider>
   );
 };
 

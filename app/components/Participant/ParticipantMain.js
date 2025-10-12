@@ -73,7 +73,7 @@ class ParticipantMain extends React.Component {
     })
 
     return (
-      <View style={{flexGrow: 1}}>
+      <View style={{flexGrow: 1, zIndex: 0}}>
         <CollapsibleNavHeader title={this.context.translations.getStarted} progressIndex={2}  scrollY={this.scrollY} tipIconVisible={false} />
         <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView contentContainerStyle={{flexGrow: 1}}
