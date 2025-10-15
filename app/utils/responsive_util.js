@@ -1,9 +1,11 @@
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { smallMobileHeight, mediumMobileHeight, smallWidthMobile, XXHDPIRatio } from '../constants/screen_size_constant';
 import { xlLabelSize, lgLabelSize, mdLabelSize } from '../constants/mobile_font_size_constant';
+
+const { NavigationMode } = NativeModules;
 
 const isTablet = DeviceInfo.isTablet();
 const screenHeight = Dimensions.get('screen').height;
@@ -61,6 +63,18 @@ const isSmallMobileScreenDevice = () => {
   return false;
 }
 
+// mode = 0 → 3-button
+// mode = 1 → 2-button
+// mode = 2 → gesture
+const bottomButtonContainerPadding = async () => {
+  const mode = await NavigationMode.getNavigationMode();
+
+  return {
+    padding: containerPadding,
+    paddingBottom: mode == 2 ? containerPadding : 0,
+  }
+}
+
 const containerPaddingTop = getDeviceStyle(20, 10);
 
 const normalLabelSize = getDeviceStyle(16, wp(mdLabelSize));
@@ -89,6 +103,7 @@ export {
   addNewParticipantModalHeight,
   isSmallMobileScreenDevice,
   isSmallDiagonalScreen,
+  bottomButtonContainerPadding,
   containerPaddingTop,
   normalLabelSize,
   scrollViewPaddingBottom,
