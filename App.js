@@ -31,6 +31,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import notificationService from './app/services/notification_service';
 import { SELECTED_FILTERS } from './app/constants/main_constant';
 import settingHelper from './app/helpers/setting_helper';
+import { checkDeviceNavType } from './app/utils/responsive_util';
 
 Sentry.init({
   dsn: 'https://5f4fd35d83f1473291df0123fca8ec00@o357910.ingest.sentry.io/5424146',
@@ -63,6 +64,7 @@ const App: () => Node = () => {
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
+    checkDeviceNavType();
     setLoading(false);
     SplashScreen.hide();
     appStatusService.checkAppVersionSyncStatus();

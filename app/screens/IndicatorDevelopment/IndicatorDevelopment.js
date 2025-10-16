@@ -19,7 +19,7 @@ import Scorecard from '../../models/Scorecard';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
 
@@ -108,7 +108,7 @@ class IndicatorDevelopment extends Component {
       <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderContent() }
         { !!this.props.selectedIndicators.length &&
-          <View style={{padding: containerPadding}}>
+          <View style={bottomButtonContainerPadding()}>
             <BottomButton
               onPress={ () => this._submit() }
               customBackgroundColor={Color.headerColor}

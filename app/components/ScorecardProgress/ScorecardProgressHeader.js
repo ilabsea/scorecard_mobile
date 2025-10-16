@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import {View} from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
 import ScorecardProgressCircle from './ScorecardProgressCircle';
 import ScorecardProgressShareButton from './ScorecardProgressShareButton';
 import { navigateBack } from '../../utils/navigation_util';
+import { containerPadding } from '../../utils/responsive_util';
 
 class ScorecardProgressHeader extends Component {
   static contextType = LocalizationContext;
@@ -16,7 +18,7 @@ class ScorecardProgressHeader extends Component {
           hasMatchedEndpointUrl={this.props.hasMatchedEndpointUrl}
           isSyncing={this.props.isSyncing}
         />
-      : <ScorecardProgressCircle scorecardUuid={this.props.scorecard.uuid} />;
+      : <View style={{marginRight: containerPadding}}><ScorecardProgressCircle scorecardUuid={this.props.scorecard.uuid} /></View>;
   }
 
   render() {

@@ -5,7 +5,7 @@ import {LocalizationContext} from '../Translations';
 import AddNewEndpointUrlForm from './AddNewEndpointUrlForm';
 import BottomButton from '../BottomButton';
 
-import { containerPadding } from '../../utils/responsive_util';
+import { bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { navigateBack } from '../../utils/navigation_util';
 import endpointFormService from '../../services/endpoint_form_service';
 import { CUSTOM } from '../../constants/main_constant';
@@ -48,7 +48,7 @@ class AddNewEndpointUrlMain extends React.Component {
   render() {
     const { translations } = this.context;
     return (
-      <View style={{flex: 1, padding: containerPadding}}>
+      <View style={[bottomButtonContainerPadding(), {flex: 1}]}>
         <AddNewEndpointUrlForm
           endpoint={this.props.endpoint}
           updateEndpoint={(endpoint) => this.updateEndpoint(endpoint)}

@@ -8,7 +8,7 @@ import ProposeNewIndicatorNavHeader from '../../components/ProposeNewIndicator/P
 import ProposeNewIndicatorSearchBox from '../../components/ProposeNewIndicator/ProposeNewIndicatorSearchBox';
 import ProposeNewIndicatorProposedList from '../../components/ProposeNewIndicator/ProposeNewIndicatorProposedList';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -135,7 +135,7 @@ class ProposeNewIndicator extends React.Component {
               {this.renderSearchBox()}
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}
-                <View style={{padding: containerPadding, paddingHorizontal: 0, zIndex: -2, opacity: this.state.isSearching ? 0 : 1}}>
+                <View style={[bottomButtonContainerPadding(), {paddingHorizontal: 0, zIndex: -2, opacity: this.state.isSearching ? 0 : 1}]}>
                   <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
                 </View>
               </View>

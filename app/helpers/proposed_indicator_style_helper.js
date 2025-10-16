@@ -61,7 +61,7 @@ const proposedIndicatorStyleHelper = (() => {
               top: _getSearchResultTopPosition(isIndicatorBase, searchContainerHeight),
               width: '100%',
               zIndex: 2,
-              paddingBottom: 8
+              paddingBottom: getDeviceStyle(38, 28)
            }
   }
 

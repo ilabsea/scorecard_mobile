@@ -13,7 +13,7 @@ import Participant from '../../models/Participant';
 import Scorecard from '../../models/Scorecard';
 import {connect} from 'react-redux' ;
 import { removeFromSelected, setSelectedIndicators } from '../../actions/selectedIndicatorAction';
-import { containerPadding, isSmallDiagonalScreen } from '../../utils/responsive_util';
+import { containerPadding, isSmallDiagonalScreen, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { navigate } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
@@ -46,7 +46,7 @@ class ProposedIndicatorContent extends Component {
 
   renderFinishButton = () => {
     return (
-      <View style={{padding: containerPadding}}>
+      <View style={bottomButtonContainerPadding()}>
         <BottomButton
           disabled={!proposedIndicatorService.hasProposedIndicator(this.props.scorecardUuid)}
           label={this.context.translations['finishAndNext']}

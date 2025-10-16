@@ -66,12 +66,22 @@ const isSmallMobileScreenDevice = () => {
 // mode = 0 → 3-button
 // mode = 1 → 2-button
 // mode = 2 → gesture
-const bottomButtonContainerPadding = async () => {
-  const mode = await NavigationMode.getNavigationMode();
+var navType = 2; // default is gesture navigation
+const checkDeviceNavType = async () => {
+  navType = await NavigationMode.getNavigationMode();
+}
+
+const isThreeButtonNavigation = () => {
+  return navType == 0;
+}
+
+const bottomButtonContainerPadding = () => {
+  if (isTablet)
+    return { padding: containerPadding }
 
   return {
     padding: containerPadding,
-    paddingBottom: mode == 2 ? containerPadding : 0,
+    paddingBottom: isSmallDiagonalScreen() ? 16 : 0
   }
 }
 
@@ -103,6 +113,8 @@ export {
   addNewParticipantModalHeight,
   isSmallMobileScreenDevice,
   isSmallDiagonalScreen,
+  checkDeviceNavType,
+  isThreeButtonNavigation,
   bottomButtonContainerPadding,
   containerPaddingTop,
   normalLabelSize,

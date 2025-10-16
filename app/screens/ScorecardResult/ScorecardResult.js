@@ -28,6 +28,7 @@ import {
   containerPadding,
   passProposeStepContainerPaddingTopInput,
   passProposeStepContainerPaddingTopOutput,
+  bottomButtonContainerPadding,
 } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
@@ -147,7 +148,7 @@ class ScorecardResult extends Component {
       <View style={{height: '100%', paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderHeader() }
         { this._renderScrollView() }
-        <View style={{padding: containerPadding}}>
+        <View style={bottomButtonContainerPadding()}>
           <BottomButton
             disabled={!scorecardResultService.isSaveAble(this.state.scorecard)}
             onPress={() => this.save()}

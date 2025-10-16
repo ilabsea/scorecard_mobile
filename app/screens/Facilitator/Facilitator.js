@@ -16,7 +16,7 @@ import facilitatorService from '../../services/facilitator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { environment } from '../../config/environment';
 import Color from '../../themes/color';
-import { containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { containerPaddingTop, containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
 
@@ -93,7 +93,7 @@ class FacilitatorScreen extends Component {
     const {translations} = this.context;
 
     return (
-      <View style={styles.buttonContainer}>
+      <View style={bottomButtonContainerPadding()}>
         <BottomButton disabled={this.state.isError} label={translations.next} onPress={() => this.saveSelectedData()} />
       </View>
     );
@@ -181,9 +181,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     textTransform: 'uppercase',
     marginBottom: -10,
-  },
-  buttonContainer: {
-    padding: containerPadding
   },
   buttonLabelStyle: {
     textTransform: 'uppercase',

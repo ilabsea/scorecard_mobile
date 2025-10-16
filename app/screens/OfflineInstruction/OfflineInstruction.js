@@ -15,7 +15,7 @@ import ProgressHeader from '../../components/Share/ProgressHeader';
 import BottomButton from '../../components/BottomButton';
 import screenInstructions from '../../db/jsons/screenInstructions';
 import TipListItem from '../../components/Tip/TipListItem';
-import { containerPadding } from '../../utils/responsive_util'
+import { containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util'
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 
@@ -91,7 +91,7 @@ class OfflineInstruction extends Component {
           </ScrollView>
         </ImageBackground>
 
-        <View style={{padding: containerPadding}}>
+        <View style={bottomButtonContainerPadding()}>
           <BottomButton label={translations.next} onPress={() => this.props.navigation.navigate(this.state.screen.navigateTo, {scorecard_uuid: this.props.route.params.scorecard_uuid, isIndicatorBase: this.state.isIndicatorBase})} />
         </View>
       </View>

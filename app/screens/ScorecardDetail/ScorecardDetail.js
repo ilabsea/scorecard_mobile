@@ -12,7 +12,7 @@ import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 import { navigateHome } from '../../utils/navigation_util';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import ScorecardDetailTabletStyles from '../../styles/tablet/ScorecardDetailScreenStyle';
 import ScorecardDetailMobileStyles from '../../styles/mobile/ScorecardDetailScreenStyle';
@@ -105,7 +105,7 @@ class ScorecardDetail extends Component {
             <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
           </ScrollView>
 
-          <View style={styles.buttonContainer}>
+          <View style={bottomButtonContainerPadding()}>
             <BottomButton label={translations.next} onPress={() => this.startScorecard()} />
           </View>
 
@@ -122,9 +122,6 @@ const styles = StyleSheet.create({
     padding: containerPadding,
     paddingBottom: 28,
     paddingTop: 0,
-  },
-  buttonContainer: {
-    padding: containerPadding
   },
 });
 

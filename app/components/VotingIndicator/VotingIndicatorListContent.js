@@ -17,6 +17,7 @@ import {
   containerPadding,
   passProposeStepContainerPaddingTopInput,
   passProposeStepContainerPaddingTopOutput,
+  bottomButtonContainerPadding,
 } from '../../utils/responsive_util';
 import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
@@ -95,7 +96,7 @@ class VotingIndicatorListContent extends React.Component {
           </ScrollView>
         </Animated.View>
 
-        <View style={styles.container}>
+        <View style={bottomButtonContainerPadding()}>
           <BottomButton
             onPress={() => this._goNext()}
             customBackgroundColor={Color.headerColor}
@@ -109,9 +110,6 @@ class VotingIndicatorListContent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: containerPadding,
-  },
   h1: {
     fontSize: getDeviceStyle(24, titleFontSize()),
     fontFamily: FontFamily.title,

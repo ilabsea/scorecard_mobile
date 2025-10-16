@@ -17,7 +17,7 @@ import votingIndicatorService from '../../services/voting_indicator_service';
 import VotingIndicator from '../../models/VotingIndicator';
 import Participant from '../../models/Participant';
 
-import { getDeviceStyle, containerPaddingTop, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPaddingTop, containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import VotingIndicatorFormTabletStyles from '../../styles/tablet/VotingIndicatorFormScreenStyle';
 import VotingIndicatorFormMobileStyles from '../../styles/mobile/VotingIndicatorFormScreenStyle';
@@ -132,7 +132,7 @@ class VotingIndicatorForm extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{padding: containerPadding, paddingTop: containerPaddingTop}}>
+      <View style={[bottomButtonContainerPadding(), {paddingTop: containerPaddingTop}]}>
         <BottomButton
           onPress={() => this.showSubmitConfirmation()}
           customBackgroundColor={Color.headerColor}

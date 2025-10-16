@@ -89,7 +89,6 @@ function AppNavigator() {
             marginLeft: -18
           },
           headerTintColor: 'white',
-          // headerLeft: hideHeader ? () => null : () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigationRef.current?.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>,
           headerLeft: hideHeader ? () => null : () => <HeaderBackButton tintColor={Color.whiteColor} onPress={ () => navigation.goBack() } style={{ width: pressableItemSize(), height: pressableItemSize() }}/>,
         }
       }}
@@ -121,9 +120,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigator}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="IndicatorDevelopment"
@@ -131,9 +127,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="VotingIndicatorList"
@@ -141,9 +134,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: ()=> null
-        // })}
       />
       <Stack.Screen
         name="VotingIndicatorForm"
@@ -151,9 +141,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={{
-        //   header: () => null
-        // }}
       />
       <Stack.Screen
         name="ScorecardResult"
@@ -161,9 +148,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: ()=> null
-        // })}
       />
       <Stack.Screen
         name="Setting"
@@ -171,9 +155,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={{
-        //   header: () => null,
-        // }}
       />
       <Stack.Screen
         name="NewScorecard"
@@ -189,9 +170,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="ScorecardPreference"
@@ -199,9 +177,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="Facilitator"
@@ -209,9 +184,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="Participant"
@@ -219,9 +191,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="ProposedIndicator"
@@ -229,9 +198,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="ProposeNewIndicator"
@@ -239,9 +205,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={() => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="Contact"
@@ -254,11 +217,8 @@ function AppNavigator() {
         name="About"
         component={AboutScreen}
         options={{
-          header: () => null,
+          title: `${translations['about']}`,
         }}
-        // options={{
-        //   title: `${translations['about']}`,
-        // }}
       />
       <Stack.Screen
         name="OfflineParticipantList"
@@ -266,9 +226,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="OfflineProposedIndicator"
@@ -276,9 +233,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="OfflineIndicatorDevelopment"
@@ -286,9 +240,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="OfflineScorecardResult"
@@ -296,9 +247,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigation}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="SelectedImage"
@@ -306,9 +254,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigator}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="FilterScorecardScreen"
@@ -316,9 +261,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigator}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="VideoPlayer"
@@ -326,9 +268,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigator}) => ({
-        //   header: () => null,
-        // })}
       />
       <Stack.Screen
         name="AddNewEndpointUrl"
@@ -336,9 +275,6 @@ function AppNavigator() {
         options={{
           header: () => null,
         }}
-        // options={({navigator}) => ({
-        //   header: () => null,
-        // })}
       />
     </Stack.Navigator>
   );

@@ -1,5 +1,5 @@
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { getDeviceStyle, isShortScreenDevice, isShortWidthScreen, isSmallDiagonalScreen } from '../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice, isShortWidthScreen, isSmallDiagonalScreen, isThreeButtonNavigation } from '../utils/responsive_util';
 
 export const PROPOSED_INDICATOR = 'PROPOSED_INDICATOR';
 export const INDICATOR_DEVELOPMENT = 'INDICATOR_DEVELOPMENT';
@@ -7,7 +7,7 @@ export const VOTING_INDICATOR = 'VOTING_INDICATOR';
 export const SCORECARD_RESULT = 'SCORECARD_RESULT';
 
 export const tipModalSnapPoints = {
-  'PROPOSED_INDICATOR': [getDeviceStyle('53%', isSmallDiagonalScreen() ? '62%' : '49%'), getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
+  'PROPOSED_INDICATOR': [getDeviceStyle('53%', isSmallDiagonalScreen() ? '62%' : isThreeButtonNavigation() ? '51%' : '49.5%'), getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
   'INDICATOR_DEVELOPMENT': [getDeviceStyle('37%', '43%')],
   'VOTING_INDICATOR': [getDeviceStyle('37%', isShortScreenDevice() ? '43%' : '41%')],
   'SCORECARD_RESULT': [getDeviceStyle('37%', isShortScreenDevice() ? '42%' : '47%')],
