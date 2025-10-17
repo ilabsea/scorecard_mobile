@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {View, Text, PermissionsAndroid} from 'react-native';
-import {Recorder} from '@react-native-community/audio-toolkit';
+import Sound, {
+  AudioEncoderAndroidType,
+  AudioSourceAndroidType,
+} from 'react-native-nitro-sound';
+import RNFS from 'react-native-fs';
 
 import {LocalizationContext} from '../Translations';
 import RecordedAudioCard from './RecordedAudioCard';
@@ -40,6 +44,10 @@ class VoiceRecord extends Component {
   componentDidUpdate() {
     // Allow to update the state (in componentDidUpdate) only when the component is not unmount and the audio is not edited yet (by remove or record new audio)
     // and the audioPlayer must be null and the custom indicator needs to have audio file (this.props.audioFilePath)
+
+
+    console.log('==== Audio file path = ', this.props.audioFilePath);
+
     if (!this.isComponentUnmount && !this.state.isAudioEdited && !this.audioPlayer && this.props.audioFilePath) {
       this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
       setTimeout(() => {
@@ -67,33 +75,42 @@ class VoiceRecord extends Component {
       .then((result) => {this.setState({hasPermission: (result === true || result === PermissionsAndroid.RESULTS.GRANTED)});});
   }
 
-  recordVoice = () => {
+  recordVoice = async () => {
     if (!this.state.hasPermission) return;
 
     this.setState({ isAudioEdited: true });
-    this.recorder = new Recorder(this.filename, {format: 'mp3'});
-    this.recorder.prepare(() => {
-      this.recorder.record(() => {
-        this.setState({isRecording: true});
-        this.recorderInterval = setInterval(() => {
-          this.setState({recordDuration: this.state.recordDuration + 1});
-        }, 1000);
-      });
-    });
+
+    // const audioSet = {
+    //   android: {
+    //     outputFormat: 'mp3'
+    //   },
+    //   AudioSamplingRate: 44100,
+    //   AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+    //   AudioSourceAndroid: AudioSourceAndroidType.MIC,
+    // };
+
+    this.recorder = await Sound.startRecorder(
+      `${RNFS.DocumentDirectoryPath}/${this.filename}`,
+      // audioSet,
+    )
+    this.setState({isRecording: true});
+    this.recorderInterval = setInterval(() => {
+      this.setState({recordDuration: this.state.recordDuration + 1});
+    }, 1000);
   };
 
-  stopRecordVoice = () => {
+  stopRecordVoice = async () => {
     if (this.recorder === null) return;
 
     clearInterval(this.recorderInterval);
-    this.recorder.stop(() => {
-      this.setState({
-        isRecording: false,
-        isRecordButtonVisible: false,
-        playSeconds: this.state.recordDuration,
-      });
-      this.props.finishRecord(this.recorder.fsPath);
+    this.recorder = await Sound.stopRecorder();
+    console.log('=== recording stop = ', this.recorder);
+    this.setState({
+      isRecording: false,
+      isRecordButtonVisible: false,
+      playSeconds: this.state.recordDuration,
     });
+    this.props.finishRecord(this.recorder);
   };
 
   countPlaySeconds = () => {
@@ -116,7 +133,7 @@ class VoiceRecord extends Component {
 
   handlePlaying = () => {
     if (this.audioPlayer === null)
-      this.audioPlayer = new AudioPlayer(this.recorder.fsPath, true);
+      this.audioPlayer = new AudioPlayer(this.recorder, true);
     else if (this.audioPlayer && this.props.isEdit)
       this.audioPlayer.play();
     else
@@ -143,12 +160,10 @@ class VoiceRecord extends Component {
   };
 
   delete = () => {
-    if (this.recorder) {
-      this.recorder.destroy();
+    if (this.recorder)
       this.recorder =  null;
-    }
-    this.audioPlayer && this.audioPlayer.release();
 
+    this.audioPlayer && this.audioPlayer.release();
     this.audioPlayer = null;
     this.setState({
       isRecordButtonVisible: true,
