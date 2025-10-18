@@ -86,7 +86,6 @@ class VoiceRecord extends Component {
 
     clearInterval(this.recorderInterval);
     this.recorder = await Sound.stopRecorder();
-    console.log('=== recording stop = ', this.recorder);
     this.setState({
       isRecording: false,
       isRecordButtonVisible: false,

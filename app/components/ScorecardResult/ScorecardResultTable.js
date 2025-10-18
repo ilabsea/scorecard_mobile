@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Table, Row} from 'react-native-table-component';
+import { Table, Row} from 'react-native-reanimated-table';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';

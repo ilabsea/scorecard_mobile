@@ -10,7 +10,7 @@ import Color from '../../themes/color';
 
 import { LocalizationContext } from '../Translations';
 import ScorecardResultAddButton from './ScorecardResultAddButton';
-import { TableWrapper, Cell } from 'react-native-table-component';
+import { TableWrapper, Cell } from 'react-native-reanimated-table';
 import indicatorHelper from '../../helpers/indicator_helper';
 import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
