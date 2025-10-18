@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, PermissionsAndroid} from 'react-native';
-import Sound, {
-  AudioEncoderAndroidType,
-  AudioSourceAndroidType,
-} from 'react-native-nitro-sound';
-import RNFS from 'react-native-fs';
+import Sound from 'react-native-nitro-sound';
 
 import {LocalizationContext} from '../Translations';
 import RecordedAudioCard from './RecordedAudioCard';
@@ -13,6 +9,7 @@ import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
+import { getAudioPath } from '../../utils/file_util';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class VoiceRecord extends Component {
@@ -44,10 +41,6 @@ class VoiceRecord extends Component {
   componentDidUpdate() {
     // Allow to update the state (in componentDidUpdate) only when the component is not unmount and the audio is not edited yet (by remove or record new audio)
     // and the audioPlayer must be null and the custom indicator needs to have audio file (this.props.audioFilePath)
-
-
-    console.log('==== Audio file path = ', this.props.audioFilePath);
-
     if (!this.isComponentUnmount && !this.state.isAudioEdited && !this.audioPlayer && this.props.audioFilePath) {
       this.audioPlayer = new AudioPlayer(this.props.audioFilePath, false);
       setTimeout(() => {
@@ -79,20 +72,9 @@ class VoiceRecord extends Component {
     if (!this.state.hasPermission) return;
 
     this.setState({ isAudioEdited: true });
-
-    // const audioSet = {
-    //   android: {
-    //     outputFormat: 'mp3'
-    //   },
-    //   AudioSamplingRate: 44100,
-    //   AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-    //   AudioSourceAndroid: AudioSourceAndroidType.MIC,
-    // };
-
     this.recorder = await Sound.startRecorder(
-      `${RNFS.DocumentDirectoryPath}/${this.filename}`,
-      // audioSet,
-    )
+      getAudioPath(this.filename)
+    );
     this.setState({isRecording: true});
     this.recorderInterval = setInterval(() => {
       this.setState({recordDuration: this.state.recordDuration + 1});

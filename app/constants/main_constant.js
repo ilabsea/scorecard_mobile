@@ -8,6 +8,7 @@ const DEFAULT = 'd';
 const TOKEN_SYNCED = 'tokenSynced';
 const TOKEN_REGISTERED = 'registeredToken';
 const MIN_MODERN_ANDROID_SDK_LEVEL = 35;
+const ANDROID_TEN_SDK_VERSION = 29;
 
 export {
   DEFAULT_LANGUAGE,
@@ -20,4 +21,5 @@ export {
   TOKEN_SYNCED,
   TOKEN_REGISTERED,
   MIN_MODERN_ANDROID_SDK_LEVEL,
+  ANDROID_TEN_SDK_VERSION,
 };
