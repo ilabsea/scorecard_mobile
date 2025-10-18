@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Tooltip from 'react-native-walkthrough-tooltip';
 
@@ -35,6 +35,7 @@ class RecordAudioButton extends Component {
           content={<Text style={{fontSize: bodyFontSize()}}>{ translations.pleasePressAndHoldTheButtonToRecordAudio }</Text>}
           contentStyle={{width: 300, flexWrap: 'wrap', flexDirection: 'row'}}
           placement="top"
+          topAdjustment={-StatusBar.currentHeight}
           onClose={() => this.setState({ toolTipVisible: false })}
         >
           <TouchableOpacity
