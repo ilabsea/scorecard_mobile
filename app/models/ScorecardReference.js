@@ -10,6 +10,7 @@ const ScorecardReference = (() => {
     destroy,
     findByScorecard,
     hasItem,
+    deleteAllByScorecardUuid
   }
 
   function create(data) {
@@ -28,6 +29,21 @@ const ScorecardReference = (() => {
 
       ImagePicker.cleanSingle(filePath);
     }
+  }
+
+  function deleteAllByScorecardUuid(scorecardUuid) {
+    const scorecardReferences = realm.objects(MODEL_NAME).filtered(`scorecard_uuid = '${scorecardUuid}'`);
+    if (scorecardReferences.length == 0)
+      return;
+
+    scorecardReferences.forEach(scorecardReference => {
+      if (!!scorecardReference.image_path)
+        ImagePicker.cleanSingle(scorecardReference.image_path);
+
+      realm.write(() => {
+        realm.delete(scorecardReference);
+      });
+    });
   }
 
   function findByScorecard(scorecardUuid) {
