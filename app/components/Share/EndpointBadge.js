@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 
 import endpointUrlHelper from '../../helpers/endpoint_url_helper';
 import { isShortWidthScreen } from '../../utils/responsive_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const EndpointBadge = (props) => {
   const {shortcut, shortcut_bg_color, shortcut_text_color} = props.endpoint;
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
   },
   badgeLabel: {
     fontSize: isShortWidthScreen() ? 9 : 10,
+    fontFamily: FontFamily.body,
     textTransform: 'uppercase'
   }
 });

@@ -4,6 +4,7 @@ import Facilitator from '../models/Facilitator';
 import Rating from '../models/Rating';
 import LanguageIndicator from '../models/LanguageIndicator';
 import ScorecardProposedIndicator from '../models/ScorecardProposedIndicator';
+import ScorecardReference from '../models/ScorecardReference';
 
 import { deleteScorecardDownload } from './scorecard_download_service';
 import scorecardMilestoneService from './scorecard_milestone_service';
@@ -56,6 +57,7 @@ const scorecardDeletionService = (() => {
     proposedIndicatorService.deleteProposedIndicators(scorecardUuid);
     scorecardSharingService.deleteScorecardPdf(scorecardUuid);
     ScorecardProposedIndicator.deleteByScorecard(scorecardUuid);
+    ScorecardReference.deleteAllByScorecardUuid(scorecardUuid);
 
     callback && callback();
   }

@@ -1,5 +1,5 @@
 import { Linking } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import newScorecardService from './new_scorecard_service';
 import { getErrorType } from './api_service';

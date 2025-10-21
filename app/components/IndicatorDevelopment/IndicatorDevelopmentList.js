@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Animated} from 'react-native';
 import DraggableFlatList from "react-native-draggable-flatlist";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SelectedIndicatorItem from './SelectedIndicatorItem';
 import IndicatorDevelopmentInstructionModal from './IndicatorDevelopmentInstructionModal';
 import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
@@ -9,7 +9,11 @@ import Tip from '../Share/Tip';
 import { LocalizationContext } from '../Translations';
 
 import {headerShrinkOffset} from '../../constants/component_style_constant';
-import { containerPadding } from '../../utils/responsive_util';
+import {
+  containerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+} from '../../utils/responsive_util';
 
 class IndicatorDevelopmentList extends Component {
   static contextType = LocalizationContext;
@@ -35,12 +39,14 @@ class IndicatorDevelopmentList extends Component {
   }
 
   updateFirstVisitStatus(status, index) {
-    if (index == 0)
+    if (index == 1)
       this.setState({ isFirstVisit: status });
   }
 
   renderItem(params) {
-    const {item, index, drag, isActive} = params;
+    const {item, drag, isActive} = params;
+    const index = params.getIndex()
+
     if (index == 0)
       return this.props.renderAddNewHeader()
 
@@ -76,11 +82,11 @@ class IndicatorDevelopmentList extends Component {
   renderScrollView() {
     const selectedIndicators = [{item: 'header'}, ...this.state.selectedIndicators.filter(indicator => indicator.scorecard_uuid == this.props.scorecardUuid)];
     const containerPaddingTop = this.scrollY.interpolate({
-      inputRange: [0, 100, 140],
-      outputRange: [156, 80, 70],
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
       extrapolate: 'clamp',
     })
-    return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+    return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
               <DraggableFlatList
                 data={selectedIndicators}
                 onDragEnd={({ data }) => this.updateIndicatorsOrder(data)}

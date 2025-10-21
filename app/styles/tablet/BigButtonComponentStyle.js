@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { bigButtonFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const BigButtonComponentStyles = StyleSheet.create({
   button: {
@@ -13,7 +14,8 @@ const BigButtonComponentStyles = StyleSheet.create({
     marginRight: 40
   },
   label: {
-    fontSize: bigButtonFontSize()
+    fontSize: bigButtonFontSize(),
+    fontFamily: FontFamily.body
   },
 });
 

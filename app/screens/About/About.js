@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { LocalizationContext } from '../../components/Translations';
 
@@ -76,27 +77,29 @@ class About extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.title}>ប័ណ្ណដាក់ពិន្ទុសហគមន៍</Text>
-          <Text style={[styles.title, styles.englishTitle]}>Community Scorecard</Text>
+      <SafeAreaView style={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={styles.container}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.title}>ប័ណ្ណដាក់ពិន្ទុសហគមន៍</Text>
+            <Text style={[styles.title, styles.englishTitle]}>Community Scorecard</Text>
 
-          <Text style={styles.khmerText}>
-            កម្មវិធីប័ណ្ណដាក់ពិន្ទុឌីជីថល ត្រូវបានបង្កើតឡើងដោយមានការគាំទ្រមូលនិធិពីសហភាពអឺរ៉ុប អនុវត្តដោយអង្គការឃែរកម្ពុជា
-            វិទ្យាស្ថានគោលនយោបាយនិងតស៊ូមតិ និងអង្គការ InSTEDD នៃគម្រោង “គាំទ្រការចូលរួមរបស់ប្រជាពលរដ្ឋប្រកបដោយអត្ថន័យតាមរយៈការប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថល
-            ដើម្បីធ្វើឱ្យប្រសើរឡើងនូវគណនេយ្យភាពសង្គម (Ref: ISAF-II)“។ ប្រជាពលរដ្ឋ អង្គការដៃគូ និងមន្រ្តីរដ្ឋាភិបាលប្រើប្រាស់កម្មវិធីនេះដើម្បីលើកកម្ពស់ការចូលរួម និងកិច្ចជជែកពិភាក្សារបស់ពួកគេ ក្នុងការធ្វើឱ្យប្រសើរឡើងនូវសេវាសាធារណៈ។
-          </Text>
-          <Text style={styles.englishText}>
-            The digitised scorecard app development is funded by the EU, implemented by CARE,
-            API and InSTEDD iLab Southeast Asia under the project “Supporting meaningful civic engagement and improved
-            social accountability by leveraging digital technologies (Re: ISAF-II)“.
-            The community members, local NGO partners and governmental officials use the app to
-            enhance their participation and dialogue with regards to public services improvement.
-          </Text>
+            <Text style={styles.khmerText}>
+              កម្មវិធីប័ណ្ណដាក់ពិន្ទុឌីជីថល ត្រូវបានបង្កើតឡើងដោយមានការគាំទ្រមូលនិធិពីសហភាពអឺរ៉ុប អនុវត្តដោយអង្គការឃែរកម្ពុជា
+              វិទ្យាស្ថានគោលនយោបាយនិងតស៊ូមតិ និងអង្គការ InSTEDD នៃគម្រោង “គាំទ្រការចូលរួមរបស់ប្រជាពលរដ្ឋប្រកបដោយអត្ថន័យតាមរយៈការប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថល
+              ដើម្បីធ្វើឱ្យប្រសើរឡើងនូវគណនេយ្យភាពសង្គម (Ref: ISAF-II)“។ ប្រជាពលរដ្ឋ អង្គការដៃគូ និងមន្រ្តីរដ្ឋាភិបាលប្រើប្រាស់កម្មវិធីនេះដើម្បីលើកកម្ពស់ការចូលរួម និងកិច្ចជជែកពិភាក្សារបស់ពួកគេ ក្នុងការធ្វើឱ្យប្រសើរឡើងនូវសេវាសាធារណៈ។
+            </Text>
+            <Text style={styles.englishText}>
+              The digitised scorecard app development is funded by the EU, implemented by CARE,
+              API and InSTEDD iLab Southeast Asia under the project “Supporting meaningful civic engagement and improved
+              social accountability by leveraging digital technologies (Re: ISAF-II)“.
+              The community members, local NGO partners and governmental officials use the app to
+              enhance their participation and dialogue with regards to public services improvement.
+            </Text>
 
-          { this.renderLogos() }
-        </ScrollView>
-      </View>
+            { this.renderLogos() }
+          </ScrollView>
+        </View>
+      </SafeAreaView>
     );
   }
 }

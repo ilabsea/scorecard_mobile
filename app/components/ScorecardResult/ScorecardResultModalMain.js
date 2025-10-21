@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
 
 import { useDispatch } from 'react-redux';
 import { getAll } from '../../actions/votingIndicatorAction';
@@ -13,6 +14,7 @@ import scorecardResultHelper from '../../helpers/scorecard_result_helper';
 import scorecardResultService from '../../services/scorecard_result_service';
 
 import { swotContentHeight } from '../../constants/modal_constant';
+import { modalContentPaddingBottom } from '../../utils/component_util';
 import Color from '../../themes/color';
 
 const ScorecardResultModalMain = (props) => {
@@ -110,7 +112,7 @@ const ScorecardResultModalMain = (props) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor}}>
+      <View style={{height: hp(swotContentHeight), backgroundColor: Color.whiteColor, paddingBottom: modalContentPaddingBottom(props.sdkVersion)}}>
         <ScorecardResultModalTitle
           selectedIndicator={selectedIndicator}
           addNewPoint={() => addNewPoint()}
@@ -140,4 +142,17 @@ const ScorecardResultModalMain = (props) => {
   )
 }
 
-export default ScorecardResultModalMain;
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ScorecardResultModalMain);

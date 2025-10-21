@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { bodyFontSize, mobileDatePickerIconSize, smallTextFontSize } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const DatePickerComponentStyles = StyleSheet.create({
   container: {
@@ -11,6 +12,7 @@ const DatePickerComponentStyles = StyleSheet.create({
     backgroundColor: Color.whiteColor,
     color: Color.inputBorderLineColor,
     fontSize: 12,
+    fontFamily: FontFamily.body,
     marginLeft: 12,
     paddingHorizontal: 6,
     top: -10,
@@ -28,6 +30,7 @@ const DatePickerComponentStyles = StyleSheet.create({
   },
   dateLabel: {
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body,
     marginLeft: 20,
     marginTop: 4
   },
@@ -37,6 +40,7 @@ const DatePickerComponentStyles = StyleSheet.create({
   messageLabel: {
     color: Color.orangeColor,
     fontSize: smallTextFontSize(),
+    fontFamily: FontFamily.body,
     paddingTop: 5,
   }
 });

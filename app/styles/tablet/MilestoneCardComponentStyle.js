@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
 import { pressableItemSize } from '../../utils/component_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 export const badgeSize = 40;
 
@@ -38,14 +39,17 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   cardTitle: {
     color: Color.grayColor,
     fontSize: 20,
+    fontFamily: FontFamily.body,
     lineHeight: 34
   },
   cardSubTitle: {
     fontSize: 14,
+    fontFamily: FontFamily.body,
     color: Color.grayColor
   },
   viewDetailText: {
     fontSize: 16,
+    fontFamily: FontFamily.body,
     color: Color.headerColor
   },
   viewDetailIcon: {
@@ -62,7 +66,8 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   },
   btnResumeText: {
     color: Color.whiteColor,
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: FontFamily.body
   }
 });
 

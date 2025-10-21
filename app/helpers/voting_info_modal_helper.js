@@ -8,7 +8,7 @@ import BottomSheetInfoTitle from '../components/Share/BottomSheetInfoTitle';
 import BottomSheetModalTitle from '../components/BottomSheetModalTitle';
 
 import { getVotingInfos, isVotingIndicatorRated } from './voting_indicator_helper';
-import { getDeviceStyle, containerPadding, isShortScreenDevice } from '../utils/responsive_util';
+import { getDeviceStyle, containerPadding, isShortScreenDevice, isSmallDiagonalScreen } from '../utils/responsive_util';
 import VotingInfoTabletStyles from '../styles/tablet/VotingInfoComponentStyle';
 import VotingInfoMobileStyles from '../styles/mobile/VotingInfoComponentStyle';
 
@@ -28,8 +28,8 @@ const votingInfoModalHelper = (() => {
   }
 
   function getModalSnapPoints(scorecardUuid, indicatorId) {
-    const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : ['38%', '51%'];
-    const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : ['43%', '60.5%'];
+    const mobileTwoLinesInfoSnapPoints = isShortScreenDevice() ? ['41%', '55.5%'] : [isSmallDiagonalScreen() ? '39%' : '33%', '51%'];
+    const mobileThreeLinesInfoSnapPoints = isShortScreenDevice() ? ['46%', '65%'] : [isSmallDiagonalScreen() ? '43.5%' : '36.5%', '60.5%'];
     const moreInfoSnapPoints = {
       2: getDeviceStyle(['36%', '50%'], mobileTwoLinesInfoSnapPoints),
       3: getDeviceStyle(['41%', '58%'], mobileThreeLinesInfoSnapPoints)
@@ -50,7 +50,7 @@ const votingInfoModalHelper = (() => {
 
     const firstContent = <React.Fragment>
                           <BottomSheetModalTitle title={`${indicator.order}. ${selectedIndicator && selectedIndicator.content}`} />
-                          <View style={{ paddingHorizontal: containerPadding, paddingTop: 10 }}>
+                          <View style={{ paddingHorizontal: containerPadding, paddingTop: 10}}>
                             <VotingMedianScoreInfo indicator={indicator} />
                             <VotingAverageScoreInfo votingInfos={votingInfos} />
                             { hasLessInfo && votingParticipantInfo }

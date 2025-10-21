@@ -29,7 +29,8 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     height: 48
   },
   viewDetailLabel: {
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: FontFamily.body
   },
   viewDetailIcon: {
     fontSize: 24
@@ -50,7 +51,8 @@ const ScorecardItemComponentStyles = StyleSheet.create({
     height: 79,
   },
   deleteLabel: {
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   },
   locationLabel: {
     fontSize: 14,

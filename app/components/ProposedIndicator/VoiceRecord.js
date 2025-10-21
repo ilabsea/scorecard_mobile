@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, PermissionsAndroid} from 'react-native';
-import {Recorder} from '@react-native-community/audio-toolkit';
+import Sound from 'react-native-nitro-sound';
 
 import {LocalizationContext} from '../Translations';
 import RecordedAudioCard from './RecordedAudioCard';
@@ -9,6 +9,8 @@ import AudioPlayer from '../../services/audio_player_service';
 import {PLAYING, PAUSED} from '../../constants/indicator_constant';
 import { bodyFontSize } from '../../utils/font_size_util';
 import uuidv4 from '../../utils/uuidv4';
+import { getAudioPath } from '../../utils/file_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class VoiceRecord extends Component {
   static contextType = LocalizationContext;
@@ -66,33 +68,30 @@ class VoiceRecord extends Component {
       .then((result) => {this.setState({hasPermission: (result === true || result === PermissionsAndroid.RESULTS.GRANTED)});});
   }
 
-  recordVoice = () => {
+  recordVoice = async () => {
     if (!this.state.hasPermission) return;
 
     this.setState({ isAudioEdited: true });
-    this.recorder = new Recorder(this.filename, {format: 'mp3'});
-    this.recorder.prepare(() => {
-      this.recorder.record(() => {
-        this.setState({isRecording: true});
-        this.recorderInterval = setInterval(() => {
-          this.setState({recordDuration: this.state.recordDuration + 1});
-        }, 1000);
-      });
-    });
+    this.recorder = await Sound.startRecorder(
+      getAudioPath(this.filename)
+    );
+    this.setState({isRecording: true});
+    this.recorderInterval = setInterval(() => {
+      this.setState({recordDuration: this.state.recordDuration + 1});
+    }, 1000);
   };
 
-  stopRecordVoice = () => {
+  stopRecordVoice = async () => {
     if (this.recorder === null) return;
 
     clearInterval(this.recorderInterval);
-    this.recorder.stop(() => {
-      this.setState({
-        isRecording: false,
-        isRecordButtonVisible: false,
-        playSeconds: this.state.recordDuration,
-      });
-      this.props.finishRecord(this.recorder.fsPath);
+    this.recorder = await Sound.stopRecorder();
+    this.setState({
+      isRecording: false,
+      isRecordButtonVisible: false,
+      playSeconds: this.state.recordDuration,
     });
+    this.props.finishRecord(this.recorder);
   };
 
   countPlaySeconds = () => {
@@ -115,7 +114,7 @@ class VoiceRecord extends Component {
 
   handlePlaying = () => {
     if (this.audioPlayer === null)
-      this.audioPlayer = new AudioPlayer(this.recorder.fsPath, true);
+      this.audioPlayer = new AudioPlayer(this.recorder, true);
     else if (this.audioPlayer && this.props.isEdit)
       this.audioPlayer.play();
     else
@@ -142,12 +141,10 @@ class VoiceRecord extends Component {
   };
 
   delete = () => {
-    if (this.recorder) {
-      this.recorder.destroy();
+    if (this.recorder)
       this.recorder =  null;
-    }
-    this.audioPlayer && this.audioPlayer.release();
 
+    this.audioPlayer && this.audioPlayer.release();
     this.audioPlayer = null;
     this.setState({
       isRecordButtonVisible: true,
@@ -176,7 +173,7 @@ class VoiceRecord extends Component {
     return (
       <View>
         <View style={{alignItems: 'center', marginBottom: 10}}>
-          <Text style={{fontSize: bodyFontSize(), color: '#3a3a3a'}}>
+          <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, color: '#3a3a3a'}}>
             {translations.enterNewIndicatorAsVoice}
           </Text>
         </View>

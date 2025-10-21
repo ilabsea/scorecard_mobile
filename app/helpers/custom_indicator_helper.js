@@ -7,7 +7,7 @@ const customIndicatorHelper = (() => {
 
   function getCustomIndicatorData(indicator) {
     const languageIndicator = LanguageIndicator.findByIndicatorUuid(indicator.uuid);
-    const audio = !!languageIndicator.local_audio ? `file:/${languageIndicator.local_audio}` : null;
+    const audio = !!languageIndicator.local_audio ? `${languageIndicator.local_audio.replace('file:///', '')}` : null;
 
     return {
       custom_indicator: {

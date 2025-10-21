@@ -40,7 +40,7 @@ class AddNewIndicatorModalTextInputs extends React.Component {
           <VoiceRecord
             scorecardUuid={this.props.scorecardUuid}
             finishRecord={(filename) => this.props.updateAudio(filename)}
-            audioFilePath={this.props.audio}
+            audioFilePath={this.props.audioFilePath}
             deleteAudio={() => this.props.updateAudio(null)}
             isEdit={true}
             disabled={this.props.isIndicatorExist}

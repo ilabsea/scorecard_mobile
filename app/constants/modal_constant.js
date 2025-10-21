@@ -1,5 +1,5 @@
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { getDeviceStyle, isShortScreenDevice, isShortWidthScreen } from '../utils/responsive_util';
+import { getDeviceStyle, isShortScreenDevice, isShortWidthScreen, isSmallDiagonalScreen, isThreeButtonNavigation } from '../utils/responsive_util';
 
 export const PROPOSED_INDICATOR = 'PROPOSED_INDICATOR';
 export const INDICATOR_DEVELOPMENT = 'INDICATOR_DEVELOPMENT';
@@ -7,19 +7,19 @@ export const VOTING_INDICATOR = 'VOTING_INDICATOR';
 export const SCORECARD_RESULT = 'SCORECARD_RESULT';
 
 export const tipModalSnapPoints = {
-  'PROPOSED_INDICATOR': [getDeviceStyle('53%', '49%'), getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
+  'PROPOSED_INDICATOR': [getDeviceStyle('53%', isSmallDiagonalScreen() ? '62%' : isThreeButtonNavigation() ? '51%' : '49.5%'), getDeviceStyle('78%', isShortScreenDevice() ? '81%' : '76%')],
   'INDICATOR_DEVELOPMENT': [getDeviceStyle('37%', '43%')],
   'VOTING_INDICATOR': [getDeviceStyle('37%', isShortScreenDevice() ? '43%' : '41%')],
   'SCORECARD_RESULT': [getDeviceStyle('37%', isShortScreenDevice() ? '42%' : '47%')],
 };
 
-export const participantModalSnapPoints = getDeviceStyle([hp('80.6%')], [hp('87%')]);
-export const participantModalContentHeight = getDeviceStyle('80%', '87%');
+export const participantModalSnapPoints = getDeviceStyle([hp('80.6%')], [hp('100%')]);
+export const participantModalContentHeight = getDeviceStyle('80%', '90%');
 
-export const indicatorDevelopmentModalSnapPoints = getDeviceStyle([hp('75.6%')], isShortScreenDevice() ? [hp('86.5%')]  : [hp('78%')]);
+export const indicatorDevelopmentModalSnapPoints = getDeviceStyle([hp('75.6%')], isShortScreenDevice() ? [hp('86.5%')] : [hp('82%')]);
 export const indicatorDevelopmentContentHeight = getDeviceStyle('75%', isShortScreenDevice() ? '86.5%' : '78%');
 
-export const swotModalSnapPoints = getDeviceStyle([hp('85.5%')], [hp('83.5%')]);
+export const swotModalSnapPoints = getDeviceStyle([hp('85.5%')], [hp('87.5%')]);
 export const swotContentHeight = getDeviceStyle('85.5%', '83.4%');
 
 export const settingModalSnapPoints = getDeviceStyle(['56%'], isShortScreenDevice() ? ['70%'] : isShortWidthScreen() ? ['75%'] : ['65%']);
@@ -41,13 +41,13 @@ export const facilitatorPickerSnapPoints = getDeviceStyle(['60%', '100%'], ['65%
 export const facilitatorPickerContentHeight = getDeviceStyle('58%', '63%');
 export const facilitatorPickerContentExpanedHeight = getDeviceStyle('92%', '90%');
 
-export const votingConfirmationSnapPoints = getDeviceStyle([hp('71.6%')], isShortWidthScreen() ? [hp('66%')] : [hp('68%')]);
+export const votingConfirmationSnapPoints = getDeviceStyle([hp('71.6%')], isShortWidthScreen() ? [hp('66%')] : [hp('72%')]);
 export const votingConfirmationContentHeight = getDeviceStyle('71%', isShortWidthScreen() ? '66%' : '68%');
 
 export const anonymousParticipantDetailSnapPoints = getDeviceStyle([hp('50%')], isShortScreenDevice() ? [hp('70%')] : [hp('57.5%')]);
 export const anonymousParticipantDetailContentHeight = getDeviceStyle('50%', isShortScreenDevice() ? '70%' : '57.5%');
 
-export const customIndicatorModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['70%'] :['70%']);
+export const customIndicatorModalSnapPoints = getDeviceStyle(['70%'], isShortScreenDevice() ? ['70%'] : ['74%']);
 export const customIndicatorModalContentHeight = getDeviceStyle('68%', isShortWidthScreen() ? '67%' :'68%');
 
 export const proposedInfoModaSnapPoints = getDeviceStyle(['52.5%', '82.5%'], ['55%', '90%']);

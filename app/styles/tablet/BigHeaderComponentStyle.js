@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
+import Color from '../../themes/color';
 
 const BigHeaderComponentStyles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: Color.headerColor
+  },
   bigTitle: {
     fontSize: 28,
   }

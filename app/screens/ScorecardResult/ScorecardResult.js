@@ -24,7 +24,13 @@ import scorecardTracingStepsService from '../../services/scorecard_tracing_steps
 import ScorecardResultModalMain from '../../components/ScorecardResult/ScorecardResultModalMain';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, SCORECARD_RESULT, swotModalSnapPoints } from '../../constants/modal_constant';
-import { containerPadding } from '../../utils/responsive_util';
+import {
+  containerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+  bottomButtonContainerPadding,
+} from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
 
 let _this = null;
@@ -114,12 +120,12 @@ class ScorecardResult extends Component {
 
   _renderScrollView() {
     const containerPaddingTop = this.scrollY.interpolate({
-      inputRange: [0, 100, 140],
-      outputRange: [156, 80, 72],
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
       extrapolate: 'clamp',
     })
 
-    return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+    return <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
               <ScrollView style={{flex: 1}} stickyHeaderIndices={[1]}
                 onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                             { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}
@@ -139,10 +145,10 @@ class ScorecardResult extends Component {
     const { translations } = this.context;
     const snapPoints = tipModalSnapPoints[SCORECARD_RESULT];
     return (
-      <View style={{height: '100%'}}>
+      <View style={{height: '100%', paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderHeader() }
         { this._renderScrollView() }
-        <View style={{padding: containerPadding}}>
+        <View style={bottomButtonContainerPadding()}>
           <BottomButton
             disabled={!scorecardResultService.isSaveAble(this.state.scorecard)}
             onPress={() => this.save()}
@@ -161,6 +167,7 @@ class ScorecardResult extends Component {
 function mapStateToProps(state) {
   return {
     indicators: state.votingIndicators.sort((a, b) => (a.order > b.order) ? 1 : -1),
+    sdkVersion: state.sdkVersion
   };
 }
 

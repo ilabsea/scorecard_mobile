@@ -11,6 +11,7 @@ import scorecardHelper from '../../helpers/scorecard_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
 import { scorecardListSubTitleMobileFontSize } from '../../constants/scorecard_constant';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ScorecardListInfoDetail extends Component {
   static contextType = LocalizationContext;
@@ -20,7 +21,7 @@ class ScorecardListInfoDetail extends Component {
 
     if (scorecard.conducted_date)
       return (
-        <Text style={{ flex: 1, textAlign: 'right', color: Color.lightGrayColor, fontSize: getDeviceStyle(13, getMobileFontSizeByPixelRatio(11.5, 11.5)), marginTop: getDeviceStyle(2, 4)}}>
+        <Text style={{ flex: 1, textAlign: 'right', color: Color.lightGrayColor, fontSize: getDeviceStyle(13, getMobileFontSizeByPixelRatio(11.5, 11.5)), fontFamily: FontFamily.body, marginTop: getDeviceStyle(2, 4)}}>
           { !!scorecard.conducted_date ? scorecardHelper.getTranslatedDate(scorecard.conducted_date, this.context.appLanguage, 'DD MMM') : '' }
         </Text>
       )
@@ -41,7 +42,7 @@ class ScorecardListInfoDetail extends Component {
     return (
       <View style={{flexDirection: 'row'}}>
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.grayColor}]}>{ scorecard.facility_code }: </Text>
-        <Text style={[{fontSize: getDeviceStyle(16, 15), marginTop: 0}]}>{ scorecard.uuid } </Text>
+        <Text style={[{fontSize: getDeviceStyle(16, 15), marginTop: 3}]}>{ scorecard.uuid } </Text>
         <Text style={[styles.subText, subTextStyles, {marginTop: subTitleMarginTop, color: Color.lightGrayColor}]}>
           ({this.context.translations.raisedIndicator}: {indicatorsSize})
         </Text>

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Color from '../../themes/color';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const votingIndicatorListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
@@ -26,6 +27,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   ratingCount: {
     fontWeight: 'bold',
+    fontFamily: FontFamily.body,
     flex: 1,
     textAlign: 'center'
   },
@@ -39,10 +41,12 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   medianScoreText: {
     fontSize: 14,
+    fontFamily: FontFamily.body,
   },
   medianText: {
     textAlign: 'center',
     fontSize: 15,
+    fontFamily: FontFamily.body,
     marginTop: 4,
     color: '#0404d0',
   },
@@ -55,6 +59,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   summaryInfoLabel: {
     fontSize: 13,
+    fontFamily: FontFamily.body,
     color: Color.grayColor,
   },
   viewMoreContainer: {
@@ -78,6 +83,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   viewMoreLabel: {
     fontSize: 15,
+    fontFamily: FontFamily.body,
     color: Color.headerColor,
   },
   viewMoreIcon: {
@@ -86,6 +92,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   indicatorNameLabel: {
     paddingRight: 10,
+    fontFamily: FontFamily.body,
   }
 });
 

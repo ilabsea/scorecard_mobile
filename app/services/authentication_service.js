@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SessionApi from '../api/SessionApi';
 import { handleApiResponse, getErrorType } from './api_service';
 import authenticationFormService from './authentication_form_service';

@@ -12,6 +12,7 @@ import ScorecardReference from '../models/ScorecardReference';
 import scorecardReferenceService from '../services/scorecard_reference_service';
 import { getDeviceStyle, isShortScreenDevice } from '../utils/responsive_util';
 import { bodyFontSize } from '../utils/font_size_util';
+import { FontFamily } from '../assets/stylesheets/theme/font';
 
 const screenHeight = Dimensions.get('screen').height;
 
@@ -60,6 +61,7 @@ class ImageSelector extends Component {
   render() {
     const { translations } = this.context;
     const modalHeight = getDeviceStyle(screenHeight / 7, isShortScreenDevice() ? hp('22%') : hp('20.5%'))
+    const labelStyle = { marginLeft: 16, fontSize: bodyFontSize(), fontFamily: FontFamily.body, fontWeight: '600' };
 
     return (
       <BottomHalfModal
@@ -72,13 +74,13 @@ class ImageSelector extends Component {
             <View style={{width: 'auto', backgroundColor: Color.lightGrayColor, borderRadius: 40, padding: 6}}>
               <Icon name="image" size={22} color={Color.lightBlackColor} />
             </View>
-            <Text style={{marginLeft: 16, fontSize: bodyFontSize(), fontWeight: '600'}}>{translations.chooseImage}</Text>
+            <Text style={labelStyle}>{translations.chooseImage}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.openCamera()} style={styles.button}>
             <View style={{backgroundColor: Color.lightGrayColor, borderRadius: 40, padding: 5}}>
               <Icon name="camera-alt" size={22} color={Color.lightBlackColor} />
             </View>
-            <Text style={{marginLeft: 16, fontSize: bodyFontSize(), fontWeight: '600'}}>{translations.takePhoto}</Text>
+            <Text style={labelStyle}>{translations.takePhoto}</Text>
           </TouchableOpacity>
         </View>
       </BottomHalfModal>

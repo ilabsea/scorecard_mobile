@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import realm from '../db/schema';
 import ratings from '../db/jsons/ratings';
 import uuidv4 from '../utils/uuidv4';

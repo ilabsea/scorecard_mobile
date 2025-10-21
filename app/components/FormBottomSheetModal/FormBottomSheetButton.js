@@ -5,13 +5,13 @@ import {LocalizationContext} from '../Translations';
 import SaveButton from '../SaveButton';
 
 import styles from '../../themes/participantListItemStyle';
-import { containerPadding, isShortScreenDevice } from '../../utils/responsive_util';
+import { containerPadding, isShortScreenDevice, getDeviceStyle, isSmallDiagonalScreen } from '../../utils/responsive_util';
 
 const FormBottomSheetButton = (props) => {
   const { translations } = useContext(LocalizationContext);
 
   return (
-    <View style={[styles.btnWrapper, { marginHorizontal: containerPadding, marginBottom: 14}, props.wrapperStyle]}>
+    <View style={[styles.btnWrapper, { marginHorizontal: containerPadding, marginBottom: getDeviceStyle(16, isSmallDiagonalScreen() ? 16 : 0) }, props.wrapperStyle]}>
       <SaveButton
         disabled={!props.isValid}
         onPress={() => props.save()}

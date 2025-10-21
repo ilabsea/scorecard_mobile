@@ -1,19 +1,16 @@
 import React from 'react';
-import { Animated, View } from 'react-native';
-import { Header, Left, Right } from "native-base";
+import { Animated, View, StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import { HeaderBackButton } from '@react-navigation/stack';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import DeviceInfo from 'react-native-device-info'
 
 import {LocalizationContext} from '../Translations';
 import HeaderIconButton from '../Share/HeaderIconButton';
 import CustomAlertMessage from '../Share/CustomAlertMessage';
-import NavigationHeaderBody from '../NavigationHeaderBody';
+import AppbarHeader from '../Share/AppbarHeader';
 import ProgressStep from '../ProgressStep';
 import Color from '../../themes/color';
-import { navigateBack, navigateHome } from '../../utils/navigation_util';
-import { getDeviceStyle, navigationBackButtonFlex } from '../../utils/responsive_util';
+import { navigateHome } from '../../utils/navigation_util';
+import { getDeviceStyle, isSmallDiagonalScreen } from '../../utils/responsive_util';
 import scorecardProgress from '../../db/jsons/scorecardProgress';
 
 const headerMaxHeight = 156;
@@ -24,9 +21,13 @@ const CollapsibleNavHeader = (props) => {
   const {translations} = React.useContext(LocalizationContext);
   const [visibleModal, setVisibleModal] = React.useState(false)
 
+  var initOutput = !!props.isPassProposeStep ? 204 : 186;
+  if (isSmallDiagonalScreen())
+    initOutput = !!props.isPassProposeStep ? 168 : 156;
+
   const headerHeight = props.scrollY.interpolate({
-    inputRange: [0, headerScrollDistance],
-    outputRange: [headerMaxHeight, headerMinHeight],
+    inputRange: [0, headerScrollDistance, headerMaxHeight],
+    outputRange: [initOutput, 56, 0],
     extrapolate: 'clamp',
   });
 
@@ -63,21 +64,16 @@ const CollapsibleNavHeader = (props) => {
   }
 
   const renderHeader = () => {
-    return <Header backgroundColor={Color.headerColor} style={[{elevation: 0}, !DeviceInfo.isTablet() && {paddingLeft: 0, paddingRight: 0}]}>
-            <View style={{flexGrow: 1}}>
-              <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 6}}>
-                <Left style={{flex: navigationBackButtonFlex, marginRight: getDeviceStyle(-4, 6)}}>
-                  <HeaderBackButton tintColor={Color.whiteColor} onPress={() => navigateBack()} style={{ marginLeft: getDeviceStyle(0, 10) }} />
-                </Left>
-                <NavigationHeaderBody title={props.title} />
-                <Right style={{maxWidth: wp('14%'), marginRight: getDeviceStyle(-19, 6)}}>
-                  {props.tipIconVisible && renderTipIcon()}
-                  <HeaderIconButton onPress={() => setVisibleModal(true)} icon='home'/>
-                </Right>
-              </View>
-              {renderProgressStep()}
-            </View>
-          </Header>
+    return (
+      <View style={{backgroundColor: Color.headerColor, flex: 1}}>
+        <AppbarHeader
+          title={props.title}
+          rightButton={props.tipIconVisible && renderTipIcon()}
+          onPressHome={() => { setVisibleModal(true) }}
+        />
+        {renderProgressStep()}
+      </View>
+    );
   }
 
   return (
@@ -97,5 +93,12 @@ const CollapsibleNavHeader = (props) => {
     </Animated.View>
   )
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: Color.headerColor,
+    elevation: 0
+  }
+});
 
 export default CollapsibleNavHeader

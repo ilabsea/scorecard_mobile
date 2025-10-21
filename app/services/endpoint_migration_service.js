@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { defaultEndpointUrls } from '../constants/url_constant';
 import { CUSTOM, DEFAULT } from '../constants/main_constant';
 import EndpointUrl from '../models/EndpointUrl';

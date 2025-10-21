@@ -7,6 +7,7 @@ import ListItemGenderIcon from '../ListItemGenderIcon';
 import Color from '../../../themes/color';
 import { smallTextFontSize, mediumIconSize } from '../../../utils/font_size_util';
 import { getDeviceStyle } from '../../../utils/responsive_util';
+import { FontFamily } from '../../../assets/stylesheets/theme/font';
 import ParticipantListItemTabletStyles from '../../../styles/tablet/ParticipantListItemComponentStyle';
 import ParticipantListItemMobileStyles from '../../../styles/mobile/ParticipantListItemComponentStyle';
 
@@ -50,8 +51,8 @@ class ParticipantAttributes extends React.Component {
     return (
       <View style={{flexDirection: 'row', paddingHorizontal: 12, alignItems: 'center'}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={{fontSize: this.fontSize, color: this.labelColor}}>{ this.getAge() }</Text>
-          <Text style={{fontSize: this.fintSize, color: this.labelColor}}> { translations.year }{ appLanguage == 'en' && 's' }</Text>
+          <Text style={{fontSize: this.fontSize, color: this.labelColor, fontFamily: FontFamily.body}}>{ this.getAge() }</Text>
+          <Text style={{fontSize: this.fintSize, color: this.labelColor, fontFamily: FontFamily.body}}> { translations.year }{ appLanguage == 'en' && 's' }</Text>
         </View>
 
         <ListItemGenderIcon gender={this.props.participant.gender} color={this.labelColor} customGenderStyle={this.props.customGenderStyle} />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { Text, Icon, CheckBox } from 'native-base';
-import { Divider } from 'react-native-paper';
+import { View, TouchableOpacity, Text } from 'react-native';
+import { Divider, Checkbox } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { LocalizationContext } from '../Translations';
 import ScorecardResultTextInput from './ScorecardResultTextInput';
@@ -30,9 +30,9 @@ class ScorecardResultModalListItem extends Component {
   }
 
   renderCheckBox() {
-    return <CheckBox
+    return <Checkbox
               disabled={this.props.isScorecardFinished}
-              checked={this.props.renderSelectedActions[this.props.index]}
+              status={this.props.renderSelectedActions[this.props.index] ? 'checked' : 'unchecked'}
               onPress={() => this.props.toggleCheckbox(this.props.index)}
               color={this.props.isScorecardFinished ? Color.grayColor : Color.clickableColor}
               style={{marginLeft: -10, marginRight: 15, alignItems: 'center', justifyContent: 'flex-start', width: 23, height: 23}}
@@ -62,7 +62,7 @@ class ScorecardResultModalListItem extends Component {
               onPress={() => this.props.deletePoint(this.props.index)}
               style={styles.btnRemove}
               hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-              <Icon name='trash' type="FontAwesome" style={[styles.removeIcon, this.getLabelMarginTop(), { color: this.props.isScorecardFinished ? Color.lightGrayColor : 'red' }]} />
+              <Icon name='trash' style={[styles.removeIcon, this.getLabelMarginTop(), { color: this.props.isScorecardFinished ? Color.lightGrayColor : 'red' }]} />
            </TouchableOpacity>
   }
 

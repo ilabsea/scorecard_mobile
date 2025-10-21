@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, ImageBackground, BackHandler } from "react-native";
+import DeviceInfo from 'react-native-device-info';
 
 import HomeContent from '../../components/Home/HomeContent';
 import HomeInfoMessageModal from '../../components/Home/HomeInfoMessageModal';
@@ -11,6 +12,7 @@ import { navigationRef } from '../../navigators/app_navigator';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
+import { setSdkVersion } from '../../actions/sdkVersionAction';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
 import { ERROR_NOT_FOUND, ERROR_SCORECARD_NOT_EXIST, RE_LOGIN_REQUIRED } from '../../constants/error_constant';
 
@@ -36,6 +38,10 @@ class Home extends Component {
   };
 
   async componentDidMount() {
+    DeviceInfo.getApiLevel().then((value) => {
+      this.props.setAndroidSdkVersion(value);
+    });
+
     if (await lockDeviceService.hasFailAttempt(INVALID_SCORECARD_ATTEMPT) && !this.resetLockInterval)
       this.watchLockStatus();
 
@@ -147,6 +153,7 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     setCurrentScorecard: (scorecard) => dispatch(set(scorecard)),
+    setAndroidSdkVersion: (sdkVersion) => dispatch(setSdkVersion(sdkVersion)),
   }
 }
 

@@ -3,8 +3,8 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../themes/color';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import { cardBorderRadius } from '../../constants/border_radius_constant';
-
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const votingIndicatorListItemComponentStyle = StyleSheet.create({
   ratingItemContainer: {
@@ -34,6 +34,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontSize: 12,
+    fontFamily: FontFamily.body,
   },
   resultWrapper: {
     flexDirection: 'column',
@@ -45,10 +46,12 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   medianScoreText: {
     fontSize: wp('3%'),
+    fontFamily: FontFamily.body,
   },
   medianText: {
     textAlign: 'center',
     fontSize: wp('3%'),
+    fontFamily: FontFamily.body,
     marginTop: 4,
     color: '#0404d0',
   },
@@ -61,6 +64,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   summaryInfoLabel: {
     fontSize: 13,
+    fontFamily: FontFamily.body,
     color: Color.grayColor,
   },
   viewMoreContainer: {
@@ -74,6 +78,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   },
   viewMoreLabel: {
     fontSize: getMobileFontSizeByPixelRatio(14.5, 12.5),
+    fontFamily: FontFamily.body,
     color: Color.headerColor
   },
   viewMoreIcon: {
@@ -84,6 +89,7 @@ const votingIndicatorListItemComponentStyle = StyleSheet.create({
   indicatorNameLabel: {
     paddingRight: 10,
     fontSize: getMobileFontSizeByPixelRatio(15, 13.5),
+    fontFamily: FontFamily.body,
   },
 });
 

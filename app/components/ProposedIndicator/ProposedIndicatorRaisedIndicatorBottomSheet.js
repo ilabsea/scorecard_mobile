@@ -13,6 +13,7 @@ import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { containerPadding } from '../../utils/responsive_util';
 import itemStyles from '../../themes/participantListItemStyle';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { participantModalContentHeight } from '../../constants/modal_constant';
 
 class ProposedIndicatorRaisedIndicatorBottomSheet extends React.Component {
@@ -34,7 +35,7 @@ class ProposedIndicatorRaisedIndicatorBottomSheet extends React.Component {
   renderIndicators = () => {
     return this.proposedIndicators.map(proposedIndicator => {
       return <View key={proposedIndicator.uuid} style={{paddingLeft: 8}}>
-                <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginVertical: 16}}>
+                <Text numberOfLines={2} style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginVertical: 16}}>
                   { proposedIndicatorHelper.getDisplayName(proposedIndicator, this.props.scorecardUuid) }
                 </Text>
                 <Divider/>
@@ -47,7 +48,7 @@ class ProposedIndicatorRaisedIndicatorBottomSheet extends React.Component {
       <View style={{backgroundColor: Color.whiteColor, height: hp(participantModalContentHeight)}}>
         {this.renderTitle()}
         <View style={{flex: 1, padding: containerPadding}}>
-          <Text style={{fontSize: bodyFontSize(), marginBottom: 16}}>{this.context.translations.proposedIndicator}: {this.proposedIndicators.length}</Text>
+          <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginBottom: 16}}>{this.context.translations.proposedIndicator}: {this.proposedIndicators.length}</Text>
           <ScrollView contentContainerStyle={{borderWidth: 0, flexGrow: 1}}>
             {this.renderIndicators()}
           </ScrollView>

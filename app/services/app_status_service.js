@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import reLoginService from './re_login_service';
 import settingHelper from '../helpers/setting_helper';
 import pkg from '../../package';

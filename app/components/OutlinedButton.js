@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {View} from 'react-native';
-import { Button, Icon, Text } from 'native-base';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import { Text } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Color from '../themes/color';
 
 import { getDeviceStyle } from '../utils/responsive_util';
@@ -21,23 +22,36 @@ class OutlinedButton extends Component {
 
   render() {
     return (
-      <Button
-        {...this.props}
-        bordered
-        iconLeft
-        style={[{padding: 0, height: pressableItemSize(), borderRadius: getDeviceStyle(6, 4)}, this.props.buttonStyle]}
+      <TouchableOpacity
+        onPress={() => this.props.onPress()}
+        style={[
+          styles.btn,
+          this.props.buttonStyle
+        ]}
       >
         { !this.props.hideIcon &&
-          <Icon name={this.props.icon || 'plus'} type="FontAwesome"
-            style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize()}, this.props.buttonColor, this.props.iconStyle]}
+          <Icon name={this.props.icon || 'add-outline'} type="FontAwesome"
+            style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize(), marginRight: 8}, this.props.buttonColor, this.props.iconStyle]}
           />
         }
         { !!this.props.subLabel ? this.renderlabelAndSubLabel()
           : <Text style={[{color: Color.headerColor}, responsiveStyles.buttonLabel, this.props.buttonColor, this.props.labelStyle]}>{this.props.label}</Text>
         }
-      </Button>
-    );
+      </TouchableOpacity>
+    )
   }
 }
+
+const styles = StyleSheet.create({
+  btn: {
+    paddingHorizontal: 16,
+    height: pressableItemSize(),
+    borderRadius: getDeviceStyle(6, 4),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.primaryColor
+  }
+})
 
 export default OutlinedButton;

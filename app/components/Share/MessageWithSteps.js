@@ -30,7 +30,7 @@ class MessageWithSteps extends React.Component {
             { !!step.label &&
               <Text style={{fontFamily: FontFamily.title, fontSize: fontSize}}>{ step.label }: </Text>
             }
-            <Text style={{fontSize: fontSize}}>{ step.description }</Text>
+            <Text style={{fontSize: fontSize, fontFamily: FontFamily.body}}>{ step.description }</Text>
           </Text>
         </View>
       )
@@ -41,7 +41,7 @@ class MessageWithSteps extends React.Component {
   render() {
     return (
       <View style={[{paddingHorizontal: containerPadding}, this.props.containerStyle]}>
-        <Text style={[{fontSize: !!this.props.fontSize ? this.props.fontSize : smallTextFontSize(), flexWrap: 'nowrap'}, this.props.headerStyle]}>
+        <Text style={[{fontSize: !!this.props.fontSize ? this.props.fontSize : smallTextFontSize(), fontFamily: FontFamily.body, flexWrap: 'nowrap'}, this.props.headerStyle]}>
           { this.props.header }:
         </Text>
         { this.renderList() }

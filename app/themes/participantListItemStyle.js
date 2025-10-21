@@ -37,6 +37,7 @@ const participantListItemStyle = StyleSheet.create({
   },
   numberLabel: {
     fontSize: numberLabelSize,
+    fontFamily: FontFamily.body,
     color: 'white',
     margin: 0,
     padding: 0,
@@ -49,6 +50,7 @@ const participantListItemStyle = StyleSheet.create({
   },
   buttonLabel: {
     color: Color.primaryButtonColor,
+    fontFamily: FontFamily.body,
   },
   participantItem: {
     flexDirection: 'row',

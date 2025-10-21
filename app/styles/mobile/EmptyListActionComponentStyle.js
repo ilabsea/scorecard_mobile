@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { isShortScreenDevice } from '../../utils/responsive_util'
 import { getMobileFontSizeByPixelRatio } from '../../utils/font_size_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 // 210 is the height of message container
 const containerMarginTop = isShortScreenDevice() ? -(210 / 8) : -(210 / 4);
@@ -9,6 +10,7 @@ const containerMarginTop = isShortScreenDevice() ? -(210 / 8) : -(210 / 4);
 const EmptyListActionComponentStyles = StyleSheet.create({
   label: {
     fontSize: getMobileFontSizeByPixelRatio(17, 17),
+    fontFamily: FontFamily.body,
     marginVertical: 10
   },
   icon: {

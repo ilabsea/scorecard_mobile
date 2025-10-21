@@ -24,14 +24,14 @@ class ScorecardCodeInput extends Component {
 
   componentDidMount() {
     handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
-    AppState.addEventListener('change', this._handleAppStateChange);
+    this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
     setTimeout(() => {
       !!this.inputRef && this.inputRef.focusField(0);
     }, 5);
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    this.appStateSubscription && this.appStateSubscription.remove();
   }
 
   _handleAppStateChange(nextState) {

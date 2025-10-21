@@ -83,7 +83,7 @@ export default class PressableParticipantInfo extends Component {
     return this.props.buttonVisible ?
       <View>
         <OutlinedButton
-          icon={mode.iconName || 'plus'}
+          icon={mode.iconName || 'add-outline'}
           label={mode.label}
           onPress={() => this.openParticipantListModal()}
           buttonStyle={this.props.buttonStyle}

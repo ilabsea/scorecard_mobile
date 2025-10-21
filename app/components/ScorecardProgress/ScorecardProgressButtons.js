@@ -14,7 +14,7 @@ import scorecardHelper from '../../helpers/scorecard_helper';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import Scorecard from '../../models/Scorecard';
 import { FINISHED } from '../../constants/scorecard_constant';
-import { containerPadding } from '../../utils/responsive_util';
+import { bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { bottomMessageFontSize } from '../../utils/font_size_util';
 
 
@@ -99,7 +99,7 @@ class ScorecardProgressButtons extends Component {
     return (
       <React.Fragment>
         { this.renderMessage() }
-        <View style={{padding: containerPadding}}>
+        <View style={bottomButtonContainerPadding()}>
           { !this.props.scorecard.finished && this.renderBtnFinish() }
 
           { this.props.scorecard.finished && this.renderBtnSubmit() }

@@ -12,7 +12,7 @@ class ScorecardReferenceApi extends BaseApi {
       data: data,
     };
 
-    return BaseApi.request(options);
+    return BaseApi.request(options, null, true);
   }
 }
 

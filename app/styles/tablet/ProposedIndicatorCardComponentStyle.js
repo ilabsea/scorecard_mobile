@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   indicatorCardContainer: {
@@ -10,10 +11,12 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
     paddingHorizontal: 14
   },
   label: {
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body,
   },
   subLabel: {
     fontSize: smallTextFontSize(),
+    fontFamily: FontFamily.body,
     color: Color.lightGrayColor
   },
   participantCardContainer: {
@@ -59,7 +62,8 @@ const ProposedIndicatorCardComponentStyles = StyleSheet.create({
   },
   participantInfoSubLabel: {
     marginTop: -2,
-    zIndex: 0
+    zIndex: 0,
+    fontFamily: FontFamily.body,
   }
 });
 

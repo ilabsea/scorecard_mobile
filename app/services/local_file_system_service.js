@@ -1,5 +1,5 @@
 import RNFS from 'react-native-fs';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAudioPath, getPDFPath } from '../utils/file_util';
 
 const downloadFileFromUrl = async (url, filename, isPdfFile, callback) => {

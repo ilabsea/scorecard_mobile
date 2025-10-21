@@ -15,6 +15,7 @@ import { removeFromProposed } from '../../actions/proposedIndicatorAction';
 import { indicatorDevelopmentContentHeight } from '../../constants/modal_constant';
 
 import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { modalContentPaddingBottom } from '../../utils/component_util';
 import ProposedIndicatorListModalTabletStyles from '../../styles/tablet/ProposedIndicatorListModalComponentStyle';
 import ProposedIndicatorListModalMobileStyles from '../../styles/mobile/ProposedIndicatorListModalComponentStyle';
 
@@ -81,7 +82,7 @@ class ProposedIndicatorListModalContent extends Component {
 
   render() {
     return (
-      <View style={{ height: hp(indicatorDevelopmentContentHeight) }}>
+      <View style={{ height: hp(indicatorDevelopmentContentHeight), paddingBottom: modalContentPaddingBottom(this.props.sdkVersion) }}>
         <BottomSheetModalTitle title={ this.context.translations.proposedIndicatorList } />
 
         <View style={{flex: 1, padding: containerPadding, paddingBottom: 0}}>
@@ -104,6 +105,7 @@ function mapStateToProps(state) {
   return {
     proposedIndicators: state.proposedIndicators,
     selectedIndicators: state.selectedIndicators,
+    sdkVersion: state.sdkVersion
   };
 }
 

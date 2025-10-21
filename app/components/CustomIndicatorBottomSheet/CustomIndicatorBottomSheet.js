@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
 
 import {LocalizationContext} from '../Translations';
 import CustomIndicatorForm from './CustomIndicatorForm';
@@ -13,6 +14,7 @@ import Indicator from '../../models/Indicator';
 import LanguageIndicator from '../../models/LanguageIndicator';
 import Scorecard from '../../models/Scorecard';
 import settingHelper from '../../helpers/setting_helper';
+import { modalContentPaddingBottom } from '../../utils/component_util';
 
 class AddNewIndicatorModalMain extends React.Component {
   static contextType = LocalizationContext;
@@ -108,7 +110,7 @@ class AddNewIndicatorModalMain extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{height: hp(customIndicatorModalContentHeight)}}>
+        <View style={{height: hp(customIndicatorModalContentHeight), paddingBottom: modalContentPaddingBottom(this.props.sdkVersion)}}>
           <BottomSheetModalTitle title={this.context.translations.editIndicator} />
           { this.renderForm() }
         </View>
@@ -117,4 +119,17 @@ class AddNewIndicatorModalMain extends React.Component {
   }
 }
 
-export default AddNewIndicatorModalMain;
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AddNewIndicatorModalMain);

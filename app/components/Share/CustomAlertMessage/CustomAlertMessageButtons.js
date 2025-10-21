@@ -5,6 +5,7 @@ import CloseButton from '../../CloseButton';
 import SaveButton from '../../SaveButton';
 
 import CustomStyle from '../../../themes/customStyle';
+import { bodyFontSize } from '../../../utils/font_size_util';
 
 class CustomAlertMessageButtons extends Component {
   render() {
@@ -20,6 +21,7 @@ class CustomAlertMessageButtons extends Component {
             disabled={this.props.isConfirmButtonDisabled}
             onPress={() => this.props.onConfirm()}
             label={this.props.confirmButtonLabel}
+            labelStyle={{fontSize: bodyFontSize()}}
           />
         }
       </View>

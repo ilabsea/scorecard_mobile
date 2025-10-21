@@ -29,7 +29,7 @@ class FilterOption extends Component {
           <TouchableOpacity onPress={() => this.props.onSelectItem(option.value)}
             style={listItemStyles.filterListItem}
           >
-            <Text style={{flex: 1, fontSize: bodyFontSize()}}>{ translations[option.label] }</Text>
+            <Text style={{flex: 1, fontSize: bodyFontSize(), fontFamily: FontFamily.body}}>{ translations[option.label] }</Text>
 
             { this.isSelected(option.value) && <FilterScorecardCheckIcon /> }
           </TouchableOpacity>

@@ -27,7 +27,7 @@ const ParticipantModalSubtitle = (props) => {
 
   function renderAddNewParticipantButton() {
     return <OutlinedButton
-            icon="plus"
+            icon="add-outline"
             label={translations.addNew}
             onPress={() => props.showAddParticipantModal() }
           />
@@ -67,7 +67,7 @@ const ParticipantModalSubtitle = (props) => {
   return (
     <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 5}}>
       <View style={{flex: 1, paddingRight: 5}}>
-        <Text style={{ fontSize: bodyFontSize(), textTransform: 'capitalize' }}>
+        <Text style={{ fontSize: bodyFontSize(), fontFamily: FontFamily.body, textTransform: 'capitalize' }}>
           {`${props.isIndicatorBase ? translations.selectRaisedParticipant : translations.selectParticipant} `}
           { renderProposedParticipant() }
         </Text>

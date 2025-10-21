@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VOTING } from '../constants/scorecard_constant';
 import VotingIndicator from '../models/VotingIndicator';
 import Scorecard from '../models/Scorecard';

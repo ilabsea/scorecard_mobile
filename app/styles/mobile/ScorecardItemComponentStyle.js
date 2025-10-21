@@ -37,6 +37,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   },
   viewDetailLabel: {
     fontSize: wp(smLabelSize),
+    fontFamily: FontFamily.body
   },
   viewDetailIcon: {
     fontSize: wp('4%'),
@@ -59,6 +60,7 @@ const ScorecardItemComponentStyles = StyleSheet.create({
   },
   deleteLabel: {
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   },
   locationLabel: {
     fontSize: scorecardListSubTitleMobileFontSize,

@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 import { getErrorObject } from '../utils/api_error_util';
@@ -26,7 +26,7 @@ class BaseApi {
     this.cancelTokenSource.cancel();
   }
 
-  static request = async (options, endpoint) => {
+  static request = async (options, endpoint, hasFile=false) => {
     const endpointUrl = endpoint || await AsyncStorage.getItem('ENDPOINT_URL');
     const apiUrl = endpointUrl + options.url;
 
@@ -40,7 +40,7 @@ class BaseApi {
         paramsSerializer: function(params) {
           return qs.stringify(params, {arrayFormat: 'brackets'})
         },
-        headers: await BaseApi.getHeader(),
+        headers: await BaseApi.getHeader(hasFile),
         cancelToken: options.cancelToken || undefined,
       })
       .catch((res) => {
@@ -54,7 +54,7 @@ class BaseApi {
     }
   }
 
-  static getHeader = async () => {
+  static getHeader = async (hasFile=false) => {
     const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
 
     let authorization = '';
@@ -64,6 +64,7 @@ class BaseApi {
     return {
       Accept: 'application/json',
       Authorization: `Token ${authorization}`,
+      ...(hasFile ? { 'Content-Type': 'multipart/form-data' } : {})
     };
   }
 }

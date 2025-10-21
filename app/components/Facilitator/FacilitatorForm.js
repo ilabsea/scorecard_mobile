@@ -56,7 +56,6 @@ class FacilitatorForm extends Component {
 
   renderFacilitators = () => {
     const {translations} = this.context;
-
     return Array(environment.numberOfFacilitators)
       .fill()
       .map((_, index) => {

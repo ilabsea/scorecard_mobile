@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -11,6 +11,7 @@ import { LocalizationContext } from '../Translations';
 import CustomAudioCard from '../Share/CustomAudioCard';
 import SwipeLeftButton from '../Share/SwipeLeftButton';
 import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 import indicatorHelper from '../../helpers/indicator_helper';
 import indicatorDevelopmentHelper from '../../helpers/indicator_development_helper';
 import Scorecard from '../../models/Scorecard';
@@ -23,7 +24,6 @@ class SelectedIndicatorItem extends Component {
   constructor(props) {
     super(props);
     this.scorecard = Scorecard.find(props.indicator.scorecard_uuid);
-
     this.state = {
       indicator: indicatorHelper.getDisplayIndicator(props.indicator, this.scorecard),
       scorecard: this.scorecard,
@@ -62,7 +62,7 @@ class SelectedIndicatorItem extends Component {
   renderCardTitle = () => {
     return <View style={{flexDirection: 'row', marginLeft: -14, marginTop: getDeviceStyle(18, 16)}}>
               <Icon name="more-vert" style={{color: Color.lightGrayColor, fontSize: 20, textAlign: 'center', marginTop: 3}} />
-              <Text numberOfLines={2} style={{fontSize: bodyFontSize(), marginRight: 18}}>
+              <Text numberOfLines={2} style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body, marginRight: 18}}>
                 {this.props.order}. {this.state.indicator.content}
               </Text>
            </View>

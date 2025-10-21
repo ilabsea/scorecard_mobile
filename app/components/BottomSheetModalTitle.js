@@ -18,7 +18,7 @@ const BottomSheetModalTitle = (props) => {
 
   function renderRightButton() {
     return <OutlinedButton
-              icon="plus"
+              icon="add-outline"
               label={translations.addNew}
               onPress={() => !!props.onPressRightButton && props.onPressRightButton() }
            />
@@ -41,7 +41,7 @@ const BottomSheetModalTitle = (props) => {
           { !!props.hasAddButton && renderRightButton() }
         </View>
         { props.subtitle &&
-          <Text style={{marginLeft: containerPadding, fontSize: smallTextFontSize(), color: Color.grayColor}}>
+          <Text style={responsiveStyles.subTitle}>
             {props.subtitle}
           </Text>
         }

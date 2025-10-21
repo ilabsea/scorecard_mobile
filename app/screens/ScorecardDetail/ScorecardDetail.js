@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
-import {Container} from "native-base";
+import { connect } from 'react-redux';
+
 import Spinner from 'react-native-loading-spinner-overlay';
 import BigHeader from '../../components/BigHeader';
 import {LocalizationContext} from '../../components/Translations';
@@ -11,7 +12,8 @@ import BottomButton from '../../components/BottomButton';
 import Scorecard from '../../models/Scorecard';
 import Color from '../../themes/color';
 import { navigateHome } from '../../utils/navigation_util';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import { getDeviceStyle, containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import ScorecardDetailTabletStyles from '../../styles/tablet/ScorecardDetailScreenStyle';
 import ScorecardDetailMobileStyles from '../../styles/mobile/ScorecardDetailScreenStyle';
 
@@ -88,26 +90,28 @@ class ScorecardDetail extends Component {
     const {translations} = this.context;
 
     return (
-      <Container>
+      <React.Fragment>
         {this._renderHeader()}
 
-        <Spinner
-          visible={this.state.isLoading}
-          color={Color.primaryColor}
-          overlayColor={Color.loadingBackgroundColor}
-        />
+        <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion), paddingTop: 16}}>
+          <Spinner
+            visible={this.state.isLoading}
+            color={Color.primaryColor}
+            overlayColor={Color.loadingBackgroundColor}
+          />
 
-        <ScrollView contentContainerStyle={[styles.container, responsiveStyles.container]}>
-          <Text style={responsiveStyles.title}>{translations.pleaseCheckScorecardDetailBelow}</Text>
-          <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
-        </ScrollView>
+          <ScrollView contentContainerStyle={[styles.container, responsiveStyles.container]}>
+            <Text style={responsiveStyles.title}>{translations.pleaseCheckScorecardDetailBelow}</Text>
+            <DisplayScorecardInfo scorecardDetail={this.state.scorecard}/>
+          </ScrollView>
 
-        <View style={styles.buttonContainer}>
-          <BottomButton label={translations.next} onPress={() => this.startScorecard()} />
+          <View style={bottomButtonContainerPadding()}>
+            <BottomButton label={translations.next} onPress={() => this.startScorecard()} />
+          </View>
+
+          { this._renderErrorMessageModal() }
         </View>
-
-        { this._renderErrorMessageModal() }
-      </Container>
+      </React.Fragment>
     );
   }
 }
@@ -117,10 +121,21 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: containerPadding,
     paddingBottom: 28,
-  },
-  buttonContainer: {
-    padding: containerPadding
+    paddingTop: 0,
   },
 });
 
-export default ScorecardDetail;
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ScorecardDetail);

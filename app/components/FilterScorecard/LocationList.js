@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import FilterScorecardCheckIcon from './FilterScorecardCheckIcon';
 import Color from '../../themes/color';
@@ -13,6 +13,7 @@ import scorecardHelper from '../../helpers/scorecard_helper';
 import locationHelper from '../../helpers/location_helper';
 import { LocalizationContext } from '../Translations';
 import { SELECTED_FILTERS } from '../../constants/main_constant';
+import { FontFamily } from '../../assets/stylesheets/theme';
 
 class LocationList extends Component {
   static contextType = LocalizationContext;
@@ -82,7 +83,7 @@ class LocationList extends Component {
           <TouchableOpacity onPress={() => this.onSelectItem(location.label)}
             style={listItemStyles.filterListItem}
           >
-            <Text style={{flex: 1, fontSize: bodyFontSize(), textTransform: 'capitalize'}}>
+            <Text style={{flex: 1, fontSize: bodyFontSize(), fontFamily: FontFamily.body, textTransform: 'capitalize'}}>
               { locationHelper.getProvinceName(location.label, this.context.appLanguage) }
             </Text>
 

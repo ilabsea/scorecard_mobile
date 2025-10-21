@@ -72,6 +72,7 @@ const ListItemStyle = StyleSheet.create({
   },
   buttonLabel: {
     fontSize: getDeviceStyle(16, wp('3.6%')),
+    fontFamily: FontFamily.body
   }
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, ScrollView, View } from 'react-native';
+import { Animated, ScrollView, View, Text } from 'react-native';
 
 import {LocalizationContext} from '../Translations';
 import ParticipantHeader from './ParticipantHeader';
@@ -9,6 +9,7 @@ import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 import { participantModalContentHeight, participantModalSnapPoints } from '../../constants/modal_constant';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
+import { isSmallDiagonalScreen } from '../../utils/responsive_util';
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
@@ -67,14 +68,14 @@ class ParticipantMain extends React.Component {
   render () {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 56, 56],
+      outputRange: isSmallDiagonalScreen() ? [156, 56, 66] : [186, 118, 86],
       extrapolate: 'clamp',
     })
 
     return (
-      <View style={{flexGrow: 1}}>
+      <View style={{flexGrow: 1, zIndex: 0}}>
         <CollapsibleNavHeader title={this.context.translations.getStarted} progressIndex={2}  scrollY={this.scrollY} tipIconVisible={false} />
-        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView contentContainerStyle={{flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                       { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}

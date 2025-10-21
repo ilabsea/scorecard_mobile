@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProposedIndicator from '../models/ProposedIndicator';
 import Participant from '../models/Participant';
 import indicatorHelper from '../helpers/indicator_helper';

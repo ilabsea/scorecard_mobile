@@ -1,42 +1,55 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Input, Item, Icon } from 'native-base';
+import { View, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { TextInput } from 'react-native-paper';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { pressableItemSize } from '../../utils/component_util';
 import { bodyFontSize } from '../../utils/font_size_util';
+import { textLineHeight } from '../../constants/component_style_constant';
 
 import { LocalizationContext } from '../../components/Translations';
 
+const placeholderColor = '#656565';
 class SearchBox extends React.Component {
   static contextType = LocalizationContext;
 
+  renderIcon = (icon, iconSize, onPress) => {
+    return <TextInput.Icon
+              icon={() => (
+                <Icon
+                  name={icon}
+                  size={iconSize}
+                  color={placeholderColor}
+                />
+              )}
+              onPress={() => !!onPress && onPress()}
+              style={{height: pressableItemSize(), width: pressableItemSize()}}
+           />
+  }
+
   render() {
     const { translations } = this.context;
-    const placeholderColor = '#656565';
 
     return (
       <View style={[styles.container, this.props.containerStyle]}>
-        <Item rounded style={[styles.inputContainer, this.props.inputContainerStyle]}>
-          <Icon name="search" style={{fontSize: 22, paddingLeft: 10, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
-          <Input
-            placeholder={ this.props.placeholder || translations.searchLocation }
+          <TextInput
             value={this.props.value}
-            clearButtonMode='always'
-            style={styles.searchInput}
+            mode="flat"
+            placeholder={this.props.placeholder || translations.searchLocation}
+            placeholderTextColor={placeholderColor}
+            left={this.renderIcon("search", 24, null)}
+            right={ !!this.props.value && this.renderIcon("close", 24, () => this.props.onClearSearch())}
+            style={[styles.inputContainer, this.props.inputContainerStyle]}
+            underlineColor="transparent"
+            activeUnderlineColor='transparent'
+            cursorColor={Color.clickableColor}
             onChangeText={(text) => this.props.onChangeText(text)}
             onFocus={() => !!this.props.onFocus && this.props.onFocus(true)}
             onBlur={() => !!this.props.onBlur && this.props.onBlur(false)}
-            placeholderTextColor={placeholderColor}
+            contentStyle={{fontFamily: FontFamily.body, fontSize: bodyFontSize(), lineHeight: textLineHeight}}
           />
-
-          { !!this.props.value &&
-            <TouchableOpacity onPress={() => this.props.onClearSearch()} style={styles.btnClear}>
-              <Icon name="close" style={{fontSize: 28, paddingLeft: 0, paddingRight: 0, marginTop: 0, color: placeholderColor}} />
-            </TouchableOpacity>
-          }
-        </Item>
       </View>
     )
   }
@@ -45,6 +58,8 @@ class SearchBox extends React.Component {
 const styles = StyleSheet.create({
   inputContainer: {
     borderRadius: 10,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
     borderColor: '#bababa',
     flex: 1,
     backgroundColor: Color.paleGrayColor,
@@ -58,20 +73,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 5,
   },
-  searchInput: {
-    fontFamily: FontFamily.body,
-    fontSize: bodyFontSize(),
-    width: '100%',
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginRight: 2
-  },
-  btnClear: {
-    justifyContent: 'center',
-    width: pressableItemSize(),
-    height: pressableItemSize(),
-    alignItems: 'center',
-  }
 });
 
 export default SearchBox;

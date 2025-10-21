@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -35,7 +36,13 @@ class ProposedIndicatorMethodDetails extends React.Component {
   }
 
   renderAccordionTitle(item) {
-    return <View style={{flex: 2}}><Text style={{fontSize: bodyFontSize()}}>{item.label}</Text></View>
+    return (
+      <View style={{flex: 2, justifyContent: 'center'}}>
+        <Text style={{fontSize: bodyFontSize(), fontFamily: FontFamily.body}}>
+          {item.label}
+        </Text>
+      </View>
+    )
   }
 
   renderAccordionTitleStatus(item) {
@@ -77,7 +84,7 @@ class ProposedIndicatorMethodDetails extends React.Component {
             accordionTitle={this.renderAccordionTitleStatus}
             accordionContent={this.renderAccordionContent}
             titleStyle={{ textAlign: 'right' }}
-            customItemStyle={{ backgroundColor: '#f9f9fa', borderWidth: 1, borderColor: Color.paleGrayColor }}
+            customItemStyle={{ backgroundColor: '#f9f9fa', borderWidth: 1, borderColor: Color.paleGrayColor, paddingLeft: 8 }}
             accordionStatuses={this.props.accordionStatuses}
             hasAutoToggle={true}
             onToggle={(item) => this.onToggle(item)}

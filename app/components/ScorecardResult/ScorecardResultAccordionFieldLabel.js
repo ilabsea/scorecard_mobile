@@ -6,6 +6,7 @@ import BoldLabel from '../Share/BoldLabel';
 import Color from '../../themes/color';
 import styles from '../../styles/mobile/ScorecardResultAccordionComponentStyle';
 import { accordionItemFontSize } from '../../utils/font_size_util'
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const ScorecardResultAccordionFieldLabel = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -19,7 +20,7 @@ const ScorecardResultAccordionFieldLabel = (props) => {
   } 
 
   if (props.fieldName == 'suggested_action') {
-    const textStyle = { fontSize: accordionItemFontSize(), alignSelf: 'center' };
+    const textStyle = { fontSize: accordionItemFontSize(), fontFamily: FontFamily.body, alignSelf: 'center' };
 
     return (
       <View style={{flexGrow: 1}}>

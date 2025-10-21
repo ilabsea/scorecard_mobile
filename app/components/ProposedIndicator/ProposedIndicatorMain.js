@@ -13,7 +13,7 @@ import Participant from '../../models/Participant';
 import Scorecard from '../../models/Scorecard';
 import {connect} from 'react-redux' ;
 import { removeFromSelected, setSelectedIndicators } from '../../actions/selectedIndicatorAction';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, isSmallDiagonalScreen, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { navigate } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
@@ -46,7 +46,7 @@ class ProposedIndicatorContent extends Component {
 
   renderFinishButton = () => {
     return (
-      <View style={{padding: containerPadding}}>
+      <View style={bottomButtonContainerPadding()}>
         <BottomButton
           disabled={!proposedIndicatorService.hasProposedIndicator(this.props.scorecardUuid)}
           label={this.context.translations['finishAndNext']}
@@ -69,7 +69,7 @@ class ProposedIndicatorContent extends Component {
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: [156, 80, 70],
+      outputRange: isSmallDiagonalScreen() ? [156, 80, 74] : [186, 118, 96],
       extrapolate: 'clamp',
     })
 
@@ -78,7 +78,7 @@ class ProposedIndicatorContent extends Component {
         <CollapsibleNavHeader title={this.context.translations.proposeTheIndicator} scrollY={this.scrollY} progressIndex={3}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
-        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView contentContainerStyle={{paddingVertical: containerPadding, paddingBottom: 16, flexGrow: 1}}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                      { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}

@@ -11,6 +11,7 @@ const HeaderTitleComponentStyles = StyleSheet.create({
   },
   subTitle: {
     fontSize: subTitleFontSize(),
+    fontFamily: FontFamily.body,
     color: Color.lightBlackColor,
   }
 });

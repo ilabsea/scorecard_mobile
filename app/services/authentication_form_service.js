@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import validationService from './validation_service';
 import lockDeviceService from './lock_device_service';
 import { FAILED_SIGN_IN_ATTEMPT } from '../constants/lock_device_constant';

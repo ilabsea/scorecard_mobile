@@ -17,6 +17,7 @@ import EmptyListAction from '../../components/Share/EmptyListAction';
 
 import scorecardReferenceService from '../../services/scorecard_reference_service';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 
 let _this = null;
 
@@ -99,7 +100,7 @@ class SelectedImage extends Component {
     const listContainerPadding = getDeviceStyle(wp('5%'), isShortWidthScreen() ? wp('3.3%') : wp('3.8%'));
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         <SelectedImageHeader
           onBackPress={() => this.props.navigation.goBack()}
           hasDeleteButton={this.state.selectedImages.length > 0}
@@ -126,6 +127,12 @@ class SelectedImage extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    sdkVersion: state.sdkVersion
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     setScorecardReferences: (scorecardReferences) => dispatch(setScorecardReferences(scorecardReferences)),
@@ -133,6 +140,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SelectedImage)

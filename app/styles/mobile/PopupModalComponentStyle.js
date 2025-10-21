@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { bodyFontSize, titleFontSize } from '../../utils/font_size_util';
+import { bodyFontSize, titleFontSize, smallTextFontSize } from '../../utils/font_size_util';
+import { containerPadding } from '../../utils/responsive_util';
+import Color from '../../themes/color';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 const PopupModalComponentStyles = StyleSheet.create({
   headerTitle: {
@@ -9,7 +12,14 @@ const PopupModalComponentStyles = StyleSheet.create({
     paddingRight: 5,
   },
   label: {
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
+  },
+  subTitle: {
+    marginLeft: containerPadding,
+    fontSize: smallTextFontSize(),
+    fontFamily: FontFamily.body,
+    color: Color.grayColor
   }
 });
 

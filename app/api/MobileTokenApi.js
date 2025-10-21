@@ -1,5 +1,5 @@
 import BaseApi from './BaseApi';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { environment } from '../config/environment';
 
 class MobileTokenApi extends BaseApi {

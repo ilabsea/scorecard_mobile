@@ -95,7 +95,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
   render() {
     const {translations} = this.context
     return (
-      <View style={{flex: 1, marginTop: this.props.isIndicatorBase ? getDeviceStyle(110, 100) : getDeviceStyle(195, 170)}}>
+      <View style={{flex: 1, marginTop: this.props.isIndicatorBase ? getDeviceStyle(140, 100) : getDeviceStyle(220, 170)}}>
         { this.props.proposedIndicators.length == 0 ? <EmptyListAction title={translations.noIndicatorProposed} hideButton={true} contentContainerStyle={{zIndex: -2, flexGrow: 1, justifyContent: 'center', paddingTop: 26}} />
           :
           <React.Fragment>

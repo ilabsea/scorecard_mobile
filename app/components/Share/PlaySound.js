@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Sound from 'react-native-sound';
 import Color from '../../themes/color';
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {setRatingScaleAudioStatus} from '../../actions/ratingScaleAction';
 import {PLAYING, PAUSED} from '../../constants/indicator_constant';

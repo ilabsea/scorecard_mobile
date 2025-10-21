@@ -12,7 +12,13 @@ import { navigate } from '../../navigators/app_navigator';
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { titleFontSize } from '../../utils/font_size_util';
-import { getDeviceStyle, containerPadding } from '../../utils/responsive_util';
+import {
+  getDeviceStyle,
+  containerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+  bottomButtonContainerPadding,
+} from '../../utils/responsive_util';
 import Participant from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import { hasVoting } from '../../helpers/voting_indicator_helper';
@@ -56,7 +62,7 @@ class VotingIndicatorListContent extends React.Component {
             title={translations.addNewVoting}
             participants={ Participant.getUnvoted(this.props.scorecard.uuid) }
             scorecardUuid={ this.props.scorecard.uuid }
-            mode={{type: 'button', label: translations.newVote, iconName: 'plus'}}
+            mode={{type: 'button', label: translations.newVote, iconName: 'add-outline'}}
             buttonVisible={true}
             selectParticipant={(participant) => navigate('VotingIndicatorForm', {scorecard_uuid: this.props.scorecard.uuid, participant_uuid: participant.uuid})}
             participantModalRef={this.props.participantModalRef}
@@ -70,8 +76,8 @@ class VotingIndicatorListContent extends React.Component {
 
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
-      inputRange: [0, 100, 140],
-      outputRange: [156, 80, 72],
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
       extrapolate: 'clamp',
     })
     return (
@@ -79,7 +85,7 @@ class VotingIndicatorListContent extends React.Component {
         <CollapsibleNavHeader title={this.context.translations.voting} scrollY={this.scrollY} progressIndex={3} isPassProposeStep={true}
           showTipModal={() => !!this.isHeaderShrunk && this.props.tipModalRef.current?.present()} tipIconVisible={true}
         />
-        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop}}>
+        <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView stickyHeaderIndices={[1]}
             onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.scrollY}}}],
                       { listener: (event) => {this.isHeaderShrunk = event.nativeEvent.contentOffset.y >= headerShrinkOffset}, useNativeDriver: false })}
@@ -90,7 +96,7 @@ class VotingIndicatorListContent extends React.Component {
           </ScrollView>
         </Animated.View>
 
-        <View style={styles.container}>
+        <View style={bottomButtonContainerPadding()}>
           <BottomButton
             onPress={() => this._goNext()}
             customBackgroundColor={Color.headerColor}
@@ -104,9 +110,6 @@ class VotingIndicatorListContent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: containerPadding,
-  },
   h1: {
     fontSize: getDeviceStyle(24, titleFontSize()),
     fontFamily: FontFamily.title,

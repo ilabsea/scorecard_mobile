@@ -5,6 +5,7 @@ import { mdLabelSize, mdIconSize } from '../../constants/mobile_font_size_consta
 import { buttonBorderRadius, cardBorderRadius } from '../../constants/border_radius_constant';
 import { bodyFontSize, smallTextFontSize } from '../../utils/font_size_util';
 import { pressableItemSize } from '../../utils/component_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 export const badgeSize = wp('9%');
 
@@ -44,14 +45,17 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   cardTitle: {
     color: Color.grayColor,
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body,
     lineHeight: 34
   },
   cardSubTitle: {
     fontSize: smallLabelFontSize,
+    fontFamily: FontFamily.body,
     color: Color.grayColor
   },
   viewDetailText: {
     fontSize: smallLabelFontSize,
+    fontFamily: FontFamily.body,
     color: Color.headerColor
   },
   viewDetailIcon: {
@@ -69,6 +73,7 @@ const MilestoneCardComponentStyles = StyleSheet.create({
   btnResumeText: {
     color: Color.whiteColor,
     fontSize: smallLabelFontSize,
+    fontFamily: FontFamily.body
   }
 });
 

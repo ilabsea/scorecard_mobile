@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import {BackHandler, TouchableWithoutFeedback} from 'react-native';
-import { Header, Left } from 'native-base';
-import { HeaderBackButton } from '@react-navigation/stack';
+import { Appbar } from 'react-native-paper';
 
 import { LocalizationContext } from '../Translations';
 import NavigationHeaderBody from '../NavigationHeaderBody'
 import CustomAlertMessage from '../Share/CustomAlertMessage';
-import { navigationBackButtonFlex } from '../../utils/responsive_util';
-import { pressableItemSize } from '../../utils/component_util';
 import { navigationRef } from '../../navigators/app_navigator';
 import Color from '../../themes/color';
 
@@ -68,12 +65,10 @@ class ProposeNewIndicatorNavHeader extends Component {
     return (
       <React.Fragment>
         <TouchableWithoutFeedback onPress={() => this.props.searchBoxRef.current?.closeSearch()}>
-          <Header>
-            <Left style={{ flex: navigationBackButtonFlex, marginRight: -10 }}>
-              <HeaderBackButton tintColor={Color.whiteColor} onPress={() => this.onBackPress()} style={{ marginLeft: 0, width: pressableItemSize(), height: pressableItemSize() }} />
-            </Left>
+          <Appbar.Header style={{backgroundColor: Color.headerColor}}>
+            <Appbar.BackAction onPress={() => this.onBackPress()} color='white' />
             <NavigationHeaderBody title={this.context.translations.proposeNewIndicatorTitle} />
-          </Header>
+          </Appbar.Header>
         </TouchableWithoutFeedback>
 
         { this.renderComfirmModal() }

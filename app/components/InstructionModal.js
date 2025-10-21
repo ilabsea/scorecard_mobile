@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image} from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
+import FastImage from 'react-native-fast-image'
 
 import { LocalizationContext } from './Translations';
 import { getDeviceStyle } from '../utils/responsive_util';
@@ -31,7 +32,11 @@ class InstructionModal extends React.Component {
           contentContainerStyle={this.props.contentContainerStyle}
         >
           <View style={this.props.containerStyle}>
-            <Image source={this.props.imageSource} style={this.props.imageStyle} />
+            <FastImage
+              source={this.props.imageSource}
+              style={this.props.imageStyle}
+              resizeMode={this.props.resizeMode ?? FastImage.resizeMode.contain}
+            />
 
             { this.renderCloseButton() }
           </View>

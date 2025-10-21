@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, TouchableWithoutFeedback, Keyboard, BackHandler } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, BackHandler, Text } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import SettingHeader from '../../components/Setting/SettingHeader';

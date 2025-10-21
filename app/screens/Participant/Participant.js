@@ -12,7 +12,8 @@ import {connect} from 'react-redux';
 
 import ParticipantModel from '../../models/Participant';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { containerPadding } from '../../utils/responsive_util';
+import { containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
+import { screenPaddingBottom } from '../../utils/component_util';
 import {participantModalSnapPoints} from '../../constants/modal_constant';
 
 class Participant extends Component {
@@ -42,7 +43,7 @@ class Participant extends Component {
   renderBottomSection() {
     return (
       <React.Fragment>
-        <View style={{padding: containerPadding}}>
+        <View style={bottomButtonContainerPadding()}>
           <BottomButton label={this.context.translations.next} onPress={() => this.next()} />
         </View>
 
@@ -55,7 +56,7 @@ class Participant extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: Color.whiteColor}}>
+      <View style={{flex: 1, backgroundColor: Color.whiteColor, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         <ParticipantMain
           scorecardUuid={this.props.route.params.scorecard_uuid}
           participants={this.props.participants}
@@ -70,7 +71,10 @@ class Participant extends Component {
 }
 
 function mapStateToProps(state) {
-  return {participants: state.participantReducer.participants};
+  return {
+    participants: state.participantReducer.participants,
+    sdkVersion: state.sdkVersion
+  };
 }
 
 function mapDispatchToProps(dispatch) {

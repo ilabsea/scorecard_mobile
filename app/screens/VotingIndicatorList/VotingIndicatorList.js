@@ -12,6 +12,7 @@ import { set } from '../../actions/currentScorecardAction';
 
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, VOTING_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
+import { screenPaddingBottom } from '../../utils/component_util';
 import VotingIndicator from '../../models/VotingIndicator';
 
 class VotingIndicatorList extends Component {
@@ -59,7 +60,7 @@ class VotingIndicatorList extends Component {
     const snapPoints = tipModalSnapPoints[VOTING_INDICATOR];
 
     return (
-      <View style={{height: '100%'}}>
+      <View style={{height: '100%', paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderBody() }
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='VotingIndicatorList' />
@@ -75,6 +76,7 @@ class VotingIndicatorList extends Component {
 function mapStateToProps(state) {
   return {
     votingIndicators: state.votingIndicators,
+    sdkVersion: state.sdkVersion
   };
 }
 

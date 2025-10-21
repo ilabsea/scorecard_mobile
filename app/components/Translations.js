@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage'; // 1
+import AsyncStorage from '@react-native-async-storage/async-storage'; // 1
 import React, {createContext, useState} from 'react';
 import LocalizedStrings from 'react-native-localization'; // 2
 import * as RNLocalize from 'react-native-localize'; // 3

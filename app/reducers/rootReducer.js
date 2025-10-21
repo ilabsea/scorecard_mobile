@@ -6,6 +6,7 @@ import participantReducer from './participantReducer';
 import {ratingScaleAudioReducer} from './ratingScaleReducer';
 import currentScorecardReducer from './currentScorecardReducer';
 import scorecardReferenceReducer from './scorecardReferenceReducer';
+import sdkVersionReducer from './sdkVersionReducer';
 
 const allReducers = combineReducers({
   selectedIndicators: selectedIndicatorReducer,
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
   ratingScaleAudioReducer,
   currentScorecard: currentScorecardReducer,
   scorecardReferences: scorecardReferenceReducer,
+  sdkVersion: sdkVersionReducer
 });
 
 const rootReducer = (state, action) => {

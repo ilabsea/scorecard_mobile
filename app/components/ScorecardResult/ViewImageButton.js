@@ -6,6 +6,7 @@ import { navigate } from '../../navigators/app_navigator';
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class ViewImageButton extends Component {
   static contextType = LocalizationContext;
@@ -21,7 +22,7 @@ class ViewImageButton extends Component {
 
         { this.props.scorecardReferences.length > 0 &&
           <View style={[styles.badge, { paddingHorizontal: this.props.scorecardReferences.length > 9 ? 6 : 8 }]}>
-            <Text style={{color: Color.whiteColor, fontSize: 12}}>{ this.props.scorecardReferences.length }</Text>
+            <Text style={{color: Color.whiteColor, fontSize: 12, fontFamily: FontFamily.body}}>{ this.props.scorecardReferences.length }</Text>
           </View>
         }
       </View>

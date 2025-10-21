@@ -21,7 +21,7 @@ const ScorecardResullModalSubTitle = (props) => {
 
       { !props.isScorecardFinished &&
         <OutlinedButton
-          icon='plus'
+          icon='add-outline'
           label={ translations.addNew }
           onPress={() => props.addNewPoint() }
           disabled={props.isScorecardFinished}

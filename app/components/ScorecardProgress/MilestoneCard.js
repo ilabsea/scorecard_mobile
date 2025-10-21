@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Color from '../../themes/color';
 import CustomStyle from '../../themes/customStyle';
 import { LocalizationContext } from '../Translations';

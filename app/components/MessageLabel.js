@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, StyleSheet} from 'react-native';
 import Color from '../themes/color';
 import { bodyFontSize } from '../utils/font_size_util';
+import { FontFamily } from '../assets/stylesheets/theme/font';
 
 class MessageLabel extends Component {
   constructor(props) {
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
   messageLabel: {
     marginTop: 30,
     textAlign: 'center',
-    fontSize: bodyFontSize()
+    fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body
   }
 });
 

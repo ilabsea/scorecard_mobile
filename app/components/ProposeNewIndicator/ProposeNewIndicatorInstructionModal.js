@@ -1,4 +1,5 @@
 import React from 'react';
+import FastImage from 'react-native-fast-image'
 
 import InstructionModal from '../InstructionModal';
 import {getProposeNewIndicatorInstructionImage} from '../../utils/scorecard_instruction_util';
@@ -17,6 +18,7 @@ class ProposeNewIndicatorInstructionModal extends React.Component {
               imageSource={getProposeNewIndicatorInstructionImage(this.props.isIndicatorBase)}
               customCloseButtonContainerStyle={styles.closeButtonContainer}
               closeButtonLabelStyle={{textAlign: 'center'}}
+              resizeMode={FastImage.resizeMode.stretch}
             />
   }
 }

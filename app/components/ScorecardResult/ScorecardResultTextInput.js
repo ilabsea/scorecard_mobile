@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-paper';
 import Color from '../../themes/color';
 
 import {LocalizationContext} from '../Translations';
+import { FontFamily } from '../../assets/stylesheets/theme';
 
 class ScorecardResultTextInput extends Component {
   static contextType = LocalizationContext;
@@ -36,7 +37,7 @@ class ScorecardResultTextInput extends Component {
         value={this.state.note}
         onChangeText={(text) => this.onChangeText(text)}
         style={[{backgroundColor: 'white', width: '100%'}, this.props.customStyle]}
-        theme={{colors: {primary: Color.clickableColor}, fontSize: 49}}
+        theme={{colors: {primary: Color.clickableColor}, fontSize: 49, fonts: { bodyLarge: { fontFamily: FontFamily.body } }}}
         autoCompleteType='off'
         autoCapitalize='none'
         onFocus={() => this.props.scrollTo()}

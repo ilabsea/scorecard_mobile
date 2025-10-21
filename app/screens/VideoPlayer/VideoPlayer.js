@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Dimensions, BackHandler } from 'react-native';
-import YouTube from 'react-native-youtube';
+// import YouTube from 'react-native-youtube';
 
 import { LocalizationContext } from '../../components/Translations';
 import { environment } from '../../config/environment';
@@ -47,25 +47,25 @@ class VideoPlayer extends React.Component {
     ]});
   }
 
-  renderVideoPlayer() {
-    if (this.state.hasInternet)
-      return <YouTube
-              apiKey={environment.youtubeApiKey}
-              style={{ height: '90%', width: Dimensions.get('window').width }}
-              ref={this.playerRef}
-              play={true}
-              videoId={this.props.route.params.video_id}
-              resumePlayAndroid={true}
-              onError={error => console.log('on play video error = ', error)}
-            />
-  }
+  // renderVideoPlayer() {
+  //   if (this.state.hasInternet)
+  //     return <YouTube
+  //             apiKey={environment.youtubeApiKey}
+  //             style={{ height: '90%', width: Dimensions.get('window').width }}
+  //             ref={this.playerRef}
+  //             play={true}
+  //             videoId={this.props.route.params.video_id}
+  //             resumePlayAndroid={true}
+  //             onError={error => console.log('on play video error = ', error)}
+  //           />
+  // }
 
   render() {
     return (
       <View style={{flex: 1}}>
         <NavigationHeader title={ this.props.route.params.title } onBackPress={() => this.goBack()} />
         <View style={{ backgroundColor: '#000', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          { this.renderVideoPlayer() }
+          {/* { this.renderVideoPlayer() } */}
         </View>
       </View>
     )

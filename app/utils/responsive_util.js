@@ -1,13 +1,24 @@
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { smallMobileHeight, mediumMobileHeight, smallWidthMobile, XXHDPIRatio } from '../constants/screen_size_constant';
 import { xlLabelSize, lgLabelSize, mdLabelSize } from '../constants/mobile_font_size_constant';
 
+const { NavigationMode } = NativeModules;
+
 const isTablet = DeviceInfo.isTablet();
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
+
+const isSmallDiagonalScreen = () => {
+  const pixelRatio = PixelRatio.get();
+  const dpi = pixelRatio * 160; // base density is 160 dpi
+  const widthInches = screenWidth / dpi;
+  const heightInches = screenHeight / dpi;
+  const diagonalInches = Math.sqrt(widthInches ** 2 + heightInches ** 2);
+  return diagonalInches < 2.1;
+}
 
 const getDeviceStyle = (tabletStyle, mobileStyle) => {
   return isTablet ? tabletStyle : mobileStyle;
@@ -52,6 +63,28 @@ const isSmallMobileScreenDevice = () => {
   return false;
 }
 
+// mode = 0 → 3-button
+// mode = 1 → 2-button
+// mode = 2 → gesture
+var navType = 2; // default is gesture navigation
+const checkDeviceNavType = async () => {
+  navType = await NavigationMode.getNavigationMode();
+}
+
+const isThreeButtonNavigation = () => {
+  return navType == 0;
+}
+
+const bottomButtonContainerPadding = () => {
+  if (isTablet)
+    return { padding: containerPadding }
+
+  return {
+    padding: containerPadding,
+    paddingBottom: isSmallDiagonalScreen() ? 16 : 0
+  }
+}
+
 const containerPaddingTop = getDeviceStyle(20, 10);
 
 const normalLabelSize = getDeviceStyle(16, wp(mdLabelSize));
@@ -66,6 +99,9 @@ const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('
 
 const navigationBackButtonFlex =  getDeviceStyle(0.21, 0.15);
 
+const passProposeStepContainerPaddingTopInput = [0, 100, 140];
+const passProposeStepContainerPaddingTopOutput = isSmallDiagonalScreen() ? [168, 80, 78] : [204, 128, 106];
+
 export {
   getDeviceStyle,
   isShortScreenDevice,
@@ -76,6 +112,10 @@ export {
   modalHeadingTitleSize,
   addNewParticipantModalHeight,
   isSmallMobileScreenDevice,
+  isSmallDiagonalScreen,
+  checkDeviceNavType,
+  isThreeButtonNavigation,
+  bottomButtonContainerPadding,
   containerPaddingTop,
   normalLabelSize,
   scrollViewPaddingBottom,
@@ -83,4 +123,6 @@ export {
   cardItemPadding,
   navigationTitlePaddingLeft,
   navigationBackButtonFlex,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
 };

@@ -8,16 +8,20 @@ import { bodyFontSize, accordionItemFontSize, getMobileFontSizeByPixelRatio } fr
 const ScorecardResultAccordionComponentStyles = StyleSheet.create({
   titleText: {
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body,
   },
   itemTitleText: {
     fontSize: accordionItemFontSize(),
+    fontFamily: FontFamily.body,
   },
   itemSubtitleText: {
     color: Color.lightGrayColor,
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: FontFamily.body,
   },
   itemValueText: {
     fontSize: bodyFontSize(),
+    fontFamily: FontFamily.body,
     flex: 1,
     textAlign: 'right',
   },

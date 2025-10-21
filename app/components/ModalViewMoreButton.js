@@ -21,7 +21,7 @@ const ModalViewMoreButton = (props) => {
     <TouchableOpacity onPress={() => expandModal()} style={{marginBottom: 20, marginTop: -15, alignSelf: 'flex-end', flexDirection: 'row', paddingRight: 10}}>
       <Text style={{color: Color.clickableColor, fontFamily: FontFamily.title, fontSize: bodyFontSize(), textTransform: 'capitalize'}}>
         {translations.viewMore}
-        </Text>
+      </Text>
       <Icon name="expand-more" color={Color.clickableColor} size={bottomButtonIconSize()} />
     </TouchableOpacity>
   ) 

@@ -1,11 +1,12 @@
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob'
 import Share from 'react-native-share';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { downloadFileFromUrl } from './local_file_system_service';
 import { ERROR_SOMETHING_WENT_WRONG, ERROR_DOWNLOAD_PDF } from '../constants/error_constant';
+import { ANDROID_TEN_SDK_VERSION } from '../constants/main_constant';
 import { getPDFPath } from '../utils/file_util';
 
 const scorecardSharingService = (() => {
@@ -47,25 +48,26 @@ const scorecardSharingService = (() => {
 
   // private method
   async function _downloadAndShareFile(scorecardUuid, updateLoadingStatus, updateErrorMessageModal, appLanguage) {
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-
-    if (granted == PermissionsAndroid.RESULTS.GRANTED) {
-      const domain = await AsyncStorage.getItem('ENDPOINT_URL');
-      const endpoint = `${domain}/api/v1/scorecards/${scorecardUuid}.pdf?locale=${appLanguage}`;
-    
-      updateLoadingStatus(true);
-
-      downloadFileFromUrl(endpoint, getPdfFileName(scorecardUuid, appLanguage), true, async (isSuccess, response, localFilePath) => {
-        if (isSuccess) {
-          updateLoadingStatus(false);
-          _shareFile(localFilePath, scorecardUuid, updateErrorMessageModal);
-        }
-        else {
-          updateLoadingStatus(false);
-          updateErrorMessageModal(ERROR_DOWNLOAD_PDF, true);
-        }
-      });
+    if (Platform.OS == 'android' && Platform.Version < ANDROID_TEN_SDK_VERSION) {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+      if (granted != PermissionsAndroid.RESULTS.GRANTED)
+        return;
     }
+
+    const domain = await AsyncStorage.getItem('ENDPOINT_URL');
+    const endpoint = `${domain}/api/v1/scorecards/${scorecardUuid}.pdf?locale=${appLanguage}`;
+  
+    updateLoadingStatus(true);
+    downloadFileFromUrl(endpoint, getPdfFileName(scorecardUuid, appLanguage), true, async (isSuccess, response, localFilePath) => {
+      if (isSuccess) {
+        updateLoadingStatus(false);
+        _shareFile(localFilePath, scorecardUuid, updateErrorMessageModal);
+      }
+      else {
+        updateLoadingStatus(false);
+        updateErrorMessageModal(ERROR_DOWNLOAD_PDF, true);
+      }
+    });
   }
 
   function _shareFile(filePath, scorecardUuid, updateErrorMessageModal) {

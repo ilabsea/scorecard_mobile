@@ -6,6 +6,7 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import { bodyFontSize } from '../../utils/font_size_util';
 import { getTimeFromDuration } from '../../utils/time_util';
+import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 class RecordedAudioCard extends Component {
   static contextType = LocalizationContext;
@@ -16,6 +17,7 @@ class RecordedAudioCard extends Component {
   }
 
   render () {
+    const labelStyle = { fontSize: bodyFontSize(), fontFamily: FontFamily.body };
     return (
       <View style={styles.recordedVoiceContainer}>
         <View style={{flexDirection: 'row', padding: 16, borderRadius: 8, backgroundColor: Color.whiteColor}}>
@@ -23,8 +25,8 @@ class RecordedAudioCard extends Component {
             {this.renderPlayIcon()}
           </TouchableOpacity>
           <View style={{marginLeft: 15, justifyContent: 'center', flex: 1}}>
-            <Text style={{fontSize: bodyFontSize()}}>{this.context.translations.play}</Text>
-            <Text style={{fontSize: bodyFontSize()}}>{getTimeFromDuration(this.props.playSeconds)}</Text>
+            <Text style={labelStyle}>{this.context.translations.play}</Text>
+            <Text style={labelStyle}>{getTimeFromDuration(this.props.playSeconds)}</Text>
           </View>
           <TouchableOpacity onPress={() => this.props.delete()} style={{alignSelf: 'center'}}>
             <MaterialIcon name="delete" size={30} color={Color.redColor} />

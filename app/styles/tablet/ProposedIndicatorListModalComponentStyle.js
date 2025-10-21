@@ -23,6 +23,7 @@ const ProposedIndicatorListModalComponentStyles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    fontFamily: FontFamily.body
   },
   btnWrapper: {
     marginTop: 10,
