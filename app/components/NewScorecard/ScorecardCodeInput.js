@@ -27,7 +27,7 @@ class ScorecardCodeInput extends Component {
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
     setTimeout(() => {
       !!this.inputRef && this.inputRef.focusField(0);
-    }, 5);
+    }, 400);
   }
 
   componentWillUnmount() {
@@ -66,6 +66,7 @@ class ScorecardCodeInput extends Component {
           codeInputFieldStyle={styles.inputContainer}
           onCodeFilled = {(code) => this.onCodeFilled(code)}
           keyboardType='number-pad'
+          autoFocusOnLoad={false}
         />
       </View>
     )
