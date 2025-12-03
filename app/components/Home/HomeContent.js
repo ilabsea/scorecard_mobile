@@ -4,16 +4,13 @@ import { View } from "react-native";
 import { LocalizationContext } from '../Translations';
 import BigButton from './BigButton';
 import Brand from './Brand';
-import Logos from './Logos';
 
 class HomeContent extends Component {
   static contextType = LocalizationContext;
 
   render() {
     return (
-      <View style={{alignItems: 'center', flex: 1}}>
-        <View style={{flex: 3}}></View>
-
+      <View style={{alignItems: 'center', flex: 1, justifyContent: 'center', paddingBottom: 80}}>
         <Brand />
 
         <BigButton
@@ -27,8 +24,6 @@ class HomeContent extends Component {
           label={ this.context.translations['savedScorecard'] }
           icon={'list'}
         />
-
-        <Logos />
       </View>
     )
   }
