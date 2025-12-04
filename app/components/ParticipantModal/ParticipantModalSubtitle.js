@@ -30,6 +30,8 @@ const ParticipantModalSubtitle = (props) => {
             icon="add-outline"
             label={translations.addNew}
             onPress={() => props.showAddParticipantModal() }
+            labelStyle={{color: 'white'}}
+            iconStyle={{color: 'white'}}
           />
   }
 

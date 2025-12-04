@@ -35,6 +35,8 @@ class ParticipantHeader extends React.Component {
             icon="add-outline"
             label={translations.addNewParticipant}
             onPress={() => this.props.addNewParticipant() }
+            labelStyle={{color: 'white'}}
+            iconStyle={{color: 'white'}}
           />
         }
       </View>

@@ -68,6 +68,7 @@ class VotingIndicatorListContent extends React.Component {
             participantModalRef={this.props.participantModalRef}
             formModalRef={this.props.formModalRef}
             closeModal={() => this.closeModal()}
+            buttonLabelStyle={{color: 'white'}}
           />
         </View>
       </View>
