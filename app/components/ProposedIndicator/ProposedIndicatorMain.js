@@ -13,7 +13,7 @@ import Participant from '../../models/Participant';
 import Scorecard from '../../models/Scorecard';
 import {connect} from 'react-redux' ;
 import { removeFromSelected, setSelectedIndicators } from '../../actions/selectedIndicatorAction';
-import { containerPadding, isSmallDiagonalScreen, bottomButtonContainerPadding } from '../../utils/responsive_util';
+import { containerPadding, isSmallDiagonalScreen, bottomButtonContainerPadding, isMediumScreenDevice } from '../../utils/responsive_util';
 import { navigate } from '../../navigators/app_navigator';
 import settingHelper from '../../helpers/setting_helper';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
@@ -69,7 +69,7 @@ class ProposedIndicatorContent extends Component {
   render() {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: isSmallDiagonalScreen() ? [156, 80, 74] : [186, 118, 96],
+      outputRange: isSmallDiagonalScreen() ? [182, 110, 100] : isMediumScreenDevice() ? [186, 118, 106] : [196, 128, 116],
       extrapolate: 'clamp',
     })
 

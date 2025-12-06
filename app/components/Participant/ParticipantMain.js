@@ -9,7 +9,7 @@ import CollapsibleNavHeader from '../Share/CollapsibleNavHeader';
 import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 import { participantModalContentHeight, participantModalSnapPoints } from '../../constants/modal_constant';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
-import { isSmallDiagonalScreen } from '../../utils/responsive_util';
+import { containerPadding, isSmallDiagonalScreen, isMediumScreenDevice } from '../../utils/responsive_util';
 
 class ParticipantMain extends React.Component {
   static contextType = LocalizationContext;
@@ -68,7 +68,7 @@ class ParticipantMain extends React.Component {
   render () {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: isSmallDiagonalScreen() ? [156, 56, 66] : [186, 118, 86],
+      outputRange: isSmallDiagonalScreen() ? [182, 76, 86] : isMediumScreenDevice() ? [186, 118, 86] : [196, 128, 96],
       extrapolate: 'clamp',
     })
 

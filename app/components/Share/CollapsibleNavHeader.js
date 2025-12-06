@@ -65,7 +65,7 @@ const CollapsibleNavHeader = (props) => {
 
   const renderHeader = () => {
     return (
-      <View style={{backgroundColor: Color.headerColor, flex: 1}}>
+      <View style={{backgroundColor: Color.headerColor}}>
         <AppbarHeader
           title={props.title}
           rightButton={props.tipIconVisible && renderTipIcon()}

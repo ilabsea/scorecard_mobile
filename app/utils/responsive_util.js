@@ -2,7 +2,7 @@ import { Dimensions, PixelRatio, NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import { smallMobileHeight, mediumMobileHeight, smallWidthMobile, XXHDPIRatio } from '../constants/screen_size_constant';
+import { smallMobileHeight, mediumMobileHeight, mediumMobileWidth, smallWidthMobile, XXHDPIRatio } from '../constants/screen_size_constant';
 import { xlLabelSize, lgLabelSize, mdLabelSize } from '../constants/mobile_font_size_constant';
 
 const { NavigationMode } = NativeModules;
@@ -29,7 +29,10 @@ const isShortScreenDevice = () => {
 }
 
 const isMediumScreenDevice = () => {
-  return screenHeight <= mediumMobileHeight && !isShortScreenDevice();
+  const isMediumScreen = screenWidth > smallWidthMobile && screenWidth <= mediumMobileWidth && !isShortScreenDevice();
+  return isMediumScreen;
+
+  // return screenHeight <= mediumMobileHeight && !isShortScreenDevice();
 }
 
 const isShortWidthScreen = () => {
@@ -100,7 +103,7 @@ const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('
 const navigationBackButtonFlex =  getDeviceStyle(0.21, 0.15);
 
 const passProposeStepContainerPaddingTopInput = [0, 100, 140];
-const passProposeStepContainerPaddingTopOutput = isSmallDiagonalScreen() ? [168, 80, 78] : [204, 128, 106];
+const passProposeStepContainerPaddingTopOutput = isSmallDiagonalScreen() ? [198, 110, 102] : isMediumScreenDevice() ? [204, 128, 106] : [214, 138, 106];
 
 export {
   getDeviceStyle,
