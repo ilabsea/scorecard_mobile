@@ -21,6 +21,8 @@ const BottomSheetModalTitle = (props) => {
               icon="add-outline"
               label={translations.addNew}
               onPress={() => !!props.onPressRightButton && props.onPressRightButton() }
+              labelStyle={{color: 'white'}}
+              iconStyle={{color: 'white'}}
            />
   }
 

@@ -215,6 +215,8 @@ class ScorecardPreference extends Component {
         audioLocale={this.state.audioLocale}
         pickerRef={this.pickerRef}
         pickerModalRef={this.pickerModalRef}
+        isDownloading={this.state.isDownloading}
+        isDownloaded={this.state.downloadProgress == 1}   // downloadProgress == 100%
       />
     )
   }

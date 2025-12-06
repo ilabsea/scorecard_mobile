@@ -88,6 +88,7 @@ export default class PressableParticipantInfo extends Component {
           onPress={() => this.openParticipantListModal()}
           buttonStyle={this.props.buttonStyle}
           labelStyle={this.props.buttonLabelStyle}
+          iconStyle={{color: 'white'}}
         />
       </View>
       :

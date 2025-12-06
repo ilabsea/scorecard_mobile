@@ -22,6 +22,8 @@ class EmptyListAction extends Component {
                 icon={ this.props.icon || 'add-outline' }
                 label={this.props.buttonLabel}
                 onPress={() => this.props.onPress() }
+                labelStyle={{color: 'white'}}
+                iconStyle={{color: 'white'}}
               />
             </View>
           }

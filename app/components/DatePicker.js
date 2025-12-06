@@ -50,16 +50,21 @@ class DatePicker extends Component {
   _renderDate = () => {
     return (
       <TouchableOpacity
-        style={styles.pickerContainer}
-        onPress={() => this.setState({ isPickerVisible: true })}
+        style={[styles.pickerContainer, this.props.isDisabled && { borderColor: Color.disableCardColor }]}
+        onPress={() => {
+          if (this.props.isDisabled)
+            return;
+
+          this.setState({ isPickerVisible: true })
+        }}
       >
         <Icon
-          color={Color.inputBorderLineColor}
+          color={ this.props.isDisabled ? Color.lightGrayColor : Color.inputBorderLineColor }
           name="calendar-today"
           style={styles.icon}
         />
 
-        <Text style={styles.dateLabel}>{ Moment(this.state.selectedDate).format(displayDateFormat) }</Text>
+        <Text style={[styles.dateLabel, this.props.isDisabled && { color: Color.lightGrayColor }]}>{ Moment(this.state.selectedDate).format(displayDateFormat) }</Text>
       </TouchableOpacity>
     )
   }
@@ -83,7 +88,7 @@ class DatePicker extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.label}>
+        <Text style={[styles.label, this.props.isDisabled && { color: Color.lightGrayColor } ]}>
           {translations.date}
         </Text>
         { this._renderDate() }

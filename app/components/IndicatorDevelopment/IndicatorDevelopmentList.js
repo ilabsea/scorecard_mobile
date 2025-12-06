@@ -90,7 +90,7 @@ class IndicatorDevelopmentList extends Component {
               <DraggableFlatList
                 data={selectedIndicators}
                 onDragEnd={({ data }) => this.updateIndicatorsOrder(data)}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) => item.uuid ?? index.toString()}
                 renderItem={(params) => this.renderItem(params)}
                 containerStyle={{marginHorizontal: -4, paddingHorizontal: containerPadding}}
                 ListHeaderComponent={<Tip screenName='IndicatorDevelopment' showTipModal={() => this.props.tipModalRef.current?.present()} containerStyle={{marginTop: containerPadding}} />}

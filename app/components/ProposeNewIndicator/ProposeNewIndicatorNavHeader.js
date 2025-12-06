@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BackHandler, TouchableWithoutFeedback} from 'react-native';
+import {BackHandler, TouchableWithoutFeedback, View} from 'react-native';
 import { Appbar } from 'react-native-paper';
 
 import { LocalizationContext } from '../Translations';
@@ -64,6 +64,7 @@ class ProposeNewIndicatorNavHeader extends Component {
   render() {
     return (
       <React.Fragment>
+        { this.props.isSearching && <View style={{ height: 64, width: '100%', position: 'absolute', top: 24, zIndex: 1, backgroundColor: 'white', opacity: 0.8 }}/> }
         <TouchableWithoutFeedback onPress={() => this.props.searchBoxRef.current?.closeSearch()}>
           <Appbar.Header style={{backgroundColor: Color.headerColor}}>
             <Appbar.BackAction onPress={() => this.onBackPress()} color='white' />

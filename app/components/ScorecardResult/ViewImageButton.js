@@ -18,6 +18,8 @@ class ViewImageButton extends Component {
           icon="image"
           label={this.context.translations.viewImage}
           onPress={() => navigate('SelectedImage', { scorecard_uuid: this.props.scorecardUuid }) }
+          labelStyle={{color: 'white'}}
+          iconStyle={{color: 'white'}}
         />
 
         { this.props.scorecardReferences.length > 0 &&

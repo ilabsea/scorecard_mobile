@@ -49,7 +49,7 @@ class ProposedIndicatorNewProposeButton extends Component {
               participantModalRef={this.props.participantModalRef}
               formModalRef={this.props.formModalRef}
               buttonStyle={proposedIndicatorStyleHelper.getAddNewProposeButtonStyles(appLanguage, 'button')}
-              buttonLabelStyle={proposedIndicatorStyleHelper.getAddNewProposeButtonStyles(appLanguage, 'label')}
+              buttonLabelStyle={[proposedIndicatorStyleHelper.getAddNewProposeButtonStyles(appLanguage, 'label'), { color: 'white' }]}
             />
           </View>
         }

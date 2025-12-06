@@ -99,6 +99,7 @@ class ScorecardPreferenceForm extends Component {
           date={this.state.date}
           onChangeDate={this.changeDate}
           scorecard={this.props.scorecard}
+          isDisabled={this.props.isDownloading || this.props.isDownloaded}
         />
 
         { this.renderLanguagePickers() }

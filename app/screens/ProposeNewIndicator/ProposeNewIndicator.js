@@ -106,7 +106,9 @@ class ProposeNewIndicator extends React.Component {
               proposedIndicators={this.state.proposedIndicators.length}
               isEdit={this.props.route.params.is_edit}
               ref={this.searchBoxRef}
-              updateIsSearching={(isSearching) => this.setState({isSearching})}
+              updateIsSearching={(isSearching) => {
+                this.setState({isSearching})
+              }}
               updateSelectedParticipant={(participantUuid) => this.updateSelectedParticipant(participantUuid)}
             />
   }
@@ -146,7 +148,13 @@ class ProposeNewIndicator extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <React.Fragment>
-          <ProposeNewIndicatorNavHeader bottomSheetRef={this.bottomSheetRef} formModalRef={this.formModalRef} handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()} searchBoxRef={this.searchBoxRef} />
+          <ProposeNewIndicatorNavHeader
+            bottomSheetRef={this.bottomSheetRef}
+            formModalRef={this.formModalRef}
+            handleUnconfirmedIndicator={() => this.handleUnconfirmedIndicator()}
+            searchBoxRef={this.searchBoxRef}
+            isSearching={this.state.isSearching}
+          />
           {this.renderBody()}
           <FormBottomSheetModal ref={this.bottomSheetRef} formModalRef={this.formModalRef} snapPoints={participantModalSnapPoints} onDismissModal={() => this.onBottomSheetDismiss()} />
         </React.Fragment>
