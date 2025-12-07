@@ -6,6 +6,7 @@ import { FontFamily } from '../../assets/stylesheets/theme/font';
 
 import ratings from '../../db/jsons/ratings';
 import { getVotingIcon } from '../../helpers/voting_indicator_helper';
+import ratingScaleHelper from '../../helpers/rating_scale_helper';
 import { getPluralOrSingularWord } from '../../utils/translation_util';
 import { getDeviceStyle } from '../../utils/responsive_util';
 import VotingInfoTabletStyles from '../../styles/tablet/VotingInfoComponentStyle';
@@ -25,7 +26,9 @@ class VotingMedianInfo extends Component {
       <View style={{flexDirection: 'row', alignItems: 'center', marginTop: getDeviceStyle(-3, -5)}}>
         <Text style={{fontSize: getDeviceStyle(22, 20)}}>(</Text>
         { getVotingIcon(currentIcon, iconSize, 0.55) }
-        <Text style={[responsiveStyles.normalText, { marginLeft: 8 }]}>{translations[currentIcon.label]}</Text>
+        <Text style={[responsiveStyles.normalText, { marginLeft: 8 }]}>
+          {ratingScaleHelper.getRatingScaleLabel(currentIcon.label, translations, this.props.scorecard)}
+        </Text>
         <Text style={{fontSize: getDeviceStyle(22, 20)}}>)</Text>
       </View>
     )

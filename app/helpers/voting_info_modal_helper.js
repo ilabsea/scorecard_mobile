@@ -51,7 +51,7 @@ const votingInfoModalHelper = (() => {
     const firstContent = <React.Fragment>
                           <BottomSheetModalTitle title={`${indicator.order}. ${selectedIndicator && selectedIndicator.content}`} />
                           <View style={{ paddingHorizontal: containerPadding, paddingTop: 10}}>
-                            <VotingMedianScoreInfo indicator={indicator} />
+                            <VotingMedianScoreInfo indicator={indicator} scorecard={scorecard} />
                             <VotingAverageScoreInfo votingInfos={votingInfos} />
                             { hasLessInfo && votingParticipantInfo }
                           </View>
