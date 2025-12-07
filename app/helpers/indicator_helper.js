@@ -85,6 +85,7 @@ const indicatorHelper = (() => {
           facility_id: indicator.categorizable.id,
           tag: indicator.tag_name,
           type: PREDEFINED,
+          hint: indicator.hint
         };
         Indicator.create(indicatorSet, scorecardUuid);
       }

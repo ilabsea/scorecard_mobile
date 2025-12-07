@@ -55,7 +55,7 @@ const Indicator = (() => {
     const endpointId = await endpointUrlHelper.getEndpointUrlByScorecard(scorecardUuid);
     const scorecard = Scorecard.find(scorecardUuid);
     const { facility_id, program_uuid } = scorecard;
-    const findQuery = ` AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}')`;
+    const findQuery = ` AND (name CONTAINS[c] '${text}' OR tag CONTAINS[c] '${text}' OR hint CONTAINS[c] '${text}')`;
     const predefindedIndicatorQuery = _mainQuery(program_uuid, endpointId, PREDEFINED, facility_id) + findQuery;
     const customIndicatorQuery = `${_mainQuery(program_uuid, endpointId, CUSTOM, null)} AND scorecard_uuid = '${scorecardUuid}' ${findQuery}`;
 

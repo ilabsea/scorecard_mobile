@@ -9,10 +9,13 @@ export const validScorecardUrls = [
   'http://isaf-stg.digital-csc.org',
   'https://isaf.digital-csc.org',
   'http://isaf.digital-csc.org',
+  'https://scorecard-stg.dojoconnect.co',
+  'http://scorecard-stg.dojoconnect.co'
 ];
 
 export const defaultEndpointUrls = [
-  { label: 'ISAF Testing Server', value: 'https://isaf-stg.digital-csc.org', type: DEFAULT, shortcut: 'TESTING', shortcut_bg_color: '#ffa500', shortcut_text_color: '#ffffff' },
+  // { label: 'ISAF Testing Server', value: 'https://isaf-stg.digital-csc.org', type: DEFAULT, shortcut: 'TESTING', shortcut_bg_color: '#ffa500', shortcut_text_color: '#ffffff' },
+  { label: 'ISAF Testing Server', value: 'https://scorecard-stg.dojoconnect.co', type: DEFAULT, shortcut: 'TESTING', shortcut_bg_color: '#ffa500', shortcut_text_color: '#ffffff' },
   { label: 'ISAF Production Server', value: 'https://isaf.digital-csc.org', type: DEFAULT, shortcut: 'ISAF', shortcut_bg_color: '#008000', shortcut_text_color: '#ffffff' },
 ]
 

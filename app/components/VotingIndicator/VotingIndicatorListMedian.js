@@ -5,6 +5,7 @@ import { LocalizationContext } from '../Translations';
 import ratings from '../../db/jsons/ratings';
 import { getVotingIcon } from '../../helpers/voting_indicator_helper';
 import { getDeviceStyle } from '../../utils/responsive_util';
+import ratingScaleHelper from '../../helpers/rating_scale_helper';
 import VotingIndicatorListItemTabletStyles from '../../styles/tablet/VotingIndicatorListItemComponentStyle';
 import VotingIndicatorListItemMobileStyles from '../../styles/mobile/VotingIndicatorListItemComponentStyle';
 
@@ -25,7 +26,7 @@ const VotingIndicatorListMedian = (props) => {
 
       <View style={{alignItems: 'center'}}>
         { getVotingIcon(currentIcon, iconSize, 0.75) }
-        <Text style={styles.medianText}>{translations[currentIcon.label]}</Text>
+        <Text style={styles.medianText}>{ratingScaleHelper.getRatingScaleLabel(currentIcon.label, translations, props.scorecard)}</Text>
       </View>
     </View>
   )

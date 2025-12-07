@@ -70,7 +70,7 @@ export default class VotingIndicatorListItem extends Component {
       <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
         <View style={[customStyle.card, styles.ratingItemContainer]}>
           { this._renderContent(indicator) }
-          <VotingIndicatorListMedian indicator={this.props.indicator} />
+          <VotingIndicatorListMedian indicator={this.props.indicator} scorecard={this.props.scorecard} />
         </View>
       </TouchableOpacity>
     )
