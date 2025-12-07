@@ -78,9 +78,7 @@ class ScorecardPreferenceForm extends Component {
     this.props.changeValue(languages[type].label, item.value)
   }
 
-  renderLanguagePickers() {
-    const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.props.scorecard.uuid);
-
+  renderLanguagePickers(hasScorecardDownload) {
     return <ScorecardPreferenceLanguagePickers
               languages={this.props.languages}
               textLocale={this.state.textLocale}
@@ -93,16 +91,17 @@ class ScorecardPreferenceForm extends Component {
   }
 
   renderForm = () => {
+    const hasScorecardDownload = scorecardPreferenceService.hasScorecardDownload(this.props.scorecard.uuid);
     return (
       <View style={{marginTop: 10}}>
         <DatePicker
           date={this.state.date}
           onChangeDate={this.changeDate}
           scorecard={this.props.scorecard}
-          isDisabled={this.props.isDownloading || this.props.isDownloaded}
+          isDisabled={this.props.isDownloading || this.props.isDownloaded || hasScorecardDownload}
         />
 
-        { this.renderLanguagePickers() }
+        { this.renderLanguagePickers(hasScorecardDownload) }
       </View>
     );
   };
