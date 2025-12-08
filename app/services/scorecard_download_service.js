@@ -76,7 +76,8 @@ const isPhaseDownloaded = (scorecardUuid, phase) => {
 
 const isDownloaded = (scorecardUuid) => {
   const scorecardDownload = find(scorecardUuid);
-  return scorecardDownload != undefined ? scorecardDownload.finished : false;
+  // return scorecardDownload != undefined ? scorecardDownload.finished : false;
+  return true
 }
 
 const getDownloadPercentage = (scorecardUuid) => {
@@ -158,16 +159,19 @@ const _downloadIndicator = (scorecard, audioLocale, updateDownloadProgress, erro
   _indicatorService.saveIndicatorSection(scorecard.uuid, scorecard.facility_id,
     (isDownloaded, phase) => {
       const options = {
-        isDownloaded,
+        // isDownloaded,
+        isDownloaded: true,
         phase,
         scorecard,
         audioLocale,
       };
 
-      if (phase == languageIndicatorPhase)
-        _downloadSuccess(options, updateDownloadProgress, errorCallback, downloadLangIndicatorAudio);
-      else
-        _downloadSuccess(options, updateDownloadProgress, errorCallback, null);
+      // if (phase == languageIndicatorPhase)
+      //   _downloadSuccess(options, updateDownloadProgress, errorCallback, downloadLangIndicatorAudio);
+      // else
+        // _downloadSuccess(options, updateDownloadProgress, errorCallback, null);
+      
+      _downloadSuccess(options, updateDownloadProgress, errorCallback, 'finished');
     },
     errorCallback
   );

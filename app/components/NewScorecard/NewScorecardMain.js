@@ -7,7 +7,6 @@ import {LocalizationContext} from '../Translations';
 import NewScorecardForm from './NewScorecardForm';
 import Color from '../../themes/color';
 import Brand from '../Home/Brand';
-import Logos from '../Home/Logos';
 
 import internetConnectionService from '../../services/internet_connection_service';
 import scorecardValidationService from '../../services/scorecard_validation_service';
@@ -73,19 +72,16 @@ class NewScorecardMain extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <View style={{justifyContent: 'center', flex: 1, paddingBottom: 80}}>
         <Spinner
           visible={this.props.isLoading}
           color={Color.primaryColor}
           overlayColor={Color.loadingBackgroundColor}
         />
 
-        <View style={{flex: 3}}></View>
-
         <Brand/>
         { this.renderForm() }
-        <Logos />
-      </React.Fragment>
+      </View>
     )
   }
 }
