@@ -91,6 +91,16 @@
             android:host="isaf-stg.ilabsea.org"
             android:pathPrefix="/scorecards"
           />
+          <data
+            android:scheme="https"
+            android:host="scorecard-stg.dojoconnect.co"
+            android:pathPrefix="/scorecards"
+          />
+          <data
+            android:scheme="http"
+            android:host="scorecard-stg.dojoconnect.co"
+            android:pathPrefix="/scorecards"
+          />
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
