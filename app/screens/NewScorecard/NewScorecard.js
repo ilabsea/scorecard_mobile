@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground, KeyboardAvoidingView } from 'react-native';
 
 import {LocalizationContext} from '../../components/Translations';
 import NewScorecardMessageModal from '../../components/NewScorecard/NewScorecardMessageModal';
@@ -176,12 +176,14 @@ class NewScorecard extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
-          <View style={{alignItems: 'center', flex: 1}}>
-            { this.renderContent() }
-            { this.renderModals() }
-          </View>
-        </ImageBackground>
+        <KeyboardAvoidingView behavior='height' style={{flex: 1}}>
+          <ImageBackground source={require('../../assets/images/home/bg.jpg')} style={styles.imageBg}>
+            <View style={{alignItems: 'center', flex: 1}}>
+              { this.renderContent() }
+              { this.renderModals() }
+            </View>
+          </ImageBackground>
+        </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     );
   }
