@@ -21,7 +21,8 @@ class DisplayScorecardInfo extends Component {
       {label: 'province', fieldName: 'province', isObject: false},
       {label: 'district', fieldName: 'district', isObject: false},
       {label: 'commune', fieldName: 'commune', isObject: false},
-      {label: 'facilityName', fieldName: 'dataset', isObject: true},
+      // {label: 'facilityName', fieldName: 'dataset', isObject: true},
+      {label: 'village', fieldName: 'dataset', isObject: true},
       {label: 'implementer', fieldName: 'local_ngo_name', isObject: false},
     ];
 
@@ -37,7 +38,8 @@ class DisplayScorecardInfo extends Component {
 
       return (
         <TextInput
-          label={ renderField.label != 'facilityName' ? translations[renderField.label] : this.getFieldValueByLanguage(scorecardDetail.facility, appLanguage)}
+          // label={ renderField.label != 'facilityName' ? translations[renderField.label] : this.getFieldValueByLanguage(scorecardDetail.facility, appLanguage)}
+          label={translations[renderField.label]}
           mode="outlined"
           value={value}
           editable={false}

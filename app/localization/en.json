@@ -37,6 +37,7 @@
   "province": "Province",
   "district": "District",
   "commune": "Commune",
+  "village": "Village",
   "implementer": "Implementer",
   "getStarted": "Get Started",
   "scorecardPreference": "Scorecard Preference",
