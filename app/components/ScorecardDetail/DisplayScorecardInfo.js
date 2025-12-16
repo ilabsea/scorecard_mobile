@@ -6,14 +6,18 @@ import { bodyFontSize } from '../../utils/font_size_util';
 class DisplayScorecardInfo extends Component {
   static contextType = LocalizationContext;
 
-  getFieldValueByLanguage = (fieldData, appLanguage) => {
+  getFieldValueByLanguage = (fieldData, appLanguage, isCategoryName = false) => {
     const attrs = JSON.parse(fieldData);
+    if (isCategoryName)
+      return appLanguage == 'km' ? attrs.category_name_km : attrs.category_name_en;
+
     return appLanguage == 'km' ? attrs.name_km : attrs.name_en;
   }
 
   render() {
     const {translations, appLanguage} = this.context;
     const {scorecardDetail} = this.props;
+
     const renderFields = [
       {label: 'year', fieldName: 'year', isObject: false},
       {label: 'facility', fieldName: 'facility', isObject: true},
@@ -21,8 +25,7 @@ class DisplayScorecardInfo extends Component {
       {label: 'province', fieldName: 'province', isObject: false},
       {label: 'district', fieldName: 'district', isObject: false},
       {label: 'commune', fieldName: 'commune', isObject: false},
-      // {label: 'facilityName', fieldName: 'dataset', isObject: true},
-      {label: 'village', fieldName: 'dataset', isObject: true},
+      {label: 'categoryName', fieldName: 'dataset', isObject: true},
       {label: 'implementer', fieldName: 'local_ngo_name', isObject: false},
     ];
 
@@ -38,8 +41,7 @@ class DisplayScorecardInfo extends Component {
 
       return (
         <TextInput
-          // label={ renderField.label != 'facilityName' ? translations[renderField.label] : this.getFieldValueByLanguage(scorecardDetail.facility, appLanguage)}
-          label={translations[renderField.label]}
+          label={ renderField.label != 'categoryName' ? translations[renderField.label] : this.getFieldValueByLanguage(scorecardDetail[renderField.fieldName], appLanguage, true)}
           mode="outlined"
           value={value}
           editable={false}
