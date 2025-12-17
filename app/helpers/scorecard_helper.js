@@ -128,8 +128,9 @@ const scorecardHelper = (() => {
     if (!!scorecard.dataset) {
       if (hideFacility) return JSON.parse(scorecard.dataset)[`name_${language}`]
 
-      const facility = JSON.parse(scorecard.facility)[`name_${language}`];
-      let factory = `${JSON.parse(scorecard.dataset)[`name_${language}`]}`
+      const dataset = JSON.parse(scorecard.dataset);
+      const facility = dataset[`category_name_${language}`];
+      let factory = dataset[`name_${language}`]
       factory = language == 'km' ? `${facility} ${factory}, ` : `${factory} ${facility}, `;
       return factory;
     }
