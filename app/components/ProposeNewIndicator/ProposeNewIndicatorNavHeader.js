@@ -64,11 +64,11 @@ class ProposeNewIndicatorNavHeader extends Component {
   render() {
     return (
       <React.Fragment>
-        { this.props.isSearching && <View style={{ height: 64, width: '100%', position: 'absolute', top: 24, zIndex: 1, backgroundColor: 'white', opacity: 0.8 }}/> }
         <TouchableWithoutFeedback onPress={() => this.props.searchBoxRef.current?.closeSearch()}>
           <Appbar.Header style={{backgroundColor: Color.headerColor}}>
             <Appbar.BackAction onPress={() => this.onBackPress()} color='white' />
             <NavigationHeaderBody title={this.context.translations.proposeNewIndicatorTitle} />
+            { this.props.isSearching && <View style={{ height: 64, width: '110%', position: 'absolute', top: 0, zIndex: 1, backgroundColor: 'white', opacity: 0.8 }}/> }
           </Appbar.Header>
         </TouchableWithoutFeedback>
 
