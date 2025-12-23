@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import AudioCardView from 'react-native-audio-card-view';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import {connect} from 'react-redux';
 
 import { LocalizationContext } from '../Translations';
