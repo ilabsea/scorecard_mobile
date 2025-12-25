@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { RectButton } from 'react-native-gesture-handler';
 
 import { LocalizationContext } from '../Translations';
