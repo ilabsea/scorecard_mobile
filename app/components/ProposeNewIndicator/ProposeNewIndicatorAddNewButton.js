@@ -24,7 +24,8 @@ class ProposedNewIndicatorAddNewButton extends React.Component {
               label={this.context.translations.createNewIndicator}
               buttonStyle={{marginBottom: getDeviceStyle(20, 16), marginHorizontal: 16, height: getDeviceStyle(72, 62)}}
               iconFontSize={getDeviceStyle(38, 32)}
-              labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 16), marginTop: getDeviceStyle(6, 4)}}
+              labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 16), marginTop: getDeviceStyle(6, 4), color: 'white'}}
+              iconStyle={{color: 'white'}}
               subLabel={`(${this.props.searchedText})`}
               onPress={() => this.save()}
            />

@@ -129,7 +129,10 @@ class ParticipantModalMain extends React.Component {
         </View>
 
         { this.isCreateIndicatorByIndicatorBase &&
-          <FormBottomSheetButton isValid={true} save={() => this.props.participantModalRef.current?.dismiss()} wrapperStyle={{marginTop: 0, paddingTop: 16}} />
+          <FormBottomSheetButton
+            isValid={this.state.raisedParticipantUuids.length > 0}
+            save={() => this.props.participantModalRef.current?.dismiss()} wrapperStyle={{marginTop: 0, paddingTop: 16}}
+          />
         }
       </View>
     )

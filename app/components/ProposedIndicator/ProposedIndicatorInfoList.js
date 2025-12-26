@@ -73,7 +73,9 @@ class ProposedIndicatorInfoList extends Component {
         { this.state.listType == 'participant' ?
           <ProposedIndicatorRaisedParticipantList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef} isIndicatorBase={this.props.isIndicatorBase} />
           :
-          <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef} />
+          <ProposedIndicatorRaisedIndicatorList scorecardUuid={this.props.scorecardUuid} participantModalRef={this.props.participantModalRef} formModalRef={this.props.formModalRef}
+            isIndicatorBase={this.props.isIndicatorBase}
+          />
         }
       </React.Fragment>
     )

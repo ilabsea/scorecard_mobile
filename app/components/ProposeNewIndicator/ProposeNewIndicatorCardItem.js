@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import TextHighlight from 'react-native-text-highlighter';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 
 import {LocalizationContext} from '../Translations';
 import SwipeLeftButton from '../Share/SwipeLeftButton';

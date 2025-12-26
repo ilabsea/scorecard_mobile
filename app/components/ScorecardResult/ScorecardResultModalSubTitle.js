@@ -25,6 +25,7 @@ const ScorecardResullModalSubTitle = (props) => {
           label={ translations.addNew }
           onPress={() => props.addNewPoint() }
           disabled={props.isScorecardFinished}
+          buttonColor={{color: 'white'}}
         />
       }
     </View>

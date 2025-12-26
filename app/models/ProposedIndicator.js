@@ -135,8 +135,17 @@ const ProposedIndicator = (() => {
 
   function deleteByIndicator(scorecardUuid, indicatorableId) {
     const proposedIndicators = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND indicatorable_id = '${ indicatorableId }'`);
-    if (proposedIndicators.length > 0)
+    if (proposedIndicators.length > 0) {
+      const participantUuids = proposedIndicators.map(proposedIndicator => {
+        return proposedIndicator.participant_uuid;
+      });
       destroy(proposedIndicators)
+      participantUuids.forEach(participantUuid => {
+        const proposedIndicatorsByParticipant = realm.objects(MODEL).filtered(`scorecard_uuid = '${ scorecardUuid }' AND participant_uuid = '${ participantUuid }'`);
+        if (proposedIndicatorsByParticipant.length == 0)
+          Participant.update(participantUuid, { raised: false });
+      });
+    }
   }
 
   function deleteByIndicatorByParticipant(scorecardUuid, indicatorableId, participantUuid) {
