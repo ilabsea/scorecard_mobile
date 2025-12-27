@@ -6,9 +6,10 @@ import {
 } from '../services/local_file_system_service';
 
 import { getEachAudioFilePercentage } from '../utils/scorecard_detail_util';
+import settingHelper from '../helpers/setting_helper';
 
 // options parameter contains items, type, and phase
-const downloadAudio = (index, options, successCallback, errorCallback, storeAudioUrl) => {
+const downloadAudio = async (index, options, successCallback, errorCallback, storeAudioUrl) => {
   const { items, type, phase } = options;
   const eachFilePercentage = getEachAudioFilePercentage(items.length);
 
@@ -19,8 +20,8 @@ const downloadAudio = (index, options, successCallback, errorCallback, storeAudi
 
   const item = items[index];
   if (item.audio) {
-
-    const audioUrl = environment.type == 'development' ? `${environment.domain}${item.audio}` : item.audio;
+    const settingData = await settingHelper.getSettingData();
+    const audioUrl = environment.type == 'development' ? `${settingData.backendUrl}${item.audio}` : item.audio;
     const itemOptions = {
       audioUrl: audioUrl,
       item: item,
