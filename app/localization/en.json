@@ -432,5 +432,9 @@
   "anon": "Anon.",
   "newIndicator": "New indicator",
   "votingParticipantLabel": "Participant",
-  "deleteProposedIndicatorByParticipant": "Delete proposed indicators raised by the participant"
+  "deleteProposedIndicatorByParticipant": "Delete proposed indicators raised by the participant",
+  "implementationMethod": "Implementation method",
+  "pleaseChooseImplementationMethod": "Please choose the implementation method for this scorecard",
+  "offlineMode": "Implement without internet",
+  "onlineMode": "Implement with internet"
 }

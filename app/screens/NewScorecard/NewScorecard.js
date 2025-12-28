@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground, 
 import {LocalizationContext} from '../../components/Translations';
 import NewScorecardMessageModal from '../../components/NewScorecard/NewScorecardMessageModal';
 import NewScorecardMain from '../../components/NewScorecard/NewScorecardMain';
+import ScorecardModeBottomSheet from '../../components/NewScorecard/ScorecardModeBottomSheet';
 
 import {checkConnection, getErrorType} from '../../services/api_service';
 import newScorecardService from '../../services/new_scorecard_service';
@@ -33,6 +34,7 @@ class NewScorecard extends Component {
 
     this.unsubscribeNetInfo;
     this.scorecardRef = React.createRef();
+    this.scorecardModeModalRef = React.createRef();
     this.componentIsUnmount = false;
     _this = this;
   }
@@ -66,22 +68,26 @@ class NewScorecard extends Component {
   }
 
   joinScorecard = (code) => {
-    _this.setState({ isLoading: true });
+    // _this.setState({ isLoading: true });
 
-    newScorecardService.joinScorecard(code,
-      (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
-      () => _this.handleJoinScorecardSuccess(),
-      (error, isLocked, isInvalidScorecard) => _this.handleJoinScorecardError(error, isLocked, isInvalidScorecard)
-    );
+    // newScorecardService.joinScorecard(code,
+    //   (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
+    //   () => _this.handleJoinScorecardSuccess(),
+    //   (error, isLocked, isInvalidScorecard) => _this.handleJoinScorecardError(error, isLocked, isInvalidScorecard)
+    // );
 
-    checkConnection((type, message) => {
-      if (!_this.componentIsUnmount)
-        _this.setState({
-          messageType: type,
-          errorMsg: message,
-          isLoading: false,
-        });
-    });
+    // checkConnection((type, message) => {
+    //   if (!_this.componentIsUnmount)
+    //     _this.setState({
+    //       messageType: type,
+    //       errorMsg: message,
+    //       isLoading: false,
+    //     });
+    // });
+
+    console.log('====== Show bottom sheet =======');
+
+    this.scorecardModeModalRef.current?.present();
   }
 
   async handleErrorScorecard(errorType, isLocked = false, isInvalidScorecard = false) {
@@ -183,6 +189,10 @@ class NewScorecard extends Component {
               { this.renderModals() }
             </View>
           </ImageBackground>
+
+          <ScorecardModeBottomSheet
+            scorecardModeModalRef={this.scorecardModeModalRef}
+          />
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     );

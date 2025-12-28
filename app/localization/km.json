@@ -432,5 +432,9 @@
   "anon": "អនា.",
   "newIndicator": "លក្ខណៈវិនិច្ឆ័យថ្មី",
   "votingParticipantLabel": "អ្នកចូលរួម",
-  "deleteProposedIndicatorByParticipant": "លុបលក្ខណៈវិនិច្ឆ័យដែលបានស្នើដោយអ្នកចូលរួម"
+  "deleteProposedIndicatorByParticipant": "លុបលក្ខណៈវិនិច្ឆ័យដែលបានស្នើដោយអ្នកចូលរួម",
+  "implementationMethod": "វិធីសាស្ត្រអនុវត្ត",
+  "pleaseChooseImplementationMethod": "សូមជ្រើសរើសវិធីសាស្ត្រអនុវត្តសម្រាប់ប័ណ្ណដាក់ពិន្ទុនេះ",
+  "offlineMode": "អនុវត្តដោយមិនប្រើអ៊ីនធឺណិត",
+  "onlineMode": "អនុវត្តដោយប្រើអ៊ីនធឺណិត"
 }
