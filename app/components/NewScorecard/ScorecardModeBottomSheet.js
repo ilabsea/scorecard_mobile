@@ -69,7 +69,7 @@ const ScorecardModeBottomSheet = (props) => {
             isValid={true}
             label={translations.continue}
             wrapperStyle={{marginTop: 16}}
-            save={() => {}}
+            save={() => props.onContinue(isOffline)}
           />
         </View>
       </View>

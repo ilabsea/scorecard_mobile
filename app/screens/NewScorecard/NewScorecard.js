@@ -12,6 +12,7 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { ERROR_INVALID_SCORECARD_URL, ERROR_SCORECARD_NOT_EXIST } from '../../constants/error_constant';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
+import Scorecard from '../../models/Scorecard';
 
 let _this = null;
 class NewScorecard extends Component {
@@ -67,27 +68,25 @@ class NewScorecard extends Component {
     });
   }
 
-  joinScorecard = (code) => {
-    // _this.setState({ isLoading: true });
+  saveScorecard = (isOffline) => {
+    this.scorecardModeModalRef.current?.dismiss();
+    _this.setState({ isLoading: true });
 
-    // newScorecardService.joinScorecard(code,
-    //   (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
-    //   () => _this.handleJoinScorecardSuccess(),
-    //   (error, isLocked, isInvalidScorecard) => _this.handleJoinScorecardError(error, isLocked, isInvalidScorecard)
-    // );
+    newScorecardService.joinScorecard(
+      this.state.code,
+      (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
+      () => _this.handleJoinScorecardSuccess(isOffline),
+      (error, isLocked, isInvalidScorecard) => _this.handleJoinScorecardError(error, isLocked, isInvalidScorecard)
+    );
 
-    // checkConnection((type, message) => {
-    //   if (!_this.componentIsUnmount)
-    //     _this.setState({
-    //       messageType: type,
-    //       errorMsg: message,
-    //       isLoading: false,
-    //     });
-    // });
-
-    console.log('====== Show bottom sheet =======');
-
-    this.scorecardModeModalRef.current?.present();
+    checkConnection((type, message) => {
+      if (!_this.componentIsUnmount)
+        _this.setState({
+          messageType: type,
+          errorMsg: message,
+          isLoading: false,
+        });
+    });
   }
 
   async handleErrorScorecard(errorType, isLocked = false, isInvalidScorecard = false) {
@@ -103,8 +102,11 @@ class NewScorecard extends Component {
     });
   }
 
-  handleJoinScorecardSuccess() {
+  handleJoinScorecardSuccess(isOffline) {
     _this.setState({isLoading: false});
+
+    Scorecard.update(_this.state.code, { is_offline: isOffline })
+
     _this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: _this.state.code});
   }
 
@@ -159,7 +161,7 @@ class NewScorecard extends Component {
               errorMsg={this.state.errorMsg}
               messageType={this.state.messageType}
               updateScorecardCode={(code) => _this.setState({ code })}
-              joinScorecard={this.joinScorecard}
+              joinScorecard={() => this.scorecardModeModalRef.current?.present()}
               navigation={this.props.navigation}
               handleInvalidUrl={this.handleErrorScorecard}
               isLocked={this.state.isLocked}
@@ -192,6 +194,7 @@ class NewScorecard extends Component {
 
           <ScorecardModeBottomSheet
             scorecardModeModalRef={this.scorecardModeModalRef}
+            onContinue={(isOffline) => this.saveScorecard(isOffline)}
           />
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
