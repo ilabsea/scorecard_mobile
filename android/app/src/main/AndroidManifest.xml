@@ -93,12 +93,22 @@
           />
           <data
             android:scheme="https"
-            android:host="scorecard-stg.dojoconnect.co"
+            android:host="digitalscorecard.org"
             android:pathPrefix="/scorecards"
           />
           <data
             android:scheme="http"
-            android:host="scorecard-stg.dojoconnect.co"
+            android:host="digitalscorecard.org"
+            android:pathPrefix="/scorecards"
+          />
+          <data
+            android:scheme="https"
+            android:host="staging.digitalscorecard.org"
+            android:pathPrefix="/scorecards"
+          />
+          <data
+            android:scheme="http"
+            android:host="staging.digitalscorecard.org"
             android:pathPrefix="/scorecards"
           />
         </intent-filter>
