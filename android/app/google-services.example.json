@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "CHANGE_ME",
         "android_client_info": {
-          "package_name": "org.instedd.ilabsea.community_scorecard"
+          "package_name": "kh.org.carecambodia.scorecard"
         }
       },
       "oauth_client": [

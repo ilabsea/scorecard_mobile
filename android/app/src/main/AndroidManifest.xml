@@ -3,8 +3,8 @@
 >
 
     <queries>
-        <package android:name="org.instedd.ilabsea.community_scorecard.store" />
-        <package android:name="org.instedd.ilabsea.community_scorecard.services" />
+        <package android:name="kh.org.carecambodia.scorecard.store" />
+        <package android:name="kh.org.carecambodia.scorecard.services" />
         <intent>
             <action android:name="com.google.android.youtube.api.service.START" />
         </intent>
@@ -107,7 +107,7 @@
 
       <provider
         android:name="androidx.core.content.FileProvider"
-        android:authorities="org.instedd.ilabsea.community_scorecard.provider"
+        android:authorities="kh.org.carecambodia.scorecard.provider"
         android:grantUriPermissions="true"
         android:exported="false">
         <meta-data

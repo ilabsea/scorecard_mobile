@@ -1,4 +1,4 @@
-package org.instedd.ilabsea.community_scorecard;
+package kh.org.carecambodia.scorecard;
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
