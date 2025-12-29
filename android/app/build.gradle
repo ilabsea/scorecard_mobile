@@ -83,13 +83,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "org.instedd.ilabsea.community_scorecard"
+    namespace "kh.org.carecambodia.scorecard"
     defaultConfig {
-        applicationId "org.instedd.ilabsea.community_scorecard"
+        applicationId "kh.org.carecambodia.scorecard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 15022
-        versionName "1.5.22"
+        versionName "1.0.0"
+        versionCode calculateVersionCode(versionName)
     }
     signingConfigs {
         debug {
@@ -123,4 +123,12 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+}
+
+def calculateVersionCode(versionName) {
+    def parts = versionName.split("\\.")
+    def major = parts[0].toInteger() * 10000000
+    def minor = parts[1].toInteger() * 1000
+    def patch = parts[2].toInteger()
+    return major + minor + patch
 }
