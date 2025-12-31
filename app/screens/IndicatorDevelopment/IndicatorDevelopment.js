@@ -70,7 +70,14 @@ class IndicatorDevelopment extends Component {
     });
 
     scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
-    this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
+
+    const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid);
+    if (scorecard.is_offline) {
+      this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
+    }
+    else {
+      this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.state.scorecard.uuid });
+    }
   }
 
   openModal() {

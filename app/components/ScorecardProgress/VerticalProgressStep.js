@@ -10,6 +10,7 @@ import Color from '../../themes/color';
 import uuidv4 from '../../utils/uuidv4';
 import MilestoneCard from './MilestoneCard';
 import ScorecardStep from '../../models/ScorecardStep';
+import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
 
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -20,6 +21,15 @@ export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
 
   onPress(step) {
+    console.log('=== route name = ', step.routeName);
+    if (step.routeName == 'VotingIndicatorList') {
+      const scorecard = Scorecard.find(this.props.scorecard.uuid);
+      if (scorecard.is_offline) {
+        navigate('VotingQr', { scorecard_uuid: this.props.scorecard.uuid });
+        return;
+      }
+    }
+
     navigate(step.routeName, { scorecard_uuid: this.props.scorecard.uuid, local_ngo_id: this.props.scorecard.local_ngo_id });
   }
 

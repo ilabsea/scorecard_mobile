@@ -1,5 +1,6 @@
 import Participant from '../models/Participant';
 import ProposedIndicator from '../models/ProposedIndicator';
+import uuidv4 from '../utils/uuidv4';
 
 const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => {
   const participants = Participant.getAllByScorecard(scorecardUuid);

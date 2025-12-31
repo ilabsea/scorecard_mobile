@@ -97,7 +97,7 @@ class SettingUrlEndpointPicker extends React.Component {
             onPressRightButton={() => navigate('AddNewEndpointUrl')}
             onPressBottomButton={() => this.changeSelectedEndpoint()}
             showConfirmDelete={(item) => this.showConfirmDelete(item)}
-            hasAddButton={false}
+            hasAddButton={true}
             hasBottomButton={true}
             bottomInfoMessage={<SettingUrlEndpointWarningMessages/>}
             isSelctedItemMatched={(selectedEndpoint) => selectedEndpoint === this.props.selectedEndpointUrl}
