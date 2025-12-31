@@ -2,7 +2,7 @@ import VotingIndicator from '../models/VotingIndicator';
 import proposedIndicatorHelper from '../helpers/proposed_indicator_helper';
 import { getIndicatorActivitiesAttrs } from '../helpers/indicator_activity_helper';
 
-const votingAttributesHelper = (() => {
+const votingAttributesUtil = (() => {
   return {
     parse
   }
@@ -26,4 +26,4 @@ const votingAttributesHelper = (() => {
   }
 })();
 
-export default votingAttributesHelper;
+export default votingAttributesUtil;

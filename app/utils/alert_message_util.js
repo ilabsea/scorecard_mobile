@@ -94,6 +94,10 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.theServerUrlHasChanged,
       description: translations.sharePDFMismatchEndpointMessage
     },
+    'ERROR_DRAFT_SUBMIT': {
+      title: translations.failedDraftSubmitTheScorecard,
+      description: translations.errorDraftSubmitScorecardMessage
+    },
     'DEFAULT': {
       title: translations.somethingWentWrong,
       description: translations.formatString(translations.somethingWentWrongMessage, endpoint)

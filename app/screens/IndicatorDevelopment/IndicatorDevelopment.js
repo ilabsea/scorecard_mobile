@@ -8,6 +8,7 @@ import ProposedIndicatorListModalContent from '../../components/IndicatorDevelop
 import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/IndicatorDevelopmentContent';
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
@@ -19,9 +20,11 @@ import Scorecard from '../../models/Scorecard';
 import votingIndicatorService from '../../services/voting_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import { containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
+import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
+import { bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
+import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -31,7 +34,9 @@ class IndicatorDevelopment extends Component {
 
     this.state = {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
-      playingUuid: null
+      playingUuid: null,
+      visibleModal: false,
+      errorType: null
     };
 
     this.tipModalRef = React.createRef();
@@ -76,7 +81,18 @@ class IndicatorDevelopment extends Component {
       this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
     }
     else {
-      this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.state.scorecard.uuid });
+      onlineScorecardSubmissionService.draftSubmit({
+        scorecardUuid: props.route.params.scorecard_uuid,
+        successCallback: () => {
+          this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.state.scorecard.uuid });
+        },
+        errorCallback: (errorType) => {
+          this.setState({
+            errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT,
+            visibleModal: true
+          });
+        }
+      });
     }
   }
 
@@ -125,6 +141,12 @@ class IndicatorDevelopment extends Component {
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='IndicatorDevelopment' />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.indicatorListModalRef} snapPoints={indicatorDevelopmentModalSnapPoints} />
+        <ErrorAlertMessage
+          visible={this.state.visibleModal}
+          errorType={this.state.errorType}
+          scorecardUuid={this.state.scorecard.uuid}
+          onDismiss={() => this.setState({ visibleModal: false })}
+        />
       </View>
     )
   }

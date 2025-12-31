@@ -436,5 +436,7 @@
   "implementationMethod": "Implementation method",
   "pleaseChooseImplementationMethod": "Please choose the implementation method for this scorecard",
   "offlineMode": "Implement without internet",
-  "onlineMode": "Implement with internet"
+  "onlineMode": "Implement with internet",
+  "failedDraftSubmitTheScorecard": "Failed to submit the draft of the scorecard",
+  "errorDraftSubmitScorecardMessage": "Unable to submit the draft of this scorecard. It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to submit the scorecard again or contact the program administrator for more detail."
 }
