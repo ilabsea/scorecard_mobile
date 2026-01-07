@@ -34,6 +34,7 @@ const schemaV26 = {
 
     for (let i = 0; i < oldScorecards.length; i++) {
       newScorecards[i].is_offline = !oldScorecards[i].is_offline ? true : oldScorecards[i].is_offline;
+      newScorecards[i].is_open_voting = !oldScorecards[i].is_open_voting ? false : oldScorecards[i].is_open_voting;
     }
   }
 }

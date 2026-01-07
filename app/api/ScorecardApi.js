@@ -28,6 +28,15 @@ class ScorecardApi extends BaseApi {
 
     return BaseApi.request(options);
   }
+
+  getQrCode = async (id) => {
+    const options = {
+      url: '/api/v1/' + this.responsibleModel + '/' + id + '/qr_code',
+      method: 'GET',
+    }
+
+    return BaseApi.request(options);
+  }
 }
 
 export default ScorecardApi;

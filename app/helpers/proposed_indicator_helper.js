@@ -30,7 +30,11 @@ const proposedIndicatorHelper = (() => {
       let indicatorAttrs = _getIndicatorAttrs(proposedIndicator);
       let attr = getAttributesByColumns(proposedIndicator, columns);
 
-      attr.indicatorable_type = indicatorAttrs.type;
+
+      // Indicators::PredefineIndicator or Indicators::CustomIndicator
+
+      attr.indicatorable_type = "Indicators::PredefineIndicator";
+      // attr.indicatorable_type = indicatorAttrs.type;
       attr.indicatorable_id = indicatorAttrs.indicatorable_id;
       attr.indicator_uuid = indicatorAttrs.indicator_uuid;
 

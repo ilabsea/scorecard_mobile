@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Animated, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -13,28 +13,64 @@ import {
   bottomButtonContainerPadding
 } from '../../utils/responsive_util';
 import { headerShrinkOffset } from '../../constants/component_style_constant';
+import Scorecard from '../../models/Scorecard';
+import scorecardProgressService from '../../services/scorecard_progress_service';
+import ScorecardApi from '../../api/ScorecardApi';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
-import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
+// import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
 
 const VotingQr = (props) => {
   const { translations } = useContext(LocalizationContext);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [qrCode, setQrCode] = useState(null);
   const [errorType, setErrorType] = useState(null);
+  const scorecardApi = new ScorecardApi();
 
   const scrollY = new Animated.Value(0)
   var isHeaderShrunk = false
 
-  const _goNext = () => {
-    onlineScorecardSubmissionService.draftSubmit({
-      scorecardUuid: props.route.params.scorecard_uuid,
-      successCallback: () => {
-        // Todo: Send API request to download the QR code image
+  useEffect(() => {
+    const scorecard = Scorecard.find(props.routes.params.scorecard_uuid);
+    console.log('=== is scorecard opened = ', scorecard.is_open_voting);
+
+    // if (!scorecard.is_open_voting) {
+    //   scorecardProgressService.setOpenCloseVoting({
+    //     scorecardUuid: props.routes.params.scorecard_uuid,
+    //     isOpen: true,
+    //     successCallback: () => {
+    //       downloadQrCode();
+    //     },
+    //     errroCallback: (error) => {
+    //       console.log('==== Error Open voting scorecard = ', error);
+    //     }
+    //   });
+    // }
+  }, []);
+
+  const downloadQrCode = async () => {
+    // const response = await scorecardApi.getQrCode(props.routes.params.scorecard_uuid);
+    onlineScorecardSubmissionService.downloadVotingQrCode({
+      scorecardUuid: props.routes.params.scorecard_uuid,
+      successCallback: (qrCodeFilePath) => {
+        setQrCode(qrCodeFilePath);
       },
-      errorCallback: (errorType) => {
-        setErrorType(errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT);
-        setVisibleModal(true);
+      errorCallback: (error) => {
+        // Todo: show an error message, if failed to download the QR code
       }
-    });
+    })
+  }
+
+  const _goNext = () => {
+    // onlineScorecardSubmissionService.draftSubmit({
+    //   scorecardUuid: props.route.params.scorecard_uuid,
+    //   successCallback: () => {
+    //     // Todo: Send API request to download the QR code image
+    //   },
+    //   errorCallback: (errorType) => {
+    //     setErrorType(errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT);
+    //     setVisibleModal(true);
+    //   }
+    // });
   }
 
   const _renderBody = () => {

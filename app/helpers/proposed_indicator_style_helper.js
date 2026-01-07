@@ -76,8 +76,8 @@ const proposedIndicatorStyleHelper = (() => {
     return searchContainerHeight - (isShortScreenDevice() ? 185 : 183)
   }
 
-  function getCardTitleStyles(isIndicatorBase) {
-    return { marginTop: getDeviceStyle(18, 14), marginBottom: isIndicatorBase ? 0 : getDeviceStyle(10, 6) }
+  function getCardTitleStyles(isIndicatorBase, isOffline) {
+    return { marginTop: getDeviceStyle(18, 14), marginBottom: (isIndicatorBase && isOffline) ? 0 : getDeviceStyle(10, 6) }
   }
 })()
 

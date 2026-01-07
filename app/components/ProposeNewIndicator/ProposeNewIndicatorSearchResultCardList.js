@@ -4,10 +4,12 @@ import {LocalizationContext} from '../Translations';
 import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
 import Color from '../../themes/color';
 import ProposedIndicator from '../../models/ProposedIndicator';
+import Scorecard from '../../models/Scorecard';
 
 class ProposeNewIndicatorSearchResultCardList extends React.Component {
   static contextType = LocalizationContext;
   renderResult = () => {
+    const scorecard = Scorecard.find(this.props.scorecardUuid);
     return this.props.indicators.map(indicator => {
       const proposedIndicator = this.props.isIndicatorBase ? ProposedIndicator.findByIndicator(this.props.scorecardUuid, indicator.indicatorable_id)[0]
                                   : ProposedIndicator.findByParticipant(this.props.scorecardUuid, indicator.indicatorable_id, this.props.participantUuid)
@@ -20,6 +22,7 @@ class ProposeNewIndicatorSearchResultCardList extends React.Component {
                 onPressItem={() => this.props.onPressItem(indicator)}
                 isSwipeable={false}
                 playingUuid={this.props.playingUuid}
+                isOffline={scorecard.is_offline}
                 updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
              />
     })
