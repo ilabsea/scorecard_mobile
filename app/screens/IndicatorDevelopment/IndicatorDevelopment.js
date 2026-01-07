@@ -84,12 +84,9 @@ class IndicatorDevelopment extends Component {
       onlineScorecardSubmissionService.draftSubmit({
         scorecardUuid: this.props.route.params.scorecard_uuid,
         successCallback: () => {
-          this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.state.scorecard.uuid });
+          this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.props.route.params.scorecard_uuid });
         },
         errorCallback: (errorType) => {
-
-          console.log('=== save draft error = ', errorType);
-
           this.setState({
             errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT,
             visibleModal: true

@@ -18,20 +18,11 @@ const onlineScorecardSubmissionService = (() => {
   async function draftSubmit({scorecardUuid, successCallback, errorCallback}) {
     const scorecard = Scorecard.find(scorecardUuid);
     let attrs = await scorecardAttributes(scorecard);
-    console.log('*************************');
-    console.log('== scorecard uuid = ', scorecardUuid);
-    console.log('=== scorecard attrs = ', attrs);
-    
-    scorecardApi.put(this.scorecardUuid, attrs)
+    scorecardApi.put(scorecardUuid, attrs)
       .then(function (response) {
-
-        console.log('== full response = ', response);
-
         if (response.status == 200)
           successCallback();
         else if (response.error)
-          console.log('=== draft error = ', response);
-
           !!errorCallback && errorCallback(getErrorType(response.error.status));
       });
   }

@@ -30,7 +30,7 @@ const VotingQr = (props) => {
   var isHeaderShrunk = false
 
   useEffect(() => {
-    const scorecard = Scorecard.find(props.routes.params.scorecard_uuid);
+    const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
     console.log('=== is scorecard opened = ', scorecard.is_open_voting);
 
     // if (!scorecard.is_open_voting) {
