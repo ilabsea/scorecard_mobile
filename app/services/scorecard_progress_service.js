@@ -28,15 +28,31 @@ const scorecardProgressService = (() => {
   }
 
   async function setOpenCloseVoting({ scorecardUuid, isOpen, successCallback, errorCallback }) {
+    const scorecard = Scorecard.find(scorecardUuid);
     const data = {
-      "scorecard_progress": {
-        "scorecard_uuid": scorecardUuid,
-        "status": isOpen ? "open_voting" : "close_voting"
+      scorecard_progress: {
+        scorecard_uuid: scorecardUuid,
+        // status: isOpen ? "open_voting" : "close_voting",
+        status: 'open_voting',
+        // conducated_at: scorecard.conducted_date
       }
     };
 
+    // let attrs = {
+    //   scorecard_progress: {
+    //     scorecard_uuid: scorecardUuid,
+    //     status: milestone,
+    //     conducated_at: conducatedDate
+    //   }
+    // };
+
+    console.log('==== Open voting attr = ', data);
+
     ScorecardProgressApi.post(data)
       .then(function (response) {
+
+        console.log('=== open/close scorecard res = ', response);
+
         if (response.status == 200) {
           Scorecard.update(scorecardUuid, { is_open_voting: isOpen });
           successCallback && successCallback();

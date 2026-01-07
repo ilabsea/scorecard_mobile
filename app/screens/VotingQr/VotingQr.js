@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Animated, View, ScrollView } from 'react-native';
+import { Animated, View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import Color from '../../themes/color';
@@ -35,9 +35,11 @@ const VotingQr = (props) => {
 
     // if (!scorecard.is_open_voting) {
     //   scorecardProgressService.setOpenCloseVoting({
-    //     scorecardUuid: props.routes.params.scorecard_uuid,
+    //     scorecardUuid: props.route.params.scorecard_uuid,
     //     isOpen: true,
     //     successCallback: () => {
+    //       Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
+
     //       downloadQrCode();
     //     },
     //     errroCallback: (error) => {
@@ -47,10 +49,25 @@ const VotingQr = (props) => {
     // }
   }, []);
 
+  const openVoting = () => {
+    scorecardProgressService.setOpenCloseVoting({
+      scorecardUuid: props.route.params.scorecard_uuid,
+      isOpen: true,
+      successCallback: () => {
+        Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
+
+        downloadQrCode();
+      },
+      errroCallback: (error) => {
+        console.log('==== Error Open voting scorecard = ', error);
+      }
+    });
+  }
+
+
   const downloadQrCode = async () => {
-    // const response = await scorecardApi.getQrCode(props.routes.params.scorecard_uuid);
     onlineScorecardSubmissionService.downloadVotingQrCode({
-      scorecardUuid: props.routes.params.scorecard_uuid,
+      scorecardUuid: props.route.params.scorecard_uuid,
       successCallback: (qrCodeFilePath) => {
         setQrCode(qrCodeFilePath);
       },
@@ -61,6 +78,10 @@ const VotingQr = (props) => {
   }
 
   const _goNext = () => {
+    const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
+    console.log('=== is scorecard open = ', scorecard.is_open_voting);
+    console.log('== QR code = ', qrCode);
+
     // onlineScorecardSubmissionService.draftSubmit({
     //   scorecardUuid: props.route.params.scorecard_uuid,
     //   successCallback: () => {
@@ -86,8 +107,15 @@ const VotingQr = (props) => {
               )
             }
           >
-            <View style={{height: 600, backgroundColor: 'green'}}></View>
-            <View style={{height: 500, backgroundColor: 'blue'}}></View>
+            <View style={{height: 100, backgroundColor: 'green'}}></View>
+            <TouchableOpacity onPress={() => downloadQrCode()}
+              style={{width: 100, height: 50, backgroundColor: 'green', marginTop: 100}}
+            >
+              <Text>Download</Text>
+            </TouchableOpacity>
+
+            {/* <View style={{height: 600, backgroundColor: 'green'}}></View>
+            <View style={{height: 500, backgroundColor: 'blue'}}></View> */}
           </ScrollView>
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>

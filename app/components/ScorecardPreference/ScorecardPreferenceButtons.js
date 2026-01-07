@@ -20,11 +20,11 @@ class ScorecardPreferenceButtons extends Component {
   }
 
   renderStartButton = () => {
-    if (this.isFullyDownloaded()) {
+    // if (this.isFullyDownloaded()) {
       return (
         <BottomButton label={this.context.translations.start} onPress={() => this.props.saveSelectedData()} />
       );
-    }
+    // }
   }
 
   isDownloadDisabled = () => {
@@ -78,7 +78,7 @@ class ScorecardPreferenceButtons extends Component {
   render() {
     return (
       <View style={bottomButtonContainerPadding()}>
-        { this.renderDownloadButton() }
+        {/* { this.renderDownloadButton() } */}
 
         { this.renderStartButton() }
       </View>
