@@ -438,5 +438,8 @@
   "offlineMode": "Implement without internet",
   "onlineMode": "Implement with internet",
   "failedDraftSubmitTheScorecard": "Failed to submit the draft of the scorecard",
-  "errorDraftSubmitScorecardMessage": "Unable to submit the draft of this scorecard. It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to submit the scorecard again or contact the program administrator for more detail."
+  "errorDraftSubmitScorecardMessage": "Unable to submit the draft of this scorecard. It may be caused by no internet connection or the internet connection is too slow. Please double check your internet connection then try to submit the scorecard again or contact the program administrator for more detail.",
+  "shareLink": "Share link",
+  "failedDownloadQrCode": "Failed to download the voting QR code",
+  "errorDownloadQrCodeMessage": "Unable to download the voting QR code. It may be caused by no internet connection or the internet connection is too slow."
 }

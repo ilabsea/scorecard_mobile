@@ -1,6 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Animated, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { Animated, View, ScrollView, Image, Dimensions, Linking, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
+import Share from 'react-native-share';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../../components/Translations';
@@ -9,20 +11,23 @@ import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {
-  containerPaddingTop,
-  bottomButtonContainerPadding
+  bottomButtonContainerPadding,
+  passProposeStepContainerPaddingTopInput,
+  passProposeStepContainerPaddingTopOutput,
+  getDeviceStyle
 } from '../../utils/responsive_util';
 import { headerShrinkOffset } from '../../constants/component_style_constant';
 import Scorecard from '../../models/Scorecard';
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import ScorecardApi from '../../api/ScorecardApi';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
-// import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
+import OutlinedButton from '../../components/OutlinedButton';
+import { ERROR_DOWNLOAD_VOTING_QR, ERROR_SOMETHING_WENT_WRONG } from '../../constants/error_constant';
 
 const VotingQr = (props) => {
   const { translations } = useContext(LocalizationContext);
   const [visibleModal, setVisibleModal] = useState(false);
-  const [qrCode, setQrCode] = useState(null);
+  const [votingObj, setVotingObj] = useState({ qr_code: null, url: null });
   const [errorType, setErrorType] = useState(null);
   const scorecardApi = new ScorecardApi();
 
@@ -33,34 +38,46 @@ const VotingQr = (props) => {
     const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
     console.log('=== is scorecard opened = ', scorecard.is_open_voting);
 
-    // if (!scorecard.is_open_voting) {
-    //   scorecardProgressService.setOpenCloseVoting({
-    //     scorecardUuid: props.route.params.scorecard_uuid,
-    //     isOpen: true,
-    //     successCallback: () => {
-    //       Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
-
-    //       downloadQrCode();
-    //     },
-    //     errroCallback: (error) => {
-    //       console.log('==== Error Open voting scorecard = ', error);
-    //     }
-    //   });
-    // }
+    if (!scorecard.is_open_voting) {
+      scorecardProgressService.setOpenCloseVoting({
+        scorecardUuid: props.route.params.scorecard_uuid,
+        isOpen: true,
+        successCallback: () => {
+          Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
+          downloadQrCode();
+        },
+        errroCallback: (error) => {
+          console.log('==== Error Open voting scorecard = ', error);
+        }
+      });
+    }
+    else
+      loadVotingQr();
   }, []);
 
-  const openVoting = () => {
-    scorecardProgressService.setOpenCloseVoting({
-      scorecardUuid: props.route.params.scorecard_uuid,
-      isOpen: true,
-      successCallback: () => {
-        Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
+  // const openVoting = () => {
+  //   scorecardProgressService.setOpenCloseVoting({
+  //     scorecardUuid: props.route.params.scorecard_uuid,
+  //     isOpen: true,
+  //     successCallback: () => {
+  //       Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
 
-        downloadQrCode();
-      },
-      errroCallback: (error) => {
-        console.log('==== Error Open voting scorecard = ', error);
-      }
+  //       downloadQrCode();
+  //     },
+  //     errroCallback: (error) => {
+  //       console.log('==== Error Open voting scorecard = ', error);
+  //     }
+  //   });
+  // }
+
+  const loadVotingQr = () => {
+    const scorecard = Scorecard.find(props.route.params.scorecard_uuid)
+    console.log('== qr code = ', scorecard.voting_qr);
+    // console.log('== voting url = ', scorecard.voting_url);
+
+    setVotingObj({
+      qr_code: scorecard.voting_qr,
+      url: scorecard.voting_url
     });
   }
 
@@ -69,12 +86,22 @@ const VotingQr = (props) => {
     onlineScorecardSubmissionService.downloadVotingQrCode({
       scorecardUuid: props.route.params.scorecard_uuid,
       successCallback: (qrCodeFilePath) => {
-        setQrCode(qrCodeFilePath);
+        loadVotingQr();
       },
       errorCallback: (error) => {
-        // Todo: show an error message, if failed to download the QR code
+        setErrorType(ERROR_DOWNLOAD_VOTING_QR);
+        setVisibleModal(true);
       }
     })
+  }
+
+  const shareLink = () => {
+    Share.open({ url: votingObj.url, failOnCancel: false })
+      .catch((error) => {
+        // Todo: update the error message when failed to share the VOTING LINK
+        setErrorType(ERROR_SOMETHING_WENT_WRONG);
+        setVisibleModal(true)
+      })
   }
 
   const _goNext = () => {
@@ -95,6 +122,13 @@ const VotingQr = (props) => {
   }
 
   const _renderBody = () => {
+    const containerPaddingTop = scrollY.interpolate({
+      inputRange: passProposeStepContainerPaddingTopInput,
+      outputRange: passProposeStepContainerPaddingTopOutput,
+      extrapolate: 'clamp',
+    })
+    const screenWidth = Dimensions.get('screen').width;
+
     return (
       <React.Fragment>
         <CollapsibleNavHeader title={translations.voting} scrollY={scrollY} progressIndex={3} isPassProposeStep={true} tipIconVisible={false} />
@@ -107,15 +141,48 @@ const VotingQr = (props) => {
               )
             }
           >
-            <View style={{height: 100, backgroundColor: 'green'}}></View>
-            <TouchableOpacity onPress={() => downloadQrCode()}
-              style={{width: 100, height: 50, backgroundColor: 'green', marginTop: 100}}
+
+            {/* Todo: show a download QR code button, if the scorecard is 'open_voting' and has not qr code yet */}
+
+
+            {/* <TouchableOpacity onPress={() => downloadQrCode()}
+              style={{width: 100, height: 50, backgroundColor: 'green'}}
             >
               <Text>Download</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-            {/* <View style={{height: 600, backgroundColor: 'green'}}></View>
-            <View style={{height: 500, backgroundColor: 'blue'}}></View> */}
+            <Image source={{ uri: `file://${votingObj.qr_code}` }}
+              style={{width: screenWidth - 100, height: screenWidth - 100, alignSelf: 'center', marginTop: 22}}
+            />
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 32, paddingHorizontal: 16}}>
+              <View style={{flex: 1}}>
+                <OutlinedButton
+                  icon="add-outline"
+                  label={translations.voting}
+                  onPress={() => {
+                    if (!!votingObj.url)
+                      Linking.openURL(votingObj.url);
+                  }}
+                  labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 14), marginTop: getDeviceStyle(6, 4), color: 'white'}}
+                  iconStyle={{color: 'white'}}
+                />
+              </View>
+
+              <View style={{width: 16}}/>
+
+              <View style={{flex: 1}}>
+                <OutlinedButton
+                  icon="share-outline"
+                  label={translations.shareLink}
+                  onPress={() => shareLink() }
+                  buttonStyle={{ backgroundColor: 'transparent', borderWidth: 2, borderColor: Color.primaryButtonColor }}
+                  labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 14), marginTop: getDeviceStyle(6, 4)}}
+                />
+              </View>
+            </View>
+            
+
           </ScrollView>
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>

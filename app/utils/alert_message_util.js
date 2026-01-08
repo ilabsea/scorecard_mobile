@@ -98,6 +98,10 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.failedDraftSubmitTheScorecard,
       description: translations.errorDraftSubmitScorecardMessage
     },
+    'ERROR_DOWNLOAD_VOTING_QR': {
+      title: translations.failedDownloadQrCode,
+      description: translations.errorDownloadQrCodeMessage
+    },
     'DEFAULT': {
       title: translations.somethingWentWrong,
       description: translations.formatString(translations.somethingWentWrongMessage, endpoint)
