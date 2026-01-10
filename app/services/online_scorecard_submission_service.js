@@ -21,8 +21,12 @@ const onlineScorecardSubmissionService = (() => {
     let attrs = await scorecardAttributes(scorecard);
     scorecardApi.put(scorecardUuid, attrs)
       .then(function (response) {
-        if (response.status == 200)
+        if (response.status == 200) {
+          if (scorecard.status < 4)
+            Scorecard.update(scorecardUuid, {status: '4'})
+
           successCallback();
+        }
         else if (response.error)
           !!errorCallback && errorCallback(getErrorType(response.error.status));
       });

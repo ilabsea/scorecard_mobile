@@ -10,6 +10,7 @@ import CollapsibleNavHeader from '../../components/Share/CollapsibleNavHeader';
 import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import EmptyListAction from '../../components/Share/EmptyListAction';
+import VotingQrCode from '../../components/VotingQr/VotingQrCode';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {
   bottomButtonContainerPadding,
@@ -17,12 +18,13 @@ import {
   passProposeStepContainerPaddingTopOutput,
   getDeviceStyle
 } from '../../utils/responsive_util';
-import { headerShrinkOffset } from '../../constants/component_style_constant';
 import Scorecard from '../../models/Scorecard';
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
-import VotingQrCode from '../../components/VotingQr/VotingQrCode';
-import { ERROR_DOWNLOAD_VOTING_QR } from '../../constants/error_constant';
+import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import { ERROR_DOWNLOAD_VOTING_QR, ERROR_OPEN_VOTING, ERROR_CLOSE_VOTING } from '../../constants/error_constant';
+import { headerShrinkOffset } from '../../constants/component_style_constant';
+import { navigationRef } from '../../navigators/app_navigator';
 
 const VotingQr = (props) => {
   const { translations } = useContext(LocalizationContext);
@@ -56,8 +58,9 @@ const VotingQr = (props) => {
         downloadQrCode();
       },
       errroCallback: (error) => {
-        console.log('==== Error Open voting scorecard = ', error);
         setIsLoading(false);
+        setErrorType(ERROR_OPEN_VOTING);
+        setVisibleModal(true);
       }
     });
   }
@@ -72,12 +75,9 @@ const VotingQr = (props) => {
 
 
   const downloadQrCode = async () => {
-    console.log('==== start download QR code ====');
-
     onlineScorecardSubmissionService.downloadVotingQrCode({
       scorecardUuid: props.route.params.scorecard_uuid,
       successCallback: (response) => {
-        console.log('++++++ download response = ', response);
         setVotingObj({
           qr_code: response.qr_code,
           url: response.voting_url
@@ -85,28 +85,31 @@ const VotingQr = (props) => {
         setIsLoading(false);
       },
       errorCallback: (error) => {
+        setIsLoading(false);
         setErrorType(ERROR_DOWNLOAD_VOTING_QR);
         setVisibleModal(true);
-        setIsLoading(false);
       }
     })
   }
 
-  const _goNext = () => {
-    const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
-    console.log('=== is scorecard open = ', scorecard.is_open_voting);
-    console.log('== QR code = ', qrCode);
-
-    // onlineScorecardSubmissionService.draftSubmit({
-    //   scorecardUuid: props.route.params.scorecard_uuid,
-    //   successCallback: () => {
-    //     // Todo: Send API request to download the QR code image
-    //   },
-    //   errorCallback: (errorType) => {
-    //     setErrorType(errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT);
-    //     setVisibleModal(true);
-    //   }
-    // });
+  const closeVoting = () => {
+    setIsLoading(true);
+    scorecardProgressService.setOpenCloseVoting({
+      scorecardUuid: props.route.params.scorecard_uuid,
+      isOpen: false,
+      successCallback: () => {
+        Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: false });
+        setIsOpenVoting(false);
+        setIsLoading(false);
+        scorecardTracingStepsService.trace(props.route.params.scorecard_uuid, 7);
+        navigationRef.current?.navigate('OfflineScorecardResult', {scorecard_uuid: props.route.params.scorecard_uuid})
+      },
+      errroCallback: (error) => {
+        setIsLoading(false);
+        setErrorType(ERROR_CLOSE_VOTING);
+        setVisibleModal(true);
+      }
+    });
   }
 
   const openVotingButton = () => {
@@ -180,20 +183,15 @@ const VotingQr = (props) => {
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>
           <BottomButton
-            onPress={() => _goNext()}
+            onPress={() => closeVoting()}
             customBackgroundColor={Color.headerColor}
             label={translations.closeVoting}
-            disabled={!isOpenVoting}
+            disabled={!isOpenVoting || isLoading}
           />
         </View>
       </React.Fragment>
     )
   }
-
-  console.log('++++++++++++++++++++++++++++++++++++++++++');
-  console.log('=== is scorecard opened = ', isOpenVoting);
-  console.log('=== is QR downloaded = ', votingObj.qr_code);
-  console.log('******************************************');
 
   return (
     <View style={{height: '100%', paddingBottom: screenPaddingBottom(props.sdkVersion)}}>

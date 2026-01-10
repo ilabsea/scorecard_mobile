@@ -28,12 +28,10 @@ const scorecardProgressService = (() => {
   }
 
   async function setOpenCloseVoting({ scorecardUuid, isOpen, successCallback, errorCallback }) {
-    // const scorecard = Scorecard.find(scorecardUuid);
     const data = {
       scorecard_progress: {
         scorecard_uuid: scorecardUuid,
         status: isOpen ? "open_voting" : "close_voting",
-        // conducated_at: scorecard.conducted_date
       }
     };
 

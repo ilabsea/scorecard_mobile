@@ -448,5 +448,9 @@
   "donwload": "ទាញយក",
   "scanQrCodeToVote": "Scan the QR code to vote",
   "orVoteViaTheLink": "Or vote via the link",
-  "closeVoting": "Close voting"
+  "closeVoting": "Close voting",
+  "failedOpenVoting": "Failed to open the voting",
+  "errorOpenVotingMessage": "Unable to open the voting. It may be caused by no internet connection or the internet connection is too slow.",
+  "failedCloseVoting": "Failed to close the voting",
+  "errorCloseVotingMessage": "Unable to close the voting. It may be caused by no internet connection or the internet connection is too slow."
 }

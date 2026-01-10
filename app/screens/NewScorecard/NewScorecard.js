@@ -106,7 +106,6 @@ class NewScorecard extends Component {
     _this.setState({isLoading: false});
 
     Scorecard.update(_this.state.code, { is_offline: isOffline })
-
     _this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: _this.state.code});
   }
 

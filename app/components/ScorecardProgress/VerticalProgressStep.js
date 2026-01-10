@@ -21,13 +21,10 @@ export default class VerticalProgressStep extends Component {
   static contextType = LocalizationContext;
 
   onPress(step) {
-    console.log('=== route name = ', step.routeName);
-    if (step.routeName == 'VotingIndicatorList') {
-      const scorecard = Scorecard.find(this.props.scorecard.uuid);
-      if (scorecard.is_offline) {
-        navigate('VotingQr', { scorecard_uuid: this.props.scorecard.uuid });
-        return;
-      }
+    const scorecard = Scorecard.find(this.props.scorecard.uuid);
+    if (step.routeName == 'VotingIndicatorList' && !scorecard.is_offline) {
+      navigate('VotingQr', { scorecard_uuid: this.props.scorecard.uuid });
+      return;
     }
 
     navigate(step.routeName, { scorecard_uuid: this.props.scorecard.uuid, local_ngo_id: this.props.scorecard.local_ngo_id });
