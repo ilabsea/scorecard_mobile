@@ -6,6 +6,7 @@ import {
   isFileExist,
 } from './local_file_system_service';
 import ScorecardApi from '../api/ScorecardApi';
+import settingHelper from '../helpers/setting_helper';
 
 const scorecardApi = new ScorecardApi();
 
@@ -29,15 +30,7 @@ const onlineScorecardSubmissionService = (() => {
 
   async function downloadVotingQrCode({scorecardUuid, successCallback,  errorCallback}) {
     const response = await scorecardApi.getQrCode(scorecardUuid);
-    console.log('=== QR code API response = ', response);
-
     handleApiResponse(response, async (responseData) => {
-      console.log('=== qr code success response = ', responseData);
-      // Todo: 1. download the QR Code image
-      // 2. Store the image url in the Scorecard schema
-      // 3. Read the scorecard image url when the user revisit the screen
-      // 4. Add a button to download the QR code, in case it was failed to download in the frist place
-
       let filename = _getImageFilename(scorecardUuid);
       const isImageExist = await isFileExist(filename);
       if (isImageExist)
@@ -51,17 +44,15 @@ const onlineScorecardSubmissionService = (() => {
                 voting_qr: localFilePath,
                 voting_url: responseData.voting_url
               });
-              successCallback && successCallback(localFilePath);
+              successCallback && successCallback({ qr_code: localFilePath, voting_url: responseData.voting_url });
             }
             else {
-              console.log('== Error download QR code image = ', downloadResponse);
               errorCallback && errorCallback(downloadResponse);
             }
           }
         );
       }
     }, (error) => {
-      console.log('== error QR code api = ', error);
       !!errorCallback && errorCallback();
     });
   }

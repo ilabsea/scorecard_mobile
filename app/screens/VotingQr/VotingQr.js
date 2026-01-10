@@ -1,16 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Animated, View, ScrollView, Image, Dimensions, Linking, TouchableOpacity } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Animated, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
-// import Share from 'react-native-share';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../../components/Translations';
 import CollapsibleNavHeader from '../../components/Share/CollapsibleNavHeader';
 import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
-import OutlinedButton from '../../components/OutlinedButton';
 import EmptyListAction from '../../components/Share/EmptyListAction';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {
@@ -22,25 +20,23 @@ import {
 import { headerShrinkOffset } from '../../constants/component_style_constant';
 import Scorecard from '../../models/Scorecard';
 import scorecardProgressService from '../../services/scorecard_progress_service';
-import ScorecardApi from '../../api/ScorecardApi';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
 import VotingQrCode from '../../components/VotingQr/VotingQrCode';
 import { ERROR_DOWNLOAD_VOTING_QR } from '../../constants/error_constant';
 
 const VotingQr = (props) => {
   const { translations } = useContext(LocalizationContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [isOpenVoting, setIsOpenVoting] = useState(false);
   const [votingObj, setVotingObj] = useState({ qr_code: null, url: null });
   const [errorType, setErrorType] = useState(null);
-  const scorecardApi = new ScorecardApi();
 
   const scrollY = new Animated.Value(0)
   var isHeaderShrunk = false
 
   useEffect(() => {
     const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
-    console.log('=== is scorecard opened = ', scorecard.is_open_voting);
     setIsOpenVoting(scorecard.is_open_voting);
 
     if (!scorecard.is_open_voting)
@@ -50,15 +46,18 @@ const VotingQr = (props) => {
   }, []);
 
   const openVoting = () => {
+    setIsLoading(true);
     scorecardProgressService.setOpenCloseVoting({
       scorecardUuid: props.route.params.scorecard_uuid,
       isOpen: true,
       successCallback: () => {
         Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: true });
+        setIsOpenVoting(true);
         downloadQrCode();
       },
       errroCallback: (error) => {
         console.log('==== Error Open voting scorecard = ', error);
+        setIsLoading(false);
       }
     });
   }
@@ -73,14 +72,22 @@ const VotingQr = (props) => {
 
 
   const downloadQrCode = async () => {
+    console.log('==== start download QR code ====');
+
     onlineScorecardSubmissionService.downloadVotingQrCode({
       scorecardUuid: props.route.params.scorecard_uuid,
-      successCallback: (qrCodeFilePath) => {
-        loadVotingQr();
+      successCallback: (response) => {
+        console.log('++++++ download response = ', response);
+        setVotingObj({
+          qr_code: response.qr_code,
+          url: response.voting_url
+        });
+        setIsLoading(false);
       },
       errorCallback: (error) => {
         setErrorType(ERROR_DOWNLOAD_VOTING_QR);
         setVisibleModal(true);
+        setIsLoading(false);
       }
     })
   }
@@ -121,6 +128,9 @@ const VotingQr = (props) => {
         <EmptyListAction
           title={translations.pleaseDownloadVotingQrCodeAndVotingUrl}
           buttonLabel={translations.donwload}
+          placeholderIcon='qr-code-outline'
+          isMaterialIconButton={true}
+          icon='download'
           onPress={() => downloadQrCode()}
           customContainerStyle={{ marginTop: getDeviceStyle(wp('30%'), wp('45%')) }}
         />
@@ -139,6 +149,12 @@ const VotingQr = (props) => {
       <React.Fragment>
         <CollapsibleNavHeader title={translations.voting} scrollY={scrollY} progressIndex={3} isPassProposeStep={true} tipIconVisible={false} />
 
+        <Spinner
+          visible={isLoading}
+          color={Color.primaryColor}
+          overlayColor={Color.loadingBackgroundColor}
+        />
+
         <Animated.View style={{flex: 1, paddingTop: containerPaddingTop, zIndex: -1}}>
           <ScrollView
             onScroll={
@@ -147,8 +163,6 @@ const VotingQr = (props) => {
               )
             }
           >
-
-            {/* Todo: show a download QR code button, if the scorecard is 'open_voting' and has not qr code yet */}
             { (!isOpenVoting && !votingObj.qr_code) && openVotingButton() }
 
             { (isOpenVoting && !votingObj.qr_code) && downloadQrCodeButton() }
@@ -162,20 +176,24 @@ const VotingQr = (props) => {
                 }}
               />
             }
-
           </ScrollView>
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>
           <BottomButton
             onPress={() => _goNext()}
             customBackgroundColor={Color.headerColor}
-            label={translations.next}
-            // disabled={!hasVoting(props.scorecard.uuid)}
+            label={translations.closeVoting}
+            disabled={!isOpenVoting}
           />
         </View>
       </React.Fragment>
     )
   }
+
+  console.log('++++++++++++++++++++++++++++++++++++++++++');
+  console.log('=== is scorecard opened = ', isOpenVoting);
+  console.log('=== is QR downloaded = ', votingObj.qr_code);
+  console.log('******************************************');
 
   return (
     <View style={{height: '100%', paddingBottom: screenPaddingBottom(props.sdkVersion)}}>

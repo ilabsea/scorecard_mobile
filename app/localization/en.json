@@ -447,5 +447,6 @@
   "pleaseDownloadVotingQrCodeAndVotingUrl": "Please download the QR code and link for voting",
   "donwload": "ទាញយក",
   "scanQrCodeToVote": "Scan the QR code to vote",
-  "orVoteViaTheLink": "Or vote via the link"
+  "orVoteViaTheLink": "Or vote via the link",
+  "closeVoting": "Close voting"
 }

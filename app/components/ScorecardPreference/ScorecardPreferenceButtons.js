@@ -78,7 +78,7 @@ class ScorecardPreferenceButtons extends Component {
   render() {
     return (
       <View style={bottomButtonContainerPadding()}>
-        {/* { this.renderDownloadButton() } */}
+        { this.renderDownloadButton() }
 
         { this.renderStartButton() }
       </View>

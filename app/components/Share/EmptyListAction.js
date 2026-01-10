@@ -14,12 +14,16 @@ class EmptyListAction extends Component {
     return (
       <View style={[styles.container, this.props.customContainerStyle]}>
         <View style={[responsiveStyles.messageContainer, this.props.contentContainerStyle]}>
-          <Icon name={'document-text-outline'} style={responsiveStyles.icon} />
+          <Icon
+            name={this.props.placeholderIcon || 'document-text-outline'}
+            style={responsiveStyles.icon}
+          />
           <Text style={responsiveStyles.label}>{this.props.title}</Text>
           { !this.props.hideButton &&
             <View>
               <OutlinedButton
                 icon={ this.props.icon || 'add-outline' }
+                isMaterialIcon={this.props.isMaterialIconButton}
                 label={this.props.buttonLabel}
                 onPress={() => this.props.onPress() }
                 labelStyle={{color: 'white'}}

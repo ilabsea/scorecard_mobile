@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import { Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Color from '../themes/color';
 
 import { getDeviceStyle } from '../utils/responsive_util';
@@ -20,6 +21,17 @@ class OutlinedButton extends Component {
            </View>
   }
 
+  renderIcon = () => {
+    if (this.props.isMaterialIcon)
+      return <MaterialIcon name={this.props.icon || 'add-outline'}
+                style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize(), marginRight: 8}, this.props.buttonColor, this.props.iconStyle]}
+              />
+
+    return <Icon name={this.props.icon || 'add-outline'} type="FontAwesome"
+            style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize(), marginRight: 8}, this.props.buttonColor, this.props.iconStyle]}
+          />
+  }
+
   render() {
     return (
       <TouchableOpacity
@@ -29,11 +41,7 @@ class OutlinedButton extends Component {
           this.props.buttonStyle
         ]}
       >
-        { !this.props.hideIcon &&
-          <Icon name={this.props.icon || 'add-outline'} type="FontAwesome"
-            style={[responsiveStyles.buttonIcon, {color: Color.headerColor, fontSize: this.props.iconFontSize || outlinedButtonIconSize(), marginRight: 8}, this.props.buttonColor, this.props.iconStyle]}
-          />
-        }
+        { !this.props.hideIcon && this.renderIcon() }
         { !!this.props.subLabel ? this.renderlabelAndSubLabel()
           : <Text style={[{color: Color.headerColor}, responsiveStyles.buttonLabel, this.props.buttonColor, this.props.labelStyle]}>{this.props.label}</Text>
         }

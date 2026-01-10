@@ -10,8 +10,6 @@ import { getDeviceStyle } from '../../utils/responsive_util';
 import { ERROR_SOMETHING_WENT_WRONG } from '../../constants/error_constant';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
-// import { xxlLabelSize, xlLabelSize } from '../../constants/mobile_font_size_constant';
-// import Color from '../../themes/color';
 import { bodyFontSize } from '../../utils/font_size_util';
 
 const contentFontSize = bodyFontSize();
@@ -30,19 +28,18 @@ const VotingQrCode = (props) => {
 
   return (
     <React.Fragment>
-
       <Text style={[styles.label, { marginTop: 16, textAlign: 'center' }]}>
         { translations.scanQrCodeToVote }
       </Text>
 
       <Image source={{ uri: `file://${props.votingObj.qr_code}` }}
-        style={{width: screenWidth - 100, height: screenWidth - 100, alignSelf: 'center', marginTop: 22}}
+        style={{width: screenWidth - 100, height: screenWidth - 100, alignSelf: 'center', marginTop: 22, borderRadius: 16}}
       />
 
       <Text style={[styles.label, { marginTop: 16, textAlign: 'center' }]}>
         { translations.orVoteViaTheLink }
       </Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 16, paddingHorizontal: 16}}>
+      <View style={styles.buttonContainer}>
         <View style={{flex: 1}}>
           <OutlinedButton
             icon="add-outline"
@@ -51,7 +48,7 @@ const VotingQrCode = (props) => {
               if (!!props.votingObj.url)
                 Linking.openURL(props.votingObj.url);
             }}
-            labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 14), marginTop: getDeviceStyle(6, 4), color: 'white'}}
+            labelStyle={[styles.buttonLabel, {color: 'white'}]}
             iconStyle={{color: 'white'}}
           />
         </View>
@@ -64,7 +61,7 @@ const VotingQrCode = (props) => {
             label={translations.shareLink}
             onPress={() => shareLink() }
             buttonStyle={{ backgroundColor: 'transparent', borderWidth: 2, borderColor: Color.primaryButtonColor }}
-            labelStyle={{textAlign: 'center', fontSize: getDeviceStyle(18, 14), marginTop: getDeviceStyle(6, 4)}}
+            labelStyle={styles.buttonLabel}
           />
         </View>
       </View>
@@ -76,6 +73,17 @@ const styles = StyleSheet.create({
   label: {
     fontSize: contentFontSize,
     fontFamily: FontFamily.body
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 16,
+    paddingHorizontal: 16
+  },
+  buttonLabel: {
+    textAlign: 'center',
+    fontSize: getDeviceStyle(18, 14),
+    marginTop: getDeviceStyle(6, 4)
   }
 });
 

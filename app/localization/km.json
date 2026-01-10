@@ -447,5 +447,6 @@
   "pleaseDownloadVotingQrCodeAndVotingUrl": "សូមទាញយកកូដ QR និងតំណភ្ជាប់សម្រាប់ការដាក់ពិន្ទុ",
   "donwload": "ទាញយក",
   "scanQrCodeToVote": "ស្កេនកូដ QR ដើម្បីធ្វើការដាក់ពិន្ទុ",
-  "orVoteViaTheLink": "ឬធ្វើការដាក់ពិន្ទុតាមរយៈតំណភ្ជាប់"
+  "orVoteViaTheLink": "ឬធ្វើការដាក់ពិន្ទុតាមរយៈតំណភ្ជាប់",
+  "closeVoting": "បញ្ចប់ការដាក់ពិន្ទុ"
 }
