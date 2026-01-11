@@ -34,6 +34,7 @@ const Scorecard = (() => {
     isSubmittable,
     isFinishable,
     getScorecardWithoutProgramUuid,
+    hasVotedIndicator,
   }
 
   function getAll() {
@@ -195,6 +196,14 @@ const Scorecard = (() => {
 
   function getScorecardWithoutProgramUuid() {
     return realm.objects('Scorecard').filtered('program_uuid = ""');
+  }
+
+  function hasVotedIndicator(scorecardUuid) {
+    const votingIndicators = VotingIndicator.getAll(scorecardUuid);
+    if (votingIndicators.length == 0)
+      return false;
+
+    return votingIndicators[0].median != null;
   }
 
   // Private

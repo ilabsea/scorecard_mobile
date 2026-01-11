@@ -35,13 +35,8 @@ const scorecardProgressService = (() => {
       }
     };
 
-    console.log('==== Open voting attr = ', data);
-
     ScorecardProgressApi.post(data)
       .then(function (response) {
-
-        console.log('=== open/close scorecard res = ', response);
-
         if (response.status == 200) {
           Scorecard.update(scorecardUuid, { is_open_voting: isOpen });
           successCallback && successCallback();

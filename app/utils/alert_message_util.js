@@ -110,6 +110,10 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.failedCloseVoting,
       description: translations.errorCloseVotingMessage
     },
+    'ERROR_FETCH_VOTING_RESULT': {
+      title: translations.failedToFetchVotingResult,
+      description: translations.errorFetchVotingResultMessage
+    },
     'DEFAULT': {
       title: translations.somethingWentWrong,
       description: translations.formatString(translations.somethingWentWrongMessage, endpoint)

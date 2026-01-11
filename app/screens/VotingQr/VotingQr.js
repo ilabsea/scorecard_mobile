@@ -33,6 +33,7 @@ const VotingQr = (props) => {
   const [isOpenVoting, setIsOpenVoting] = useState(false);
   const [votingObj, setVotingObj] = useState({ qr_code: null, url: null });
   const [errorType, setErrorType] = useState(null);
+  const [isFinishVoting, setIsFinishVoting] = useState(false);
 
   const scrollY = new Animated.Value(0)
   var isHeaderShrunk = false
@@ -40,8 +41,9 @@ const VotingQr = (props) => {
   useEffect(() => {
     const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
     setIsOpenVoting(scorecard.is_open_voting);
+    setIsFinishVoting(!scorecard.is_open_voting && !!scorecard.voting_url);
 
-    if (!scorecard.is_open_voting)
+    if (!scorecard.is_open_voting && !scorecard.voting_url)
       openVoting();
     else
       loadVotingQr();
@@ -73,7 +75,6 @@ const VotingQr = (props) => {
     });
   }
 
-
   const downloadQrCode = async () => {
     onlineScorecardSubmissionService.downloadVotingQrCode({
       scorecardUuid: props.route.params.scorecard_uuid,
@@ -99,10 +100,11 @@ const VotingQr = (props) => {
       isOpen: false,
       successCallback: () => {
         Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: false });
+        setIsFinishVoting(true);
         setIsOpenVoting(false);
         setIsLoading(false);
         scorecardTracingStepsService.trace(props.route.params.scorecard_uuid, 7);
-        navigationRef.current?.navigate('OfflineScorecardResult', {scorecard_uuid: props.route.params.scorecard_uuid})
+        goToNextScreen();
       },
       errroCallback: (error) => {
         setIsLoading(false);
@@ -112,6 +114,10 @@ const VotingQr = (props) => {
     });
   }
 
+  const goToNextScreen = () => {
+    navigationRef.current?.navigate('OfflineScorecardResult', {scorecard_uuid: props.route.params.scorecard_uuid})
+  }
+
   const openVotingButton = () => {
     return (
       <View style={{height: '100%', paddingTop: hp('2%')}}>
@@ -119,6 +125,19 @@ const VotingQr = (props) => {
           title={translations.pleaseOpenVoting}
           buttonLabel={translations.openVoting}
           onPress={() => openVoting()}
+          customContainerStyle={{ marginTop: getDeviceStyle(wp('30%'), wp('45%')) }}
+        />
+      </View>
+    )
+  }
+
+  const closeVotingMessage = () => {
+    return (
+      <View style={{height: '100%', paddingTop: hp('2%')}}>
+        <EmptyListAction
+          title={translations.votingHasClosed}
+          placeholderIcon='checkmark-done-circle-outline'
+          hideButton={true}
           customContainerStyle={{ marginTop: getDeviceStyle(wp('30%'), wp('45%')) }}
         />
       </View>
@@ -139,6 +158,36 @@ const VotingQr = (props) => {
         />
       </View>
     ) 
+  }
+
+  const unvotedComponents = () => {
+    if (isLoading)
+      return <View/>
+
+    return (
+      <React.Fragment>
+        { (!isOpenVoting && !votingObj.qr_code) && openVotingButton() }
+
+        { (isOpenVoting && !votingObj.qr_code) && downloadQrCodeButton() }
+
+        { (isOpenVoting&& !!votingObj.qr_code) &&
+          <VotingQrCode
+            votingObj={votingObj}
+            showErrorModal={(type) => {
+              setErrorType(type);
+              setVisibleModal(true);
+            }}
+          />
+        }
+      </React.Fragment>
+    )
+  }
+
+  const isActionButtonDisabled = () => {
+    if (isFinishVoting)
+      return false;
+
+    return !isOpenVoting || isLoading
   }
 
   const _renderBody = () => {
@@ -166,27 +215,18 @@ const VotingQr = (props) => {
               )
             }
           >
-            { (!isOpenVoting && !votingObj.qr_code) && openVotingButton() }
-
-            { (isOpenVoting && !votingObj.qr_code) && downloadQrCodeButton() }
-
-            { (isOpenVoting&& !!votingObj.qr_code) &&
-              <VotingQrCode
-                votingObj={votingObj}
-                showErrorModal={(type) => {
-                  setErrorType(type);
-                  setVisibleModal(true);
-                }}
-              />
+            { isFinishVoting
+              ? closeVotingMessage()
+              : unvotedComponents()
             }
           </ScrollView>
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>
           <BottomButton
-            onPress={() => closeVoting()}
+            onPress={() => isFinishVoting ? goToNextScreen() : closeVoting()}
             customBackgroundColor={Color.headerColor}
-            label={translations.closeVoting}
-            disabled={!isOpenVoting || isLoading}
+            label={isFinishVoting ? translations.next : translations.closeVoting}
+            disabled={isActionButtonDisabled()}
           />
         </View>
       </React.Fragment>
