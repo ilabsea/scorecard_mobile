@@ -22,6 +22,7 @@ import Scorecard from '../../models/Scorecard';
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import internetConnectionService from '../../services/internet_connection_service';
 import { ERROR_DOWNLOAD_VOTING_QR, ERROR_OPEN_VOTING, ERROR_CLOSE_VOTING } from '../../constants/error_constant';
 import { headerShrinkOffset } from '../../constants/component_style_constant';
 import { navigationRef } from '../../navigators/app_navigator';
@@ -34,11 +35,17 @@ const VotingQr = (props) => {
   const [votingObj, setVotingObj] = useState({ qr_code: null, url: null });
   const [errorType, setErrorType] = useState(null);
   const [isFinishVoting, setIsFinishVoting] = useState(false);
+  const [hasInternetConnection, setHasInternetConnection] = useState(false);
+  var unsubscribeNetInfo;
 
   const scrollY = new Animated.Value(0)
   var isHeaderShrunk = false
 
   useEffect(() => {
+    unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
+      setHasInternetConnection(hasConnection);
+    });
+
     const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
     setIsOpenVoting(scorecard.is_open_voting);
     setIsFinishVoting(!scorecard.is_open_voting && !!scorecard.voting_url);
@@ -47,9 +54,18 @@ const VotingQr = (props) => {
       openVoting();
     else
       loadVotingQr();
+
+    return () => {
+      unsubscribeNetInfo && unsubscribeNetInfo();
+    };
   }, []);
 
   const openVoting = () => {
+    if (!hasInternetConnection) {
+      internetConnectionService.showAlertMessage(translations.noInternetConnection);
+      return;
+    }
+
     setIsLoading(true);
     scorecardProgressService.setOpenCloseVoting({
       scorecardUuid: props.route.params.scorecard_uuid,
@@ -76,6 +92,11 @@ const VotingQr = (props) => {
   }
 
   const downloadQrCode = async () => {
+    if (!hasInternetConnection) {
+      internetConnectionService.showAlertMessage(translations.noInternetConnection);
+      return;
+    }
+
     onlineScorecardSubmissionService.downloadVotingQrCode({
       scorecardUuid: props.route.params.scorecard_uuid,
       successCallback: (response) => {
@@ -94,6 +115,11 @@ const VotingQr = (props) => {
   }
 
   const closeVoting = () => {
+    if (!hasInternetConnection) {
+      internetConnectionService.showAlertMessage(translations.noInternetConnection);
+      return;
+    }
+
     setIsLoading(true);
     scorecardProgressService.setOpenCloseVoting({
       scorecardUuid: props.route.params.scorecard_uuid,
