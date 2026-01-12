@@ -12,8 +12,8 @@ import MilestoneCard from './MilestoneCard';
 import ScorecardStep from '../../models/ScorecardStep';
 import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
-
 import { getDeviceStyle } from '../../utils/responsive_util';
+import {ONLINE} from '../../constants/scorecard_constant';
 
 const badgeSize = getDeviceStyle(40, wp('9%'));
 
@@ -22,7 +22,7 @@ export default class VerticalProgressStep extends Component {
 
   onPress(step) {
     const scorecard = Scorecard.find(this.props.scorecard.uuid);
-    if (step.routeName == 'VotingIndicatorList' && !scorecard.is_offline) {
+    if (step.routeName == 'VotingIndicatorList' && !scorecard.running_mode == ONLINE) {
       navigate('VotingQr', { scorecard_uuid: this.props.scorecard.uuid });
       return;
     }

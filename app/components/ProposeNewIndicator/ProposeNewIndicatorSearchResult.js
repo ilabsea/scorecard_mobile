@@ -14,6 +14,7 @@ import Indicator from '../../models/Indicator';
 import Scorecard from '../../models/Scorecard';
 import Participant from '../../models/Participant';
 import {participantModalSnapPoints} from '../../constants/modal_constant';
+import {OFFLINE} from '../../constants/scorecard_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 class ProposeNewIndicatorSearchResult extends React.Component {
@@ -26,7 +27,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
   componentDidMount() {
     const scorecard = Scorecard.find(this.props.scorecardUuid);
     this.setState({
-      isOffline: scorecard.is_offline
+      isOffline: scorecard.running_mode == OFFLINE
     });
   }
 

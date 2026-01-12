@@ -35,6 +35,7 @@ import {
 import { screenPaddingBottom } from '../../utils/component_util';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
 import { ERROR_FETCH_VOTING_RESULT } from '../../constants/error_constant';
+import { ONLINE } from '../../constants/scorecard_constant';
 
 let _this = null;
 
@@ -61,17 +62,17 @@ class ScorecardResult extends Component {
   }
 
   async componentDidMount() {
-    if (!this.state.scorecard.is_offline && !Scorecard.hasVotedIndicator(this.props.route.params.scorecard_uuid)) {
-      votingResultService.getVotingResultsByScorecard(this.props.route.params.scorecard_uuid, () => {
-        this.props.getAll(this.state.scorecard.uuid);
-        this.props.getAllScorecardReferences(this.state.scorecard.uuid);
-      }, () => {
-        this.setState({
-          visibleModal: true,
-          errorType: ERROR_FETCH_VOTING_RESULT
-        });
-      });
-    }
+    // if (this.state.scorecard.running_mode == ONLINE && !Scorecard.hasVotedIndicator(this.props.route.params.scorecard_uuid)) {
+    //   votingResultService.getVotingResultsByScorecard(this.props.route.params.scorecard_uuid, () => {
+    //     this.props.getAll(this.state.scorecard.uuid);
+    //     this.props.getAllScorecardReferences(this.state.scorecard.uuid);
+    //   }, () => {
+    //     this.setState({
+    //       visibleModal: true,
+    //       errorType: ERROR_FETCH_VOTING_RESULT
+    //     });
+    //   });
+    // }
 
     if (this.state.scorecard.status < 5) {
       Scorecard.update(this.state.scorecard.uuid, {status: '5'})

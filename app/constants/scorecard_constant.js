@@ -73,6 +73,8 @@ const SUBMITTED = 'submitted';
 const RENEWED = 'renewed';
 const IN_REVIEW = 'in_review';
 const COMPLETED = 'completed';
+const ONLINE = 'online';
+const OFFLINE = 'offline';
 
 export {
   scorecardDownloadPhases,
@@ -105,4 +107,6 @@ export {
   RENEWED,
   IN_REVIEW,
   COMPLETED,
+  ONLINE,
+  OFFLINE,
 };

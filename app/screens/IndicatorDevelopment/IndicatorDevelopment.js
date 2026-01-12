@@ -25,6 +25,7 @@ import { bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
 import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
+import { OFFLINE } from '../../constants/scorecard_constant';
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -77,7 +78,7 @@ class IndicatorDevelopment extends Component {
     scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
 
     const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid);
-    if (scorecard.is_offline) {
+    if (scorecard.running_mode == OFFLINE) {
       this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
     }
     else {

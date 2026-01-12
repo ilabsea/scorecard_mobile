@@ -5,6 +5,7 @@ import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
 import Color from '../../themes/color';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Scorecard from '../../models/Scorecard';
+import {OFFLINE} from '../../constants/scorecard_constant';
 
 class ProposeNewIndicatorSearchResultCardList extends React.Component {
   static contextType = LocalizationContext;
@@ -22,7 +23,7 @@ class ProposeNewIndicatorSearchResultCardList extends React.Component {
                 onPressItem={() => this.props.onPressItem(indicator)}
                 isSwipeable={false}
                 playingUuid={this.props.playingUuid}
-                isOffline={scorecard.is_offline}
+                isOffline={scorecard.running_mode == OFFLINE}
                 updatePlayingUuid={(uuid) => this.props.updatePlayingUuid(uuid)}
              />
     })

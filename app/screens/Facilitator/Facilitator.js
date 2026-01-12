@@ -14,13 +14,13 @@ import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import {saveParticipantInfo, createAnonymousParticipant} from '../../services/participant_service';
+import {createAnonymousParticipant} from '../../services/participant_service';
 import { environment } from '../../config/environment';
 import Color from '../../themes/color';
 import { containerPaddingTop, containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
-import uuidv4 from '../../utils/uuidv4';
 import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
+import {OFFLINE} from '../../constants/scorecard_constant';
 import Scorecard from '../../models/Scorecard';
 import {saveParticipant} from '../../actions/participantAction';
 
@@ -92,7 +92,7 @@ class FacilitatorScreen extends Component {
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 3);
 
     const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid);
-    if (scorecard.is_offline)
+    if (scorecard.running_mode == OFFLINE)
       this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
     else {
       createAnonymousParticipant(this.props.route.params.scorecard_uuid, (participants) => {

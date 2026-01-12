@@ -85,7 +85,7 @@ Scorecard.schema = {
     running_status_uploaded: { type: 'bool', default: false },
     program_scorecard_type: 'string?',
     dataset: 'string?',
-    is_offline: { type: 'bool', default: false },
+    running_mode: 'string?',
     is_open_voting: { type: 'bool', default: false },
     voting_qr: 'string?',
     voting_url: 'string?'

@@ -11,6 +11,7 @@ import Participant from '../migrations/v23/participant';
 
 import schemaHelper from '../../helpers/schema_helper';
 import { schemaNames } from '../../constants/schema_constant';
+import {OFFLINE} from '../../constants/scorecard_constant';
 
 const changedSchemas = [
   { label: schemaNames[0], data: Scorecard },
@@ -33,7 +34,7 @@ const schemaV26 = {
     const newScorecards = newRealm.objects('Scorecard');
 
     for (let i = 0; i < oldScorecards.length; i++) {
-      newScorecards[i].is_offline = !oldScorecards[i].is_offline ? true : oldScorecards[i].is_offline;
+      newScorecards[i].running_mode = !oldScorecards[i].running_mode ? OFFLINE : oldScorecards[i].running_mode;
       newScorecards[i].is_open_voting = !oldScorecards[i].is_open_voting ? false : oldScorecards[i].is_open_voting;
     }
   }

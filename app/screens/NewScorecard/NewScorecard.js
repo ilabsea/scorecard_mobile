@@ -4,7 +4,6 @@ import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ImageBackground, 
 import {LocalizationContext} from '../../components/Translations';
 import NewScorecardMessageModal from '../../components/NewScorecard/NewScorecardMessageModal';
 import NewScorecardMain from '../../components/NewScorecard/NewScorecardMain';
-import ScorecardModeBottomSheet from '../../components/NewScorecard/ScorecardModeBottomSheet';
 
 import {checkConnection, getErrorType} from '../../services/api_service';
 import newScorecardService from '../../services/new_scorecard_service';
@@ -12,7 +11,6 @@ import lockDeviceService from '../../services/lock_device_service';
 import resetLockService from '../../services/reset_lock_service';
 import { ERROR_INVALID_SCORECARD_URL, ERROR_SCORECARD_NOT_EXIST } from '../../constants/error_constant';
 import { INVALID_SCORECARD_ATTEMPT } from '../../constants/lock_device_constant';
-import Scorecard from '../../models/Scorecard';
 
 let _this = null;
 class NewScorecard extends Component {
@@ -35,7 +33,6 @@ class NewScorecard extends Component {
 
     this.unsubscribeNetInfo;
     this.scorecardRef = React.createRef();
-    this.scorecardModeModalRef = React.createRef();
     this.componentIsUnmount = false;
     _this = this;
   }
@@ -68,14 +65,12 @@ class NewScorecard extends Component {
     });
   }
 
-  saveScorecard = (isOffline) => {
-    this.scorecardModeModalRef.current?.dismiss();
+  joinScorecard = (code) => {
     _this.setState({ isLoading: true });
 
-    newScorecardService.joinScorecard(
-      this.state.code,
+    newScorecardService.joinScorecard(code,
       (errorType, isLocked, isInvalidScorecard) => _this.handleErrorScorecard(errorType, isLocked, isInvalidScorecard),
-      () => _this.handleJoinScorecardSuccess(isOffline),
+      () => _this.handleJoinScorecardSuccess(),
       (error, isLocked, isInvalidScorecard) => _this.handleJoinScorecardError(error, isLocked, isInvalidScorecard)
     );
 
@@ -102,10 +97,8 @@ class NewScorecard extends Component {
     });
   }
 
-  handleJoinScorecardSuccess(isOffline) {
+  handleJoinScorecardSuccess() {
     _this.setState({isLoading: false});
-
-    Scorecard.update(_this.state.code, { is_offline: isOffline })
     _this.props.navigation.navigate('ScorecardDetail', {scorecard_uuid: _this.state.code});
   }
 
@@ -160,7 +153,7 @@ class NewScorecard extends Component {
               errorMsg={this.state.errorMsg}
               messageType={this.state.messageType}
               updateScorecardCode={(code) => _this.setState({ code })}
-              joinScorecard={() => this.scorecardModeModalRef.current?.present()}
+              joinScorecard={this.joinScorecard}
               navigation={this.props.navigation}
               handleInvalidUrl={this.handleErrorScorecard}
               isLocked={this.state.isLocked}
@@ -190,11 +183,6 @@ class NewScorecard extends Component {
               { this.renderModals() }
             </View>
           </ImageBackground>
-
-          <ScorecardModeBottomSheet
-            scorecardModeModalRef={this.scorecardModeModalRef}
-            onContinue={(isOffline) => this.saveScorecard(isOffline)}
-          />
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     );
