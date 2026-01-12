@@ -22,7 +22,7 @@ export default class VerticalProgressStep extends Component {
 
   onPress(step) {
     const scorecard = Scorecard.find(this.props.scorecard.uuid);
-    if (step.routeName == 'VotingIndicatorList' && !scorecard.running_mode == ONLINE) {
+    if (step.routeName == 'VotingIndicatorList' && scorecard.running_mode == ONLINE) {
       navigate('VotingQr', { scorecard_uuid: this.props.scorecard.uuid });
       return;
     }

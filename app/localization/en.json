@@ -453,7 +453,6 @@
   "errorOpenVotingMessage": "Unable to open the voting. It may be caused by no internet connection or the internet connection is too slow.",
   "failedCloseVoting": "Failed to close the voting",
   "errorCloseVotingMessage": "Unable to close the voting. It may be caused by no internet connection or the internet connection is too slow.",
-  "votingHasClosed": "Voting has closed",
   "failedToFetchVotingResult": "Failed to fetch the voting result",
   "errorFetchVotingResultMessage": "Unable to fetch the voting result. It may be caused by no internet connection or the internet connection is too slow."
 }

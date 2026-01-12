@@ -32,6 +32,7 @@ const scorecardDataUtil = (() => {
       program_uuid: response.program_uuid,
       program_scorecard_type: !!response.program_scorecard_type ? JSON.stringify(response.program_scorecard_type) : null,
       dataset: !!response.dataset ? JSON.stringify(response.dataset) : null,
+      running_mode: response.running_mode
     })
   }
 

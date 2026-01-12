@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import { Animated, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
@@ -11,6 +11,8 @@ import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import EmptyListAction from '../../components/Share/EmptyListAction';
 import VotingQrCode from '../../components/VotingQr/VotingQrCode';
+import VotingResult from '../../components/VotingQr/VotingResult';
+import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {
   bottomButtonContainerPadding,
@@ -19,11 +21,12 @@ import {
   getDeviceStyle
 } from '../../utils/responsive_util';
 import Scorecard from '../../models/Scorecard';
+import VotingIndicator from '../../models/VotingIndicator';
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
-import internetConnectionService from '../../services/internet_connection_service';
-import { ERROR_DOWNLOAD_VOTING_QR, ERROR_OPEN_VOTING, ERROR_CLOSE_VOTING } from '../../constants/error_constant';
+import votingResultService from '../../services/voting_result_service';
+import { ERROR_DOWNLOAD_VOTING_QR, ERROR_OPEN_VOTING, ERROR_CLOSE_VOTING, ERROR_FETCH_VOTING_RESULT } from '../../constants/error_constant';
 import { headerShrinkOffset } from '../../constants/component_style_constant';
 import { navigationRef } from '../../navigators/app_navigator';
 
@@ -35,37 +38,35 @@ const VotingQr = (props) => {
   const [votingObj, setVotingObj] = useState({ qr_code: null, url: null });
   const [errorType, setErrorType] = useState(null);
   const [isFinishVoting, setIsFinishVoting] = useState(false);
-  const [hasInternetConnection, setHasInternetConnection] = useState(false);
-  var unsubscribeNetInfo;
+  const [votingIndicators, setVotingIndicators] = useState([]);
 
+  const votingInfoModalRef = useRef();
+  const infoModalRef = useRef();
   const scrollY = new Animated.Value(0)
   var isHeaderShrunk = false
 
   useEffect(() => {
-    unsubscribeNetInfo = internetConnectionService.watchConnection((hasConnection) => {
-      setHasInternetConnection(hasConnection);
-    });
-
     const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
     setIsOpenVoting(scorecard.is_open_voting);
-    setIsFinishVoting(!scorecard.is_open_voting && !!scorecard.voting_url);
+    if (!scorecard.is_open_voting && !!scorecard.voting_url) {
+      setIsFinishVoting(true);
+      fetchVotingIndicators();
+    }
+    else
+      setIsFinishVoting(false);
 
     if (!scorecard.is_open_voting && !scorecard.voting_url)
       openVoting();
     else
       loadVotingQr();
-
-    return () => {
-      unsubscribeNetInfo && unsubscribeNetInfo();
-    };
   }, []);
 
-  const openVoting = () => {
-    if (!hasInternetConnection) {
-      internetConnectionService.showAlertMessage(translations.noInternetConnection);
-      return;
-    }
+  const fetchVotingIndicators = () => {
+    const indicators = VotingIndicator.getAll(props.route.params.scorecard_uuid);
+    setVotingIndicators(indicators);
+  }
 
+  const openVoting = () => {
     setIsLoading(true);
     scorecardProgressService.setOpenCloseVoting({
       scorecardUuid: props.route.params.scorecard_uuid,
@@ -92,11 +93,6 @@ const VotingQr = (props) => {
   }
 
   const downloadQrCode = async () => {
-    if (!hasInternetConnection) {
-      internetConnectionService.showAlertMessage(translations.noInternetConnection);
-      return;
-    }
-
     onlineScorecardSubmissionService.downloadVotingQrCode({
       scorecardUuid: props.route.params.scorecard_uuid,
       successCallback: (response) => {
@@ -115,11 +111,6 @@ const VotingQr = (props) => {
   }
 
   const closeVoting = () => {
-    if (!hasInternetConnection) {
-      internetConnectionService.showAlertMessage(translations.noInternetConnection);
-      return;
-    }
-
     setIsLoading(true);
     scorecardProgressService.setOpenCloseVoting({
       scorecardUuid: props.route.params.scorecard_uuid,
@@ -130,13 +121,25 @@ const VotingQr = (props) => {
         setIsOpenVoting(false);
         setIsLoading(false);
         scorecardTracingStepsService.trace(props.route.params.scorecard_uuid, 7);
-        goToNextScreen();
+        fetchVotingResult();
       },
       errroCallback: (error) => {
         setIsLoading(false);
         setErrorType(ERROR_CLOSE_VOTING);
         setVisibleModal(true);
       }
+    });
+  }
+
+  const fetchVotingResult = () => {
+    votingResultService.getVotingResultsByScorecard(props.route.params.scorecard_uuid, () => {
+      fetchVotingIndicators();
+
+      // this.props.getAll(this.state.scorecard.uuid);
+      // this.props.getAllScorecardReferences(this.state.scorecard.uuid);
+    }, () => {
+      setErrorType(ERROR_FETCH_VOTING_RESULT);
+      setVisibleModal(true);
     });
   }
 
@@ -151,19 +154,6 @@ const VotingQr = (props) => {
           title={translations.pleaseOpenVoting}
           buttonLabel={translations.openVoting}
           onPress={() => openVoting()}
-          customContainerStyle={{ marginTop: getDeviceStyle(wp('30%'), wp('45%')) }}
-        />
-      </View>
-    )
-  }
-
-  const closeVotingMessage = () => {
-    return (
-      <View style={{height: '100%', paddingTop: hp('2%')}}>
-        <EmptyListAction
-          title={translations.votingHasClosed}
-          placeholderIcon='checkmark-done-circle-outline'
-          hideButton={true}
           customContainerStyle={{ marginTop: getDeviceStyle(wp('30%'), wp('45%')) }}
         />
       </View>
@@ -186,7 +176,7 @@ const VotingQr = (props) => {
     ) 
   }
 
-  const unvotedComponents = () => {
+  const openVotingComponents = () => {
     if (isLoading)
       return <View/>
 
@@ -242,8 +232,15 @@ const VotingQr = (props) => {
             }
           >
             { isFinishVoting
-              ? closeVotingMessage()
-              : unvotedComponents()
+              ? <View style={{ height: '100%', paddingTop: hp('2%') }}>
+                  <VotingResult
+                    scorecardUuid={props.route.params.scorecard_uuid}
+                    votingIndicators={votingIndicators}
+                    infoModalRef={infoModalRef}
+                    votingInfoModalRef={votingInfoModalRef}
+                  />
+                </View>
+              : openVotingComponents()
             }
           </ScrollView>
         </Animated.View>
@@ -262,6 +259,7 @@ const VotingQr = (props) => {
   return (
     <View style={{height: '100%', paddingBottom: screenPaddingBottom(props.sdkVersion)}}>
       { _renderBody() }
+      <VotingInfoModal ref={infoModalRef} votingInfoModalRef={votingInfoModalRef} snapPoints={[]} />
       <ErrorAlertMessage
         visible={visibleModal}
         errorType={errorType}
