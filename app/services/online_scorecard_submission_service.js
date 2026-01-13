@@ -40,8 +40,8 @@ const onlineScorecardSubmissionService = (() => {
       if (isImageExist)
         successCallback && successCallback();
       else {
-        const settingData = await settingHelper.getSettingData();
-        downloadFileFromUrl(`${settingData.backendUrl}${responseData.qr_code_url}`, filename, true,
+        const backendUrl = await settingHelper.getSavedEndpointUrl()
+        downloadFileFromUrl(`${backendUrl}${responseData.qr_code_url}`, filename, true,
           (isSuccess, downloadResponse, localFilePath) => {
             if (isSuccess) {
               Scorecard.update(scorecardUuid, {

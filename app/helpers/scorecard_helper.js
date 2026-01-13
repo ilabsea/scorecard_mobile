@@ -2,7 +2,7 @@ import { ERROR_SCORECARD_COMPLETED, ERROR_SCORECARD_EXECUTED } from '../constant
 import Moment from 'moment';
 import moment from "moment/min/moment-with-locales";
 import { environment } from '../config/environment';
-import { selfAssessment, DOWNLOADED, RUNNING, FINISHED, RENEWED } from '../constants/scorecard_constant';
+import { selfAssessment, DOWNLOADED, RUNNING, FINISHED, RENEWED, PLANNED } from '../constants/scorecard_constant';
 import Color from '../themes/color';
 import Scorecard from '../models/Scorecard';
 import EndpointUrl from '../models/EndpointUrl';
@@ -27,7 +27,7 @@ const scorecardHelper = (() => {
   };
 
   function isScorecardAvailable(scorecard) {
-    return !scorecard.progress || scorecard.progress == DOWNLOADED || scorecard.progress == RENEWED;
+    return !scorecard.progress || scorecard.progress == DOWNLOADED || scorecard.progress == RENEWED || scorecard.progress == PLANNED;
   }
 
   function getScorecardErrorType(scorecard) {

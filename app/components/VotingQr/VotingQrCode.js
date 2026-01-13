@@ -7,7 +7,7 @@ import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
 import OutlinedButton from '../OutlinedButton';
 import { getDeviceStyle } from '../../utils/responsive_util';
-import { ERROR_SOMETHING_WENT_WRONG } from '../../constants/error_constant';
+import { ERROR_SHARE_VOTING_LINK } from '../../constants/error_constant';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
@@ -21,8 +21,7 @@ const VotingQrCode = (props) => {
   const shareLink = () => {
     Share.open({ url: props.votingObj.url, failOnCancel: false })
       .catch((error) => {
-        // Todo: update the error message when failed to share the VOTING LINK
-        props.showErrorModal(ERROR_SOMETHING_WENT_WRONG);
+        props.showErrorModal(ERROR_SHARE_VOTING_LINK);
       })
   }
 

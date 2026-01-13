@@ -30,9 +30,6 @@ class BaseApi {
     const endpointUrl = endpoint || await AsyncStorage.getItem('ENDPOINT_URL');
     const apiUrl = endpointUrl + options.url;
 
-    console.log('====================');
-    console.log('== API url = ', apiUrl);
-
     try {
       const response = await axios({
         method: options.method,

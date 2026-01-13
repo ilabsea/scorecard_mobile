@@ -114,6 +114,10 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.failedToFetchVotingResult,
       description: translations.errorFetchVotingResultMessage
     },
+    'ERROR_SHARE_VOTING_LINK': {
+      title: translations.failedToShareVotingLink,
+      description: translations.errorSharingVotingLinkMessage
+    },
     'DEFAULT': {
       title: translations.somethingWentWrong,
       description: translations.formatString(translations.somethingWentWrongMessage, endpoint)

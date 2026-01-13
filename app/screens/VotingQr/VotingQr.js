@@ -134,9 +134,6 @@ const VotingQr = (props) => {
   const fetchVotingResult = () => {
     votingResultService.getVotingResultsByScorecard(props.route.params.scorecard_uuid, () => {
       fetchVotingIndicators();
-
-      // this.props.getAll(this.state.scorecard.uuid);
-      // this.props.getAllScorecardReferences(this.state.scorecard.uuid);
     }, () => {
       setErrorType(ERROR_FETCH_VOTING_RESULT);
       setVisibleModal(true);

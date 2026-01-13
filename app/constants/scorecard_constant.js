@@ -75,6 +75,7 @@ const IN_REVIEW = 'in_review';
 const COMPLETED = 'completed';
 const ONLINE = 'online';
 const OFFLINE = 'offline';
+const PLANNED = 'planned';
 
 export {
   scorecardDownloadPhases,
@@ -109,4 +110,5 @@ export {
   COMPLETED,
   ONLINE,
   OFFLINE,
+  PLANNED,
 };

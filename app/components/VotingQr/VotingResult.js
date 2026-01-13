@@ -16,6 +16,7 @@ const VotingResult = (props) => {
         scorecard={scorecard}
         votingInfoModalRef={props.votingInfoModalRef}
         infoModalRef={props.infoModalRef}
+        disabledShowDetail={true}
       />
     );
   }

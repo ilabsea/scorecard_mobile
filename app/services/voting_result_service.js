@@ -14,7 +14,14 @@ const votingResultService = (() => {
     handleApiResponse(response, (votingIndicators) => {
       for (var i = 0; i < votingIndicators.length; i++) {
         const votingIndicator = votingIndicators[i];
-        VotingIndicator.update(votingIndicator.uuid, { median: votingIndicator.median });
+        const scoringResults = votingIndicator.results;
+        const scorings = ['very_bad_count', 'bad_count', 'acceptable_count', 'good_count', 'very_good_count'];
+        var data = { median: votingIndicator.median }
+
+        scorings.forEach((scoring, index) => {
+          data[scoring] = scoringResults[index].vote_count;
+        });
+        VotingIndicator.update(votingIndicator.uuid, data);
       }
       !!successCallback && successCallback();
     }, (error) => {
