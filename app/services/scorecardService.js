@@ -88,7 +88,10 @@ class ScorecardService {
   // ------Step4------
   async uploadScorecard(callback, errorCallback) {
     const _this = this;
-    let attrs = await scorecardAttributes(_this.scorecard);
+    let attrs = await scorecardAttributes({
+      scorecard: _this.scorecard,
+      isFinalSubmit: true
+    });
 
     this.scorecardApi.put(this.scorecard_uuid, attrs)
       .then(function (response) {

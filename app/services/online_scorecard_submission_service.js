@@ -18,7 +18,10 @@ const onlineScorecardSubmissionService = (() => {
 
   async function draftSubmit({scorecardUuid, successCallback, errorCallback}) {
     const scorecard = Scorecard.find(scorecardUuid);
-    let attrs = await scorecardAttributes(scorecard);
+    let attrs = await scorecardAttributes({
+      scorecard: scorecard,
+      isFinalSubmit: false
+    });
     scorecardApi.put(scorecardUuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
