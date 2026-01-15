@@ -185,6 +185,7 @@ const VotingQr = (props) => {
 
         { (isOpenVoting&& !!votingObj.qr_code) &&
           <VotingQrCode
+            scorecardUuid={props.route.params.scorecard_uuid}
             votingObj={votingObj}
             showErrorModal={(type) => {
               setErrorType(type);

@@ -14,6 +14,7 @@ const onlineScorecardSubmissionService = (() => {
   return {
     draftSubmit,
     downloadVotingQrCode,
+    getVotingStats
   }
 
   async function draftSubmit({scorecardUuid, successCallback, errorCallback}) {
@@ -62,6 +63,14 @@ const onlineScorecardSubmissionService = (() => {
     }, (error) => {
       !!errorCallback && errorCallback();
     });
+  }
+
+  async function getVotingStats({scorecardUuid, successCallback}) {
+    const response = await scorecardApi.getStats(scorecardUuid);
+    console.log('=== scorecard stat response = ', response);
+    handleApiResponse(response, async (responseData) => {
+      successCallback(responseData);
+    })
   }
 
   function _getImageFilename(scorecardUuid) {

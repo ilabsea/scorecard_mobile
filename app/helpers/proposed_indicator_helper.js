@@ -33,6 +33,7 @@ const proposedIndicatorHelper = (() => {
       attr.indicatorable_type = indicatorAttrs.type;
       attr.indicatorable_id = indicatorAttrs.indicatorable_id;
       attr.indicator_uuid = indicatorAttrs.indicator_uuid;
+      attr.indicatorable_name = indicatorAttrs.indicatorable_name;
 
       if (!!isRaisedIndicatorAttrs) {
         const votingIndicator = VotingIndicator.find(scorecard.uuid, proposedIndicator.indicatorable_id);
@@ -126,6 +127,7 @@ const proposedIndicatorHelper = (() => {
       'predefined': { type: 'Indicator', indicator_uuid: indicator.indicator_uuid }
     }
     indicatorAttrs[indicator.type]['indicatorable_id'] = indicator.id;
+    indicatorAttrs[indicator.type]['indicatorable_name'] = indicator.name;
 
     return indicatorAttrs[indicator.type];
   }

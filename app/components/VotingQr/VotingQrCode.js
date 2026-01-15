@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { View, Image, Dimensions, Linking, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import Share from 'react-native-share';
@@ -11,12 +11,27 @@ import { ERROR_SHARE_VOTING_LINK } from '../../constants/error_constant';
 
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import { bodyFontSize } from '../../utils/font_size_util';
+import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
 
 const contentFontSize = bodyFontSize();
 
 const VotingQrCode = (props) => {
   const { translations } = useContext(LocalizationContext);
   const screenWidth = Dimensions.get('screen').width;
+  const [numOfVoted, setNumOfVoted] = useState(0);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     onlineScorecardSubmissionService.getVotingStats({
+  //       scorecardUuid: props.scorecardUuid,
+  //       successCallback: (response) => {
+  //         // Todo: set the response value to the setNumOfVoted
+  //       }
+  //     });
+  //   }, 5000);
+
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const shareLink = () => {
     Share.open({ url: props.votingObj.url, failOnCancel: false })
@@ -63,6 +78,9 @@ const VotingQrCode = (props) => {
             labelStyle={styles.buttonLabel}
           />
         </View>
+      </View>
+      <View style={{paddingTop: 12, alignItems: 'center'}}>
+        <Text>Voted participant: {numOfVoted}</Text>
       </View>
     </React.Fragment>
   )
