@@ -1,4 +1,6 @@
 import Scorecard from '../models/Scorecard';
+import Indicator from '../models/Indicator';
+import CustomIndicatorApi from '../api/CustomIndicatorApi';
 import { scorecardAttributes } from '../utils/scorecard_attributes_util';
 import { getErrorType, handleApiResponse } from './api_service';
 import {
@@ -18,6 +20,39 @@ const onlineScorecardSubmissionService = (() => {
   }
 
   async function draftSubmit({scorecardUuid, successCallback, errorCallback}) {
+    // Step 1: upload custom indicators, Step 2: upload scorecard with its dependency
+    uploadCustomIndicators(scorecardUuid, successCallback, errorCallback);
+  }
+
+  function uploadCustomIndicators(scorecardUuid, successCallback, errorCallback) {
+    const customIndicators = Indicator.getCustomIndicators(scorecardUuid);
+    const customIndicatorsWithNoId = customIndicators.filter(x => !x.id);
+    // Step 1
+    uploadCustomIndicator(0, customIndicatorsWithNoId, scorecardUuid, successCallback, errorCallback);
+  }
+
+  // upload all custom indicators then upload scorecard with its dependcy
+  function uploadCustomIndicator(index, indicators, scorecardUuid, successCallback, errorCallback) {
+    if (index == indicators.length) {
+      // Step 2: upload scorecard with its dependency
+      uploadScorecard(scorecardUuid, successCallback, errorCallback);
+      return ;
+    }
+
+    const customIndicator = indicators[index];
+    CustomIndicatorApi.post(scorecardUuid, customIndicator, (response) => {
+      if (!!response && !!response.id) {
+        // Update the id of the custom indicator with the id that received from the server
+        // This 'id' is used as 'indicatorable_id' when submitting the scorecard
+        Indicator.update(customIndicator.indicator_uuid, { id: response.id }, scorecardUuid);
+      }
+      uploadCustomIndicator(index + 1, indicators, scorecardUuid, successCallback, errorCallback);
+    }, (errorType) => {
+      !!errorCallback && errorCallback(errorType);
+    })
+  }
+
+  async function uploadScorecard(scorecardUuid, successCallback, errorCallback) {
     const scorecard = Scorecard.find(scorecardUuid);
     let attrs = await scorecardAttributes({
       scorecard: scorecard,

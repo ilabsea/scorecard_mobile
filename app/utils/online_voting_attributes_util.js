@@ -14,14 +14,10 @@ const onlineVotingAttributesUtil = (() => {
     let attrs = [];
 
     votingIndicatorAttr.map((votingIndicator, index) => {
-      const { activities_attrs, suggested_actions_attrs } = getIndicatorActivitiesAttrs(scorecard.uuid, votingIndicator.uuid);
+      const { activities_attrs } = getIndicatorActivitiesAttrs(scorecard.uuid, votingIndicator.uuid);
       attrs.push({
-        uuid: votingIndicator.uuid,
+        id: votingIndicator.uuid,
         indicator_activities_attributes: activities_attrs,
-        // suggested_actions_attributes: suggested_actions_attrs,
-        // display_order: votingIndicator.order,
-        // scorecard_uuid: votingIndicator.scorecard_uuid,
-        // median: votingIndicator.median
       });
     });
 
