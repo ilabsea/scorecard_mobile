@@ -16,7 +16,7 @@ const onlineScorecardSubmissionService = (() => {
   return {
     draftSubmit,
     downloadVotingQrCode,
-    getVotingStats
+    getVotingPoll
   }
 
   async function draftSubmit({scorecardUuid, successCallback, errorCallback}) {
@@ -100,9 +100,8 @@ const onlineScorecardSubmissionService = (() => {
     });
   }
 
-  async function getVotingStats({scorecardUuid, successCallback}) {
-    const response = await scorecardApi.getStats(scorecardUuid);
-    console.log('=== scorecard stat response = ', response);
+  async function getVotingPoll({scorecardUuid, successCallback}) {
+    const response = await scorecardApi.getPoll(scorecardUuid);
     handleApiResponse(response, async (responseData) => {
       successCallback(responseData);
     })

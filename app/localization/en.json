@@ -456,5 +456,6 @@
   "failedToFetchVotingResult": "Failed to fetch the voting result",
   "errorFetchVotingResultMessage": "Unable to fetch the voting result. It may be caused by no internet connection or the internet connection is too slow.",
   "failedToShareVotingLink": "Failed to share the voting link",
-  "errorSharingVotingLinkMessage": "There was a problem sharing the voting link. Please try again."
+  "errorSharingVotingLinkMessage": "There was a problem sharing the voting link. Please try again.",
+  "totalVotes": "Total votes"
 }

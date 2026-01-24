@@ -230,7 +230,7 @@ const VotingQr = (props) => {
             }
           >
             { isFinishVoting
-              ? <View style={{ height: '100%', paddingTop: hp('2%') }}>
+              ? <View style={{ height: '100%', paddingTop: hp('2%'), paddingBottom: 32 }}>
                   <VotingResult
                     scorecardUuid={props.route.params.scorecard_uuid}
                     votingIndicators={votingIndicators}

@@ -46,9 +46,9 @@ class ScorecardApi extends BaseApi {
     return BaseApi.request(options);
   }
 
-  getStats = async (id) => {
+  getPoll = async (id) => {
     const options = {
-      url: '/api/v1/' + this.responsibleModel + '/' + id + '/stats',
+      url: '/api/v1/' + this.responsibleModel + '/' + id + '/poll',
       method: 'GET'
     }
     return BaseApi.request(options);

@@ -18,20 +18,25 @@ const contentFontSize = bodyFontSize();
 const VotingQrCode = (props) => {
   const { translations } = useContext(LocalizationContext);
   const screenWidth = Dimensions.get('screen').width;
-  const [numOfVoted, setNumOfVoted] = useState(0);
+  const [totalVotes, setTotalVotes] = useState(0);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     onlineScorecardSubmissionService.getVotingStats({
-  //       scorecardUuid: props.scorecardUuid,
-  //       successCallback: (response) => {
-  //         // Todo: set the response value to the setNumOfVoted
-  //       }
-  //     });
-  //   }, 5000);
+  useEffect(() => {
+    fetchVotingPoll();
+    const interval = setInterval(() => {
+      fetchVotingPoll();
+    }, 5000);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchVotingPoll = () => {
+    onlineScorecardSubmissionService.getVotingPoll({
+      scorecardUuid: props.scorecardUuid,
+      successCallback: (response) => {
+        setTotalVotes(response['total_votes']);
+      }
+    });
+  }
 
   const shareLink = () => {
     Share.open({ url: props.votingObj.url, failOnCancel: false })
@@ -80,7 +85,7 @@ const VotingQrCode = (props) => {
         </View>
       </View>
       <View style={{paddingTop: 12, alignItems: 'center'}}>
-        <Text>Voted participant: {numOfVoted}</Text>
+        <Text style={styles.label}>{translations.totalVotes}: {totalVotes}</Text>
       </View>
     </React.Fragment>
   )
