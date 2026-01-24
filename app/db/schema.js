@@ -25,6 +25,7 @@ import schemaV22 from './schemas/schemaV22';
 import schemaV23 from './schemas/schemaV23';
 import schemaV24 from './schemas/schemaV24';
 import schemaV25 from './schemas/schemaV25';
+import schemaV26 from './schemas/schemaV26';
 
 const schemas = [
   schemaV1,
@@ -50,6 +51,7 @@ const schemas = [
   schemaV23,
   schemaV24,
   schemaV25,
+  schemaV26,
 ];
 
 // the first schema to update to is the current schema version

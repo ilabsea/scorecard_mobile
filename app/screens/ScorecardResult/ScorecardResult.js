@@ -13,6 +13,7 @@ import TipModal from '../../components/Tip/TipModal';
 import Color from '../../themes/color';
 import Tip from '../../components/Share/Tip';
 import CollapsibleNavHeader from '../../components/Share/CollapsibleNavHeader';
+import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import ScorecardResultTitle from '../../components/ScorecardResult/ScorecardResultTitle';
 import ScorecardResultTable from '../../components/ScorecardResult/ScorecardResultTable';
 import ScorecardResultAccordion from '../../components/ScorecardResult/ScorecardResultAccordion';
@@ -20,6 +21,7 @@ import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBott
 
 import scorecardResultService from '../../services/scorecard_result_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import votingResultService from '../../services/voting_result_service';
 
 import ScorecardResultModalMain from '../../components/ScorecardResult/ScorecardResultModalMain';
 import Scorecard from '../../models/Scorecard';
@@ -32,6 +34,8 @@ import {
 } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {headerShrinkOffset} from '../../constants/component_style_constant';
+import { ERROR_FETCH_VOTING_RESULT } from '../../constants/error_constant';
+import { ONLINE } from '../../constants/scorecard_constant';
 
 let _this = null;
 
@@ -45,6 +49,8 @@ class ScorecardResult extends Component {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
       currentIndicator: {},
       selectedIndicator: {},
+      visibleModal: false,
+      errorType: null
     };
     _this = this;
 
@@ -55,7 +61,19 @@ class ScorecardResult extends Component {
     this.isHeaderShrunk = false
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    // if (this.state.scorecard.running_mode == ONLINE && !Scorecard.hasVotedIndicator(this.props.route.params.scorecard_uuid)) {
+    //   votingResultService.getVotingResultsByScorecard(this.props.route.params.scorecard_uuid, () => {
+    //     this.props.getAll(this.state.scorecard.uuid);
+    //     this.props.getAllScorecardReferences(this.state.scorecard.uuid);
+    //   }, () => {
+    //     this.setState({
+    //       visibleModal: true,
+    //       errorType: ERROR_FETCH_VOTING_RESULT
+    //     });
+    //   });
+    // }
+
     if (this.state.scorecard.status < 5) {
       Scorecard.update(this.state.scorecard.uuid, {status: '5'})
       this.props.setCurrentScorecard(this.state.scorecard);
@@ -159,6 +177,17 @@ class ScorecardResult extends Component {
 
         <TipModal tipModalRef={this.tipModalRef} snapPoints={snapPoints} screenName='ScorecardResult' />
         <FormBottomSheetModal ref={this.formRef} formModalRef={this.swotModalRef} snapPoints={swotModalSnapPoints} />
+        <ErrorAlertMessage
+          visible={this.state.visibleModal}
+          errorType={this.state.errorType}
+          scorecardUuid={this.props.route.params.scorecard_uuid}
+          onDismiss={() => {
+            this.setState({
+              visibleModal: false,
+              errorType: null
+            })
+          }}
+        />
       </View>
     )
   }

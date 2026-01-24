@@ -11,12 +11,25 @@ import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import proposedIndicatorStyleHelper from '../../helpers/proposed_indicator_style_helper';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import Indicator from '../../models/Indicator';
+import Scorecard from '../../models/Scorecard';
+import Participant from '../../models/Participant';
 import {participantModalSnapPoints} from '../../constants/modal_constant';
+import {OFFLINE} from '../../constants/scorecard_constant';
 import { getDeviceStyle } from '../../utils/responsive_util';
 
 class ProposeNewIndicatorSearchResult extends React.Component {
   static contextType = LocalizationContext;
-  state = {showAddNewButton: false}
+  state = {
+    showAddNewButton: false,
+    isOffline: false
+  }
+
+  componentDidMount() {
+    const scorecard = Scorecard.find(this.props.scorecardUuid);
+    this.setState({
+      isOffline: scorecard.running_mode == OFFLINE
+    });
+  }
 
   async componentDidUpdate(prevProps) {
     const endpointId = await settingHelper.getSavedEndpointUrlId();
@@ -24,11 +37,22 @@ class ProposeNewIndicatorSearchResult extends React.Component {
       const duplicatedIndicators = Indicator.findByScorecardAndName(this.props.scorecardUuid, this.props.searchedText, endpointId);
       this.setState({showAddNewButton: duplicatedIndicators.length > 0 ? false : true})
     }
-    else if (!this.props.searchedText)
+    else if (!this.props.searchedText && this.state.showAddNewButton)
       this.setState({showAddNewButton: false})
   }
 
   startProposeIndicator = (indicator, isNewCustomIndicator) => {
+    // If using online mode, skip showing the select participant bottom sheet, and then start to toggle proposed indicator
+    if (!this.state.isOffline) {
+      !!isNewCustomIndicator && this.props.closeSearch()
+      const participant = Participant.getAnonymousByScorecard(this.props.scorecardUuid)[0];
+      proposedIndicatorService.handleCreateAndRemoveIndicator(this.props.scorecardUuid, indicator, participant.uuid);
+      setTimeout(() => {
+        this.props.updateProposedIndicator();
+      }, 200)
+      return
+    }
+
     if (this.props.isIndicatorBase) {
       this.props.bottomSheetRef.current?.setSnapPoints(participantModalSnapPoints)
       this.props.closeSearch()
@@ -74,7 +98,7 @@ class ProposeNewIndicatorSearchResult extends React.Component {
               startProposeIndicator={(customIndicator) => this.startProposeIndicator(customIndicator, true)}
             />
           }
-          {(!this.props.isIndicatorBase && !this.state.showAddNewButton) && this.renderSaveBtn()}
+          {((!this.props.isIndicatorBase || !this.state.isOffline) && !this.state.showAddNewButton) && this.renderSaveBtn()}
         </View>
         <TouchableWithoutFeedback onPress={() => this.props.closeSearch()}>
           <View style={{position: 'absolute', height: hp('100%'), width: wp('100%'), zIndex: -1}} />

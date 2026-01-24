@@ -243,7 +243,6 @@ const stopDownload = () => {
   _indicatorService = null;
 }
 
-
 const deleteScorecardDownload = (scorecardUuid) => {
   const scorecardDownload = find(scorecardUuid);
 

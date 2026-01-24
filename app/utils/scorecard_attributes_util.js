@@ -4,9 +4,11 @@ import VersionCheck from 'react-native-version-check';
 import Facilitator from '../models/Facilitator';
 import Participant from '../models/Participant';
 import { getNestedAttributes } from './scorecard_nested_attributes_util';
+import onlineVotingAttributesUtil from './online_voting_attributes_util';
 import MobileTokenService from '../services/mobile_token_service';
+import { OFFLINE, ONLINE } from '../constants/scorecard_constant';
 
-export const scorecardAttributes = async (scorecard) => {
+export const scorecardAttributes = async ({scorecard, isFinalSubmit}) => {
   let facilitators = Facilitator.getAll(scorecard.uuid);
   let participants = Participant.getAllCountable(scorecard.uuid);
   const conductedTime = Moment(scorecard.conducted_at).format('HH:mm:ss ZZ');
@@ -31,7 +33,13 @@ export const scorecardAttributes = async (scorecard) => {
     app_version: VersionCheck.getCurrentBuildNumber()
   };
 
-  scorecardAttributes = {...scorecardAttributes, ...getNestedAttributes(scorecard)};
+  if (!isFinalSubmit || (scorecard.running_mode == OFFLINE))
+    scorecardAttributes = {...scorecardAttributes, ...getNestedAttributes(scorecard)};
+  else if (isFinalSubmit && scorecard.running_mode == ONLINE)
+    scorecardAttributes = { ...scorecardAttributes, ...onlineVotingAttributesUtil.parse(scorecard) }
+
+  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++');
+  console.log('== submit scorecard attrs = ', scorecardAttributes);
 
   return scorecardAttributes;
 }

@@ -9,6 +9,7 @@ const VotingIndicator = (() => {
     findByUuid,
     filterByIndicator,
     upsert,
+    update,
     getSelectedSuggestedAction,
     destroy,
   };
@@ -38,6 +39,14 @@ const VotingIndicator = (() => {
     realm.write(() => {
       realm.create(MODEL, data, 'modified');
     });
+  }
+
+  function update(uuid, params={}) {
+    if (findByUuid(uuid)) {
+      realm.write(() => {
+        realm.create(MODEL, Object.assign(params, {uuid: uuid}), 'modified');
+      })
+    }
   }
 
   function getSelectedSuggestedAction(scorecardUuid, indicatorId) {

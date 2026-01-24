@@ -94,6 +94,30 @@ const getAlertMessageObject = async (errorType, scorecardUuid, unlockAt = null, 
       title: translations.theServerUrlHasChanged,
       description: translations.sharePDFMismatchEndpointMessage
     },
+    'ERROR_DRAFT_SUBMIT': {
+      title: translations.failedDraftSubmitTheScorecard,
+      description: translations.errorDraftSubmitScorecardMessage
+    },
+    'ERROR_DOWNLOAD_VOTING_QR': {
+      title: translations.failedDownloadQrCode,
+      description: translations.errorDownloadQrCodeMessage
+    },
+    'ERROR_OPEN_VOTING': {
+      title: translations.failedOpenVoting,
+      description: translations.errorOpenVotingMessage
+    },
+    'ERROR_CLOSE_VOTING': {
+      title: translations.failedCloseVoting,
+      description: translations.errorCloseVotingMessage
+    },
+    'ERROR_FETCH_VOTING_RESULT': {
+      title: translations.failedToFetchVotingResult,
+      description: translations.errorFetchVotingResultMessage
+    },
+    'ERROR_SHARE_VOTING_LINK': {
+      title: translations.failedToShareVotingLink,
+      description: translations.errorSharingVotingLinkMessage
+    },
     'DEFAULT': {
       title: translations.somethingWentWrong,
       description: translations.formatString(translations.somethingWentWrongMessage, endpoint)

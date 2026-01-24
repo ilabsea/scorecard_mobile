@@ -13,6 +13,7 @@ import ScorecardProgressScreen from '../screens/ScorecardProgress/ScorecardProgr
 import IndicatorDevelopmentScreen from '../screens/IndicatorDevelopment/IndicatorDevelopment';
 import VotingIndicatorFormScreen from '../screens/VotingIndicatorForm/VotingIndicatorForm';
 import VotingIndicatorListScreen from '../screens/VotingIndicatorList/VotingIndicatorList';
+import VotingQrScreen from '../screens/VotingQr/VotingQr';
 import ProposedIndicatorScreen from '../screens/ProposedIndicator/ProposedIndicator';
 import ProposeNewIndicatorScreen from '../screens/ProposeNewIndicator/ProposeNewIndicator';
 import ScorecardResultScreen from '../screens/ScorecardResult/ScorecardResult';
@@ -73,7 +74,8 @@ function AppNavigator() {
           'SelectedImage',
           'FilterScorecardScreen',
           'VideoPlayer',
-          'AddNewEndpointUrl'
+          'AddNewEndpointUrl',
+          'VotingQr'
         ];
         const hideHeader = hideHeaderRoutes.includes(route.name);
 
@@ -272,6 +274,13 @@ function AppNavigator() {
       <Stack.Screen
         name="AddNewEndpointUrl"
         component={AddNewEndpointUrlScreen}
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name="VotingQr"
+        component={VotingQrScreen}
         options={{
           header: () => null,
         }}

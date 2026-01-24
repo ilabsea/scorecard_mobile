@@ -40,7 +40,7 @@ export default class VotingIndicatorListItem extends Component {
           <VotingIndicatorListIcons indicator={this.props.indicator} />
         </View>
 
-        { this.props.indicator.median &&
+        { (this.props.indicator.median && !this.props.disabledShowDetail) &&
           <View style={viewMoreContainerStyle}>
             <Text style={styles.viewMoreLabel}>{ translations.viewDetail }</Text>
             <Icon name="chevron-forward-outline" style={styles.viewMoreIcon}/>
@@ -67,8 +67,11 @@ export default class VotingIndicatorListItem extends Component {
     let indicator = indicatorHelper.getDisplayIndicator(this.props.indicator);
 
     return (
-      <TouchableOpacity onPress={() => this.showVotingDetail(indicator)}>
-        <View style={[customStyle.card, styles.ratingItemContainer]}>
+      <TouchableOpacity
+        disabled={this.props.disabledShowDetail}
+        onPress={() => !this.props.disabledShowDetail && this.showVotingDetail(indicator)}
+      >
+        <View style={[customStyle.card, styles.ratingItemContainer, this.props.disabledShowDetail && {paddingVertical: 6}]}>
           { this._renderContent(indicator) }
           <VotingIndicatorListMedian indicator={this.props.indicator} scorecard={this.props.scorecard} />
         </View>

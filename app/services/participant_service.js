@@ -1,5 +1,6 @@
 import Participant from '../models/Participant';
 import ProposedIndicator from '../models/ProposedIndicator';
+import uuidv4 from '../utils/uuidv4';
 
 const saveParticipantInfo = (participant, scorecardUuid, isUpdate, callback) => {
   const participants = Participant.getAllByScorecard(scorecardUuid);
@@ -29,7 +30,29 @@ const updateRaisedParticipants = (scorecardUuid) => {
   });
 }
 
+const createAnonymousParticipant = (scorecardUuid, callback) => {
+  let attrs = {
+    uuid: uuidv4(),
+    age: -1,
+    gender: 'other',
+    disability: false,
+    minority: false,
+    poor: false,
+    youth: false,
+    scorecard_uuid: scorecardUuid,
+    order: 98,
+    countable: false
+  };
+  Participant.create(attrs);
+  const participants = Participant.getAllByScorecard(scorecardUuid);
+
+  setTimeout(() => {
+    callback(participants);
+  }, 20);
+}
+
 export {
   saveParticipantInfo,
   updateRaisedParticipants,
+  createAnonymousParticipant
 };

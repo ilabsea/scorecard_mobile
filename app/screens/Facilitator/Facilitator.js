@@ -14,11 +14,15 @@ import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import Caf from '../../models/Caf';
 import facilitatorService from '../../services/facilitator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import {createAnonymousParticipant} from '../../services/participant_service';
 import { environment } from '../../config/environment';
 import Color from '../../themes/color';
 import { containerPaddingTop, containerPadding, bottomButtonContainerPadding } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import { facilitatorPickerSnapPoints } from '../../constants/modal_constant';
+import {OFFLINE} from '../../constants/scorecard_constant';
+import Scorecard from '../../models/Scorecard';
+import {saveParticipant} from '../../actions/participantAction';
 
 class FacilitatorScreen extends Component {
   static contextType = LocalizationContext;
@@ -86,7 +90,16 @@ class FacilitatorScreen extends Component {
   saveSelectedData = () => {
     facilitatorService.saveSelectedFacilitators(this.state.selectedFacilitators, this.props.route.params.scorecard_uuid);
     scorecardTracingStepsService.trace(this.props.route.params.scorecard_uuid, 3);
-    this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
+
+    const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid);
+    if (scorecard.running_mode == OFFLINE)
+      this.props.navigation.navigate('OfflineParticipantList', {scorecard_uuid: this.props.route.params.scorecard_uuid});
+    else {
+      createAnonymousParticipant(this.props.route.params.scorecard_uuid, (participants) => {
+        this.props.saveParticipant(participants, this.props.route.params.scorecard_uuid);
+        this.props.navigation.navigate('OfflineProposedIndicator', {scorecard_uuid: this.props.route.params.scorecard_uuid})
+      });
+    }
   };
 
   renderNextButton = () => {
@@ -195,7 +208,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {saveParticipant: (participants, scorecardUUID) => dispatch(saveParticipant(participants, scorecardUUID))};
 }
 
 export default connect(

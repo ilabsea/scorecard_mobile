@@ -2,10 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VOTING } from '../constants/scorecard_constant';
 import VotingIndicator from '../models/VotingIndicator';
 import Scorecard from '../models/Scorecard';
+import ScorecardProgressApi from '../api/ScorecardProgressApi';
 
 const scorecardProgressService = (() => {
   return {
     getProgressMessage,
+    setOpenCloseVoting,
   }
 
   async function getProgressMessage(indicators, scorecard) {
@@ -23,6 +25,25 @@ const scorecardProgressService = (() => {
     ]
     const infoMessages = messages.filter(message => message.label);
     return infoMessages.length > 0 ? infoMessages[0].label : '';
+  }
+
+  async function setOpenCloseVoting({ scorecardUuid, isOpen, successCallback, errorCallback }) {
+    const data = {
+      scorecard_progress: {
+        scorecard_uuid: scorecardUuid,
+        status: isOpen ? "open_voting" : "close_voting",
+      }
+    };
+
+    ScorecardProgressApi.post(data)
+      .then(function (response) {
+        if (response.status == 200) {
+          Scorecard.update(scorecardUuid, { is_open_voting: isOpen });
+          successCallback && successCallback();
+        }
+        else
+          !!errorCallback && errorCallback(response.error);
+      });
   }
 
   // private method
