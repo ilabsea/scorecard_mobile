@@ -119,7 +119,6 @@ const VotingQr = (props) => {
         Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: false });
         setIsFinishVoting(true);
         setIsOpenVoting(false);
-        setIsLoading(false);
         scorecardTracingStepsService.trace(props.route.params.scorecard_uuid, 7);
         fetchVotingResult();
       },
@@ -134,7 +133,9 @@ const VotingQr = (props) => {
   const fetchVotingResult = () => {
     votingResultService.getVotingResultsByScorecard(props.route.params.scorecard_uuid, () => {
       fetchVotingIndicators();
+      setIsLoading(false);
     }, () => {
+      setIsLoading(false);
       setErrorType(ERROR_FETCH_VOTING_RESULT);
       setVisibleModal(true);
     });
