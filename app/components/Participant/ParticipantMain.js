@@ -68,7 +68,7 @@ class ParticipantMain extends React.Component {
   render () {
     const containerPaddingTop = this.scrollY.interpolate({
       inputRange: [0, 100, 140],
-      outputRange: isSmallDiagonalScreen() ? [182, 76, 86] : isMediumScreenDevice() ? [186, 118, 86] : [196, 128, 96],
+      outputRange: isSmallDiagonalScreen() ? [182, 76, 86] : isMediumScreenDevice() ? [212, 118, 112] : [196, 128, 96],
       extrapolate: 'clamp',
     })
 
