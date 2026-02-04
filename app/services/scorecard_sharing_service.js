@@ -71,16 +71,13 @@ const scorecardSharingService = (() => {
   }
 
   function _shareFile(filePath, scorecardUuid, updateErrorMessageModal) {
-    RNFetchBlob.fs.readFile(filePath, 'base64')
-      .then((base64Data) => {
-        const base64FilePath = `data:application/pdf;base64,` + base64Data;
-        const fileName = `scorecard_${scorecardUuid}`;
-
-        Share.open({ url: base64FilePath, filename: fileName, failOnCancel: false })
-          .catch((error) => {
-            updateErrorMessageModal(ERROR_SOMETHING_WENT_WRONG, true);
-          })
-      })
+    if (!!filePath) {
+      const fileName = `scorecard_${scorecardUuid}`;
+      Share.open({ url: `file://${filePath}`, filename: fileName, failOnCancel: false })
+        .catch((error) => {
+          updateErrorMessageModal(ERROR_SOMETHING_WENT_WRONG, true);
+        })
+    }
   }
 })();
 
