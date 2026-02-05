@@ -10,8 +10,8 @@ const contentFontSize = bodyFontSize();
 const AboutScreenStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
-    flex: 1,
-    paddingHorizontal: 18,
+    flexGrow: 1,
+    padding: 18,
   },
   title: {
     fontSize: wp(xxlLabelSize),
@@ -45,6 +45,13 @@ const AboutScreenStyles = StyleSheet.create({
   euLogo: {
     width: wp('26%'),
     height: wp('23%'),
+    marginBottom: 30,
+    marginTop: 10
+  },
+  newEuLogo: {
+    width: wp('80%'),
+    height: wp('23%'),
+    resizeMode: 'contain',
     marginBottom: 30,
     marginTop: 10
   },

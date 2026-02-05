@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
 import Color from '../../themes/color';
 import { bodyFontSize, subTitleFontSize } from '../../utils/font_size_util';
@@ -8,8 +9,8 @@ const contentFontSize = bodyFontSize();
 const AboutScreenStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
-    flex: 1,
-    paddingHorizontal: 22
+    flexGrow: 1,
+    padding: 22
   },
   title: {
     fontSize: 25,
@@ -45,6 +46,11 @@ const AboutScreenStyles = StyleSheet.create({
     height: 125,
     marginBottom: 50,
     marginTop: 10
+  },
+  newEuLogo: {
+    width: wp('46%'),
+    resizeMode: 'contain',
+    marginBottom: 30,
   },
   implementedLogoContainer: {
     flexDirection: 'row',
