@@ -9,8 +9,8 @@ const contentFontSize = bodyFontSize();
 const AboutScreenStyles = StyleSheet.create({
   container: {
     backgroundColor: Color.whiteColor,
-    flex: 1,
-    paddingHorizontal: 22
+    flexGrow: 1,
+    padding: 22
   },
   title: {
     fontSize: 25,
