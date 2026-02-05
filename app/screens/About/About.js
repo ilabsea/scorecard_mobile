@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
+import DeviceInfo from 'react-native-device-info'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 import { LocalizationContext } from '../../components/Translations';
 
@@ -10,6 +12,7 @@ import pkg from '../../../package';
 import { getDeviceStyle, isShortWidthScreen } from '../../utils/responsive_util';
 import AboutTabletStyles from '../../styles/tablet/AboutScreenStyle';
 import AboutMobileStyles from '../../styles/mobile/AboutScreenStyle';
+import { FontFamily } from '../../assets/stylesheets/theme';
 
 const styles = getDeviceStyle(AboutTabletStyles, AboutMobileStyles);
 
@@ -61,6 +64,36 @@ class About extends Component {
       },
     ]
 
+    const newLogos1 = [
+      {
+        source: require('../../assets/images/ipa.png'),
+        width: 160,
+        style: {},
+        url: 'https://www.care-cambodia.org/',
+      },
+      {
+        source: require('../../assets/images/care_new.png'),
+        width: 160,
+        style: {marginLeft: 8},
+        url: 'https://apiinstitute.org/',
+      }
+    ]
+
+    const newLogos2 = [
+      {
+        source: require('../../assets/images/ycc.png'),
+        width: 150,
+        style: {},
+        url: 'http://ilabsoutheastasia.org',
+      },
+      {
+        source: require('../../assets/images/idea.jpg'),
+        width: 140,
+        style: {},
+        url: 'http://ilabsoutheastasia.org',
+      },
+    ]
+
     return (
       <View style={styles.logoContainer}>
         <Text style={styles.logoTitle}>សម្រាប់ព៌តមានបន្ថែមសូមទាក់ទងមកយើងតាមរយៈ</Text>
@@ -71,15 +104,33 @@ class About extends Component {
           </TouchableOpacity>
         </View>
 
-        <Text style={[styles.logoTitle, {marginTop: 22}]}>កំណែទី២ (ឆ្នាំ២០២៥)៖ សហការអនុវត្តដោយ</Text>
-        <Text style={styles.logoTitle}>Version 2 (2025), Co-implemented by</Text>
+        <Text style={[styles.logoTitle, {marginTop: 22, fontFamily: FontFamily.title}]}>កំណែទី២ (ឆ្នាំ២០២៥)៖ សហការអនុវត្តដោយ</Text>
+        <Text style={[styles.logoTitle, { fontFamily: FontFamily.title }]}>Version 2 (2025), Co-implemented by</Text>
 
+        <Text style={[styles.logoTitle, {marginTop: 16}]}>គាំទ្រមូលនិធិដោយ / Funded by</Text>
+        <Image source={require('../../assets/images/eu_new.png')} style={styles.newEuLogo} />
 
+        <Text style={styles.logoTitle}>អនុវត្តដោយ / Implemented by</Text>
+        {
+          DeviceInfo.isTablet()
+          ? <View style={styles.implementedLogoContainer}>
+              { [...newLogos1, ...newLogos2].map((logo, index) => this.buildLogo(logo, index)) }
+            </View>
+          : <React.Fragment>
+              <View style={styles.implementedLogoContainer}>
+                { newLogos1.map((logo, index) => this.buildLogo(logo, index)) }
+              </View>
 
-        <Text style={[styles.logoTitle, {marginTop: 32}]}>កំណែទី១៖ សហការផលិតដោយ</Text>
-        <Text style={styles.logoTitle}>Version 1, Co-produced by</Text>
+              <View style={[styles.implementedLogoContainer, {marginTop: 8}]}>
+                { newLogos2.map((logo, index) => this.buildLogo(logo, index)) }
+              </View>
+            </React.Fragment>
+        }
 
-        <Text style={[styles.logoTitle, {marginTop: 6}]}>គាំទ្រមូលនិធិដោយ / Funded by</Text>
+        <Text style={[styles.logoTitle, {marginTop: 48, fontFamily: FontFamily.title}]}>កំណែទី១៖ សហការផលិតដោយ</Text>
+        <Text style={[styles.logoTitle, {fontFamily: FontFamily.title}]}>Version 1, Co-produced by</Text>
+
+        <Text style={[styles.logoTitle, {marginTop: 16}]}>គាំទ្រមូលនិធិដោយ / Funded by</Text>
         <TouchableOpacity onPress={() => {Linking.openURL('https://eeas.europa.eu/delegations/cambodia_en')}}>
           <Image source={require('../../assets/images/home/eu.png')} style={styles.euLogo} />
         </TouchableOpacity>

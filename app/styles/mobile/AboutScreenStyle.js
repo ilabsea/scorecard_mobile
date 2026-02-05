@@ -48,6 +48,13 @@ const AboutScreenStyles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 10
   },
+  newEuLogo: {
+    width: wp('80%'),
+    height: wp('23%'),
+    resizeMode: 'contain',
+    marginBottom: 30,
+    marginTop: 10
+  },
   implementedLogoContainer: {
     flexDirection: 'row',
     marginTop: -5,
