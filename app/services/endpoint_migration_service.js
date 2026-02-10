@@ -22,6 +22,12 @@ const endpointMigrationService = (() => {
     endpointUrls.map(endpointUrl => {
       if (!EndpointUrl.isExist(endpointUrl.label, endpointUrl.value))
         EndpointUrl.create({ label: endpointUrl.label, value: endpointUrl.value, type: !!endpointUrl.type ? endpointUrl.type : DEFAULT });
+      else {
+        const savedEndpointUrl = EndpointUrl.findByUrlValue(endpointUrl.value);
+        if (!!savedEndpointUrl && savedEndpointUrl.label != endpointUrl.label) {
+          EndpointUrl.update(savedEndpointUrl.uuid, { label: endpointUrl.label, shortcut: endpointUrl.shortcut })
+        }
+      }
     });
   }
 
