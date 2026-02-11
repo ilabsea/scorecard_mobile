@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Image, Dimensions, Linking, StyleSheet } from 'react-native';
+import { View, Image, Dimensions, Linking, StyleSheet, Share } from 'react-native';
 import { Text } from 'react-native-paper';
-import Share from 'react-native-share';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../Translations';
@@ -39,10 +38,13 @@ const VotingQrCode = (props) => {
   }
 
   const shareLink = () => {
-    Share.open({ url: props.votingObj.url, failOnCancel: false })
-      .catch((error) => {
-        props.showErrorModal(ERROR_SHARE_VOTING_LINK);
+    try {
+      Share.share({
+        message: props.votingObj.url,
       })
+    } catch(error) {
+      props.showErrorModal(ERROR_SHARE_VOTING_LINK);
+    }
   }
 
   return (
