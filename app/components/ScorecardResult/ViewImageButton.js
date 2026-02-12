@@ -23,7 +23,7 @@ class ViewImageButton extends Component {
         />
 
         { this.props.scorecardReferences.length > 0 &&
-          <View style={[styles.badge, { paddingHorizontal: this.props.scorecardReferences.length > 9 ? 6 : 8 }]}>
+          <View style={[styles.badge, { paddingHorizontal: this.props.scorecardReferences.length > 9 ? 6 : 8}]}>
             <Text style={{color: Color.whiteColor, fontSize: 12, fontFamily: FontFamily.body}}>{ this.props.scorecardReferences.length }</Text>
           </View>
         }

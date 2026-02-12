@@ -15,7 +15,7 @@ class ScorecardResultTitle extends Component {
     const { translations } = this.context;
 
     return (
-      <View style={{ flexDirection: 'row', padding: containerPadding, paddingTop: 0, backgroundColor: Color.defaultBgColor}}>
+      <View style={{ flexDirection: 'row', padding: containerPadding, paddingTop: 12, backgroundColor: Color.defaultBgColor}}>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <Text style={{ fontSize: getDeviceStyle(24, titleFontSize()), fontFamily: FontFamily.title }}>
             { translations.scorecardResult }
