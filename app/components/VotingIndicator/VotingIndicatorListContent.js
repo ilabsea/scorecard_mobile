@@ -55,7 +55,7 @@ class VotingIndicatorListContent extends React.Component {
   _renderAddNewRating() {
     const { translations } = this.context;
     return (
-      <View style={{flex: 1, backgroundColor: Color.defaultBgColor, paddingHorizontal: containerPadding}}>
+      <View style={{flex: 1, backgroundColor: Color.defaultBgColor, paddingHorizontal: containerPadding, paddingTop: 4}}>
         <View style={{flexDirection: 'row', marginBottom: 16}}>
           <Text style={[styles.h1, {flex: 1, height: '100%', textAlignVertical: "center", marginBottom: 0}]}>{translations.top_indicators} {this.props.votingIndicators.length}</Text>
           <PressableParticipantInfo

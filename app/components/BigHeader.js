@@ -24,7 +24,7 @@ export default class BigHeader extends React.Component {
         </Appbar.Header>
 
         <View style={{width: '100%'}}>
-          <View style={{margin: 16, marginTop: 10}}>
+          <View style={{margin: 16, marginTop: 0}}>
             <Text style={[{fontFamily: FontFamily.title, color: Color.whiteColor}, responsiveStyles.bigTitle]}>{this.props.bigTitle}</Text>
           </View>
         </View>

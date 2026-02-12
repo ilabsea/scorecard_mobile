@@ -103,7 +103,7 @@ const navigationTitlePaddingLeft = getDeviceStyle(0, isShortWidthScreen() ? wp('
 const navigationBackButtonFlex =  getDeviceStyle(0.21, 0.15);
 
 const passProposeStepContainerPaddingTopInput = [0, 100, 140];
-const passProposeStepContainerPaddingTopOutput = isSmallDiagonalScreen() ? [198, 110, 102] : isMediumScreenDevice() ? [204, 128, 106] : [214, 138, 106];
+const passProposeStepContainerPaddingTopOutput = isSmallDiagonalScreen() ? [198, 110, 102] : isMediumScreenDevice() ? [204, 128, 96] : [214, 138, 106];
 
 export {
   getDeviceStyle,

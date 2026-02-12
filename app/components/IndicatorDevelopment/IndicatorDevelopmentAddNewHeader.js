@@ -32,7 +32,7 @@ class IndicatorDevelopmentAddNewHeader extends Component {
 
   render() {
     return (
-      <View style={{paddingBottom: getDeviceStyle(12, 14), paddingTop: getDeviceStyle(4, 0), backgroundColor: Color.defaultBgColor}}>
+      <View style={{paddingBottom: getDeviceStyle(12, 14), paddingTop: 4, backgroundColor: Color.defaultBgColor}}>
         <View style={responsiveStyles.titleContainer}>
           <Text style={[styles.h1, responsiveStyles.titleLabel]}>{ this.context.translations.indicatorDevelopment }</Text>
           {  this.props.hasData && this._renderBtnAddIndicator() }
