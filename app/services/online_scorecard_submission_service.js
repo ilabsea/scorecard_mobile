@@ -19,23 +19,27 @@ const onlineScorecardSubmissionService = (() => {
     getVotingPoll
   }
 
-  async function draftSubmit({scorecardUuid, successCallback, errorCallback}) {
+  async function draftSubmit({scorecardUuid, successCallback, errorCallback, progressCallback}) {
     // Step 1: upload custom indicators, Step 2: upload scorecard with its dependency
-    uploadCustomIndicators(scorecardUuid, successCallback, errorCallback);
+    uploadCustomIndicators(scorecardUuid, successCallback, errorCallback, progressCallback);
   }
 
-  function uploadCustomIndicators(scorecardUuid, successCallback, errorCallback) {
+  function uploadCustomIndicators(scorecardUuid, successCallback, errorCallback, progressCallback) {
     const customIndicators = Indicator.getCustomIndicators(scorecardUuid);
     const customIndicatorsWithNoId = customIndicators.filter(x => !x.id);
+
+    // Total steps = number of custom indicators + 1 (for scorecard upload)
+    const totalSteps = customIndicatorsWithNoId.length + 1;
+
     // Step 1
-    uploadCustomIndicator(0, customIndicatorsWithNoId, scorecardUuid, successCallback, errorCallback);
+    uploadCustomIndicator(0, customIndicatorsWithNoId, scorecardUuid, successCallback, errorCallback, progressCallback, totalSteps);
   }
 
   // upload all custom indicators then upload scorecard with its dependcy
-  function uploadCustomIndicator(index, indicators, scorecardUuid, successCallback, errorCallback) {
+  function uploadCustomIndicator(index, indicators, scorecardUuid, successCallback, errorCallback, progressCallback, totalSteps) {
     if (index == indicators.length) {
       // Step 2: upload scorecard with its dependency
-      uploadScorecard(scorecardUuid, successCallback, errorCallback);
+      uploadScorecard(scorecardUuid, successCallback, errorCallback, progressCallback);
       return ;
     }
 
@@ -46,13 +50,18 @@ const onlineScorecardSubmissionService = (() => {
         // This 'id' is used as 'indicatorable_id' when submitting the scorecard
         Indicator.update(customIndicator.indicator_uuid, { id: response.id }, scorecardUuid);
       }
-      uploadCustomIndicator(index + 1, indicators, scorecardUuid, successCallback, errorCallback);
+
+      // Calculate progress: each indicator = one step completed
+      const progress = parseFloat(((index + 1) / totalSteps).toFixed(2));
+      !!progressCallback && progressCallback(progress);
+
+      uploadCustomIndicator(index + 1, indicators, scorecardUuid, successCallback, errorCallback, progressCallback, totalSteps);
     }, (errorType) => {
       !!errorCallback && errorCallback(errorType);
     })
   }
 
-  async function uploadScorecard(scorecardUuid, successCallback, errorCallback) {
+  async function uploadScorecard(scorecardUuid, successCallback, errorCallback, progressCallback) {
     const scorecard = Scorecard.find(scorecardUuid);
     let attrs = await scorecardAttributes({
       scorecard: scorecard,
@@ -64,6 +73,8 @@ const onlineScorecardSubmissionService = (() => {
           if (scorecard.status < 4)
             Scorecard.update(scorecardUuid, {status: '4'})
 
+          // Final step complete = 100%
+          !!progressCallback && progressCallback(1);
           successCallback();
         }
         else if (response.error)

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import NetInfo from '@react-native-community/netinfo';
+import {ProgressBar} from 'react-native-paper';
 
 import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
@@ -21,11 +23,16 @@ import votingIndicatorService from '../../services/voting_indicator_service';
 import proposedIndicatorService from '../../services/proposed_indicator_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
-import { bottomButtonContainerPadding } from '../../utils/responsive_util';
+import internetConnectionService from '../../services/internet_connection_service';
+import { bottomButtonContainerPadding, getDeviceStyle } from '../../utils/responsive_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
 import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
 import { OFFLINE } from '../../constants/scorecard_constant';
+
+import DownloadButtonTabletStyles from '../../styles/tablet/DownloadButtonComponentStyle';
+import DownloadButtonMobileStyles from '../../styles/mobile/DownloadButtonComponentStyle';
+const responsiveStyles = getDeviceStyle(DownloadButtonTabletStyles, DownloadButtonMobileStyles);
 
 class IndicatorDevelopment extends Component {
   static contextType = LocalizationContext;
@@ -37,7 +44,9 @@ class IndicatorDevelopment extends Component {
       scorecard: Scorecard.find(props.route.params.scorecard_uuid),
       playingUuid: null,
       visibleModal: false,
-      errorType: null
+      errorType: null,
+      submitProgress: 0,
+      isSubmitting: false
     };
 
     this.tipModalRef = React.createRef();
@@ -78,23 +87,43 @@ class IndicatorDevelopment extends Component {
     scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
 
     const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid);
-    if (scorecard.running_mode == OFFLINE) {
+    if (scorecard.running_mode == OFFLINE)
       this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
-    }
-    else {
-      onlineScorecardSubmissionService.draftSubmit({
-        scorecardUuid: this.props.route.params.scorecard_uuid,
-        successCallback: () => {
-          this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.props.route.params.scorecard_uuid });
-        },
-        errorCallback: (errorType) => {
-          this.setState({
-            errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT,
-            visibleModal: true
-          });
-        }
-      });
-    }
+    else
+      this.handleOnlineScorecard();
+  }
+
+  handleOnlineScorecard() {
+    if (this.state.scorecard.status >= 4)
+      return this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.props.route.params.scorecard_uuid });
+
+    NetInfo.fetch().then(state => {
+      if (state.isConnected && state.isInternetReachable) {
+        this.setState({ isSubmitting: true });
+
+        onlineScorecardSubmissionService.draftSubmit({
+          scorecardUuid: this.props.route.params.scorecard_uuid,
+          successCallback: () => {
+            this.setState({
+              scorecard: Scorecard.find(this.props.route.params.scorecard_uuid),
+              isSubmitting: false
+            });
+          },
+          errorCallback: (errorType) => {
+            this.setState({
+              errorType: errorType != ERROR_NOT_FOUND ? errorType : ERROR_DRAFT_SUBMIT,
+              visibleModal: true,
+              isSubmitting: false,
+            });
+          },
+          progressCallback: (percentage) => {
+            this.setState({ submitProgress: percentage });
+          },
+        });
+      }
+      else
+        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection)
+    });
   }
 
   openModal() {
@@ -124,6 +153,24 @@ class IndicatorDevelopment extends Component {
       this.props.setSelectedIndicators(indicators);
   }
 
+  getButtonLabel(translations) {
+    if (this.state.scorecard.running_mode == OFFLINE || this.state.scorecard.status >= 4)
+      return translations.saveAndGoNext;
+
+    return translations.submit;
+  }
+
+  renderSubmitProgress() {
+    return (
+      <View>
+        <Text style={[styles.downloadPercentageLabel, responsiveStyles.downloadPercentageLabel]}>{Math.ceil(this.state.submitProgress * 100)}%</Text>
+        <ProgressBar progress={this.state.submitProgress} color={Color.headerColor} style={[styles.progressBar, responsiveStyles.progressBar]}
+          visible={this.state.isSubmitting}
+        />
+      </View>
+    )
+  }
+
   render() {
     const { translations } = this.context;
     const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
@@ -133,10 +180,12 @@ class IndicatorDevelopment extends Component {
         { this._renderContent() }
         { !!this.props.selectedIndicators.length &&
           <View style={bottomButtonContainerPadding()}>
+            { this.state.isSubmitting && this.renderSubmitProgress() }
             <BottomButton
               onPress={ () => this._submit() }
               customBackgroundColor={Color.headerColor}
-              label={translations.saveAndGoNext}/>
+              label={this.getButtonLabel(translations)}
+            />
           </View>
         }
 
@@ -152,6 +201,24 @@ class IndicatorDevelopment extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  downloadPercentageLabel: {
+    textAlign: 'center',
+    zIndex: 1,
+    left: '48%',
+    position: 'absolute',
+    fontWeight: 'bold',
+  },
+  progressBar: {
+    backgroundColor: Color.paleGrayColor,
+  },
+  buttonLabel: {
+    flex: 1,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+});
 
 function mapStateToProps(state) {
   return {
