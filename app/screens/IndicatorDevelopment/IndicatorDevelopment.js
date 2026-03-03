@@ -11,6 +11,7 @@ import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/I
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
+import CustomAlertMessage from '../../components/Share/CustomAlertMessage';
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
@@ -46,7 +47,8 @@ class IndicatorDevelopment extends Component {
       visibleModal: false,
       errorType: null,
       submitProgress: 0,
-      isSubmitting: false
+      isSubmitting: false,
+      modalVisible: false
     };
 
     this.tipModalRef = React.createRef();
@@ -97,6 +99,12 @@ class IndicatorDevelopment extends Component {
     if (this.state.scorecard.status >= 4)
       return this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.props.route.params.scorecard_uuid });
 
+    // Show submit confirmation modal
+    this.setState({ modalVisible: true });
+  }
+
+  submitScorecard() {
+    this.setState({ modalVisible: false });
     NetInfo.fetch().then(state => {
       if (state.isConnected && state.isInternetReachable) {
         this.setState({ isSubmitting: true });
@@ -185,6 +193,7 @@ class IndicatorDevelopment extends Component {
               onPress={ () => this._submit() }
               customBackgroundColor={Color.headerColor}
               label={this.getButtonLabel(translations)}
+              disabled={this.state.isSubmitting}
             />
           </View>
         }
@@ -196,6 +205,17 @@ class IndicatorDevelopment extends Component {
           errorType={this.state.errorType}
           scorecardUuid={this.state.scorecard.uuid}
           onDismiss={() => this.setState({ visibleModal: false })}
+        />
+        <CustomAlertMessage
+          visible={this.state.modalVisible}
+          title={translations.submitScorecard}
+          description={translations.doYouWantToSubmitThisScorecard}
+          closeButtonLabel={translations.close}
+          hasConfirmButton={true}
+          confirmButtonLabel={translations.ok}
+          isConfirmButtonDisabled={false}
+          onDismiss={() => this.setState({ modalVisible: false })}
+          onConfirm={() => this.submitScorecard()}
         />
       </View>
     )

@@ -457,5 +457,7 @@
   "errorFetchVotingResultMessage": "មិនអាចធ្វើការទាញយកលទ្ធផលនៃការដាក់ពិន្ទុ។ អាចបណ្ដាលមកពីមិនមានសេវា​អ៊ីនធឺណិត ឬសេវា​អ៊ីនធឺណិតយឺត។",
   "failedToShareVotingLink": "មិនអាចធ្វើការចែករំលែកតំណភ្ជាប់",
   "errorSharingVotingLinkMessage": "មានបញ្ហាក្នុងការចែករំលែកតំណភ្ជាប់ សូមព្យាយាមម្ដងទៀត។",
-  "totalVotes": "ចំនួនដាក់ពិន្ទុសរុប"
+  "totalVotes": "ចំនួនដាក់ពិន្ទុសរុប",
+  "submitScorecard": "ដាក់ស្នើរប័ណ្ណដាក់ពិន្ទុ",
+  "doYouWantToSubmitThisScorecard": "តើអ្នកពិតជាចង់ដាក់ស្នើរប័ណ្ណដាក់ពិន្ទុនេះ?"
 }
