@@ -10,6 +10,7 @@ import CollapsibleNavHeader from '../../components/Share/CollapsibleNavHeader';
 import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import EmptyListAction from '../../components/Share/EmptyListAction';
+import CustomAlertMessage from '../../components/Share/CustomAlertMessage';
 import VotingQrCode from '../../components/VotingQr/VotingQrCode';
 import VotingResult from '../../components/VotingQr/VotingResult';
 import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
@@ -39,6 +40,8 @@ const VotingQr = (props) => {
   const [errorType, setErrorType] = useState(null);
   const [isFinishVoting, setIsFinishVoting] = useState(false);
   const [votingIndicators, setVotingIndicators] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [totalVotes, setTotalVotes] = useState(0);
 
   const votingInfoModalRef = useRef();
   const infoModalRef = useRef();
@@ -192,6 +195,9 @@ const VotingQr = (props) => {
               setErrorType(type);
               setVisibleModal(true);
             }}
+            updateTotalVotes={(value) => {
+              setTotalVotes(value);
+            }}
           />
         }
       </React.Fragment>
@@ -201,6 +207,9 @@ const VotingQr = (props) => {
   const isActionButtonDisabled = () => {
     if (isFinishVoting)
       return false;
+
+    if (isOpenVoting)
+      return totalVotes == 0;
 
     return !isOpenVoting || isLoading
   }
@@ -245,7 +254,7 @@ const VotingQr = (props) => {
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>
           <BottomButton
-            onPress={() => isFinishVoting ? goToNextScreen() : closeVoting()}
+            onPress={() => isFinishVoting ? goToNextScreen() : setModalVisible(true)}
             customBackgroundColor={Color.headerColor}
             label={isFinishVoting ? translations.next : translations.closeVoting}
             disabled={isActionButtonDisabled()}
@@ -264,6 +273,21 @@ const VotingQr = (props) => {
         errorType={errorType}
         scorecardUuid={props.route.params.scorecard_uuid}
         onDismiss={() => setVisibleModal(false)}
+      />
+
+      <CustomAlertMessage
+        visible={modalVisible}
+        title={translations.closeVoting}
+        description={translations.doYouWantToCloseThisVoting}
+        closeButtonLabel={translations.close}
+        hasConfirmButton={true}
+        confirmButtonLabel={translations.ok}
+        isConfirmButtonDisabled={false}
+        onDismiss={() => setModalVisible(false)}
+        onConfirm={() => {
+          setModalVisible(false)
+          closeVoting();
+        }}
       />
     </View>
   )

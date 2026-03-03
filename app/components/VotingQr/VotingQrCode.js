@@ -33,6 +33,7 @@ const VotingQrCode = (props) => {
       scorecardUuid: props.scorecardUuid,
       successCallback: (response) => {
         setTotalVotes(response['total_votes']);
+        props.updateTotalVotes(response['total_votes']);
       }
     });
   }

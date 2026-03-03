@@ -459,5 +459,6 @@
   "errorSharingVotingLinkMessage": "There was a problem sharing the voting link. Please try again.",
   "totalVotes": "Total votes",
   "submitScorecard": "Submit a scorecard",
-  "doYouWantToSubmitThisScorecard": "Do you want to submit this scorecard?"
+  "doYouWantToSubmitThisScorecard": "Do you want to submit this scorecard?",
+  "doYouWantToCloseThisVoting": "Do you want to close this voting?"
 }

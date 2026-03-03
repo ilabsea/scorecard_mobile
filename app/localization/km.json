@@ -459,5 +459,6 @@
   "errorSharingVotingLinkMessage": "មានបញ្ហាក្នុងការចែករំលែកតំណភ្ជាប់ សូមព្យាយាមម្ដងទៀត។",
   "totalVotes": "ចំនួនដាក់ពិន្ទុសរុប",
   "submitScorecard": "ដាក់ស្នើរប័ណ្ណដាក់ពិន្ទុ",
-  "doYouWantToSubmitThisScorecard": "តើអ្នកពិតជាចង់ដាក់ស្នើរប័ណ្ណដាក់ពិន្ទុនេះ?"
+  "doYouWantToSubmitThisScorecard": "តើអ្នកពិតជាចង់ដាក់ស្នើរប័ណ្ណដាក់ពិន្ទុនេះ?",
+  "doYouWantToCloseThisVoting": "តើអ្នកពិតជាចង់បញ្ចប់ការដាក់ពិន្ទុនេះ?"
 }
