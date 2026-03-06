@@ -6,6 +6,7 @@ import settingHelper from '../helpers/setting_helper';
 import scorecardDataUtil from '../utils/scorecard_data_util';
 import scorecardSharingService from '../services/scorecard_sharing_service';
 import VotingIndicator from './VotingIndicator';
+import {ONLINE} from '../constants/scorecard_constant';
 
 const Scorecard = (() => {
   return {
@@ -169,6 +170,9 @@ const Scorecard = (() => {
   }
 
   async function isDeletable(scorecard) {
+    if (scorecard.running_mode == ONLINE && scorecard.status >= 4)
+      return false;
+
     return await hasMatchedEndpointUrl(scorecard.uuid) && !scorecard.isUploaded;
   }
 
