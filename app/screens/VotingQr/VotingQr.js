@@ -3,6 +3,7 @@ import { Animated, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Spinner from 'react-native-loading-spinner-overlay';
+import NetInfo from '@react-native-community/netinfo';
 
 import Color from '../../themes/color';
 import { LocalizationContext } from '../../components/Translations';
@@ -27,6 +28,7 @@ import VotingIndicator from '../../models/VotingIndicator';
 import scorecardProgressService from '../../services/scorecard_progress_service';
 import onlineScorecardSubmissionService from '../../services/online_scorecard_submission_service';
 import scorecardTracingStepsService from '../../services/scorecard_tracing_steps_service';
+import internetConnectionService from '../../services/internet_connection_service';
 import votingResultService from '../../services/voting_result_service';
 import { ERROR_DOWNLOAD_VOTING_QR, ERROR_OPEN_VOTING, ERROR_CLOSE_VOTING, ERROR_FETCH_VOTING_RESULT } from '../../constants/error_constant';
 import { headerShrinkOffset } from '../../constants/component_style_constant';
@@ -217,15 +219,21 @@ const VotingQr = (props) => {
   }
 
   const showCloseVotingConfirmation = () => {
-    confirmationModalRef.current?.setContent(
-      <ConfirmationBottomSheetContent
-        title={translations.closeVoting}
-        confirmationMessage={translations.formatString(translations.closeVotingCofirmation, totalVotes)}
-        notice={translations.closeVotingNotice}
-        onPress={() => closeVoting()}
-      />
-    );
-    confirmationModalRef.current?.present();
+    NetInfo.fetch().then(state => {
+      if (state.isConnected && state.isInternetReachable) {
+        confirmationModalRef.current?.setContent(
+          <ConfirmationBottomSheetContent
+            title={translations.closeVoting}
+            confirmationMessage={translations.formatString(translations.closeVotingCofirmation, totalVotes)}
+            notice={translations.closeVotingNotice}
+            onPress={() => closeVoting()}
+          />
+        );
+        confirmationModalRef.current?.present();
+      }
+      else
+        internetConnectionService.showAlertMessage(translations.noInternetConnection)
+    });
   }
 
   const _renderBody = () => {
