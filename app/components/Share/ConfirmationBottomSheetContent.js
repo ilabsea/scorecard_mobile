@@ -11,6 +11,7 @@ import { FontSize, FontFamily } from '../../assets/stylesheets/theme/font';
 const ConfirmationBottomSheetContent = (props) => {
   const insets = useSafeAreaInsets();
   const { translations } = useContext(LocalizationContext);
+  const hasNotice = props.notice != null && props.notice != '';
 
   return (
     <View style={{ flexGrow: 1, paddingTop: 10, paddingHorizontal: 16, alignItems: 'center', paddingBottom: insets.bottom + 12 }}>
@@ -24,12 +25,14 @@ const ConfirmationBottomSheetContent = (props) => {
         { props.title }
       </Text>
 
-      <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18}}>
+      <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18, marginBottom: hasNotice ? 0 : 30}}>
         { props.confirmationMessage }
       </Text>
-      <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 16, marginBottom: 30}}>
-        { props.notice }
-      </Text>
+      { hasNotice &&
+        <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 16, marginBottom: 30}}>
+          { props.notice }
+        </Text>
+      }
 
       <View style={{width: '100%'}}>
         <BottomButton
