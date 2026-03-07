@@ -2,43 +2,44 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
-import CustomAlertMessage from '../Share/CustomAlertMessage';
 import NavigationHeader from '../NavigationHeader';
 import HeaderIconButton from '../Share/HeaderIconButton';
+import ConfirmationBottomSheetContent from '../Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 
 class SelectedImageHeader extends Component {
   static contextType = LocalizationContext;
   state = {};
 
+  constructor(props) {
+    super(props);
+    this.confirmationModalRef = React.createRef();
+  }
+
   _onPress() {
     !!this.props.onBackPress && this.props.onBackPress()
   }
 
-  _confirmDelete() {
-    this.props.confirmDelete();
-    this.setState({ visibleModal: false });
-  }
-
   renderRightButton() {
     if (!this.props.isScorecardFinished && this.props.hasDeleteButton)
-      return <HeaderIconButton onPress={() => this.setState({ visibleModal: true })} icon='trash' />
+      return <HeaderIconButton onPress={() => this.showConfirmation()} icon='trash' />
 
     return <View/>
   }
 
-  renderAlertMessage() {
+  showConfirmation() {
     const { translations } = this.context;
-    return <CustomAlertMessage
-              visible={this.state.visibleModal}
-              title={translations.removeTheImage}
-              description={translations.doYouWantToRemoveTheImage}
-              closeButtonLabel={translations.close}
-              hasConfirmButton={true}
-              confirmButtonLabel={translations.ok}
-              isConfirmButtonDisabled={false}
-              onDismiss={() => this.setState({visibleModal: false})}
-              onConfirm={() => this._confirmDelete()}
-           />
+    this.confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.removeTheImage}
+        confirmationMessage={translations.doYouWantToRemoveTheImage}
+        onPress={() => {
+          this.confirmationModalRef.current?.dismiss();
+          this.props.confirmDelete()
+        }}
+      />
+    );
+    this.confirmationModalRef.current?.present();
   }
 
   render() {
@@ -52,7 +53,7 @@ class SelectedImageHeader extends Component {
           onBackPress={() => this._onPress()}
         />
 
-        { this.renderAlertMessage() }
+        <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
       </React.Fragment>
     )
   }
