@@ -21,17 +21,22 @@ const ConfirmationBottomSheetContent = (props) => {
         customIconStyle={{fontSize: 68}}
       />
 
-      <Text style={{fontSize: 22, fontFamily: FontFamily.title}}>
+      <Text style={{fontSize: 22, fontFamily: FontFamily.title, textAlign: 'center'}}>
         { props.title }
       </Text>
 
-      <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18, marginBottom: hasNotice ? 0 : 30}}>
+      <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18, marginBottom: (hasNotice || !!props.customComponent) ? 0 : 30}}>
         { props.confirmationMessage }
       </Text>
       { hasNotice &&
-        <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 16, marginBottom: 30}}>
+        <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 16, marginBottom: !!props.customComponent ? 0 : 30}}>
           { props.notice }
         </Text>
+      }
+      { !!props.customComponent && 
+        <View style={{marginBottom: 16, width: '100%'}}>
+          { props.customComponent }
+        </View>
       }
 
       <View style={{width: '100%'}}>

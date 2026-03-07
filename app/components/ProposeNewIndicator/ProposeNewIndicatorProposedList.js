@@ -4,7 +4,8 @@ import { View } from 'react-native';
 import {LocalizationContext} from '../Translations';
 import ProposeNewIndicatorCardItem from './ProposeNewIndicatorCardItem';
 import EmptyListAction from '../Share/EmptyListAction';
-import CustomAlertMessage from '../Share/CustomAlertMessage';
+import ConfirmationBottomSheetContent from '../Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 import CustomIndicatorBottomSheet from '../CustomIndicatorBottomSheet/CustomIndicatorBottomSheet';
 import Indicator from '../../models/Indicator';
 import ProposedIndicator from '../../models/ProposedIndicator';
@@ -16,10 +17,10 @@ class ProposeNewIndicatorProposedList extends React.Component {
   static contextType = LocalizationContext;
   constructor(props) {
     super(props)
-    this.state = { visibleModal: false }
     this.selectedIndicatorableId = null;
     this.listRef = []
     this.prevOpenedRow = null;
+    this.confirmationModalRef = React.createRef();
   }
 
   editProposedIndicator = (indicator, indicatorableId, index) => {
@@ -79,8 +80,21 @@ class ProposeNewIndicatorProposedList extends React.Component {
   }
 
   openConfirmationModal = (indicatorableId, index) => {
+    const {translations} = this.context
     this.selectedIndicatorableId = indicatorableId
-    this.setState({visibleModal: true})
+
+    this.confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.deleteTheProposedIndicators}
+        confirmationMessage={translations.doYouWantToDeleteThisProposedIndicator}
+        onPress={() => {
+          this.confirmationModalRef.current?.dismiss();
+          this.confirmDelete()
+        }}
+      />
+    );
+    this.confirmationModalRef.current?.present();
+
     this.listRef[index].close()
   }
 
@@ -88,7 +102,6 @@ class ProposeNewIndicatorProposedList extends React.Component {
     this.props.isIndicatorBase ? ProposedIndicator.deleteByIndicator(this.props.scorecardUuid, this.selectedIndicatorableId)
                                : ProposedIndicator.deleteByIndicatorByParticipant(this.props.scorecardUuid, this.selectedIndicatorableId, this.props.participantUuid)
     this.selectedIndicatorableId = null
-    this.setState({visibleModal: false})
     this.props.updateProposedIndicator();
   }
 
@@ -100,17 +113,7 @@ class ProposeNewIndicatorProposedList extends React.Component {
           :
           <React.Fragment>
             <View style={{paddingTop: 6}}>{this.renderList()}</View>
-            <CustomAlertMessage
-              visible={this.state.visibleModal}
-              title={translations.deleteTheProposedIndicators}
-              description={translations.doYouWantToDeleteThisProposedIndicator}
-              closeButtonLabel={translations.close}
-              hasConfirmButton={true}
-              confirmButtonLabel={translations.ok}
-              isConfirmButtonDisabled={false}
-              onDismiss={() => this.setState({visibleModal: false, selectedParticipant: null})}
-              onConfirm={() => this.confirmDelete()}
-            />
+            <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
           </React.Fragment>
         }
       </View>
