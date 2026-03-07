@@ -27,19 +27,21 @@ const ConfirmationBottomSheetContent = (props) => {
         </Text>
       }
 
-      <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18, marginBottom: (hasNotice || !!props.customComponent) ? 0 : 30}}>
-        { props.confirmationMessage }
-      </Text>
-      { hasNotice &&
-        <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 16, marginBottom: !!props.customComponent ? 0 : 30}}>
-          { props.notice }
+     <View style={{width: '100%', alignItems: props.contentAlign ?? 'center'}}>
+        <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18, marginBottom: (hasNotice || !!props.customComponent) ? 0 : 30}}>
+          { props.confirmationMessage }
         </Text>
-      }
-      { !!props.customComponent && 
-        <View style={{marginBottom: 16, width: '100%'}}>
-          { props.customComponent }
-        </View>
-      }
+        { hasNotice &&
+          <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 16, marginBottom: !!props.customComponent ? 0 : 30}}>
+            { props.notice }
+          </Text>
+        }
+        { !!props.customComponent && 
+          <View style={{marginBottom: 16, width: '100%'}}>
+            { props.customComponent }
+          </View>
+        }
+      </View>
 
       <View style={{width: '100%'}}>
         { !!props.customButton
