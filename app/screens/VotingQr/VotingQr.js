@@ -10,10 +10,11 @@ import CollapsibleNavHeader from '../../components/Share/CollapsibleNavHeader';
 import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
 import BottomButton from '../../components/BottomButton';
 import EmptyListAction from '../../components/Share/EmptyListAction';
-import CustomAlertMessage from '../../components/Share/CustomAlertMessage';
 import VotingQrCode from '../../components/VotingQr/VotingQrCode';
 import VotingResult from '../../components/VotingQr/VotingResult';
 import VotingInfoModal from '../../components/VotingIndicator/VotingInfoModal';
+import DynamicHeightBottomSheetModal from '../../components/DynamicHeightBottomSheetModal';
+import ConfirmationBottomSheetContent from '../../components/Share/ConfirmationBottomSheetContent';
 import { screenPaddingBottom } from '../../utils/component_util';
 import {
   bottomButtonContainerPadding,
@@ -40,13 +41,13 @@ const VotingQr = (props) => {
   const [errorType, setErrorType] = useState(null);
   const [isFinishVoting, setIsFinishVoting] = useState(false);
   const [votingIndicators, setVotingIndicators] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
   const [totalVotes, setTotalVotes] = useState(0);
 
   const votingInfoModalRef = useRef();
   const infoModalRef = useRef();
   const scrollY = new Animated.Value(0)
   var isHeaderShrunk = false
+  const confirmationModalRef = React.createRef();
 
   useEffect(() => {
     const scorecard = Scorecard.find(props.route.params.scorecard_uuid);
@@ -114,6 +115,7 @@ const VotingQr = (props) => {
   }
 
   const closeVoting = () => {
+    confirmationModalRef.current?.dismiss()
     setIsLoading(true);
     scorecardProgressService.setOpenCloseVoting({
       scorecardUuid: props.route.params.scorecard_uuid,
@@ -214,6 +216,18 @@ const VotingQr = (props) => {
     return !isOpenVoting || isLoading
   }
 
+  const showCloseVotingConfirmation = () => {
+    confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.closeVoting}
+        confirmationMessage={translations.formatString(translations.closeVotingCofirmation, totalVotes)}
+        notice={translations.closeVotingNotice}
+        onPress={() => closeVoting()}
+      />
+    );
+    confirmationModalRef.current?.present();
+  }
+
   const _renderBody = () => {
     const containerPaddingTop = scrollY.interpolate({
       inputRange: passProposeStepContainerPaddingTopInput,
@@ -254,7 +268,7 @@ const VotingQr = (props) => {
         </Animated.View>
         <View style={bottomButtonContainerPadding()}>
           <BottomButton
-            onPress={() => isFinishVoting ? goToNextScreen() : setModalVisible(true)}
+            onPress={() => isFinishVoting ? goToNextScreen() : showCloseVotingConfirmation()}
             customBackgroundColor={Color.headerColor}
             label={isFinishVoting ? translations.next : translations.closeVoting}
             disabled={isActionButtonDisabled()}
@@ -275,20 +289,7 @@ const VotingQr = (props) => {
         onDismiss={() => setVisibleModal(false)}
       />
 
-      <CustomAlertMessage
-        visible={modalVisible}
-        title={translations.closeVoting}
-        description={translations.doYouWantToCloseThisVoting}
-        closeButtonLabel={translations.close}
-        hasConfirmButton={true}
-        confirmButtonLabel={translations.ok}
-        isConfirmButtonDisabled={false}
-        onDismiss={() => setModalVisible(false)}
-        onConfirm={() => {
-          setModalVisible(false)
-          closeVoting();
-        }}
-      />
+      <DynamicHeightBottomSheetModal ref={confirmationModalRef} />
     </View>
   )
 }

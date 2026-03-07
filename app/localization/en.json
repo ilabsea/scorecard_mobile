@@ -459,6 +459,9 @@
   "errorSharingVotingLinkMessage": "There was a problem sharing the voting link. Please try again.",
   "totalVotes": "Total votes",
   "submitScorecard": "Submit a scorecard",
-  "doYouWantToSubmitThisScorecard": "Do you want to submit this scorecard?",
-  "doYouWantToCloseThisVoting": "Do you want to close this voting?"
+  "submitProposedIndicator": "Submit proposed indicator",
+  "submitProposedIndicatorConfirmation": "Please review your \"proposed indicators\" carefully before submitting. Are you sure you want to submit these proposed indicators?",
+  "submitProposedIndicatorNotice": "Note: After submission, you will no longer be able to edit these \"proposed indicators\".",
+  "closeVotingCofirmation": "The number of participants who have voted is {0}. Are you sure you want to end this voting?",
+  "closeVotingNotice": "Note: After completion, participants will no longer be able to vote."
 }

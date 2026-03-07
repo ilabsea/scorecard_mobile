@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import NetInfo from '@react-native-community/netinfo';
 import {ProgressBar} from 'react-native-paper';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LocalizationContext } from '../../components/Translations';
 import BottomButton from '../../components/BottomButton';
@@ -11,7 +12,8 @@ import IndicatorDevelopmentContent from '../../components/IndicatorDevelopment/I
 import TipModal from '../../components/Tip/TipModal';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
 import ErrorAlertMessage from '../../components/Share/ErrorAlertMessage';
-import CustomAlertMessage from '../../components/Share/CustomAlertMessage';
+import DynamicHeightBottomSheetModal from '../../components/DynamicHeightBottomSheetModal';
+import ConfirmationBottomSheetContent from '../../components/Share/ConfirmationBottomSheetContent';
 
 import Color from '../../themes/color';
 import { setProposedIndicators } from '../../actions/proposedIndicatorAction';
@@ -48,12 +50,12 @@ class IndicatorDevelopment extends Component {
       errorType: null,
       submitProgress: 0,
       isSubmitting: false,
-      modalVisible: false
     };
 
     this.tipModalRef = React.createRef();
     this.indicatorListModalRef = React.createRef();
     this.formRef = React.createRef();
+    this.confirmationModalRef = React.createRef();
   }
 
   componentDidMount() {
@@ -96,15 +98,24 @@ class IndicatorDevelopment extends Component {
   }
 
   handleOnlineScorecard() {
+    const { translations } = this.context;
     if (this.state.scorecard.status >= 4)
       return this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.props.route.params.scorecard_uuid });
 
-    // Show submit confirmation modal
-    this.setState({ modalVisible: true });
+    // Show submit confirmation bottom sheet
+    this.confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.submitProposedIndicator}
+        confirmationMessage={translations.submitProposedIndicatorConfirmation}
+        notice={translations.submitProposedIndicatorNotice}
+        onPress={() => this.submitScorecard()}
+      />
+    );
+    this.confirmationModalRef.current?.present();
   }
 
   submitScorecard() {
-    this.setState({ modalVisible: false });
+    this.confirmationModalRef.current?.dismiss();
     NetInfo.fetch().then(state => {
       if (state.isConnected && state.isInternetReachable) {
         this.setState({ isSubmitting: true });
@@ -184,6 +195,7 @@ class IndicatorDevelopment extends Component {
     const snapPoints = tipModalSnapPoints[INDICATOR_DEVELOPMENT];
 
     return (
+      <>
       <View style={{flex: 1, paddingBottom: screenPaddingBottom(this.props.sdkVersion)}}>
         { this._renderContent() }
         { !!this.props.selectedIndicators.length &&
@@ -206,18 +218,9 @@ class IndicatorDevelopment extends Component {
           scorecardUuid={this.state.scorecard.uuid}
           onDismiss={() => this.setState({ visibleModal: false })}
         />
-        <CustomAlertMessage
-          visible={this.state.modalVisible}
-          title={translations.submitScorecard}
-          description={translations.doYouWantToSubmitThisScorecard}
-          closeButtonLabel={translations.close}
-          hasConfirmButton={true}
-          confirmButtonLabel={translations.ok}
-          isConfirmButtonDisabled={false}
-          onDismiss={() => this.setState({ modalVisible: false })}
-          onConfirm={() => this.submitScorecard()}
-        />
       </View>
+      <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
+      </>
     )
   }
 }
@@ -257,7 +260,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
+export default withSafeAreaInsets(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IndicatorDevelopment);
+)(IndicatorDevelopment));
