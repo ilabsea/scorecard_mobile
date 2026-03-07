@@ -9,6 +9,9 @@ import ScorecardPreferenceForm from '../../components/ScorecardPreference/Scorec
 import ScorecardPreferenceButtons from '../../components/ScorecardPreference/ScorecardPreferenceButtons';
 import ScorecardPreferenceModals from '../../components/ScorecardPreference/ScorecardPreferenceModals';
 import FormBottomSheetModal from '../../components/FormBottomSheetModal/FormBottomSheetModal';
+import BoldLabel from '../../components/Share/BoldLabel';
+import ConfirmationBottomSheetContent from '../../components/Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../../components/DynamicHeightBottomSheetModal';
 
 import { getErrorType } from '../../services/api_service';
 import internetConnectionService from '../../services/internet_connection_service';
@@ -56,6 +59,7 @@ class ScorecardPreference extends Component {
     this.formRef = React.createRef();
     this.pickerModalRef = React.createRef();
     this.pickerRef =  React.createRef();
+    this.confirmationModalRef = React.createRef();
     this.unsubscribeNetInfo;
   }
 
@@ -99,16 +103,40 @@ class ScorecardPreference extends Component {
     this.props.navigation.navigate('Facilitator', {scorecard_uuid: this.props.route.params.scorecard_uuid, local_ngo_id: this.props.route.params.local_ngo_id});
   }
 
+  boldLabel(label) {
+    return <BoldLabel label={label} />
+  }
+
   showConfirmModal = (hasScorecardDownload) => {
     if (hasScorecardDownload)
       this.downloadScorecard();
-    else
-      this.setState({ visibleConfirmModal: true });
+    else {
+      const { translations } = this.context;
+      const textLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.textLocale);
+      const audioLocaleLabel = scorecardPreferenceService.getLocaleLabel(this.state.languages, this.state.audioLocale);
+      const descriptionBottomSection = translations.formatString(
+        translations.downloadScorecardSecondDescription,
+        this.boldLabel(this.props.route.params.scorecard_uuid),
+        this.boldLabel(textLocaleLabel),
+        this.boldLabel(audioLocaleLabel)
+      );
+
+      this.confirmationModalRef.current?.setContent(
+        <ConfirmationBottomSheetContent
+          title={translations.theScorecardContainsAudios}
+          confirmationMessage={translations.downloadScorecardFirstDescription}
+          notice={descriptionBottomSection}
+          onPress={() => {
+            this.confirmationModalRef.current?.dismiss();
+            this.downloadScorecard();
+          }}
+        />
+      );
+      this.confirmationModalRef.current?.present();
+    }
   }
 
   downloadScorecard = () => {
-    this.setState({ visibleConfirmModal: false });
-
     if (this.state.errorType || isScorecardDownloaded(this.props.route.params.scorecard_uuid))
       return;
 
@@ -234,6 +262,8 @@ class ScorecardPreference extends Component {
           { this.renderBottomButtons() }
 
           { this.renderModals() }
+
+          <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
 
           <FormBottomSheetModal ref={this.pickerRef} formModalRef={this.pickerModalRef} snapPoints={scorecardPreferenceLangaugePickerSnapPoints}
             onDismissModal={() => this.pickerRef.current?.setBodyContent(null)}

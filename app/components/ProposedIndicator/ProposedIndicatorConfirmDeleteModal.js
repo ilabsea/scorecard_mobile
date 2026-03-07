@@ -15,7 +15,7 @@ class ProposedIndicatorConfirmDeleteModal extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!!this.props.visible) {
+    if (prevProps.visible != this.props.visible && !!this.props.visible) {
       const {translations} = this.context;
 
       this.confirmationModalRef.current?.setContent(

@@ -21,9 +21,11 @@ const ConfirmationBottomSheetContent = (props) => {
         customIconStyle={{fontSize: 68}}
       />
 
-      <Text style={{fontSize: 22, fontFamily: FontFamily.title, textAlign: 'center'}}>
-        { props.title }
-      </Text>
+      { !!props.title &&
+        <Text style={{fontSize: 22, fontFamily: FontFamily.title, textAlign: 'center'}}>
+          { props.title }
+        </Text>
+      }
 
       <Text style={{fontSize: FontSize.body, fontFamily: FontFamily.body, marginTop: 18, marginBottom: (hasNotice || !!props.customComponent) ? 0 : 30}}>
         { props.confirmationMessage }
@@ -40,13 +42,16 @@ const ConfirmationBottomSheetContent = (props) => {
       }
 
       <View style={{width: '100%'}}>
-        <BottomButton
-          onPress={ props.onPress }
-          customBackgroundColor={Color.headerColor}
-          label={translations.ok}
-          iconName="none"
-          disabled={false}
-        />
+        { !!props.customButton
+            ? props.customButton
+            : <BottomButton
+                onPress={ () => props.onPress?.() }
+                customBackgroundColor={Color.headerColor}
+                label={translations.ok}
+                iconName="none"
+                disabled={false}
+              />
+        }
       </View>
     </View>
   );

@@ -1,35 +1,50 @@
 import React, { Component } from 'react';
 
-import CustomAlertMessage from '../Share/CustomAlertMessage';
 import ErrorAlertMessage from '../Share/ErrorAlertMessage';
 import BoldLabel from '../Share/BoldLabel';
 import ScorecardListInstructionModal from './ScorecardListInstructionModal';
+import ConfirmationBottomSheetContent from '../Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 import { LocalizationContext } from '../Translations';
 import { ERROR_AUTHENTICATION } from '../../constants/error_constant';
 
 class ScorecardListModals extends Component {
   static contextType = LocalizationContext;
 
-  render() {
-    const { translations } = this.context;
-    const scorecardUuid = <BoldLabel label={this.props.scorecardUuid} />
-    const title = this.props.isConfirmModal ? translations.deleteTheScorecard : translations.unableToDeleteTheScorecard;
-    const description = this.props.isConfirmModal ?
-                          translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)
-                          : translations.formatString(translations.cannotDeleteThisScorecard, scorecardUuid);
+  constructor(props) {
+    super(props);
+    this.confirmationModalRef = React.createRef();
+  }
 
+  componentDidUpdate(prevProps) {
+    if (!!this.props.visibleConfirmModal && (prevProps.visibleConfirmModal != this.props.visibleConfirmModal)) {
+      const { translations } = this.context;
+      const scorecardUuid = <BoldLabel label={this.props.scorecardUuid} />
+      const title = this.props.isConfirmModal ? translations.deleteTheScorecard : translations.unableToDeleteTheScorecard;
+      const description = this.props.isConfirmModal
+        ? translations.formatString(translations.doYouWantToDeleteThisScorecard, scorecardUuid)
+        : translations.formatString(translations.cannotDeleteThisScorecard, scorecardUuid);
+
+      this.confirmationModalRef.current?.setContent(
+        <ConfirmationBottomSheetContent
+          title={title}
+          confirmationMessage={description}
+          onPress={() => {
+            this.props.confirmDelete()
+            this.confirmationModalRef.current?.dismiss();
+          }}
+        />
+      );
+      this.confirmationModalRef.current?.present();
+    }
+  }
+
+  render() {
     return (
       <React.Fragment>
-        <CustomAlertMessage
-          visible={this.props.visibleConfirmModal}
-          title={title}
-          description={description}
-          closeButtonLabel={this.props.isConfirmModal ? translations.close : translations.infoCloseLabel}
-          hasConfirmButton={this.props.isConfirmModal}
-          confirmButtonLabel={translations.ok}
-          isConfirmButtonDisabled={this.props.isDeleting}
+        <DynamicHeightBottomSheetModal
+          ref={this.confirmationModalRef}
           onDismiss={() => this.props.onConfirmModalDismiss()}
-          onConfirm={() => this.props.confirmDelete()}
         />
 
         <ErrorAlertMessage

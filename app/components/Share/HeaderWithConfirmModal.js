@@ -15,7 +15,7 @@ class HeaderWithConfirmModal extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!!this.props.visibleConfirmModal) {
+    if ((prevProps.visibleConfirmModal != this.props.visibleConfirmModal) && !!this.props.visibleConfirmModal) {
       this.confirmationModalRef.current?.setContent(
         <ConfirmationBottomSheetContent
           title={this.props.modalTitle}
