@@ -4,7 +4,8 @@ import NetInfo from '@react-native-community/netinfo';
 import { LocalizationContext } from '../../components/Translations';
 import ContactListItem from '../../components/Contact/ContactListItem';
 import EmptyListAction from '../../components/Share/EmptyListAction';
-import CustomAlertMessage from '../../components/Share/CustomAlertMessage';
+import ConfirmationBottomSheetContent from '../../components/Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../../components/DynamicHeightBottomSheetModal';
 import contacts from '../../db/jsons/contacts';
 import contactService from '../../services/contact_service';
 
@@ -18,10 +19,9 @@ export default class Contact extends Component {
 
     this.state = {
       contacts: [],
-      visibleModal: false,
-      modalMessage: null,
       isLoading: false,
     }
+    this.infoModalRef = React.createRef();
   }
 
   async componentDidMount() {
@@ -40,13 +40,24 @@ export default class Contact extends Component {
         contactService.downloadContacts(() => {
           this.setState({ contacts: contactService.getAll() });
         }, () => {
-          this.setState({
-            visibleModal: true,
-            modalMessage: this.context.translations.errorDownloadContact
-          });
+          this.showInfoBottomSheet(this.context.translations.errorDownloadContact);
         });
       }
     });
+  }
+
+  showInfoBottomSheet(description) {
+    this.infoModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={this.context.translations.unableToMakeAContact}
+        confirmationMessage={description}
+        contentAlign='start'
+        onPress={() => {
+          this.infoModalRef.current?.dismiss();
+        }}
+      />
+    );
+    this.infoModalRef.current?.present();
   }
 
   callOrEmailTo = async (contact) => {
@@ -69,10 +80,7 @@ export default class Contact extends Component {
       email: this.context.translations.unableToMakeAContactWithThisEmailAddress,
     }
 
-    this.setState({
-      visibleModal: true,
-      modalMessage: infoMessages[contact.contact_type]
-    });
+    this.showInfoBottomSheet(infoMessages[contact.contact_type]);
   }
 
   renderNoContacts = () => {
@@ -102,12 +110,8 @@ export default class Contact extends Component {
           <ContactListItem contact={item} key={index} onPress={(contact) => this.callOrEmailTo(contact)}/>
         )}
 
-        <CustomAlertMessage
-          visible={this.state.visibleModal}
-          title={this.context.translations.unableToMakeAContact}
-          description={this.state.modalMessage}
-          closeButtonLabel={this.context.translations.infoCloseLabel}
-          onDismiss={() => this.setState({ visibleModal: false })}
+        <DynamicHeightBottomSheetModal
+          ref={this.infoModalRef}
         />
       </ScrollView>
     );

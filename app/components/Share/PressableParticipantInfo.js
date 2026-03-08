@@ -8,10 +8,12 @@ import AddNewParticipantMain from '../ParticipantModal/AddNewParticipantMain';
 
 import OutlinedButton from '../OutlinedButton';
 import Participant from '../../models/Participant';
+import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { isProposedIndicatorScreen } from '../../utils/screen_util';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
+import {ONLINE} from '../../constants/scorecard_constant';
 
 export default class PressableParticipantInfo extends Component {
   static contextType = LocalizationContext;
@@ -29,7 +31,8 @@ export default class PressableParticipantInfo extends Component {
   }
 
   async componentDidMount() {
-    this.isIndicatorBase = await isProposeByIndicatorBase();
+    const scorecard = Scorecard.find(this.props.scorecardUuid);
+    this.isIndicatorBase = await isProposeByIndicatorBase() || scorecard.running_mode == ONLINE;
   }
 
   componentWillUnmount() {

@@ -2,29 +2,39 @@ import React from 'react';
 
 import { LocalizationContext } from '../Translations';
 import ParticipantModalListItem from '../ParticipantModal/ParticipantModalListItem';
-import CustomAlertMessage from '../Share/CustomAlertMessage';
-import CustomAlertMessageMain from '../Share/CustomAlertMessage/CustomAlertMessageMain';
+
+import ConfirmationBottomSheetContent from '../Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 
 class ProposedIndicatorConfirmDeleteModal extends React.Component {
   static contextType = LocalizationContext;
+
+  constructor(props) {
+    super(props);
+    this.confirmationModalRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.visible != this.props.visible && !!this.props.visible) {
+      const {translations} = this.context;
+
+      this.confirmationModalRef.current?.setContent(
+        <ConfirmationBottomSheetContent
+          title={translations.deleteProposedIndicatorByParticipant}
+          confirmationMessage={translations.doYouWantToDeleteTheProposedIndicatorsOfThisParticipant}
+          customComponent={!!this.props.participant && <ParticipantModalListItem participant={this.props.participant} hasArrowIcon={false} hideDivider={true} containerStyle={{marginBottom: 0, paddingHorizontal: 10}} />}
+          onPress={() => {
+            this.confirmationModalRef.current?.dismiss();
+            this.props.onConfirm();
+          }}
+        />
+      );
+      this.confirmationModalRef.current?.present();
+    }
+  }
+
   render() {
-    const {translations} = this.context;
-    return (
-      <CustomAlertMessage
-        visible={this.props.visible}
-        title={translations.deleteProposedIndicatorByParticipant}
-        closeButtonLabel={translations.close}
-        hasConfirmButton={true}
-        confirmButtonLabel={translations.ok}
-        isConfirmButtonDisabled={false}
-        onDismiss={() => this.props.onDismiss()}
-        onConfirm={() => this.props.onConfirm()}
-        titleStyle={{textAlign: 'center'}}
-      >
-        <CustomAlertMessageMain description={translations.doYouWantToDeleteTheProposedIndicatorsOfThisParticipant} customStyle={{marginBottom: 0}} />
-        { !!this.props.participant && <ParticipantModalListItem participant={this.props.participant} hasArrowIcon={false} hideDivider={true} containerStyle={{marginBottom: -10, paddingHorizontal: 10}} />}
-      </CustomAlertMessage>
-    )
+    return <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
   }
 }
 

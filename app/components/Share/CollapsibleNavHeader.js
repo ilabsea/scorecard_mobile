@@ -5,8 +5,9 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import {LocalizationContext} from '../Translations';
 import HeaderIconButton from '../Share/HeaderIconButton';
-import CustomAlertMessage from '../Share/CustomAlertMessage';
 import AppbarHeader from '../Share/AppbarHeader';
+import ConfirmationBottomSheetContent from './ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 import ProgressStep from '../ProgressStep';
 import Color from '../../themes/color';
 import { navigateHome } from '../../utils/navigation_util';
@@ -19,7 +20,7 @@ const headerScrollDistance = (headerMaxHeight - headerMinHeight);
 
 const CollapsibleNavHeader = (props) => {
   const {translations} = React.useContext(LocalizationContext);
-  const [visibleModal, setVisibleModal] = React.useState(false)
+  const confirmationModalRef = React.createRef();
 
   var initOutput = !!props.isPassProposeStep ? 204 : 186;
   if (isSmallDiagonalScreen())
@@ -44,7 +45,7 @@ const CollapsibleNavHeader = (props) => {
   })
 
   const goToHomeScreen = () => {
-    setVisibleModal(false)
+    confirmationModalRef.current?.dismiss();
     navigateHome();
   }
 
@@ -69,7 +70,17 @@ const CollapsibleNavHeader = (props) => {
         <AppbarHeader
           title={props.title}
           rightButton={props.tipIconVisible && renderTipIcon()}
-          onPressHome={() => { setVisibleModal(true) }}
+          onPressHome={() => {
+
+            confirmationModalRef.current?.setContent(
+              <ConfirmationBottomSheetContent
+                title={translations.returnToHomeScreen}
+                confirmationMessage={translations.doYouWantToReturnToHomeScreen}
+                onPress={() => goToHomeScreen()}
+              />
+            );
+            confirmationModalRef.current?.present();
+          }}
         />
         {renderProgressStep()}
       </View>
@@ -79,17 +90,7 @@ const CollapsibleNavHeader = (props) => {
   return (
     <Animated.View style={{position: 'absolute', top: 0, backgroundColor: Color.headerColor, height: headerHeight, width: '100%'}}>
       {renderHeader()}
-      <CustomAlertMessage
-        visible={visibleModal}
-        title={translations.returnToHomeScreen}
-        description={translations.doYouWantToReturnToHomeScreen}
-        closeButtonLabel={translations.close}
-        hasConfirmButton={true}
-        confirmButtonLabel={translations.ok}
-        isConfirmButtonDisabled={false}
-        onDismiss={() => setVisibleModal(false)}
-        onConfirm={() => goToHomeScreen()}
-      />
+      <DynamicHeightBottomSheetModal ref={confirmationModalRef} />
     </Animated.View>
   )
 }

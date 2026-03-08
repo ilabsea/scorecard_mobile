@@ -13,6 +13,7 @@ import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { screenPaddingBottom } from '../../utils/component_util';
 import ProposedIndicator from '../../models/ProposedIndicator';
 import Participant from '../../models/Participant';
+import Scorecard from '../../models/Scorecard';
 import BottomButton from '../../components/BottomButton';
 import settingHelper from '../../helpers/setting_helper';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
@@ -22,6 +23,7 @@ import {saveParticipant} from '../../actions/participantAction';
 import {setSelectedIndicators} from '../../actions/selectedIndicatorAction';
 import { participantModalSnapPoints } from '../../constants/modal_constant';
 import Color from '../../themes/color';
+import {ONLINE} from '../../constants/scorecard_constant';
 
 class ProposeNewIndicator extends React.Component {
   static contextType = LocalizationContext;
@@ -43,10 +45,11 @@ class ProposeNewIndicator extends React.Component {
     this.lastOrderNumber = last_order_number
     AsyncStorage.setItem('previous-proposed-indicators', JSON.stringify(previous_proposed_indicators));
     this.searchBoxRef = React.createRef();
+    this.scorecard = Scorecard.find(props.route.params.scorecard_uuid);
   }
   async componentDidMount() {
     const {scorecard_uuid, participant_uuid} = this.props.route.params;
-    const isIndicatorBase = await isProposeByIndicatorBase()
+    const isIndicatorBase = await isProposeByIndicatorBase() || this.scorecard.running_mode == ONLINE;
     const proposedIndicators = isIndicatorBase ? ProposedIndicator.getAllDistinct(this.props.route.params.scorecard_uuid) : ProposedIndicator.getAllDistinctByParticipant(scorecard_uuid, participant_uuid)
     this.setState({
       proposedIndicators: proposedIndicators,
@@ -97,7 +100,7 @@ class ProposeNewIndicator extends React.Component {
     return <ProposeNewIndicatorSearchBox scorecardUuid={this.props.route.params.scorecard_uuid} updateIsValid={(status) => this.setState({isValid: status})}
               bottomSheetRef={this.bottomSheetRef}
               formModalRef={this.formModalRef}
-              isIndicatorBase={this.state.isIndicatorBase}
+              isIndicatorBase={this.state.isIndicatorBase || this.scorecard.running_mode == ONLINE}
               participantUuid={this.state.participantUuid}
               updateProposedIndicator={() => this.updateProposedIndicator()}
               playingUuid={this.state.playingUuid}
@@ -122,7 +125,7 @@ class ProposeNewIndicator extends React.Component {
                 endpointId={this.state.endpointId}
                 bottomSheetRef={this.bottomSheetRef}
                 formModalRef={this.formModalRef}
-                isIndicatorBase={this.state.isIndicatorBase}
+                isIndicatorBase={this.state.isIndicatorBase || this.scorecard.running_mode == ONLINE}
                 participantUuid={this.state.participantUuid}
                 updateProposedIndicator={() => this.updateProposedIndicator()}
                 playingUuid={this.state.playingUuid}

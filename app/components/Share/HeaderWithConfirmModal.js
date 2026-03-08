@@ -3,18 +3,39 @@ import { Keyboard } from 'react-native';
 
 import { LocalizationContext } from '../Translations';
 import NavigationHeader from '../NavigationHeader';
-import CustomAlertMessage from './CustomAlertMessage';
+import ConfirmationBottomSheetContent from './ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 
 class HeaderWithConfirmModal extends React.Component {
   static contextType = LocalizationContext;
+
+  constructor(props) {
+    super(props);
+    this.confirmationModalRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    if ((prevProps.visibleConfirmModal != this.props.visibleConfirmModal) && !!this.props.visibleConfirmModal) {
+      this.confirmationModalRef.current?.setContent(
+        <ConfirmationBottomSheetContent
+          title={this.props.modalTitle}
+          confirmationMessage={this.props.modalDescription}
+          onPress={() => {
+            this.confirmationModalRef.current?.dismiss();
+            this.props.goBack();
+          }}
+        />
+      );
+      this.confirmationModalRef.current?.present();
+    }
+  }
+
   onBackPress() {
     Keyboard.dismiss();
     !!this.props.onBackPress && this.props.onBackPress();
   }
 
   render() {
-    const { translations } = this.context;
-
     return (
       <React.Fragment>
         <NavigationHeader
@@ -26,17 +47,7 @@ class HeaderWithConfirmModal extends React.Component {
           { this.props.children }
         </NavigationHeader>
 
-        <CustomAlertMessage
-          visible={this.props.visibleConfirmModal}
-          title={this.props.modalTitle}
-          description={this.props.modalDescription}
-          closeButtonLabel={translations.buttonLabelNo}
-          hasConfirmButton={true}
-          confirmButtonLabel={translations.ok}
-          isConfirmButtonDisabled={false}
-          onDismiss={() => this.props.onDismiss()}
-          onConfirm={() => this.props.goBack()}
-        />
+        <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
       </React.Fragment>
     )
   }

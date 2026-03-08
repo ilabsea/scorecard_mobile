@@ -10,6 +10,7 @@ import { set } from '../../actions/currentScorecardAction';
 import Scorecard from '../../models/Scorecard';
 import { tipModalSnapPoints, PROPOSED_INDICATOR, participantModalSnapPoints } from '../../constants/modal_constant';
 import { screenPaddingBottom } from '../../utils/component_util';
+import {ONLINE} from '../../constants/scorecard_constant';
 
 class ProposedIndicator extends Component {
   constructor(props) {
@@ -19,11 +20,11 @@ class ProposedIndicator extends Component {
     }
 
     this.hasInternetConnection = false;
-    let scorecard = Scorecard.find(props.route.params.scorecard_uuid);
+    this.scorecard = Scorecard.find(props.route.params.scorecard_uuid);
 
-    if (scorecard.status < 2) {
-      Scorecard.update(scorecard.uuid, {status: '2'});
-      props.setCurrentScorecard(scorecard);
+    if (this.scorecard.status < 2) {
+      Scorecard.update(this.scorecard.uuid, {status: '2'});
+      props.setCurrentScorecard(this.scorecard);
     }
 
     this.tipModalRef = React.createRef();
@@ -64,7 +65,7 @@ class ProposedIndicator extends Component {
           participantModalRef={this.participantModalRef}
           formModalRef={this.formModalRef}
           updateModalVisible={(status) => this.setState({ visibleModal: status })}
-          isIndicatorBase={this.props.route.params.isIndicatorBase}
+          isIndicatorBase={this.props.route.params.isIndicatorBase || this.scorecard.running_mode == ONLINE}
         />
         <TipModal tipModalRef={this.tipModalRef} snapPoints={tipSecondSnapPoint} screenName='ProposedIndicator' />
         <FormBottomSheetModal ref={this.formModalRef} formModalRef={this.participantModalRef} snapPoints={participantModalSnapPoints}

@@ -31,19 +31,22 @@ const updateRaisedParticipants = (scorecardUuid) => {
 }
 
 const createAnonymousParticipant = (scorecardUuid, callback) => {
-  let attrs = {
-    uuid: uuidv4(),
-    age: -1,
-    gender: 'other',
-    disability: false,
-    minority: false,
-    poor: false,
-    youth: false,
-    scorecard_uuid: scorecardUuid,
-    order: 98,
-    countable: false
-  };
-  Participant.create(attrs);
+  const existingAnonymous = Participant.getAnonymousByScorecard(scorecardUuid).length;
+  if (existingAnonymous== 0) {
+    let attrs = {
+      uuid: uuidv4(),
+      age: -1,
+      gender: 'other',
+      disability: false,
+      minority: false,
+      poor: false,
+      youth: false,
+      scorecard_uuid: scorecardUuid,
+      order: 98,
+      countable: false
+    };
+    Participant.create(attrs);
+  }
   const participants = Participant.getAllByScorecard(scorecardUuid);
 
   setTimeout(() => {

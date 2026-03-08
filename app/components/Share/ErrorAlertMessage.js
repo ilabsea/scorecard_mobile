@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LocalizationContext } from '../Translations';
 import CustomAlertMessage from './CustomAlertMessage';
 import CustomAlertMessageBigButton from './CustomAlertMessage/CustomAlertMessageBigButton';
+import ConfirmationBottomSheetContent from './ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 
 import { getAlertMessageObject } from '../../utils/alert_message_util';
 import { ERROR_AUTHENTICATION, RE_LOGIN_REQUIRED, MISMATCHED_ENDPOINT } from '../../constants/error_constant';
@@ -18,7 +20,7 @@ class ErrorAlertMessage extends React.Component {
     this.state = {
       alertMessage: {},
     }
-
+    this.confirmationModalRef = React.createRef();
     AsyncStorage.getItem('SETTING', (err, result) => {
       const savedSetting = JSON.parse(result);
       this.backendUrl = (!!savedSetting && !!savedSetting.backendUrl) ? savedSetting.backendUrl : environment.defaultEndpoint;
@@ -36,11 +38,25 @@ class ErrorAlertMessage extends React.Component {
       const { errorType, scorecardUuid, unlockAt } = this.props;
       this.setState({
         alertMessage: await getAlertMessageObject(errorType, scorecardUuid, unlockAt, localization),
+      }, () => {
+        this.confirmationModalRef.current?.setContent(
+          <ConfirmationBottomSheetContent
+            title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
+            confirmationMessage={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
+            customButton={this.bigButton()}
+            onPress={() => {
+              this.confirmationModalRef.current?.dismiss();
+              this.props.onConfirm && this.props.onConfirm();
+            }}
+          />
+        );
+        this.confirmationModalRef.current?.present();
       })
     }
   }
 
   goToSetting() {
+    this.confirmationModalRef.current?.dismiss();
     this.props.onDismiss();
     navigate('Setting', { backend_url: this.backendUrl });
   }
@@ -54,20 +70,24 @@ class ErrorAlertMessage extends React.Component {
   }
 
   render() {
-    const { translations } = this.context;
+    // const { translations } = this.context;
 
-    return <CustomAlertMessage
-              visible={this.props.visible}
-              title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
-              description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
-              closeButtonLabel={ this.props.hasConfirmButton ? translations.close : translations.infoCloseLabel }
-              hasConfirmButton={this.props.hasConfirmButton}
-              confirmButtonLabel={this.props.confirmButtonLabel}
-              isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
+    // return <CustomAlertMessage
+    //           visible={this.props.visible}
+    //           title={!!this.state.alertMessage ? this.state.alertMessage.title : ''}
+    //           description={!!this.state.alertMessage ? this.state.alertMessage.description : ''}
+    //           closeButtonLabel={ this.props.hasConfirmButton ? translations.close : translations.infoCloseLabel }
+    //           hasConfirmButton={this.props.hasConfirmButton}
+    //           confirmButtonLabel={this.props.confirmButtonLabel}
+    //           isConfirmButtonDisabled={this.props.isConfirmButtonDisabled}
+    //           onDismiss={() => this.props.onDismiss(true)}
+    //           onConfirm={() => this.props.onConfirm()}
+    //           customButton={this.bigButton()}
+    //        />
+    return <DynamicHeightBottomSheetModal
+              ref={this.confirmationModalRef}
               onDismiss={() => this.props.onDismiss(true)}
-              onConfirm={() => this.props.onConfirm()}
-              customButton={this.bigButton()}
-           />
+            />
   }
 }
 

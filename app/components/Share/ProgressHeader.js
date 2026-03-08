@@ -3,9 +3,10 @@ import { View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
 import ProgressStep from '../ProgressStep';
-import CustomAlertMessage from './CustomAlertMessage';
 import HeaderIconButton from './HeaderIconButton';
 import NavigationHeaderBody from '../NavigationHeaderBody';
+import ConfirmationBottomSheetContent from './ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 
 import { LocalizationContext } from '../Translations';
 import { getDeviceStyle } from '../../utils/responsive_util';
@@ -18,19 +19,28 @@ export default class BigHeader extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      visibleModal: false,
-    };
+    this.confirmationModalRef = React.createRef();
   }
 
   _goToHomeScreen() {
-    this.setState({ visibleModal: false });
+    this.confirmationModalRef.current?.dismiss();
     navigateHome();
   }
 
-  render() {
+  showConfirmationBottomSheet() {
     const { translations } = this.context;
 
+    this.confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.returnToHomeScreen}
+        confirmationMessage={translations.doYouWantToReturnToHomeScreen}
+        onPress={() => this._goToHomeScreen()}
+      />
+    );
+    this.confirmationModalRef.current?.present();
+  }
+
+  render() {
     return (
       <View style={{backgroundColor: Color.headerColor}}>
         <Appbar.Header style={{backgroundColor: Color.headerColor}}>
@@ -40,7 +50,7 @@ export default class BigHeader extends React.Component {
           <View style={{flexDirection: 'row'}}>
             { !!this.props.rightButton && this.props.rightButton }
 
-            <HeaderIconButton onPress={() => this.setState({ visibleModal: true })} icon='home' iconStyle={{color: Color.whiteColor}} />
+            <HeaderIconButton onPress={() => this.showConfirmationBottomSheet()} icon='home' iconStyle={{color: Color.whiteColor}} />
           </View>
         </Appbar.Header>
         <View style={{width: '100%'}}>
@@ -51,17 +61,7 @@ export default class BigHeader extends React.Component {
           </View>
         </View>
 
-        <CustomAlertMessage
-          visible={this.state.visibleModal}
-          title={translations.returnToHomeScreen}
-          description={translations.doYouWantToReturnToHomeScreen}
-          closeButtonLabel={translations.close}
-          hasConfirmButton={true}
-          confirmButtonLabel={translations.ok}
-          isConfirmButtonDisabled={false}
-          onDismiss={() => this.setState({visibleModal: false})}
-          onConfirm={() => this._goToHomeScreen()}
-        />
+        <DynamicHeightBottomSheetModal ref={this.confirmationModalRef} />
       </View>
     );
   }

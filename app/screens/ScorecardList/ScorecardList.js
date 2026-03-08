@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
+import NetInfo from '@react-native-community/netinfo';
 
 import { LocalizationContext } from '../../components/Translations';
 import EmptyListAction from '../../components/Share/EmptyListAction';
@@ -10,6 +11,7 @@ import ScorecardListScrollView from '../../components/ScorecardList/ScorecardLis
 
 import Scorecard from '../../models/Scorecard';
 import scorecardDeletionService from '../../services/scorecard_deletion_service';
+import internetConnectionService from '../../services/internet_connection_service';
 
 import { connect } from 'react-redux';
 import { set } from '../../actions/currentScorecardAction';
@@ -91,24 +93,29 @@ class ScorecardList extends Component {
     if (!this.state.selectedScorecard)
       return;
 
-    this.setState({ isDeleting: true })
+    NetInfo.fetch().then(state => {
+      if (state.isConnected && state.isInternetReachable) {
+        this.setState({ isDeleting: true })
+        scorecardDeletionService.deleteScorecard(this.state.selectedScorecard.uuid, async () => {
+          this.setState({
+            visibleModal: false,
+            scorecards: await scorecardFilterService.getFilteredScorecards(),
+            selectedScorecard: null,
+            isDeleting: false,
+          });
+        }, (error) => {
+          const isErrorUnauthorize =  error.status == '401' ? true : false;
 
-    scorecardDeletionService.deleteScorecard(this.state.selectedScorecard.uuid, async () => {
-      this.setState({
-        visibleModal: false,
-        scorecards: await scorecardFilterService.getFilteredScorecards(),
-        selectedScorecard: null,
-        isDeleting: false,
-      });
-    }, (error) => {
-      const isErrorUnauthorize =  error.status == '401' ? true : false;
-
-      this.setState({
-        isConfirmModal: isErrorUnauthorize,
-        visibleModal: !isErrorUnauthorize,
-        visibleErrorModal: isErrorUnauthorize,
-        isDeleting: false
-      });
+          this.setState({
+            isConfirmModal: isErrorUnauthorize,
+            visibleModal: !isErrorUnauthorize,
+            visibleErrorModal: isErrorUnauthorize,
+            isDeleting: false
+          });
+        });
+      }
+      else
+        internetConnectionService.showAlertMessage(this.context.translations.noInternetConnection)
     });
   }
 

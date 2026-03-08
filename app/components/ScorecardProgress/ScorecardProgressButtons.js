@@ -4,8 +4,9 @@ import { View, Text } from 'react-native';
 import { LocalizationContext } from '../Translations';
 import BottomButton from '../BottomButton';
 import ScorecardProgressSubmitButton from './ScorecardProgressSubmitButton';
-import CustomAlertMessage from '../Share/CustomAlertMessage';
 import BoldLabel from '../Share/BoldLabel';
+import ConfirmationBottomSheetContent from '../Share/ConfirmationBottomSheetContent';
+import DynamicHeightBottomSheetModal from '../DynamicHeightBottomSheetModal';
 
 import Color from '../../themes/color';
 import { FontFamily } from '../../assets/stylesheets/theme/font';
@@ -23,9 +24,9 @@ class ScorecardProgressButtons extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visibleConfirmModal: false,
       isFinishable: false,
     };
+    this.confirmationModalRef = React.createRef();
   }
 
   async componentDidMount() {
@@ -34,7 +35,6 @@ class ScorecardProgressButtons extends Component {
 
   finishScorecard() {
     Scorecard.update(this.props.scorecard.uuid, {finished: true, finished_date: new Date(), milestone: FINISHED});
-    this.setState({ visibleConfirmModal: false });
     scorecardTracingStepsService.trace(this.props.scorecard.uuid, 9);
     this.props.updateScorecard();
   }
@@ -43,12 +43,31 @@ class ScorecardProgressButtons extends Component {
     return (
       <BottomButton
         disabled={!this.state.isFinishable}
-        onPress={() => this.setState({ visibleConfirmModal: true })}
+        onPress={() => this.showConfirmBottomSheet()}
         customBackgroundColor={Color.headerColor}
         iconName={'checkmark'}
         label={this.context.translations.finish}
       />
     )
+  }
+
+  showConfirmBottomSheet() {
+    const { translations } = this.context;
+    const scorecardCode = <BoldLabel label={this.props.scorecard.uuid} />
+
+    this.confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.finishTheScorecard}
+        confirmationMessage={translations.formatString(translations.thisScorecardWillBeLocked, scorecardCode)}
+        notice={translations.formatString(translations.areYouSureYouWantToFinish, scorecardCode)}
+        contentAlign='start'
+        onPress={() => {
+          this.confirmationModalRef.current?.dismiss();
+          this.finishScorecard()
+        }}
+      />
+    );
+    this.confirmationModalRef.current?.present();
   }
 
   renderBtnSubmit() {
@@ -77,24 +96,6 @@ class ScorecardProgressButtons extends Component {
     )
   }
 
-  renderConfirmModal() {
-    const { translations } = this.context;
-    const scorecardCode = <BoldLabel label={this.props.scorecard.uuid} />
-
-    return <CustomAlertMessage
-              visible={this.state.visibleConfirmModal}
-              title={translations.finishTheScorecard}
-              description={translations.formatString(translations.thisScorecardWillBeLocked, scorecardCode)}
-              descriptionBottomSection={translations.formatString(translations.areYouSureYouWantToFinish, scorecardCode)}
-              closeButtonLabel={translations.close}
-              hasConfirmButton={true}
-              confirmButtonLabel={translations.ok}
-              isConfirmButtonDisabled={false}
-              onDismiss={() => this.setState({visibleConfirmModal: false})}
-              onConfirm={() => this.finishScorecard()}
-           />
-  }
-
   render() {
     return (
       <React.Fragment>
@@ -104,7 +105,9 @@ class ScorecardProgressButtons extends Component {
 
           { this.props.scorecard.finished && this.renderBtnSubmit() }
         </View>
-        { this.renderConfirmModal() }
+        <DynamicHeightBottomSheetModal
+          ref={this.confirmationModalRef}
+        />
       </React.Fragment>
     )
   }
