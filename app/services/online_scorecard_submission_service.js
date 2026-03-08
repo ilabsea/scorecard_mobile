@@ -9,6 +9,7 @@ import {
 } from './local_file_system_service';
 import ScorecardApi from '../api/ScorecardApi';
 import settingHelper from '../helpers/setting_helper';
+import { VOTING } from '../constants/scorecard_constant';
 
 const scorecardApi = new ScorecardApi();
 
@@ -70,7 +71,7 @@ const onlineScorecardSubmissionService = (() => {
     scorecardApi.put(scorecardUuid, attrs)
       .then(function (response) {
         if (response.status == 200) {
-          if (scorecard.status < 4)
+          if (scorecard.status < VOTING)
             Scorecard.update(scorecardUuid, {status: '4'})
 
           // Final step complete = 100%

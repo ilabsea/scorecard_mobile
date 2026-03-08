@@ -31,7 +31,7 @@ import { bottomButtonContainerPadding, getDeviceStyle } from '../../utils/respon
 import { screenPaddingBottom } from '../../utils/component_util';
 import { tipModalSnapPoints, INDICATOR_DEVELOPMENT, indicatorDevelopmentModalSnapPoints } from '../../constants/modal_constant';
 import { ERROR_DRAFT_SUBMIT, ERROR_NOT_FOUND } from '../../constants/error_constant';
-import { OFFLINE } from '../../constants/scorecard_constant';
+import { OFFLINE, VOTING } from '../../constants/scorecard_constant';
 
 import DownloadButtonTabletStyles from '../../styles/tablet/DownloadButtonComponentStyle';
 import DownloadButtonMobileStyles from '../../styles/mobile/DownloadButtonComponentStyle';
@@ -99,7 +99,7 @@ class IndicatorDevelopment extends Component {
 
   handleOnlineScorecard() {
     const { translations } = this.context;
-    if (this.state.scorecard.status >= 4)
+    if (this.state.scorecard.status >= VOTING)
       return this.props.navigation.navigate('VotingQr', { scorecard_uuid: this.props.route.params.scorecard_uuid });
 
     // Show submit confirmation bottom sheet

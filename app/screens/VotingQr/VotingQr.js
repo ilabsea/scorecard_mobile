@@ -118,22 +118,28 @@ const VotingQr = (props) => {
 
   const closeVoting = () => {
     confirmationModalRef.current?.dismiss()
-    setIsLoading(true);
-    scorecardProgressService.setOpenCloseVoting({
-      scorecardUuid: props.route.params.scorecard_uuid,
-      isOpen: false,
-      successCallback: () => {
-        Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: false });
-        setIsFinishVoting(true);
-        setIsOpenVoting(false);
-        scorecardTracingStepsService.trace(props.route.params.scorecard_uuid, 7);
-        fetchVotingResult();
-      },
-      errroCallback: (error) => {
-        setIsLoading(false);
-        setErrorType(ERROR_CLOSE_VOTING);
-        setVisibleModal(true);
+    NetInfo.fetch().then(state => {
+      if (state.isConnected && state.isInternetReachable) {
+        setIsLoading(true);
+        scorecardProgressService.setOpenCloseVoting({
+          scorecardUuid: props.route.params.scorecard_uuid,
+          isOpen: false,
+          successCallback: () => {
+            Scorecard.update(props.route.params.scorecard_uuid, { is_open_voting: false });
+            setIsFinishVoting(true);
+            setIsOpenVoting(false);
+            scorecardTracingStepsService.trace(props.route.params.scorecard_uuid, 7);
+            fetchVotingResult();
+          },
+          errroCallback: (error) => {
+            setIsLoading(false);
+            setErrorType(ERROR_CLOSE_VOTING);
+            setVisibleModal(true);
+          }
+        });
       }
+      else
+        internetConnectionService.showAlertMessage(translations.noInternetConnection)
     });
   }
 
@@ -219,21 +225,15 @@ const VotingQr = (props) => {
   }
 
   const showCloseVotingConfirmation = () => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected && state.isInternetReachable) {
-        confirmationModalRef.current?.setContent(
-          <ConfirmationBottomSheetContent
-            title={translations.closeVoting}
-            confirmationMessage={translations.formatString(translations.closeVotingCofirmation, totalVotes)}
-            notice={translations.closeVotingNotice}
-            onPress={() => closeVoting()}
-          />
-        );
-        confirmationModalRef.current?.present();
-      }
-      else
-        internetConnectionService.showAlertMessage(translations.noInternetConnection)
-    });
+    confirmationModalRef.current?.setContent(
+      <ConfirmationBottomSheetContent
+        title={translations.closeVoting}
+        confirmationMessage={translations.formatString(translations.closeVotingCofirmation, totalVotes)}
+        notice={translations.closeVotingNotice}
+        onPress={() => closeVoting()}
+      />
+    );
+    confirmationModalRef.current?.present();
   }
 
   const _renderBody = () => {
