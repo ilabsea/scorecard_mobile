@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 import {LocalizationContext} from '../Translations';
 import ProposedIndicatorInfoList from './ProposedIndicatorInfoList';
 import Participant from '../../models/Participant';
+import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
 import proposedIndicatorHelper from '../../helpers/proposed_indicator_helper';
 import { isProposeByIndicatorBase } from '../../utils/proposed_indicator_util';
 import { containerPadding } from '../../utils/responsive_util';
+import {ONLINE} from '../../constants/scorecard_constant';
 
 class ListUser extends Component {
   static contextType = LocalizationContext;
@@ -18,7 +20,8 @@ class ListUser extends Component {
   }
 
   async startProposeIndicator() {
-    if (await isProposeByIndicatorBase())
+    const scorecard = Scorecard.find(this.props.scorecardUuid);
+    if (await isProposeByIndicatorBase() || scorecard.running_mode == ONLINE)
       this._goToCreateNewIndicator(null);
     else {
       const proposedIndicatorParams = { scorecardUuid: this.props.scorecardUuid, indicator: null };

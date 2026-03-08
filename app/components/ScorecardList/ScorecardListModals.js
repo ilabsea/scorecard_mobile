@@ -31,7 +31,9 @@ class ScorecardListModals extends Component {
           confirmationMessage={description}
           onPress={() => {
             this.props.confirmDelete()
-            this.confirmationModalRef.current?.dismiss();
+            setTimeout(() => {
+              this.confirmationModalRef.current?.dismiss();
+            }, 100);
           }}
         />
       );
