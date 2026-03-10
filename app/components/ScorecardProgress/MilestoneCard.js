@@ -53,7 +53,9 @@ export default class MilestoneCard extends Component {
   _renderCard() {
     const { translations } = this.context;
     const { currentStep, onPress } = this.props;
-    let cardStyle = !this.state.isStepEditable ? { backgroundColor: Color.disableCardColor } : {};
+    let cardStyle = (!this.state.isStepEditable && (this.props.currentStep < this.props.scorecard.status))
+      ? { backgroundColor: Color.disableCardColor }
+      : {};
     let labelStyle = !this.state.isStepEditable ? { color: '#5b5b5b' } : {};
     let titleStyle = this.state.isStepDone ? { color: '#5b5b5b', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : {};
     const disabledTitleStyle = !this.state.isStepEditable ? { color: '#5b5b5b' } : {}

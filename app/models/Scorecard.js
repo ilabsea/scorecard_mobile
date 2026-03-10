@@ -142,7 +142,7 @@ const Scorecard = (() => {
     const scorecardProgressStep = scorecard.status || INDICATOR_DEVELOPMENT;
 
     if (scorecard.running_mode == ONLINE && scorecardProgressStep >= VOTING) {
-      return currentStep >= scorecardProgressStep;
+      return scorecardProgressStep == currentStep;
     }
 
     return await isEditable(scorecard) && scorecardProgressStep >= currentStep;
