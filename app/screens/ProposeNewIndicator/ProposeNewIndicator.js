@@ -141,7 +141,7 @@ class ProposeNewIndicator extends React.Component {
               <View style={{flex: 1}}>
                 {this.renderProposedIndicators()}
                 <View style={[bottomButtonContainerPadding(), {paddingHorizontal: 0, zIndex: -2, opacity: this.state.isSearching ? 0 : 1}]}>
-                  <BottomButton disabled={!this.state.isValid} label={translations.saveAndGoNext} onPress={() => this.save()} />
+                  <BottomButton disabled={!this.state.isValid} label={translations.save} onPress={() => this.save()} />
                 </View>
               </View>
            </View>

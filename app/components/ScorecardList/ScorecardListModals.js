@@ -33,7 +33,7 @@ class ScorecardListModals extends Component {
             this.props.confirmDelete()
             setTimeout(() => {
               this.confirmationModalRef.current?.dismiss();
-            }, 100);
+            }, 500);
           }}
         />
       );
