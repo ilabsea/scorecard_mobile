@@ -25,7 +25,7 @@ class ScorecardResultModalListItem extends Component {
   }
 
   onBlur() {
-    this.props.updateVotingIndicator();
+    // this.props.updateVotingIndicator();
     this.props.scrollTo(0);
   }
 

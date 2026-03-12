@@ -99,6 +99,7 @@ const ScorecardResultModalMain = (props) => {
     defaultPoints = newPoints;
 
     setPoints([...newPoints]);
+    updateVotingIndicator();
   }
 
   function toggleCheckbox(index) {
