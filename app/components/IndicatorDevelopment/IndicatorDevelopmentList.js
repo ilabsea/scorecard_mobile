@@ -60,6 +60,7 @@ class IndicatorDevelopmentList extends Component {
         hasRating={this.props.hasRating}
         playingUuid={this.props.playingUuid}
         updatePlayingUuid={this.props.updatePlayingUuid}
+        saveSelectedIndicator={this.props.saveSelectedIndicator}
       />
     )
   }

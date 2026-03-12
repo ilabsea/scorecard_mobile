@@ -74,6 +74,7 @@ class IndicatorDevelopmentContent extends Component {
             playingUuid={this.props.playingUuid}
             updatePlayingUuid={this.props.updatePlayingUuid}
             tipModalRef={this.props.tipModalRef}
+            saveSelectedIndicator={this.props.saveSelectedIndicator}
           />
         </View>
 
