@@ -9,6 +9,7 @@ import scorecardProgress from '../../db/jsons/scorecardProgress';
 import Scorecard from '../../models/Scorecard';
 import { navigate } from '../../navigators/app_navigator';
 import { MISMATCHED_ENDPOINT, SCORECARD_SUBMITTED, SCORECARD_IN_PROGRESS } from '../../constants/error_constant';
+import {ONLINE} from '../../constants/scorecard_constant';
 
 class NewScorecardModals extends React.Component {
   static contextType = LocalizationContext;
@@ -38,6 +39,10 @@ class NewScorecardModals extends React.Component {
     }
 
     const step = scorecardProgress[scorecard.status - 1];
+    if (step.routeName == 'VotingIndicatorList' && scorecard.running_mode == ONLINE) {
+      navigate('VotingQr', { scorecard_uuid: this.props.scorecardUuid });
+      return;
+    }
     navigate(step.routeName, { scorecard_uuid: this.props.scorecardUuid, local_ngo_id: scorecard.local_ngo_id });
   }
 
