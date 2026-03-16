@@ -70,6 +70,7 @@ class NewScorecardForm extends Component {
           joinScorecard={this.joinScorecard}
           handleInvalidUrl={this.props.handleInvalidUrl}
           isLocked={this.props.isLocked}
+          navigation={this.props.navigation}
         />
 
         {this.renderErrorMsg()}
