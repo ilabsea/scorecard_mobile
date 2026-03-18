@@ -25,12 +25,18 @@ class ScorecardCodeInput extends Component {
   componentDidMount() {
     handleScorecardCodeClipboard(_this.props.handleInvalidUrl);
     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
+
+    this.blurSubscription = this.props.navigation.addListener('blur', () => {
+      this.appStateSubscription && this.appStateSubscription.remove();
+    });
+
     setTimeout(() => {
       !!this.inputRef && this.inputRef.focusField(0);
     }, 400);
   }
 
   componentWillUnmount() {
+    this.blurSubscription?.();
     this.appStateSubscription && this.appStateSubscription.remove();
   }
 

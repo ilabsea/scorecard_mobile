@@ -48,7 +48,8 @@ class ProposedIndicatorListModalContent extends Component {
       this.props.addToSelected(this.state.indicators[i]);
       this.props.removeFromProposed(this.state.indicators[i]);
     }
-    this.setState({indicators: []}); 
+    this.setState({indicators: []});
+    this.props.onSave();
     this.props.onDismiss();
   }
 

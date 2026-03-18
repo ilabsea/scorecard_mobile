@@ -56,6 +56,7 @@ class SelectedIndicatorItem extends Component {
     setTimeout(() => {
       this.props.addToProposed(this.props.indicator);
       this.props.removeFromSelected(this.props.indicator);
+      this.props.saveSelectedIndicator();
     }, 20);
   }
 

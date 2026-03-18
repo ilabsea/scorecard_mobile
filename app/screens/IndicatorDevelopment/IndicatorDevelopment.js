@@ -83,13 +83,6 @@ class IndicatorDevelopment extends Component {
   }
 
   _submit() {
-    this.setState({playingUuid: null});
-    votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedIndicators) => {
-      this.props.setVotingIndicators(savedIndicators);
-    });
-
-    scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
-
     const scorecard = Scorecard.find(this.props.route.params.scorecard_uuid);
     if (scorecard.running_mode == OFFLINE)
       this.props.navigation.navigate('VotingIndicatorList', { scorecard_uuid: this.state.scorecard.uuid });
@@ -145,8 +138,25 @@ class IndicatorDevelopment extends Component {
     });
   }
 
+  saveSelectedIndicator() {
+    setTimeout(() => {
+      this.setState({playingUuid: null});
+      votingIndicatorService.submitIndicators(this.state.scorecard.uuid, this.props.selectedIndicators, (savedIndicators) => {
+        this.props.setVotingIndicators(savedIndicators);
+      });
+
+      scorecardTracingStepsService.trace(this.state.scorecard.uuid, 6);
+    }, 500);
+  }
+
   openModal() {
-    this.formRef.current?.setBodyContent(<ProposedIndicatorListModalContent scorecardUuid={this.state.scorecard.uuid} onDismiss={() => this.indicatorListModalRef.current?.dismiss()} />);
+    this.formRef.current?.setBodyContent(
+      <ProposedIndicatorListModalContent
+        scorecardUuid={this.state.scorecard.uuid}
+        onDismiss={() => this.indicatorListModalRef.current?.dismiss()}
+        onSave={() => this.saveSelectedIndicator()}
+      />
+    );
     setTimeout(() => {
       this.indicatorListModalRef.current?.present();
     }, 50);
@@ -163,6 +173,7 @@ class IndicatorDevelopment extends Component {
         tipModalRef={this.tipModalRef}
         playingUuid={this.state.playingUuid}
         updatePlayingUuid={(uuid) => this.setState({playingUuid: uuid})}
+        saveSelectedIndicator={() => this.saveSelectedIndicator()}
       />
     )
   }

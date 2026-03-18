@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Image, Dimensions, Linking, StyleSheet, Share } from 'react-native';
+import { View, Image, Dimensions, Linking, StyleSheet, Share, PermissionsAndroid } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import Color from '../../themes/color';
@@ -20,6 +20,7 @@ const VotingQrCode = (props) => {
   const [totalVotes, setTotalVotes] = useState(0);
 
   useEffect(() => {
+    checkPermission();
     fetchVotingPoll();
     const interval = setInterval(() => {
       fetchVotingPoll();
@@ -27,6 +28,12 @@ const VotingQrCode = (props) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const checkPermission = async () => {
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+    );
+  }
 
   const fetchVotingPoll = () => {
     onlineScorecardSubmissionService.getVotingPoll({
